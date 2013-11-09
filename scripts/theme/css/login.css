@@ -1,0 +1,25 @@
+@import url("grid.css");
+@import url("fonts.css");
+@import url("font-awesome.css");
+@import url("forms.css");
+body{font:400 16px/20px maven_proregular,Arial,sans-serif;color:#9fa8b0;background:#fafafa;margin:0;padding:0}
+.xform{background:transparent;box-shadow:none;padding:0}
+#content{margin:80px auto 0;max-width:400px}
+header{-moz-border-bottom-colors:none;-moz-border-left-colors:none;-moz-border-right-colors:none;-moz-border-top-colors:none;border-color:#bbb #bbb -moz-use-text-color;border-image:none;border-radius:2px 2px 0 0;border-style:solid solid none;border-width:1px 1px 0;color:#666;font-size:18px;line-height:26px;padding:15px;background:#ededed;background:-moz-linear-gradient(top,#ededed 0,#dedede 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ededed),color-stop(100%,#dedede));background:-webkit-linear-gradient(top,#ededed 0,#dedede 100%);background:-o-linear-gradient(top,#ededed 0,#dedede 100%);background:-ms-linear-gradient(top,#ededed 0,#dedede 100%);background:linear-gradient(to bottom,#ededed 0,#dedede 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed',endColorstr='#dedede',GradientType=0);text-shadow:1px 1px 0 rgba(255,255,255,0.5)}
+header span{display:block;font-size:16px}
+header h1{font-size:26px}
+header h1 i{color:#444}
+.loginwrap{background:#5b5b5b;background:-moz-linear-gradient(top,#5b5b5b 0,#444 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#5b5b5b),color-stop(100%,#444));background:-webkit-linear-gradient(top,#5b5b5b 0,#444 100%);background:-o-linear-gradient(top,#5b5b5b 0,#444 100%);background:-ms-linear-gradient(top,#5b5b5b 0,#444 100%);background:linear-gradient(to bottom,#5b5b5b 0,#444 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b5b5b',endColorstr='#444444',GradientType=0);border-radius:0 0 2px 2px;padding:20px}
+.loginshadow{height:30px;background-attachment:scroll;background-color:transparent;background-image:url(../images/loginshadow.png);background-repeat:no-repeat;background-position:center center}
+.xform .input input{font:normal 16px/20px maven_proregular,Arial;border:0;color:#9fa8b0;height:49px;box-shadow:0 2px 3px rgba(0,0,0,0.3);border-radius:3px}
+.xform .icon-append,.xform .icon-prepend{position:absolute;top:14px}
+.button-login{width:100%;background:#3b6998;background:-moz-linear-gradient(top,#3b6998 0,#0b4073 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#3b6998),color-stop(100%,#0b4073));background:-webkit-linear-gradient(top,#3b6998 0,#0b4073 100%);background:-o-linear-gradient(top,#3b6998 0,#0b4073 100%);background:-ms-linear-gradient(top,#3b6998 0,#0b4073 100%);background:linear-gradient(to bottom,#3b6998 0,#0b4073 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3b6998',endColorstr='#0b4073',GradientType=0);color:#fff;border:0 none;box-shadow:0 2px 3px rgba(0,0,0,0.3);font-size:20px;text-shadow:1px 1px rgba(0,0,0,0.2);border-radius:3px;text-transform:none;padding:15px 0;font-family:maven_proregular,Arial;font-weight:400;font-variant:normal;letter-spacing:1px;-webkit-transition:all .35s ease;-moz-transition:all .35s ease;-o-transition:all .35s ease;transition:all .35s ease;outline:none}
+.button-login:hover,.button-login:focus{background:#4d86b7;background:-moz-linear-gradient(top,#4d86b7 0,#045f9a 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#4d86b7),color-stop(100%,#045f9a));background:-webkit-linear-gradient(top,#4d86b7 0,#045f9a 100%);background:-o-linear-gradient(top,#4d86b7 0,#045f9a 100%);background:-ms-linear-gradient(top,#4d86b7 0,#045f9a 100%);background:linear-gradient(to bottom,#4d86b7 0,#045f9a 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d86b7',endColorstr='#045f9a',GradientType=0);-webkit-transition:all .55s ease;-moz-transition:all .55s ease;-o-transition:all .35s ease;transition:all .55s ease;outline:none}
+.xform footer{border:0;margin:0;padding:0;box-shadow:none}
+#footer{text-align:center;padding-top:10px;padding-bottom:10px}
+.bgred{position:relative;box-shadow:0 1px 0 white inset,0 2px 4px rgba(0,0,0,0.08);border-radius:4px;margin:15px 0;padding:10px;font-size:14px}
+.bgred p{text-shadow:1px 1px 0 rgba(0,0,0,0.2);color:#fff;margin:0 10px 0 0}
+.bgred{background:#ee9695;border:1px solid #ee9695}
+.bgred .close{display:none}
+.bgred p span{display:inline-block;margin-right:10px}
+.bgred ul.error{margin-left:35px;color:#fff}

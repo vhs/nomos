@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'maven_problack';
+    src: url('../fonts/mavenpro-black.eot');
+    src: url('../fonts/mavenpro-black.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mavenpro-black.woff') format('woff'),
+         url('../fonts/mavenpro-black.ttf') format('truetype'),
+         url('../fonts/mavenpro-black.svg#maven_problack') format('svg');
+    font-weight: 900;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'maven_probold';
+    src: url('../fonts/mavenpro-bold.eot');
+    src: url('../fonts/mavenpro-bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mavenpro-bold.woff') format('woff'),
+         url('../fonts/mavenpro-bold.ttf') format('truetype'),
+         url('../fonts/mavenpro-bold.svg#maven_probold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'maven_promedium';
+    src: url('../fonts/mavenpro-medium.eot');
+    src: url('../fonts/mavenpro-medium.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mavenpro-medium.woff') format('woff'),
+         url('../fonts/mavenpro-medium.ttf') format('truetype'),
+         url('../fonts/mavenpro-medium.svg#maven_promedium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'maven_proregular';
+    src: url('../fonts/mavenpro-regular.eot');
+    src: url('../fonts/mavenpro-regular.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mavenpro-regular.woff') format('woff'),
+         url('../fonts/mavenpro-regular.ttf') format('truetype'),
+         url('../fonts/mavenpro-regular.svg#maven_proregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+
+}

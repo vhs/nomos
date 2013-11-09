@@ -1,0 +1,177 @@
+/* == Normalize == */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{background:transparent;border:0;margin:0;padding:0;vertical-align:baseline}
+body{line-height:1}
+h1,h2,h3,h4,h5,h6{font-weight:400}
+ul{list-style:none}
+blockquote{quotes:none}
+blockquote:before,blockquote:after{content:none}
+del{text-decoration:line-through}
+table{border:0;border-collapse:collapse;border-spacing:0}
+a img{border:none}
+textarea{overflow:auto;resize:none;vertical-align:top}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+[hidden]{display:none}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-family:sans-serif}
+a:focus{outline:thin dotted}
+h1{font-size:2em}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:700}
+dfn{font-style:italic}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace, serif;font-size:1em}
+pre{white-space:pre-wrap;word-wrap:break-word}
+q{quotes:\201C\201D\2018\2019}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0;max-width:100%;height:auto}
+svg:not(:root){overflow:hidden}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+textarea{overflow:auto}
+button,input{line-height:normal}
+button,html input[type=button],/* 1 */
+input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}
+input[type=search]{-moz-box-sizing:content-box;-webkit-appearance:textfield;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}
+body,figure{margin:0}
+legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+input,textarea,select,a,a:active,a:hover{outline:0}
+aside,article,footer,header,nav,section,article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
+
+code {padding:2px 4px}
+
+.top5{margin-top:5px}
+.top10{margin-top:10px}
+.top20{margin-top:20px}
+.top30{margin-top:30px}
+.ptop5{padding-top:5px}
+.ptop10{padding-top:10px}
+.ptop20{padding-top:20px}
+.ptop30{padding-top:30px}
+.nopad{padding:0}
+.flright{float:right}
+
+/* == Base 960 Grid == */
+.container{width:1200px;margin:0 auto} /* ==  container width == */
+.bg{min-height:100%;background:#f7f7f7;max-width:1200px;margin:0 auto;box-shadow:0 1px 8px rgba(0,0,0,0.2);} /* ==  change max-width also to match the container width == */
+.row{margin-bottom:0}
+.col{display:block;float:left;width:100%}
+.col:first-child{margin-left:0}
+
+/* == Desktop (Larger than 768px) == */
+@media (min-width: 1200px) {
+  .col {margin-left:2%}
+  .grid_1{width:2.25%}
+  .grid_2{width:6.5%}
+  .grid_3{width:10.75%}
+  .grid_4{width:15%}
+  .grid_5{width:19.25%}
+  .grid_6{width:23.5%}
+  .grid_7{width:27.75%}
+  .grid_8{width:32%}
+  .grid_9{width:36.25%}
+  .grid_10{width:40.5%}
+  .grid_11{width:44.75%}
+  .grid_12{width:49%}
+  .grid_13{width:53.25%}
+  .grid_14{width:57.5%}
+  .grid_15{width:61.75%}
+  .grid_16{width:66%}
+  .grid_17{width:70.25%}
+  .grid_18{width:74.5%}
+  .grid_19{width:78.75%}
+  .grid_20{width:83%}
+  .grid_21{width:87.25%}
+  .grid_22{width:91.5%}
+  .grid_23{width:95.75%}
+  .grid_24{width:100%}
+}
+
+@media only screen and (min-width: 960px) and (max-width: 1200px) {
+  .container{width:98%}
+  .col {margin-left:2%}
+  .grid_1{width:2.25%}
+  .grid_2{width:6.5%}
+  .grid_3{width:10.75%}
+  .grid_4{width:15%}
+  .grid_5{width:19.25%}
+  .grid_6{width:23.5%}
+  .grid_7{width:27.75%}
+  .grid_8{width:32%}
+  .grid_9{width:36.25%}
+  .grid_10{width:40.5%}
+  .grid_11{width:44.75%}
+  .grid_12{width:49%}
+  .grid_13{width:53.25%}
+  .grid_14{width:57.5%}
+  .grid_15{width:61.75%}
+  .grid_16{width:66%}
+  .grid_17{width:70.25%}
+  .grid_18{width:74.5%}
+  .grid_19{width:78.75%}
+  .grid_20{width:83%}
+  .grid_21{width:87.25%}
+  .grid_22{width:91.5%}
+  .grid_23{width:95.75%}
+  .grid_24{width:100%}
+}
+
+/* == Tablet (Smaller than 959px) == */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .container{width:98%}
+  .show-phone,.show-screen,.hide-tablet,.hide{display:none!important}
+  .show-tablet,.hide-phone,.hide-screen{display:inherit!important}
+  
+  /* == Responsive Tables == */
+  table.myTable tr:nth-of-type(odd){border-top:1px solid #f4f4f4}
+  .webks-responsive-table dt,.webks-responsive-table dd{display:inline-block;width:73%;margin:0 0 1px;padding:5px 1%}
+  .webks-responsive-table dd{border-bottom:1px solid rgba(255,255,255,0.1)}
+  .webks-responsive-table dt{ width: 23%; text-align: right; font-style: italic;vertical-align: top; color: #FFF; }
+  .webks-responsive-table dl.odd{background:#f9f9f9;border:1px solid #f4f4f4;}
+  .webks-responsive-table dl.odd dt{color: #3B3E40;}
+  .webks-responsive-table dl{background-color: #3B3E40;}
+}
+
+/* == Phone (portrait 300px) == */
+@media only screen and (max-width: 960px) {
+
+  .display table,.display thead,.display tbody,.display th,.display td,.display tr{display:block}
+  .display thead tr{position:absolute;top:-9999px;left:-9999px}
+  .display td{position:relative;padding-left:50%;white-space:normal;text-align:left}
+  .display td:before{position:absolute;top:10px;left:10px;width:45%;padding-right:10px;white-space:nowrap;text-align:left}
+   .display tbody tr th,.forms tbody tr th,.control tbody tr th{background-color:#fcfcfc;color:#f09837;border-top: 2px solid #f3ac54; font-size:30px; min-height:30px}
+   .avatar{ width:30px; height:30px}
+}	 
+	
+/* == Phone (portrait 300px) == */
+@media only screen and (max-width: 767px) {
+  .container{width:98%}
+  .show-phone,.hide-tablet,.hide-screen{display:inherit!important}
+  .show-tablet,.show-screen,.hide-phone,.hide{display:none!important}
+
+  /* == Responsive Tables == */
+  table.myTable tr:nth-of-type(odd){border-top:1px solid #f4f4f4}
+  .webks-responsive-table dt,.webks-responsive-table dd{display:inline-block;width:73%;margin:0 0 1px;padding:5px 1%}
+  .webks-responsive-table dd{border-bottom:1px solid rgba(255,255,255,0.1)}
+  .webks-responsive-table dt{ width: 23%; text-align: right; font-style: italic;vertical-align: top; color: #FFF; }
+  .webks-responsive-table dl.odd{background:#f9f9f9;border:1px solid #f4f4f4;}
+  .webks-responsive-table dl.odd dt{color: #3B3E40;}
+  .webks-responsive-table dl{background-color: #3B3E40;}
+}	 
+
+/* == Phone (landscape 420px) == */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .container{width:98%}
+  .show-phone,.hide-tablet,.hide-screen{display:inherit!important}
+  .show-tablet,.show-screen,.hide-phone{display:none!important}
+}
+
+/* == Clean up == */
+.row:after, .col:after, .flright:after, .flleft:after,.group:after,.clearfix:after {content: "";display: block;height: 0;clear: both;zoom:1;visibility: hidden}
+.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}
+.gridbox{line-height:25px;text-align:center;min-height:25px;border-radius:3px;margin-bottom:1px;box-shadow:0 0 1px rgba(255,255,255,0.2);color:#fff;background-color:rgba(0,0,0,0.2)}
