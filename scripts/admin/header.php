@@ -17,6 +17,7 @@
 <meta charset="utf-8">
 <title><?php echo $core->site_name;?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link href="../theme/css/admin.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="../assets/jquery-ui.css" type="text/css" />
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
