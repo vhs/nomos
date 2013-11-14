@@ -245,7 +245,7 @@
           
 		  $limiter = ($limit) ? $pager->limit : null;
 		  
-          $sql = "SELECT p.*, p.id as id, u.username, m.title," 
+          $sql = "SELECT p.*, p.id as id, u.username, u.payment_email, m.title," 
 		  . "\n DATE_FORMAT(p.date, '%d. %b. %Y.') as created" 
 		  . "\n FROM " . self::pTable . " as p" 
 		  . "\n LEFT JOIN users as u ON u.id = p.user_id" 

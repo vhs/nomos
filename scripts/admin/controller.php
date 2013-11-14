@@ -195,7 +195,7 @@
 		  <td>Amount</td>
 		  <td>Payment Date</td>
 		  <td>Processor</td>
-		  <td>IP</td>
+		  <td>Payment email</td>
 		</tr>';
       foreach ($result as $v):
           print '<tr>
@@ -205,7 +205,7 @@
 			  <td>' . $v->rate_amount . '</td>
 			  <td>' . $v->date . '</td>
 			  <td>' . $v->pp . '</td>
-			  <td>' . $v->ip . '</td>
+			  <td>' . $v->payment_email . '</td>
 			</tr>';
       endforeach;
 
