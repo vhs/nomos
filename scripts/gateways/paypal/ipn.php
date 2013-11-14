@@ -82,6 +82,10 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'"
                 $db->update(Users::uTable, array('paypal_id' => $payer_id), "id=$user_id");
               }
             }
+
+            if ($user_id > 0) {
+              $db->update(Users::uTable, array('payment_email' => sanitize($payer_email)), "id=$user_id");
+            }
 error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'");
 
             if ($user_id < 1) {
@@ -111,6 +115,7 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'"
                 'token' => 0,
                 'active' => 'y',
                 'paypal_id' => sanitize($payer_id),
+                'payment_email' => sanitize($payer_email),
                 'created' => "NOW()",
               );
 
