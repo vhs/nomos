@@ -53,7 +53,7 @@
        *
        *  @var boolean
        */
-      public $use_live = false;
+      public $use_live = true;
 
       /**
        *  The amount of time, in seconds, to wait for the PayPal server to respond
@@ -141,6 +141,7 @@
               $port = '80';
               $this->post_uri = 'http://' . $uri . '/cgi-bin/webscr';
           }
+error_log(basename(__FILE__)."@".__LINE__.": posting to $uri");
 
           $fp = fsockopen($uri, $port, $errno, $errstr, $this->timeout);
 
@@ -276,6 +277,7 @@
        */
       public function processIpn($post_data = null)
       {
+error_log(basename(__FILE__)."@".__LINE__.": preparing to process IPN");
 
           $encoded_data = 'cmd=_notify-validate';
 
@@ -295,11 +297,16 @@
                   $encoded_data .= "&$key=" . urlencode($value);
               }
           }
+error_log(basename(__FILE__)."@".__LINE__.": _POST = ".serialize($_POST));
+error_log(basename(__FILE__)."@".__LINE__.": encoded = ".serialize($encoded_data));
 
           if ($this->use_curl)
               $this->curlPost($encoded_data);
           else
               $this->fsockPost($encoded_data);
+error_log(basename(__FILE__)."@".__LINE__.": posted to PayPal");
+error_log(basename(__FILE__)."@".__LINE__.": response status '{$this->response_status}'");
+error_log(basename(__FILE__)."@".__LINE__.": response '{$this->response}'");
 
           if (strpos($this->response_status, '200') === false) {
               throw new Exception("Invalid response status: " . $this->response_status);
