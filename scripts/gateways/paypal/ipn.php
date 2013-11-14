@@ -85,8 +85,9 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'"
 error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'");
 
             if ($user_id < 1) {
-              $name_bits = explode('@', $payer_email);
-              $username = trim($name_bits[0]);
+              $fname = (isset($_POST['first_name']) ? sanitize($_POST['first_name']) : 'unknown');
+              $lname = (isset($_POST['last_name']) ? sanitize($_POST['last_name']) : 'user');
+              $username = trim(substr("$fname.$lname", 0, 45), '.');
               if ($username == '')
                 $username = 'unknown';
               for ($i=0; ; ++$i) {
@@ -95,6 +96,9 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'"
                 if ($id < 1) {
                   $username = $name;
                   break;
+                }
+                if ($i > 99) {
+                  throw new Exception("More than 100 identical user names? ($username)");
                 }
               }
 
