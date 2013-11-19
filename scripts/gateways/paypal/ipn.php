@@ -132,7 +132,25 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": user_id '$user_id'"
 error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": membership_id '$membership_id'");
 
             if ($membership_id < 1)
+            {
               $membership_id = getValue('id', Membership::mTable, "title='Member'");
+              if ($membership_id > 0)
+              {
+                $mc_gross = (float)$_POST['mc_gross'];
+                $price = (float)getValue('price', Membership::mTable, "membership_id=$membership_id");
+
+                if ($mc_gross < $price)
+                {
+                  $new_id = getValue('id', Membership::mTable, "price<='$mc_gross'");
+
+                  if ($new_id < 1)
+                    $new_id = getValue('id', Membership::mTable, "price<=$price'");
+
+                  if ($new_id > 0)
+                    $membership_id = $new_id;
+                }
+              }
+            }
 error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": membership_id '$membership_id'");
 
             if ($membership_id < 1)
