@@ -903,10 +903,13 @@
        * 
        * @return
        */
-      public function calculateDays($membership_id)
+      public function calculateDays($membership_id, $from=null)
       {
+          if (isset($from))
+            $now = $from;
+          else
+            $now = date('Y-m-d H:i:s');
 
-          $now = date('Y-m-d H:i:s');
           $row = self::$db->first("SELECT days, period FROM " . Membership::mTable . " WHERE id = '" . (int)$membership_id . "'");
           if ($row) {
               switch ($row->period) {

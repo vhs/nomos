@@ -12,8 +12,8 @@
 
 
   ini_set('log_errors', true);
-//  ini_set('error_log', dirname(basename(__FILE__)) . '/ipn_errors.log');
   ini_set('error_log', '/tmp/ipn_errors.log');
+
 
 $error_date = date('Y-m-d H:i:s');
 
@@ -134,20 +134,29 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": membership_id '$mem
             if ($membership_id < 1)
             {
               $membership_id = getValue('id', Membership::mTable, "title='Member'");
+error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": membership_id '$membership_id'");
               if ($membership_id > 0)
               {
                 $mc_gross = (float)$_POST['mc_gross'];
-                $price = (float)getValue('price', Membership::mTable, "membership_id=$membership_id");
+                $price = (float)getValue('price', Membership::mTable, "id=$membership_id");
+error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": mc_gross $mc_gross price $price");
 
                 if ($mc_gross < $price)
                 {
                   $new_id = getValue('id', Membership::mTable, "price<='$mc_gross'");
+error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": new_id $new_id");
 
                   if ($new_id < 1)
+{
                     $new_id = getValue('id', Membership::mTable, "price<=$price'");
+error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": new_id $new_id");
+}
 
                   if ($new_id > 0)
+{
                     $membership_id = $new_id;
+error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": membership_id changed to $membership_id");
+}
                 }
               }
             }
@@ -188,13 +197,15 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": inside the payment 
 
                   $username = getValueById("username", Users::uTable, intval($user_id));
 
+                  $payment_date = date('Y-m-d H:i:s', strtotime($_POST['payment_date']));
+
                   $data = array(
                       'txn_id' => $txn_id,
                       'membership_id' => $row->id,
                       'user_id' => (int)$user_id,
                       'rate_amount' => (float)$mc_gross,
                       'ip' => $_SERVER['REMOTE_ADDR'],
-                      'date' => "NOW()",
+                      'date' => $payment_date,
                       'pp' => "PayPal",
                       'currency' => $_POST['mc_currency'],
                       'status' => 1);
@@ -203,7 +214,7 @@ error_log("$error_date: ".basename(__FILE__)."@".__LINE__.": inside the payment 
 
                   $udata = array(
                       'membership_id' => $row->id,
-                      'mem_expire' => $user->calculateDays($row->id),
+                      'mem_expire' => $user->calculateDays($row->id, $payment_date),
                       'trial_used' => ($row->trial == 1) ? 1 : 0);
 
                   $db->update(Users::uTable, $udata, "id='" . (int)$user_id . "'");
