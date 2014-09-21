@@ -56,6 +56,11 @@
   require_once(BASEPATH . "lib/class_membership.php");
   Registry::set('Membership',new Membership());
   $member = Registry::get("Membership");
+
+  //Start RFID Class
+  require_once(BASEPATH . "lib/class_rfid.php");
+  Registry::set('RFID', new RFID());
+  $RFID = Registry::get("RFID");
   
   define("SITEURL", $core->site_url);
   define("ADMINURL", $core->site_url."/admin");

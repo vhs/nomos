@@ -53,7 +53,7 @@
   </div>
   <hr>
   <div class="row">
-    <section class="col col-5">
+    <section class="col col-3">
       <select name="membership_id">
         <option value="0">--- No Membership Required---</option>
         <?php if($memrow):?>
@@ -65,6 +65,29 @@
         <?php endif;?>
       </select>
       <div class="note">Membership Access</div>
+    </section>
+	 <section class="col col-2">
+		<select name="rfid">
+			<?php
+			$rfidCurrent = $RFID->getRFID($row->id);
+			$rfidLogs = $RFID->getLatest();
+			
+			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
+			if(is_array($rfidLogs)) {
+				foreach($rfidLogs as $value) {
+					print("<option value=\"$value\">$value</option>");
+				}
+			}
+			/*
+			<option value="0">asdfghj</option>
+			<option value="8">sdfghjk</option>
+			<option value="6">fvgbnm</option>
+            <option value="7">dfgh</option>
+			*/
+			?>
+        </select>
+
+      <div class="note">RFID Key</div>
     </section>
     <section class="col col-4">
       <div class="inline-group">

@@ -63,8 +63,9 @@
           Filter::msgError("<span>Error!</span>You cannot delete main Super Admin account!");
       else:
           $db->delete("users", "id='" . $id . "'");
-          $username = sanitize($_POST['username']);
-          print ($db->affected()) ? Filter::msgOk('User <strong>' . $username . '</strong> deleted successfully!') : Filter::msgAlert('<span>Alert!</span>Nothing to process.');
+          //Jarrett  9/17/2014 THIS IS A BUG AND PRODUCES AN ERROR OKAY
+          //$username = sanitize($_POST['username']);
+          print ($db->affected()) ? Filter::msgOk('User deleted successfully!') : Filter::msgAlert('<span>Alert!</span>Nothing to process.');
       endif;
   endif;
   

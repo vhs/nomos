@@ -58,7 +58,7 @@
     </section>
   </div>
   <div class="row">
-    <section class="col col-4">
+    <section class="col col-2">
       <label class="radio">
         <input type="radio" name="newsletter" value="1" <?php getChecked($row->newsletter, 1); ?>>
         <i></i>Yes</label>
@@ -66,6 +66,29 @@
         <input type="radio" name="newsletter" value="0" <?php getChecked($row->newsletter, 0); ?>>
         <i></i>No</label>
       <div class="note">Newsletter Subscriber</div>
+    </section>
+    <section class="col col-2">
+		<select name="rfid">
+			<?php
+			$rfidCurrent = $RFID->getRFID($row->id);
+			$rfidLogs = $RFID->getLatest();
+			
+			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
+			if(is_array($rfidLogs)) {
+				foreach($rfidLogs as $value) {
+					print("<option value=\"$value\">$value</option>");
+				}
+			}
+			/*
+			<option value="0">asdfghj</option>
+			<option value="8">sdfghjk</option>
+			<option value="6">fvgbnm</option>
+            <option value="7">dfgh</option>
+			*/
+			?>
+        </select>
+
+      <div class="note">RFID Key</div>
     </section>
     <section class="col col-5">
       <label class="input">

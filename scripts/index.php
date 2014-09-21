@@ -1,6 +1,6 @@
 <?php
   /**
-   * Index
+   * Index  
    *
    * @package Membership Manager Pro
    * @author wojoscripts.com

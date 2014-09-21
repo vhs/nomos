@@ -1,4 +1,6 @@
 <?php
+error_reporting (E_ALL);
+ini_set ('display_errors', '1' );
   /**
    * User Class
    *
@@ -25,6 +27,7 @@
       public $name;
       public $membership_id = 0;
       public $userlevel;
+      public $rfid;
       public $cookie_id = 0;
 	  public $last;
       private $lastlogin = "NOW()";
@@ -99,6 +102,7 @@
               $this->cookie_id = $row->cookie_id;
 			  $this->last = $row->lastlogin;
               $this->membership_id = $row->membership_id;
+              $this->rfid = $row->rfid;
               return true;
           } else {
               return false;
@@ -157,6 +161,7 @@
               $this->userlevel = $_SESSION['userlevel'] = $row->userlevel;
               $this->cookie_id = $_SESSION['cookie_id'] = $this->generateRandID();
 			  $this->last = $_SESSION['last'] = $row->lastlogin;
+			  $this->rfid = $_SESSION['rfid'] = $row->rfid;
               $this->membership_id = $_SESSION['membership_id'] = $row->membership_id;
 
               $data = array(
@@ -190,6 +195,7 @@
           unset($_SESSION['name']);
           unset($_SESSION['membership_id']);
           unset($_SESSION['userid']);
+          unset($_SESSION['rfid']);
           unset($_SESSION['cookie_id']);
           session_destroy();
           session_regenerate_id();
@@ -406,6 +412,7 @@
                   'email' => sanitize($_POST['email']),
                   'lname' => sanitize($_POST['lname']),
                   'fname' => sanitize($_POST['fname']),
+                  'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
                   'mem_expire' => $this->calculateDays($_POST['membership_id']),
 				  'notes' => sanitize($_POST['notes']),
@@ -428,7 +435,7 @@
               } else {
                   $data['password'] = $userrow->password;
               }
-
+			  
               // Procces Avatar
               if (!empty($_FILES['avatar']['name'])) {
                   $thumbdir = UPLOADS;
@@ -458,11 +465,13 @@
                           '[USERNAME]',
                           '[PASSWORD]',
                           '[NAME]',
+                          '[RFID]',
                           '[SITE_NAME]',
                           '[URL]'), array(
                           $data['username'],
                           $_POST['password'],
                           $data['fname'] . ' ' . $data['lname'],
+                          $data['rfid'],
                           Registry::get("Core")->site_name,
                           Registry::get("Core")->site_url), $row->body);
 
@@ -510,6 +519,7 @@
                   'email' => sanitize($_POST['email']),
                   'lname' => sanitize($_POST['lname']),
                   'fname' => sanitize($_POST['fname']),
+                  'rfid' => sanitize($_POST['rfid']),
                   'newsletter' => intval($_POST['newsletter'])
 				  );
 
@@ -1155,7 +1165,7 @@
               'mem_expire-ASC' => 'Membership Expire &uarr;',
               'mem_expire-DESC' => 'Membership Expire &darr;',
               );
-
+ 
           $filter = '';
           foreach ($arr as $key => $val) {
               if ($key == get('sort')) {
