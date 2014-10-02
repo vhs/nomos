@@ -15,7 +15,7 @@
 	 
 	 
 	if(isset($_GET['rfid'])) {
-		$key = mysql_real_escape_string($_GET['rfid']);
+		$key = $db->escape($_GET['rfid']);
 	} else {
 		$key = -1;
 	}
