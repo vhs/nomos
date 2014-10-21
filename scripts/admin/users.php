@@ -28,7 +28,7 @@
       <label class="input"> <i class="icon-prepend icon-lock"></i> <i class="icon-append icon-asterisk"></i>
         <input type="text" name="password" placeholder="password">
       </label>
-      <div class="note note-info">Leave it empty unless changing the password</div>
+      <div class="note note-info">Leave empty unless changing the password</div>
     </section>
   </div>
   <div class="row">
@@ -55,7 +55,7 @@
   <div class="row">
     <section class="col col-3">
       <select name="membership_id">
-        <option value="0">--- No Membership Required---</option>
+        <option value="0">None</option>
         <?php if($memrow):?>
         <?php foreach ($memrow as $mlist):?>
         <?php $selected = ($row->membership_id == $mlist->id) ? " selected=\"selected\"" : "";?>
@@ -66,40 +66,29 @@
       </select>
       <div class="note">Membership Access</div>
     </section>
-	 <section class="col col-2">
-		<select name="rfid">
-			<?php
-			$rfidCurrent = $RFID->getRFID($row->id);
-			$rfidLogs = $RFID->getLatest();
-			
-			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
-			if(is_array($rfidLogs)) {
-				foreach($rfidLogs as $value) {
-					print("<option value=\"$value\">$value</option>");
-				}
-			}
-			/*
-			<option value="0">asdfghj</option>
-			<option value="8">sdfghjk</option>
-			<option value="6">fvgbnm</option>
-            <option value="7">dfgh</option>
-			*/
-			?>
-        </select>
-
-      <div class="note">RFID Key</div>
-    </section>
-    <section class="col col-4">
+	    <section class="col col-3">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="userlevel" value="9" <?php getChecked($row->userlevel, 9); ?>>
-          <i></i>Administrator</label>
+          <input type="radio" name="vetted" value="1" <?php getChecked($row->vetted, 1); ?>>
+          <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="userlevel" value="1" <?php getChecked($row->userlevel, 1); ?>>
-          <i></i>User</label>
+          <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
+          <i></i>No</label>
       </div>
-      <div class="note">Admin has full rights. User it's just registered user</div>
+      <div class="note">Vetted for key?</div>
     </section>
+	    <section class="col col-3">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="vetted" value="1" <?php getChecked($row->cash, 1); ?>>
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="vetted" value="0" <?php getChecked($row->cash, 0); ?>>
+          <i></i>No</label>
+      </div>
+      <div class="note">Cash member?</div>
+    </section>
+
     <section class="col col-3">
       <div class="inline-group">
         <label class="radio">
@@ -113,6 +102,24 @@
     </section>
   </div>
   <div class="row">
+  	 <section class="col col-2">
+		<select name="rfid">
+			<?php
+			$rfidCurrent = $RFID->getRFID($row->id);
+			$rfidLogs = $RFID->getLatest();
+			
+			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
+			if(is_array($rfidLogs)) {
+				foreach($rfidLogs as $value) {
+					print("<option value=\"$value\">$value</option>");
+				}
+			}
+
+			?>
+        </select>
+
+      <div class="note">RFID Key</div>
+    </section>
     <section class="col col-5">
       <div class="inline-group">
         <label class="radio">
@@ -130,28 +137,39 @@
       </div>
       <div class="note">User Status</div>
     </section>
-    <section class="col col-5">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+    <section class="col col-3">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="userlevel" value="9" <?php getChecked($row->userlevel, 9); ?>>
+          <i></i>Administrator</label>
+        <label class="radio">
+          <input type="radio" name="userlevel" value="1" <?php getChecked($row->userlevel, 1); ?>>
+          <i></i>User</label>
+      </div>
+      <div class="note">Administration Station</div>
     </section>
     <section class="col col-2"> <img src="../thumbmaker.php?src=<?php echo UPLOADURL;?><?php echo ($row->avatar) ? $row->avatar : "blank.png";?>&amp;w=40&amp;h=40&amp;s=1&amp;a=t1" alt="" title="" class="avatar" /> </section>
   </div>
   <div class="row">
-    <section class="col col-4">
+    <section class="col col-3">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
         <input type="text" name="created" disabled="disabled" readonly="readonly" value="<?php echo $row->created;?>" placeholder="Email">
       </label>
-      <div class="note">Registration Date:</div>
+      <div class="note">Registration Date</div>
     </section>
-    <section class="col col-4">
+    <section class="col col-3">
+      <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
+        <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->mem_expire;?>" placeholder="First Name">
+      </label>
+      <div class="note">Active Until</div>
+    </section>
+    <section class="col col-3">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
         <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->lastlogin;?>" placeholder="First Name">
       </label>
       <div class="note">Last Login</div>
     </section>
-    <section class="col col-4">
+    <section class="col col-2">
       <label class="input state-disabled"> <i class="icon-prepend icon-laptop"></i>
         <input type="text" name="lastip" disabled="disabled" readonly="readonly" value="<?php echo $row->lastip;?>" placeholder="Last Name">
       </label>
@@ -176,7 +194,7 @@
 <?php break;?>
 <?php case"add": ?>
 <?php $memrow = $member->getMemberships();?>
-<p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i> Here you can add new user<br>
+<p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i> Here you can add new users<br>
   Fields marked <i class="icon-append icon-asterisk"></i> are required.</p>
 <form class="xform" id="admin_form" method="post">
   <header>User Manager<span>Adding New User</span></header>
@@ -237,7 +255,7 @@
           <input name="userlevel" type="radio" value="1" checked="checked">
           <i></i>User</label>
       </div>
-      <div class="note">Admin has full rights. User it's just registered user</div>
+      <div class="note">Administration Station</div>
     </section>
     <section class="col col-3">
       <div class="inline-group">
@@ -299,7 +317,7 @@
 <?php default:?>
 <?php $userrow = $user->getUsers();?>
 <p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i>Here you can manage your users. <br />
-  You can email each user by clicking on username. You can also activate each usser account by clicking on <i class="icon-adjust"></i> icon</p>
+  You can also activate each user account by clicking on <i class="icon-adjust"></i> icon</p>
 <section class="widget">
   <header>
     <div class="row">
