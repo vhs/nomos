@@ -418,6 +418,7 @@ ini_set ('display_errors', '1' );
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
+                  'vetted' => intval($_POST['vetted']),
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
 				  );

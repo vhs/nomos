@@ -16,7 +16,7 @@
 <script type="text/javascript" src="../assets/js/flot/jquery.flot.resize.min.js"></script>
 <script type="text/javascript" src="../assets/js/flot/excanvas.min.js"></script>
 <p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i>Here you can view your latest user statistics.<br />
-  such as lates transactions, number of rwgistered users etc...</p>
+  such as late transactions, number of registered users etc...</p>
 <div class="row grid_24">
   <div class="col grid_6">
     <div class="pagetip stats"><i class="icon-user"></i>
