@@ -419,6 +419,7 @@ ini_set ('display_errors', '1' );
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
                   'vetted' => intval($_POST['vetted']),
+                  'cash' => intval($_POST['cash']),
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
 				  );
@@ -1156,7 +1157,7 @@ ini_set ('display_errors', '1' );
       {
           $arr = array(
               'username-ASC' => 'Username &uarr;',
-              'username-DESC' => 'Username & &darr;',
+              'username-DESC' => 'Username &darr;',
               'fname-ASC' => 'First Name &uarr;',
               'fname-DESC' => 'First Name &darr;',
               'lname-ASC' => 'Last Name &uarr;',

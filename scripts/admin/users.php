@@ -75,18 +75,18 @@
           <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
           <i></i>No</label>
       </div>
-      <div class="note">Vetted for key?</div>
+      <div class="note">Vetted For Key</div>
     </section>
 	    <section class="col col-3">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="vetted" value="1" <?php getChecked($row->cash, 1); ?>>
+          <input type="radio" name="cash" value="1" <?php getChecked($row->cash, 1); ?>>
           <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="vetted" value="0" <?php getChecked($row->cash, 0); ?>>
+          <input type="radio" name="cash" value="0" <?php getChecked($row->cash, 0); ?>>
           <i></i>No</label>
       </div>
-      <div class="note">Cash member?</div>
+      <div class="note">Cash Member</div>
     </section>
 
     <section class="col col-3">
@@ -367,6 +367,7 @@
           <th class="header">Username</th>
           <th class="header">Full Name</th>
           <th class="header">User Status</th>
+          <th class="header">Cash</th>
           <th class="header">Membership</th>
           <th class="header">Expires</th>
           <th class="header">Actions</th>
@@ -380,6 +381,12 @@
           <td><a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>"><?php echo $row->username;?></a></td>
           <td><?php echo $row->name;?></td>
           <td><?php echo userStatus($row->active, $row->id);?></td>
+		  <td>
+		  <?php if($row->cash): ?>
+            <span class="tbicon">
+			<a id="item_<?php echo $row->id;?>" class="tooltip cash" data-title="Yes"><i class="icon-check"></i></a> </span>
+		  <?php else:?>&nbsp;<?php endif;?>
+		  </td>
           <td><?php if(!$row->membership_id):?>
             --/--
             <?php else:?>
