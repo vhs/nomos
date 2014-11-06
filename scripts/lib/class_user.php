@@ -171,7 +171,7 @@ ini_set ('display_errors', '1' );
 				  );
 				  
               self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
-              if (!$this->validateMembership()) {
+              if (!$this->validateMember()) {
                   $data = array('membership_id' => 0, 'mem_expire' => "0000-00-00 00:00:00");
                   self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
               }
@@ -962,11 +962,11 @@ ini_set ('display_errors', '1' );
       }
 
       /**
-       * Users::validateMembership()
+       * Users::validateMember()
        * 
        * @return
        */
-      public function validateMembership()
+      public function validateMember()
       {
 
           $sql = "SELECT mem_expire" 
@@ -976,6 +976,36 @@ ini_set ('display_errors', '1' );
           $row = self::$db->first($sql);
 
           return ($row) ? $row : 0;
+      }
+
+      /**
+       * Users::validateMembership()
+       * THIS IS DIFFERENT BECAUSE IT SETS ALL DEADBEATS TO INACTIVE OKAY
+       * @return
+       */
+      public function validateMembership()
+      {
+
+		//Members get a three-month grace period under current rules
+		
+          $userrow = $this->getUsers();
+		  foreach($userrow as $value) {
+			
+			//Haven't paid in three months and still set to active
+			if(strtotime($value->mem_expire) - mktime(0, 0, 0, -4) < 0) {
+				if($value->active == 'y') {
+					$data = array('active' => 'n');
+					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+				}
+			} else if ($value->active == 'n') {
+				//Have paid recently and not active
+				$data = array('active' => 'y');
+				self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+			}
+
+		}
+
+          return 0;
       }
 
       /**
@@ -990,7 +1020,7 @@ ini_set ('display_errors', '1' );
           $m_arr = explode(",", $memids);
           reset($m_arr);
 
-          if ($this->logged_in and $this->validateMembership() and in_array($this->membership_id, $m_arr)) {
+          if ($this->logged_in and $this->validateMember() and in_array($this->membership_id, $m_arr)) {
               return true;
           } else
               return false;

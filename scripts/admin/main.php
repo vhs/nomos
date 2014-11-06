@@ -12,6 +12,7 @@
 ?>
 <?php $reports = $core->yearlyStats();?>
 <?php $row = $core->getYearlySummary();?>
+<?php $user->validateMembership();?>
 <script type="text/javascript" src="../assets/js/flot/jquery.flot.min.js"></script>
 <script type="text/javascript" src="../assets/js/flot/jquery.flot.resize.min.js"></script>
 <script type="text/javascript" src="../assets/js/flot/excanvas.min.js"></script>
@@ -41,8 +42,8 @@
   </div>
   <div class="col grid_6">
     <div class="pagetip stats"><i class="icon-group"></i>
-      <div class="pull-right"> Active Memberships <br>
-        <b class="pull-right"><?php echo countEntries(Users::uTable, "membership_id", "<>0");?></b> <br>
+      <div class="pull-right"> Cash Memberships <br>
+        <b class="pull-right"><?php echo countEntries(Users::uTable, "cash", "1");?></b> <br>
       </div>
     </div>
   </div>
