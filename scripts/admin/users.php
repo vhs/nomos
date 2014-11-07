@@ -394,7 +394,7 @@
         <?php foreach ($userrow as $row):?>
         <tr>
           <td><?php echo $row->id;?>.</td>
-          <td><a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>"><?php echo $row->username;?></a></td>
+          <td><a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>"><?php echo $row->username;?></a></td>
           <td><?php echo $row->name;?></td>
           <td><?php echo userStatus($row->active, $row->id);?></td>
 		  <td>
@@ -411,7 +411,7 @@
           <td><?php echo $row->mem_expire;?></td>
           <td>
           <span class="tbicon"> 
-          <a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>" class="tooltip" data-title="Edit"><i class="icon-pencil"></i></a> </span>
+          <a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>" class="tooltip" data-title="Mail"><i class="icon-envelope"></i></a> </span>
             <?php if($row->id == 1):?>
             <span class="tbicon"> <a id="item_<?php echo $row->id;?>" class="tooltip" data-rel="<?php echo $row->username;?>" data-title="Master Admin"><i class="icon-lock"></i></a> </span>
             <?php else:?>
