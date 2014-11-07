@@ -34,7 +34,7 @@
       <label class="input"> <i class="icon-prepend icon-lock"></i> <i class="icon-append icon-asterisk"></i>
         <input type="password" name="password" placeholder="********">
       </label>
-      <div class="note note-info">Leave it empty unless changing the password</div>
+      <div class="note note-info">Leave empty unless changing passwords</div>
     </section>
   </div>
   <div class="row">
@@ -91,10 +91,8 @@
       <div class="note">RFID Key</div>
     </section>
     <section class="col col-5">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+      <img src="badges/laser.png"  height="42" width="42" />
+      <div class="note">Badges</div>
     </section>
     <section class="col col-3"> <img src="thumbmaker.php?src=<?php echo UPLOADURL;?><?php echo ($row->avatar) ? $row->avatar : "blank.png";?>&amp;w=<?php echo $core->thumb_w;?>&amp;h=<?php echo $core->thumb_h;?>&amp;s=1&amp;a=t1" alt="" title="" class="avatar" /> </section>
   </div>

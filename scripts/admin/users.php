@@ -236,7 +236,7 @@
   <div class="row">
     <section class="col col-5">
       <select name="membership_id">
-        <option value="0">--- No Membership Required---</option>
+        <option value="0">None</option>
         <?php if($memrow):?>
         <?php foreach ($memrow as $mlist):?>
         <option value="<?php echo $mlist->id;?>"><?php echo $mlist->title;?></option>
@@ -287,11 +287,27 @@
       </div>
       <div class="note">User Status</div>
     </section>
-    <section class="col col-4">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="cash" value="1" checked="checked">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="cash" value="0">
+          <i></i>No</label>
+      </div>
+      <div class="note">Cash Member</div>
+    </section>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="vetted" value="1">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="vetted" value="0" checked="checked">
+          <i></i>No</label>
+      </div>
+      <div class="note">Vetted for Key</div>
     </section>
     <section class="col col-3">
       <label class="checkbox">

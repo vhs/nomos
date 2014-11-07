@@ -998,7 +998,7 @@ ini_set ('display_errors', '1' );
 					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
 				}
 			} else if ($value->active == 'n') {
-				//Have paid recently and not active
+				//Have paid recently and not active TODO: check that IPN doesn't do this too (or remove it from here if it does)
 				$data = array('active' => 'y');
 				self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
 			}
