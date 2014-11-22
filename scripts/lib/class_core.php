@@ -512,6 +512,24 @@
       }
 
       /**
+       * Core::yearlyMembership()
+       * Tracks new membership / attrition
+       * @return
+       */
+      public function yearlyMembership()
+      {
+          $sql = "SELECT *, YEAR(mem_expire) as year, MONTH(mem_expire) as month," 
+		  . "\n COUNT(id) as total, SUM(rate_amount) as totalprice" 
+		  . "\n FROM " . Users::uTable 
+		  . "\n WHERE YEAR(date) = '" . $this->year . "'" 
+		  . "\n GROUP BY year DESC, month DESC ORDER by date";
+
+          $row = Registry::get("Database")->fetch_all($sql);
+
+          return ($row) ? $row : 0;
+      }
+
+      /**
        * Core::yearlyStats()
        * 
        * @return

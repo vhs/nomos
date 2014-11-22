@@ -988,12 +988,20 @@ ini_set ('display_errors', '1' );
 
 		//Members get a three-month grace period under current rules
 		
-          $userrow = $this->getUsers();
+		  $sql = "SELECT * FROM " . self::uTable;
+          $userrow = self::$db->fetch_all($sql);
+
+          if(!isset($userrow)) {
+		      return 0;
+		  }
+		  
+		  
 		  foreach($userrow as $value) {
 			
 			//Haven't paid in three months and still set to active
-			if(strtotime($value->mem_expire) - mktime(0, 0, 0, -4) < 0) {
+			if(strtotime($value->mem_expire) - mktime(0, 0, 0, date('m')-2) < 0) {
 				if($value->active == 'y') {
+					print("2: " . $value->id . " - \n");
 					$data = array('active' => 'n');
 					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
 				}
