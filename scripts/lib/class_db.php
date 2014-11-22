@@ -109,7 +109,11 @@
       {
           if (trim($sql != "")) {
               $this->query_counter++;
-              $this->query_show .= stripslashes($sql) . "<hr size='1' />";
+			  if(isset($this->query_show)) {
+				$this->query_show .= stripslashes($sql) . "<hr size='1' />";
+			  } else {
+				$this->query_show = stripslashes($sql) . "<hr size='1' />";
+			  }
               $this->query_id = mysqli_query($this->link_id, $sql);
 			  
               $this->last_query = $sql . '<br />';
@@ -346,7 +350,11 @@
        */
       public function show()
       {
-          return "<br /><br /><b> Debug Mode - All Queries :</b><hr size='1' /> " . $this->query_show . "<br />";
+		  if(isset($this->query_show)) {
+			return "<br /><br /><b> Debug Mode - All Queries :</b><hr size='1' /> " . $this->query_show . "<br />";
+		  } else {
+		    return "";
+		  }
       }
 
       /**

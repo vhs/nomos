@@ -13,6 +13,11 @@
 <?php //error_reporting(E_ALL);
   
 
+  //Fix for my particular installation (should be okay to leave for VHS)  
+  ini_set("date.timezone", "America/Vancouver");
+  
+  
+  
   $BASEPATH = str_replace("init.php", "", realpath(__FILE__));
   define("BASEPATH", $BASEPATH);
   

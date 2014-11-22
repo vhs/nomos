@@ -12,11 +12,12 @@
 ?>
 <?php $reports = $core->yearlyStats();?>
 <?php $row = $core->getYearlySummary();?>
+<?php $user->validateMembership();?>
 <script type="text/javascript" src="../assets/js/flot/jquery.flot.min.js"></script>
 <script type="text/javascript" src="../assets/js/flot/jquery.flot.resize.min.js"></script>
 <script type="text/javascript" src="../assets/js/flot/excanvas.min.js"></script>
 <p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i>Here you can view your latest user statistics.<br />
-  such as lates transactions, number of rwgistered users etc...</p>
+  such as late transactions, number of registered users etc...</p>
 <div class="row grid_24">
   <div class="col grid_6">
     <div class="pagetip stats"><i class="icon-user"></i>
@@ -34,15 +35,15 @@
   </div>
   <div class="col grid_6">
     <div class="pagetip stats"><i class="icon-time"></i>
-      <div class="pull-right"> Pending Users <br>
-        <b class="pull-right"><?php echo countEntries(Users::uTable, "active", "t");?></b> <br>
+      <div class="pull-right"> Active Keyholders <br>
+        <b class="pull-right"><?php echo countEntries(Users::uTable, "membership_id", "7' AND active = 'y");?></b> <br>
       </div>
     </div>
   </div>
   <div class="col grid_6">
     <div class="pagetip stats"><i class="icon-group"></i>
-      <div class="pull-right"> Active Memberships <br>
-        <b class="pull-right"><?php echo countEntries(Users::uTable, "membership_id", "<>0");?></b> <br>
+      <div class="pull-right"> Cash Memberships <br>
+        <b class="pull-right"><?php echo countEntries(Users::uTable, "cash", "1");?></b> <br>
       </div>
     </div>
   </div>
@@ -84,6 +85,8 @@
         <tr>
           <th class="header">Month / Year</th>
           <th class="header">#Transactions</th>
+          <th class="header">New Members</th>
+          <th class="header">Expired Memberships</th>
           <th class="header">Total Revenue</th>
         </tr>
       </thead>
@@ -91,6 +94,8 @@
       <tr>
         <td><?php echo date("F", mktime(0, 0, 0, $report->month, 10)) . ' / '.$core->year;?></td>
         <td><?php echo $report->total;?></td>
+        <td><?php echo countEntries(Users::uTable, "MONTH(created)", $report->month . "' AND YEAR(created) = '" . $report->year);?></td>
+        <td><?php echo countEntries(Users::uTable, "MONTH(mem_expire)", $report->month . "' AND YEAR(mem_expire) = '" . $report->year);?></td>
         <td><?php echo $core->formatMoney($report->totalprice);?></td>
       </tr>
       <?php endforeach ?>
@@ -98,6 +103,8 @@
       <tr>
         <td><strong><i class="icon-calendar"></i> Total Year</strong></td>
         <td><strong><i class="icon-refresh"></i> <?php echo $row->total;?></strong></td>
+        <td><strong><i class="icon-refresh"></i> A Lot</strong></td>
+        <td><strong><i class="icon-refresh"></i> A Lot</strong></td>
         <td><strong><i class="icon-money"></i> <?php echo $core->formatMoney($row->totalprice);?></strong></td>
       </tr>
     </table>

@@ -171,7 +171,7 @@ ini_set ('display_errors', '1' );
 				  );
 				  
               self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
-              if (!$this->validateMembership()) {
+              if (!$this->validateMember()) {
                   $data = array('membership_id' => 0, 'mem_expire' => "0000-00-00 00:00:00");
                   self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
               }
@@ -418,6 +418,8 @@ ini_set ('display_errors', '1' );
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
+                  'vetted' => intval($_POST['vetted']),
+                  'cash' => intval($_POST['cash']),
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
 				  );
@@ -960,11 +962,11 @@ ini_set ('display_errors', '1' );
       }
 
       /**
-       * Users::validateMembership()
+       * Users::validateMember()
        * 
        * @return
        */
-      public function validateMembership()
+      public function validateMember()
       {
 
           $sql = "SELECT mem_expire" 
@@ -974,6 +976,44 @@ ini_set ('display_errors', '1' );
           $row = self::$db->first($sql);
 
           return ($row) ? $row : 0;
+      }
+
+      /**
+       * Users::validateMembership()
+       * THIS IS DIFFERENT BECAUSE IT SETS ALL DEADBEATS TO INACTIVE OKAY
+       * @return
+       */
+      public function validateMembership()
+      {
+
+		//Members get a three-month grace period under current rules
+		
+		  $sql = "SELECT * FROM " . self::uTable;
+          $userrow = self::$db->fetch_all($sql);
+
+          if(!isset($userrow)) {
+		      return 0;
+		  }
+		  
+		  
+		  foreach($userrow as $value) {
+			
+			//Haven't paid in three months and still set to active
+			if(strtotime($value->mem_expire) - mktime(0, 0, 0, date('m')-2) < 0) {
+				if($value->active == 'y') {
+					print("2: " . $value->id . " - \n");
+					$data = array('active' => 'n');
+					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+				}
+			} else if ($value->active == 'n') {
+				//Have paid recently and not active TODO: check that IPN doesn't do this too (or remove it from here if it does)
+				$data = array('active' => 'y');
+				self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+			}
+
+		}
+
+          return 0;
       }
 
       /**
@@ -988,7 +1028,7 @@ ini_set ('display_errors', '1' );
           $m_arr = explode(",", $memids);
           reset($m_arr);
 
-          if ($this->logged_in and $this->validateMembership() and in_array($this->membership_id, $m_arr)) {
+          if ($this->logged_in and $this->validateMember() and in_array($this->membership_id, $m_arr)) {
               return true;
           } else
               return false;
@@ -1155,7 +1195,7 @@ ini_set ('display_errors', '1' );
       {
           $arr = array(
               'username-ASC' => 'Username &uarr;',
-              'username-DESC' => 'Username & &darr;',
+              'username-DESC' => 'Username &darr;',
               'fname-ASC' => 'First Name &uarr;',
               'fname-DESC' => 'First Name &darr;',
               'lname-ASC' => 'Last Name &uarr;',
