@@ -407,6 +407,7 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
+			  
               $data = array(
                   'username' => sanitize($_POST['username']),
                   'email' => sanitize($_POST['email']),
@@ -414,7 +415,8 @@ ini_set ('display_errors', '1' );
                   'fname' => sanitize($_POST['fname']),
                   'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
-                  'mem_expire' => $this->calculateDays($_POST['membership_id']),
+                  //'mem_expire' => $this->calculateDays($_POST['membership_id']),
+                  'mem_expire' => sanitize($_POST['mem_expire']), 
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
@@ -1001,7 +1003,6 @@ ini_set ('display_errors', '1' );
 			//Haven't paid in three months and still set to active
 			if(strtotime($value->mem_expire) - mktime(0, 0, 0, date('m')-2) < 0) {
 				if($value->active == 'y') {
-					print("2: " . $value->id . " - \n");
 					$data = array('active' => 'n');
 					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
 				}

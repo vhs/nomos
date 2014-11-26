@@ -158,8 +158,8 @@
       <div class="note">Registration Date</div>
     </section>
     <section class="col col-3">
-      <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
-        <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->mem_expire;?>" placeholder="First Name">
+      <label class="input"> <i class="icon-prepend icon-calendar"></i>
+        <input type="text" name="mem_expire" id="enddate" value="<?php echo $row->mem_expire;?>" placeholder="Expiry">
       </label>
       <div class="note">Active Until</div>
     </section>
