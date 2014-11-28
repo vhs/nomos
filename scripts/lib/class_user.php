@@ -756,8 +756,15 @@ ini_set ('display_errors', '1' );
 		  Filter::checkPost('email', "Please enter Email Address!");
 
           $uname = $this->usernameExists($_POST['uname']);
-          if (strlen($_POST['uname']) < 4 || strlen($_POST['uname']) > 30 || !preg_match("/^[a-z0-9_-]{4,15}$/", $_POST['uname']) || $uname != 3)
-              Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
+          if (strlen($_POST['uname']) < 4) {
+			  if(strlen($_POST['uname']) > 30) {
+				  if(!preg_match("/^[a-z0-9_\\.]{4,15}$/", $_POST['uname'])) {
+					  if($uname != 3) {
+						  Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
+					  }
+				  }
+			  }
+		  }
 
           if (!$this->emailExists($_POST['email']))
               Filter::$msgs['uname'] = 'Entered Email Address Does Not Exists.';
