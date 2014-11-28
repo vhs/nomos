@@ -171,7 +171,7 @@ ini_set ('display_errors', '1' );
 				  );
 				  
               self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
-              if (!$this->validateMembership()) {
+              if (!$this->validateMember()) {
                   $data = array('membership_id' => 0, 'mem_expire' => "0000-00-00 00:00:00");
                   self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
               }
@@ -407,6 +407,7 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
+			  
               $data = array(
                   'username' => sanitize($_POST['username']),
                   'email' => sanitize($_POST['email']),
@@ -414,10 +415,13 @@ ini_set ('display_errors', '1' );
                   'fname' => sanitize($_POST['fname']),
                   'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
-                  'mem_expire' => $this->calculateDays($_POST['membership_id']),
+                  //'mem_expire' => $this->calculateDays($_POST['membership_id']),
+                  'mem_expire' => sanitize($_POST['mem_expire']), 
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
+                  'vetted' => intval($_POST['vetted']),
+                  'cash' => intval($_POST['cash']),
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
 				  );
@@ -752,8 +756,15 @@ ini_set ('display_errors', '1' );
 		  Filter::checkPost('email', "Please enter Email Address!");
 
           $uname = $this->usernameExists($_POST['uname']);
-          if (strlen($_POST['uname']) < 4 || strlen($_POST['uname']) > 30 || !preg_match("/^[a-z0-9_-]{4,15}$/", $_POST['uname']) || $uname != 3)
-              Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
+          if (strlen($_POST['uname']) < 4) {
+			  if(strlen($_POST['uname']) > 30) {
+				  if(!preg_match("/^[a-z0-9_\\.]{4,15}$/", $_POST['uname'])) {
+					  if($uname != 3) {
+						  Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
+					  }
+				  }
+			  }
+		  }
 
           if (!$this->emailExists($_POST['email']))
               Filter::$msgs['uname'] = 'Entered Email Address Does Not Exists.';
@@ -960,11 +971,11 @@ ini_set ('display_errors', '1' );
       }
 
       /**
-       * Users::validateMembership()
+       * Users::validateMember()
        * 
        * @return
        */
-      public function validateMembership()
+      public function validateMember()
       {
 
           $sql = "SELECT mem_expire" 
@@ -974,6 +985,43 @@ ini_set ('display_errors', '1' );
           $row = self::$db->first($sql);
 
           return ($row) ? $row : 0;
+      }
+
+      /**
+       * Users::validateMembership()
+       * THIS IS DIFFERENT BECAUSE IT SETS ALL DEADBEATS TO INACTIVE OKAY
+       * @return
+       */
+      public function validateMembership()
+      {
+
+		//Members get a three-month grace period under current rules
+		
+		  $sql = "SELECT * FROM " . self::uTable;
+          $userrow = self::$db->fetch_all($sql);
+
+          if(!isset($userrow)) {
+		      return 0;
+		  }
+		  
+		  
+		  foreach($userrow as $value) {
+			
+			//Haven't paid in three months and still set to active
+			if(strtotime($value->mem_expire) - mktime(0, 0, 0, date('m')-2) < 0) {
+				if($value->active == 'y') {
+					$data = array('active' => 'n');
+					self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+				}
+			} else if ($value->active == 'n') {
+				//Have paid recently and not active TODO: check that IPN doesn't do this too (or remove it from here if it does)
+				$data = array('active' => 'y');
+				self::$db->update(self::uTable, $data, "id='" . $value->id . "'");
+			}
+
+		}
+
+          return 0;
       }
 
       /**
@@ -988,7 +1036,7 @@ ini_set ('display_errors', '1' );
           $m_arr = explode(",", $memids);
           reset($m_arr);
 
-          if ($this->logged_in and $this->validateMembership() and in_array($this->membership_id, $m_arr)) {
+          if ($this->logged_in and $this->validateMember() and in_array($this->membership_id, $m_arr)) {
               return true;
           } else
               return false;
@@ -1155,7 +1203,7 @@ ini_set ('display_errors', '1' );
       {
           $arr = array(
               'username-ASC' => 'Username &uarr;',
-              'username-DESC' => 'Username & &darr;',
+              'username-DESC' => 'Username &darr;',
               'fname-ASC' => 'First Name &uarr;',
               'fname-DESC' => 'First Name &darr;',
               'lname-ASC' => 'Last Name &uarr;',
