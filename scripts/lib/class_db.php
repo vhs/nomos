@@ -450,7 +450,7 @@
           $the_error .= "<li> Mysql Error no # : " . $this->error_desc . "</li>";
           $the_error .= "<li> Date : " . date("F j, Y, g:i a") . "</li>";
           $the_error .= "<li> Referer: " . isset($_SERVER['HTTP_REFERER']) . "</li>";
-          $the_error .= "<li> Script: " . $_SERVER['REQUEST_URI'] . "</li>";
+          $the_error .= "<li> Script: " . isset($_SERVER['REQUEST_URI']) . "</li>";
           $the_error .= '</ul>';
           $the_error .= '</div>';
           if (DEBUG)
