@@ -73,7 +73,7 @@
   if (isset($_POST['userSearch'])):
       $string = sanitize($_POST['userSearch'], 15);
 
-      if (strlen($string) > 3):
+      if (strlen($string) > 0):
           $sql = "SELECT id, username, email, CONCAT(fname,' ',lname) as name" 
 		  . "\n FROM users" 
 		  . "\n WHERE MATCH (username) AGAINST ('" . $db->escape($string) . "*' IN BOOLEAN MODE)" 

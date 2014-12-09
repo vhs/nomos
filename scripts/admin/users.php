@@ -339,7 +339,7 @@
           <div class="hr2"></div>
           <section class="col col-4">
             <label class="input"> <i class="icon-prepend icon-search"></i>
-              <input type="text" name="serachuser"  id="search-input" placeholder="Search User">
+              <input type="text" name="searchuser"  id="search-input" placeholder="Search User">
             </label>
             <div id="suggestions"></div>
           </section>
@@ -445,7 +445,7 @@ $(document).ready(function () {
     $("#search-input").on("keyup", function () {
         var srch_string = $(this).val();
         var data_string = 'userSearch=' + srch_string;
-        if (srch_string.length > 3) {
+        if (srch_string.length > 0) {
             $.ajax({
                 type: "POST",
                 url: "controller.php",
