@@ -11,6 +11,8 @@ Registry::set('Database',new Database(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE))
 $db = Registry::get("Database");
 $db->connect();
 
+require_once("../scripts/lib/functions.php");
+
 //ASSUMES THE DATABASE EXISTS
 
 $currentversion = 0;
