@@ -346,13 +346,27 @@ ini_set ('display_errors', '1' );
 
           $clause = (isset($clause)) ? $clause : null;
 
+          if (isset($_POST['searchuser']) && $_POST['searchuser'] <> "") {
+              $string = self::$db->escape($_POST['searchuser']);
+              $searchuserclause = "MATCH (username) AGAINST ('*" . $string . "*' IN BOOLEAN MODE)";
+              $searchuserclause .= " OR MATCH (fname) AGAINST ('*" . $string . "*' IN BOOLEAN MODE)";
+              $searchuserclause .= " OR MATCH (lname) AGAINST ('*" . $string . "*' IN BOOLEAN MODE)";
+              $searchuserclause .= " OR MATCH (email) AGAINST ('*" . $string . "*' IN BOOLEAN MODE)";
+          }
+
           if (isset($_POST['fromdate']) && $_POST['fromdate'] <> "" || isset($from) && $from != '') {
               $enddate = date("Y-m-d");
               $fromdate = (empty($from)) ? $_POST['fromdate'] : $from;
               if (isset($_POST['enddate']) && $_POST['enddate'] <> "") {
                   $enddate = $_POST['enddate'];
               }
-              $clause .= " WHERE u.created BETWEEN '" . trim($fromdate) . "' AND '" . trim($enddate) . " 23:59:59'";
+              $dateclause = "u.created BETWEEN '" . trim($fromdate) . "' AND '" . trim($enddate) . " 23:59:59'";
+          }
+
+          if (isset($searchuserclause) && isset($dateclause)) {
+              $clause = " WHERE (" . $searchuserclause . ") AND (" . $dateclause . ")";
+          } else if (isset($searchuserclause) || isset($dateclause)) {
+              $clause = " WHERE " . ((isset($searchuserclause)) ? $searchuserclause : $dateclause);
           }
 
           $sql = "SELECT u.*, CONCAT(u.fname,' ',u.lname) as name, m.title, m.id as mid," 

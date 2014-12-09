@@ -355,18 +355,18 @@
           <div class="hr2"></div>
           <section class="col col-4">
             <label class="input"> <i class="icon-prepend icon-search"></i>
-              <input type="text" name="searchuser"  id="search-input" placeholder="Search User">
+              <input type="text" name="searchuser"  id="search-input" placeholder="Search User" value="<?php if(isset($_POST['searchuser'])) { echo $_POST['searchuser']; } ?>">
             </label>
             <div id="suggestions"></div>
           </section>
           <section class="col col-3">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
-              <input type="text" name="fromdate"  id="fromdate" placeholder="From">
+              <input type="text" name="fromdate"  id="fromdate" placeholder="From" value="<?php if(isset($_POST['fromdate'])) { echo $_POST['fromdate']; } ?>">
             </label>
           </section>
           <section class="col col-3">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
-              <input type="text" name="enddate"  id="enddate" placeholder="To">
+              <input type="text" name="enddate"  id="enddate" placeholder="To" value="<?php if(isset($_POST['enddate'])) { echo $_POST['enddate']; } ?>">
             </label>
           </section>
           <section class="col col-2">
