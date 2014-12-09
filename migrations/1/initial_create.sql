@@ -11,6 +11,11 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
 -- Database: `db548505082`
 --
@@ -240,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `membership_id`, `mem_expire`, `trial_used`, `email`, `fname`, `lname`, `token`, `cookie_id`, `newsletter`, `vetted`, `cash`, `userlevel`, `notes`, `created`, `lastlogin`, `lastip`, `avatar`, `active`, `paypal_id`, `payment_email`, `rfid`) VALUES
-(1, 'vhs', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 7, '2014-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2013-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345'),
+(1, 'vhs', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 7, '2014-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2013-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
