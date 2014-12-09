@@ -64,7 +64,12 @@ foreach($versions as $version) {
     }
 
     print "Increasing version: ";
-    $db->update("settings", array("schemaversion" => $version));
+
+    //this check is necessary if coming up from version 1
+    $result = $db->query("SHOW COLUMNS FROM `settings` LIKE 'schemaversion'");
+    if($db->numrows($result) == 1) {
+        $db->update("settings", array("schemaversion" => $version));
+    }
 
     $currentversion = $version;
 
