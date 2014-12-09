@@ -2,18 +2,25 @@
 
 define("_VALID_PHP", true);
 define("DEBUG", true); //will create a warning because config.ini.php will try to define, no way around that currently.
-require_once("../scripts/init.php");
+
+require_once("../scripts/lib/config.ini.php");
+require_once("../scripts/lib/class_db.php");
+require_once("../scripts/lib/class_registry.php");
+
+Registry::set('Database',new Database(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE));
+$db = Registry::get("Database");
+$db->connect();
 
 //ASSUMES THE DATABASE EXISTS
 
 $currentversion = 0;
 
-$val = $db->query("select 1 from SETTINGS");
-
-if($val !== false)
+$val = $db->query("SHOW TABLES LIKE 'SETTINGS'");
+print $db->numrows($val) . "\n\n";
+if($db->numrows($val) == 1)
 {
     $result = $db->query("SHOW COLUMNS FROM `settings` LIKE 'schemaversion'");
-    if($db->numrows($result)) {
+    if($db->numrows($result) == 1) {
         $currentversion = getValue("schemaversion", "settings", "1");
     } else {
         $currentversion = 1;
