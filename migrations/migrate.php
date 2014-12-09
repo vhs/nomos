@@ -28,7 +28,7 @@ print "Latest: " . $versions[sizeof($versions) - 1] . "\n";
 if ($currentversion == $versions[sizeof($versions) - 1]) { die("Up to date."); }
 
 foreach($versions as $version) {
-    if ($currentversion == $version) continue;
+    if ($currentversion >= $version) continue;
 
     //TODO these should prob be in a transaction to allow rollback in case a migration fails.
     print "Upgrading to: " . $version . "\n";
