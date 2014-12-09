@@ -25,8 +25,8 @@
   <header>Manage Your Account<span>User Account Edit <i class="icon-double-angle-right"></i> <?php echo $row->username;?></span></header>
   <div class="row">
     <section class="col col-6">
-      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" disabled="disabled" name="username" readonly="readonly" value="<?php echo $row->username;?>" placeholder="Username">
+      <label class="input"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" name="username" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
       </label>
       <div class="note note-error">Username</div>
     </section>

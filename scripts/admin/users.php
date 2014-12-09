@@ -19,8 +19,8 @@
   <header>User Manager<span>Editing Current User <i class="icon-double-angle-right"></i> <?php echo $row->username;?></span></header>
   <div class="row">
     <section class="col col-6">
-      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" disabled="disabled" name="username" readonly="readonly" value="<?php echo $row->username;?>" placeholder="Username">
+      <label class="input"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" name="username" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
       </label>
       <div class="note note-error">Username</div>
     </section>
@@ -187,7 +187,6 @@
   <footer>
     <button class="button" name="dosubmit" type="submit">Update User Profile<span><i class="icon-ok"></i></span></button>
     <a href="index.php?do=users" class="button button-secondary">Cancel</a> </footer>
-  <input name="username" type="hidden" value="<?php echo $row->username;?>" />
   <input name="id" type="hidden" value="<?php echo Filter::$id;?>" />
 </form>
 <?php echo Core::doForm("processUser");?>

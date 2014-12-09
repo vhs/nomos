@@ -94,6 +94,14 @@ ini_set ('display_errors', '1' );
           if (isset($_SESSION['username']) && $_SESSION['username'] != "Guest") {
 			  
               $row = $this->getUserInfo($_SESSION['username']);
+
+              /*
+               * This check is false if a username changes while the user is logged in.
+               * TODO fix all the bullshit with having the username in the session for
+               * everything. It should use the ID instead.
+               */
+              if(!$row) return false;
+
               $this->uid = $row->id;
               $this->username = $row->username;
               $this->email = $row->email;
@@ -367,17 +375,15 @@ ini_set ('display_errors', '1' );
       public function processUser()
       {
 
-          if (!Filter::$id) {
-              Filter::checkPost('username', "Please Enter Valid Username!");
+          Filter::checkPost('username', "Please Enter Valid Username!");
 
-              if ($value = $this->usernameExists($_POST['username'])) {
-                  if ($value == 1)
-                      Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
-                  if ($value == 2)
-                      Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-                  if ($value == 3)
-                      Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
-              }
+          if ($value = $this->usernameExists($_POST['username'])) {
+              if ($value == 1)
+                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+              if ($value == 2)
+                  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+              if ($value == 3)
+                  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
           }
 
           Filter::checkPost('fname', "Please Enter First Name!");
@@ -497,6 +503,16 @@ ini_set ('display_errors', '1' );
        */
       public function updateProfile()
       {
+          Filter::checkPost('username', "Please Enter Valid Username!");
+
+          if ($value = $this->usernameExists($_POST['username'])) {
+              if ($value == 1)
+                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+              if ($value == 2)
+                  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+              if ($value == 3)
+                  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+          }
 
           Filter::checkPost('fname', "Please Enter First Name!");
           Filter::checkPost('lname', "Please Enter Last Name!");
@@ -517,6 +533,7 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $data = array(
+                  'username' => sanitize($_POST['username']),
                   'email' => sanitize($_POST['email']),
                   'lname' => sanitize($_POST['lname']),
                   'fname' => sanitize($_POST['fname']),
@@ -548,7 +565,14 @@ ini_set ('display_errors', '1' );
 
               self::$db->update(self::uTable, $data, "id='" . $this->uid . "'");
 
-              (self::$db->affected()) ? Filter::msgOk('<span>Success!</span> You have successfully updated your profile.') : Filter::msgAlert('<span>Alert!</span>Nothing to process.');
+              if (self::$db->affected()) {
+                  $this->username = $data['username'];
+                  $_SESSION['username'] = $data['username'];
+
+                  Filter::msgOk('<span>Success!</span> You have successfully updated your profile.');
+              } else {
+                  Filter::msgAlert('<span>Alert!</span>Nothing to process.');
+              }
           } else
               print Filter::msgStatus();
       }
