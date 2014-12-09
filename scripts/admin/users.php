@@ -75,18 +75,18 @@
           <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
           <i></i>No</label>
       </div>
-      <div class="note">Vetted for key?</div>
+      <div class="note">Vetted For Key</div>
     </section>
 	    <section class="col col-3">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="vetted" value="1" <?php getChecked($row->cash, 1); ?>>
+          <input type="radio" name="cash" value="1" <?php getChecked($row->cash, 1); ?>>
           <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="vetted" value="0" <?php getChecked($row->cash, 0); ?>>
+          <input type="radio" name="cash" value="0" <?php getChecked($row->cash, 0); ?>>
           <i></i>No</label>
       </div>
-      <div class="note">Cash member?</div>
+      <div class="note">Cash Member</div>
     </section>
 
     <section class="col col-3">
@@ -158,8 +158,8 @@
       <div class="note">Registration Date</div>
     </section>
     <section class="col col-3">
-      <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
-        <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->mem_expire;?>" placeholder="First Name">
+      <label class="input"> <i class="icon-prepend icon-calendar"></i>
+        <input type="text" name="mem_expire" id="enddate" value="<?php echo $row->mem_expire;?>" placeholder="Expiry">
       </label>
       <div class="note">Active Until</div>
     </section>
@@ -235,7 +235,7 @@
   <div class="row">
     <section class="col col-5">
       <select name="membership_id">
-        <option value="0">--- No Membership Required---</option>
+        <option value="0">None</option>
         <?php if($memrow):?>
         <?php foreach ($memrow as $mlist):?>
         <option value="<?php echo $mlist->id;?>"><?php echo $mlist->title;?></option>
@@ -286,11 +286,27 @@
       </div>
       <div class="note">User Status</div>
     </section>
-    <section class="col col-4">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="cash" value="1" checked="checked">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="cash" value="0">
+          <i></i>No</label>
+      </div>
+      <div class="note">Cash Member</div>
+    </section>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="vetted" value="1">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="vetted" value="0" checked="checked">
+          <i></i>No</label>
+      </div>
+      <div class="note">Vetted for Key</div>
     </section>
     <section class="col col-3">
       <label class="checkbox">
@@ -366,6 +382,7 @@
           <th class="header">Username</th>
           <th class="header">Full Name</th>
           <th class="header">User Status</th>
+          <th class="header">Cash</th>
           <th class="header">Membership</th>
           <th class="header">Expires</th>
           <th class="header">Actions</th>
@@ -376,9 +393,15 @@
         <?php foreach ($userrow as $row):?>
         <tr>
           <td><?php echo $row->id;?>.</td>
-          <td><a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>"><?php echo $row->username;?></a></td>
+          <td><a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>"><?php echo $row->username;?></a></td>
           <td><?php echo $row->name;?></td>
           <td><?php echo userStatus($row->active, $row->id);?></td>
+		  <td>
+		  <?php if($row->cash): ?>
+            <span class="tbicon">
+			<a id="item_<?php echo $row->id;?>" class="tooltip cash" data-title="Yes"><i class="icon-check"></i></a> </span>
+		  <?php else:?>&nbsp;<?php endif;?>
+		  </td>
           <td><?php if(!$row->membership_id):?>
             --/--
             <?php else:?>
@@ -387,7 +410,7 @@
           <td><?php echo $row->mem_expire;?></td>
           <td>
           <span class="tbicon"> 
-          <a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>" class="tooltip" data-title="Edit"><i class="icon-pencil"></i></a> </span>
+          <a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>" class="tooltip" data-title="Mail"><i class="icon-envelope"></i></a> </span>
             <?php if($row->id == 1):?>
             <span class="tbicon"> <a id="item_<?php echo $row->id;?>" class="tooltip" data-rel="<?php echo $row->username;?>" data-title="Master Admin"><i class="icon-lock"></i></a> </span>
             <?php else:?>
