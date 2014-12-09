@@ -378,8 +378,8 @@ ini_set ('display_errors', '1' );
           Filter::checkPost('username', "Please Enter Valid Username!");
 
           if ($value = $this->usernameExists($_POST['username'])) {
-              if ($value == 1)
-                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+              if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
+                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 1 Characters Long).';
               if ($value == 2)
                   Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
               if ($value == 3)
@@ -1076,7 +1076,7 @@ ini_set ('display_errors', '1' );
       {
 
           $username = sanitize($username);
-          if (strlen(self::$db->escape($username)) < 4)
+          if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
           //Username should contain only alphabets, numbers, underscores or hyphens.Should be between 4 to 15 characters long
