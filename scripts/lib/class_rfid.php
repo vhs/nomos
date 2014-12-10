@@ -132,7 +132,7 @@
 
 		  
 		  
-          $sql = "SELECT * FROM accesslog ORDER BY `time` DESC LIMIT 0,15";
+          $sql = "SELECT * FROM accesslog WHERE rfid_key is not null ORDER BY `time` DESC LIMIT 0,15";
           $result = self::$db->query($sql);
           if (!$result || (self::$db->numrows($result) < 1)) {
               return 0;

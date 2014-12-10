@@ -388,16 +388,23 @@ ini_set ('display_errors', '1' );
        */
       public function processUser()
       {
-
           Filter::checkPost('username', "Please Enter Valid Username!");
 
-          if ($value = $this->usernameExists($_POST['username'])) {
-              if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
-                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 1 Characters Long).';
-              if ($value == 2)
-                  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-              if ($value == 3)
-                  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+          $currentusername = "";
+
+          if(is_numeric(Filter::$id)) {
+              $currentusername = getValueById("username", self::uTable, Filter::$id);
+          }
+
+          if ($_POST['username'] !== $currentusername) {
+              if ($value = $this->usernameExists($_POST['username'])) {
+                  if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
+                      Filter::$msgs['username'] = 'Username Is Too Short (less Than 1 Characters Long).';
+                  if ($value == 2)
+                      Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+                  if ($value == 3)
+                      Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+              }
           }
 
           Filter::checkPost('fname', "Please Enter First Name!");
@@ -424,10 +431,28 @@ ini_set ('display_errors', '1' );
                   Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
           }
 
+          if (!empty($_POST['pin'])) {
+              if (is_numeric($_POST['pin'])) {
+                  if (intval($_POST['pin']) >= 10000 || intval($_POST['pin']) < 0) {
+                      Filter::$msgs['pin'] = "PIN must be a positive 4 digit number";
+                  }
+              } else {
+                  Filter::$msgs['pin'] = "PIN must be a number";
+              }
+          }
+
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
-			  
+              $pinid = getValueById("pinid", self::uTable, Filter::$id);
+
+              $nextpinid = null;
+
+              if (is_null($pinid) && intval($_POST['vetted']) == 1) {
+                  $val = self::$db->first("select max(pinid) as mpinid from users");
+                  $nextpinid = 1 + ((is_null($val->mpinid)) ? 0 : intval($val->mpinid));
+              }
+
               $data = array(
                   'username' => sanitize($_POST['username']),
                   'email' => sanitize($_POST['email']),
@@ -445,6 +470,9 @@ ini_set ('display_errors', '1' );
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
 				  );
+
+              if (!is_null($nextpinid)) $data['pinid'] = intval($nextpinid);
+              if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
 
               if (!Filter::$id)
                   $data['created'] = "NOW()";
@@ -490,12 +518,16 @@ ini_set ('display_errors', '1' );
                           '[PASSWORD]',
                           '[NAME]',
                           '[RFID]',
+                          '[PINID]',
+                          '[PIN]',
                           '[SITE_NAME]',
                           '[URL]'), array(
                           $data['username'],
                           $_POST['password'],
                           $data['fname'] . ' ' . $data['lname'],
                           $data['rfid'],
+                          $data['pinid'],
+                          $data['pin'],
                           Registry::get("Core")->site_name,
                           Registry::get("Core")->site_url), $row->body);
 
@@ -522,13 +554,17 @@ ini_set ('display_errors', '1' );
       {
           Filter::checkPost('username', "Please Enter Valid Username!");
 
-          if ($value = $this->usernameExists($_POST['username'])) {
-              if ($value == 1)
-                  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
-              if ($value == 2)
-                  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-              if ($value == 3)
-                  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+          $currentusername = getValueById("username", self::uTable, $this->uid);
+
+          if ($_POST['username'] !== $currentusername) {
+              if ($value = $this->usernameExists($_POST['username'])) {
+                  if ($value == 1)
+                      Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+                  if ($value == 2)
+                      Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+                  if ($value == 3)
+                      Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+              }
           }
 
           Filter::checkPost('fname', "Please Enter First Name!");
@@ -547,6 +583,16 @@ ini_set ('display_errors', '1' );
                   Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
           }
 
+          if (!empty($_POST['pin'])) {
+              if (is_numeric($_POST['pin'])) {
+                  if (intval($_POST['pin']) >= 10000 || intval($_POST['pin']) < 0) {
+                      Filter::$msgs['pin'] = "PIN must be a positive 4 digit number";
+                  }
+              } else {
+                  Filter::$msgs['pin'] = "PIN must be a number";
+              }
+          }
+
           if (empty(Filter::$msgs)) {
 
               $data = array(
@@ -557,6 +603,8 @@ ini_set ('display_errors', '1' );
                   'rfid' => sanitize($_POST['rfid']),
                   'newsletter' => intval($_POST['newsletter'])
 				  );
+
+              if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
 
               // Procces Avatar
               if (!empty($_FILES['avatar']['name'])) {
@@ -691,14 +739,19 @@ ini_set ('display_errors', '1' );
 
                   $newbody = cleanOut($body);
 
-                  $mailer = $mail->sendMail();
-                  $message = Swift_Message::newInstance()
-							->setSubject($row->subject)
-							->setTo(array($data['email'] => $data['username']))
-							->setFrom(array(Registry::get("Core")->site_email => Registry::get("Core")->site_name))
-							->setBody($newbody, 'text/html');
+                  try {
+                      $mailer = $mail->sendMail();
+                      $message = Swift_Message::newInstance()
+                          ->setSubject($row->subject)
+                          ->setTo(array($data['email'] => $data['username']))
+                          ->setFrom(array(Registry::get("Core")->site_email => Registry::get("Core")->site_name))
+                          ->setBody($newbody, 'text/html');
 
-                  $mailer->send($message);
+                      $mailer->send($message);
+                  } catch(Exception $e) {
+                      if(DEBUG)
+                          die($e);
+                  }
 
               } elseif (Registry::get("Core")->auto_verify == 0) {
                   $row = Registry::get("Core")->getRowById("email_templates", 14);
@@ -1093,8 +1146,8 @@ ini_set ('display_errors', '1' );
           if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
-          //Username should contain only alphabets, numbers, underscores or hyphens.Should be between 4 to 15 characters long
-		  $valid_uname = "/^[a-z0-9_-]{4,15}$/"; 
+          //Username should contain only alphabets, numbers, underscores or hyphens.Should be between 1 to 15 characters long
+		  $valid_uname = "/^[a-z0-9_-]{1,15}$/";
           if (!preg_match($valid_uname, $username))
               return 2;
 

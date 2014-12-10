@@ -90,6 +90,18 @@
 
       <div class="note">RFID Key</div>
     </section>
+      <section class="col col-2">
+          <?php if($row->vetted) { ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+              </label>
+          <?php } else { ?>
+              <label class="input disabled">
+                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Keyholder Only">
+              </label>
+          <?php } ?>
+          <div class="note note-error">PIN</div>
+      </section>
     <section class="col col-5">
       <img src="badges/laser.png"  height="42" width="42" />
       <div class="note">Badges</div>

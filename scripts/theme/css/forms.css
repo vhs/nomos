@@ -245,6 +245,8 @@ border-color: #f89406 #f89406 #ad6704;
 .xform .input .icon-append + input,.xform .textarea .icon-append + textarea{padding-right:37px}
 .button.inline{float:left!important;height:35px;line-height:33px;box-shadow:0 0 0 2px #e4e4e4;margin:2px 0 0!important}
 .xform .input .icon-prepend + input,.xform .textarea .icon-prepend + textarea,.xform .input .icon-prepend + .icon-append + input,.xform .textarea .icon-prepend + .icon-append + textarea{padding-left:37px}
+.xform .input .pin { padding-left:50px !important; padding-top: 4px !important; font: normal 14px/20px maven_proregular, Helvetica, sans-serif; font-size:17px; }
+.xform .input .pinid { color:#404040; }
 /**/
 /* grid */
 /**/

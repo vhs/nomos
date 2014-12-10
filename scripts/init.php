@@ -66,6 +66,11 @@
   require_once(BASEPATH . "lib/class_rfid.php");
   Registry::set('RFID', new RFID());
   $RFID = Registry::get("RFID");
+
+  //Start PIN Class
+  require_once(BASEPATH . "lib/class_pin.php");
+  Registry::set('PIN', new PIN());
+  $PIN = Registry::get("PIN");
   
   define("SITEURL", $core->site_url);
   define("ADMINURL", $core->site_url."/admin");

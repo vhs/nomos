@@ -53,7 +53,7 @@
   </div>
   <hr>
   <div class="row">
-    <section class="col col-3">
+    <section class="col col-2">
       <select name="membership_id">
         <option value="0">None</option>
         <?php if($memrow):?>
@@ -66,7 +66,19 @@
       </select>
       <div class="note">Membership Access</div>
     </section>
-	    <section class="col col-3">
+      <section class="col col-2">
+          <?php if($row->vetted) { ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+              </label>
+          <?php } else { ?>
+              <label class="input disabled">
+                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Keyholder Only">
+              </label>
+          <?php } ?>
+          <div class="note note-error">PIN</div>
+      </section>
+	    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
           <input type="radio" name="vetted" value="1" <?php getChecked($row->vetted, 1); ?>>
@@ -77,7 +89,7 @@
       </div>
       <div class="note">Vetted For Key</div>
     </section>
-	    <section class="col col-3">
+	    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
           <input type="radio" name="cash" value="1" <?php getChecked($row->cash, 1); ?>>
@@ -89,7 +101,7 @@
       <div class="note">Cash Member</div>
     </section>
 
-    <section class="col col-3">
+    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
           <input type="radio" name="newsletter" value="1" <?php getChecked($row->newsletter, 1); ?>>
