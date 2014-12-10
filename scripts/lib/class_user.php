@@ -177,6 +177,12 @@ ini_set ('display_errors', '1' );
                   //'cookie_id' => $this->cookie_id,
                   'lastip' => sanitize($_SERVER['REMOTE_ADDR'])
 				  );
+
+              if (is_null($row->pinid)) {
+                  $val = self::$db->first("select max(pinid) as mpinid from users");
+                  $data['pinid'] = 1 + ((is_null($val->mpinid)) ? 0 : intval($val->mpinid));
+                  $data['pin'] = rand(0, 9999);
+              }
 				  
               self::$db->update(self::uTable, $data, "username='" . $this->username . "'");
               if (!$this->validateMember()) {
@@ -444,14 +450,6 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
-              $pinid = getValueById("pinid", self::uTable, Filter::$id);
-
-              $nextpinid = null;
-
-              if (is_null($pinid) && intval($_POST['vetted']) == 1) {
-                  $val = self::$db->first("select max(pinid) as mpinid from users");
-                  $nextpinid = 1 + ((is_null($val->mpinid)) ? 0 : intval($val->mpinid));
-              }
 
               $data = array(
                   'username' => sanitize($_POST['username']),
@@ -471,7 +469,6 @@ ini_set ('display_errors', '1' );
                   'active' => sanitize($_POST['active'])
 				  );
 
-              if (!is_null($nextpinid)) $data['pinid'] = intval($nextpinid);
               if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
 
               if (!Filter::$id)

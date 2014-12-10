@@ -67,13 +67,13 @@
       <div class="note">Membership Access</div>
     </section>
       <section class="col col-2">
-          <?php if($row->vetted) { ?>
+          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
               <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
                   <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
               </label>
           <?php } else { ?>
               <label class="input disabled">
-                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Keyholder Only">
+                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Must login once">
               </label>
           <?php } ?>
           <div class="note note-error">PIN</div>

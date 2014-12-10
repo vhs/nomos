@@ -83,7 +83,6 @@ class PIN
         $sql .= " where m.title = 'Key holder'";
         $sql .= " and m.active = 1";
         $sql .= " and u.active = 'y'";
-        $sql .= " and u.vetted = 1";
         $sql .= " and u.pinid = " . self::$db->escape($pinid);
         $sql .= " and u.pin = " . self::$db->escape($pin);
 
