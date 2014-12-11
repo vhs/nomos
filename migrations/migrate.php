@@ -1,5 +1,9 @@
 <?php
 
+$target_version = null;
+if(sizeof($argv) > 1 && !is_null($argv[1]) && is_numeric($argv[1]))
+    $target_version = intval($argv[1]);
+
 define("_VALID_PHP", true);
 define("DEBUG", true); //will create a warning because config.ini.php will try to define, no way around that currently.
 
@@ -34,10 +38,24 @@ $versions = array_values(array_diff(scandir(".", SCANDIR_SORT_ASCENDING), array(
 print "Current: " . $currentversion . "\n";
 print "Latest: " . $versions[sizeof($versions) - 1] . "\n";
 
+if (!is_null($target_version)) {
+    print "Target: " . $target_version . "\n";
+
+    if ($target_version > $versions[sizeof($versions) - 1])
+        die("Cannot target a version higher than latest.");
+
+    if ($target_version <= $currentversion)
+        die("Target must be higher than current.");
+}
+
 if ($currentversion == $versions[sizeof($versions) - 1]) { die("Up to date."); }
 
 foreach($versions as $version) {
-    if ($currentversion >= $version) continue;
+    if (!is_null($target_version)) {
+        if ($currentversion >= $target_version) continue;
+    } else {
+        if ($currentversion >= $version) continue;
+    }
 
     //TODO these should prob be in a transaction to allow rollback in case a migration fails.
     print "Upgrading to: " . $version . "\n";
