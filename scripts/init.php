@@ -35,6 +35,8 @@
   $db = Registry::get("Database");
   $db->connect();
 
+  require_once(BASEPATH . "lib/model/Domain.php");
+
   //Include Functions
   require_once(BASEPATH . "lib/functions.php");
   
