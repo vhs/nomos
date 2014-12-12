@@ -110,7 +110,6 @@ ini_set ('display_errors', '1' );
               $this->cookie_id = $row->cookie_id;
 			  $this->last = $row->lastlogin;
               $this->membership_id = $row->membership_id;
-              $this->rfid = $row->rfid;
               return true;
           } else {
               return false;

@@ -16,8 +16,7 @@
 <section class="widget">
   <header>
     <div class="row">
-      <h1><i class="icon-reorder"></i> Viewing Users</h1>
-      <aside> <a class="hint--left hint--add hint--always hint--rounded" data-hint="Add User" href="index.php?do=users&amp;action=add"><span class="icon-plus"></span></a> </aside>
+      <h1><i class="icon-reorder"></i> Viewing Logs</h1>
     </div>
   </header>
   <div class="content2">
@@ -26,7 +25,7 @@
         <form class="xform" id="dForm" method="post" style="padding:0;">
           <section class="col col-6">
             <select name="select" id="userfilter">
-              <option value="NA">--- Reset User Filter ---</option>
+              <option value="NA">--- Reset Log Filter ---</option>
               <?php echo Users::getUserFilter();?>
             </select>
           </section>
@@ -39,14 +38,19 @@
             </label>
             <div id="suggestions"></div>
           </section>
-          <section class="col col-3">
+          <section class="col col-2">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
               <input type="text" name="fromdate"  id="fromdate" placeholder="From" value="<?php if(isset($_POST['fromdate'])) { echo $_POST['fromdate']; } ?>">
             </label>
           </section>
-          <section class="col col-3">
+          <section class="col col-2">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
               <input type="text" name="enddate"  id="enddate" placeholder="To" value="<?php if(isset($_POST['enddate'])) { echo $_POST['enddate']; } ?>">
+            </label>
+          </section>
+          <section class="col col-2">
+            <label class="input"> <i class="icon-prepend"></i>
+              <input type="text" name="result"  id="result" placeholder="Result" value="<?php if(isset($_POST['enddate'])) { echo $_POST['enddate']; } ?>">
             </label>
           </section>
           <section class="col col-2">
@@ -63,8 +67,6 @@
           <th class="header">User</th>
           <th class="header">Result</th>
           <th class="header">Time</th>
-          <th class="header">Membership</th>
-          <th class="header">Expires</th>
           <th class="header">Actions</th>
         </tr>
       </thead>
@@ -73,20 +75,10 @@
         <?php foreach ($userrow as $row):?>
         <tr>
           <td><?php echo $row->id;?>.</td>
-          <td><a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>"><?php echo $row->username;?></a></td>
           <td><?php echo $row->name;?></td>
+          <td><a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>"><?php echo $row->name;?></a></td>
           <td><?php echo userStatus($row->active, $row->id);?></td>
-		  <td>
-		  <?php if($row->cash): ?>
-            <span class="tbicon">
-			<a id="item_<?php echo $row->id;?>" class="tooltip cash" data-title="Yes"><i class="icon-check"></i></a> </span>
-		  <?php else:?>&nbsp;<?php endif;?>
-		  </td>
-          <td><?php if(!$row->membership_id):?>
-            --/--
-            <?php else:?>
-            <a href="index.php?do=memberships&amp;action=edit&amp;id=<?php echo $row->mid;?>"><?php echo $row->title;?></a>
-            <?php endif;?></td>
+        
           <td><?php echo $row->mem_expire;?></td>
           <td>
           <span class="tbicon"> 
