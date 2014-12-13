@@ -8,7 +8,11 @@
 
 namespace app\model;
 
-class User extends \vhs\Domain {
+use vhs\database\Where;
+use vhs\domain\Domain;
+use vhs\domain\validations\ValidationResults;
+
+class User extends Domain {
     public static function getTable() { return 'users'; }
     public static function getPrimaryKeyColumn() { return 'id'; }
     public static function getColumns() {
@@ -63,12 +67,12 @@ class User extends \vhs\Domain {
     public $paypal_id;
     public $payment_email;
 
-    public function validate(\vhs\ValidationResults &$results) {
+    public function validate(ValidationResults &$results) {
 
     }
 
     public function getKeys() {
-        return Key::where(array("userid" => $this->getId()));
+        return Key::where(Where::Equal("userid", $this->getId()));
     }
 }
 

@@ -8,7 +8,10 @@
 
 namespace app\model;
 
-class Privilege extends \vhs\Domain {
+use vhs\domain\Domain;
+use vhs\domain\validations\ValidationResults;
+
+class Privilege extends Domain {
     public static function getTable() { return 'privileges'; }
     public static function getPrimaryKeyColumn() { return 'id'; }
     public static function getColumns()
@@ -28,7 +31,7 @@ class Privilege extends \vhs\Domain {
     public $icon;
     public $enabled;
 
-    public function validate(\vhs\ValidationResults &$results) {
+    public function validate(ValidationResults &$results) {
 
     }
 
