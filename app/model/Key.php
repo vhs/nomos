@@ -8,7 +8,12 @@
 
 namespace app\model;
 
-class Key extends \vhs\Domain {
+use vhs\database\Database;
+use vhs\database\Where;
+use vhs\domain\Domain;
+use vhs\domain\validations\ValidationResults;
+
+class Key extends Domain {
     public static function getTable() { return 'keys'; }
     public static function getPrimaryKeyColumn() { return 'id'; }
     public static function getColumns()
@@ -28,14 +33,15 @@ class Key extends \vhs\Domain {
     public $created;
     public $notes;
 
-    public function validate(\vhs\ValidationResults &$results) {
+    public function validate(ValidationResults &$results) {
 
     }
 
     // table relations not yet supported
     public function getPrivileges() {
         $pk = $this->getId();
-        return Privilege::arbitraryFind("select privilegeid from keyprivileges where keyid = $pk");
+
+        return Privilege::where(Where::In("id", Database::select("keyprivileges", "privilegeid", Where::Equal("keyid", $pk))));
     }
 
     public function addPrivilege(Privilege $privilege, $notes = null) {
@@ -56,7 +62,7 @@ class Key extends \vhs\Domain {
 
 }
 
-class KeyPrivilege extends \vhs\Domain {
+class KeyPrivilege extends Domain {
     public static function getTable() { return 'keyprivileges'; }
     public static function getPrimaryKeyColumn() { return null; }
     public static function getColumns()
@@ -74,7 +80,7 @@ class KeyPrivilege extends \vhs\Domain {
     public $created;
     public $notes;
 
-    public function validate(\vhs\ValidationResults &$results) {
+    public function validate(ValidationResults &$results) {
 
     }
 
