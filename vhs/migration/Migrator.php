@@ -2,25 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: Thomas
- * Date: 11/12/2014
- * Time: 3:48 PM
+ * Date: 12/12/2014
+ * Time: 12:57 PM
  */
 
-abstract class MigratorLogger {
-    abstract public function log($message);
-}
+namespace vhs\migration;
 
-class SilentMigratorLogger extends MigratorLogger {
-    public function log($message) {
-        //stfu
-    }
-}
-
-class ConsoleMigratorLogger extends MigratorLogger {
-    public function log($message) {
-        print "[".date('Y-m-d H:i:s')."] " . $message . "\n";
-    }
-}
+use vhs\Logger;
+use vhs\loggers\SilentLogger;
 
 class Migrator {
 
@@ -31,21 +20,21 @@ class Migrator {
     private $logger;
     private $db;
 
-    function __construct($server, $user, $password, $database, MigratorLogger $logger = null) {
+    function __construct($server, $user, $password, $database, Logger $logger = null) {
         $this->server = $server;
         $this->user = $user;
         $this->password = $password;
         $this->database = $database;
 
         if(is_null($logger))
-            $this->logger = new SilentMigratorLogger();
+            $this->logger = new SilentLogger();
         else
             $this->logger = $logger;
     }
 
     public function migrate($toVersion = null, $migrationsPath = ".") {
 
-        $conn = new mysqli($this->server, $this->user, $this->password);
+        $conn = new \mysqli($this->server, $this->user, $this->password);
 
         if ($conn->connect_error) {
             $this->logger->log("Connection failed: " . $conn->connect_error);
@@ -124,7 +113,7 @@ class Migrator {
 
                     $output = shell_exec($command . $script);
 
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->logger->log('Caught exception: ' .  $e->getMessage() . "\n");
                     return false;
                 }
@@ -149,4 +138,4 @@ class Migrator {
 
         return true;
     }
-} 
+}
