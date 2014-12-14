@@ -9,6 +9,7 @@
 namespace vhs\domain;
 
 use vhs\database\Database;
+use vhs\database\OrderBy;
 use vhs\database\Where;
 use vhs\domain\exceptions\DomainException;
 use vhs\domain\exceptions\InvalidColumnDefinitionException;
@@ -171,13 +172,15 @@ abstract class Domain implements IDomain {
         return true;
     }
 
-    protected static function hydrateMany(Where $where = null) {
+    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $class = get_called_class();
 
         $records = Database::select(
             $class::getTable(),
             $class::getColumns(),
-            $where
+            $where,
+            $orderBy,
+            $limit
         );
 
         $items = array();
@@ -228,11 +231,13 @@ abstract class Domain implements IDomain {
     }
 
     /**
-     * @param $where
+     * @param Where $where
+     * @param OrderBy $orderBy
+     * @param null $limit
      * @return array
      */
-    public static function where(Where $where) {
-        return self::hydrateMany($where);
+    public static function where(Where $where, OrderBy $orderBy = null, $limit = null) {
+        return self::hydrateMany($where, $orderBy, $limit);
     }
 
     protected static function arbitraryFind($sql) {

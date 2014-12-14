@@ -59,7 +59,9 @@ class Key extends Domain {
         return $kp->save();
     }
 
-
+    public static function findByRfid($rfid) {
+        return self::where(Where::_And(Where::Equal("key", $rfid), Where::Equal("type", "rfid")));
+    }
 }
 
 class KeyPrivilege extends Domain {

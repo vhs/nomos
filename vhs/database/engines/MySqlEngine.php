@@ -11,6 +11,7 @@ namespace vhs\database\engines;
 use vhs\database\Engine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
+use vhs\database\OrderBy;
 use vhs\database\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
@@ -19,6 +20,7 @@ class MySqlEngine extends Engine {
 
     private $autoCreateDatabase;
     private $whereGenerator;
+    private $orderByGenerator;
     private $logger;
     private $info;
     private $conn;
@@ -30,6 +32,7 @@ class MySqlEngine extends Engine {
         $this->logger = new SilentLogger();
 
         $this->whereGenerator = new MySqlWhereGenerator();
+        $this->orderByGenerator = new MySqlOrderByGenerator();
     }
 
     public function setLogger(Logger $logger) {
@@ -68,8 +71,8 @@ class MySqlEngine extends Engine {
         unset($this->conn);
     }
 
-    public function scalar($table, $column, Where $where = null) {
-        $row = $this->select($table, array($column), $where);
+    public function scalar($table, $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
+        $row = $this->select($table, array($column), $where, $orderBy, $limit);
 
         if(sizeof($row) <> 1)
             return null;
@@ -77,14 +80,21 @@ class MySqlEngine extends Engine {
         return $row[0][0];
     }
 
-    public function select($table, $columns, Where $where = null) {
+    public function select($table, $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $selector = implode(", ", $columns);
         $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
+        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->orderByGenerator) : "";
 
         $sql = "SELECT {$selector} FROM {$table}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
+
+        if(!empty($orderClause))
+            $sql .= " ORDER BY {$orderClause}";
+
+        if(isset($limit) && is_numeric($limit))
+            $sql .= " LIMIT " . intval($limit);
 
         $this->logger->log($sql);
 
@@ -174,13 +184,20 @@ class MySqlEngine extends Engine {
         return false;
     }
 
-    public function count($table, Where $where = null) {
+    public function count($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
+        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->orderByGenerator) : "";
 
         $sql = "SELECT 1 FROM {$table}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
+
+        if(!empty($orderClause))
+            $sql .= " ORDER BY {$orderClause}";
+
+        if(isset($limit) && is_numeric($limit))
+            $sql .= " LIMIT " . intval($limit);
 
         $this->logger->log($sql);
 
@@ -198,8 +215,8 @@ class MySqlEngine extends Engine {
         return $rows;
     }
 
-    public function exists($table, Where $where = null) {
-        return ($this->count($table, $where) > 0);
+    public function exists($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
+        return ($this->count($table, $where, $orderBy, $limit) > 0);
     }
 
     public function arbitrary($command) {

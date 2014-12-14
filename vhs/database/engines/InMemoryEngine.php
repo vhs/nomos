@@ -10,6 +10,7 @@ namespace vhs\database\engines;
 
 
 use vhs\database\Engine;
+use vhs\database\OrderBy;
 use vhs\database\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
@@ -37,8 +38,8 @@ class InMemoryEngine extends Engine {
         return true; // ha
     }
 
-    public function scalar($table, $column, Where $where = null) {
-        $value = $this->select($table, array($column), $where);
+    public function scalar($table, $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
+        $value = $this->select($table, array($column), $where, $orderBy, $limit);
 
         if(sizeof($value) <> 1)
             return null;
@@ -46,11 +47,14 @@ class InMemoryEngine extends Engine {
             return $value[0];
     }
 
-    public function select($table, $columns, Where $where = null) {
+    public function select($table, $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         if(!array_key_exists($table, $this->datastore))
             return null;
 
         $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function($item) { return true; };
+
+        if(isset($orderBy) || isset($limit))
+            throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");
 
         $results = array();
 
@@ -111,11 +115,14 @@ class InMemoryEngine extends Engine {
         return true;
     }
 
-    public function count($table, Where $where = null) {
+    public function count($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         if(!array_key_exists($table, $this->datastore))
             return false;
 
         $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function($item) { return true; };
+
+        if(isset($orderBy) || isset($limit))
+            throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");
 
         $count = 0;
 
@@ -125,8 +132,8 @@ class InMemoryEngine extends Engine {
         return $count;
     }
 
-    public function exists($table, Where $where = null) {
-        return $this->count($table, $where) > 0;
+    public function exists($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
+        return $this->count($table, $where, $orderBy, $limit) > 0;
     }
 
     public function arbitrary($command) {

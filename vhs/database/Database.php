@@ -94,17 +94,17 @@ class Database extends Singleton {
         $db->setLoggerInternal($logger);
     }
 
-    public static function scalar($table, $column, Where $where = null) {
+    public static function scalar($table, $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $column, $where) {
-            return $db->engine->scalar($table, $column, $where);
+        return $db->invokeEngine(function() use ($db, $table, $column, $where, $orderBy, $limit) {
+            return $db->engine->scalar($table, $column, $where, $orderBy, $limit);
         });
     }
 
-    public static function select($table, $columns, Where $where = null) {
+    public static function select($table, $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $columns, $where) {
-            return $db->engine->select($table, $columns, $where);
+        return $db->invokeEngine(function() use ($db, $table, $columns, $where, $orderBy, $limit) {
+            return $db->engine->select($table, $columns, $where, $orderBy, $limit);
         });
     }
 
@@ -129,17 +129,17 @@ class Database extends Singleton {
         });
     }
 
-    public static function count($table, Where $where = null) {
+    public static function count($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $where) {
-            return $db->engine->count($table, $where);
+        return $db->invokeEngine(function() use ($db, $table, $where, $orderBy, $limit) {
+            return $db->engine->count($table, $where, $orderBy, $limit);
         });
     }
 
-    public static function exists($table, Where $where = null) {
+    public static function exists($table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $where) {
-            return $db->engine->exists($table, $where);
+        return $db->invokeEngine(function() use ($db, $table, $where, $orderBy, $limit) {
+            return $db->engine->exists($table, $where, $orderBy, $limit);
         });
     }
 
