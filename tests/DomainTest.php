@@ -6,40 +6,56 @@
  * Time: 3:28 PM
  */
 
-use vhs\database\Where;
+use vhs\database\constraints\Constraint;
+use vhs\database\types\Type;
+use vhs\database\wheres\Where;
+use vhs\database\Table;
+
 use vhs\domain\Domain;
+use vhs\domain\Schema;
 use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
-class ExampleDomain extends Domain {
-    public static function getTable() { return 'example'; }
-    public static function getPrimaryKeyColumn() { return 'id'; }
-    public static function getColumns() { return array('testA', 'testB'); }
+class ExampleSchema extends Schema {
+    protected function __construct() {
+        $table = new Table("example", null);
 
-    public $testA;
-    public $testB;
+        $table->addColumn("id", Type::Int());
+        $table->addColumn("testA", Type::String(true));
+        $table->addColumn("testB", Type::String(true));
+
+        $table->setConstraints(
+            Constraint::PrimaryKey($table->columns->id)
+        );
+
+        parent::__construct($table);
+    }
+}
+
+class ExampleDomain extends Domain {
+    public static function getSchema() { return ExampleSchema::getInstance(); }
 
     public function validate(ValidationResults &$results) {
         if($this->testA != "pass")
             $results->add(new ValidationFailure("testA is not equal to pass"));
     }
-
-    public static function findOnlyTheBest() {
-        return self::arbitraryFind("SELECT * from example where testB = 'best'");
-    }
 }
 
 class DomainTest extends PHPUnit_Framework_TestCase {
 
+    private static $logger;
     private static $mySqlEngine;
     private static $inMemoryEngine;
 
-    public static function setUpBeforeClass() {
-        \vhs\database\Database::setLogger(new \vhs\loggers\ConsoleLogger());
+    public static function setUpBeforeClass()
+    {
+        self::$logger = new \vhs\loggers\ConsoleLogger();
+        self::$inMemoryEngine = new \vhs\database\engines\memory\InMemoryEngine();
+        \vhs\database\Database::setLogger(self::$logger);
         \vhs\database\Database::setRethrow(true);
 
-        self::$mySqlEngine = new \vhs\database\engines\MySqlEngine(
-            new \vhs\database\engines\MySqlConnectionInfo(
+        self::$mySqlEngine = new \vhs\database\engines\mysql\MySqlEngine(
+            new \vhs\database\engines\mysql\MySqlConnectionInfo(
                 DB_SERVER,
                 DB_USER,
                 DB_PASS,
@@ -47,7 +63,8 @@ class DomainTest extends PHPUnit_Framework_TestCase {
             ), true
         );
 
-        self::$inMemoryEngine = new \vhs\database\engines\InMemoryEngine();
+        self::$mySqlEngine->setLogger(self::$logger);
+        self::$inMemoryEngine->setLogger(self::$logger);
 
         \vhs\database\Database::setEngine(self::$mySqlEngine);
 
@@ -86,21 +103,19 @@ class DomainTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($eg->save(), "save failed but prob through an exception.");
 
-        $id = $eg->getId();
-
-        $this->assertEquals($id, 1);
+        $this->assertEquals(1, $eg->id);
 
         unset($eg);
 
-        $eg = ExampleDomain::find(1);
+        $eg = ExampleDomain::find(array("id" => 1));
 
-        $this->assertEquals($eg->testB, "fuck");
+        $this->assertEquals("fuck", $eg->testB);
 
         $eg->delete();
 
         unset($eg);
 
-        $eg = ExampleDomain::find(1);
+        $eg = ExampleDomain::find(array("id" => 1));
 
         $this->assertNull($eg);
 
@@ -119,13 +134,13 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $eg3->testB = "eg";
         $eg3->save();
 
-        $records = ExampleDomain::where(Where::Equal("testB", "eg1"));
+        $records = ExampleDomain::where(Where::Equal(ExampleSchema::Columns()->testB, "eg1"));
 
         $this->assertEquals(1, sizeof($records));
         $this->assertEquals("pass", $records[0]->testA);
         $this->assertEquals("eg1", $records[0]->testB);
 
-        $records = ExampleDomain::where(Where::Equal("testB", "eg"));
+        $records = ExampleDomain::where(Where::Equal(ExampleSchema::Columns()->testB, "eg"));
 
         $this->assertEquals(2, sizeof($records));
         $this->assertEquals("pass", $records[0]->testA);

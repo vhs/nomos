@@ -18,7 +18,6 @@ class Migrator {
     private $password;
     private $database;
     private $logger;
-    private $db;
 
     function __construct($server, $user, $password, $database, Logger $logger = null) {
         $this->server = $server;
@@ -50,8 +49,6 @@ class Migrator {
         }
 
         $conn->select_db($this->database);
-
-        //$conn->close();
 
         $currentversion = 0;
 
