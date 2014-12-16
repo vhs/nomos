@@ -9,156 +9,162 @@
 namespace vhs\domain;
 
 use vhs\database\Database;
-use vhs\database\OrderBy;
-use vhs\database\Where;
+use vhs\database\orders\OrderBy;
+use vhs\database\wheres\Where;
 use vhs\domain\exceptions\DomainException;
-use vhs\domain\exceptions\InvalidColumnDefinitionException;
 use vhs\domain\validations\ValidationException;
 use vhs\domain\validations\ValidationResults;
 
 interface IDomain {
     /**
-     * @return string
+     * @return Schema
      */
-    static function getPrimaryKeyColumn();
-
-    /**
-     * @return string
-     */
-    static function getTable();
-
-    /**
-     * @return string
-     */
-    static function getColumns();
+    static public function getSchema();
 }
 
 abstract class Domain implements IDomain {
-    private $pkValue = null;
-    private $cache = array();
-
-    protected $incomplete_column_definition = false;
-
-    function __construct() {
-
-    }
-
-    protected function getColumnPropertyMap() {
-        $class = get_called_class();
-
-        $map = array();
-
-        $pkcolumn = $class::getPrimaryKeyColumn();
-        $columns = $class::getColumns();
-
-        if(in_array($pkcolumn, $columns))
-            throw new InvalidColumnDefinitionException("Primary Key column must not be also defined in Columns on '{$class}'");
-
-        foreach ($columns as $column) {
-            if (property_exists($class, $column))
-                $map[$column] = $column;
-            else if (!$this->incomplete_column_definition)
-                throw new InvalidColumnDefinitionException("Column '{$column}' is missing property definition on '{$class}'");
-        }
-        return $map;
-    }
-
-    protected function getPrimaryKeyValue() {
-        return $this->pkValue;
-    }
-
-    protected function setPrimaryKeyValue($value) {
-        $this->pkValue = $value;
-    }
+    private $__cache;
 
     /**
-     * @return object
+     * @return Schema
      */
-    public function getId() {
-        return $this->getPrimaryKeyValue();
+    private static function schema() {
+        /** @var IDomain $class */
+        $class = get_called_class();
+        return $class::getSchema();
     }
 
-    protected function getValues() {
-        $map = $this->getColumnPropertyMap();
+    public function __construct() {
+        $schema = self::schema();
 
+        if(is_null($schema))
+            throw new DomainException("Domain requires schema definition.");
+
+        $keys = array();
+        foreach($schema->Columns()->all() as $col)
+            array_push($keys, $col->getAbsoluteName());
+
+        $this->__cache = new DomainValueCache($keys);
+    }
+
+    public function __get($name) {
+        if(self::schema()->Columns()->contains($name)) {
+            $col = self::schema()->Columns()->getByName($name);
+            return $this->__cache->getValue($col->getAbsoluteName());
+        }
+
+        return null;
+    }
+
+    public function __set($name, $value) {
+        if(self::schema()->Columns()->contains($name)) {
+            $col = self::schema()->Columns()->getByName($name);
+            $this->__cache->setValue($col->getAbsoluteName(), $value);
+        }
+    }
+
+    protected function getValues($excludePrimaryKeys = false) {
         $data = array();
 
-        foreach ($map as $column => $property) {
-            $data[$column] = $this->$property;
+        $pkcols = array();
+        $pks = self::schema()->PrimaryKeys();
+        foreach($pks as $pk)
+            array_push($pkcols, $pk->column->name);
+
+        $isPkCol = function($name) use ($pkcols) {
+            foreach($pkcols as $pkcol)
+                if($name === $pkcol) return true;
+
+            return false;
+        };
+
+        foreach(self::schema()->Columns()->all() as $col) {
+            if ($excludePrimaryKeys && $isPkCol($col->name))
+                continue;
+
+            $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
         }
 
         return $data;
     }
 
+    protected function getValue($name) {
+        if(self::schema()->Columns()->contains($name))
+            return $this->$name;
+
+        return null;
+    }
+
     protected function setValues($data) {
-        $map = $this->getColumnPropertyMap();
-        $class = get_called_class();
-        $pkcolumn = $class::getPrimaryKeyColumn();
-
-        unset($this->cache);
-        $this->cache = array();
-
-        foreach ($data as $column => $value) {
-            if ($column === $pkcolumn) {
-                $this->setPrimaryKeyValue($value);
-            } else {
-                if (isset($map[$column])) {
-                    $this->$map[$column] = $value;
-                    $this->cache[$column] = $value;
-                } else if (!$this->incomplete_column_definition)
-                    throw new InvalidColumnDefinitionException("Column '{$column}' is missing property definition on '" . get_called_class() . "'");
-            }
-        }
+        foreach(self::schema()->Columns()->all() as $col)
+            $this->__cache->setValue($col->getAbsoluteName(), $data[$col->name], true);
     }
 
     private function checkIsDirty() {
-        $data = $this->getValues();
-
-        $diff = array_diff($data, $this->cache);
-
-        return sizeof($diff) > 0;
+        return $this->__cache->hasChanged();
     }
 
     private function checkIsNew() {
-        return is_null($this->pkValue);
+        $pks = self::schema()->PrimaryKeys();
+
+        $isNew = false;
+        foreach($pks as $pk)
+            $isNew = $isNew || is_null($this->__get($pk->column->name));
+
+        return $isNew;
+    }
+
+    private function pkWhere($primaryKeyValues = null) {
+        $pks = self::schema()->PrimaryKeys();
+
+        if(count($pks) <= 0)
+            throw new DomainException("Schema on domain must have Primary Keys");
+
+        $wheres = array();
+
+        foreach ($pks as $pk) {
+            $value = $this->__get($pk->column->name);
+
+            if(!is_null($primaryKeyValues)) {
+                if(is_array($primaryKeyValues))
+                    $value = $primaryKeyValues[$pk->column->name];
+                else
+                    $value = $primaryKeyValues;
+            }
+
+            array_push($wheres, Where::Equal($pk->column, $value));
+        }
+
+        if(count($wheres) > 1)
+            return Where::_And(...$wheres);
+        else if (count($wheres) == 1)
+            return $wheres[0];
+
+        return null;
     }
 
     private function doInsert() {
-        $class = get_called_class();
-
-        $this->setPrimaryKeyValue(
+        $this->hydrate(
             Database::create(
-                $class::getTable(),
-                $this->getValues()
+                self::schema()->Table(),
+                $this->getValues(true)
             )
         );
     }
 
     private function doUpdate() {
-        $class = get_called_class();
-
         Database::update(
-            $class::getTable(),
-            $this->getValues(),
-            Where::Equal($class::getPrimaryKeyColumn(), $this->getPrimaryKeyValue())
+            self::schema()->Table(),
+            $this->getValues(true),
+            $this->pkWhere()
         );
     }
 
-    protected function hydrate($primaryKeyValue = null) {
-        if (is_null($primaryKeyValue)) {
-            if (is_null($this->getPrimaryKeyValue()))
-                throw new \Exception("Attempt to hydrate without a PK!");
-            else $primaryKeyValue = $this->getPrimaryKeyValue();
-        }
-
-        $this->setPrimaryKeyValue($primaryKeyValue);
-
-        $class = get_called_class();
-
+    protected function hydrate($pk = null) {
         $record = Database::select(
-            $class::getTable(),
-            $class::getColumns(),
-            Where::Equal($class::getPrimaryKeyColumn(), $this->getPrimaryKeyValue())
+            self::schema()->Table(),
+            self::schema()->Columns(),
+            $this->pkWhere($pk)
         );
 
         if(sizeof($record) <> 1) {
@@ -176,8 +182,8 @@ abstract class Domain implements IDomain {
         $class = get_called_class();
 
         $records = Database::select(
-            $class::getTable(),
-            $class::getColumns(),
+            self::schema()->Table(),
+            self::schema()->Columns(),
             $where,
             $orderBy,
             $limit
@@ -185,6 +191,7 @@ abstract class Domain implements IDomain {
 
         $items = array();
         foreach($records as $row) {
+            /** @var Domain $obj */
             $obj = new $class();
             $obj->setValues($row);
             array_push($items, $obj);
@@ -200,6 +207,7 @@ abstract class Domain implements IDomain {
 
         $items = array();
         foreach($records as $row) {
+            /** @var Domain $obj */
             $obj = new $class();
             $obj->setValues($row);
             array_push($items, $obj);
@@ -209,15 +217,16 @@ abstract class Domain implements IDomain {
     }
 
     /**
-     * @param $primaryKeyValue
+     * @param array $primaryKeyValues
      * @return object
      */
-    public static function find($primaryKeyValue) {
+    public static function find($primaryKeyValues) {
         $class = get_called_class();
 
+        /** @var Domain $obj */
         $obj = new $class();
 
-        if(!$obj->hydrate($primaryKeyValue))
+        if(!$obj->hydrate($primaryKeyValues))
             return null;
 
         return $obj;
@@ -285,17 +294,14 @@ abstract class Domain implements IDomain {
         return true;
     }
 
-    /**
-     *
-     */
     public function delete() {
-        $class = get_called_class();
-
         Database::delete(
-            $class::getTable(),
-            Where::Equal($class::getPrimaryKeyColumn(), $this->getPrimaryKeyValue())
+            self::schema()->Table(),
+            $this->pkWhere()
         );
 
-        $this->setPrimaryKeyValue(null);
+        $pks = self::schema()->PrimaryKeys();
+        foreach($pks as $pk)
+            $this->__set($pk->column->name, null);
     }
 }

@@ -8,7 +8,9 @@
    * @version $Id: class_rfid.php, v1.00 2014-09-06 20:34:06 gewa Exp $
    */
 
-  if (!defined("_VALID_PHP"))
+use app\model\Key;
+
+if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
 
   class RFID
@@ -17,7 +19,7 @@
       public $id = 0;
       public $rfid;
 	  public $last;
-      private static $db;
+      //private static $db;
 
 
       /**
@@ -27,7 +29,7 @@
        */
       function __construct()
       {
-          self::$db = Registry::get("Database");
+          //self::$db = Registry::get("Database");
 
       }
 
@@ -37,30 +39,18 @@
        *  
        * @param mixed $rfid
        * @param mixed $authorized
-       * @return
+       * @return bool
        **/
       function log($rfid, $authorized)
       {
+          $entry = new \app\model\AccessLog();
 
-		  //print("Logging\n");
-          $now = date('Y-m-d H:i:s');
+          $entry->time = date('Y-m-d H:i:s');
+		  $entry->rfid_key = sanitize($rfid);
+          $entry->authorized = $authorized;
+		  $entry->from_ip = $_SERVER['REMOTE_ADDR'];
 		  
-		  $data['time'] = $now;
-		  $data['rfid_key'] = sanitize($rfid);
-		  if($authorized == 1) {
-		     $data['authorized'] = 1;
-		  } else {
-		     $data['authorized'] = 0;
-		  }
-		  $data['from_ip'] = $_SERVER['REMOTE_ADDR'];
-		  //print_r($_SERVER);
-		  
-          $result = self::$db->insert('accesslog', $data);
-          if (!$result) {
-              return 1;
-          } else {
-              return 0;
-          }
+          return $entry->save();
       }
  
       /**
@@ -76,6 +66,10 @@
 		  $rfid = strtoupper($rfid);
 		  
 
+          $key = Key::findByRfid($rfid);
+
+
+          // \app\model\User::where(Where::Equal("rfid", $rfid));
 		  
 		  
           $sql = "SELECT active,membership_id FROM users WHERE rfid = '" . self::$db->escape($rfid) . "'";

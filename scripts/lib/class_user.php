@@ -27,7 +27,6 @@ ini_set ('display_errors', '1' );
       public $name;
       public $membership_id = 0;
       public $userlevel;
-      public $rfid;
       public $cookie_id = 0;
 	  public $last;
       private $lastlogin = "NOW()";
@@ -168,7 +167,6 @@ ini_set ('display_errors', '1' );
               $this->userlevel = $_SESSION['userlevel'] = $row->userlevel;
               $this->cookie_id = $_SESSION['cookie_id'] = $this->generateRandID();
 			  $this->last = $_SESSION['last'] = $row->lastlogin;
-			  $this->rfid = $_SESSION['rfid'] = $row->rfid;
               $this->membership_id = $_SESSION['membership_id'] = $row->membership_id;
 
               $data = array(
@@ -208,7 +206,6 @@ ini_set ('display_errors', '1' );
           unset($_SESSION['name']);
           unset($_SESSION['membership_id']);
           unset($_SESSION['userid']);
-          unset($_SESSION['rfid']);
           unset($_SESSION['cookie_id']);
           session_destroy();
           session_regenerate_id();
@@ -455,7 +452,7 @@ ini_set ('display_errors', '1' );
                   'email' => sanitize($_POST['email']),
                   'lname' => sanitize($_POST['lname']),
                   'fname' => sanitize($_POST['fname']),
-                  'rfid' => sanitize($_POST['rfid']),
+                  //'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
                   //'mem_expire' => $this->calculateDays($_POST['membership_id']),
                   'mem_expire' => sanitize($_POST['mem_expire']), 
@@ -513,7 +510,7 @@ ini_set ('display_errors', '1' );
                           '[USERNAME]',
                           '[PASSWORD]',
                           '[NAME]',
-                          '[RFID]',
+                          //'[RFID]',
                           '[PINID]',
                           '[PIN]',
                           '[SITE_NAME]',
@@ -521,7 +518,7 @@ ini_set ('display_errors', '1' );
                           $data['username'],
                           $_POST['password'],
                           $data['fname'] . ' ' . $data['lname'],
-                          $data['rfid'],
+                          //$data['rfid'],
                           $data['pinid'],
                           $data['pin'],
                           Registry::get("Core")->site_name,
@@ -596,7 +593,7 @@ ini_set ('display_errors', '1' );
                   'email' => sanitize($_POST['email']),
                   'lname' => sanitize($_POST['lname']),
                   'fname' => sanitize($_POST['fname']),
-                  'rfid' => sanitize($_POST['rfid']),
+                  //'rfid' => sanitize($_POST['rfid']),
                   'newsletter' => intval($_POST['newsletter'])
 				  );
 

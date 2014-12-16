@@ -62,11 +62,6 @@
   Registry::set('Membership',new Membership());
   $member = Registry::get("Membership");
 
-  //Start RFID Class
-  require_once(BASEPATH . "lib/class_rfid.php");
-  Registry::set('RFID', new RFID());
-  $RFID = Registry::get("RFID");
-
   //Start PIN Class
   require_once(BASEPATH . "lib/class_pin.php");
   Registry::set('PIN', new PIN());
