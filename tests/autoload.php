@@ -12,3 +12,8 @@ define('DB_PASS', '9fab3d41c56cc07962766f4ddda708e1');
 define('DB_DATABASE', 'vhs_membership_test');
 
 require_once("../vhs/vhs.php");
+
+//require_once("../vhs/SplClassLoader.php");
+echo dirname(__FILE__);
+$testclassLoader = new SplClassLoader('tests', dirname(__FILE__) . '\\..');
+$testclassLoader->register();

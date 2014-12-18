@@ -31,7 +31,7 @@ class TypeEnum extends Type {
         $this->values = $values;
     }
 
-    public function generateType(TypeGenerator $generator) {
+    public function generateType(ITypeGenerator $generator) {
         return $generator->generateEnum($this);
     }
 }

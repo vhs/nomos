@@ -1,0 +1,47 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 17/12/2014
+ * Time: 7:41 PM
+ */
+
+namespace vhs\domain\collections;
+
+
+use vhs\domain\Domain;
+
+class ParentDomainCollection extends DomainCollection {
+
+    public function all() {
+        // TODO: Implement all() method.
+    }
+
+    public function compare(Domain $a, Domain $b) {
+        // TODO: Implement compare() method.
+    }
+
+    public function contains(Domain $item) {
+        // TODO: Implement contains() method.
+    }
+
+    public function containsKey($key) {
+        // TODO: Implement containsKey() method.
+    }
+
+    public function add(Domain $item) {
+        // TODO: Implement add() method.
+    }
+
+    public function remove(Domain $item) {
+        // TODO: Implement remove() method.
+    }
+
+    public function hydrate() {
+        // TODO: Implement hydrate() method.
+    }
+
+    public function save() {
+        // TODO: Implement save() method.
+    }
+}

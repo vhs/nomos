@@ -28,11 +28,11 @@ class On implements IGeneratable {
      * @return mixed
      */
     public function generate(IGenerator $generator) {
-        /** @var OnGenerator $generator */
+        /** @var IOnGenerator $generator */
         return $this->generateOn($generator);
     }
 
-    public function generateOn(OnGenerator $generator) {
+    public function generateOn(IOnGenerator $generator) {
         return $generator->generateOn($this);
     }
 }

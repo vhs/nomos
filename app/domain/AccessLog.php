@@ -12,16 +12,11 @@ use app\schema\AccessLogSchema;
 use vhs\database\orders\OrderBy;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
-use vhs\domain\Schema;
 use vhs\domain\validations\ValidationResults;
 
 class AccessLog extends Domain {
-
-    /**
-     * @return Schema
-     */
-    public static function getSchema() {
-        return AccessLogSchema::getInstance();
+    public static function Define() {
+        AccessLog::Schema(AccessLogSchema::getInstance());
     }
 
     /**

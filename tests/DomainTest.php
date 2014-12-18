@@ -33,7 +33,9 @@ class ExampleSchema extends Schema {
 }
 
 class ExampleDomain extends Domain {
-    public static function getSchema() { return ExampleSchema::getInstance(); }
+    public static function Define() {
+        ExampleDomain::Schema(ExampleSchema::getInstance());
+    }
 
     public function validate(ValidationResults &$results) {
         if($this->testA != "pass")
@@ -94,6 +96,48 @@ class DomainTest extends PHPUnit_Framework_TestCase {
     public function test_InMemoryDomainTest() {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
         $this->stuff();
+    }
+
+    public function test_satelliteRelationship() {
+        \vhs\database\Database::setEngine(self::$inMemoryEngine);
+
+        $enchantment = new \tests\domain\EnchantmentDomain();
+        $enchantment->name = "Fire Enchantment";
+        $enchantment->bonus = 1.5;
+        $enchantment->save();
+
+        $sword = new \tests\domain\SwordDomain();
+        $sword->name = "Mighty Sword";
+        $sword->damage = 20;
+        $sword->enchantments->add($enchantment);
+        $sword->save();
+
+        $enchantmentid = $enchantment->id;
+        $swordid = $sword->id;
+
+        unset($enchantment);
+        unset($sword);
+
+        $sword = \tests\domain\SwordDomain::find($swordid);
+
+        $enchants = $sword->enchantments->all();
+
+        $this->assertEquals(1, count($enchants));
+        $this->assertEquals($enchantmentid, $enchants[0]->id);
+        $this->assertEquals("Fire Enchantment", $enchants[0]->name);
+    }
+
+    public function test_parentRelationship() {
+        \vhs\database\Database::setEngine(self::$inMemoryEngine);
+
+        $sword = new \tests\domain\SwordDomain();
+        $sword->name = "Mighty Sword";
+        $sword->damage = 20;
+        $sword->save();
+
+        $knight = new \tests\domain\KnightDomain();
+        $knight->name = "Black Knight";
+        //$knight->sword->add()
     }
 
     public function stuff() {

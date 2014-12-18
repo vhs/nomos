@@ -30,7 +30,7 @@ class WhereComparator extends Where {
         $this->isArray = is_array($value);
     }
 
-    public function generateWhere(WhereGenerator $generator) {
+    public function generateWhere(IWhereGenerator $generator) {
         return $generator->generateComparator($this);
     }
 

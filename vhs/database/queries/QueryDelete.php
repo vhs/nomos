@@ -14,7 +14,7 @@ use vhs\database\wheres\Where;
 
 class QueryDelete extends Query {
 
-    public function generateQuery(QueryGenerator $generator) {
+    public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateDelete($this);
     }
 }

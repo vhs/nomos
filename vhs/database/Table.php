@@ -60,15 +60,15 @@ class Table implements IGeneratable {
      * @return mixed
      */
     public function generate(IGenerator $generator) {
-        /** @var TableGenerator $generator */
+        /** @var ITableGenerator $generator */
         return $this->generateTable($generator);
     }
 
     /**
-     * @param TableGenerator $generator
+     * @param ITableGenerator $generator
      * @return mixed
      */
-    public function generateTable(TableGenerator $generator) {
+    public function generateTable(ITableGenerator $generator) {
         return $generator->generateTable($this);
     }
 }

@@ -8,13 +8,17 @@
 
 namespace vhs\database\engines\mysql;
 
+use vhs\database\orders\IOrderByGenerator;
+use vhs\database\orders\OrderBy;
+use vhs\database\orders\OrderByAscending;
+use vhs\database\orders\OrderByDescending;
 use vhs\database\wheres\Where;
 use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
-use vhs\database\wheres\WhereGenerator;
+use vhs\database\wheres\IWhereGenerator;
 use vhs\database\wheres\WhereOr;
 
-class MySqlWhereGenerator extends WhereGenerator {
+class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
 
     public function generateAnd(WhereAnd $where) {
         $sql = "(";
@@ -91,5 +95,25 @@ class MySqlWhereGenerator extends WhereGenerator {
         if(is_null($val)) return "null";
 
         return $val;
+    }
+
+    public function generateAscending(OrderByAscending $ascending) {
+        return $this->gen($ascending, "ASC");
+    }
+
+    public function generateDescending(OrderByDescending $descending) {
+        return $this->gen($descending, "DESC");
+    }
+
+    private function gen(OrderBy $orderBy, $type) {
+        $clause = $orderBy->column->name . " " . $type . ", ";
+
+        foreach($orderBy->orderBy as $n)
+            /** @var OrderBy $n */
+            $clause .= $n->generate($this) . ", ";
+
+        $clause = substr($clause, 0, -2);
+
+        return $clause;
     }
 }

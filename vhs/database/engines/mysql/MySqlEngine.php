@@ -23,8 +23,7 @@ use vhs\loggers\SilentLogger;
 class MySqlEngine extends Engine {
 
     private $autoCreateDatabase;
-    private $whereGenerator;
-    private $orderByGenerator;
+    private $generator;
     private $logger;
     private $info;
 
@@ -39,8 +38,7 @@ class MySqlEngine extends Engine {
 
         $this->logger = new SilentLogger();
 
-        $this->whereGenerator = new MySqlWhereGenerator();
-        $this->orderByGenerator = new MySqlOrderByGenerator();
+        $this->generator = new MySqlGenerator();
     }
 
     public function setLogger(Logger $logger) {
@@ -90,8 +88,8 @@ class MySqlEngine extends Engine {
 
     public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $selector = implode(", ", $columns->names());
-        $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
-        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->orderByGenerator) : "";
+        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
+        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
         $sql = "SELECT {$selector} FROM {$table->name}";
 
@@ -125,7 +123,7 @@ class MySqlEngine extends Engine {
     }
 
     public function delete(Table $table, Where $where = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
+        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
 
         $sql = "DELETE FROM {$table->name}";
 
@@ -163,7 +161,7 @@ class MySqlEngine extends Engine {
     }
 
     public function update(Table $table, $data, Where $where = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
+        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
 
         $setsql = "";
 
@@ -184,8 +182,8 @@ class MySqlEngine extends Engine {
     }
 
     public function count(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->whereGenerator) : "";
-        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->orderByGenerator) : "";
+        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
+        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
         $sql = "SELECT 1 FROM {$table->name}";
 
