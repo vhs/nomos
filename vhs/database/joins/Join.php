@@ -44,9 +44,9 @@ abstract class Join implements IGeneratable {
     }
 
     public function generate(IGenerator $generator) {
-        /** @var JoinGenerator $generator */
+        /** @var IJoinGenerator $generator */
         return $this->generateJoin($generator);
     }
 
-    abstract function generateJoin(JoinGenerator $generator);
+    abstract function generateJoin(IJoinGenerator $generator);
 }

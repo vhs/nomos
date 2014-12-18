@@ -32,11 +32,11 @@ class Column implements IGeneratable {
      * @return mixed
      */
     public function generate(IGenerator $generator) {
-        /** @var ColumnGenerator $generator */
+        /** @var IColumnGenerator $generator */
         return $this->generateColumn($generator);
     }
 
-    public function generateColumn(ColumnGenerator $generator) {
+    public function generateColumn(IColumnGenerator $generator) {
         return $generator->generateColumn($this);
     }
 }

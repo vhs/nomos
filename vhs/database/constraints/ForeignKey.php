@@ -15,9 +15,9 @@ use vhs\database\Table;
 class ForeignKey extends Constraint {
 
     /** @var Table */
-    private $table;
+    public $table;
     /** @var Column */
-    private $on;
+    public $on;
 
     public function __construct(Column $column, Table $table, Column $on) {
         $this->table = $table;
@@ -26,7 +26,7 @@ class ForeignKey extends Constraint {
         parent::__construct($column);
     }
 
-    public function generateConstraint(ConstraintGenerator $generator) {
+    public function generateConstraint(IConstraintGenerator $generator) {
         return $generator->generateForeignKey($this);
     }
 }

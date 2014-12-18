@@ -31,9 +31,9 @@ abstract class OrderBy implements IGeneratable {
     }
 
     public function generate(IGenerator $generator) {
-        /** @var OrderByGenerator $generator */
+        /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }
 
-    abstract public function generateOrderBy(OrderByGenerator $generator);
+    abstract public function generateOrderBy(IOrderByGenerator $generator);
 }

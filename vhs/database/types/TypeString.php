@@ -13,13 +13,13 @@ class TypeString extends Type {
 
     public $length;
 
-    public function __construct($nullable = true, $length = 255) {
-        parent::__construct($nullable);
+    public function __construct($nullable = true, $default = null, $length = 255) {
+        parent::__construct($nullable, $default);
 
         $this->length = $length;
     }
 
-    public function generateType(TypeGenerator $generator) {
+    public function generateType(ITypeGenerator $generator) {
         return $generator->generateString($this);
     }
 }

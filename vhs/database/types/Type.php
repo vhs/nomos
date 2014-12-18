@@ -63,9 +63,9 @@ abstract class Type implements IGeneratable {
      * @return mixed
      */
     public function generate(IGenerator $generator) {
-        /** @var TypeGenerator $generator */
+        /** @var ITypeGenerator $generator */
         return $this->generateType($generator);
     }
 
-    abstract public function generateType(TypeGenerator $generator);
+    abstract public function generateType(ITypeGenerator $generator);
 }

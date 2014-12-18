@@ -25,7 +25,7 @@ class QueryUpdate extends Query {
         $this->values = $values;
     }
 
-    public function generateQuery(QueryGenerator $generator) {
+    public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateUpdate($this);
     }
 }

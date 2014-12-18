@@ -23,12 +23,12 @@ class InMemoryEngine extends Engine {
     private $keyIncrementors = array();
     private $datastore = array();
     private $logger;
-    private $whereGenerator;
+    private $generator;
 
     public function __construct() {
         $this->logger = new SilentLogger();
 
-        $this->whereGenerator = new InMemoryWhereGenerator();
+        $this->generator = new InMemoryGenerator();
     }
 
     public function setLogger(Logger $logger) {
@@ -59,7 +59,7 @@ class InMemoryEngine extends Engine {
         if(!array_key_exists($table->name, $this->datastore))
             return null;
 
-        $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function() { return true; };
+        $match = (!is_null($where)) ? $where->generate($this->generator) : function() { return true; };
 
         if(isset($orderBy) || isset($limit))
             throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");
@@ -88,7 +88,7 @@ class InMemoryEngine extends Engine {
         if(!array_key_exists($table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function($item) { return true; };
+        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
 
         foreach($this->datastore[$table->name] as $key => $row) {
             if ($match($row)) {
@@ -129,7 +129,7 @@ class InMemoryEngine extends Engine {
         if(!array_key_exists($table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function($item) { return true; };
+        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
 
         foreach($this->datastore[$table->name] as $key => $row) {
             if ($match($row)) {
@@ -147,7 +147,7 @@ class InMemoryEngine extends Engine {
         if(!array_key_exists($table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->whereGenerator) : function($item) { return true; };
+        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
 
         if(isset($orderBy) || isset($limit))
             throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");

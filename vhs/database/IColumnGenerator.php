@@ -9,6 +9,6 @@
 namespace vhs\database;
 
 
-abstract class ColumnGenerator implements IGenerator {
-    abstract public function generateColumn(Column $column);
+interface IColumnGenerator extends IGenerator {
+    public function generateColumn(Column $column);
 }

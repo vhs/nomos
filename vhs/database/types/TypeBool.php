@@ -11,7 +11,7 @@ namespace vhs\database\types;
 
 class TypeBool extends Type {
 
-    public function generateType(TypeGenerator $generator) {
+    public function generateType(ITypeGenerator $generator) {
         return $generator->generateBool($this);
     }
 }

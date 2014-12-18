@@ -11,7 +11,7 @@ namespace vhs\database\joins;
 
 class JoinInner extends Join {
 
-    function generateJoin(JoinGenerator $generator) {
+    function generateJoin(IJoinGenerator $generator) {
         return $generator->generateInner($this);
     }
 }

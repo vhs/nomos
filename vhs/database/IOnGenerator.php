@@ -9,6 +9,6 @@
 namespace vhs\database;
 
 
-abstract class OnGenerator implements IGenerator {
-    abstract public function generateOn(On $on);
+interface IOnGenerator extends IGenerator {
+    public function generateOn(On $on);
 }

@@ -13,15 +13,11 @@ use app\schema\KeySchema;
 use app\schema\UserSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
-use vhs\domain\Schema;
 use vhs\domain\validations\ValidationResults;
 
 class User extends Domain {
-    /**
-     * @return Schema
-     */
-    static public function getSchema() {
-        return UserSchema::getInstance();
+    public static function Define() {
+        User::Schema(UserSchema::getInstance());
     }
 
     public function validate(ValidationResults &$results) {

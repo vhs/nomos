@@ -10,6 +10,7 @@ namespace vhs\domain;
 
 
 use vhs\database\Columns;
+use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\PrimaryKey;
 use vhs\database\Table;
 
@@ -58,6 +59,15 @@ abstract class Schema {
                 array_push($pks, $constraint);
 
         return $pks;
+    }
+
+    public static function ForeignKeys() {
+        $fks = array();
+        foreach(self::getInstance()->internal_table->constraints as $constraint)
+            if($constraint instanceof ForeignKey)
+                array_push($fks, $constraint);
+
+        return $fks;
     }
 
     public static function Column($name) {

@@ -15,7 +15,7 @@ class WhereOr extends Where {
         $this->wheres = $where;
     }
 
-    public function generateWhere(WhereGenerator $generator) {
+    public function generateWhere(IWhereGenerator $generator) {
         return $generator->generateOr($this);
     }
 

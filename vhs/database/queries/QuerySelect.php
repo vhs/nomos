@@ -27,7 +27,7 @@ class QuerySelect extends Query {
         $this->limit = $limit;
     }
 
-    public function generateQuery(QueryGenerator $generator) {
+    public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateSelect($this);
     }
 }

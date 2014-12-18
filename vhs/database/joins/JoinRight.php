@@ -11,7 +11,7 @@ namespace vhs\database\joins;
 
 class JoinRight extends Join {
 
-    function generateJoin(JoinGenerator $generator) {
+    function generateJoin(IJoinGenerator $generator) {
         return $generator->generateRight($this);
     }
 }

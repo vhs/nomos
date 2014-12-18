@@ -11,15 +11,11 @@ namespace app\domain;
 
 use app\schema\PrivilegeSchema;
 use vhs\domain\Domain;
-use vhs\domain\Schema;
 use vhs\domain\validations\ValidationResults;
 
 class Privilege extends Domain {
-    /**
-     * @return Schema
-     */
-    public static function getSchema() {
-        return PrivilegeSchema::getInstance();
+    public static function Define() {
+        Privilege::Schema(PrivilegeSchema::getInstance());
     }
 
     public function validate(ValidationResults &$results) {

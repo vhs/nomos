@@ -35,9 +35,9 @@ abstract class Constraint implements IGeneratable {
      * @return mixed
      */
     public function generate(IGenerator $generator) {
-        /** @var ConstraintGenerator $generator */
+        /** @var IConstraintGenerator $generator */
         return $this->generateConstraint($generator);
     }
 
-    abstract public function generateConstraint(ConstraintGenerator $generator);
+    abstract public function generateConstraint(IConstraintGenerator $generator);
 }

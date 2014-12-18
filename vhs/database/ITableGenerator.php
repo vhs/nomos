@@ -9,6 +9,6 @@
 namespace vhs\database;
 
 
-abstract class TableGenerator implements IGenerator {
-    abstract public function generateTable(Table $ascending);
+interface ITableGenerator extends IGenerator {
+    public function generateTable(Table $ascending);
 }

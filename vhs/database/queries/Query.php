@@ -46,9 +46,9 @@ abstract class Query implements IGeneratable {
      * @return mixed
      */
     function generate(IGenerator $generator) {
-        /** @var QueryGenerator $generator */
+        /** @var IQueryGenerator $generator */
         return $this->generateQuery($generator);
     }
 
-    abstract public function generateQuery(QueryGenerator $generator);
+    abstract public function generateQuery(IQueryGenerator $generator);
 }
