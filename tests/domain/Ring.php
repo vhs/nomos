@@ -2,22 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: Thomas
- * Date: 17/12/2014
- * Time: 5:53 PM
+ * Date: 18/12/2014
+ * Time: 6:04 PM
  */
 
 namespace tests\domain;
 
 
-use tests\schema\KnightSchema;
+use tests\schema\RingSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-class KnightDomain extends Domain {
+class Ring extends Domain {
 
     static function Define() {
-        KnightDomain::Schema(KnightSchema::getInstance());
-        KnightDomain::Relationship("sword", SwordDomain::Type());
+        Ring::Schema(RingSchema::getInstance());
+
+        Ring::Relationship("enchantment", Enchantment::Type()); //parent relationship Many to One
     }
 
     /**

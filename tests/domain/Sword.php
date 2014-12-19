@@ -14,13 +14,13 @@ use tests\schema\SwordSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-class SwordDomain extends Domain {
+class Sword extends Domain {
 
     static function Define() {
-        SwordDomain::Schema(SwordSchema::getInstance());
+        Sword::Schema(SwordSchema::getInstance());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.
-        SwordDomain::Relationship("enchantments", EnchantmentDomain::Type(), SwordEnchantmentsSchema::getInstance());
+        Sword::Relationship("enchantments", Enchantment::Type(), SwordEnchantmentsSchema::getInstance()); //satellite relationship aka Many to Many
     }
 
     /**
