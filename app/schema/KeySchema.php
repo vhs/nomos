@@ -25,7 +25,10 @@ class KeySchema extends Schema {
         $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));
         $table->addColumn("notes", Type::Text());
 
-        $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
+        $table->setConstraints(
+            Constraint::PrimaryKey($table->columns->id),
+            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
+        );
 
         parent::__construct($table);
     }

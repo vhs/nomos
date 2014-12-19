@@ -18,7 +18,7 @@ class Key extends Domain {
     public static function Define() {
         key::Schema(KeySchema::getInstance());
 
-        Key::Relationship(Privilege::Type(), KeyPrivilegeSchema::getInstance(), "privileges");
+        Key::Relationship("privileges", Privilege::Type(), KeyPrivilegeSchema::getInstance());
     }
 
     public function validate(ValidationResults &$results) {
