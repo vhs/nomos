@@ -104,9 +104,9 @@ abstract class Domain extends Notifier implements IDomain {
         $this->__parentRelationshipsColumnMap = Array();
 
         foreach(self::Relationships() as $as => $relationship) {
-            if(!is_null($relationship['JoinTable']))
+            if(!is_null($relationship['JoinTable'])) {
                 $this->__collections[$as] = new SatelliteDomainCollection($this, $relationship['Domain'], $relationship['JoinTable']);
-            else {
+            } else {
                 $domain = $relationship['Domain'];
                 $myFks = self::Schema()->ForeignKeys();
 
@@ -114,7 +114,7 @@ abstract class Domain extends Notifier implements IDomain {
 
                 /** @var ForeignKey $fk */
                 foreach($myFks as $fk) {
-                    if ($fk->table === $domain::Schema()->table) {
+                    if ($fk->table === $domain::Schema()->Table()) {
                         $parentFk = $fk;
                         break;
                     }
@@ -154,10 +154,10 @@ abstract class Domain extends Notifier implements IDomain {
             $this->__cache->setValue($col->getAbsoluteName(), $value);
             $this->raiseChanged($col);
         } else if (array_key_exists($name, $this->__collections)) {
-            throw new DomainException("Cannot directly set domain collection");
+            throw new DomainException("Cannot directly set domain collection [".get_called_class()."->{$name}]");
         } else if (array_key_exists($name, $this->__parentRelationships)) {
             $childOnCol = $this->__parentRelationships[$name]['On']->name;
-            $this->__set($this->__parentRelationships[$name]['Column'], $value->$childOnCol);
+            $this->__set($this->__parentRelationships[$name]['Column']->name, $value->$childOnCol);
             $this->__parentRelationships[$name]['Object'] = $value;
         }
     }
@@ -265,6 +265,29 @@ abstract class Domain extends Notifier implements IDomain {
         return $values;
     }
 
+    private function hydrateRelationships() {
+        /** @var DomainCollection $collection */
+        foreach($this->__collections as $collection)
+            $collection->hydrate();
+
+        foreach($this->__parentRelationships as $as => $relationship) {
+            $on = $relationship['On'];
+            $domain = $relationship['Domain'];
+            $column = $relationship['Column']->name;
+
+            $obj = $domain::where(
+                Where::Equal($on, $this->$column)
+            );
+
+            if(count($obj) == 1)
+                $this->__parentRelationships[$as]['Object'] = $obj[0];
+            else if (count($obj) > 1)
+                throw new DomainException("Parent relationship [{$as}] found more than one record");
+            else
+                $this->__parentRelationships[$as]['Object'] = null;
+        }
+    }
+
     protected function hydrate($pk = null) {
         $record = Database::select(
             self::Schema()->Table(),
@@ -280,9 +303,7 @@ abstract class Domain extends Notifier implements IDomain {
 
         $this->setValues($record[0]);
 
-        /** @var DomainCollection $collection */
-        foreach($this->__collections as $collection)
-            $collection->hydrate();
+        $this->hydrateRelationships();
 
         return true;
     }
@@ -303,9 +324,7 @@ abstract class Domain extends Notifier implements IDomain {
             /** @var Domain $obj */
             $obj = new $class();
             $obj->setValues($row);
-            /** @var DomainCollection $collection */
-            foreach($obj->__collections as $collection)
-                $collection->hydrate();
+            $obj->hydrateRelationships();
             array_push($items, $obj);
         }
 
@@ -322,6 +341,7 @@ abstract class Domain extends Notifier implements IDomain {
             /** @var Domain $obj */
             $obj = new $class();
             $obj->setValues($row);
+            $obj->hydrateRelationships();
             array_push($items, $obj);
         }
 
@@ -421,6 +441,11 @@ abstract class Domain extends Notifier implements IDomain {
         /** @var DomainCollection $collection */
         foreach($this->__collections as $collection)
             $collection->save();
+
+        foreach($this->__parentRelationships as $as => $relationship) {
+            if(!is_null($this->__parentRelationships[$as]['Object']))
+                $this->__parentRelationships[$as]['Object']->save();
+        }
 
         $this->hydrate();
 

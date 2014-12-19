@@ -107,7 +107,7 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $enchantment->save();
 
         $sword = new \tests\domain\SwordDomain();
-        $sword->name = "Mighty Sword";
+        $sword->name = "Flaming Sword";
         $sword->damage = 20;
         $sword->enchantments->add($enchantment);
         $sword->save();
@@ -125,6 +125,9 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($enchants));
         $this->assertEquals($enchantmentid, $enchants[0]->id);
         $this->assertEquals("Fire Enchantment", $enchants[0]->name);
+
+        $sword->delete();
+        $enchants[0]->delete();
     }
 
     public function test_parentRelationship() {
@@ -135,9 +138,27 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $sword->damage = 20;
         $sword->save();
 
+        $swordid = $sword->id;
+
         $knight = new \tests\domain\KnightDomain();
         $knight->name = "Black Knight";
-        //$knight->sword->add()
+        $knight->sword = $sword;
+        $knight->save();
+
+        $knightid = $knight->id;
+
+        unset($knight);
+
+        $knight = \tests\domain\KnightDomain::where(Where::Equal(\tests\domain\KnightDomain::Schema()->Columns()->name, "Black Knight"));
+
+        $this->assertEquals(1,count($knight));
+
+        $knight = $knight[0];
+
+        $this->assertEquals($swordid, $knight->swordid);
+        $this->assertNotNull($knight->sword);
+        $this->assertEquals($swordid, $knight->sword->id);
+        $this->assertEquals("Mighty Sword", $knight->sword->name);
     }
 
     public function stuff() {
