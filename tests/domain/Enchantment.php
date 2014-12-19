@@ -10,17 +10,16 @@ namespace tests\domain;
 
 
 use tests\schema\EnchantmentSchema;
-use tests\schema\SwordEnchantmentsSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-class EnchantmentDomain extends Domain {
+class Enchantment extends Domain {
 
     static function Define() {
-        EnchantmentDomain::Schema(EnchantmentSchema::getInstance());
+        Enchantment::Schema(EnchantmentSchema::getInstance());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.
-        //EnchantmentDomain::Relationship("swords", SwordDomain::Type(), SwordEnchantmentsSchema::getInstance());
+        //EnchantmentDomain::Relationship("swords", Sword::Type(), SwordEnchantmentsSchema::getInstance());
     }
 
     /**

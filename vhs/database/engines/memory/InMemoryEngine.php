@@ -57,7 +57,7 @@ class InMemoryEngine extends Engine {
         $this->logger->log("select " . $table->name . " " . implode(", ", $columns->names()) . " " . $where);
 
         if(!array_key_exists($table->name, $this->datastore))
-            return null;
+            return array();
 
         $match = (!is_null($where)) ? $where->generate($this->generator) : function() { return true; };
 

@@ -26,10 +26,6 @@ class SatelliteDomainCollection extends DomainCollection {
     /** @var  ForeignKey */
     private $childKey;
 
-    private $__existing;
-    private $__new;
-    private $__removed;
-
     public function __construct(Domain $parent, $childType, Schema $joinTable) {
         $this->parent = $parent;
         $this->childType = $childType;
@@ -62,10 +58,6 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->clear();
     }
 
-    public function all() {
-        return array_diff(array_merge($this->__existing, $this->__new), $this->__removed);
-    }
-
     public function compare(Domain $a, Domain $b) {
         $childOnCol = $this->childKey->on->name;
         return ($a->$childOnCol === $b->$childOnCol);
@@ -74,10 +66,6 @@ class SatelliteDomainCollection extends DomainCollection {
     public function contains(Domain $item) {
         $childOnCol = $this->childKey->on->name;
         return $this->containsKey($item->$childOnCol);
-    }
-
-    public function containsKey($key) {
-        return array_key_exists($key, $this->all());
     }
 
     public function add(Domain $item) {
@@ -102,12 +90,6 @@ class SatelliteDomainCollection extends DomainCollection {
         }
     }
 
-    protected function clear() {
-        $this->__existing = array();
-        $this->__new = array();
-        $this->__removed = array();
-    }
-
     public function hydrate() {
         $this->clear();
 
@@ -127,11 +109,7 @@ class SatelliteDomainCollection extends DomainCollection {
         $childType = $this->childType;
 
         /** @var Domain $childType */
-        $children = $childType::where(Where::In($this->childKey->on, $childIds));
-
-        foreach($children as $child) {
-            $this->add($child);
-        }
+        $this->__existing = $childType::where(Where::In($this->childKey->on, $childIds));
     }
 
     public function save() {

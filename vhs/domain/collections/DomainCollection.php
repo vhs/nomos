@@ -15,13 +15,27 @@ use vhs\domain\Domain;
 
 abstract class DomainCollection  {
 
-    abstract public function all();
+    protected $__existing;
+    protected $__new;
+    protected $__removed;
+
+    protected function clear() {
+        $this->__existing = array();
+        $this->__new = array();
+        $this->__removed = array();
+    }
+
+    public function all() {
+        return array_diff(array_merge($this->__existing, $this->__new), $this->__removed);
+    }
 
     abstract public function compare(Domain $a, Domain $b);
 
     abstract public function contains(Domain $item);
 
-    abstract public function containsKey($key);
+    public function containsKey($key) {
+        return array_key_exists($key, $this->all());
+    }
 
     abstract public function add(Domain $item);
 

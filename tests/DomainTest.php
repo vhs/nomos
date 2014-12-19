@@ -79,18 +79,18 @@ class DomainTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function setUp() {
-        \vhs\database\Database::setEngine(self::$mySqlEngine);
-        \vhs\database\Database::arbitrary("CREATE TABLE example ( id int(11) not null auto_increment, testA varchar(255) null, testB varchar(255) null, PRIMARY  key (id));");
+
     }
 
     protected function tearDown() {
-        \vhs\database\Database::setEngine(self::$mySqlEngine);
-        \vhs\database\Database::arbitrary("DROP TABLE example;");
+
     }
 
     public function test_ObjectCreate() {
         \vhs\database\Database::setEngine(self::$mySqlEngine);
+        \vhs\database\Database::arbitrary("CREATE TABLE example ( id int(11) not null auto_increment, testA varchar(255) null, testB varchar(255) null, PRIMARY  key (id));");
         $this->stuff();
+        \vhs\database\Database::arbitrary("DROP TABLE example;");
     }
 
     public function test_InMemoryDomainTest() {
@@ -101,12 +101,12 @@ class DomainTest extends PHPUnit_Framework_TestCase {
     public function test_satelliteRelationship() {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
 
-        $enchantment = new \tests\domain\EnchantmentDomain();
+        $enchantment = new \tests\domain\Enchantment();
         $enchantment->name = "Fire Enchantment";
         $enchantment->bonus = 1.5;
         $enchantment->save();
 
-        $sword = new \tests\domain\SwordDomain();
+        $sword = new \tests\domain\Sword();
         $sword->name = "Flaming Sword";
         $sword->damage = 20;
         $sword->enchantments->add($enchantment);
@@ -118,7 +118,7 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         unset($enchantment);
         unset($sword);
 
-        $sword = \tests\domain\SwordDomain::find($swordid);
+        $sword = \tests\domain\Sword::find($swordid);
 
         $enchants = $sword->enchantments->all();
 
@@ -133,14 +133,14 @@ class DomainTest extends PHPUnit_Framework_TestCase {
     public function test_parentRelationship() {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
 
-        $sword = new \tests\domain\SwordDomain();
+        $sword = new \tests\domain\Sword();
         $sword->name = "Mighty Sword";
         $sword->damage = 20;
         $sword->save();
 
         $swordid = $sword->id;
 
-        $knight = new \tests\domain\KnightDomain();
+        $knight = new \tests\domain\Knight();
         $knight->name = "Black Knight";
         $knight->sword = $sword;
         $knight->save();
@@ -149,7 +149,7 @@ class DomainTest extends PHPUnit_Framework_TestCase {
 
         unset($knight);
 
-        $knight = \tests\domain\KnightDomain::where(Where::Equal(\tests\domain\KnightDomain::Schema()->Columns()->name, "Black Knight"));
+        $knight = \tests\domain\Knight::where(Where::Equal(\tests\domain\Knight::Schema()->Columns()->name, "Black Knight"));
 
         $this->assertEquals(1,count($knight));
 
@@ -159,6 +159,29 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($knight->sword);
         $this->assertEquals($swordid, $knight->sword->id);
         $this->assertEquals("Mighty Sword", $knight->sword->name);
+    }
+
+    public function test_childRelationship() {
+        \vhs\database\Database::setEngine(self::$inMemoryEngine);
+
+        $knight = new \tests\domain\Knight();
+        $knight->name = "Bling Knight";
+
+        $ring = new \tests\domain\Ring();
+        $ring->name = "PIMP Ring";
+
+        $knight->rings->add($ring);
+
+        $knight->save();
+
+        $knightid = $knight->id;
+
+        unset($knight);
+
+        $knight = \tests\domain\Knight::find($knightid);
+
+        $this->assertEquals(1, count($knight->rings->all()));
+        $this->assertEquals("PIMP Ring", $knight->rings->all()[0]->name);
     }
 
     public function stuff() {

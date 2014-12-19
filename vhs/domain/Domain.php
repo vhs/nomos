@@ -128,7 +128,7 @@ abstract class Domain extends Notifier implements IDomain {
                     $this->__parentRelationships[$as]['Object'] = null;
                     $this->__parentRelationshipsColumnMap[$parentFk->column->name] = $as;
                 } else { // otherwise assume it must be a child relationship
-                    $this->__collections[$as] = new ChildDomainCollection();
+                    $this->__collections[$as] = new ChildDomainCollection($this, $relationship['Domain']);
                 }
             }
         }
