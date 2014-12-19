@@ -27,8 +27,18 @@ class AccessLog extends Domain {
         return true;
     }
 
+    public static function log($rfid_key, $authorized, $from_ip) {
+        $entry = new AccessLog();
+        $entry->rfid_key = $rfid_key;
+        $entry->$authorized = $authorized;
+        $entry->$from_ip = $from_ip;
+        $entry->save();
+
+        return $entry;
+    }
+
     public static function findLatest($limit = 5) {
-        self::hydrateMany(
+        return self::where(
             Where::Equal(AccessLogSchema::Columns()->authorized, false),
             OrderBy::Descending(AccessLogSchema::Columns()->time),
             $limit

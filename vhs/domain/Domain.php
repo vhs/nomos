@@ -99,6 +99,17 @@ abstract class Domain extends Notifier implements IDomain {
             array_push($keys, $col->getAbsoluteName());
 
         $this->__cache = new DomainValueCache($keys);
+
+        $pks = $schema->PrimaryKeys();
+        $pkcols = array();
+        foreach($pks as $pk) {
+            $pkcols[$pk->column->name] = $pk;
+        }
+
+        foreach($schema->Columns()->all() as $col)
+            if(!array_key_exists($col->name, $pkcols))
+                $this->__cache->setValue($col->getAbsoluteName(), $col->type->default, true);
+
         $this->__collections = array();
         $this->__parentRelationships = array();
         $this->__parentRelationshipsColumnMap = Array();

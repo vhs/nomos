@@ -87,6 +87,7 @@ class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
     }
 
     private function cleanValue($value) {
+        //TODO escape values for safe databasing
         $val = $value;
 
         if($val === "true" || $val === true) return 1;
