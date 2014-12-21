@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 4.1.14.5
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Sep 22, 2014 at 05:39 PM
--- Server version: 5.5.38
--- PHP Version: 5.3.10-1ubuntu3.14
+-- Host: db548505082.db.1and1.com
+-- Generation Time: Oct 21, 2014 at 12:57 AM
+-- Server version: 5.1.73-log
+-- PHP Version: 5.4.4-14+deb7u14
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,19 +17,38 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `vhs_membership`
+-- Database: `db548505082`
 --
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `accesslog`
+-- Table structure for table `accesslog`
 --
 
-INSERT INTO `accesslog` (`id`, `rfid_key`, `authorized`, `from_ip`, `time`) VALUES
-(1, '12345', 0, '21.21.21.21', '2014-09-22 08:58:21'),
-(2, '12345', 0, '21.21.21.21', '2014-09-22 08:59:21'),
-(3, '12345', 1, '21.21.21.21', '2014-09-23 08:59:21'),
-(4, '12345', 1, '21.21.21.21', '2014-09-24 08:59:21'),
-(5, '12345', 1, '21.21.21.21', '2014-09-25 08:59:21');
+CREATE TABLE IF NOT EXISTS `accesslog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rfid_key` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `authorized` tinyint(1) NOT NULL,
+  `from_ip` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `email_templates` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `help` text,
+  `body` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `email_templates`
@@ -52,6 +71,30 @@ INSERT INTO `email_templates` (`id`, `name`, `subject`, `help`, `body`) VALUES
 (15, 'User Notification', 'User Payment Completed', 'This template is used to notify user on successful payment transaction', '&lt;div align=&quot;center&quot;&gt;\n&lt;table style=&quot;background: none repeat scroll 0% 0% rgb(244, 244, 244); border: 1px solid rgb(102, 102, 102);&quot; border=&quot;0&quot; cellpadding=&quot;5&quot; cellspacing=&quot;5&quot; width=&quot;600&quot;&gt;\n    &lt;tbody&gt;\n        &lt;tr&gt;\n            &lt;th style=&quot;background-color: rgb(204, 204, 204);&quot;&gt;Hello [USERNAME]&lt;/th&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n            &lt;td style=&quot;text-align: left;&quot; valign=&quot;top&quot;&gt;You have successfully purchased the following membership:&lt;hr/&gt;\n            Membership: &lt;strong&gt;[MNAME]&lt;/strong&gt;&lt;br/&gt;\n            Valid Until: &lt;strong&gt;[VALID]&lt;/strong&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/td&gt;\n        &lt;/tr&gt;\n    &lt;/tbody&gt;\n&lt;/table&gt;\n&lt;/div&gt;'),
 (16, 'Account Activation', 'Your account have been activated', 'This template is used to notify user when manual account activation is completed', '&lt;div align=&quot;center&quot;&gt;\n&lt;table style=&quot;background: none repeat scroll 0% 0% rgb(244, 244, 244); border: 1px solid rgb(102, 102, 102);&quot; border=&quot;0&quot; cellpadding=&quot;5&quot; cellspacing=&quot;5&quot; width=&quot;600&quot;&gt;\n    &lt;tbody&gt;\n        &lt;tr&gt;\n            &lt;th style=&quot;background-color: rgb(204, 204, 204);&quot;&gt;Hello, [NAME]! &lt;br&gt;&lt;/th&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n          &lt;td style=&quot;text-align: left;&quot; valign=&quot;top&quot;&gt;Hello,&lt;br&gt;\n            &lt;br&gt;\n            You&#039;re now a member of [SITE_NAME].&lt;br&gt;\n            &lt;br&gt;\n            Your account is now fully activated\n            , and you may login at \n            &lt;a href=&quot;[URL]&quot;&gt;[URL]&lt;/a&gt;\n            &lt;hr&gt;&lt;/td&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n            &lt;td style=&quot;text-align: left;&quot;&gt;&lt;em&gt;Thanks,&lt;br&gt;\n            [SITE_NAME] Team&lt;br&gt;\n            &lt;a href=&quot;[URL]&quot;&gt;[URL]&lt;/a&gt;&lt;/em&gt;&lt;/td&gt;\n        &lt;/tr&gt;\n    &lt;/tbody&gt;\n&lt;/table&gt;\n&lt;/div&gt;');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gateways`
+--
+
+CREATE TABLE IF NOT EXISTS `gateways` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `displayname` varchar(255) NOT NULL,
+  `dir` varchar(255) NOT NULL,
+  `demo` tinyint(1) NOT NULL DEFAULT '1',
+  `extra_txt` varchar(255) NOT NULL,
+  `extra_txt2` varchar(255) NOT NULL,
+  `extra_txt3` varchar(255) DEFAULT NULL,
+  `extra` varchar(255) NOT NULL,
+  `extra2` varchar(255) NOT NULL,
+  `extra3` varchar(255) DEFAULT NULL,
+  `info` text,
+  `is_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
 --
 -- Dumping data for table `gateways`
 --
@@ -59,6 +102,26 @@ INSERT INTO `email_templates` (`id`, `name`, `subject`, `help`, `body`) VALUES
 INSERT INTO `gateways` (`id`, `name`, `displayname`, `dir`, `demo`, `extra_txt`, `extra_txt2`, `extra_txt3`, `extra`, `extra2`, `extra3`, `info`, `is_recurring`, `active`) VALUES
 (1, 'paypal', 'PayPal', 'paypal', 1, 'Paypal Email Address', 'Currency Code', 'Not in Use', 'money@hackspace.ca', 'CAD', '', '&lt;p&gt;&lt;a href=&quot;http://www.paypal.com/&quot; title=&quot;PayPal&quot; rel=&quot;nofollow&quot; target=&quot;_blank&quot;&gt;Click here to setup an account with Paypal&lt;/a&gt; &lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Gateway Name&lt;/strong&gt; - Enter the name of the payment provider here.&lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Active&lt;/strong&gt; - Select Yes to make this payment provider active. &lt;br&gt;\r\n			If this box is not checked, the payment provider will not show up in the payment provider list during checkout.&lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Set Live Mode&lt;/strong&gt; - If you would like to test the payment provider settings, please select No. &lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Paypal email address&lt;/strong&gt; - Enter your PayPal Business email address here. &lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Currency Code&lt;/strong&gt; - Enter your currency code here. Valid choices are: &lt;/p&gt;\r\n				&lt;ul&gt;\r\n					&lt;li&gt; USD (U.S. Dollar)&lt;/li&gt;\r\n					&lt;li&gt; EUR (Euro) &lt;/li&gt;\r\n					&lt;li&gt; GBP (Pound Sterling) &lt;/li&gt;\r\n					&lt;li&gt; CAD (Canadian Dollar) &lt;/li&gt;\r\n					&lt;li&gt; JPY (Yen). &lt;/li&gt;\r\n					&lt;li&gt; If omitted, all monetary fields will use default system setting Currency Code. &lt;/li&gt;\r\n				&lt;/ul&gt;\r\n			&lt;p&gt;&lt;strong&gt;Not in Use&lt;/strong&gt; - This field it&#039;s not in use. Leave it empty. &lt;/p&gt;\r\n	        &lt;p&gt;&lt;strong&gt;IPN Url&lt;/strong&gt; - If using recurring payment method, you need to set up and activate the IPN Url in your account: &lt;/p&gt;', 1, 1),
 (2, 'moneybookers', 'MoneyBookers', 'moneybookers', 1, 'MoneyBookers Email Address', 'Currency Code', 'Secret Passphrase', 'moneybookers@address.com', 'EUR', 'mypassphrase', '&lt;p&gt;&lt;a href=&quot;http://www.moneybookers.com/&quot; title=&quot;http://www.moneybookers.net/&quot; rel=&quot;nofollow&quot;&gt;Click here to setup an account with MoneyBookers&lt;/a&gt;&lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Gateway Name&lt;/strong&gt; - Enter the name of the payment provider here.&lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Active&lt;/strong&gt; - Select Yes to make this payment provider active. &lt;br&gt;\r\n			If this box is not checked, the payment provider will not show up in the payment provider list during checkout.&lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Set Live Mode&lt;/strong&gt; - If you would like to test the payment provider settings, please select No. &lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;MoneyBookers email address&lt;/strong&gt; - Enter your MoneyBookers email address here. &lt;/p&gt;\r\n			&lt;p&gt;&lt;strong&gt;Secret Passphrase&lt;/strong&gt; - This field must be set at Moneybookers.com.&lt;/p&gt;\r\n	        &lt;p&gt;&lt;strong&gt;IPN Url&lt;/strong&gt; - If using recurring payment method, you need to set up and activate the IPN Url in your account: &lt;/p&gt;', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `memberships`
+--
+
+CREATE TABLE IF NOT EXISTS `memberships` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `price` float(10,2) NOT NULL DEFAULT '0.00',
+  `days` int(5) NOT NULL DEFAULT '0',
+  `period` varchar(1) NOT NULL DEFAULT 'D',
+  `trial` tinyint(1) NOT NULL DEFAULT '0',
+  `recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `private` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `memberships`
@@ -69,14 +132,72 @@ INSERT INTO `memberships` (`id`, `title`, `description`, `price`, `days`, `perio
 (8, 'Friend', '', 10.00, 1, 'M', 0, 1, 0, 1),
 (6, 'Member', '', 25.00, 1, 'M', 0, 1, 0, 1);
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `payments`
+-- Table structure for table `news`
 --
 
-INSERT INTO `payments` (`id`, `txn_id`, `membership_id`, `user_id`, `rate_amount`, `currency`, `date`, `pp`, `ip`, `status`) VALUES
-(1, '67', 6, 2, '25', 'CAD', '2014-08-23 00:15:32', 'PayPal', '172.0.0.1', 1),
-(2, '64', 6, 3, '50', 'CAD', '2014-08-23 00:20:32', 'PayPal', '172.0.0.1', 1),
-(3, '64', 6, 1, '25', 'CAD', '2014-08-24 05:27:09', 'PayPal', '172.0.0.1', 1);
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(55) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `body` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `author` varchar(55) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `created` date NOT NULL DEFAULT '0000-00-00',
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `txn_id` varchar(100) DEFAULT NULL,
+  `membership_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rate_amount` varchar(255) NOT NULL,
+  `currency` varchar(4) DEFAULT NULL,
+  `date` datetime NOT NULL,
+  `pp` enum('PayPal','MoneyBookers') DEFAULT NULL,
+  `ip` varchar(20) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE IF NOT EXISTS `settings` (
+  `site_name` varchar(50) DEFAULT NULL,
+  `site_email` varchar(40) DEFAULT NULL,
+  `site_url` varchar(200) DEFAULT NULL,
+  `reg_allowed` tinyint(1) NOT NULL DEFAULT '1',
+  `user_limit` tinyint(1) NOT NULL DEFAULT '0',
+  `reg_verify` tinyint(1) NOT NULL DEFAULT '0',
+  `notify_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `auto_verify` tinyint(1) NOT NULL DEFAULT '0',
+  `user_perpage` varchar(4) NOT NULL DEFAULT '10',
+  `thumb_w` varchar(4) NOT NULL,
+  `thumb_h` varchar(4) NOT NULL,
+  `backup` varchar(60) DEFAULT NULL,
+  `logo` varchar(40) DEFAULT NULL,
+  `currency` varchar(4) DEFAULT NULL,
+  `cur_symbol` varchar(8) DEFAULT NULL,
+  `mailer` enum('PHP','SMTP') NOT NULL DEFAULT 'PHP',
+  `smtp_host` varchar(100) DEFAULT NULL,
+  `smtp_user` varchar(50) DEFAULT NULL,
+  `smtp_pass` varchar(50) DEFAULT NULL,
+  `smtp_port` varchar(6) DEFAULT NULL,
+  `is_ssl` tinyint(1) NOT NULL DEFAULT '0',
+  `version` varchar(5) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings`
@@ -85,15 +206,46 @@ INSERT INTO `payments` (`id`, `txn_id`, `membership_id`, `user_id`, `rate_amount
 INSERT INTO `settings` (`site_name`, `site_email`, `site_url`, `reg_allowed`, `user_limit`, `reg_verify`, `notify_admin`, `auto_verify`, `user_perpage`, `thumb_w`, `thumb_h`, `backup`, `logo`, `currency`, `cur_symbol`, `mailer`, `smtp_host`, `smtp_user`, `smtp_pass`, `smtp_port`, `is_ssl`, `version`) VALUES
 ('VHS Membership Manager', 'what@hackspace.com', 'http://membership.hackspace.ca', 1, 0, 1, 0, 1, '10', '72', '72', '02-Sep-2014_19-36-27.sql', 'logo.png', 'CAD', '$', 'PHP', '', '', '', '0', 0, '2.50');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `membership_id` tinyint(3) NOT NULL DEFAULT '0',
+  `mem_expire` datetime DEFAULT '0000-00-00 00:00:00',
+  `trial_used` tinyint(1) NOT NULL DEFAULT '0',
+  `email` varchar(255) NOT NULL,
+  `fname` varchar(32) NOT NULL,
+  `lname` varchar(32) NOT NULL,
+  `token` varchar(40) NOT NULL DEFAULT '0',
+  `cookie_id` varchar(64) NOT NULL DEFAULT '0',
+  `newsletter` tinyint(1) NOT NULL DEFAULT '0',
+  `vetted` tinyint(1) NOT NULL,
+  `cash` tinyint(1) NOT NULL,
+  `userlevel` tinyint(1) NOT NULL DEFAULT '1',
+  `notes` text,
+  `created` datetime DEFAULT '0000-00-00 00:00:00',
+  `lastlogin` datetime DEFAULT '0000-00-00 00:00:00',
+  `lastip` varchar(16) DEFAULT '0',
+  `avatar` varchar(150) DEFAULT NULL,
+  `active` enum('y','n','t','b') NOT NULL DEFAULT 'n',
+  `paypal_id` varchar(255) NOT NULL DEFAULT '',
+  `payment_email` varchar(255) NOT NULL DEFAULT '',
+  `rfid` varchar(8) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `membership_id`, `mem_expire`, `trial_used`, `email`, `fname`, `lname`, `token`, `cookie_id`, `newsletter`, `userlevel`, `notes`, `created`, `lastlogin`, `lastip`, `avatar`, `active`, `paypal_id`, `payment_email`, `rfid`) VALUES
-(115, 'Richard.Johnson', '', 6, '2014-08-04 09:56:22', 0, 'wat@gmail.com', 'richard', 'johnson', '0', '0', 0, 1, NULL, '2013-12-05 09:11:26', '0000-00-00 00:00:00', '0', NULL, 'y', '64', 'wat@gmail.com', ''),
-(116, 'vhs', '$2y$10$AFChZVLzpDbT1qzKZGeHz.K0AhCR22tJRZyI5ypXDK2x3xs4L6RLO', 7, '2014-10-04 06:00:00', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 9, '', '2013-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345'),
-(197, 'John.Smith', '', 6, '2014-10-17 13:58:15', 0, 'JohnSmith@gmail.com', 'J', 'Smith', '0', '0', 0, 1, NULL, '2014-09-17 13:58:38', '0000-00-00 00:00:00', '0', NULL, 'y', '63', 'why@gmail.com', ''),
-(199, 'Who.What', '$2y$10$AFChZVLzpDbT1qzKZGeHz.K0AhCR22tJRZyI5ypXDK2x3xs4L6RLO', 7, '2014-10-22 15:25:49', 0, 'whowhat@why.com', 'Who', 'What', '0', '0', 0, 1, 'Cash member', '2014-09-22 15:25:49', '0000-00-00 00:00:00', '0', NULL, 'y', '', '', '');
+INSERT INTO `users` (`id`, `username`, `password`, `membership_id`, `mem_expire`, `trial_used`, `email`, `fname`, `lname`, `token`, `cookie_id`, `newsletter`, `vetted`, `cash`, `userlevel`, `notes`, `created`, `lastlogin`, `lastip`, `avatar`, `active`, `paypal_id`, `payment_email`, `rfid`) VALUES
+(1, 'vhs', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 7, '2014-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2013-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
