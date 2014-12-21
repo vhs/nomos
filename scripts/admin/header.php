@@ -69,10 +69,12 @@
               <li><a href="index.php?do=gateways" title="Payment Gateways"><i class="icon-bookmark"></i><span>Payment Gateways</span></a></li>
               <li><a href="index.php?do=transactions" title="Transaction Records"><i class="icon-credit-card"></i><span>Transaction Records</span></a></li>
             </ul>
+          <li><a href="index.php?do=logs" title="Log Viewer"><i class="icon-file-text-alt"></i> Logs</a></li>
           </li>
           <li><a href="index.php?do=newsletter" title="Newsletter"><i class="icon-envelope"></i> Newsletter</a></li>
           <li><a title="Configuration"><i class="icon-cog"></i> Configuration</a>
             <ul class="cbp-hssubmenu">
+              <li><a href="index.php?do=privileges" title="Privileges"><i class="icon-cog"></i><span>Privileges</span></a></li>
               <li><a href="index.php?do=config" title="Site Configuration"><i class="icon-cog"></i><span>Site Configuration</span></a></li>
               <li><a href="index.php?do=templates" title="Email Templates"><i class="icon-file-text"></i><span>Email Templates</span></a></li>
               <li><a href="index.php?do=maintenance" title="Site Maintenance"><i class="icon-cogs"></i><span>Site Maintenance</span></a></li>

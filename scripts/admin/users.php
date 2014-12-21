@@ -19,8 +19,8 @@
   <header>User Manager<span>Editing Current User <i class="icon-double-angle-right"></i> <?php echo $row->username;?></span></header>
   <div class="row">
     <section class="col col-6">
-      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" disabled="disabled" name="username" readonly="readonly" value="<?php echo $row->username;?>" placeholder="Username">
+      <label class="input"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" name="username" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
       </label>
       <div class="note note-error">Username</div>
     </section>
@@ -28,7 +28,7 @@
       <label class="input"> <i class="icon-prepend icon-lock"></i> <i class="icon-append icon-asterisk"></i>
         <input type="text" name="password" placeholder="password">
       </label>
-      <div class="note note-info">Leave it empty unless changing the password</div>
+      <div class="note note-info">Leave empty unless changing the password</div>
     </section>
   </div>
   <div class="row">
@@ -53,9 +53,9 @@
   </div>
   <hr>
   <div class="row">
-    <section class="col col-3">
+    <section class="col col-2">
       <select name="membership_id">
-        <option value="0">--- No Membership Required---</option>
+        <option value="0">None</option>
         <?php if($memrow):?>
         <?php foreach ($memrow as $mlist):?>
         <?php $selected = ($row->membership_id == $mlist->id) ? " selected=\"selected\"" : "";?>
@@ -66,41 +66,42 @@
       </select>
       <div class="note">Membership Access</div>
     </section>
-	 <section class="col col-2">
-		<select name="rfid">
-			<?php
-			$rfidCurrent = $RFID->getRFID($row->id);
-			$rfidLogs = $RFID->getLatest();
-			
-			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
-			if(is_array($rfidLogs)) {
-				foreach($rfidLogs as $value) {
-					print("<option value=\"$value\">$value</option>");
-				}
-			}
-			/*
-			<option value="0">asdfghj</option>
-			<option value="8">sdfghjk</option>
-			<option value="6">fvgbnm</option>
-            <option value="7">dfgh</option>
-			*/
-			?>
-        </select>
-
-      <div class="note">RFID Key</div>
-    </section>
-    <section class="col col-4">
+      <section class="col col-2">
+          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+              </label>
+          <?php } else { ?>
+              <label class="input disabled">
+                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Must login once">
+              </label>
+          <?php } ?>
+          <div class="note note-error">PIN</div>
+      </section>
+	    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="userlevel" value="9" <?php getChecked($row->userlevel, 9); ?>>
-          <i></i>Administrator</label>
+          <input type="radio" name="vetted" value="1" <?php getChecked($row->vetted, 1); ?>>
+          <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="userlevel" value="1" <?php getChecked($row->userlevel, 1); ?>>
-          <i></i>User</label>
+          <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
+          <i></i>No</label>
       </div>
-      <div class="note">Admin has full rights. User it's just registered user</div>
+      <div class="note">Vetted For Key</div>
     </section>
-    <section class="col col-3">
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="cash" value="1" <?php getChecked($row->cash, 1); ?>>
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="cash" value="0" <?php getChecked($row->cash, 0); ?>>
+          <i></i>No</label>
+      </div>
+      <div class="note">Cash Member</div>
+    </section>
+
+    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
           <input type="radio" name="newsletter" value="1" <?php getChecked($row->newsletter, 1); ?>>
@@ -113,6 +114,24 @@
     </section>
   </div>
   <div class="row">
+  	 <section class="col col-2">
+		<select name="rfid">
+			<?php
+			$rfidCurrent = $RFID->getRFID($row->id);
+			$rfidLogs = $RFID->getLatest();
+			
+			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
+			if(is_array($rfidLogs)) {
+				foreach($rfidLogs as $value) {
+					print("<option value=\"$value\">$value</option>");
+				}
+			}
+
+			?>
+        </select>
+
+      <div class="note">RFID Key</div>
+    </section>
     <section class="col col-5">
       <div class="inline-group">
         <label class="radio">
@@ -130,28 +149,39 @@
       </div>
       <div class="note">User Status</div>
     </section>
-    <section class="col col-5">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+    <section class="col col-3">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="userlevel" value="9" <?php getChecked($row->userlevel, 9); ?>>
+          <i></i>Administrator</label>
+        <label class="radio">
+          <input type="radio" name="userlevel" value="1" <?php getChecked($row->userlevel, 1); ?>>
+          <i></i>User</label>
+      </div>
+      <div class="note">Administration Station</div>
     </section>
     <section class="col col-2"> <img src="../thumbmaker.php?src=<?php echo UPLOADURL;?><?php echo ($row->avatar) ? $row->avatar : "blank.png";?>&amp;w=40&amp;h=40&amp;s=1&amp;a=t1" alt="" title="" class="avatar" /> </section>
   </div>
   <div class="row">
-    <section class="col col-4">
+    <section class="col col-3">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
         <input type="text" name="created" disabled="disabled" readonly="readonly" value="<?php echo $row->created;?>" placeholder="Email">
       </label>
-      <div class="note">Registration Date:</div>
+      <div class="note">Registration Date</div>
     </section>
-    <section class="col col-4">
+    <section class="col col-3">
+      <label class="input"> <i class="icon-prepend icon-calendar"></i>
+        <input type="text" name="mem_expire" id="enddate" value="<?php echo $row->mem_expire;?>" placeholder="Expiry">
+      </label>
+      <div class="note">Active Until</div>
+    </section>
+    <section class="col col-3">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
         <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->lastlogin;?>" placeholder="First Name">
       </label>
       <div class="note">Last Login</div>
     </section>
-    <section class="col col-4">
+    <section class="col col-2">
       <label class="input state-disabled"> <i class="icon-prepend icon-laptop"></i>
         <input type="text" name="lastip" disabled="disabled" readonly="readonly" value="<?php echo $row->lastip;?>" placeholder="Last Name">
       </label>
@@ -169,14 +199,13 @@
   <footer>
     <button class="button" name="dosubmit" type="submit">Update User Profile<span><i class="icon-ok"></i></span></button>
     <a href="index.php?do=users" class="button button-secondary">Cancel</a> </footer>
-  <input name="username" type="hidden" value="<?php echo $row->username;?>" />
   <input name="id" type="hidden" value="<?php echo Filter::$id;?>" />
 </form>
 <?php echo Core::doForm("processUser");?>
 <?php break;?>
 <?php case"add": ?>
 <?php $memrow = $member->getMemberships();?>
-<p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i> Here you can add new user<br>
+<p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i> Here you can add new users<br>
   Fields marked <i class="icon-append icon-asterisk"></i> are required.</p>
 <form class="xform" id="admin_form" method="post">
   <header>User Manager<span>Adding New User</span></header>
@@ -218,7 +247,7 @@
   <div class="row">
     <section class="col col-5">
       <select name="membership_id">
-        <option value="0">--- No Membership Required---</option>
+        <option value="0">None</option>
         <?php if($memrow):?>
         <?php foreach ($memrow as $mlist):?>
         <option value="<?php echo $mlist->id;?>"><?php echo $mlist->title;?></option>
@@ -237,7 +266,7 @@
           <input name="userlevel" type="radio" value="1" checked="checked">
           <i></i>User</label>
       </div>
-      <div class="note">Admin has full rights. User it's just registered user</div>
+      <div class="note">Administration Station</div>
     </section>
     <section class="col col-3">
       <div class="inline-group">
@@ -269,11 +298,27 @@
       </div>
       <div class="note">User Status</div>
     </section>
-    <section class="col col-4">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="cash" value="1" checked="checked">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="cash" value="0">
+          <i></i>No</label>
+      </div>
+      <div class="note">Cash Member</div>
+    </section>
+	    <section class="col col-2">
+      <div class="inline-group">
+        <label class="radio">
+          <input type="radio" name="vetted" value="1">
+          <i></i>Yes</label>
+        <label class="radio">
+          <input type="radio" name="vetted" value="0" checked="checked">
+          <i></i>No</label>
+      </div>
+      <div class="note">Vetted for Key</div>
     </section>
     <section class="col col-3">
       <label class="checkbox">
@@ -299,7 +344,7 @@
 <?php default:?>
 <?php $userrow = $user->getUsers();?>
 <p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i>Here you can manage your users. <br />
-  You can email each user by clicking on username. You can also activate each usser account by clicking on <i class="icon-adjust"></i> icon</p>
+  You can also activate each user account by clicking on <i class="icon-adjust"></i> icon</p>
 <section class="widget">
   <header>
     <div class="row">
@@ -322,18 +367,18 @@
           <div class="hr2"></div>
           <section class="col col-4">
             <label class="input"> <i class="icon-prepend icon-search"></i>
-              <input type="text" name="serachuser"  id="search-input" placeholder="Search User">
+              <input type="text" name="searchuser"  id="search-input" placeholder="Search User" value="<?php if(isset($_POST['searchuser'])) { echo $_POST['searchuser']; } ?>">
             </label>
             <div id="suggestions"></div>
           </section>
           <section class="col col-3">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
-              <input type="text" name="fromdate"  id="fromdate" placeholder="From">
+              <input type="text" name="fromdate"  id="fromdate" placeholder="From" value="<?php if(isset($_POST['fromdate'])) { echo $_POST['fromdate']; } ?>">
             </label>
           </section>
           <section class="col col-3">
             <label class="input"> <i class="icon-prepend icon-calendar"></i>
-              <input type="text" name="enddate"  id="enddate" placeholder="To">
+              <input type="text" name="enddate"  id="enddate" placeholder="To" value="<?php if(isset($_POST['enddate'])) { echo $_POST['enddate']; } ?>">
             </label>
           </section>
           <section class="col col-2">
@@ -349,6 +394,7 @@
           <th class="header">Username</th>
           <th class="header">Full Name</th>
           <th class="header">User Status</th>
+          <th class="header">Cash</th>
           <th class="header">Membership</th>
           <th class="header">Expires</th>
           <th class="header">Actions</th>
@@ -359,9 +405,15 @@
         <?php foreach ($userrow as $row):?>
         <tr>
           <td><?php echo $row->id;?>.</td>
-          <td><a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>"><?php echo $row->username;?></a></td>
+          <td><a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>"><?php echo $row->username;?></a></td>
           <td><?php echo $row->name;?></td>
           <td><?php echo userStatus($row->active, $row->id);?></td>
+		  <td>
+		  <?php if($row->cash): ?>
+            <span class="tbicon">
+			<a id="item_<?php echo $row->id;?>" class="tooltip cash" data-title="Yes"><i class="icon-check"></i></a> </span>
+		  <?php else:?>&nbsp;<?php endif;?>
+		  </td>
           <td><?php if(!$row->membership_id):?>
             --/--
             <?php else:?>
@@ -370,7 +422,7 @@
           <td><?php echo $row->mem_expire;?></td>
           <td>
           <span class="tbicon"> 
-          <a href="index.php?do=users&amp;action=edit&amp;id=<?php echo $row->id;?>" class="tooltip" data-title="Edit"><i class="icon-pencil"></i></a> </span>
+          <a href="index.php?do=newsletter&amp;emailid=<?php echo urlencode($row->email);?>" class="tooltip" data-title="Mail"><i class="icon-envelope"></i></a> </span>
             <?php if($row->id == 1):?>
             <span class="tbicon"> <a id="item_<?php echo $row->id;?>" class="tooltip" data-rel="<?php echo $row->username;?>" data-title="Master Admin"><i class="icon-lock"></i></a> </span>
             <?php else:?>
@@ -428,7 +480,7 @@ $(document).ready(function () {
     $("#search-input").on("keyup", function () {
         var srch_string = $(this).val();
         var data_string = 'userSearch=' + srch_string;
-        if (srch_string.length > 3) {
+        if (srch_string.length > 0) {
             $.ajax({
                 type: "POST",
                 url: "controller.php",

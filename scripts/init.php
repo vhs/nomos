@@ -13,6 +13,11 @@
 <?php //error_reporting(E_ALL);
   
 
+  //Fix for my particular installation (should be okay to leave for VHS)  
+  ini_set("date.timezone", "America/Vancouver");
+  
+  
+  
   $BASEPATH = str_replace("init.php", "", realpath(__FILE__));
   define("BASEPATH", $BASEPATH);
   
@@ -57,10 +62,10 @@
   Registry::set('Membership',new Membership());
   $member = Registry::get("Membership");
 
-  //Start RFID Class
-  require_once(BASEPATH . "lib/class_rfid.php");
-  Registry::set('RFID', new RFID());
-  $RFID = Registry::get("RFID");
+  //Start PIN Class
+  require_once(BASEPATH . "lib/class_pin.php");
+  Registry::set('PIN', new PIN());
+  $PIN = Registry::get("PIN");
   
   define("SITEURL", $core->site_url);
   define("ADMINURL", $core->site_url."/admin");

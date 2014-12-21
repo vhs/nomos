@@ -25,8 +25,8 @@
   <header>Manage Your Account<span>User Account Edit <i class="icon-double-angle-right"></i> <?php echo $row->username;?></span></header>
   <div class="row">
     <section class="col col-6">
-      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" disabled="disabled" name="username" readonly="readonly" value="<?php echo $row->username;?>" placeholder="Username">
+      <label class="input"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" name="username" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
       </label>
       <div class="note note-error">Username</div>
     </section>
@@ -34,7 +34,7 @@
       <label class="input"> <i class="icon-prepend icon-lock"></i> <i class="icon-append icon-asterisk"></i>
         <input type="password" name="password" placeholder="********">
       </label>
-      <div class="note note-info">Leave it empty unless changing the password</div>
+      <div class="note note-info">Leave empty unless changing passwords</div>
     </section>
   </div>
   <div class="row">
@@ -90,11 +90,21 @@
 
       <div class="note">RFID Key</div>
     </section>
+      <section class="col col-2">
+          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+              </label>
+          <?php } else { ?>
+              <label class="input disabled">
+                  <input type="text" readonly="readonly" disabled="disabled" placeholder="Must login once">
+              </label>
+          <?php } ?>
+          <div class="note note-error">PIN</div>
+      </section>
     <section class="col col-5">
-      <label class="input">
-        <input name="avatar" type="file" class="fileinput"/>
-      </label>
-      <div class="note">User Avatar</div>
+      <img src="badges/laser.png"  height="42" width="42" />
+      <div class="note">Badges</div>
     </section>
     <section class="col col-3"> <img src="thumbmaker.php?src=<?php echo UPLOADURL;?><?php echo ($row->avatar) ? $row->avatar : "blank.png";?>&amp;w=<?php echo $core->thumb_w;?>&amp;h=<?php echo $core->thumb_h;?>&amp;s=1&amp;a=t1" alt="" title="" class="avatar" /> </section>
   </div>
