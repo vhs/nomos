@@ -25,8 +25,8 @@
   <header>Manage Your Account<span>User Account Edit <i class="icon-double-angle-right"></i> <?php echo $row->username;?></span></header>
   <div class="row">
     <section class="col col-6">
-      <label class="input"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" name="username" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
+      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" name="username" disabled="disabled" readonly="readonly" value="<?php echo $row->username;?>" placeholder="<?php echo $row->username;?>">
       </label>
       <div class="note note-error">Username</div>
     </section>
@@ -39,20 +39,20 @@
   </div>
   <div class="row">
     <section class="col col-4">
-      <label class="input"> <i class="icon-prepend icon-envelope-alt"></i> <i class="icon-append icon-asterisk"></i>
-        <input type="text" name="email" value="<?php echo $row->email;?>" placeholder="Email">
+      <label class="input state-disabled"> <i class="icon-prepend icon-envelope-alt"></i> <i class="icon-append icon-asterisk"></i>
+        <input type="text" readonly="readonly" disabled="disabled" name="email" value="<?php echo $row->email;?>" placeholder="Email">
       </label>
       <div class="note note-error">Email</div>
     </section>
     <section class="col col-4">
-      <label class="input"> <i class="icon-prepend icon-user"></i>
-        <input type="text" name="fname" value="<?php echo $row->fname;?>" placeholder="First Name">
+      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i>
+        <input type="text" readonly="readonly" disabled="disabled" name="fname" value="<?php echo $row->fname;?>" placeholder="First Name">
       </label>
       <div class="note note-error">First Name</div>
     </section>
     <section class="col col-4">
-      <label class="input"> <i class="icon-prepend icon-user"></i>
-        <input type="text" name="lname" value="<?php echo $row->lname;?>" placeholder="Last Name">
+      <label class="input state-disabled"> <i class="icon-prepend icon-user"></i>
+        <input type="text" readonly="readonly" disabled="disabled" name="lname" value="<?php echo $row->lname;?>" placeholder="Last Name">
       </label>
       <div class="note note-error">Last Name</div>
     </section>
@@ -70,15 +70,15 @@
     <section class="col col-2">
 		<select name="rfid">
 			<?php
-			$rfidCurrent = $RFID->getRFID($row->id);
-			$rfidLogs = $RFID->getLatest();
-			
+			//$rfidCurrent = $RFID->getRFID($row->id);
+			//$rfidLogs = $RFID->getLatest();
+			/*
 			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
 			if(is_array($rfidLogs)) {
 				foreach($rfidLogs as $value) {
 					print("<option value=\"$value\">$value</option>");
 				}
-			}
+			}*/
 			/*
 			<option value="0">asdfghj</option>
 			<option value="8">sdfghjk</option>

@@ -545,27 +545,35 @@ ini_set ('display_errors', '1' );
        */
       public function updateProfile()
       {
-          Filter::checkPost('username', "Please Enter Valid Username!");
+	  
+		  if(isset($_POST['username'])) {
+			  Filter::checkPost('username', "Please Enter Valid Username!");
 
-          $currentusername = getValueById("username", self::uTable, $this->uid);
+			  $currentusername = getValueById("username", self::uTable, $this->uid);
 
-          if ($_POST['username'] !== $currentusername) {
-              if ($value = $this->usernameExists($_POST['username'])) {
-                  if ($value == 1)
-                      Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
-                  if ($value == 2)
-                      Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-                  if ($value == 3)
-                      Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
-              }
-          }
+			  if ($_POST['username'] !== $currentusername) {
+				  if ($value = $this->usernameExists($_POST['username'])) {
+					  if ($value == 1)
+						  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+					  if ($value == 2)
+						  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+					  if ($value == 3)
+						  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+				  }
+			  }
+		  }
 
-          Filter::checkPost('fname', "Please Enter First Name!");
-          Filter::checkPost('lname', "Please Enter Last Name!");
-          Filter::checkPost('email', "Please Enter Valid Email Address'!");
+		  if(isset($_POST['fname']))
+		      Filter::checkPost('fname', "Please Enter First Name!");
+		  if(isset($_POST['lname']))
+              Filter::checkPost('lname', "Please Enter Last Name!");
+		  if(isset($_POST['email']))
+              Filter::checkPost('email', "Please Enter Valid Email Address!");
 
-          if (!$this->isValidEmail($_POST['email']))
-              Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
+		  if(isset($_POST['email'])) {
+			  if (!$this->isValidEmail($_POST['email']))
+				  Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
+		  }
 
           if (!empty($_FILES['avatar']['name'])) {
               if (!preg_match("/(\.jpg|\.png)$/i", $_FILES['avatar']['name'])) {
