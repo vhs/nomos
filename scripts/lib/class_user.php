@@ -546,6 +546,7 @@ ini_set ('display_errors', '1' );
       public function updateProfile()
       {
 	  
+/*	  
 		  if(isset($_POST['username'])) {
 			  Filter::checkPost('username', "Please Enter Valid Username!");
 
@@ -563,6 +564,7 @@ ini_set ('display_errors', '1' );
 			  }
 		  }
 
+		  
 		  if(isset($_POST['fname']))
 		      Filter::checkPost('fname', "Please Enter First Name!");
 		  if(isset($_POST['lname']))
@@ -574,7 +576,7 @@ ini_set ('display_errors', '1' );
 			  if (!$this->isValidEmail($_POST['email']))
 				  Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
 		  }
-
+*/ 
           if (!empty($_FILES['avatar']['name'])) {
               if (!preg_match("/(\.jpg|\.png)$/i", $_FILES['avatar']['name'])) {
                   Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
@@ -597,28 +599,16 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $data = array(
-                  'username' => sanitize($_POST['username']),
-                  'email' => sanitize($_POST['email']),
-                  'lname' => sanitize($_POST['lname']),
-                  'fname' => sanitize($_POST['fname']),
+                  //'username' => sanitize($_POST['username']),
+                  //'email' => sanitize($_POST['email']),
+                  //'lname' => sanitize($_POST['lname']),
+                  //'fname' => sanitize($_POST['fname']),
                   //'rfid' => sanitize($_POST['rfid']),
                   'newsletter' => intval($_POST['newsletter'])
 				  );
 
               if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
 
-              // Procces Avatar
-              if (!empty($_FILES['avatar']['name'])) {
-                  $thumbdir = UPLOADS;
-                  $tName = "AVT_" . randName();
-                  $text = substr($_FILES['avatar']['name'], strrpos($_FILES['avatar']['name'], '.') + 1);
-                  $thumbName = $thumbdir . $tName . "." . strtolower($text);
-                  if (Filter::$id && $thumb = getValueById("avatar", self::uTable, Filter::$id)) {
-                      @unlink($thumbdir . $thumb);
-                  }
-                  move_uploaded_file($_FILES['avatar']['tmp_name'], $thumbName);
-                  $data['avatar'] = $tName . "." . strtolower($text);
-              }
 
               $userpass = getValueById("password", self::uTable, $this->uid);
 
@@ -632,8 +622,8 @@ ini_set ('display_errors', '1' );
               self::$db->update(self::uTable, $data, "id='" . $this->uid . "'");
 
               if (self::$db->affected()) {
-                  $this->username = $data['username'];
-                  $_SESSION['username'] = $data['username'];
+                  //$this->username = $data['username'];
+                  //$_SESSION['username'] = $data['username'];
 
                   Filter::msgOk('<span>Success!</span> You have successfully updated your profile.');
               } else {

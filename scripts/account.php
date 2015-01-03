@@ -42,7 +42,7 @@
       <label class="input state-disabled"> <i class="icon-prepend icon-envelope-alt"></i> <i class="icon-append icon-asterisk"></i>
         <input type="text" readonly="readonly" disabled="disabled" name="email" value="<?php echo $row->email;?>" placeholder="Email">
       </label>
-      <div class="note note-error">Email</div>
+      <div class="note note-error">Registration Email</div>
     </section>
     <section class="col col-4">
       <label class="input state-disabled"> <i class="icon-prepend icon-user"></i>
@@ -67,29 +67,7 @@
         <i></i>No</label>
       <div class="note">Newsletter Subscriber</div>
     </section>
-    <section class="col col-2">
-		<select name="rfid">
-			<?php
-			//$rfidCurrent = $RFID->getRFID($row->id);
-			//$rfidLogs = $RFID->getLatest();
-			/*
-			print("<option value=\"$rfidCurrent\">**$rfidCurrent**</option>\n");
-			if(is_array($rfidLogs)) {
-				foreach($rfidLogs as $value) {
-					print("<option value=\"$value\">$value</option>");
-				}
-			}*/
-			/*
-			<option value="0">asdfghj</option>
-			<option value="8">sdfghjk</option>
-			<option value="6">fvgbnm</option>
-            <option value="7">dfgh</option>
-			*/
-			?>
-        </select>
 
-      <div class="note">RFID Key</div>
-    </section>
       <section class="col col-2">
           <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
               <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
@@ -106,7 +84,6 @@
       <img src="badges/laser.png"  height="42" width="42" />
       <div class="note">Badges</div>
     </section>
-    <section class="col col-3"> <img src="thumbmaker.php?src=<?php echo UPLOADURL;?><?php echo ($row->avatar) ? $row->avatar : "blank.png";?>&amp;w=<?php echo $core->thumb_w;?>&amp;h=<?php echo $core->thumb_h;?>&amp;s=1&amp;a=t1" alt="" title="" class="avatar" /> </section>
   </div>
   <div class="row">
     <section class="col col-6">

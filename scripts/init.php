@@ -10,7 +10,9 @@
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
 ?>
-<?php //error_reporting(E_ALL);
+<?php
+
+//error_reporting(E_ALL);
   
 
   //Fix for my particular installation (should be okay to leave for VHS)  
