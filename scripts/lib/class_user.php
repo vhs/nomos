@@ -545,28 +545,38 @@ ini_set ('display_errors', '1' );
        */
       public function updateProfile()
       {
-          Filter::checkPost('username', "Please Enter Valid Username!");
+	  
+/*	  
+		  if(isset($_POST['username'])) {
+			  Filter::checkPost('username', "Please Enter Valid Username!");
 
-          $currentusername = getValueById("username", self::uTable, $this->uid);
+			  $currentusername = getValueById("username", self::uTable, $this->uid);
 
-          if ($_POST['username'] !== $currentusername) {
-              if ($value = $this->usernameExists($_POST['username'])) {
-                  if ($value == 1)
-                      Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
-                  if ($value == 2)
-                      Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-                  if ($value == 3)
-                      Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
-              }
-          }
+			  if ($_POST['username'] !== $currentusername) {
+				  if ($value = $this->usernameExists($_POST['username'])) {
+					  if ($value == 1)
+						  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
+					  if ($value == 2)
+						  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
+					  if ($value == 3)
+						  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
+				  }
+			  }
+		  }
 
-          Filter::checkPost('fname', "Please Enter First Name!");
-          Filter::checkPost('lname', "Please Enter Last Name!");
-          Filter::checkPost('email', "Please Enter Valid Email Address'!");
+		  
+		  if(isset($_POST['fname']))
+		      Filter::checkPost('fname', "Please Enter First Name!");
+		  if(isset($_POST['lname']))
+              Filter::checkPost('lname', "Please Enter Last Name!");
+		  if(isset($_POST['email']))
+              Filter::checkPost('email', "Please Enter Valid Email Address!");
 
-          if (!$this->isValidEmail($_POST['email']))
-              Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
-
+		  if(isset($_POST['email'])) {
+			  if (!$this->isValidEmail($_POST['email']))
+				  Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
+		  }
+*/ 
           if (!empty($_FILES['avatar']['name'])) {
               if (!preg_match("/(\.jpg|\.png)$/i", $_FILES['avatar']['name'])) {
                   Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
@@ -589,28 +599,16 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $data = array(
-                  'username' => sanitize($_POST['username']),
-                  'email' => sanitize($_POST['email']),
-                  'lname' => sanitize($_POST['lname']),
-                  'fname' => sanitize($_POST['fname']),
+                  //'username' => sanitize($_POST['username']),
+                  //'email' => sanitize($_POST['email']),
+                  //'lname' => sanitize($_POST['lname']),
+                  //'fname' => sanitize($_POST['fname']),
                   //'rfid' => sanitize($_POST['rfid']),
                   'newsletter' => intval($_POST['newsletter'])
 				  );
 
               if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
 
-              // Procces Avatar
-              if (!empty($_FILES['avatar']['name'])) {
-                  $thumbdir = UPLOADS;
-                  $tName = "AVT_" . randName();
-                  $text = substr($_FILES['avatar']['name'], strrpos($_FILES['avatar']['name'], '.') + 1);
-                  $thumbName = $thumbdir . $tName . "." . strtolower($text);
-                  if (Filter::$id && $thumb = getValueById("avatar", self::uTable, Filter::$id)) {
-                      @unlink($thumbdir . $thumb);
-                  }
-                  move_uploaded_file($_FILES['avatar']['tmp_name'], $thumbName);
-                  $data['avatar'] = $tName . "." . strtolower($text);
-              }
 
               $userpass = getValueById("password", self::uTable, $this->uid);
 
@@ -624,8 +622,8 @@ ini_set ('display_errors', '1' );
               self::$db->update(self::uTable, $data, "id='" . $this->uid . "'");
 
               if (self::$db->affected()) {
-                  $this->username = $data['username'];
-                  $_SESSION['username'] = $data['username'];
+                  //$this->username = $data['username'];
+                  //$_SESSION['username'] = $data['username'];
 
                   Filter::msgOk('<span>Success!</span> You have successfully updated your profile.');
               } else {
@@ -1139,8 +1137,8 @@ ini_set ('display_errors', '1' );
           if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
-          //Username should contain only alphabets, numbers, underscores or hyphens.Should be between 1 to 15 characters long
-		  $valid_uname = "/^[a-z0-9_-]{1,15}$/";
+          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 15 characters long
+		  $valid_uname = "/^[a-z0-9_\.-]{1,15}$/";
           if (!preg_match($valid_uname, $username))
               return 2;
 
