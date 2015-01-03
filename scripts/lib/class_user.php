@@ -1137,8 +1137,8 @@ ini_set ('display_errors', '1' );
           if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
-          //Username should contain only alphabets, numbers, underscores or hyphens.Should be between 1 to 15 characters long
-		  $valid_uname = "/^[a-z0-9_-]{1,15}$/";
+          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 15 characters long
+		  $valid_uname = "/^[a-z0-9_\.-]{1,15}$/";
           if (!preg_match($valid_uname, $username))
               return 2;
 
