@@ -1,6 +1,6 @@
 <?php
-error_reporting (E_ALL);
-ini_set ('display_errors', '1' );
+//error_reporting (E_ALL);
+//ini_set ('display_errors', '1' );
   /**
    * User Class
    *
@@ -446,6 +446,12 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
+			  
+			  if(isset($_POST['mem_expire'])) {
+			      $mem_expire = $_POST['mem_expire'];
+			  } else {
+			      $mem_expire = $this->calculateDays($_POST['membership_id']);
+			  }
 
               $data = array(
                   'username' => sanitize($_POST['username']),
@@ -455,7 +461,7 @@ ini_set ('display_errors', '1' );
                   //'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
                   //'mem_expire' => $this->calculateDays($_POST['membership_id']),
-                  'mem_expire' => sanitize($_POST['mem_expire']), 
+                  'mem_expire' => sanitize($mem_expire), 
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
@@ -1137,8 +1143,8 @@ ini_set ('display_errors', '1' );
           if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
-          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 15 characters long
-		  $valid_uname = "/^[a-z0-9_\.-]{1,15}$/";
+          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 45 characters long
+		  $valid_uname = "/^[a-zA-Z0-9_.-]{1,45}$/";
           if (!preg_match($valid_uname, $username))
               return 2;
 

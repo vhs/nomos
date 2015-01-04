@@ -4,7 +4,6 @@ membership-manager-pro
 Membership management system made VHS-centric
 
 
+See tools folder for development-server setup.
 
-SQL file for database setup is in base directory.
-
-Default username is vhs and password is standard password.
+Default username for testing is vhs / password
