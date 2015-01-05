@@ -43,8 +43,8 @@ class WhereTests extends PHPUnit_Framework_TestCase {
     private $inMemoryGenerator;
 
     public function setUp() {
-        $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlWhereGenerator();
-        $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryWhereGenerator();
+        $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
+        $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
     public function tearDown() { }
 
