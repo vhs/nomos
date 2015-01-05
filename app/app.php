@@ -6,9 +6,11 @@
  * Time: 2:41 PM
  */
 
-require_once("../vhs/vhs.php");
+require_once("include.php");
 
-require_once("SplClassLoader.php");
-echo dirname(__FILE__);
-$classLoader = new SplClassLoader('app', dirname(__FILE__) . '\\..');
-$classLoader->register();
+try {
+    echo \vhs\services\ServiceRegistry::get("web")->handle($_SERVER["SCRIPT_NAME"], $_GET['json']);
+} catch(\Exception $ex) {
+    http_response_code(500);
+    die($ex->getMessage());
+}
