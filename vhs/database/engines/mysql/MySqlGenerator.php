@@ -50,7 +50,7 @@ class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
 
     public function generateComparator(WhereComparator $where) {
         if ($where->isArray) {
-            $sql = $where->column->name;
+            $sql = '`' . $where->column->name . '`';
 
             if($where->equal)
                 $sql .= " IN (";
@@ -66,7 +66,7 @@ class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
 
             return $sql;
         } else {
-            $col = $where->column->name;
+            $col = '`' . $where->column->name . '`';
             $val = $this->cleanValue($where->value);
             $sign = "";
 
@@ -107,7 +107,7 @@ class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
     }
 
     private function gen(OrderBy $orderBy, $type) {
-        $clause = $orderBy->column->name . " " . $type . ", ";
+        $clause = '`' . $orderBy->column->name . '`' . " " . $type . ", ";
 
         foreach($orderBy->orderBy as $n)
             /** @var OrderBy $n */

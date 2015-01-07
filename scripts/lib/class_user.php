@@ -1,6 +1,6 @@
 <?php
-error_reporting (E_ALL);
-ini_set ('display_errors', '1' );
+//error_reporting (E_ALL);
+//ini_set ('display_errors', '1' );
   /**
    * User Class
    *
@@ -446,6 +446,12 @@ ini_set ('display_errors', '1' );
           if (empty(Filter::$msgs)) {
 
               $trial = $live = getValueById("trial", Membership::mTable, intval($_POST['membership_id']));
+			  
+			  if(isset($_POST['mem_expire'])) {
+			      $mem_expire = $_POST['mem_expire'];
+			  } else {
+			      $mem_expire = $this->calculateDays($_POST['membership_id']);
+			  }
 
               $data = array(
                   'username' => sanitize($_POST['username']),
@@ -455,7 +461,7 @@ ini_set ('display_errors', '1' );
                   //'rfid' => sanitize($_POST['rfid']),
                   'membership_id' => intval($_POST['membership_id']),
                   //'mem_expire' => $this->calculateDays($_POST['membership_id']),
-                  'mem_expire' => sanitize($_POST['mem_expire']), 
+                  'mem_expire' => sanitize($mem_expire), 
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
@@ -837,16 +843,16 @@ ini_set ('display_errors', '1' );
           Filter::checkPost('uname', "Please enter Valid Username!");
 		  Filter::checkPost('email', "Please enter Email Address!");
 
-          $uname = $this->usernameExists($_POST['uname']);
-          if (strlen($_POST['uname']) < 4) {
-			  if(strlen($_POST['uname']) > 30) {
-				  if(!preg_match("/^[a-z0-9_\\.]{4,15}$/", $_POST['uname'])) {
-					  if($uname != 3) {
-						  Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
-					  }
-				  }
-			  }
+		  
+		  if ($uname = $this->usernameExists($_POST['uname'])) {
+			  if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
+				  Filter::$msgs['uname'] = 'Username Is Too Short (less Than 1 Characters Long).';
+			  if ($value == 2)
+				  Filter::$msgs['uname'] = 'Invalid Characters Found In Username.';
+		  } else {
+			  Filter::$msgs['uname'] = 'Sorry, Username Not Found';
 		  }
+			
 
           if (!$this->emailExists($_POST['email']))
               Filter::$msgs['uname'] = 'Entered Email Address Does Not Exists.';
@@ -866,10 +872,15 @@ ini_set ('display_errors', '1' );
               $data['password'] = password_hash($newpass, PASSWORD_DEFAULT);
 
               self::$db->update(self::uTable, $data, "username = '" . $user->username . "'");
+			  
+			  if(!$user->email)	//Edge case for if the email field gets wiped
+			      Filter::$msgs['uname'] = 'Unusual Error! Email An Admin For Help';
+			
 
               require_once (BASEPATH . "lib/class_mailer.php");
               $row = Registry::get("Core")->getRowById("email_templates", 2);
 
+			  
               $body = str_replace(array(
                   '[USERNAME]',
                   '[PASSWORD]',
@@ -887,12 +898,13 @@ ini_set ('display_errors', '1' );
               $newbody = cleanOut($body);
 
               $mailer = $mail->sendMail();
+			  
               $message = Swift_Message::newInstance()
 						->setSubject($row->subject)
 						->setTo(array($user->email => $user->username))
 						->setFrom(array(Registry::get("Core")->site_email => Registry::get("Core")->site_name))
 						->setBody($newbody, 'text/html');
-
+;
               (self::$db->affected() && $mailer->send($message)) ? Filter::msgOk('<span>Success!</span>You have successfully changed your password. Please check your email for further info!', false) : Filter::msgError('<span>Error!</span>There was an error during the process. Please contact the administrator.', false);
 
           } else
@@ -1137,8 +1149,8 @@ ini_set ('display_errors', '1' );
           if (strlen(self::$db->escape($username)) < 0)
               return 1;
 
-          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 15 characters long
-		  $valid_uname = "/^[a-z0-9_\.-]{1,15}$/";
+          //Username should contain only alphabets, numbers, underscores, hyphens, or periods. Should be between 1 to 45 characters long
+		  $valid_uname = "/^[a-zA-Z0-9_.-]{1,45}$/";
           if (!preg_match($valid_uname, $username))
               return 2;
 
