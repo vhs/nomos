@@ -10,6 +10,9 @@ namespace vhs\services\endpoints;
 
 
 use vhs\security\CurrentUser;
+use vhs\security\exceptions\UnauthorizedException;
+use vhs\services\exceptions\InvalidContractException;
+use vhs\services\exceptions\InvalidRequestException;
 use vhs\services\IService;
 
 abstract class Endpoint implements IEndpoint {
@@ -48,7 +51,7 @@ abstract class Endpoint implements IEndpoint {
         }
 
         if($contract == null)
-            throw new \Exception("Invalid service contract");
+            throw new InvalidContractException("Invalid service contract");
 
         return $contract;
     }
@@ -119,9 +122,9 @@ abstract class Endpoint implements IEndpoint {
             }
 
             if(!$granted)
-                throw new \Exception("Access denied.");
+                throw new UnauthorizedException("Access denied.");
         } else {
-            throw new \Exception("Service contract method requires permission context.");
+            throw new InvalidContractException("Service contract method requires permission context.");
         }
 
         $paramNames = array_map(function( $item ){
@@ -132,7 +135,7 @@ abstract class Endpoint implements IEndpoint {
 
         foreach($paramNames as $name) {
             if (!array_key_exists($name, $args)) {
-                throw new \Exception("Argument mismatch on service call to " . $method);
+                throw new InvalidRequestException("Argument mismatch on service call to " . $method);
             } else {
                 if(is_array($args))
                     array_push($argvals, $args[$name]);

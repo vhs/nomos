@@ -16,11 +16,13 @@ class Column implements IGeneratable {
     public $table;
     public $name;
     public $type;
+    public $serializable;
 
-    public function __construct(Table &$table, $name, Type $type) {
+    public function __construct(Table &$table, $name, Type $type, $serializable = true) {
         $this->table = $table;
         $this->name = $name;
         $this->type = $type;
+        $this->serializable = $serializable;
     }
 
     public function getAbsoluteName() {

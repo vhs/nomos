@@ -21,7 +21,7 @@ class UserSchema extends Schema {
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("username", Type::String(false, "", 255));
-        $table->addColumn("password", Type::Int(false, "", 255));
+        $table->addColumn("password", Type::Int(false, "", 255), false);
         $table->addColumn("membership_id", Type::Int(false, 0));
         $table->addColumn("mem_expire", Type::DateTime(true, date("Y-m-d H:i:s")));
         $table->addColumn("trial_used", Type::Bool(false, false));

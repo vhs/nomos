@@ -25,10 +25,17 @@ class CurrentUser {
     final protected static function getInstance() {
         static $aoInstance = array();
 
-        if (!isset($aoInstance['CurrentUser']))
-            $aoInstance['CurrentUser'] = new CurrentUser();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            if(!isset($_SESSION['CurrentUser']))
+                $_SESSION['CurrentUser'] = new CurrentUser();
 
-        return $aoInstance['CurrentUser'];
+            return $_SESSION['CurrentUser'];
+        } else {
+            if (!isset($aoInstance['CurrentUser']))
+                $aoInstance['CurrentUser'] = new CurrentUser();
+
+            return $aoInstance['CurrentUser'];
+        }
     }
 
     final private function __clone() { }
