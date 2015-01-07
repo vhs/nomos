@@ -24,7 +24,7 @@ interface IDomain {
     static function Define();
 }
 
-abstract class Domain extends Notifier implements IDomain {
+abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
     private static $__definition;
     private $__cache;
     private $__collections;
@@ -171,6 +171,29 @@ abstract class Domain extends Notifier implements IDomain {
             $this->__set($this->__parentRelationships[$name]['Column']->name, $value->$childOnCol);
             $this->__parentRelationships[$name]['Object'] = $value;
         }
+    }
+
+    private function getInternalData() {
+        $cols = self::Schema()->Columns()->all();
+        $data = array();
+        foreach($cols as $col) {
+            if ($col->serializable)
+                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+        }
+
+        return $data;
+    }
+
+    public function serialize() {
+        return serialize($this->getInternalData());
+    }
+
+    public function jsonSerialize() {
+        return $this->getInternalData();
+    }
+
+    public function unserialize($data) {
+        //TODO implement
     }
 
     protected function getValues($excludePrimaryKeys = false) {

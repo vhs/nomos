@@ -13,7 +13,4 @@ define('DB_DATABASE', 'vhs_membership_test');
 
 require_once("../vhs/vhs.php");
 
-//require_once("../vhs/SplClassLoader.php");
-echo dirname(__FILE__);
-$testclassLoader = new SplClassLoader('tests', dirname(__FILE__) . '\\..');
-$testclassLoader->register();
+\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', dirname(__FILE__) . '\\..'));

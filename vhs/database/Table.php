@@ -39,8 +39,8 @@ class Table implements IGeneratable {
         $this->constraints = $constraints;
     }
 
-    public function addColumn($name, Type $type) {
-        return $this->columns->add(new Column($this, $name, $type));
+    public function addColumn($name, Type $type, $serializable = true) {
+        return $this->columns->add(new Column($this, $name, $type, $serializable));
     }
 
     /**
