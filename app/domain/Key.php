@@ -26,7 +26,15 @@ class Key extends Domain {
     }
 
     public static function findByRfid($rfid) {
-        return self::where(Where::_And(Where::Equal("key", $rfid), Where::Equal("type", "rfid")));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "rfid"), Where::Equal(KeySchema::Columns()->key, $rfid)));
+    }
+
+    public static function findByApiKey($key) {
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "api"), Where::Equal(KeySchema::Columns()->key, $key)));
+    }
+
+    public static function findByPin($pin) {
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "pin"), Where::Equal(KeySchema::Columns()->key, $pin)));
     }
 }
 
