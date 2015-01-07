@@ -10,6 +10,7 @@ namespace app\domain;
 
 
 use app\schema\UserSchema;
+use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
@@ -21,6 +22,12 @@ class User extends Domain {
 
     public function validate(ValidationResults &$results) {
 
+    }
+
+    public static function findByUsername($username) {
+        return User::where(
+            Where::Equal(UserSchema::Columns()->username, $username)
+        );
     }
 }
 

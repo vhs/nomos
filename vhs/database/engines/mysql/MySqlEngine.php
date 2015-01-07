@@ -87,11 +87,11 @@ class MySqlEngine extends Engine {
     }
 
     public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $selector = implode(", ", $columns->names());
+        $selector = implode(", ", array_map(function($col) { return '`' . $col . '`'; }, $columns->names()));
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
         $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
-        $sql = "SELECT {$selector} FROM {$table->name}";
+        $sql = "SELECT {$selector} FROM `{$table->name}`";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -125,7 +125,7 @@ class MySqlEngine extends Engine {
     public function delete(Table $table, Where $where = null) {
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
 
-        $sql = "DELETE FROM {$table->name}";
+        $sql = "DELETE FROM `{$table->name}`";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -143,14 +143,14 @@ class MySqlEngine extends Engine {
         $values = array();
 
         foreach($data as $column => $value) {
-            array_push($columns, $column);
+            array_push($columns, '`' . $column . '`');
             array_push($values, "'" . $value . "'");
         }
 
         $columns = implode(", ", $columns);
         $values = implode(", ", $values);
 
-        $sql = "INSERT INTO {$table->name} ({$columns}) VALUES ({$values})";
+        $sql = "INSERT INTO `{$table->name}` ({$columns}) VALUES ({$values})";
 
         $this->logger->log($sql);
 
@@ -166,9 +166,9 @@ class MySqlEngine extends Engine {
         $setsql = "";
 
         foreach($data as $column => $value)
-            $setsql .= "{$column} = '{$value}'";
+            $setsql .= "`{$column}` = '{$value}'";
 
-        $sql = "UPDATE {$table->name} SET {$setsql}";
+        $sql = "UPDATE `{$table->name}` SET {$setsql}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -185,7 +185,7 @@ class MySqlEngine extends Engine {
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
         $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
-        $sql = "SELECT 1 FROM {$table->name}";
+        $sql = "SELECT 1 FROM `{$table->name}`";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
