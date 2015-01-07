@@ -872,10 +872,15 @@
               $data['password'] = password_hash($newpass, PASSWORD_DEFAULT);
 
               self::$db->update(self::uTable, $data, "username = '" . $user->username . "'");
+			  
+			  if(!$user->email)	//Edge case for if the email field gets wiped
+			      Filter::$msgs['uname'] = 'Unusual Error! Email An Admin For Help';
+			
 
               require_once (BASEPATH . "lib/class_mailer.php");
               $row = Registry::get("Core")->getRowById("email_templates", 2);
 
+			  
               $body = str_replace(array(
                   '[USERNAME]',
                   '[PASSWORD]',
@@ -893,12 +898,13 @@
               $newbody = cleanOut($body);
 
               $mailer = $mail->sendMail();
+			  
               $message = Swift_Message::newInstance()
 						->setSubject($row->subject)
 						->setTo(array($user->email => $user->username))
 						->setFrom(array(Registry::get("Core")->site_email => Registry::get("Core")->site_name))
 						->setBody($newbody, 'text/html');
-
+;
               (self::$db->affected() && $mailer->send($message)) ? Filter::msgOk('<span>Success!</span>You have successfully changed your password. Please check your email for further info!', false) : Filter::msgError('<span>Error!</span>There was an error during the process. Please contact the administrator.', false);
 
           } else
