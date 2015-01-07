@@ -10,6 +10,7 @@ namespace vhs\services;
 
 
 
+use vhs\services\exceptions\InvalidRequestException;
 use vhs\SplClassLoader;
 use vhs\SplClassLoaderItem;
 
@@ -30,7 +31,7 @@ class ServiceHandler {
     public function handle($uri, $data = null, $isNative = false) {
         if (!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc/(?P<method>.*)%im', $uri, $regs)) {
             if(!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-                throw new \Exception("Invalid service request");
+                throw new InvalidRequestException("Invalid service request");
             }
         }
 
@@ -54,7 +55,7 @@ class ServiceHandler {
 
     private function getEndpoint($uri) {
         if(!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-            throw new \Exception("Invalid service request");
+            throw new InvalidRequestException("Invalid service request");
         }
 
         $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];

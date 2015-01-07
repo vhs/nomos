@@ -10,14 +10,15 @@ namespace app\services;
 
 
 use app\contracts\IUserService1;
+use app\domain\User;
 
 class UserService implements IUserService1 {
 
     public function GetUsers() {
-        return "hello world";
+        return User::findAll();
     }
 
     public function GetUser($id) {
-        return "blah";
+        return User::find($id);
     }
 }
