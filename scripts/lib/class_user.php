@@ -843,16 +843,16 @@
           Filter::checkPost('uname', "Please enter Valid Username!");
 		  Filter::checkPost('email', "Please enter Email Address!");
 
-          $uname = $this->usernameExists($_POST['uname']);
-          if (strlen($_POST['uname']) < 4) {
-			  if(strlen($_POST['uname']) > 30) {
-				  if(!preg_match("/^[a-z0-9_\\.]{4,15}$/", $_POST['uname'])) {
-					  if($uname != 3) {
-						  Filter::$msgs['uname'] = 'We are sorry, selected username does not exist in our database';
-					  }
-				  }
-			  }
+		  
+		  if ($uname = $this->usernameExists($_POST['uname'])) {
+			  if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
+				  Filter::$msgs['uname'] = 'Username Is Too Short (less Than 1 Characters Long).';
+			  if ($value == 2)
+				  Filter::$msgs['uname'] = 'Invalid Characters Found In Username.';
+		  } else {
+			  Filter::$msgs['uname'] = 'Sorry, Username Not Found';
 		  }
+			
 
           if (!$this->emailExists($_POST['email']))
               Filter::$msgs['uname'] = 'Entered Email Address Does Not Exists.';
