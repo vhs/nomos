@@ -37,4 +37,6 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
     public function handleException(HttpServer $server, \Exception $ex) {
         $server->output($ex->getMessage());
     }
+
+    public function endResponse(HttpServer $server) { }
 }

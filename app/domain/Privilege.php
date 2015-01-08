@@ -10,6 +10,7 @@ namespace app\domain;
 
 
 use app\schema\PrivilegeSchema;
+use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
@@ -20,5 +21,9 @@ class Privilege extends Domain {
 
     public function validate(ValidationResults &$results) {
 
+    }
+
+    public static function findByCodes(...$code) {
+        return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
     }
 }

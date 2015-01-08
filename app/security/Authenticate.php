@@ -22,67 +22,113 @@ use vhs\security\ICredentials;
 use vhs\security\IPrincipal;
 use vhs\security\UserPassCredentials;
 use vhs\Singleton;
-use vhs\web\HttpContext;
 
 class Authenticate extends Singleton implements IAuthenticate {
 
-    public function login(ICredentials $credentials) {
+    public static function login(ICredentials $credentials) {
         switch(get_class($credentials)) {
             case "vhs\\security\\UserPassCredentials":
                 /** @var UserPassCredentials $credentials */
-                $this->userLogin($credentials->getUsername(), $credentials->getPassword());
+                self::userLogin($credentials->getUsername(), $credentials->getPassword());
                 break;
             case "app\\security\\credentials\\ApiCredentials":
                 /** @var ApiCredentials $credentials */
-                $this->keyLogin(Key::findByApiKey($credentials->getToken()));
+                self::keyLogin(Key::findByApiKey($credentials->getToken()));
                 break;
             case "app\\security\\credentials\\RfidCredentials":
                 /** @var RfidCredentials $credentials */
-                $this->keyLogin(Key::findByRfid($credentials->getToken()));
+                self::keyLogin(Key::findByRfid($credentials->getToken()));
                 break;
             case "app\\security\\credentials\\PinCredentials":
                 /** @var PinCredentials $credentials */
-                $this->keyLogin(Key::findByPin($credentials->getToken()));
+                self::keyLogin(Key::findByPin($credentials->getToken()));
                 break;
             default:
-                throw new InvalidCredentials("Unsupported credential type.");
+                throw new InvalidCredentials("Unsupported authentication type.");
         }
     }
 
-    private function userLogin($username, $password) {
-        HttpContext::Server()->log("Looking for user: " . $username);
+    private static function userLogin($username, $password) {
         $users = User::findByUsername($username);
 
         if(count($users) <> 1)
             throw new InvalidCredentials("Incorrect username or password");
 
         $user = $users[0];
-        HttpContext::Server()->log("found a user");
-        if(!Authenticate::password_verify($password, $user->password)) {
+
+        if(self::isUserValid($user) && Authenticate::password_verify($password, $user->password)) {
+            CurrentUser::setPrincipal(new UserPrincipal($user->id, array_map(
+                function($priviledge) { return $priviledge->code; },
+                $user->membership->priviledges
+            )));
+        } else {
             throw new InvalidCredentials("Incorrect username or password");
         }
-
-        CurrentUser::setPrincipal(new UserPrincipal($user->id, array()));
     }
 
-    private function keyLogin($keys) {
+    private static function isUserValid($user) {
+        switch($user->active) {
+            case "n": //not active
+                throw new InvalidCredentials("Your account is not activated");
+                break;
+            case "y": //yes they are active
+                return true;
+                break;
+            case "t": //pending email verification
+                throw new InvalidCredentials("You need to verify your email address");
+                break;
+            case "b": //banned
+                throw new InvalidCredentials("Your account has been banned");
+                break;
+        }
+
+        return false;
+    }
+
+    private static function keyLogin($keys) {
         if(count($keys) <> 1)
             throw new InvalidCredentials("Invalid key");
 
         $key = $keys[0];
+        $identity = null;
 
-        try {
-            $user = User::find($key->userid);
-        } catch(\Exception $ex) {
-            throw new InvalidCredentials("Invalid key");
+        $priviledges = array_map(
+            function($priviledge) { return $priviledge->code; },
+            $key->priviledges
+        );
+
+        if(!is_null($key->userid)) {
+            try {
+                $user = User::find($key->userid);
+            } catch (\Exception $ex) {
+                throw new InvalidCredentials("Invalid key");
+            }
+
+            if (!is_null($user) && self::isUserValid($user)) {
+                $identity = $user->id;
+                if(in_array("inherit", $priviledges)) {
+                    array_merge(
+                        $priviledges,
+                        array_map(
+                            function ($priviledge) { return $priviledge->code; },
+                            $user->membership->priviledges
+                        )
+                    );
+                }
+            } else {
+                throw new InvalidCredentials("Invalid key");
+            }
         }
 
-        if(!is_null($user)) {
-            CurrentUser::setPrincipal(new UserPrincipal($user->id, array()));
-        }
+        CurrentUser::setPrincipal(
+            new TokenPrincipal(
+                $identity,
+                $priviledges
+            )
+        );
     }
 
-    public function logout() {
+    public static function logout() {
         CurrentUser::setPrincipal(new AnonPrincipal());
     }
 
@@ -107,14 +153,14 @@ class Authenticate extends Singleton implements IAuthenticate {
     /**
      * @return bool
      */
-    public function isAuthenticated() {
-        return !CurrentUser::getPrincipal()->isAnon();
+    public static function isAuthenticated() {
+        return !CurrentUser::isAnon();
     }
 
     /**
      * @return IPrincipal
      */
-    public function currentPrincipal() {
+    public static function currentPrincipal() {
         return CurrentUser::getPrincipal();
     }
 }
