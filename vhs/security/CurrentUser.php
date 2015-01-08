@@ -53,4 +53,20 @@ class CurrentUser {
     final public static function setPrincipal($principal) {
         CurrentUser::getInstance()->currentPrincipal = $principal;
     }
+
+    final public static function hasAllPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->hasAllPermissions(...$permission);
+    }
+
+    final public static function hasAnyPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
+    }
+
+    final public static function getIdentity() {
+        return CurrentUser::getPrincipal()->getIdentity();
+    }
+
+    final public static function isAnon() {
+        return CurrentUser::getPrincipal()->isAnon();
+    }
 }

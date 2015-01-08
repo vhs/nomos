@@ -19,7 +19,7 @@ class KeySchema extends Schema {
         $table = new Table("keys");
 
         $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("userid", Type::Int(false, 0));
+        $table->addColumn("userid", Type::Int());
         $table->addColumn("type", Type::Enum("undefined", "api", "rfid", "pin"));
         $table->addColumn("key", Type::String(true, null, 255));
         $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));

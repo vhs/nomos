@@ -10,6 +10,7 @@ namespace app\security;
 
 
 use app\security\credentials\ApiCredentials;
+use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\IAuthenticate;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
@@ -23,12 +24,27 @@ class HttpApiAuthModule implements IHttpModule {
     }
 
     public function handle(HttpServer $server) {
-        if(isset($server->request->headers["X-Api-Token"]) && !$this->authorizer->isAuthenticated()) {
-            $this->authorizer->login(new ApiCredentials($server->request->headers["X-Api-Token"]));
+        if(array_key_exists("X-Api-Key", $server->request->headers) && !$this->authorizer->isAuthenticated()) {
+            try {
+                $this->authorizer->login(new ApiCredentials($server->request->headers["X-Api-Key"]));
+            } catch(\Exception $ex) {
+                throw new UnauthorizedException($ex->getMessage());
+            }
         }
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
+        if(get_class($ex) === "vhs\\security\\exceptions\\UnauthorizedException") {
+            $server->clear();
+            $server->header('HTTP/1.0 401 Unauthorized');
+            $server->code(401);
+            $server->end();
+        }
+    }
 
+    public function endResponse(HttpServer $server) {
+        if(array_key_exists("X-Api-Key", $server->request->headers) && $this->authorizer->isAuthenticated()) {
+            $this->authorizer->logout();
+        }
     }
 }

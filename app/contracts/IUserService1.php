@@ -14,7 +14,7 @@ use vhs\services\IService;
 interface IUserService1 extends IService {
 
     /**
-     * @permission authenticated
+     * @permission administrator
      * @return mixed
      */
     public function GetUsers();

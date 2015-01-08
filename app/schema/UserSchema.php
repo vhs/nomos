@@ -21,7 +21,7 @@ class UserSchema extends Schema {
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("username", Type::String(false, "", 255));
-        $table->addColumn("password", Type::Int(false, "", 255), false);
+        $table->addColumn("password", Type::String(false, "", 255), false);
         $table->addColumn("membership_id", Type::Int(false, 0));
         $table->addColumn("mem_expire", Type::DateTime(true, date("Y-m-d H:i:s")));
         $table->addColumn("trial_used", Type::Bool(false, false));
@@ -34,7 +34,7 @@ class UserSchema extends Schema {
         $table->addColumn("vetted", Type::Bool(false, false));
         $table->addColumn("cash", Type::Bool(false, false));
         $table->addColumn("userlevel", Type::Int(false, 1));
-        $table->addColumn("userlevel", Type::Text());
+        $table->addColumn("notes", Type::Text());
         $table->addColumn("created", Type::DateTime(true, date("Y-m-d H:i:s")));
         $table->addColumn("lastlogin", Type::DateTime(true, date("Y-m-d H:i:s")));
         $table->addColumn("lastip", Type::String(true, "0", 16));
@@ -43,7 +43,10 @@ class UserSchema extends Schema {
         $table->addColumn("paypal_id", Type::String(false, "", 255));
         $table->addColumn("payment_email", Type::String(false, "", 255));
 
-        $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
+        $table->setConstraints(
+            Constraint::PrimaryKey($table->columns->id),
+            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
+        );
 
         parent::__construct($table);
     }

@@ -28,18 +28,11 @@ interface IAuthService1 extends IService {
     public function Login($username, $password);
 
     /**
-     * @permission anonymous
+     * @permission authenticated
      * @param $pin
      * @return mixed
      */
-    public function PinLogin($pin);
-
-    /**
-     * @permission anonymous
-     * @param $key
-     * @return mixed
-     */
-    public function RfidLogin($key);
+    public function CheckPin($pin);
 
     /**
      * @permission anonymous

@@ -18,6 +18,7 @@ class User extends Domain {
     public static function Define() {
         User::Schema(UserSchema::getInstance());
         User::Relationship("keys", Key::Type());
+        User::Relationship("membership", Membership::Type());
     }
 
     public function validate(ValidationResults &$results) {

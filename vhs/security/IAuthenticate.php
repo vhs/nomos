@@ -10,16 +10,16 @@ namespace vhs\security;
 
 
 interface IAuthenticate {
-    public function login(ICredentials $credentials);
-    public function logout();
+    public static function login(ICredentials $credentials);
+    public static function logout();
 
     /**
      * @return bool
      */
-    public function isAuthenticated();
+    public static function isAuthenticated();
 
     /**
      * @return IPrincipal
      */
-    public function currentPrincipal();
+    public static function currentPrincipal();
 }
