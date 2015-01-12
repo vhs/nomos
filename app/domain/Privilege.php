@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 
 class Privilege extends Domain {
     public static function Define() {
-        Privilege::Schema(PrivilegeSchema::getInstance());
+        Privilege::Schema(PrivilegeSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {

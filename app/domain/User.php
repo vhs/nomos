@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 
 class User extends Domain {
     public static function Define() {
-        User::Schema(UserSchema::getInstance());
+        User::Schema(UserSchema::Type());
         User::Relationship("keys", Key::Type());
         User::Relationship("membership", Membership::Type());
     }
