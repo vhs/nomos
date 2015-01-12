@@ -15,7 +15,7 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class MembershipPrivilegeSchema extends Schema {
-    public function __construct() {
+    public static function init() {
 
         $table = new Table("membershipprivileges");
 
@@ -31,6 +31,6 @@ class MembershipPrivilegeSchema extends Schema {
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 
-        parent::__construct($table);
+        return $table;
     }
 }

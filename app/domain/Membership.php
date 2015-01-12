@@ -16,9 +16,9 @@ use vhs\domain\validations\ValidationResults;
 
 class Membership extends Domain {
     public static function Define() {
-        Membership::Schema(MembershipSchema::getInstance());
+        Membership::Schema(MembershipSchema::Type());
 
-        Membership::Relationship("privileges", Privilege::Type(), MembershipPrivilegeSchema::getInstance());
+        Membership::Relationship("privileges", Privilege::Type(), MembershipPrivilegeSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {

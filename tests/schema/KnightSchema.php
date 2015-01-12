@@ -15,7 +15,10 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class KnightSchema extends Schema {
-    public function __construct() {
+    /**
+     * @return Table
+     */
+    public static function init() {
         $table = new Table("knights");
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("swordid", Type::Int(false, 0));
@@ -27,6 +30,6 @@ class KnightSchema extends Schema {
             Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id)
         );
 
-        parent::__construct($table);
+        return $table;
     }
 }

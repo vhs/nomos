@@ -25,7 +25,7 @@ interface IDomain {
 }
 
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
-    private static $__definition;
+    private static $__definition = array();
     private $__cache;
     private $__collections;
     private $__parentRelationships;
@@ -42,7 +42,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     private static function ensureDefined() {
         $class = get_called_class();
 
-        if(!isset(self::$__definition[$class])) {
+        if(!array_key_exists($class, self::$__definition)) {
             self::$__definition[$class] = array();
             self::$__definition[$class]['Schema'] = null;
             self::$__definition[$class]['Relationships'] = array();

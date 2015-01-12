@@ -58,8 +58,8 @@ class Authenticate extends Singleton implements IAuthenticate {
 
         if(self::isUserValid($user) && Authenticate::password_verify($password, $user->password)) {
             CurrentUser::setPrincipal(new UserPrincipal($user->id, array_map(
-                function($priviledge) { return $priviledge->code; },
-                $user->membership->priviledges
+                function($privilege) { return $privilege->code; },
+                $user->membership->privileges->all()
             )));
         } else {
             throw new InvalidCredentials("Incorrect username or password");

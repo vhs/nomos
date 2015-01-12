@@ -15,7 +15,7 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class AccessLogSchema extends Schema {
-    public function __construct() {
+    public static function init() {
         $table = new Table("accesslog");
 
         $table->addColumn("id", Type::Int(false, 0));
@@ -26,6 +26,6 @@ class AccessLogSchema extends Schema {
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
-        parent::__construct($table);
+        return $table;
     }
 }

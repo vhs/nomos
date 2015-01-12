@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 
 class AccessLog extends Domain {
     public static function Define() {
-        AccessLog::Schema(AccessLogSchema::getInstance());
+        AccessLog::Schema(AccessLogSchema::Type());
     }
 
     /**

@@ -15,7 +15,7 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class UserSchema extends Schema {
-    public function __construct() {
+    public static function init() {
 
         $table = new Table("users");
 
@@ -48,6 +48,6 @@ class UserSchema extends Schema {
             Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
         );
 
-        parent::__construct($table);
+        return $table;
     }
 }

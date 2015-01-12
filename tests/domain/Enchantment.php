@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 class Enchantment extends Domain {
 
     static function Define() {
-        Enchantment::Schema(EnchantmentSchema::getInstance());
+        Enchantment::Schema(EnchantmentSchema::Type());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.
         //EnchantmentDomain::Relationship("swords", Sword::Type(), SwordEnchantmentsSchema::getInstance());
