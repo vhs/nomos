@@ -35,6 +35,13 @@ interface IAuthService1 extends IService {
     public function CheckPin($pin);
 
     /**
+     * @permission authenticated
+     * @param $rfid
+     * @return mixed
+     */
+    public function CheckRfid($rfid);
+
+    /**
      * @permission anonymous
      * @return mixed
      */

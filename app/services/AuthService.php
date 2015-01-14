@@ -113,4 +113,35 @@ class AuthService implements IAuthService1 {
 
         return $retval;
     }
+
+    /**
+     * @permission authenticated
+     * @param $rfid
+     * @return mixed
+     */
+    public function CheckRfid($rfid) {
+        $retval = array();
+        $retval["valid"] = false;
+        $retval["type"] = null;
+
+        $keys = Key::findByRfid($rfid);
+
+        if(count($keys) <> 1)
+            return $retval;
+
+        $key = $keys[0];
+
+        if($key->userid == null)
+            return $retval;
+
+        $user = User::find($key->userid);
+
+        if($user->active == 'y') {
+            $retval["valid"] = true;
+            $retval["type"] = $user->membership->code;
+            return $retval;
+        }
+
+        return $retval;
+    }
 }
