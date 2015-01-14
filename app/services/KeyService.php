@@ -14,6 +14,8 @@ use app\contracts\IPinService1;
 use app\domain\Key;
 use app\domain\Privilege;
 use app\domain\User;
+use app\schema\SettingsSchema;
+use vhs\database\Database;
 use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -124,58 +126,62 @@ class KeyService implements IApiKeyService1, IPinService1 {
     }
 
     /**
-     * @permission administrator
+     * @permission administrator|user
      * @param $userid
      * @return mixed
+     * @throws UnauthorizedException
      */
-    public function GetUserPins($userid) {
-        return Key::where(
+    public function GetUserPin($userid) {
+        if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
+
+        $keys = Key::where(
             Where::_And(
                 Where::Equal(Key::Schema()->Columns()->type, "pin"),
                 Where::Equal(Key::Schema()->Columns()->userid, $userid)
             )
         );
+
+        if(count($keys) >= 1) return $keys[0];
+
+        return null;
     }
 
     /**
-     * @permission administrator
-     * @return mixed
-     */
-    public function GetSystemPins() {
-        return Key::where(
-            Where::_And(
-                Where::Equal(Key::Schema()->Columns()->type, "pin"),
-                Where::Null(Key::Schema()->Columns()->userid)
-            )
-        );
-    }
-
-    /**
-     * Creates a pin for a specified user
+     * Automatically generates a pin for a specified user
      * @permission administrator|user
      * @param $userid
-     * @param $pin
-     * @param $notes
-     * @throws \Exception
      * @return mixed
+     * @throws UnauthorizedException
      */
-    public function CreatePin($userid, $pin, $notes) {
-        $user = User::find($userid);
+    public function GeneratePin($userid) {
+        if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
 
-        if(is_null($user))
-            throw new \Exception("Invalid userid");
+        $pin = $this->GetUserPin($userid);
 
+        if(is_null($pin)) {
+            $nextpinid = Database::scalar(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid);
 
-    }
+            $key = new Key();
+            $key->userid = $userid;
+            $key->type = 'pin';
+            $key->key = $nextpinid . "|" . rand(0, 9999);
+            $key->notes = "User generated PIN";
 
-    /**
-     * @permission administrator
-     * @param $pin
-     * @param $notes
-     * @return mixed
-     */
-    public function CreateSystemPin($pin, $notes) {
-        // TODO: Implement CreateSystemPin() method.
+            $pin = $key;
+        }
+
+        $pinid = explode("|", $pin->key)[0];
+
+        $pin->key = $pinid . "|" . rand(0, 9999);
+        $pin->notes = "User generated PIN";
+
+        $pin->save();
+
+        return $pin;
     }
 
     /**
@@ -183,28 +189,24 @@ class KeyService implements IApiKeyService1, IPinService1 {
      * @permission administrator|user
      * @param $pin
      * @return mixed
+     * @throws UnauthorizedException
      */
-    public function UpdatePin($pinid, $pin) {
-        // TODO: Implement UpdatePin() method.
-    }
+    public function UpdateUserPin($userid, $pin) {
+        if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
 
-    /**
-     * @permission administrator|user
-     * @param $pinid
-     * @param $pin
-     * @return mixed
-     */
-    public function PutPinPriviledges($pinid, $pin) {
-        // TODO: Implement PutPinPriviledges() method.
-    }
+        $pinObj = $this->GetUserPin($userid);
 
-    /**
-     * Deletes a specified auth key
-     * @permission administrator|user
-     * @param $id
-     * @return mixed
-     */
-    public function DeletePin($id) {
-        // TODO: Implement DeletePin() method.
+        if(is_null($pin))
+            $pinObj = $this->GeneratePin($userid);
+
+        $pinid = explode("|", $pinObj->key)[0];
+
+        $pinObj->key = $pinid . "|" . $pin;
+
+        $pinObj->save();
+
+        return $pinObj;
     }
 }

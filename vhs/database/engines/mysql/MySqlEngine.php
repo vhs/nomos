@@ -32,6 +32,8 @@ class MySqlEngine extends Engine {
      */
     private $conn;
 
+    public static function DateFormat() { return "Y-m-d H:i:s"; }
+
     public function __construct(MySqlConnectionInfo $connectionInfo, $autoCreateDatabase = false) {
         $this->info = $connectionInfo;
         $this->autoCreateDatabase = $autoCreateDatabase;
@@ -78,12 +80,12 @@ class MySqlEngine extends Engine {
     }
 
     public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $row = $this->select($table, array($column), $where, $orderBy, $limit);
+        $row = $this->select($table, new Columns($column), $where, $orderBy, $limit);
 
         if(sizeof($row) <> 1)
             return null;
 
-        return $row[0][0];
+        return $row[0][$column->name];
     }
 
     public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
@@ -162,11 +164,15 @@ class MySqlEngine extends Engine {
 
     public function update(Table $table, $data, Where $where = null) {
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-
-        $setsql = "";
-
-        foreach($data as $column => $value)
-            $setsql .= "`{$column}` = '{$value}'";
+        $setsql = implode(", ",
+            array_map(
+                function($column, $value) {
+                    return "`" . $column . "` = '" . $value . "'";
+                },
+                array_keys($data),
+                array_values($data)
+            )
+        );
 
         $sql = "UPDATE `{$table->name}` SET {$setsql}";
 

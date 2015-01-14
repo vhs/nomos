@@ -122,7 +122,7 @@ abstract class Endpoint implements IEndpoint {
             }
 
             if(!$granted)
-                throw new UnauthorizedException("Access denied.");
+                throw new UnauthorizedException();
         } else {
             throw new InvalidContractException("Service contract method requires permission context.");
         }

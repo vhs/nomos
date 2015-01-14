@@ -27,7 +27,7 @@ ALTER TABLE `settings` ADD COLUMN `nextpinid` int(11) NOT NULL DEFAULT 0;
 
 UPDATE `settings` SET `nextpinid` = (select max(pinid) + 1 from `users`);
 
-INSERT INTO `keys` (`userid`, `type`, `key`, `notes`) SELECT u.id as `userid`, 'rfid' as `type`, u.rfid as `key`, 'Added by system migration v5' as `notes` from `users` u where u.rfid is not null;
+INSERT INTO `keys` (`userid`, `type`, `key`, `notes`) SELECT u.id as `userid`, 'rfid' as `type`, u.rfid as `key`, 'Added by system migration v5' as `notes` from `users` u where u.rfid != '';
 INSERT INTO `keys` (`userid`, `type`, `key`, `notes`) SELECT u.id as `userid`, 'pin'  as `type`, CONCAT(u.pinid, '|', u.pin) as `key`, 'Added by system migration v5' as `notes` from `users` u where u.pin is not null;
 
 DELIMITER $$
@@ -72,3 +72,11 @@ INSERT INTO `membershipprivileges` (`membershipid`, `privilegeid`, `notes`) SELE
 ALTER TABLE users DROP COLUMN rfid;
 ALTER TABLE users DROP COLUMN pinid;
 ALTER TABLE users DROP COLUMN pin;
+
+ALTER TABLE accesslog ADD COLUMN `key` VARCHAR(255);
+ALTER TABLE accesslog ADD COLUMN `type` VARCHAR(50);
+
+UPDATE accesslog SET `key` = `rfid_key`, `type` = 'rfid'; -- we haven't used PINs yet so I'm simplifying this migration.
+
+ALTER TABLE accesslog DROP COLUMN `rfid_key`;
+ALTER TABLE accesslog DROP COLUMN `pin`;

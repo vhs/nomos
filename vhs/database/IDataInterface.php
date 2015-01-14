@@ -13,6 +13,8 @@ use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 
 interface IDataInterface {
+    public static function DateFormat();
+
     //TODO support joins some how
     public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null);
     public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null);
