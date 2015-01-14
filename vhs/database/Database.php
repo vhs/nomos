@@ -101,6 +101,10 @@ class Database extends Singleton {
         $db->setLoggerInternal($logger);
     }
 
+    public static function DateFormat() {
+        return self::getInstance()->engine->DateFormat();
+    }
+
     public static function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $db = self::getInstance();
         return $db->invokeEngine(function() use ($db, $table, $column, $where, $orderBy, $limit) {

@@ -25,6 +25,8 @@ class InMemoryEngine extends Engine {
     private $logger;
     private $generator;
 
+    public static function DateFormat() { return "Y-m-d H:i:s"; }
+
     public function __construct() {
         $this->logger = new SilentLogger();
 

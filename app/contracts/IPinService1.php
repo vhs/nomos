@@ -14,57 +14,25 @@ use vhs\services\IService;
 interface IPinService1 extends IService {
 
     /**
-     * @permission administrator
+     * @permission authenticated
      * @param $userid
      * @return mixed
      */
-    public function GetUserPins($userid);
+    public function GetUserPin($userid);
 
     /**
-     * @permission administrator
-     * @return mixed
-     */
-    public function GetSystemPins();
-
-    /**
-     * Creates a pin for a specified user
-     * @permission administrator|user
+     * Automatically generates a pin for a specified user
+     * @permission authenticated
      * @param $userid
-     * @param $pin
-     * @param $notes
      * @return mixed
      */
-    public function CreatePin($userid, $pin, $notes);
-
-    /**
-     * @permission administrator
-     * @param $pin
-     * @param $notes
-     * @return mixed
-     */
-    public function CreateSystemPin($pin, $notes);
+    public function GeneratePin($userid);
 
     /**
      * Change a pin
-     * @permission administrator|user
+     * @permission authenticated
      * @param $pin
      * @return mixed
      */
-    public function UpdatePin($pinid, $pin);
-
-    /**
-     * @permission administrator|user
-     * @param $pinid
-     * @param $pin
-     * @return mixed
-     */
-    public function PutPinPriviledges($pinid, $pin);
-
-    /**
-     * Deletes a specified auth key
-     * @permission administrator|user
-     * @param $id
-     * @return mixed
-     */
-    public function DeletePin($id);
+    public function UpdateUserPin($userid, $pin);
 }

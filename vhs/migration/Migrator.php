@@ -55,7 +55,7 @@ class Migrator {
         if($conn->query("SHOW TABLES LIKE 'SETTINGS'")->num_rows == 1)
         {
             if($conn->query("SHOW COLUMNS FROM `settings` LIKE 'schemaversion'")->num_rows == 1) {
-                $currentversion = $conn->query("SELECT schemaversion FROM settings")->fetch_row()[0];
+                $currentversion = intval($conn->query("SELECT schemaversion FROM settings")->fetch_row()[0]);
             } else {
                 $currentversion = 1;
             }
@@ -87,10 +87,10 @@ class Migrator {
 
         foreach($versions as $version) {
             if (!is_null($toVersion)) {
-                if ($currentversion >= $toVersion) continue;
-            } else {
-                if ($currentversion >= $version) continue;
+                if ($currentversion >= $toVersion) break;
             }
+
+            if ($currentversion >= $version) continue;
 
             //TODO these should prob be in a transaction to allow rollback in case a migration fails.
             $this->logger->log("Upgrading to: " . $version);
