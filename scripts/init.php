@@ -22,11 +22,11 @@
   $BASEPATH = str_replace("init.php", "", realpath(__FILE__));
   define("BASEPATH", $BASEPATH);
   
-  $configFile = BASEPATH . "lib/config.ini.php";
+  $configFile = BASEPATH . "../conf/config.ini.php";
   if (file_exists($configFile)) {
       require_once($configFile);
   } else {
-      header("Location: setup/");
+      die("Config missing, see README.");
   }
 
 require_once(BASEPATH . "../app/include.php");
