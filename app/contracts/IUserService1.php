@@ -25,4 +25,25 @@ interface IUserService1 extends IService {
      * @return mixed
      */
     public function GetUser($id);
+
+    /**
+     * @permission authenticated
+     * @param $id
+     * @return mixed
+     */
+    public function GetKey($id);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $password
+     */
+    public function UpdatePassword($userid, $password);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $subscribe
+     */
+    public function UpdateNewsletter($userid, $subscribe);
 }
