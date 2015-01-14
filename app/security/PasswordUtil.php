@@ -8,7 +8,10 @@
 
 namespace app\security;
 
-define('PASSWORD_BCRYPT', 1);
+if(!defined("PASSWORD_BCRYPT"))
+    define('PASSWORD_BCRYPT', 1);
+
+if(!defined("PASSWORD_DEFAULT"))
 define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
 
 class PasswordUtil {
