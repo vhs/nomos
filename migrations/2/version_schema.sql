@@ -1,1 +1,0 @@
-ALTER TABLE `settings` ADD `schemaversion` INT NOT NULL DEFAULT 2;
