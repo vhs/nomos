@@ -1,4 +1,8 @@
-<?php 
+<?php
+use app\security\Authenticate;
+use vhs\security\CurrentUser;
+use vhs\services\ServiceClient;
+
 error_reporting(-1);
 	/** 
 	* door_access
@@ -35,10 +39,17 @@ error_reporting(-1);
 	
 }
 </style> 
-	 <?php if($user->membership_id == 7): ?>
+	 <?php
+
+	 if(!Authenticate::isAuthenticated())
+		 redirect_to("index.php");
+
+	 $user = ServiceClient::web_UserService1_GetUser(CurrentUser::getIdentity());
+
+	 if($user->membership->code == 'key-holder'): ?>
 <div class="doorinfo fullform xform">
 <header>
-<h1>Welcome, <?=$user->name?>!</h1>.
+<h1>Welcome, <?=$user->fname?>!</h1>.
 <p>Congratulations on becoming a keyholder at VHS! This information is specific to you. In order to control access to our great new hackspace, please do not distribute this information to anyone else. If anyone asks for the code, please point them to one of the <a href="mailto:directors@lists.hackspace.ca">directors</a>.</p>
 </header>
 <h2>What you need to know:</h2>

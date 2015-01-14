@@ -10,6 +10,9 @@
   
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
+
+$profile = \vhs\services\ServiceClient::web_UserService1_GetUser(\vhs\security\CurrentUser::getIdentity());
+
 ?>
 <!doctype html>
 <html>
@@ -37,7 +40,7 @@
     <div class="row grid_24 clearfix">
       <div class="col grid_14"> <a href="index.php"><?php echo ($core->logo) ? '<img src="'.SITEURL.'/uploads/'.$core->logo.'" alt="'.$core->site_name.'" class="logo"/>': $core->site_name;?></a> </div>
       <div class="col grid_10">
-        <p class="flright">Welcome: <?php echo $user->username;?><br />Last Login: <?php echo strftime("%c", strtotime($user->last));?></p>
+        <p class="flright">Welcome: <?php echo $profile->username;?><br />Last Login: <?php echo strftime("%c", strtotime($profile->lastlogin));?></p>
       </div>
     </div>
   </div>

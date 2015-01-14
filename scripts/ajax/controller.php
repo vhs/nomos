@@ -7,10 +7,14 @@
    * @copyright 2010
    * @version $Id: controller.php, v2.00 2011-07-10 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+use app\security\Authenticate;
+use vhs\security\CurrentUser;
+use vhs\services\ServiceClient;
+
+define("_VALID_PHP", true);
   require_once("../init.php");
 
-  if (!$user->logged_in)
+  if (!Authenticate::isAuthenticated())
       redirect_to("../index.php");
 ?>
 <?php
@@ -42,11 +46,23 @@
   endif;
 ?>
 <?php
-  /* Proccess User */
-  if (isset($_POST['processUser']))
-      : if (intval($_POST['processUser']) == 0 || empty($_POST['processUser']))
-      : redirect_to("../account.php");
-  endif;
-  $user->updateProfile();
-  endif;
+    /* Proccess User */
+    if (isset($_POST['processUser'])) {
+        if (intval($_POST['processUser']) == 0 || empty($_POST['processUser'])) {
+            redirect_to("../account.php");
+        } else {
+            //$user->updateProfile();
+
+            if(isset($_POST['password']) && !empty($_POST['password']))
+                ServiceClient::web_UserService1_UpdatePassword(CurrentUser::getIdentity(), $_POST['password']);
+
+            if(isset($_POST['newsletter']) && !empty($_POST['newsletter']))
+                ServiceClient::web_UserService1_UpdateNewsletter(CurrentUser::getIdentity(), $_POST['newsletter']);
+
+            if(isset($_POST['pin']) && !empty($_POST['pin']))
+                ServiceClient::web_PinService1_UpdateUserPin(CurrentUser::getIdentity(), $_POST['pin']);
+
+            Filter::msgOk('<span>Success!</span> You have successfully updated your profile.');
+        }
+    }
 ?>

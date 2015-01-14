@@ -7,14 +7,29 @@
    * @copyright 2010
    * @version $Id: account.php, v2.00 2011-07-10 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+
+
+use app\security\Authenticate;
+use vhs\security\CurrentUser;
+use vhs\services\ServiceClient;
+
+define("_VALID_PHP", true);
   require_once("init.php");
-  
-  if (!$user->logged_in)
+
+  if (!Authenticate::isAuthenticated())
       redirect_to("index.php");
+
+
 	  
-  $row = $user->getUserData();
-  $mrow = $user->getUserMembership();
+$row = ServiceClient::web_UserService1_GetUser(CurrentUser::getIdentity());//$user->getUserData();
+
+$pinObj = ServiceClient::web_PinService1_GetUserPin(CurrentUser::getIdentity());
+
+if(is_null($pinObj)) {
+  $pinObj = ServiceClient::web_PinService1_GeneratePin(CurrentUser::getIdentity());
+}
+
+  //$mrow = $user->getUserMembership();
   $gatelist = $member->getGateways(true);
   $listpackrow = $member->getMembershipListFrontEnd();
 ?>
@@ -69,9 +84,14 @@
     </section>
 
       <section class="col col-2">
-          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
-              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
-                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+          <?php
+          if(!is_null($pinObj)) {
+            $spin = explode("|", $pinObj->key);
+            $pinid = sprintf("%04s", $spin[0]);
+            $pin = sprintf("%04s", $spin[1]);
+            ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo $pinid; ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo $pin; ?>" placeholder="<?php echo $pin; ?>">
               </label>
           <?php } else { ?>
               <label class="input disabled">
@@ -88,13 +108,13 @@
   <div class="row">
     <section class="col col-6">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
-        <input type="text" name="created" disabled="disabled" readonly="readonly" value="<?php echo $row->cdate;?>" placeholder="Email">
+        <input type="text" name="created" disabled="disabled" readonly="readonly" value="<?php echo date("F j, Y, g:i a", strtotime($row->created));?>" placeholder="Created">
       </label>
-      <div class="note">Registration Date:</div>
+      <div class="note">Registration Date</div>
     </section>
     <section class="col col-6">
       <label class="input state-disabled"> <i class="icon-prepend icon-calendar"></i>
-        <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo $row->ldate;?>" placeholder="First Name">
+        <input type="text" name="lastlogin" disabled="disabled" readonly="readonly" value="<?php echo date("F j, Y, g:i a", strtotime($row->lastlogin));?>" placeholder="Last Login">
       </label>
       <div class="note">Last Login</div>
     </section>
@@ -110,15 +130,15 @@
     <th><strong>Valid Until</strong></th>
   </tr>
   </thead>
-  <?php if($row->membership_id == 0) :?>
+  <?php if(is_null($row->membership)) :?>
   <tr>
     <td>No Membership</td>
     <td>--/--</td>
   </tr>
   <?php else:?>
   <tr>
-    <td><strong> <?php echo $mrow->title;?> </strong></td>
-    <td><strong> <?php echo $mrow->expiry;?> </strong></td>
+    <td><strong> <?php echo $row->membership->title;?> </strong></td>
+    <td><strong> <?php echo $row->mem_expire;?> </strong></td>
   </tr>
   <?php endif;?>
 </table>

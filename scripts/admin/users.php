@@ -9,6 +9,8 @@
    */
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
+
+$pinObj = ServiceClient::web_PinService1_GetUserPin(CurrentUser::getIdentity());
 ?>
 <?php switch(Filter::$action): case "edit": ?>
 <?php $row = Core::getRowById(Users::uTable, Filter::$id);?>
@@ -67,9 +69,12 @@
       <div class="note">Membership Access</div>
     </section>
       <section class="col col-2">
-          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
-              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
-                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+          <?php if(!is_null($pinObj)) {
+            $spin = explode("|", $pinObj->key);
+            $pinid = sprintf("%04s", $spin[0]);
+            $pin = sprintf("%04s", $spin[1]); ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $pin); ?>" placeholder="<?php echo sprintf("%04s", $pin); ?>">
               </label>
           <?php } else { ?>
               <label class="input disabled">

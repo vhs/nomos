@@ -24,4 +24,4 @@
 	* Show MySql Errors. 
 	* Not recomended for live site. true/false 
 	*/
-	 define('DEBUG', false);
+	 define('DEBUG', true);

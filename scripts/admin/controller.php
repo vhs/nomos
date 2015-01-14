@@ -10,7 +10,7 @@
   define("_VALID_PHP", true);
 
   require_once ("../init.php");
-  if (!$user->is_Admin())
+  if (!\vhs\security\CurrentUser::hasAnyPermissions("administrator"))
       redirect_to("../login.php");
 ?>
 <?php

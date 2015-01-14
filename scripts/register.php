@@ -7,10 +7,12 @@
    * @copyright 2010
    * @version $Id: register.php, v2.00 2011-07-10 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+use app\security\Authenticate;
+
+define("_VALID_PHP", true);
   require_once("init.php");
 
-  if ($user->logged_in)
+  if (Authenticate::isAuthenticated())
       redirect_to("account.php");
 	  
    $numusers = countEntries("users");

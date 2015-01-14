@@ -7,10 +7,18 @@
    * @copyright 2010
    * @version $Id: contact.php, v2.00 2011-04-20 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+use app\security\Authenticate;
+use vhs\security\CurrentUser;
+use vhs\services\ServiceClient;
+
+define("_VALID_PHP", true);
   require_once("init.php");
 ?>
-<?php include("header.php");?>
+<?php include("header.php");
+
+if(Authenticate::isAuthenticated())
+    $user = ServiceClient::web_UserService1_GetUser(CurrentUser::getIdentity());
+?>
 <p class="bluetip"><i class="icon-lightbulb icon-3x pull-left"></i> Feel free to send us an email with your enquiries, questions, or any feedback.<br />
   We will be very happy to answer your question. Use contact form below to send us quick email.</p>
 <div id="fullform">
@@ -19,13 +27,13 @@
     <div class="row">
       <section class="col col-6">
         <label class="input"> <i class="icon-append icon-asterisk"></i>
-          <input type="text" name="name" value="<?php if ($user->logged_in) echo $user->name;?>" placeholder="Your Name">
+          <input type="text" name="name" value="<?php if (Authenticate::isAuthenticated()) echo $user->fname . " " . $user->lname;?>" placeholder="Your Name">
         </label>
         <div class="note note-error">Your Name</div>
       </section>
       <section class="col col-6">
         <label class="input"> <i class="icon-prepend icon-lock"></i> <i class="icon-append icon-asterisk"></i>
-          <input type="text" name="email" value="<?php if ($user->logged_in) echo $user->email;?>" placeholder="Email Address">
+          <input type="text" name="email" value="<?php if (Authenticate::isAuthenticated()) echo $user->email;?>" placeholder="Email Address">
         </label>
         <div class="note note-error">Email Address</div>
       </section>

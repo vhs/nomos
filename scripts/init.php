@@ -13,7 +13,6 @@
 <?php
 
 //error_reporting(E_ALL);
-  
 
   //Fix for my particular installation (should be okay to leave for VHS)  
   ini_set("date.timezone", "America/Vancouver");
@@ -29,6 +28,10 @@
   } else {
       header("Location: setup/");
   }
+
+require_once(BASEPATH . "../app/include.php");
+
+session_start();
 
   require_once(BASEPATH . "lib/class_db.php");
   
@@ -63,11 +66,6 @@
   require_once(BASEPATH . "lib/class_membership.php");
   Registry::set('Membership',new Membership());
   $member = Registry::get("Membership");
-
-  //Start PIN Class
-  require_once(BASEPATH . "lib/class_pin.php");
-  Registry::set('PIN', new PIN());
-  $PIN = Registry::get("PIN");
   
   define("SITEURL", $core->site_url);
   define("ADMINURL", $core->site_url."/admin");

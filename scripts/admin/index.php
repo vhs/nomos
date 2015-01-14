@@ -17,7 +17,7 @@
 		  . "<b>Warning:</b> Please delete setup directory!</span></div>");
   endif;
   
-  if (!$user->is_Admin())
+  if (!\vhs\security\CurrentUser::hasAnyPermissions("administrator"))
       redirect_to("login.php");
 ?>
 <?php include("header.php");?>

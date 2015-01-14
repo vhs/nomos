@@ -13,9 +13,6 @@
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
 
-  // bruce 2013-11-05
-  require_once __DIR__.'/password.php';
-
   class Users
   {
       const uTable = "users";
@@ -32,107 +29,12 @@
       private $lastlogin = "NOW()";
       private static $db;
 
-
-      /**
-       * Users::__construct()
-       * 
-       * @return
-       */
       function __construct()
       {
           self::$db = Registry::get("Database");
-
-          $this->getUserId();
-          $this->startSession();
       }
 
-      /**
-       * Users::getUserId()
-       * 
-       * @return
-       */
-      private function getUserId()
-      {
-          if (isset($_GET['userid'])) {
-              $userid = (is_numeric($_GET['userid']) && $_GET['userid'] > -1) ? intval($_GET['userid']) : false;
-              $userid = sanitize($userid);
-
-              if ($userid == false) {
-                  Filter::error("You have selected an Invalid Userid", "Users::getUserId()");
-              } else
-                  return $this->userid = $userid;
-          }
-      }
-
-      /**
-       * Users::startSession()
-       * 
-       * @return
-       */
-      private function startSession()
-      {
-          if (strlen(session_id()) < 1)
-              session_start();
-
-          $this->logged_in = $this->loginCheck();
-
-          if (!$this->logged_in) {
-              $this->username = $_SESSION['username'] = "Guest";
-              $this->sesid = sha1(session_id());
-              $this->userlevel = 0;
-          }
-      }
-
-      /**
-       * Users::loginCheck()
-       * 
-       * @return
-       */
-      private function loginCheck()
-      {
-          if (isset($_SESSION['username']) && $_SESSION['username'] != "Guest") {
-			  
-              $row = $this->getUserInfo($_SESSION['username']);
-
-              /*
-               * This check is false if a username changes while the user is logged in.
-               * TODO fix all the bullshit with having the username in the session for
-               * everything. It should use the ID instead.
-               */
-              if(!$row) return false;
-
-              $this->uid = $row->id;
-              $this->username = $row->username;
-              $this->email = $row->email;
-              $this->name = $row->fname . ' ' . $row->lname;
-              $this->userlevel = $row->userlevel;
-              $this->cookie_id = $row->cookie_id;
-			  $this->last = $row->lastlogin;
-              $this->membership_id = $row->membership_id;
-              return true;
-          } else {
-              return false;
-          }
-      }
-
-      /**
-       * Users::is_Admin()
-       * 
-       * @return
-       */
-      public function is_Admin()
-      {
-          return ($this->userlevel == 9);
-
-      }
-
-      /**
-       * Users::login()
-       * 
-       * @param mixed $username
-       * @param mixed $pass
-       * @return
-       */
+      /*
       public function login($username, $pass)
       {
           if ($username == "" && $pass == "") {
@@ -191,126 +93,8 @@
               return true;
           } else
               Filter::msgStatus();
-      }
+      }*/
 
-      /**
-       * Users::logout()
-       * 
-       * @return
-       */
-      public function logout()
-      {
-
-          unset($_SESSION['username']);
-          unset($_SESSION['email']);
-          unset($_SESSION['name']);
-          unset($_SESSION['membership_id']);
-          unset($_SESSION['userid']);
-          unset($_SESSION['cookie_id']);
-          session_destroy();
-          session_regenerate_id();
-
-          $this->logged_in = false;
-          $this->username = "Guest";
-          $this->userlevel = 0;
-      }
-
-      /**
-       * User::confirmUserID()
-       * 
-       * @param mixed $username
-       * @param mixed $cookie_id
-       * @return
-       */
-      function confirmUserID($username, $cookie_id)
-      {
-
-          $sql = "SELECT cookie_id FROM users WHERE username = '" . self::$db->escape($username) . "'";
-          $result = self::$db->query($sql);
-          if (!$result || (self::$db->numrows($result) < 1)) {
-              return 1;
-          }
-
-          $row = self::$db->fetch($result);
-          $row->cookie_id = sanitize($row->cookie_id);
-          $cookie_id = sanitize($cookie_id);
-
-          if ($cookie_id == $row->cookie_id) {
-              return 0;
-          } else {
-              return 2;
-          }
-      }
-
-      /**
-       * Users::getUserInfo()
-       * 
-       * @param mixed $username
-       * @return
-       */
-      private function getUserInfo($username)
-      {
-          $username = sanitize($username);
-          $username = self::$db->escape($username);
-
-          $sql = "SELECT * FROM " . self::uTable . " WHERE username = '" . $username . "'";
-          $row = self::$db->first($sql);
-          if (!$username)
-              return false;
-
-          return ($row) ? $row : 0;
-      }
-
-      /**
-       * Users::checkStatus()
-       * 
-       * @param mixed $username
-       * @param mixed $pass
-       * @return
-       */
-      public function checkStatus($username, $pass)
-      {
-
-          $username = sanitize($username);
-          $username = self::$db->escape($username);
-          $pass = sanitize($pass);
-
-          $sql = "SELECT password, active FROM " . self::uTable 
-		  . "\n WHERE username = '" . $username . "'";
-          $result = self::$db->query($sql);
-
-          if (self::$db->numrows($result) == 0)
-              return 0;
-
-          $row = self::$db->fetch($result);
-          $entered_pass = sha1($pass);
-
-          switch ($row->active) {
-              case "b":
-                  return 1;
-                  break;
-
-              case "n":
-                  return 2;
-                  break;
-
-              case "t":
-                  return 3;
-                  break;
-
-              // bruce 2013-11-05
-              //case "y" && $entered_pass == $row->password:
-              //    return 5;
-              //    break;
-
-              case "y":
-                  if (password_verify($entered_pass, $row->password))
-                    return 5;
-                  break;
-          }
-
-          return 0;
-      }
 
       /**
        * Users::getUsers()
@@ -471,8 +255,6 @@
                   'active' => sanitize($_POST['active'])
 				  );
 
-              if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
-
               if (!Filter::$id)
                   $data['created'] = "NOW()";
 
@@ -481,8 +263,7 @@
 
               // bruce 2013-11-05
               if ($_POST['password'] != "") {
-                  // $data['password'] = sha1($_POST['password']);
-                  $data['password'] = password_hash(sha1($_POST['password']), PASSWORD_DEFAULT);
+                  $data['password'] = \app\security\PasswordUtil::hash($_POST['password']);
               } else {
                   $data['password'] = $userrow->password;
               }
@@ -501,6 +282,10 @@
               }
 
               (Filter::$id) ? self::$db->update(self::uTable, $data, "id='" . Filter::$id . "'") : self::$db->insert(self::uTable, $data);
+
+              if(Filter::$id && isset($_POST['pin'])) //TODO handle the insert case.. ultimately those get handled when the user logins in the first time
+                \vhs\services\ServiceClient::web_PinService1_UpdatePin(Filter::$id, $_POST['pin']);
+
               $message = (Filter::$id) ? '<span>Success!</span>User updated successfully!' : '<span>Success!</span>User added successfully!';
 
               if (self::$db->affected()) {
@@ -516,17 +301,11 @@
                           '[USERNAME]',
                           '[PASSWORD]',
                           '[NAME]',
-                          //'[RFID]',
-                          '[PINID]',
-                          '[PIN]',
                           '[SITE_NAME]',
                           '[URL]'), array(
                           $data['username'],
                           $_POST['password'],
                           $data['fname'] . ' ' . $data['lname'],
-                          //$data['rfid'],
-                          $data['pinid'],
-                          $data['pin'],
                           Registry::get("Core")->site_name,
                           Registry::get("Core")->site_url), $row->body);
 
@@ -540,101 +319,6 @@
                   }
               } else
                   Filter::msgAlert('<span>Alert!</span>Nothing to process.');
-          } else
-              print Filter::msgStatus();
-      }
-
-      /**
-       * Users::updateProfile()
-       * 
-       * @return
-       */
-      public function updateProfile()
-      {
-	  
-/*	  
-		  if(isset($_POST['username'])) {
-			  Filter::checkPost('username', "Please Enter Valid Username!");
-
-			  $currentusername = getValueById("username", self::uTable, $this->uid);
-
-			  if ($_POST['username'] !== $currentusername) {
-				  if ($value = $this->usernameExists($_POST['username'])) {
-					  if ($value == 1)
-						  Filter::$msgs['username'] = 'Username Is Too Short (less Than 4 Characters Long).';
-					  if ($value == 2)
-						  Filter::$msgs['username'] = 'Invalid Characters Found In Username.';
-					  if ($value == 3)
-						  Filter::$msgs['username'] = 'Sorry, This Username Is Already Taken';
-				  }
-			  }
-		  }
-
-		  
-		  if(isset($_POST['fname']))
-		      Filter::checkPost('fname', "Please Enter First Name!");
-		  if(isset($_POST['lname']))
-              Filter::checkPost('lname', "Please Enter Last Name!");
-		  if(isset($_POST['email']))
-              Filter::checkPost('email', "Please Enter Valid Email Address!");
-
-		  if(isset($_POST['email'])) {
-			  if (!$this->isValidEmail($_POST['email']))
-				  Filter::$msgs['email'] = 'Entered Email Address Is Not Valid.';
-		  }
-*/ 
-          if (!empty($_FILES['avatar']['name'])) {
-              if (!preg_match("/(\.jpg|\.png)$/i", $_FILES['avatar']['name'])) {
-                  Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
-              }
-              $file_info = getimagesize($_FILES['avatar']['tmp_name']);
-              if (empty($file_info))
-                  Filter::$msgs['avatar'] = "Illegal file type. Only jpg and png file types allowed.";
-          }
-
-          if (!empty($_POST['pin'])) {
-              if (is_numeric($_POST['pin'])) {
-                  if (intval($_POST['pin']) >= 10000 || intval($_POST['pin']) < 0) {
-                      Filter::$msgs['pin'] = "PIN must be a positive 4 digit number";
-                  }
-              } else {
-                  Filter::$msgs['pin'] = "PIN must be a number";
-              }
-          }
-
-          if (empty(Filter::$msgs)) {
-
-              $data = array(
-                  //'username' => sanitize($_POST['username']),
-                  //'email' => sanitize($_POST['email']),
-                  //'lname' => sanitize($_POST['lname']),
-                  //'fname' => sanitize($_POST['fname']),
-                  //'rfid' => sanitize($_POST['rfid']),
-                  'newsletter' => intval($_POST['newsletter'])
-				  );
-
-              if (isset($_POST['pin'])) $data['pin'] = intval($_POST['pin']);
-
-
-              $userpass = getValueById("password", self::uTable, $this->uid);
-
-              // bruce 2013-11-05
-              if ($_POST['password'] != "") {
-                  // $data['password'] = sha1($_POST['password']);
-                  $data['password'] = password_hash(sha1($_POST['password']), PASSWORD_DEFAULT);
-              } else
-                  $data['password'] = $userpass;
-
-              self::$db->update(self::uTable, $data, "id='" . $this->uid . "'");
-
-              if (self::$db->affected()) {
-                  //$this->username = $data['username'];
-                  //$_SESSION['username'] = $data['username'];
-
-                  Filter::msgOk('<span>Success!</span> You have successfully updated your profile.');
-              } else {
-                  Filter::msgAlert('<span>Alert!</span>Nothing to process.');
-              }
           } else
               print Filter::msgStatus();
       }
@@ -699,7 +383,7 @@
               $data = array(
                   'username' => sanitize($_POST['username']),
                   // 'password' => sha1($_POST['pass']),
-                  'password' => password_hash(sha1($_POST['pass']), PASSWORD_DEFAULT),
+                  'password' => \app\security\PasswordUtil::hash($_POST['pass']),
                   'email' => sanitize($_POST['email']),
                   'fname' => sanitize($_POST['fname']),
                   'lname' => sanitize($_POST['lname']),
@@ -865,11 +549,8 @@
 
               $user = $this->getUserInfo($_POST['uname']);
               $randpass = $this->getUniqueCode(12);
-              $newpass = sha1($randpass);
 
-              // bruce 2013-11-05
-              // $data['password'] = $newpass;
-              $data['password'] = password_hash($newpass, PASSWORD_DEFAULT);
+              $data['password'] = \app\security\PasswordUtil::hash($randpass);
 
               self::$db->update(self::uTable, $data, "username = '" . $user->username . "'");
 			  
