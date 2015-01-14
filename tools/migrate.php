@@ -3,7 +3,7 @@
 use vhs\loggers\ConsoleLogger;
 use vhs\migration\Migrator;
 
-require_once("../vhs/vhs.php");
+require_once(dirname(__FILE__) . "/../vhs/vhs.php");
 
 define("_VALID_PHP", true);
 
