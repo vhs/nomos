@@ -46,7 +46,7 @@
 </div>
 <div class="col grid_16">
   <div id="usermenu" class="flright"> <a href="index.php"><i class="icon-laptop"></i> Home Page</a> <a href="contact.php"><i class="icon-envelope"></i> Contact Us</a>
-    <?php if(\vhs\security\CurrentUser::hasAnyPermissions("door")): ?>
+    <?php if(\app\security\Authenticate::isAuthenticated()): ?>
     <a href="door_access.php"><i class="icon-off"></i> Door Access</a>
     <?php endif; ?>
     <?php if(\app\security\Authenticate::isAuthenticated()):?>

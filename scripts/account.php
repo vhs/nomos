@@ -98,7 +98,7 @@ if(is_null($pinObj)) {
                   <input type="text" readonly="readonly" disabled="disabled" placeholder="Must login once">
               </label>
           <?php } ?>
-          <div class="note note-error">PIN</div>
+          <div class="note note-error">PIN - Admins can see this!</div>
       </section>
     <section class="col col-5">
       <img src="badges/laser.png"  height="42" width="42" />
