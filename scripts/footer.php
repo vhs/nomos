@@ -15,6 +15,7 @@
 <footer id="footer" class="clearfix">
   Copyright &copy;<?php echo date('Y').' '.$core->site_name;?><br />
     Wojoscripts.com &bull; Membership Manager Pro v<?php echo $core->version;?>
+	Vancouver Hack Space: <?php print(exec("git rev-parse --short HEAD")); ?>
 </footer>
 <!-- End Footer-->
 </div><!-- container /-->
