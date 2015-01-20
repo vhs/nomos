@@ -10,7 +10,7 @@
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
 
-$pinObj = ServiceClient::web_PinService1_GetUserPin(CurrentUser::getIdentity());
+$pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin(vhs\security\CurrentUser::getIdentity());
 ?>
 <?php switch(Filter::$action): case "edit": ?>
 <?php $row = Core::getRowById(Users::uTable, Filter::$id);?>
