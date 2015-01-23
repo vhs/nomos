@@ -7,7 +7,8 @@
  */
 
 
-require_once("init.php");
+require_once("../conf/config.ini.php");
+require_once("include.php");
 
 $serverLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/server.log") : new \vhs\loggers\SilentLogger();
 
