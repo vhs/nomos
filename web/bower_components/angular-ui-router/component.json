@@ -1,0 +1,22 @@
+{
+  "name": "angular-ui-router",
+  "version": "0.2.13",
+  "description": "State-based routing for AngularJS",
+  "keywords": [
+    "angular",
+    "states",
+    "routing"
+  ],
+  "main": "release/angular-ui-router.min.js",
+  "typescript": {
+    "definition": "api/angular-ui-router.d.ts"
+  },
+  "scripts": [
+    "release/angular-ui-router.min.js"
+  ],
+  "files": [
+    "api/angular-ui-router.d.ts"
+  ],
+  "license": "MIT",
+  "repo": "angular-ui/ui-router"
+}

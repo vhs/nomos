@@ -70,9 +70,9 @@ class AuthService implements IAuthService1 {
      * @return mixed
      */
     public function CurrentUser() {
-        $user = User::find(CurrentUser::getIdentity());
-
-        return $user->username;
+        //$user = User::find(CurrentUser::getIdentity());
+        //return $user->username;
+        return CurrentUser::getPrincipal();
     }
 
     /**
