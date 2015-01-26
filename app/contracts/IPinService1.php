@@ -35,4 +35,12 @@ interface IPinService1 extends IService {
      * @return mixed
      */
     public function UpdateUserPin($userid, $pin);
+
+    /**
+     * @permission authenticated
+     * @param $keyid
+     * @param $pin
+     * @return mixed
+     */
+    public function UpdatePin($keyid, $pin);
 }

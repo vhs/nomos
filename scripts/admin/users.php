@@ -83,17 +83,17 @@ $pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin(vhs\security\Cu
           <?php } ?>
           <div class="note note-error">PIN</div>
       </section>
-	    <section class="col col-2">
+	    <!--section class="col col-2">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="vetted" value="1" <?php getChecked($row->vetted, 1); ?>>
+          <input type="radio" name="vetted" value="1" <php getChecked($row->vetted, 1); ?>>
           <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
+          <input type="radio" name="vetted" value="0" <php getChecked($row->vetted, 0); ?>>
           <i></i>No</label>
       </div>
       <div class="note">Vetted For Key</div>
-    </section>
+    </section-->
 	    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">
