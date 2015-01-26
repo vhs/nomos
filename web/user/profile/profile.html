@@ -1,0 +1,268 @@
+<div class="row">
+    <div class="col-lg-12">
+        <p></p>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Profile
+            </div>
+            <div class="panel-body">
+                <form role="form" name="profileForm" ng-submit="updateProfile(profileForm.$valid)" novalidate>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="overlay" ng-show="updating">
+                            <div class="row vertical-align">
+                                <div class="col-lg-offset-5">
+                                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input type="text" class="form-control" placeholder="Username" ng-model="profile.username">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#passwordChange">Change Password</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="checkbox" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
+                                </div>
+                            </div>
+                            <input class="form-control" placeholder="Last Name" ng-model="profile.email">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="well well-sm">
+                                    <h4>Access PIN</h4>
+                                    <small>When accessing VHS input the entire PIN. First 4 digits are immutable to ensure uniqueness.</small>
+
+                                    <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
+
+                                    <div ng-repeat="key in profile.keys | filter:{type:'pin'}">
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon" style="padding-right:0;">{{key.pinid}}</span>
+                                            <input type="text" class="form-control" style="padding-left:0; width:4em;" ng-minlength="4" ng-maxlength="4" maxlength="4" ng-model="key.pin">
+                                            <span class="input-group-btn" style="float:left;">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#pin{{key.id}}Modal">
+                                                    <i class="fa fa-info"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <div class="modal fade" id="pin{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="pin{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title" id="pin{{key.id}}ModalLabel">PIN {{key.pinid}}{{key.pin}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{key.notes}}</p>
+                                                        <p>Created: {{key.created}}</p>
+                                                        <p>TODO list special privileges</p>
+                                                        <small>Access log to be added</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Registration Date</label>
+                                    <p class="form-control-static">{{profile.created}}</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Last Login</label>
+                                    <p class="form-control-static">{{profile.lastlogin}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <button type="button" class="btn btn-danger" ng-if="profile.membership.code != 'key-holder' && profile.hasPrivilege('vetted')">Apply for Key Holder</button>
+                                <button type="button" class="btn btn-success" ng-if="profile.membership.code == 'key-holder'" disabled>{{profile.membership.title}}</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <button ng-click="resetProfileForm()" type="button" class="btn btn-default">Reset</button>
+                                <button disabled type="button" class="btn btn-success" ng-if="!profileForm.$dirty">Saved</button>
+                                <button ng-disabled="profileForm.$invalid" type="submit" class="btn btn-primary" ng-if="profileForm.$dirty">Save Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="well well-sm">
+                                    <h4>RFID Keys</h4>
+                                    <small>Your tracked RFID Tokens</small>
+                                    <div ng-repeat="key in currentUser.keys | filter:{type:'rfid'}">
+                                        <div class="form-group input-group">
+                                            <input class="form-control" type="text" value="{{key.key}}" disabled />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#rfid{{key.id}}Modal">
+                                                    <i class="fa fa-info"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <div class="modal fade" id="rfid{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="rfid{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title" id="rfid{{key.id}}ModalLabel">RFID {{key.key}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{key.notes}}</p>
+                                                        <p>Created: {{key.created}}</p>
+                                                        <p>TODO list special privileges</p>
+                                                        <small>Access log to be added</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="well well-sm">
+                                    <h4>API Keys</h4>
+                                    <small><a ui-sref="user.apikeys">Manage API Keys</a></small>
+                                    <div ng-repeat="key in currentUser.keys | filter:{type:'api'}">
+                                        <div class="form-group input-group">
+                                            <input class="form-control" type="text" value="{{key.key}}" disabled />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#api{{key.id}}Modal">
+                                                    <i class="fa fa-info"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <div class="modal fade" id="api{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="api{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title" id="api{{key.id}}ModalLabel">API {{key.key}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{key.notes}}</p>
+                                                        <p>Created: {{key.created}}</p>
+                                                        <p>TODO list special privileges</p>
+                                                        <small>Access log to be added</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="well well-sm">
+                                    <h4>Privileges (Badges)</h4>
+                                    <small>Blam</small>
+                                    <div ng-repeat="privilege in currentUser.privileges">
+                                        {{privilege.code}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                </form>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="modal fade" id="passwordChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button ng-click="resetPasswordForm()" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+            </div>
+            <form name="changePasswordForm" ng-submit="changePassword(changePasswordForm.$valid)" novalidate>
+                <div class="modal-body">
+                    <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine }">
+                        <input class="form-control" type="password" placeholder="Current Password" name="currentPassword" ng-model="currentPassword" required>
+                        <p class="help-block" ng-show="changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine">Incorrect password</p>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
+                        <input class="form-control" type="password" placeholder="New Password" name="newPassword" ng-model="newPassword" ng-minlength="4" required ng-change="comparePasswords()">
+                        <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">Passwords must be at least 4 characters long</p>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : (changePasswordForm.rePassword.$invalid && !changePasswordForm.rePassword.$pristine) || !passwordsMatch }">
+                        <input class="form-control" type="password" placeholder="Confirm Password" name="rePassword" ng-model="rePassword" ng-minlength="4" required ng-change="comparePasswords()">
+                        <p class="help-block" ng-show="!passwordsMatch">Passwords must match</p>
+                        <p class="help-block" ng-show="changePasswordForm.rePassword.$error.minlength">Passwords must be at least 4 characters long</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="resetPasswordForm()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid || !passwordsMatch">Change Password</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

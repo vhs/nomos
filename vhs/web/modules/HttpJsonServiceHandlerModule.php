@@ -9,6 +9,7 @@
 namespace vhs\web\modules;
 
 
+use vhs\services\exceptions\InvalidRequestException;
 use vhs\services\ServiceRegistry;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
@@ -23,15 +24,30 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
     public function handle(HttpServer $server) {
         $input = null;
-        if(isset($_GET['json'])) {
-            $input = $_GET['json'];
-        } else {
-            $input = json_encode($_GET);
-        }
 
-        $server->output(
-            ServiceRegistry::get($this->registryKey)->handle($_SERVER["SCRIPT_NAME"], $input)
-        );
+        $uri = $_SERVER["SCRIPT_NAME"];
+
+        switch($_SERVER['REQUEST_METHOD']) {
+            case 'HEAD':
+                $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
+                break;
+            case 'GET':
+                if(isset($_GET['json']))
+                    $input = $_GET['json'];
+                else
+                    $input = json_encode($_GET);
+
+                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
+                break;
+            case 'POST':
+                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents("php://input")));
+                break;
+            //case 'PUT':
+            //case 'DELETE':
+            default:
+                throw new InvalidRequestException();
+                break;
+        }
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {

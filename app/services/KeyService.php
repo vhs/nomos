@@ -209,4 +209,18 @@ class KeyService implements IApiKeyService1, IPinService1 {
 
         return $pinObj;
     }
+
+    public function UpdatePin($keyid, $pin) {
+        $key = Key::find($keyid);
+
+        if(!CurrentUser::hasAnyPermissions("administrator") && $key->userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
+
+        $pinid = explode("|", $key->key)[0];
+
+        $key->pin = $pinid . "|" . intval($pin);
+
+        $key->save();
+    }
 }

@@ -31,7 +31,6 @@ class UserSchema extends Schema {
         $table->addColumn("token", Type::String(false, "0", 40));
         $table->addColumn("cookie_id", Type::String(false, "0", 64));
         $table->addColumn("newsletter", Type::Bool(false, false));
-        $table->addColumn("vetted", Type::Bool(false, false));
         $table->addColumn("cash", Type::Bool(false, false));
         $table->addColumn("userlevel", Type::Int(false, 1));
         $table->addColumn("notes", Type::Text());

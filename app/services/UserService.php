@@ -55,4 +55,17 @@ class UserService implements IUserService1 {
 
         $user->save();
     }
+
+    public function UpdateProfile($userid, $username, $fname, $lname, $email, $newsletter) {
+        $user = $this->GetUser($userid);
+
+        $user->username = $username;
+        $user->fname = $fname;
+        $user->lname = $lname;
+        $user->email = $email;
+        $user->newsletter = $newsletter;
+
+        $user->save();
+
+    }
 }

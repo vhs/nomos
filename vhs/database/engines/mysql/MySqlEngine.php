@@ -93,6 +93,13 @@ class MySqlEngine extends Engine {
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
         $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
+        $boolColumnNames = array();
+        /** @var Column $column */
+        foreach($columns->all() as $column) {
+            if(get_class($column->type) == "vhs\\database\\types\\TypeBool")
+                array_push($boolColumnNames, $column->name);
+        }
+
         $sql = "SELECT {$selector} FROM `{$table->name}`";
 
         if(!empty($clause))
@@ -112,14 +119,21 @@ class MySqlEngine extends Engine {
 
             $rows = $q->fetch_all();
 
-            foreach($rows as $row)
-                array_push($records, array_combine($columns->names(), $row));
+            foreach($rows as $row) {
+                $record = array_combine($columns->names(), $row);
+
+                //TODO clean up how we translate values from mysql to php. Fucking mysql and their bit bools
+                foreach($boolColumnNames as $col)
+                    if(!is_null($record[$col]))
+                        $record[$col] = ($record[$col] == 1);
+
+                array_push($records, $record);
+            }
 
             $q->close();
         } else {
             throw new DatabaseException($this->conn->error);
         }
-
 
         return $records;
     }

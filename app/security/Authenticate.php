@@ -66,9 +66,14 @@ class Authenticate extends Singleton implements IAuthenticate {
         $user = $users[0];
 
         if(self::isUserValid($user) && PasswordUtil::check($password, $user->password)) {
-            $privileges = array_map(
-                function($privilege) { return $privilege->code; },
-                $user->membership->privileges->all()
+            $privileges = array_merge(
+                array_map(
+                    function($privilege) { return $privilege->code; },
+                    $user->membership->privileges->all()
+                ), array_map(
+                    function($privilege) { return $privilege->code; },
+                    $user->privileges->all()
+                )
             );
 
             if($user->userlevel == 9) array_push($privileges, "administrator");
@@ -149,6 +154,10 @@ class Authenticate extends Singleton implements IAuthenticate {
                         array_map(
                             function ($priviledge) { return $priviledge->code; },
                             $user->membership->priviledges
+                        ),
+                        array_map(
+                            function ($priviledge) { return $priviledge->code; },
+                            $user->priviledges
                         )
                     );
                 }
