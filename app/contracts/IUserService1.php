@@ -46,4 +46,15 @@ interface IUserService1 extends IService {
      * @param $subscribe
      */
     public function UpdateNewsletter($userid, $subscribe);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $username
+     * @param $fname
+     * @param $lname
+     * @param $email
+     * @param $newsletter
+     */
+    public function UpdateProfile($userid, $username, $fname, $lname, $email, $newsletter);
 }
