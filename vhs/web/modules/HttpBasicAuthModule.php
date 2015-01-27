@@ -26,10 +26,7 @@ class HttpBasicAuthModule implements IHttpModule {
     }
 
     public function handle(HttpServer $server) {
-
-        session_start();
-        $server->log("PHP AUTH USER: " . $_SERVER['PHP_AUTH_USER']);
-        if($_SERVER['PHP_AUTH_USER'] && !$this->authorizer->isAuthenticated()) {
+        if(array_key_exists('PHP_AUTH_USER', $_SERVER) && $_SERVER['PHP_AUTH_USER'] && !$this->authorizer->isAuthenticated()) {
 
             try {
                 $this->authorizer->login(new UserPassCredentials($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']));
@@ -59,4 +56,6 @@ class HttpBasicAuthModule implements IHttpModule {
         $server->output($message);
         $server->end();
     }
+
+    public function endResponse(HttpServer $server) { }
 }

@@ -20,4 +20,6 @@ class TokenCredentials implements ICredentials {
     }
 
     public function getToken() { return $this->token; }
+
+    abstract public function getType();
 }

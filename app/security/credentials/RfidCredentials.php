@@ -11,4 +11,7 @@ namespace app\security\credentials;
 
 class RfidCredentials extends TokenCredentials {
 
+    public function getType() {
+        return "rfid";
+    }
 }

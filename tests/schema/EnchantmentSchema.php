@@ -15,7 +15,10 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class EnchantmentSchema extends Schema {
-    protected function __construct() {
+    /**
+     * @return Table
+     */
+    public static function init() {
         $table = new Table("enchantments");
 
         $table->addColumn("id", Type::Int(false, 0));
@@ -24,6 +27,6 @@ class EnchantmentSchema extends Schema {
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
-        parent::__construct($table);
+        return $table;
     }
 }

@@ -1,0 +1,16 @@
+<?php 
+
+	/** 
+	* Database Constants - these constants refer to 
+	* the database configuration settings. 
+	*/
+	 define('DB_SERVER', 'localhost'); 
+	 define('DB_USER', 'vhs_membership'); 
+	 define('DB_PASS', 'password');
+	 define('DB_DATABASE', 'vhs_membership');
+ 
+	/** 
+	* Show MySql Errors. 
+	* Not recomended for live site. true/false 
+	*/
+	 define('DEBUG', true);

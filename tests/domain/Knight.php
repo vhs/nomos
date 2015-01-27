@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 class Knight extends Domain {
 
     static function Define() {
-        Knight::Schema(KnightSchema::getInstance());
+        Knight::Schema(KnightSchema::Type());
         Knight::Relationship("sword", Sword::Type()); //parent relationship aka Many to One
         Knight::Relationship("rings", Ring::Type()); //child relationship aka One to Many
     }

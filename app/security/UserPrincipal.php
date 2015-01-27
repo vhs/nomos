@@ -11,7 +11,7 @@ namespace app\security;
 
 use vhs\security\IPrincipal;
 
-class UserPrincipal implements IPrincipal {
+class UserPrincipal implements IPrincipal, \JsonSerializable {
 
     private $id;
     private $permissions;
@@ -25,4 +25,12 @@ class UserPrincipal implements IPrincipal {
     public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->permissions)) > 0); }
     public function getIdentity() { return $this->id; }
     public function isAnon() { return false; }
+
+    public function jsonSerialize() {
+        $data = array();
+        $data['id'] = $this->id;
+        $data['permissions'] = $this->permissions;
+
+        return $data;
+    }
 }

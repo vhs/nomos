@@ -17,10 +17,10 @@ use vhs\domain\validations\ValidationResults;
 class Sword extends Domain {
 
     static function Define() {
-        Sword::Schema(SwordSchema::getInstance());
+        Sword::Schema(SwordSchema::Type());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.
-        Sword::Relationship("enchantments", Enchantment::Type(), SwordEnchantmentsSchema::getInstance()); //satellite relationship aka Many to Many
+        Sword::Relationship("enchantments", Enchantment::Type(), SwordEnchantmentsSchema::Type()); //satellite relationship aka Many to Many
     }
 
     /**

@@ -10,6 +10,7 @@ namespace app\services;
 
 
 use app\contracts\IAuthService1;
+use app\domain\Key;
 use app\domain\User;
 use app\security\Authenticate;
 use app\security\credentials\PinCredentials;
@@ -69,9 +70,9 @@ class AuthService implements IAuthService1 {
      * @return mixed
      */
     public function CurrentUser() {
-        $user = User::find(CurrentUser::getPrincipal()->getIdentity());
-
-        return $user->username;
+        //$user = User::find(CurrentUser::getIdentity());
+        //return $user->username;
+        return CurrentUser::getPrincipal();
     }
 
     /**
@@ -80,5 +81,67 @@ class AuthService implements IAuthService1 {
      */
     public function Logout() {
         Authenticate::getInstance()->logout();
+    }
+
+    /**
+     * @permission authenticated
+     * @param $pin
+     * @return mixed
+     */
+    public function CheckPin($pin) {
+        $retval = array();
+        $retval["valid"] = false;
+        $retval["type"] = null;
+
+        $keys = Key::findByPin($pin);
+
+        if(count($keys) <> 1)
+            return $retval;
+
+        $key = $keys[0];
+
+        if($key->userid == null)
+            return $retval;
+
+        $user = User::find($key->userid);
+
+        if($user->active == 'y') {
+            $retval["valid"] = true;
+            $retval["type"] = $user->membership->code;
+            return $retval;
+        }
+
+        return $retval;
+    }
+
+    /**
+     * @permission authenticated
+     * @param $rfid
+     * @return mixed
+     */
+    public function CheckRfid($rfid) {
+        $retval = array();
+        $retval["valid"] = false;
+        $retval["type"] = null;
+
+        $keys = Key::findByRfid($rfid);
+
+        if(count($keys) <> 1)
+            return $retval;
+
+        $key = $keys[0];
+
+        if($key->userid == null)
+            return $retval;
+
+        $user = User::find($key->userid);
+
+        if($user->active == 'y') {
+            $retval["valid"] = true;
+            $retval["type"] = $user->membership->code;
+            return $retval;
+        }
+
+        return $retval;
     }
 }

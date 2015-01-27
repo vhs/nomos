@@ -19,4 +19,6 @@ class HttpServerInfoModule implements IHttpModule {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {}
+
+    public function endResponse(HttpServer $server) { }
 }

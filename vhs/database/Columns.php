@@ -74,7 +74,7 @@ class Columns {
 
     public function contains($column) {
         foreach($this->__columns as $col)
-            if (self::EqualsByName($col, $column))
+            if ($col->name == $column)
                 return true;
 
         return false;
@@ -82,7 +82,7 @@ class Columns {
 
     public function getByName($name) {
         foreach($this->__columns as $col)
-            if (self::EqualsByName($col, $name))
+            if ($col->name == $name)
                 return $col;
 
         return null;
