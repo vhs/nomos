@@ -25,7 +25,7 @@ interface IDomain {
 }
 
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
-    private static $__definition;
+    private static $__definition = array();
     private $__cache;
     private $__collections;
     private $__parentRelationships;
@@ -42,7 +42,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     private static function ensureDefined() {
         $class = get_called_class();
 
-        if(!isset(self::$__definition[$class])) {
+        if(!array_key_exists($class, self::$__definition)) {
             self::$__definition[$class] = array();
             self::$__definition[$class]['Schema'] = null;
             self::$__definition[$class]['Relationships'] = array();
@@ -173,12 +173,27 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
-    private function getInternalData() {
+    public function getInternalData() {
         $cols = self::Schema()->Columns()->all();
         $data = array();
         foreach($cols as $col) {
             if ($col->serializable)
                 $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+        }
+
+        foreach($this->__collections as $relationship => $collection) {
+            $data[$relationship] = array();
+
+            foreach($collection->all() as $item) {
+                array_push($data[$relationship], $item->getInternalData());
+            }
+        }
+
+        foreach($this->__parentRelationships as $relationship => $value) {
+            if(!is_null($value['Object']))
+                $data[$relationship] = $value['Object']->getInternalData();
+            else
+                $data[$relationship] = null;
         }
 
         return $data;
@@ -194,6 +209,18 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     public function unserialize($data) {
         //TODO implement
+    }
+
+    public function __toString() {
+        //TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
+        $cols = self::Schema()->Columns()->all();
+        $data = array();
+        foreach($cols as $col) {
+            if ($col->serializable)
+                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+        }
+
+        return json_encode($data);
     }
 
     protected function getValues($excludePrimaryKeys = false) {

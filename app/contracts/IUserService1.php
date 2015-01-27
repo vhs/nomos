@@ -14,7 +14,7 @@ use vhs\services\IService;
 interface IUserService1 extends IService {
 
     /**
-     * @permission authenticated
+     * @permission administrator
      * @return mixed
      */
     public function GetUsers();
@@ -25,4 +25,36 @@ interface IUserService1 extends IService {
      * @return mixed
      */
     public function GetUser($id);
+
+    /**
+     * @permission authenticated
+     * @param $id
+     * @return mixed
+     */
+    public function GetKey($id);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $password
+     */
+    public function UpdatePassword($userid, $password);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $subscribe
+     */
+    public function UpdateNewsletter($userid, $subscribe);
+
+    /**
+     * @permission authenticated
+     * @param $userid
+     * @param $username
+     * @param $fname
+     * @param $lname
+     * @param $email
+     * @param $newsletter
+     */
+    public function UpdateProfile($userid, $username, $fname, $lname, $email, $newsletter);
 }

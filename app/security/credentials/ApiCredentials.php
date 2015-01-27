@@ -11,4 +11,7 @@ namespace app\security\credentials;
 
 class ApiCredentials extends TokenCredentials {
 
+    public function getType() {
+        return "api";
+    }
 }

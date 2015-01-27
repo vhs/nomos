@@ -15,7 +15,10 @@ use vhs\database\types\Type;
 use vhs\domain\Schema;
 
 class RingSchema extends Schema {
-    public function __construct() {
+    /**
+     * @return Table
+     */
+    public static function init() {
         $table = new Table("rings");
 
         $table->addColumn("id", Type::Int(false, 0));
@@ -29,6 +32,6 @@ class RingSchema extends Schema {
             Constraint::ForeignKey($table->columns->knightid, KnightSchema::Table(), KnightSchema::Columns()->id)
         );
 
-        parent::__construct($table);
+        return $table;
     }
 }

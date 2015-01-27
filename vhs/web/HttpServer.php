@@ -98,6 +98,32 @@ class HttpServer {
             $output();
         }
 
+        $this->endResponse();
+    }
+
+    private function endResponse() {
+
+        $exception = null;
+        /** @var IHttpModule $module */
+        $index = 0;
+        foreach($this->modules as $module) {
+            try {
+                $module->endResponse($this);
+            } catch(\Exception $ex) {
+                $exception = $ex;
+                break;
+            }
+            $index += 1;
+        }
+
+        if(!is_null($exception)) {
+            /** @var IHttpModule $module */
+            foreach(array_reverse(array_slice($this->modules, 0, $index + 1)) as $module) {
+                $module->handleException($this, $exception);
+            }
+        }
+
+        $this->log("Response end");
         exit();
     }
 
@@ -161,8 +187,7 @@ class HttpServer {
         $this->endset = true;
         $self = $this;
         array_push($this->outputBuffer, function() use ($self) {
-            $self->log("Response end");
-            exit();
+            $self->endResponse();
         });
     }
 }

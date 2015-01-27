@@ -56,7 +56,7 @@ class Notifier {
         }
     }
 
-    protected  function staticRaise($event, ...$args) {
+    protected function staticRaise($event, ...$args) {
         self::__ensureStaticListeners($event);
 
         $class = get_called_class();

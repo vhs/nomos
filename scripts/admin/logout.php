@@ -12,8 +12,7 @@
   require_once("../init.php");
 ?>
 <?php
-  if ($user->logged_in)
-      $user->logout();
+  \app\security\Authenticate::logout();
 	  
   redirect_to("login.php");
 ?>

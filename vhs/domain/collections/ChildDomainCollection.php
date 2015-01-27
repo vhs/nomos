@@ -96,10 +96,10 @@ class ChildDomainCollection extends DomainCollection {
             $childPkName = $this->childKey->column->name;
             $childColName = $this->childColumn->name;
 
-            if (array_key_exists($childPkName, $this->__new))
-                unset($this->__new[$childPkName]);
+            if (array_key_exists($item->$childPkName, $this->__new))
+                unset($this->__new[$item->$childPkName]);
 
-            $this->__removed[$childPkName] = $item;
+            $this->__removed[$item->$childPkName] = $item;
 
             $item->$childColName = $this->childColumn->type->default;
         }
@@ -110,10 +110,15 @@ class ChildDomainCollection extends DomainCollection {
 
         $child = $this->childType;
         $parentColName = $this->parentColumn->name;
+        $childPkName = $this->childKey->column->name;
 
-        $this->__existing = $child::where(Where::Equal(
+        $items = $child::where(Where::Equal(
             $this->childColumn, $this->parent->$parentColName
         ));
+
+        foreach($items as $item) {
+            $this->__existing[$item->$childPkName] = $item;
+        }
     }
 
     public function save() {

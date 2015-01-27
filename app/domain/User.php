@@ -9,6 +9,7 @@
 namespace app\domain;
 
 
+use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -16,8 +17,10 @@ use vhs\domain\validations\ValidationResults;
 
 class User extends Domain {
     public static function Define() {
-        User::Schema(UserSchema::getInstance());
+        User::Schema(UserSchema::Type());
         User::Relationship("keys", Key::Type());
+        User::Relationship("membership", Membership::Type());
+        User::Relationship("privileges", Privilege::Type(), UserPrivilegeSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {

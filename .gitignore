@@ -1,6 +1,5 @@
-scripts/lib/config.ini.php
+conf/config.ini.php
 backup
-*.sql
 *.gz
 *.zip
 

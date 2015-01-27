@@ -1,0 +1,314 @@
+diff --git a/src/viewDirective.js b/src/viewDirective.js
+
+ 
+-        if (name.indexOf('@') < 0) name = name + '@' + (inherited ? inherited.state.name : '');
+-        var view = { name: name, state: null };
++        // Find the details of the parent view directive (if any) and use it
++        // to derive our own qualified view name, then hang our own details
++        // off the DOM so child directives can find it.
++        var viewData = { name: inherited ? inherited.name + "." + name : name };
++        element.data('$uiView', viewData);
+ 
+-        var eventHook = function () {
+-          if (viewIsUpdating) return;
+-          viewIsUpdating = true;
++        unregister = $view.register(viewData.name, function(config) {
++          var nothingToDo = (config === viewConfig) || (config && viewConfig && (
++            config.$controller === viewConfig.$controller &&
++            config.$template   === viewConfig.$template &&
++            config.$locals     === viewConfig.$locals
++          ));
++          if (nothingToDo) return;
+ 
+-          try { updateView(true); } catch (e) {
+-            viewIsUpdating = false;
+-            throw e;
+-          }
+-          viewIsUpdating = false;
+-        };
++          updateView(true, config);
++        });
+ 
+-        $scope.$on('$stateChangeSuccess', eventHook);
+-        $scope.$on('$viewContentLoading', eventHook);
++        $scope.$on("$destroy", function() {
++          unregister();
++        });
+ 
+-        updateView(false);
++        // Check if the $view.register callback beat us to it
++        if (!viewConfig) updateView(false);
+ 
+         function cleanupLastView() {
+           if (currentEl) {
+@@ -218,15 +123,13 @@ function $ViewDirective(   $state,   $compile,   $controller,   $injector,   $ui
+           }
+         }
+ 
+-        function updateView(shouldAnimate) {
+-          var locals = $state.$current && $state.$current.locals[name];
+-
+-          if (isDefault) {
++        function updateView(shouldAnimate, config) {
++          if (isDefault && config) {
+             isDefault = false;
+             element.replaceWith(anchor);
+           }
+ 
+-          if (!locals) {
++          if (!config) {
+             cleanupLastView();
+             currentEl = element.clone();
+             currentEl.html(initial);
+@@ -237,45 +140,29 @@ function $ViewDirective(   $state,   $compile,   $controller,   $injector,   $ui
+             return;
+           }
+ 
+-          if (locals === viewLocals) return; // nothing to do
++          if (config === viewConfig) return; // nothing to do
+ 
+           cleanupLastView();
+ 
+           currentEl = element.clone();
+-          currentEl.html(locals.$template ? locals.$template : initial);
++          currentEl.html(config.$template ? config.$template : initial);
+           renderer(true).enter(currentEl, parentEl, anchor);
+ 
+-          currentEl.data('$uiView', view);
+-
+-          viewLocals = locals;
+-          view.state = locals.$$state;
++          currentEl.data('$uiView', viewData);
+ 
++          viewConfig = config;
+           var link = $compile(currentEl.contents());
+ 
+           currentScope = $scope.$new();
+ 
+-          if (locals.$$controller) {
+-            locals.$scope = currentScope;
+-            var controller = $controller(locals.$$controller, locals);
+-            if ($state.$current.controllerAs) {
+-              currentScope[$state.$current.controllerAs] = controller;
+-            }
++          if (config.$controller) {
++            config.$scope = currentScope;
++            var controller = $controller(config.$controller, config.$locals);
+             currentEl.children().data('$ngControllerController', controller);
+           }
+ 
+-          link(currentScope);
+-
+-          /**
+-           * @ngdoc event
+-           * @name ui.router.state.directive:ui-view#$viewContentLoaded
+-           * @eventOf ui.router.state.directive:ui-view
+-           * @eventType emits on ui-view directive scope
+-           * @description           *
+-           * Fired once the view is **loaded**, *after* the DOM is rendered.
+-           *
+-           * @param {Object} event Event object.
+-           */
+-          currentScope.$emit('$viewContentLoaded');
++          link(currentScope); // viewScope
++          currentScope.$emit('$viewContentLoaded', copy(viewData, {}));
+           if (onloadExp) currentScope.$eval(onloadExp);
+ 
+           if (!angular.isDefined(autoscrollExp) || !autoscrollExp || $scope.$eval(autoscrollExp)) {
+diff --git a/src/viewScroll.js b/src/viewScroll.js
+index dfe0a03..b642d3f 100644
+--- a/test/debug.js
++++ b/test/debug.js
+@@ -24,6 +24,7 @@ module.exports = function(config) {
+       '../src/viewScroll.js',
+       '../src/viewDirective.js',
+       '../src/stateDirectives.js',
++      '../src/stateFilters.js',
+       '../src/compat.js',
+ 
+       '../test/*Spec.js',
+diff --git a/test/stateDirectivesSpec.js b/test/stateDirectivesSpec.js
+index 5a53eae..be3a33c 100644
+--- a/test/stateDirectivesSpec.js
++++ b/test/stateDirectivesSpec.js
+@@ -295,11 +269,7 @@ describe('uiSrefActive', function() {
+       url: '',
+     }).state('contacts', {
+       url: '/contacts',
+-      views: {
+-        '@': {
+-          template: '<a ui-sref=".item({ id: 6 })" ui-sref-active="active">Contacts</a>'
+-        }
+-      }
++      template: '<a ui-sref=".item({ id: 6 })" ui-sref-active="active">Contact 6</a>'
+     }).state('contacts.item', {
+       url: '/:id',
+     }).state('contacts.item.detail', {
+@@ -307,9 +277,6 @@ describe('uiSrefActive', function() {
+     });
+   }));
+ 
+-  beforeEach(inject(function($document) {
+-    document = $document[0];
+-  }));
+ 
+   it('should update class for sibling uiSref', inject(function($rootScope, $q, $compile, $state) {
+     el = angular.element('<div><a ui-sref="contacts" ui-sref-active="active">Contacts</a></div>');
+diff --git a/test/stateSpec.js b/test/stateSpec.js
+index d5bc60a..0adc37f 100644
+--- a/test/stateSpec.js
++++ b/test/stateSpec.js
+@@ -932,16 +910,16 @@ describe('state', function () {
+ 
+       stateProvider.state('viewTest', {
+         views: {
+-          viewA: {},
+-          viewB: {}
++          viewA: { templateProvider: function() {} },
++          viewB: { templateProvider: function() {} }
+         }
+       });
+ 
+       $state.transitionTo('viewTest');
+       $q.flush();
+ 
+-      expect($state.$current.views['viewA@'].templateProvider()).toBe('Template for viewA@');
+-      expect($state.$current.views['viewB@'].templateProvider()).toBe('Template for viewB@');
++      expect($state.$current.views.viewA.templateProvider()).toBe('Template for viewA');
++      expect($state.$current.views.viewB.templateProvider()).toBe('Template for viewB');
+     }));
+ 
+   });
+diff --git a/test/testUtils.js b/test/testUtils.js
+index 636be2f..1fa242c 100644
+--- a/test/testUtils.js
++++ b/test/testUtils.js
+@@ -1,8 +1,22 @@
+ // Promise testing support
+ angular.module('ngMock').config(function ($provide) {
+   $provide.decorator('$q', function ($delegate, $rootScope) {
++
++    var openDeferreds = {};
++    var nextDeferredId = 0;
++
++    $delegate.dump = function () {
++      var list = [];
++      forEach(openDeferreds, function(deferred) { list.push(deferred); });
++      if (list.length > 0) {
++        console.log('Unresolved deferreds:');
++        list.map(function(deferred) { deferred.$$dump(); });
++      }
++    };
++
+     $delegate.flush = function() {
+       $rootScope.$digest();
++      $delegate.dump();
+     };
+ 
+     // Add callbacks to the promise that expose the resolved value/error
+@@ -35,11 +49,33 @@ angular.module('ngMock').config(function ($provide) {
+ 
+     // Wrap defer()
+     var qDefer = $delegate.defer;
++
+     $delegate.defer = function () {
+       var deferred = qDefer();
++
++      var id = nextDeferredId++;
++      openDeferreds[id] = deferred;
++
++      var e = new Error(id);
++      deferred.$$id = deferred.promise.$$id
++      deferred.$$stack = deferred.promise.$$stack = e.stack;
++      deferred.$$dump = function() { console.log(id, e.stack); };
++
++      var qResolve = deferred.resolve;
++      deferred.resolve = function() {
++        delete openDeferreds[id];
++        qResolve.apply(this, arguments);
++      };
++
++      var qReject = deferred.reject;
++      deferred.reject = function() {
++        delete openDeferreds[id];
++        qReject.apply(this, arguments);
++      };
++
+       expose(deferred.promise);
+       return deferred;
+-    }
++    };
+ 
+     return $delegate;
+   });
+diff --git a/test/viewDirectiveSpec.js b/test/viewDirectiveSpec.js
+index 8e1cf17..935d42e 100644
+--- a/test/viewDirectiveSpec.js
++++ b/test/viewDirectiveSpec.js
+@@ -172,40 +161,37 @@ describe('uiView', function () {
+       $state.transitionTo(fState);
+       $q.flush();
+     }));
+   });
+ 
+   describe('handling initial view', function () {
+     it('initial view should be compiled if the view is empty', inject(function ($state, $q, $animate) {
+       var content = 'inner content';
+-      elem.append($compile('<div><ui-view></ui-view></div')(scope));
++      elem.append($compile('<div><ui-view></ui-view></div>')(scope));
+       scope.$apply('content = "' + content + '"');
+ 
+       $state.transitionTo(gState);
+       $q.flush();
+ 
+     }));
+ 
+     it('initial view should be put back after removal of the view', inject(function ($state, $q, $animate) {
+diff --git a/test/viewSpec.js b/test/viewSpec.js
+new file mode 100644
+index 0000000..da83c30
+--- /dev/null
++++ b/test/viewSpec.js
+@@ -0,0 +1,41 @@
++describe('view', function () {
++
++  it('should notify when content is loading', inject(function($view, $rootScope) {
++    var event, options, loadConfig = {
++      template: 'Hello!',
++      params: { foo: "bar" },
++      controller: "MyController"
++    };
++
++    $rootScope.$on('$viewContentLoading', function(e, o) {
++      event = e;
++      options = o;
++    });
++
++    $view.load("custom.view", loadConfig);
++
++    expect(event.name).toBe('$viewContentLoading');
++    expect(options.template).toBe('Hello!');
++    expect(options.targetView).toBe('custom.view');
++    expect(options.params).toEqual({ foo: "bar" });
++  }));
++
++  it('should always return a promise', inject(function($view, $httpBackend, $rootScope) {
++    var result;
++    $httpBackend.expectGET('/partials/test.html').respond("Test content");
++
++    $view.load("custom.view", { templateUrl: '/partials/test.html' }).then(function(template) {
++      result = template;
++    });
++    expect(result).toBeUndefined();
++
++    $httpBackend.flush();
++    expect(result.$template).toBe("Test content");
++
++    $view.load("custom.view", { template: 'Hello!' }).then(function(template) {
++      result = template;
++    });
++    $rootScope.$digest();
++    expect(result.$template).toBe("Hello!");
++  }));
++});
+\ No newline at end of file

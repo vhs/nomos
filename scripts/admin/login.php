@@ -7,21 +7,30 @@
    * @copyright 2011
    * @version $Id: login.php, v2.50 2013-06-05 10:12:05 gewa Exp $
    */
-  
-  define("_VALID_PHP", true);
+
+use app\security\Authenticate;
+use vhs\security\CurrentUser;
+use vhs\security\exceptions\InvalidCredentials;
+use vhs\security\UserPassCredentials;
+
+define("_VALID_PHP", true);
   require_once("../init.php");
 ?>
 <?php
-  if ($user->is_Admin())
+  if (CurrentUser::hasAnyPermissions("administrator"))
+    redirect_to("index.php");
+
+  if (isset($_POST['submit'])) {
+    try {
+      Authenticate::login(
+        new UserPassCredentials($_POST['username'], $_POST['password'])
+      );
+
       redirect_to("index.php");
-	  
-  if (isset($_POST['submit']))
-      : $result = $user->login($_POST['username'], $_POST['password']);
-  //Login successful 
-  if ($result)
-      : redirect_to("index.php");
-  endif;
-  endif;
+    } catch(InvalidCredentials $ex) {
+      $error = $ex->getMessage();
+    }
+  }
 
 ?>
 <!doctype html>
@@ -40,6 +49,9 @@
     <header class="logintitle">
       <h1><i class="icon-lock icon-3x pull-left"></i> Admin Panel<span><?php echo $core->site_name;?></span></h1>
     </header>
+    <?php if ($error): ?>
+      <p class="redtip"><?php print $error ?></p>
+    <?php endif; ?>
     <div class="loginwrap">
       <form id="admin_form" name="admin_form" method="post" action="#" class="xform loginform">
         <section>

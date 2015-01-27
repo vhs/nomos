@@ -9,6 +9,7 @@
 namespace app\domain;
 
 use app\schema\AccessLogSchema;
+use vhs\database\Database;
 use vhs\database\orders\OrderBy;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -16,7 +17,7 @@ use vhs\domain\validations\ValidationResults;
 
 class AccessLog extends Domain {
     public static function Define() {
-        AccessLog::Schema(AccessLogSchema::getInstance());
+        AccessLog::Schema(AccessLogSchema::Type());
     }
 
     /**
@@ -27,11 +28,13 @@ class AccessLog extends Domain {
         return true;
     }
 
-    public static function log($rfid_key, $authorized, $from_ip) {
+    public static function log($key, $type, $authorized, $from_ip) {
         $entry = new AccessLog();
-        $entry->rfid_key = $rfid_key;
-        $entry->$authorized = $authorized;
-        $entry->$from_ip = $from_ip;
+        $entry->key = $key;
+        $entry->type = $type;
+        $entry->authorized = $authorized;
+        $entry->from_ip = $from_ip;
+        $entry->time = date(Database::DateFormat());
         $entry->save();
 
         return $entry;

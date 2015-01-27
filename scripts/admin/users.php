@@ -9,6 +9,8 @@
    */
   if (!defined("_VALID_PHP"))
       die('Direct access to this location is not allowed.');
+
+$pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin(vhs\security\CurrentUser::getIdentity());
 ?>
 <?php switch(Filter::$action): case "edit": ?>
 <?php $row = Core::getRowById(Users::uTable, Filter::$id);?>
@@ -67,9 +69,12 @@
       <div class="note">Membership Access</div>
     </section>
       <section class="col col-2">
-          <?php if($row->lastlogin > '0000-00-00 00:00:00') { ?>
-              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $row->pinid); ?></i>
-                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $row->pin); ?>" placeholder="<?php echo sprintf("%04s", $row->pin); ?>">
+          <?php if(!is_null($pinObj)) {
+            $spin = explode("|", $pinObj->key);
+            $pinid = sprintf("%04s", $spin[0]);
+            $pin = sprintf("%04s", $spin[1]); ?>
+              <label class="input"> <i class="icon-prepend pinid"><?php echo sprintf("%04s", $pinid); ?></i>
+                  <input class="pin" type="text" name="pin" maxlength="4" value="<?php echo sprintf("%04s", $pin); ?>" placeholder="<?php echo sprintf("%04s", $pin); ?>">
               </label>
           <?php } else { ?>
               <label class="input disabled">
@@ -78,17 +83,17 @@
           <?php } ?>
           <div class="note note-error">PIN</div>
       </section>
-	    <section class="col col-2">
+	    <!--section class="col col-2">
       <div class="inline-group">
         <label class="radio">
-          <input type="radio" name="vetted" value="1" <?php getChecked($row->vetted, 1); ?>>
+          <input type="radio" name="vetted" value="1" <php getChecked($row->vetted, 1); ?>>
           <i></i>Yes</label>
         <label class="radio">
-          <input type="radio" name="vetted" value="0" <?php getChecked($row->vetted, 0); ?>>
+          <input type="radio" name="vetted" value="0" <php getChecked($row->vetted, 0); ?>>
           <i></i>No</label>
       </div>
       <div class="note">Vetted For Key</div>
-    </section>
+    </section-->
 	    <section class="col col-2">
       <div class="inline-group">
         <label class="radio">

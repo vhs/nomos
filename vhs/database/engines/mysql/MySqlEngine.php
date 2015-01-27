@@ -32,6 +32,8 @@ class MySqlEngine extends Engine {
      */
     private $conn;
 
+    public static function DateFormat() { return "Y-m-d H:i:s"; }
+
     public function __construct(MySqlConnectionInfo $connectionInfo, $autoCreateDatabase = false) {
         $this->info = $connectionInfo;
         $this->autoCreateDatabase = $autoCreateDatabase;
@@ -78,18 +80,25 @@ class MySqlEngine extends Engine {
     }
 
     public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $row = $this->select($table, array($column), $where, $orderBy, $limit);
+        $row = $this->select($table, new Columns($column), $where, $orderBy, $limit);
 
         if(sizeof($row) <> 1)
             return null;
 
-        return $row[0][0];
+        return $row[0][$column->name];
     }
 
     public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
         $selector = implode(", ", array_map(function($col) { return '`' . $col . '`'; }, $columns->names()));
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
         $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
+
+        $boolColumnNames = array();
+        /** @var Column $column */
+        foreach($columns->all() as $column) {
+            if(get_class($column->type) == "vhs\\database\\types\\TypeBool")
+                array_push($boolColumnNames, $column->name);
+        }
 
         $sql = "SELECT {$selector} FROM `{$table->name}`";
 
@@ -110,14 +119,21 @@ class MySqlEngine extends Engine {
 
             $rows = $q->fetch_all();
 
-            foreach($rows as $row)
-                array_push($records, array_combine($columns->names(), $row));
+            foreach($rows as $row) {
+                $record = array_combine($columns->names(), $row);
+
+                //TODO clean up how we translate values from mysql to php. Fucking mysql and their bit bools
+                foreach($boolColumnNames as $col)
+                    if(!is_null($record[$col]))
+                        $record[$col] = ($record[$col] == 1);
+
+                array_push($records, $record);
+            }
 
             $q->close();
         } else {
             throw new DatabaseException($this->conn->error);
         }
-
 
         return $records;
     }
@@ -162,11 +178,15 @@ class MySqlEngine extends Engine {
 
     public function update(Table $table, $data, Where $where = null) {
         $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-
-        $setsql = "";
-
-        foreach($data as $column => $value)
-            $setsql .= "`{$column}` = '{$value}'";
+        $setsql = implode(", ",
+            array_map(
+                function($column, $value) {
+                    return "`" . $column . "` = '" . $value . "'";
+                },
+                array_keys($data),
+                array_values($data)
+            )
+        );
 
         $sql = "UPDATE `{$table->name}` SET {$setsql}";
 

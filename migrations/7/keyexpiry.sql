@@ -1,0 +1,1 @@
+ALTER TABLE `keys` ADD COLUMN `expires` TIMESTAMP NULL;

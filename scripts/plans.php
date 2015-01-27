@@ -7,14 +7,16 @@
    * @copyright 2010
    * @version $Id: register.php, v2.00 2011-07-10 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+use app\security\Authenticate;
+
+define("_VALID_PHP", true);
   require_once("init.php");
 	  
   $listpackrow = $member->getMembershipListFrontEnd();
 ?>
 <?php include("header.php");?>
 <p class="bluetip"><i class="icon-lightbulb icon-3x pull-left"></i> Below are all the membership packages available. <br />
-  <?php if(!$user->logged_in):?>
+  <?php if(!Authenticate::isAuthenticated()):?>
   Please <a href="index.php">login</a> to select desired membership.
   <?php endif;?>
 </p>

@@ -17,7 +17,10 @@ use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
 class ExampleSchema extends Schema {
-    protected function __construct() {
+    /**
+     * @return Table
+     */
+    public static function init() {
         $table = new Table("example", null);
 
         $table->addColumn("id", Type::Int());
@@ -28,13 +31,13 @@ class ExampleSchema extends Schema {
             Constraint::PrimaryKey($table->columns->id)
         );
 
-        parent::__construct($table);
+        return $table;
     }
 }
 
 class ExampleDomain extends Domain {
     public static function Define() {
-        ExampleDomain::Schema(ExampleSchema::getInstance());
+        ExampleDomain::Schema(ExampleSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {

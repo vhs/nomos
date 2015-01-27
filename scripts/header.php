@@ -46,16 +46,16 @@
 </div>
 <div class="col grid_16">
   <div id="usermenu" class="flright"> <a href="index.php"><i class="icon-laptop"></i> Home Page</a> <a href="contact.php"><i class="icon-envelope"></i> Contact Us</a>
-    <?php if($user->membership_id == 7): ?>
+    <?php if(\app\security\Authenticate::isAuthenticated()): ?>
     <a href="door_access.php"><i class="icon-off"></i> Door Access</a>
     <?php endif; ?>
-    <?php if($user->logged_in):?>
+    <?php if(\app\security\Authenticate::isAuthenticated()):?>
     <a href="logout.php"><i class="icon-off"></i> Log Off </a>
     <?php endif;?>
-    <?php if(!$user->logged_in):?>
+    <?php if(\app\security\Authenticate::isAuthenticated()):?>
     <a href="plans.php"><i class="icon-group"></i> Membership Packages</a>
     <?php endif;?>
-    <?php if($user->is_Admin()):?>
+    <?php if(\vhs\security\CurrentUser::hasAnyPermissions("administrator")):?>
     <a href="admin/index.php"><i class="icon-gear"></i> Admin Panel</a>
     <?php endif;?>
   </div>

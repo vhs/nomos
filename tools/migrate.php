@@ -3,11 +3,11 @@
 use vhs\loggers\ConsoleLogger;
 use vhs\migration\Migrator;
 
-require_once("../vhs/vhs.php");
+require_once(dirname(__FILE__) . "/../vhs/vhs.php");
 
 define("_VALID_PHP", true);
 
-require_once("../scripts/lib/config.ini.php");
+require_once("../conf/config.ini.php");
 
 $target_version = null;
 if(sizeof($argv) > 1 && !is_null($argv[1]) && is_numeric($argv[1]))

@@ -7,23 +7,35 @@
    * @copyright 2010
    * @version $Id: index.php, v2.00 2011-07-10 10:12:05 gewa Exp $
    */
-  define("_VALID_PHP", true);
+
+use app\security\Authenticate;
+use vhs\security\exceptions\InvalidCredentials;
+use vhs\security\UserPassCredentials;
+
+define("_VALID_PHP", true);
+
   require_once("init.php");
-  
-  if ($user->logged_in)
+
+  if (Authenticate::isAuthenticated())//($user->logged_in)
+    redirect_to("account.php");
+
+  $error = false;
+  if (isset($_POST['doLogin'])) {
+    try {
+      Authenticate::login(
+          new UserPassCredentials($_POST['username'], $_POST['password'])
+      );
+
       redirect_to("account.php");
-	  
-	  
-  if (isset($_POST['doLogin']))
-      : $result = $user->login($_POST['username'], $_POST['password']);
-  
-  /* Login Successful */
-  if ($result)
-      : redirect_to("account.php");
-  endif;
-  endif;
+    } catch(InvalidCredentials $ex) {
+      $error = $ex->getMessage();
+    }
+  }
 ?>
 <?php include("header.php");?>
+<?php if ($error): ?>
+    <p class="redtip"><?php print $error ?></p>
+<?php endif; ?>
 <p class="bluetip"><i class="icon-lightbulb icon-3x pull-left"></i> Please enter your valid username and password to login into your account.<br>
   Fields marked <i class="icon-append icon-asterisk"></i> are required.</p>
 <div id="msgholder2"><?php print Filter::$showMsg;?></div>
@@ -114,5 +126,5 @@
     </footer>
   </form>
 </div>
-<?php echo Core::doForm("passReset","ajax/user.php");?>
-<?php include("footer.php");?>
+<?php echo Core::doForm("passReset","ajax/user.php"); ?>
+<?php include("footer.php"); ?>

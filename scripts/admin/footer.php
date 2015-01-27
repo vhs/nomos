@@ -16,7 +16,8 @@
 <!-- Start Footer-->
 <div class="footer">
   Copyright &copy;<?php echo date('Y').' '.$core->site_name;?><br />
-    Wojoscripts.com &bull; Membership Manager Pro v<?php echo $core->version;?>
+    Wojoscripts.com &bull; Membership Manager Pro v<?php echo $core->version;?><br />
+	Vancouver Hack Space fork v.<?php print(exec("git rev-parse --short HEAD")); ?>
 </div>
 <!-- End Footer-->
 <!-- The Main Menu Js -->

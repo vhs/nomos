@@ -1,18 +1,20 @@
 <?php
 
+use vhs\services\ServiceClient;
+
 define("_VALID_PHP", true);
 require_once("init.php");
 
 if(isset($_GET['rfid'])) {
-    $key = $db->escape($_GET['rfid']);
+    $result = ServiceClient::web_AuthService1_CheckRfid($_GET['rfid']);
 
-    if($RFID->auth($key) == 1) {
-        die("AUTHORIZED");
-    }
+    if ($result->valid) die("AUTHORIZED");
 }
 
-if(isset($_GET['pin']) && $PIN->auth($_GET['pin']) == 1) {
-    die("AUTHORIZED");
+if(isset($_GET['pin'])) {
+    $result = ServiceClient::web_AuthService1_CheckPin($_GET['pin']);
+
+    if ($result->valid) die("AUTHORIZED");
 }
 
 die("UNAUTHORIZED");
