@@ -12,8 +12,11 @@ namespace app\services;
 use app\contracts\IAuthService1;
 use app\domain\Key;
 use app\domain\User;
+use app\schema\UserSchema;
 use app\security\Authenticate;
 use app\security\credentials\PinCredentials;
+use vhs\database\Database;
+use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\UserPassCredentials;
 
@@ -143,5 +146,14 @@ class AuthService implements IAuthService1 {
         }
 
         return $retval;
+    }
+
+    /**
+     * @permission anonymous
+     * @param $username
+     * @return boolean
+     */
+    public function CheckUsername($username) {
+        return Database::exists(UserSchema::Table(), Where::Equal(UserSchema::Column("username"), $username));
     }
 }
