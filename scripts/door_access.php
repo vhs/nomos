@@ -15,6 +15,7 @@ define("_VALID_PHP", true);
 include("header.php");
 
 
+
 ?> 
 <style>
 .spoiler {
@@ -32,19 +33,31 @@ include("header.php");
 	 <?php
 
 
-	 $user = vhs\services\ServiceClient::web_UserService1_GetUser(vhs\security\CurrentUser::getIdentity());
-//<?=$user->fname
+	$user = vhs\services\ServiceClient::web_UserService1_GetUser(vhs\security\CurrentUser::getIdentity());
+	$pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin(vhs\security\CurrentUser::getIdentity());
+	$email = new app\domain\Email;
+
+	
 	 if($user->membership->code == 'key-holder'): ?>
 <div class="doorinfo fullform xform">
 <?php 
 
 //Keyholder: in table email_templates, display body where column id = 17
-$email = new app\domain\Email;
-$what = $email::findById(17);
+$access = $email::find(17);
 
-//print($email->email_templates->body);
+$accessBody = $access->body;
 
-print_r($what);
+$pin = '0';
+if(!is_null($pinObj))
+    $pin = str_replace("|", '', $pinObj->key);
+
+$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
+$accessBody = str_replace('[SUITE]', '104', $accessBody);
+$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
+$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
+
+print(html_entity_decode($accessBody));
+
 
 ?>
 	 <?php else: ?>
