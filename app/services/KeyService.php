@@ -219,7 +219,7 @@ class KeyService implements IApiKeyService1, IPinService1 {
 
         $pinid = explode("|", $key->key)[0];
 
-        $key->pin = $pinid . "|" . intval($pin);
+        $key->key = $pinid . "|" . intval($pin);
 
         $key->save();
     }
