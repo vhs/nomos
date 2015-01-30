@@ -46,4 +46,11 @@ interface IAuthService1 extends IService {
      * @return mixed
      */
     public function CurrentUser();
+
+    /**
+     * @permission anonymous
+     * @param $username
+     * @return boolean
+     */
+    public function CheckUsername($username);
 }
