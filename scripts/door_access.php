@@ -30,6 +30,8 @@ include("header.php");
 }
 
 </style> 
+
+<div class="doorinfo fullform xform">
 	 <?php
 
 
@@ -38,34 +40,41 @@ include("header.php");
 	$email = new app\domain\Email;
 
 	
-	 if($user->membership->code == 'key-holder'): ?>
-<div class="doorinfo fullform xform">
-<?php 
+	 if($user->membership->code == 'key-holder') {
 
-//Keyholder: in table email_templates, display body where column id = 17
-$access = $email::find(17);
+		//Keyholder: in table email_templates, display body where column id = 17
+		$access = $email::find(17);
 
-$accessBody = $access->body;
+		$accessBody = $access->body;
 
-$pin = '0';
-if(!is_null($pinObj))
-    $pin = str_replace("|", '', $pinObj->key);
+		$pin = '0';
+		if(!is_null($pinObj))
+			$pin = str_replace("|", '', $pinObj->key);
 
-$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
-$accessBody = str_replace('[SUITE]', '104', $accessBody);
-$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
-$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
+		$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
+		$accessBody = str_replace('[SUITE]', '104', $accessBody);
+		$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
+		$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
 
-print(html_entity_decode($accessBody));
+		print(html_entity_decode($accessBody));
 
+	{ else {
+			//Member: in table email_templates, display body where column id = 18
+		$access = $email::find(18);
 
-?>
-	 <?php else: ?>
- 
-	 <h1>Hey! You're not a keyholder. If you've been a member for three months, you can become one, though.</h1>
- 
-	 <?php endif; ?>
- 
+		$accessBody = $access->body;
+
+		$pin = '0';
+		if(!is_null($pinObj))
+			$pin = str_replace("|", '', $pinObj->key);
+
+		$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
+		$accessBody = str_replace('[SUITE]', '104', $accessBody);
+		$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
+		$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
+
+		print(html_entity_decode($accessBody));
+	}
  
  <?php include("footer.php");?> 
  
