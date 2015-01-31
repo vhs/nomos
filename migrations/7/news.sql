@@ -1,4 +1,4 @@
-INSERT INTO `email_templates` (`id`, `name`, `subject`, `help`, `body`) VALUES (NULL, 'Keyholder Door Instructions', 'Congratulations on becoming a keyholder!', 'Instructions on how keyholders can enter the space.', '&lt;header&gt;
+INSERT INTO `email_templates` (`id`, `name`, `subject`, `help`, `body`) VALUES (17, 'Keyholder Door Instructions', 'Congratulations on becoming a keyholder!', 'Instructions on how keyholders can enter the space.', '&lt;header&gt;
 &lt;h1&gt;Welcome, [FNAME]!&lt;/h1&gt;.
 &lt;p&gt;Congratulations on becoming a keyholder at VHS! This information is specific to you. In order to control access to our great new hackspace, please do not distribute this information to anyone else. If anyone asks for the code, please point them to one of the &lt;a href=&quot;mailto:directors@hackspace.ca&quot;&gt;directors&lt;/a&gt;.&lt;/p&gt;
 &lt;/header&gt;
