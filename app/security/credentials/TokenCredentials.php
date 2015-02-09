@@ -11,7 +11,7 @@ namespace app\security\credentials;
 
 use vhs\security\ICredentials;
 
-class TokenCredentials implements ICredentials {
+abstract class TokenCredentials implements ICredentials {
 
     private $token;
 

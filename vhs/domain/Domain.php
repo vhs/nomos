@@ -26,6 +26,7 @@ interface IDomain {
 
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
     private static $__definition = array();
+    private $__dirtyChildren = false;
     private $__cache;
     private $__collections;
     private $__parentRelationships;
@@ -114,9 +115,16 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $this->__parentRelationships = array();
         $this->__parentRelationshipsColumnMap = Array();
 
+        $self = $this;
+        $dirtyChild = function() use($self) {
+            $self->__dirtyChildren = true;
+        };
+
         foreach(self::Relationships() as $as => $relationship) {
             if(!is_null($relationship['JoinTable'])) {
                 $this->__collections[$as] = new SatelliteDomainCollection($this, $relationship['Domain'], $relationship['JoinTable']);
+                $this->__collections[$as]->onAdded($dirtyChild);
+                $this->__collections[$as]->onRemoved($dirtyChild);
             } else {
                 $domain = $relationship['Domain'];
                 $myFks = self::Schema()->ForeignKeys();
@@ -140,6 +148,8 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                     $this->__parentRelationshipsColumnMap[$parentFk->column->name] = $as;
                 } else { // otherwise assume it must be a child relationship
                     $this->__collections[$as] = new ChildDomainCollection($this, $relationship['Domain']);
+                    $this->__collections[$as]->onAdded($dirtyChild);
+                    $this->__collections[$as]->onRemoved($dirtyChild);
                 }
             }
         }
@@ -270,7 +280,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     private function checkIsDirty() {
-        return $this->__cache->hasChanged();
+        return $this->__cache->hasChanged() || $this->__dirtyChildren;
     }
 
     private function checkIsNew() {
@@ -340,12 +350,16 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 Where::Equal($on, $this->$column)
             );
 
-            if(count($obj) == 1)
+            if(count($obj) == 1) {
                 $this->__parentRelationships[$as]['Object'] = $obj[0];
-            else if (count($obj) > 1)
+                $self = $this;
+                $this->__parentRelationships[$as]['Object']->onChanged(function() use ($self) { $self->__dirtyChildren = true; });
+            }
+            else if (count($obj) > 1) {
                 throw new DomainException("Parent relationship [{$as}] found more than one record");
-            else
+            } else {
                 $this->__parentRelationships[$as]['Object'] = null;
+            }
         }
     }
 
@@ -507,6 +521,8 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
             if(!is_null($this->__parentRelationships[$as]['Object']))
                 $this->__parentRelationships[$as]['Object']->save();
         }
+
+        $this->__dirtyChildren = false;
 
         $this->hydrate();
 

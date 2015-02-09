@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('mmpApp.user', ['ui.router', 'angular-md5'])
+    .module('mmpApp.user', ['ui.router', 'angular-md5', 'ui.bootstrap'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('user', {
