@@ -63,7 +63,7 @@
 
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="well well-sm">
+                                <div class="well well-sm" ng-if="profile.hasPrivilege('door')">
                                     <h4>Access PIN</h4>
                                     <small>When accessing VHS input the entire PIN. First 4 digits are immutable to ensure uniqueness.</small>
 
@@ -89,7 +89,10 @@
                                                     <div class="modal-body">
                                                         <p>{{key.notes}}</p>
                                                         <p>Created: {{key.created}}</p>
-                                                        <p>TODO list special privileges</p>
+                                                        <p>Special privileges for this key:</p>
+                                                        <div ng-repeat="privilege in key.privileges">
+                                                            {{privilege.code}}
+                                                        </div>
                                                         <small>Access log to be added</small>
                                                     </div>
                                                     <div class="modal-footer">
@@ -155,7 +158,10 @@
                                                     <div class="modal-body">
                                                         <p>{{key.notes}}</p>
                                                         <p>Created: {{key.created}}</p>
-                                                        <p>TODO list special privileges</p>
+                                                        <p>Special privileges for this key:</p>
+                                                        <div ng-repeat="privilege in key.privileges">
+                                                            {{privilege.code}}
+                                                        </div>
                                                         <small>Access log to be added</small>
                                                     </div>
                                                     <div class="modal-footer">
@@ -194,7 +200,10 @@
                                                     <div class="modal-body">
                                                         <p>{{key.notes}}</p>
                                                         <p>Created: {{key.created}}</p>
-                                                        <p>TODO list special privileges</p>
+                                                        <p>Special privileges for this key:</p>
+                                                        <div ng-repeat="privilege in key.privileges">
+                                                            {{privilege.code}}
+                                                        </div>
                                                         <small>Access log to be added</small>
                                                     </div>
                                                     <div class="modal-footer">
@@ -213,8 +222,12 @@
                             <div class="col-lg-12">
                                 <div class="well well-sm">
                                     <h4>Privileges (Badges)</h4>
-                                    <small>Blam</small>
+                                    <small>Your specific privileges:</small>
                                     <div ng-repeat="privilege in currentUser.privileges">
+                                        {{privilege.code}}
+                                    </div>
+                                    <small>Inheritted membership privileges:</small>
+                                    <div ng-repeat="privilege in currentUser.membership.privileges">
                                         {{privilege.code}}
                                     </div>
                                 </div>

@@ -69,6 +69,8 @@ class SatelliteDomainCollection extends DomainCollection {
     }
 
     public function add(Domain $item) {
+        $this->raiseBeforeAdd();
+
         if ($this->contains($item))
             throw new DomainException("Item already exists in collection");
 
@@ -77,9 +79,12 @@ class SatelliteDomainCollection extends DomainCollection {
             unset($this->__removed[$item->$childOnCol]);
 
         $this->__new[$item->$childOnCol] = $item;
+
+        $this->raiseAdded();
     }
 
     public function remove(Domain $item) {
+        $this->raiseBeforeRemove();
         if ($this->contains($item)) {
 
             $childOnCol = $this->childKey->on->name;
@@ -87,6 +92,8 @@ class SatelliteDomainCollection extends DomainCollection {
                 unset($this->__new[$item->$childOnCol]);
 
             $this->__removed[$item->$childOnCol] = $item;
+
+            $this->raiseRemoved();
         }
     }
 
@@ -113,6 +120,8 @@ class SatelliteDomainCollection extends DomainCollection {
     }
 
     public function save() {
+        $this->raiseBeforeSave();
+
         $actualNew = array_diff($this->__new, $this->__removed, $this->__existing);
         $actualRemove = array_diff($this->__removed, $this->__existing);
 
@@ -138,5 +147,7 @@ class SatelliteDomainCollection extends DomainCollection {
                 Where::In($childCol, array_keys($actualRemove))
             );
         }
+
+        $this->raiseSaved();
     }
 }
