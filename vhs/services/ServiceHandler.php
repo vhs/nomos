@@ -29,28 +29,57 @@ class ServiceHandler {
     }
 
     public function handle($uri, $data = null, $isNative = false) {
+        $endpoints = array();
+
         if (!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc/(?P<method>.*)%im', $uri, $regs)) {
-            if(!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-                throw new InvalidRequestException("Invalid service request");
+            if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
+                if (preg_match('%.*/' . $this->uriPrefixPath . 'help%im', $uri, $regs)) {
+                    $files = scandir($this->rootNamespacePath . "/" . str_replace("\\", "/", $this->endpointNamespace));
+
+                    foreach($files as $file) {
+                        if(preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                            array_push($endpoints, $matches['endpoint']);
+                        }
+                    }
+                } else {
+                    throw new InvalidRequestException("Invalid service request");
+                }
             }
         }
 
-        $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
+        if(count($endpoints) > 0) {
+            $discovery = array();
 
-        if(array_key_exists("method", $regs)) {
-            $args = $data;
-            if($isNative) $args = $endpoint::getInstance()->serializeInput($data);
+            foreach($endpoints as $class) {
+                $endpoint = $this->endpointNamespace . '\\' . $class;
 
-            $method = $regs['method'];
-            $out = $endpoint::getInstance()->handleRequest($method, $args);
+                $discovery[$class . '.svc'] = $endpoint::getInstance()->deserializeOutput($endpoint::getInstance()->discover());
+            }
+
+            /*TODO this is a hack. Each endpoint in a namespace could have a totally different
+             * type of serializer and here we're effectively assuming that returning json encoded
+             * data is ok. This is probably fine in all cases but not ideal. The caller doesn't know that
+             * help was requested and that the return type is going to be the result of a service discovery
+             */
+            return json_encode($discovery);
         } else {
-            $out = $endpoint::getInstance()->discover();
-        }
+            $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
 
-        if($isNative)
-            return $endpoint::getInstance()->deserializeOutput($out);
-        else
-            return $out;
+            if (array_key_exists("method", $regs)) {
+                $args = $data;
+                if ($isNative) $args = $endpoint::getInstance()->serializeInput($data);
+
+                $method = $regs['method'];
+                $out = $endpoint::getInstance()->handleRequest($method, $args);
+            } else {
+                $out = $endpoint::getInstance()->discover();
+            }
+
+            if ($isNative)
+                return $endpoint::getInstance()->deserializeOutput($out);
+            else
+                return $out;
+        }
     }
 
     private function getEndpoint($uri) {

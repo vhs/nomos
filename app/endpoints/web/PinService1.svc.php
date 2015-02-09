@@ -9,11 +9,11 @@
 namespace app\endpoints\web;
 
 
-use app\services\KeyService;
+use app\services\PinService;
 use vhs\services\endpoints\JsonEndpoint;
 
 class PinService1 extends JsonEndpoint {
     public function __construct() {
-        parent::__construct(new KeyService());
+        parent::__construct(new PinService());
     }
 }

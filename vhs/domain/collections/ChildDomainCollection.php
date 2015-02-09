@@ -76,6 +76,7 @@ class ChildDomainCollection extends DomainCollection {
     }
 
     public function add(Domain $item) {
+        $this->raiseBeforeAdd();
         if ($this->contains($item))
             throw new DomainException("Item already exists in collection");
 
@@ -88,11 +89,13 @@ class ChildDomainCollection extends DomainCollection {
 
         $this->__new[$item->$childPkName] = $item;
         $item->$childColName = $this->parent->$parentColName;
+
+        $this->raiseAdded();
     }
 
     public function remove(Domain $item) {
+        $this->raiseBeforeRemove();
         if ($this->contains($item)) {
-
             $childPkName = $this->childKey->column->name;
             $childColName = $this->childColumn->name;
 
@@ -102,6 +105,8 @@ class ChildDomainCollection extends DomainCollection {
             $this->__removed[$item->$childPkName] = $item;
 
             $item->$childColName = $this->childColumn->type->default;
+
+            $this->raiseRemoved();
         }
     }
 
@@ -122,6 +127,8 @@ class ChildDomainCollection extends DomainCollection {
     }
 
     public function save() {
+        $this->raiseBeforeSave();
+
         $actualNew = array_diff($this->__new, $this->__removed, $this->__existing);
         $actualRemove = array_diff($this->__removed, $this->__existing);
 
@@ -139,5 +146,7 @@ class ChildDomainCollection extends DomainCollection {
             else
                 $remove->delete();
         }
+
+        $this->raiseSaved();
     }
 }
