@@ -17,7 +17,14 @@ interface IApiKeyService1 extends IService {
      * @permission administrator
      * @return mixed
      */
-    public function GetApiKeys();
+    public function GetSystemApiKeys();
+
+    /**
+     * @permission administrator
+     * @param $notes
+     * @return mixed
+     */
+    public function GenerateSystemApiKey($notes);
 
     /**
      * @permission administrator|user
@@ -27,21 +34,20 @@ interface IApiKeyService1 extends IService {
     public function GetUserApiKeys($userid);
 
     /**
-     * @permission administrator
-     * @param $key
+     * @permission administrator|user
+     * @param $userid
      * @param $notes
      * @return mixed
      */
-    public function CreateSystemApiKey($key, $notes);
+    public function GenerateUserApiKey($userid, $notes);
 
     /**
      * @permission administrator|user
-     * @param $userid
-     * @param $key
+     * @param $keyid
      * @param $notes
      * @return mixed
      */
-    public function CreateUserApiKey($userid, $key, $notes);
+    public function UpdateApiKey($keyid, $notes);
 
     /**
      * @permission administrator|user

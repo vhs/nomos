@@ -133,9 +133,9 @@ class Authenticate extends Singleton implements IAuthenticate {
         $key = $keys[0];
         $identity = null;
 
-        $priviledges = array_map(
+        $privileges = array_map(
             function($priviledge) { return $priviledge->code; },
-            $key->priviledges
+            $key->privileges->all()
         );
 
         if(!is_null($key->userid)) {
@@ -148,16 +148,16 @@ class Authenticate extends Singleton implements IAuthenticate {
 
             if (!is_null($user) && self::isUserValid($user)) {
                 $identity = $user->id;
-                if(in_array("inherit", $priviledges)) {
+                if(in_array("inherit", $privileges)) {
                     array_merge(
-                        $priviledges,
+                        $privileges,
                         array_map(
-                            function ($priviledge) { return $priviledge->code; },
-                            $user->membership->priviledges
+                            function ($privilege) { return $privilege->code; },
+                            $user->membership->privileges->all()
                         ),
                         array_map(
-                            function ($priviledge) { return $priviledge->code; },
-                            $user->priviledges
+                            function ($privilege) { return $privilege->code; },
+                            $user->privileges->all()
                         )
                     );
                 }
@@ -170,7 +170,7 @@ class Authenticate extends Singleton implements IAuthenticate {
         CurrentUser::setPrincipal(
             new TokenPrincipal(
                 $identity,
-                $priviledges
+                $privileges
             )
         );
 
