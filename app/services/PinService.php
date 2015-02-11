@@ -16,8 +16,9 @@ use vhs\database\Database;
 use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
+use vhs\services\Service;
 
-class PinService implements IPinService1 {
+class PinService extends Service implements IPinService1 {
 
     public function GetUserPin($userid) {
         if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {

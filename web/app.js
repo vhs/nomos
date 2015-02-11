@@ -1,51 +1,55 @@
 'use strict';
 
-angular
+var app = angular
 .module('mmpApp',
     [
       'ui.router',
         'mmpApp.public',
-        'mmpApp.user'
+        'mmpApp.user',
+        'mmpApp.admin'
 
       //'mmpApp.version'
     ]
 )
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
-
-      /*
-// Regular user routes
-  $stateProvider
-      .state('user', {
-        abstract: true,
-        template: "<ui-view/>",
-        data: {
-         // access: access.user
-        }
-      })
-      .state('user.home', {
-        url: '/',
-        templateUrl: 'home'
-      })
-      .state('user.private', {
-        abstract: true,
-        url: '/private/',
-        templateUrl: 'private/layout'
-      })
-      .state('user.private.home', {
-        url: '',
-        templateUrl: 'private/home'
-      })
-      .state('user.private.nested', {
-        url: 'nested/',
-        templateUrl: 'private/nested'
-      })
-      .state('user.private.admin', {
-        url: 'admin/',
-        templateUrl: 'private/nestedAdmin',
-        data: {
-         // access: access.admin
-        }
-      });
-      */
 }]);
+
+app.directive('showDuringResolve', function($rootScope) {
+
+    return {
+        link: function(scope, element) {
+
+            element.addClass('ng-hide');
+
+            var unregister = $rootScope.$on('$routeChangeStart', function() {
+                element.removeClass('ng-hide');
+            });
+
+            scope.$on('$destroy', unregister);
+        }
+    };
+});
+
+app.directive('resolveLoader', function($rootScope, $timeout) {
+
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="alert alert-success ng-hide"><strong>Welcome!</strong> Content is loading, please hold.</div>',
+        link: function(scope, element) {
+
+            $rootScope.$on('$routeChangeStart', function(event, currentRoute, previousRoute) {
+                if (previousRoute) return;
+
+                $timeout(function() {
+                    element.removeClass('ng-hide');
+                });
+            });
+
+            $rootScope.$on('$routeChangeSuccess', function() {
+                element.addClass('ng-hide');
+            });
+        }
+    };
+});

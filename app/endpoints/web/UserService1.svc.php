@@ -11,9 +11,10 @@ namespace app\endpoints\web;
 
 use app\services\UserService;
 use vhs\services\endpoints\JsonEndpoint;
+use vhs\services\ServiceContext;
 
 class UserService1 extends JsonEndpoint {
     protected function __construct() {
-        parent::__construct(new UserService());
+        parent::__construct(new UserService(new ServiceContext($this)));
     }
 }

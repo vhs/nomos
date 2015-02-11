@@ -12,6 +12,10 @@ angular
                 return $http.post("/services/web/ApiKeyService1.svc/GenerateSystemApiKey", {notes:notes})
                     .then(function(response) { return response.data; });
             },
+            GetApiKey: function(keyid) {
+                return $http.get("/services/web/ApiKeyService1.svc/GetApiKey?keyid=" + keyid)
+                    .then(function(response) { return response.data; });
+            },
             GetUserApiKeys: function(userid) {
                 return $http.get("/services/web/ApiKeyService1.svc/GetUserApiKeys?userid=" + userid)
                     .then(function(response) { return response.data; });
@@ -20,8 +24,8 @@ angular
                 return $http.post("/services/web/ApiKeyService1.svc/GenerateUserApiKey", {userid:userid, notes:notes})
                     .then(function(response) { return response.data; });
             },
-            UpdateApiKey: function(keyid, notes) {
-                return $http.post("/services/web/ApiKeyService1.svc/UpdateApiKey", {keyid:keyid, notes:notes})
+            UpdateApiKey: function(keyid, notes, expires) {
+                return $http.post("/services/web/ApiKeyService1.svc/UpdateApiKey", {keyid:keyid, notes:notes, expires:expires})
                     .then(function(response) { return response.data; });
             },
             PutApiKeyPriviledges: function(keyid, priviledges) {

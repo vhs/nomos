@@ -50,7 +50,7 @@
 
                     <tbody>
                     <tr ng-repeat="key in keys">
-                        <td>{{key.key}}</td>
+                        <td><a ui-sref="user.apikeys.details({keyid: key.id})">{{key.key}}</a></td>
                         <td>{{key.notes}}</td>
                         <td>{{key.created}}</td>
                         <td>{{key.expires}}</td>
@@ -59,45 +59,6 @@
                     </tr>
                     </tbody>
                 </table>
-                <script type="text/ng-template" id="EditUserApiKeyModal.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Edit API Key</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="input-group">
-                                    <label>Notes:</label>
-                                    <input type="text" ng-model="notes" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="input-group">
-                                    <label>Expiry:</label>
-                                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="expiry" is-open="opened" min-date="today" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4>Privileges</h4>
-                                inherit or specify privileges
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="ok()">Generate</button>
-                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-                    </div>
-                </script>
                 <script type="text/ng-template" id="DeleteUserApiKeyModal.html">
                     <div class="modal-header">
                         <h3 class="modal-title">Confirm Delete</h3>

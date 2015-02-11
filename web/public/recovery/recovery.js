@@ -8,8 +8,16 @@ angular
                 parent: "public",
                 url: '/recovery/',
                 templateUrl: 'public/recovery/recovery.html',
-                controller: ['$scope', function($scope) {
-
+                controller: ['$scope', '$state', 'UserService1', function($scope, $state, UserService1) {
+                    $scope.reset = function() {
+                        UserService1.RequestPasswordReset($scope.email).then(function(data) {
+                            debugger;
+                            if (data != "null")
+                                $scope.error = data;
+                            else
+                                $state.go("public.recovery.reset");
+                        });
+                    };
                 }]
             });
     }]);

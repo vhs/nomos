@@ -19,8 +19,9 @@ use vhs\database\Database;
 use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\UserPassCredentials;
+use vhs\services\Service;
 
-class AuthService implements IAuthService1 {
+class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
@@ -32,7 +33,7 @@ class AuthService implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new UserPassCredentials($username, $password));
         } catch(\Exception $ex) {
-            return "Access Denied";
+            return $ex->getMessage();
         }
 
         return "Access Granted";

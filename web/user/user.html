@@ -1,3 +1,4 @@
+<span show-during-resolve class="glyphicon glyphicon-refresh loading-icon"></span>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header"><a ui-sref="user.home"><img src="/images/logo.png"/></a></div>
@@ -9,6 +10,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a ui-sref="user.home"><i class="fa fa-home fa-fw"></i> Home</a>
+                    </li>
+                    <li ng-if="currentUser.hasPrivilege('administrator')">
+                        <a ui-sref="admin.home"><i class="fa fa-user fa-fw"></i> Administration</a>
                     </li>
                     <li><a ui-sref="user.profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>

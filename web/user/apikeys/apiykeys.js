@@ -41,33 +41,6 @@ angular
                         });
                     };
 
-                    $scope.openEditApiKey = function (key) {
-
-                        var modalInstance = $modal.open({
-                            templateUrl: 'EditUserApiKeyModal.html',
-                            size: "sm",
-                            controller: function ($scope, $modalInstance) {
-                                $scope.key = key;
-                                $scope.ok = function () {
-                                    $modalInstance.close($scope.key);
-                                };
-
-                                $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            }
-                        });
-
-                        modalInstance.result.then(function (key) {
-                            ApiKeyService1.UpdateApiKey(key.id, key.notes).then(function(data) {
-                                for(var i = 0; i < $scope.keys.length; i++) {
-                                    if($scope.keys[i].id == key.id)
-                                        $scope.keys[i] = key;
-                                }
-                            });
-                        });
-                    };
-
                     $scope.openDeleteApiKey = function (key) {
 
                         var modalInstance = $modal.open({
