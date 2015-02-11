@@ -9,15 +9,29 @@
 namespace app\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface IApiKeyService1 extends IService {
+interface IApiKeyService1 extends IContract {
 
     /**
      * @permission administrator
      * @return mixed
      */
-    public function GetApiKeys();
+    public function GetSystemApiKeys();
+
+    /**
+     * @permission administrator
+     * @param $notes
+     * @return mixed
+     */
+    public function GenerateSystemApiKey($notes);
+
+    /**
+     * @permission administrator|user
+     * @param $keyid
+     * @return mixed
+     */
+    public function GetApiKey($keyid);
 
     /**
      * @permission administrator|user
@@ -27,29 +41,29 @@ interface IApiKeyService1 extends IService {
     public function GetUserApiKeys($userid);
 
     /**
-     * @permission administrator
-     * @param $key
-     * @param $notes
-     * @return mixed
-     */
-    public function CreateSystemApiKey($key, $notes);
-
-    /**
      * @permission administrator|user
      * @param $userid
-     * @param $key
      * @param $notes
      * @return mixed
      */
-    public function CreateUserApiKey($userid, $key, $notes);
+    public function GenerateUserApiKey($userid, $notes);
 
     /**
      * @permission administrator|user
      * @param $keyid
-     * @param $priviledges
+     * @param $notes
+     * @param $expires
      * @return mixed
      */
-    public function PutApiKeyPriviledges($keyid, $priviledges);
+    public function UpdateApiKey($keyid, $notes, $expires);
+
+    /**
+     * @permission administrator|user
+     * @param $keyid
+     * @param $privileges
+     * @return mixed
+     */
+    public function PutApiKeyPrivileges($keyid, $privileges);
 
     /**
      * @permission administrator|user

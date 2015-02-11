@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 
 class Key extends Domain {
     public static function Define() {
-        key::Schema(KeySchema::Type());
+        Key::Schema(KeySchema::Type());
 
         Key::Relationship("privileges", Privilege::Type(), KeyPrivilegeSchema::Type());
     }
@@ -26,15 +26,40 @@ class Key extends Domain {
     }
 
     public static function findByRfid($rfid) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "rfid"), Where::Equal(KeySchema::Columns()->key, $rfid)));
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, "rfid"),
+            Where::Equal(KeySchema::Columns()->key, $rfid)
+        ));
     }
 
     public static function findByApiKey($key) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "api"), Where::Equal(KeySchema::Columns()->key, $key)));
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, "api"),
+            Where::Equal(KeySchema::Columns()->key, $key)
+        ));
     }
 
     public static function findByPin($pin) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, "pin"), Where::Equal(KeySchema::Columns()->key, $pin)));
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, "pin"),
+            Where::Equal(KeySchema::Columns()->key, $pin)
+        ));
+    }
+
+    public static function getSystemApiKeys() {
+        return self::where(Where::_And(
+            Where::Null(KeySchema::Columns()->userid),
+            Where::Equal(KeySchema::Columns()->type, "rfid")
+        ));
+    }
+
+    public static function getUserApiKeys($userid) {
+        return self::where(
+            Where::_And(
+                Where::Equal(Key::Schema()->Columns()->type, "api"),
+                Where::Equal(Key::Schema()->Columns()->userid, $userid)
+            )
+        );
     }
 }
 

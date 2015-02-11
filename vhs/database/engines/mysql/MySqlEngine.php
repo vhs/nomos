@@ -221,8 +221,7 @@ class MySqlEngine extends Engine {
         $rows = 0;
 
         if($q = $this->conn->query($sql)) {
-
-            $rows = $q->num_rows();
+            $rows = $q->num_rows;
 
             $q->close();
         } else {

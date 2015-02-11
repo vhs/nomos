@@ -12,12 +12,16 @@ namespace app\services;
 use app\contracts\IAuthService1;
 use app\domain\Key;
 use app\domain\User;
+use app\schema\UserSchema;
 use app\security\Authenticate;
 use app\security\credentials\PinCredentials;
+use vhs\database\Database;
+use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\UserPassCredentials;
+use vhs\services\Service;
 
-class AuthService implements IAuthService1 {
+class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
@@ -29,7 +33,7 @@ class AuthService implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new UserPassCredentials($username, $password));
         } catch(\Exception $ex) {
-            return "Access Denied";
+            return $ex->getMessage();
         }
 
         return "Access Granted";
@@ -89,11 +93,23 @@ class AuthService implements IAuthService1 {
      * @return mixed
      */
     public function CheckPin($pin) {
+
+        $pin = str_replace("|", "", $pin);
+
+        $intpin = intval($pin);
+
+        $pinid = intval($intpin/10000);
+
+        $pin = $intpin - ($pinid * 10000);
+
+        $pinid = sprintf("%04s", $pinid);
+        $pin = sprintf("%04s", $pin);
+
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
 
-        $keys = Key::findByPin($pin);
+        $keys = Key::findByPin($pinid ."|" . $pin);
 
         if(count($keys) <> 1)
             return $retval;
@@ -143,5 +159,14 @@ class AuthService implements IAuthService1 {
         }
 
         return $retval;
+    }
+
+    /**
+     * @permission anonymous
+     * @param $username
+     * @return boolean
+     */
+    public function CheckUsername($username) {
+        return Database::exists(UserSchema::Table(), Where::Equal(UserSchema::Column("username"), $username));
     }
 }

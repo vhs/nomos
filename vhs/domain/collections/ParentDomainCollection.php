@@ -31,10 +31,14 @@ class ParentDomainCollection extends DomainCollection {
 
     public function add(Domain $item) {
         // TODO: Implement add() method.
+        $this->raiseBeforeAdd();
+        $this->raiseAdded();
     }
 
     public function remove(Domain $item) {
         // TODO: Implement remove() method.
+        $this->raiseBeforeRemove();
+        $this->raiseRemoved();
     }
 
     public function hydrate() {
@@ -43,5 +47,7 @@ class ParentDomainCollection extends DomainCollection {
 
     public function save() {
         // TODO: Implement save() method.
+        $this->raiseBeforeSave();
+        $this->raiseSaved();
     }
 }

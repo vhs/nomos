@@ -23,10 +23,10 @@ class Email extends Domain {
 
     }
 
-    public static function findById($Id) {
+    /*public static function findById($Id) {
         return Email::where(
             Where::Equal(EmailSchema::Columns()->id, $Id)
         );
-    }
+    }*/
 }
 

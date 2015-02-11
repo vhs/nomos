@@ -27,6 +27,8 @@
   <!-- Custom Fonts -->
   <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+  <script src="bower_components/date.format/date.format.js"></script>
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -41,8 +43,9 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <resolve-loader></resolve-loader>
+  <div ui-view class="fadein"></div>
 
-  <div ui-view></div>
 
   <!-- jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -63,15 +66,19 @@
   <!--script src="bower_components/angular-route/angular-route.js"></script-->
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/angular-md5/angular-md5.js"></script>
+  <script src="bower_components/angular-ui/ui-bootstrap-tpls-0.12.0.js"></script>
 
   <script src="app.js"></script>
   <script src="providers/auth.js"></script>
   <script src="providers/user.js"></script>
   <script src="providers/pin.js"></script>
+  <script src="providers/apikey.js"></script>
+  <script src="providers/currentUser.js"></script>
 
   <script src="public/public.js"></script>
   <script src="public/login/login.js"></script>
   <script src="public/recovery/recovery.js"></script>
+  <script src="public/recovery/reset.js"></script>
   <script src="public/register/register.js"></script>
 
   <script src="user/user.js"></script>
@@ -80,9 +87,14 @@
   <script src="user/settings/settings.js"></script>
   <script src="user/transactions/transactions.js"></script>
   <script src="user/apikeys/apiykeys.js"></script>
+  <script src="user/apikeys/details.js"></script>
   <script src="user/dooraccess/dooraccess.js"></script>
   <script src="user/membership/membership.js"></script>
   <script src="user/vhsopen/vhsopen.js"></script>
+
+  <script src="admin/admin.js"></script>
+  <script src="admin/home/home.js"></script>
+  <script src="admin/privileges/privileges.js"></script>
 
 </body>
 </html>

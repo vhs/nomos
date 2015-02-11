@@ -9,6 +9,6 @@
 namespace vhs\services;
 
 
-interface IService {
+interface IContract {
 
 }
