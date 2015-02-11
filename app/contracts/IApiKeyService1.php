@@ -9,9 +9,9 @@
 namespace app\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface IApiKeyService1 extends IService {
+interface IApiKeyService1 extends IContract {
 
     /**
      * @permission administrator
@@ -25,6 +25,13 @@ interface IApiKeyService1 extends IService {
      * @return mixed
      */
     public function GenerateSystemApiKey($notes);
+
+    /**
+     * @permission administrator|user
+     * @param $keyid
+     * @return mixed
+     */
+    public function GetApiKey($keyid);
 
     /**
      * @permission administrator|user
@@ -45,9 +52,10 @@ interface IApiKeyService1 extends IService {
      * @permission administrator|user
      * @param $keyid
      * @param $notes
+     * @param $expires
      * @return mixed
      */
-    public function UpdateApiKey($keyid, $notes);
+    public function UpdateApiKey($keyid, $notes, $expires);
 
     /**
      * @permission administrator|user

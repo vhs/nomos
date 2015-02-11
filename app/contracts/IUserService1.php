@@ -9,9 +9,35 @@
 namespace app\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface IUserService1 extends IService {
+interface IUserService1 extends IContract {
+
+    /**
+     * @permission anonymous
+     * @param $username
+     * @param $password
+     * @param $email
+     * @param $fname
+     * @param $lname
+     * @return mixed
+     */
+    public function Register($username, $password, $email, $fname, $lname);
+
+    /**
+     * @permission anonymous
+     * @param $email
+     * @return mixed
+     */
+    public function RequestPasswordReset($email);
+
+    /**
+     * @permission anonymous
+     * @param $token
+     * @param $password
+     * @return mixed
+     */
+    public function ResetPassword($token, $password);
 
     /**
      * @permission administrator
@@ -20,35 +46,28 @@ interface IUserService1 extends IService {
     public function GetUsers();
 
     /**
-     * @permission authenticated
-     * @param $id
+     * @permission administrator|user
+     * @param $userid
      * @return mixed
      */
-    public function GetUser($id);
+    public function GetUser($userid);
 
     /**
-     * @permission authenticated
-     * @param $id
-     * @return mixed
-     */
-    public function GetKey($id);
-
-    /**
-     * @permission authenticated
+     * @permission administrator|user
      * @param $userid
      * @param $password
      */
     public function UpdatePassword($userid, $password);
 
     /**
-     * @permission authenticated
+     * @permission administrator|user
      * @param $userid
      * @param $subscribe
      */
     public function UpdateNewsletter($userid, $subscribe);
 
     /**
-     * @permission authenticated
+     * @permission administrator|user
      * @param $userid
      * @param $username
      * @param $fname

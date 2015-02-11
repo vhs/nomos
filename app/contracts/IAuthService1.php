@@ -9,9 +9,9 @@
 namespace app\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface IAuthService1 extends IService {
+interface IAuthService1 extends IContract {
 
     /**
      * @permission anonymous
@@ -28,14 +28,14 @@ interface IAuthService1 extends IService {
     public function Login($username, $password);
 
     /**
-     * @permission authenticated
+     * @permission administrator|pin-auth
      * @param $pin
      * @return mixed
      */
     public function CheckPin($pin);
 
     /**
-     * @permission authenticated
+     * @permission administrator|rfid-auth
      * @param $rfid
      * @return mixed
      */

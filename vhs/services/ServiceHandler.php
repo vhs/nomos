@@ -102,4 +102,19 @@ class ServiceHandler {
         else
             return $out;
     }
+
+    public function getAllEndpoints() {
+        $files = scandir($this->rootNamespacePath . "/" . str_replace("\\", "/", $this->endpointNamespace));
+
+        $endpoints = array();
+
+        foreach($files as $file) {
+            if(preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
+                array_push($endpoints, $endpoint::getInstance());
+            }
+        }
+
+        return $endpoints;
+    }
 }

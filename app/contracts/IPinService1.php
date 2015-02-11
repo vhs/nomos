@@ -9,12 +9,12 @@
 namespace app\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface IPinService1 extends IService {
+interface IPinService1 extends IContract {
 
     /**
-     * @permission authenticated
+     * @permission administrator|user
      * @param $userid
      * @return mixed
      */
@@ -22,7 +22,7 @@ interface IPinService1 extends IService {
 
     /**
      * Automatically generates a pin for a specified user
-     * @permission authenticated
+     * @permission administrator|user
      * @param $userid
      * @return mixed
      */
@@ -30,14 +30,14 @@ interface IPinService1 extends IService {
 
     /**
      * Change a pin
-     * @permission authenticated
+     * @permission administrator|user
      * @param $pin
      * @return mixed
      */
     public function UpdateUserPin($userid, $pin);
 
     /**
-     * @permission authenticated
+     * @permission administrator|user
      * @param $keyid
      * @param $pin
      * @return mixed

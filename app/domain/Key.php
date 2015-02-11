@@ -16,7 +16,7 @@ use vhs\domain\validations\ValidationResults;
 
 class Key extends Domain {
     public static function Define() {
-        key::Schema(KeySchema::Type());
+        Key::Schema(KeySchema::Type());
 
         Key::Relationship("privileges", Privilege::Type(), KeyPrivilegeSchema::Type());
     }

@@ -9,9 +9,9 @@
 namespace tests\contracts;
 
 
-use vhs\services\IService;
+use vhs\services\IContract;
 
-interface ITestService1 extends IService {
+interface ITestService1 extends IContract {
 
     /**
      * @permission anonymous

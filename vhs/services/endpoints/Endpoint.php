@@ -13,13 +13,13 @@ use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\exceptions\InvalidContractException;
 use vhs\services\exceptions\InvalidRequestException;
-use vhs\services\IService;
+use vhs\services\IContract;
 
 abstract class Endpoint implements IEndpoint {
 
     protected $internal_service;
 
-    protected function __construct(IService $service) {
+    protected function __construct(IContract $service) {
         $this->internal_service = $service;
     }
 
@@ -46,7 +46,7 @@ abstract class Endpoint implements IEndpoint {
 
         $contract = null;
         foreach($serviceClass->getInterfaces() as $interface) {
-            if(array_key_exists("vhs\\services\\IService", $interface->getInterfaces()))
+            if(array_key_exists("vhs\\services\\IContract", $interface->getInterfaces()))
                 $contract = $interface;
         }
 
@@ -54,6 +54,35 @@ abstract class Endpoint implements IEndpoint {
             throw new InvalidContractException("Invalid service contract");
 
         return $contract;
+    }
+
+    final public function getAllPermissions() {
+        $contract = $this->getContract();
+
+        $allPermissions = array();
+
+        foreach($contract->getMethods() as $method) {
+            $allPermissions[$method->getName()] = $this->getMethodPermissions($method);
+        }
+
+        return $allPermissions;
+    }
+
+    final private function getMethodPermissions(\ReflectionMethod $method) {
+        $comments = $method->getDocComment();
+
+        $permissions = array();
+
+        if (preg_match_all('%^\s*\*\s*@permission\s+(?P<permission>(?:[a-z0-9-]+\|?)+)\s*$%im', $comments, $result, PREG_PATTERN_ORDER)) {
+
+            foreach ($result[1] as $perm) {
+                $arr = explode('|', $perm);
+
+                array_push($permissions, $arr);
+            }
+        }
+
+        return $permissions;
     }
 
     final public function discover() {
@@ -79,46 +108,31 @@ abstract class Endpoint implements IEndpoint {
 
         $reflectionMethod = new \ReflectionMethod($contract->getName(), $method);
 
-        $comments = $reflectionMethod->getDocComment();
-        if (preg_match_all('%^\s*\*\s*@permission\s+(?P<permission>(?:[a-z0-9]+\|?)+)\s*$%im', $comments, $result, PREG_PATTERN_ORDER)) {
-            $granted = (count($result[1]) == 1 && $result[1][0] == 'anonymous');
+        $permissions = $this->getMethodPermissions($reflectionMethod);
 
-            if(!$granted)
-                $granted = (count($result[1]) == 1 && $result[1][0] == 'authenticated' && !CurrentUser::getPrincipal()->isAnon());
+        if(count($permissions) > 0) {
+            $granted = (count($permissions) == 1 && count($permissions[0]) == 1 && $permissions[0][0] == 'anonymous');
 
-            $allPerms = array();
-            $anyPerms = array();
+            if (!$granted)
+                $granted = (count($permissions) == 1 && count($permissions[0]) == 1 &&  $permissions[0][0] == 'authenticated' && !CurrentUser::getPrincipal()->isAnon());
 
-            foreach($result[1] as $perm) {
-                $arr = explode('|', $perm);
-
-                if(count($arr) == 1) {
-                    array_push($allPerms, $arr[0]);
-                } else {
-                    array_push($anyPerms, ...$arr);
+            if (!$granted) {
+                $check = true;
+                foreach($permissions as $permission) {
+                    /*
+                     * $permissions array is two dimensional an and array of or permissions.
+                     * IE $granted = has any $permission[0][n] AND has any $permission[n][n] ...
+                     * E.g Contract defines 3 permission lines:
+                     * @permission perm1
+                     * @permission perm2|perm3
+                     * @permission perm4
+                     *
+                     * This would translate here as perm1 && (perm2 || perm3) && perm4
+                     */
+                    $check &= CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
                 }
-            }
 
-            if(!$granted) {
-                if (count($anyPerms) > 0 && count($allPerms) == 0) {
-                    $granted = CurrentUser::getPrincipal()->hasAnyPermissions(...$anyPerms);
-                } else {
-                    if (count($anyPerms) > 0) {
-                        foreach ($anyPerms as $any) {
-                            $combined = array();
-
-                            array_push($combined, ...$allPerms);
-                            array_push($combined, $any);
-
-                            if (CurrentUser::getPrincipal()->hasAllPermissions(...$combined)) {
-                                $granted = true;
-                                break;
-                            }
-                        }
-                    } else {
-                        $granted = CurrentUser::getPrincipal()->hasAllPermissions(...$allPerms);
-                    }
-                }
+                $granted = $check;
             }
 
             if(!$granted)

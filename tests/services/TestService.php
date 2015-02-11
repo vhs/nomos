@@ -10,8 +10,9 @@ namespace tests\services;
 
 
 use tests\contracts\ITestService1;
+use vhs\services\Service;
 
-class TestService implements ITestService1 {
+class TestService extends Service implements ITestService1 {
 
     /**
      * @permission anonymous

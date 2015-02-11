@@ -15,8 +15,9 @@ use app\domain\Privilege;
 use app\domain\User;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
+use vhs\services\Service;
 
-class ApiKeyService implements IApiKeyService1 {
+class ApiKeyService extends Service implements IApiKeyService1 {
     public function GetSystemApiKeys() {
         return Key::getSystemApiKeys();
     }
@@ -37,6 +38,19 @@ class ApiKeyService implements IApiKeyService1 {
         $apiKey->save();
 
         return $apiKey;
+    }
+
+    public function GetApiKey($keyid) {
+        $key = Key::find($keyid);
+
+        if(is_null($key)) throw new \Exception("Invalid keyid");
+
+        if(!CurrentUser::hasAnyPermissions("administrator")) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity())
+                throw new UnauthorizedException();
+        }
+
+        return $key;
     }
 
     public function GenerateUserApiKey($userid, $notes) {
@@ -60,30 +74,16 @@ class ApiKeyService implements IApiKeyService1 {
         return $apiKey;
     }
 
-    public function UpdateApiKey($keyid, $notes) {
-        $key = Key::find($keyid);
-
-        if(is_null($key)) return;
-
-        if(!CurrentUser::hasAnyPermissions("administrator")) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity())
-                throw new UnauthorizedException();
-        }
+    public function UpdateApiKey($keyid, $notes, $expires) {
+        $key = $this->GetApiKey($keyid);
 
         $key->notes = $notes;
+        $key->expires = $expires;
         $key->save();
     }
 
     public function PutApiKeyPriviledges($keyid, $priviledges) {
-        $key = Key::find($keyid);
-
-        if(is_null($key))
-            throw new \Exception("Invalid keyid");
-
-        if(!CurrentUser::hasAnyPermissions("administrator")) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity())
-                throw new UnauthorizedException();
-        }
+        $key = $this->GetApiKey($keyid);
 
         $key->priviledges->clear();
 
