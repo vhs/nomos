@@ -60,10 +60,10 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      * @param $keyid
-     * @param $priviledges
+     * @param $privileges
      * @return mixed
      */
-    public function PutApiKeyPriviledges($keyid, $priviledges);
+    public function PutApiKeyPrivileges($keyid, $privileges);
 
     /**
      * @permission administrator|user
