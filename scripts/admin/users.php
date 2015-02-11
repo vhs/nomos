@@ -15,6 +15,7 @@ $pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin(vhs\security\Cu
 <?php switch(Filter::$action): case "edit": ?>
 <?php $row = Core::getRowById(Users::uTable, Filter::$id);?>
 <?php $memrow = $member->getMemberships();?>
+<?php $pinObj = vhs\services\ServiceClient::web_PinService1_GetUserPin($row->id); ?>
 <p class="greentip"><i class="icon-lightbulb icon-3x pull-left"></i> Here you can update your user info<br>
   Fields marked <i class="icon-append icon-asterisk"></i> are required.</p>
 <form class="xform" id="admin_form" method="post">

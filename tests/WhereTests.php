@@ -15,13 +15,16 @@ use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
 class TestSchema extends Schema {
-    public function __construct() {
+    /**
+     * @return Table
+     */
+    public static function init() {
         $table = new Table("test");
         $table->addColumn("test1", Type::String());
         $table->addColumn("test3", Type::String());
         $table->addColumn("test5", Type::String());
 
-        parent::__construct($table);
+        return $table;
     }
 }
 
@@ -53,7 +56,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 = 'test2'", $clause);
+        $this->assertEquals("`test1` = 'test2'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -70,7 +73,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 <> 'test2'", $clause);
+        $this->assertEquals("`test1` <> 'test2'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -87,7 +90,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 IS NULL", $clause);
+        $this->assertEquals("`test1` IS NULL", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -104,7 +107,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 IS NOT NULL", $clause);
+        $this->assertEquals("`test1` IS NOT NULL", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -121,7 +124,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 IN ('a', 'b', 'c')", $clause);
+        $this->assertEquals("`test1` IN ('a', 'b', 'c')", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -142,7 +145,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 NOT IN ('a', 'b', 'c')", $clause);
+        $this->assertEquals("`test1` NOT IN ('a', 'b', 'c')", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -163,7 +166,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 > '1'", $clause);
+        $this->assertEquals("`test1` > '1'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -180,7 +183,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 >= '1'", $clause);
+        $this->assertEquals("`test1` >= '1'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -199,7 +202,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 < '2'", $clause);
+        $this->assertEquals("`test1` < '2'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -216,7 +219,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("test1 <= '2'", $clause);
+        $this->assertEquals("`test1` <= '2'", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -235,7 +238,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("((test1 = 'test2') AND (test3 = 'test4'))", $clause);
+        $this->assertEquals("((`test1` = 'test2') AND (`test3` = 'test4'))", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -259,7 +262,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("((test1 = 'test2') OR (test3 = 'test4'))", $clause);
+        $this->assertEquals("((`test1` = 'test2') OR (`test3` = 'test4'))", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);
@@ -295,7 +298,7 @@ class WhereTests extends PHPUnit_Framework_TestCase {
 
         $clause = $where->generate($this->mySqlGenerator);
         self::$logger->log($clause);
-        $this->assertEquals("((test1 = 'test2') AND (((test3 = 'test4') OR (test5 = 'test6'))))", $clause);
+        $this->assertEquals("((`test1` = 'test2') AND (((`test3` = 'test4') OR (`test5` = 'test6'))))", $clause);
 
         /** @var callable $clause */
         $clause = $where->generate($this->inMemoryGenerator);

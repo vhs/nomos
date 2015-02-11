@@ -10,8 +10,20 @@ if(isset($_GET['rfid'])) {
 
     if ($result->valid) die("AUTHORIZED");
 }
-
+ 
 if(isset($_GET['pin'])) {
+    $result = ServiceClient::web_AuthService1_CheckPin($_GET['pin']);
+
+    if ($result->valid) die("AUTHORIZED");
+}
+
+if(isset($_POST['rfid'])) {
+    $result = ServiceClient::web_AuthService1_CheckRfid($_GET['rfid']);
+
+    if ($result->valid) die("AUTHORIZED");
+}
+
+if(isset($_POST['pin'])) {
     $result = ServiceClient::web_AuthService1_CheckPin($_GET['pin']);
 
     if ($result->valid) die("AUTHORIZED");

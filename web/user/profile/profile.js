@@ -81,7 +81,6 @@ angular
                         UserService1.GetUser($scope.currentUser.id).then(function(data) {
                             $scope.$parent.currentUser = data;
                             $scope.resetProfileForm();
-                            $scope.$apply();
                             $scope.updating = false;
                         });
                     };

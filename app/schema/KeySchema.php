@@ -24,6 +24,7 @@ class KeySchema extends Schema {
         $table->addColumn("key", Type::String(true, null, 255));
         $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));
         $table->addColumn("notes", Type::Text());
+        $table->addColumn("expires", Type::DateTime());
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),

@@ -1,0 +1,79 @@
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-static-top panel-red" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header"><a ui-sref="user.home"><img src="/images/logo.png"/></a></div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user fa-fw"></i> {{currentUser.fname}} <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a ui-sref="admin.home"><i class="fa fa-home fa-fw"></i> Administration</a>
+                    </li>
+                    <li><a ui-sref="user.home"><i class="fa fa-user fa-fw"></i> User Home</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a ui-sref="public.logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+        </ul>
+
+        <br />
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav in" id="side-menu">
+                    <li>
+                        <a ui-sref="admin.home" ng-class="{active: $state.is('admin.home')}"><i class="fa fa-dashboard fa-fw"></i> Admin Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/admin/index.php"><i class="fa fa-cubes fa-fw"></i> Legacy Admin</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.users" ng-class="{active: $state.is('admin.users')}"><i class="fa fa-user fa-fw"></i> Users</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.memberships" ng-class="{active: $state.is('admin.memberships')}"><i class="fa fa-users fa-fw"></i> Memberships</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.paymentgateways" ng-class="{active: $state.is('admin.paymentgateways')}"><i class="fa fa-users fa-fw"></i> Payment Gateways</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.transactions" ng-class="{active: $state.is('admin.transactions')}"><i class="fa fa-cubes fa-fw"></i> Transactions</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.privileges" ng-class="{active: $state.is('admin.privileges')}"><i class="fa fa-cubes fa-fw"></i> Privileges</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.apikeys" ng-class="{active: $state.is('admin.apikeys')}"><i class="fa fa-cubes fa-fw"></i> API Keys</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.newsletter" ng-class="{active: $state.is('admin.newsletter')}"><i class="fa fa-cubes fa-fw"></i> Newsletter</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.reports" ng-class="{active: $state.is('admin.reports')}"><i class="fa fa-cubes fa-fw"></i> Reports</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.configuration" ng-class="{active: $state.is('admin.configuration')}"><i class="fa fa-cubes fa-fw"></i> Site Configuration</a>
+                    </li>
+                    <li>
+                        <!--a ui-sref="admin.backup" ng-class="{active: $state.is('admin.backup')}"><i class="fa fa-cubes fa-fw"></i> Database Backup</a-->
+                        <a href="/admin/index.php?do=backup"><i class="fa fa-cubes fa-fw"></i> Database Backup</a>
+                    </li>
+                    <li>
+                        <a ui-sref="admin.logs" ng-class="{active: $state.is('admin.logs')}"><i class="fa fa-cubes fa-fw"></i> Logs</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+        <div ui-view></div>
+    </div>
+</div>

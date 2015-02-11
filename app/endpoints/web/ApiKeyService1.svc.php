@@ -9,11 +9,12 @@
 namespace app\endpoints\web;
 
 
-use app\services\KeyService;
+use app\services\ApiKeyService;
 use vhs\services\endpoints\JsonEndpoint;
+use vhs\services\ServiceContext;
 
 class ApiKeyService1 extends JsonEndpoint {
     public function __construct() {
-        parent::__construct(new KeyService());
+        parent::__construct(new ApiKeyService(new ServiceContext($this)));
     }
 }

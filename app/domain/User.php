@@ -11,6 +11,7 @@ namespace app\domain;
 
 use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
+use vhs\database\Database;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
@@ -31,6 +32,27 @@ class User extends Domain {
         return User::where(
             Where::Equal(UserSchema::Columns()->username, $username)
         );
+    }
+
+    public static function findByEmail($email) {
+        return User::where(
+            Where::Equal(UserSchema::Columns()->email, $email)
+        );
+    }
+
+    public static function exists($username = null, $email = null) {
+        $usernameWhere = Where::Equal(UserSchema::Columns()->username, $username);
+        $emailWhere = Where::Equal(UserSchema::Columns()->email, $email);
+        $where = null;
+
+        if (!is_null($username) && !is_null($email))
+            $where = Where::_Or($usernameWhere, $emailWhere);
+        else if (!is_null($email))
+            $where = $emailWhere;
+        else
+            $where = $usernameWhere;
+
+        return Database::exists(UserSchema::Table(), $where);
     }
 }
 
