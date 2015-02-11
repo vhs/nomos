@@ -50,7 +50,7 @@ class PinService extends Service implements IPinService1 {
             $key = new Key();
             $key->userid = $userid;
             $key->type = 'pin';
-            $key->key = $nextpinid . "|" . rand(0, 9999);
+            $key->key = sprintf("%04s", $nextpinid) . "|" . sprintf("%04s", rand(0, 9999));
             $key->notes = "User generated PIN";
 
             $pin = $key;
@@ -58,7 +58,7 @@ class PinService extends Service implements IPinService1 {
 
         $pinid = explode("|", $pin->key)[0];
 
-        $pin->key = $pinid . "|" . rand(0, 9999);
+        $pin->key = sprintf("%04s", $pinid) . "|" . sprintf("%04s", rand(0, 9999));
         $pin->notes = "User generated PIN";
 
         $pin->save();

@@ -20,7 +20,7 @@ abstract class DomainCollection extends Notifier  {
     protected $__new;
     protected $__removed;
 
-    protected function clear() {
+    public function clear() {
         $this->__existing = array();
         $this->__new = array();
         $this->__removed = array();

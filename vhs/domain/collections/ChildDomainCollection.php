@@ -59,7 +59,7 @@ class ChildDomainCollection extends DomainCollection {
         $this->clear();
     }
 
-    protected function clear() {
+    public function clear() {
         $this->__existing = array();
         $this->__new = array();
         $this->__removed = array();

@@ -93,11 +93,23 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckPin($pin) {
+
+        $pin = str_replace("|", "", $pin);
+
+        $intpin = intval($pin);
+
+        $pinid = intval($intpin/10000);
+
+        $pin = $intpin - ($pinid * 10000);
+
+        $pinid = sprintf("%04s", $pinid);
+        $pin = sprintf("%04s", $pin);
+
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
 
-        $keys = Key::findByPin($pin);
+        $keys = Key::findByPin($pinid ."|" . $pin);
 
         if(count($keys) <> 1)
             return $retval;

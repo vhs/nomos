@@ -145,7 +145,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             $key->privileges->all()
         );
 
-        if(!is_null($key->userid)) {
+        if(!is_null($key->userid) && $key->userid != "0") {
             try {
                 $user = User::find($key->userid);
             } catch (\Exception $ex) {
