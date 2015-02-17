@@ -54,11 +54,11 @@ include("header.php");
 		$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
 		$accessBody = str_replace('[SUITE]', '104', $accessBody);
 		$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
-		$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
+		$accessBody = str_replace('[INNERPIN]', '1234', $accessBody);
 
 		print(html_entity_decode($accessBody));
 
-	{ else {
+	} else {
 			//Member: in table email_templates, display body where column id = 18
 		$access = $email::find(18);
 
@@ -70,12 +70,11 @@ include("header.php");
 
 		$accessBody = str_replace('[FNAME]', $user->fname, $accessBody);
 		$accessBody = str_replace('[SUITE]', '104', $accessBody);
-		$accessBody = str_replace('[OUTERPIN]', $pin, $accessBody);
-		$accessBody = str_replace('[INNERPIN]', $pin, $accessBody);
+		$accessBody = str_replace('[USERPIN]', $pin, $accessBody);
 
 		print(html_entity_decode($accessBody));
 	}
  
- <?php include("footer.php");?> 
+ include("footer.php");?> 
  
  
