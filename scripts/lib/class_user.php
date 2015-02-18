@@ -249,7 +249,6 @@
 				  'notes' => sanitize($_POST['notes']),
                   'trial_used' => ($trial) ? 1 : 0,
                   'newsletter' => intval($_POST['newsletter']),
-                  'vetted' => intval($_POST['vetted']),
                   'cash' => intval($_POST['cash']),
                   'userlevel' => intval($_POST['userlevel']),
                   'active' => sanitize($_POST['active'])
