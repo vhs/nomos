@@ -102,7 +102,7 @@ class AuthService extends Service implements IAuthService1 {
 
         $pin = $intpin - ($pinid * 10000);
 
-        $pinid = sprintf("%04s", $pinid);
+        //$pinid = sprintf("%04s", $pinid);
         $pin = sprintf("%04s", $pin);
 
         $retval = array();
