@@ -528,9 +528,9 @@
 
 		  
 		  if ($uname = $this->usernameExists($_POST['uname'])) {
-			  if ($value == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
+			  if ($uname == 1) //changed this to allow usernames that are a single char, this message should effectively never occur
 				  Filter::$msgs['uname'] = 'Username Is Too Short (less Than 1 Characters Long).';
-			  if ($value == 2)
+			  if ($uname == 2)
 				  Filter::$msgs['uname'] = 'Invalid Characters Found In Username.';
 		  } else {
 			  Filter::$msgs['uname'] = 'Sorry, Username Not Found';
@@ -546,12 +546,13 @@
 
           if (empty(Filter::$msgs)) {
 
-              $user = $this->getUserInfo($_POST['uname']);
+			
+              //$user = $this->getUserInfo($_POST['uname']);
               $randpass = $this->getUniqueCode(12);
 
               $data['password'] = \app\security\PasswordUtil::hash($randpass);
 
-              self::$db->update(self::uTable, $data, "username = '" . $user->username . "'");
+              self::$db->update(self::uTable, $data, "username = '" . mysql_escape_string ($_POST['uname']) . "'");
 			  
 			  if(!$user->email)	//Edge case for if the email field gets wiped
 			      Filter::$msgs['uname'] = 'Unusual Error! Email An Admin For Help';
@@ -584,7 +585,7 @@
 						->setTo(array($user->email => $user->username))
 						->setFrom(array(Registry::get("Core")->site_email => Registry::get("Core")->site_name))
 						->setBody($newbody, 'text/html');
-;
+
               (self::$db->affected() && $mailer->send($message)) ? Filter::msgOk('<span>Success!</span>You have successfully changed your password. Please check your email for further info!', false) : Filter::msgError('<span>Error!</span>There was an error during the process. Please contact the administrator.', false);
 
           } else
