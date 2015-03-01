@@ -37,8 +37,8 @@ angular
                         return response.data;
                     });
             },
-            UpdateProfile: function(userid, username, fname, lname, email, newsletter) {
-                return $http.post("/services/web/UserService1.svc/UpdateProfile", {userid: userid, username: username, fname: fname, lname: lname, email: email, newsletter: newsletter})
+            UpdateProfile: function(userid, username, newsletter) {
+                return $http.post("/services/web/UserService1.svc/UpdateProfile", {userid: userid, username: username, newsletter: newsletter})
                     .then(function(response) {
                         return response.data;
                     });
