@@ -14,6 +14,9 @@ use vhs\security\UserPassCredentials;
 
 define("_VALID_PHP", true);
 
+  if(!isset($_GET['old'])) {
+    header("Location: " . $_SERVER['SCRIPT_URI'] . "index.html");
+  }
   require_once("init.php");
 
   if (Authenticate::isAuthenticated())//($user->logged_in)
