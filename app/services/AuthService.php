@@ -153,6 +153,12 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         if($user->active == 'y') {
+            $privileges = array();
+            foreach($user->privileges->all() as $privilege) {
+                array_push($privileges, $privilege->code);
+            }
+            $retval["privileges"] = $privileges;
+
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
             return $retval;
