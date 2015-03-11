@@ -109,6 +109,7 @@ class AuthService extends Service implements IAuthService1 {
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
+        $retval["privileges"] = null;
 
         $keys = Key::findByPin($pinid ."|" . $pin);
 
@@ -135,6 +136,7 @@ class AuthService extends Service implements IAuthService1 {
         if($user->active == 'y') {
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
+            $retval["privileges"] = array_unique(array_merge($key->privileges->all(), $user->privileges->all()));
 
             $logAccess(true);
 
