@@ -10,6 +10,7 @@ namespace app\services;
 
 
 use app\contracts\IAuthService1;
+use app\domain\AccessLog;
 use app\domain\Key;
 use app\domain\User;
 use app\schema\UserSchema;
@@ -111,21 +112,36 @@ class AuthService extends Service implements IAuthService1 {
 
         $keys = Key::findByPin($pinid ."|" . $pin);
 
-        if(count($keys) <> 1)
+        $logAccess = function($granted) use ($pin) {
+            try {
+                AccessLog::log($pin, 'pin', $granted, $_SERVER['REMOTE_ADDR']);
+            } catch(\Exception $ex) {/*mmm*/}
+        };
+
+        if(count($keys) <> 1) {
+            $logAccess(false);
             return $retval;
+        }
 
         $key = $keys[0];
 
-        if($key->userid == null)
+        if($key->userid == null) {
+            $logAccess(false);
             return $retval;
+        }
 
         $user = User::find($key->userid);
 
         if($user->active == 'y') {
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
+
+            $logAccess(true);
+
             return $retval;
         }
+
+        $logAccess(false);
 
         return $retval;
     }
