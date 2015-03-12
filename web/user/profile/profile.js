@@ -50,9 +50,6 @@ angular
                         UserService1.UpdateProfile(
                             $scope.currentUser.id,
                             $scope.profile.username,
-                            $scope.profile.fname,
-                            $scope.profile.lname,
-                            $scope.profile.email,
                             $scope.profile.newsletter
                         ).then(function() {
                             $scope.profile.keys.forEach(function(key) {
