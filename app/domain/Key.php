@@ -25,6 +25,26 @@ class Key extends Domain {
 
     }
 
+    public function getAbsolutePrivileges() {
+        $privs = array();
+
+        foreach($this->privileges->all() as $priv) {
+            if($priv->code === "inherit" && $this->userid != null) {
+                $user = User::find($this->userid);
+
+                if($user != null) {
+                    foreach ($user->privileges->all() as $userpriv) {
+                        array_push($privs, $userpriv);
+                    }
+                }
+            }
+
+            array_push($privs, $priv);
+        }
+
+        return array_unique($privs);
+    }
+
     public static function findByRfid($rfid) {
         return self::where(Where::_And(
             Where::Equal(KeySchema::Columns()->type, "rfid"),
