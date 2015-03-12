@@ -38,13 +38,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname">
+                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname">
+                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname" disabled>
                                 </div>
                             </div>
                         </div>
@@ -52,20 +52,20 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-9">
-                                    <label>Email</label>
+                                    <label>Paypal Email</label>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="checkbox" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Last Name" ng-model="profile.email">
+                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.email" disabled>
                         </div>
 
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="well well-sm" ng-if="profile.hasPrivilege('door')">
                                     <h4>Access PIN</h4>
-                                    <small>When accessing VHS input the entire PIN. First 4 digits are immutable to ensure uniqueness.</small>
+                                    <small>When accessing VHS, use the entire PIN. First 4 digits are unique. Admins can see this!</small>
 
                                     <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
 
