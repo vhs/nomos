@@ -11,6 +11,7 @@ namespace app\services;
 
 use app\contracts\IPinService1;
 use app\domain\Key;
+use app\domain\Privilege;
 use app\schema\SettingsSchema;
 use vhs\database\Database;
 use vhs\database\wheres\Where;
@@ -60,6 +61,8 @@ class PinService extends Service implements IPinService1 {
 
         $pin->key = sprintf("%04s", $pinid) . "|" . sprintf("%04s", rand(0, 9999));
         $pin->notes = "User generated PIN";
+
+        $pin->privileges->add(Privilege::findByCode("inherit"));
 
         $pin->save();
 
