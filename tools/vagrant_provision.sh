@@ -12,6 +12,7 @@ sudo apt-get install --yes -q nginx
 # configure nginx
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /vagrant/conf/nginx-vhost-vagrant.conf /etc/nginx/sites-enabled/mmp 
+sudo sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf
 sudo service nginx restart
 
 # configure app    
