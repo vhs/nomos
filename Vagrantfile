@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -64,16 +64,6 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    wget --progress=dot "https://downloads.bitnami.com/files/stacks/nginxstack/1.6.2-1/bitnami-nginxstack-1.6.2-1-linux-x64-installer.run"
-    chmod +x bitnami-nginxstack-1.6.2-1-linux-x64-installer.run
-    sudo ./bitnami-nginxstack-1.6.2-1-linux-x64-installer.run --mode text \
-    --base_password "hackspace" --prefix "/opt/bitnami-nginxstack/" \
-    --mysql_database_name "vhs_membership" --mysql_database_username "vhs_membership" --mysql_database_password "password"
-    sudo install -d /var/www/sites
-    sudo ln -s /vagrant /var/www/sites/membership.hackspace.ca 
-    sudo cp /vagrant/conf/nginx-vhost-vagrant.conf /opt/bitnami-nginxstack/nginx/conf/vhosts/mmp.conf
-    cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
-  SHELL
+  config.vm.provision "shell", path: "tools/vagrant_provision.sh"
+
 end
