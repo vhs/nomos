@@ -21,6 +21,7 @@ if [ -e "/etc/nginx/sites-enabled/default" ]; then
 fi
 sudo rm -f /etc/nginx/sites-enabled/mmp
 sudo cp -f /vagrant/conf/nginx-vhost-vagrant.conf /etc/nginx/sites-enabled/mmp
+sudo sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf
 sudo service nginx restart
 
 # configure app
