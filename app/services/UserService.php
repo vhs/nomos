@@ -34,6 +34,10 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function UpdatePassword($userid, $password) {
+        if (CurrentUser::getIdentity() != $userid || CurrentUser::hasAnyPermissions("administrator") != true) {
+            return;
+        }
+
         $user = $this->GetUser($userid);
 
         if(is_null($user)) return;
