@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "puphpet/ubuntu1404-x64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -49,6 +49,14 @@ Vagrant.configure(2) do |config|
   #
   #   # Customize the amount of memory on the VM:
     vb.memory = "1024"
+  end
+  config.vm.provider "parallels" do |v|
+    v.name = "mmp"
+    # v.update_guest_tools = true
+    # v.check_guest_tools = false
+    # v.optimize_power_consumption = false
+    v.memory = 1024
+    # v.cpus = 2
   end
   #
   # View the documentation for the provider you are using for more
