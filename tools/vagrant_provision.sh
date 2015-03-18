@@ -2,7 +2,7 @@
 export DEBIAN_FRONTEND=noninteractive
 T=`which add-apt-repository`
 if [ -z "`which add-apt-repository`" ]; then
-  sudo apt-get install --yes python-software-properties
+  sudo apt-get install --yes software-properties-common
 fi
 sudo add-apt-repository --yes ppa:ondrej/php5-5.6
 sudo apt-get update
@@ -31,7 +31,7 @@ fi
 
 # configure database
 # sudo sed -i 's/127.0.0.1/0.0.0.0/g' /opt/bitnami-nginxstack/mysql/my.cnf
-if [ 1 -eq `mysql --host=localhost --user=root --password=hackspace -e "USE vhs_membership;"|echo $?` ]; then 
+if [ -z `mysql --host=localhost --user=root --password=hackspace -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='vhs_membership';"` ]; then 
   mysql --host=localhost --user=root --password=hackspace -e 'CREATE DATABASE vhs_membership;'
   mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'127.0.0.1' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
   mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'localhost' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
