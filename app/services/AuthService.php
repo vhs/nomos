@@ -10,6 +10,7 @@ namespace app\services;
 
 
 use app\contracts\IAuthService1;
+use app\domain\AccessLog;
 use app\domain\Key;
 use app\domain\User;
 use app\schema\UserSchema;
@@ -102,30 +103,47 @@ class AuthService extends Service implements IAuthService1 {
 
         $pin = $intpin - ($pinid * 10000);
 
-        //$pinid = sprintf("%04s", $pinid);
+        $pinid = sprintf("%04s", $pinid);
         $pin = sprintf("%04s", $pin);
 
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
+        $retval["privileges"] = null;
 
         $keys = Key::findByPin($pinid ."|" . $pin);
 
-        if(count($keys) <> 1)
+        $logAccess = function($granted) use ($pin) {
+            try {
+                AccessLog::log($pin, 'pin', $granted, $_SERVER['REMOTE_ADDR']);
+            } catch(\Exception $ex) {/*mmm*/}
+        };
+
+        if(count($keys) <> 1) {
+            $logAccess(false);
             return $retval;
+        }
 
         $key = $keys[0];
 
-        if($key->userid == null)
+        if($key->userid == null) {
+            $logAccess(false);
             return $retval;
+        }
 
         $user = User::find($key->userid);
 
         if($user->active == 'y') {
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
+            $retval["privileges"] = $key->getAbsolutePrivileges();
+
+            $logAccess(true);
+
             return $retval;
         }
+
+        $logAccess(false);
 
         return $retval;
     }
@@ -139,6 +157,7 @@ class AuthService extends Service implements IAuthService1 {
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
+        $retval["privileges"] = null;
 
         $keys = Key::findByRfid($rfid);
 
@@ -153,6 +172,7 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         if($user->active == 'y') {
+            $retval["privileges"] = $key->getAbsolutePrivileges();
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
             return $retval;
