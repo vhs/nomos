@@ -15,7 +15,8 @@ use vhs\security\UserPassCredentials;
 define("_VALID_PHP", true);
 
   if(!isset($_GET['old'])) {
-    header("Location: " . $_SERVER['SCRIPT_URI'] . "index.html");
+    header("Location: " . @$_SERVER['SCRIPT_URI'] . "index.html");
+    die();
   }
   require_once("init.php");
 
