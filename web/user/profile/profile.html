@@ -255,10 +255,6 @@
             </div>
             <form name="changePasswordForm" ng-submit="changePassword(changePasswordForm.$valid)" novalidate>
                 <div class="modal-body">
-                    <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine }">
-                        <input class="form-control" type="password" placeholder="Current Password" name="currentPassword" ng-model="currentPassword" required>
-                        <p class="help-block" ng-show="changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine">Incorrect password</p>
-                    </div>
                     <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
                         <input class="form-control" type="password" placeholder="New Password" name="newPassword" ng-model="newPassword" ng-minlength="4" required ng-change="comparePasswords()">
                         <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">Passwords must be at least 4 characters long</p>
