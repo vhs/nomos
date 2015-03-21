@@ -60,6 +60,9 @@ angular
                     .then(function(response) {
                         return response.data;
                     });
+            },
+            UpdatePassword: function(userid, password) {
+                return $http.post("/services/web/UserService1.svc/UpdatePassword", {userid: userid, password: password});
             }
         };
     }]);
