@@ -245,7 +245,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `membership_id`, `mem_expire`, `trial_used`, `email`, `fname`, `lname`, `token`, `cookie_id`, `newsletter`, `vetted`, `cash`, `userlevel`, `notes`, `created`, `lastlogin`, `lastip`, `avatar`, `active`, `paypal_id`, `payment_email`, `rfid`) VALUES
-(1, 'vhs', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 7, '2014-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2013-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345');
+(1, 'vhs', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 7, '2020-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2018-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345');
+
+INSERT INTO `users` (`id`, `username`, `password`, `membership_id`, `mem_expire`, `trial_used`, `email`, `fname`, `lname`, `token`, `cookie_id`, `newsletter`, `vetted`, `cash`, `userlevel`, `notes`, `created`, `lastlogin`, `lastip`, `avatar`, `active`, `paypal_id`, `payment_email`, `rfid`) VALUES
+(2, 'vhs2', '$2y$10$e144B8UIJ4rnxcAVSFDaEOK3Z5/ccHRbp5CYJnvpcwEMNneDTG/8W', 6, '2020-11-19 19:40:01', 0, 'vhs@gmail.com', 'VH', 'S', '0', '0', 0, 0, 0, 9, '', '2018-12-05 09:11:47', '2014-09-22 16:56:43', '100.100.100.100', NULL, 'y', '67', 'what@gmail.com', '12345');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
