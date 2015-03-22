@@ -66,6 +66,13 @@ class Key extends Domain {
         ));
     }
 
+    public static function findByService($service, $key) {
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, $service),
+            Where::Equal(KeySchema::Columns()->key, $key)
+        ));
+    }
+
     public static function getSystemApiKeys() {
         return self::where(Where::_And(
             Where::Null(KeySchema::Columns()->userid),
