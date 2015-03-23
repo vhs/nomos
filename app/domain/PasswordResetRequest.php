@@ -24,7 +24,8 @@ class PasswordResetRequest extends Domain {
     }
 
     public static function findByToken($token) {
-        return User::where(
+
+        return PasswordResetRequest::where(
             Where::Equal(PasswordResetRequestSchema::Columns()->token, $token)
         );
     }
