@@ -221,3 +221,8 @@ pip-log.txt
 
 #Vagrant
 .vagrant
+
+#Composer
+composer.lock
+composer.phar
+vendor

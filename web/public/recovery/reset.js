@@ -6,16 +6,21 @@ angular
         $stateProvider
             .state('public.recovery.reset', {
                 parent: "public",
-                url: '/recovery/reset/',
+                url: '/recovery/reset/:token',
                 templateUrl: 'public/recovery/reset.html',
-                controller: ['$scope', '$state', 'UserService1', function($scope, $state, UserService1) {
+                controller: ['$scope', '$state', 'UserService1', '$stateParams', function($scope, $state, UserService1, $stateParams) {
                     $scope.reset = function() {
-                        UserService1.ResetPassword($scope.token, $scope.password).then(function(data) {
-                            if (data == "Success")
-                                $state.go("public.login");
-                            else
-                                $scope.error = data;
-                        });
+                        $scope.error = "";
+                        if ($scope.repassword == $scope.password) {
+                            UserService1.ResetPassword($stateParams.token, $scope.password).then(function (data) {
+                                if (data.success)
+                                    $scope.success = true;
+                                else
+                                    $scope.error = data.msg;
+                            });
+                        } else {
+                            $scope.error = "Passwords do not match";
+                        }
                     };
                 }]
             });
