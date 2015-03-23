@@ -3,32 +3,36 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Password Reset</h3>
+                    <h3 class="panel-title">New Password</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form">
                         <fieldset>
-                            <div class="alert alert-danger" ng-show="error != null">
-                                {{error}}
+                            <div ng-show="success">
+                                <div class="alert alert-success" ng-show="success">
+                                    Password has been updated
+                                </div>
+                                <a class="btn btn-primary" ui-sref="public.login">Login</a>
                             </div>
-                            <div></div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Token" name="token" type="text" autofocus ng-model="token">
-                            </div>
+                            <div ng-hide="success">
+                                <div class="alert alert-danger" ng-show="error">
+                                    {{error}}
+                                </div>
+                                <div></div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="password">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Repeat Password" name="repassword" type="password" value="" ng-model="repassword">
+                                </div>
 
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="password">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Repeat Password" name="repassword" type="password" value="" ng-model="repassword">
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-lg btn-success btn-block left" ng-click="reset()">Reset Password</button>
-                            </div>
-                            <div class="row">
-                                <a class="col-md-6" ui-sref="public.login">Back to Login</a>
-                                <a class="col-md-6 text-right" ui-sref="public.register">Register</a>
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-success btn-block left" ng-click="reset()">Reset Password</button>
+                                </div>
+                                <div class="row">
+                                    <a class="col-md-6" ui-sref="public.login">Back to Login</a>
+                                    <a class="col-md-6 text-right" ui-sref="public.register">Register</a>
+                                </div>
                             </div>
                         </fieldset>
                     </form>

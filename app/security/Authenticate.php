@@ -59,6 +59,11 @@ class Authenticate extends Singleton implements IAuthenticate {
         $users = User::findByUsername($username);
 
         if(count($users) <> 1) {
+            //Try e-mail Address
+            $users = User::findByEmail($username);
+        }
+
+        if(count($users) <> 1) {
             AccessLog::log($username, "userpass", false, $ipaddr);
             throw new InvalidCredentials("Incorrect username or password");
         }
