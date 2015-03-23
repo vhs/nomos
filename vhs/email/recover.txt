@@ -1,0 +1,5 @@
+Password Recovery
+
+Click here to reset your password: {{host}}index.html#/recovery/reset/{{token}}
+
+If the above link is not clickable, try copying and pasting it into the address bar of your web browser.
