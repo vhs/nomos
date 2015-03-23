@@ -31,8 +31,7 @@ class EmailService {
         $client->sendEmail(array(
             'Source' => MMP_FROM_EMAIL,
             'Destination' => array(
-                //'ToAddresses' => array($user->email),
-                'ToAddresses' => array('garthman@gmail.com'),
+                'ToAddresses' => array($user->email),
             ),
             'Message' => array(
                 'Subject' => array(
