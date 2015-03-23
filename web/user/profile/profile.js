@@ -12,6 +12,10 @@ angular
 
                     $scope.PinService1 = PinService1;
                     $scope.profile = angular.copy($scope.currentUser);
+                    $scope.filterLinked = function(key){
+                        return key.type === 'github';
+                    };
+
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
 

@@ -80,6 +80,13 @@ class Key extends Domain {
         ));
     }
 
+    public static function findKeyAndType($key, $type) {
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, $type),
+            Where::Equal(KeySchema::Columns()->key, $key)
+        ));
+    }
+
     public static function getUserApiKeys($userid) {
         return self::where(
             Where::_And(
