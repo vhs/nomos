@@ -12,7 +12,7 @@ if [ -z "`which mysqld`" ]; then
   echo "mysql-server-5.5 mysql-server/root_password_again password hackspace" | sudo debconf-set-selections
   sudo apt-get install --yes -q mysql-server mysql-client
 fi
-sudo apt-get install --yes -q php5 php5-fpm php5-cli php5-mysqlnd
+sudo apt-get install --yes -q php5 php5-fpm php5-cli php5-mysqlnd php5-curl
 sudo apt-get install --yes -q nginx
 
 # configure nginx
@@ -28,6 +28,14 @@ sudo service nginx restart
 if [ ! -e "/vagrant/conf/config.ini.php" ]; then
   cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
 fi
+
+# add composer
+if [ ! -e "/vagrant/composer.phar" ]; then
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant/
+fi
+
+cd /vagrant/
+php composer.phar install
 
 # configure database
 # sudo sed -i 's/127.0.0.1/0.0.0.0/g' /opt/bitnami-nginxstack/mysql/my.cnf

@@ -8,7 +8,14 @@
 	 define('DB_USER', 'vhs_membership'); 
 	 define('DB_PASS', 'password');
 	 define('DB_DATABASE', 'vhs_membership');
- 
+
+     define('MMP_FROM_EMAIL', 'mmp@hackspace.ca');
+     // @funvill has these, ask him for the values
+     // SES is used to send e-mails
+
+     define('AWS_SES_REGION', 'us-west-2');
+ 	 define('AWS_SES_CLIENT_ID', '');
+ 	 define('AWS_SES_SECRET', '');
 	/** 
 	* Show MySql Errors. 
 	* Not recomended for live site. true/false 
