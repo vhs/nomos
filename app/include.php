@@ -6,6 +6,7 @@
  * Time: 3:38 PM
  */
 
+require_once(dirname(__FILE__) . "/../vendor/autoload.php");
 require_once(dirname(__FILE__) . "/../vhs/vhs.php");
 
 define('ROOT_NAMESPACE_PATH', dirname(dirname(__FILE__)));

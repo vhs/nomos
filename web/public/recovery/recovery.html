@@ -3,26 +3,38 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Password Reset</h3>
+                    <h3 class="panel-title">Password Recovery</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form">
                         <fieldset>
-                            <div class="alert alert-danger" ng-show="error != null">
-                                {{error}}
+                            <div ng-show="success">
+                                <div class="alert alert-success" ng-show="success">
+                                    A password reset e-mail as been sent.
+                                </div>
                             </div>
-                            <div></div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="E-Mail" name="email" type="text" autofocus ng-model="email">
-                            </div>
+                            <div ng-hide="success">
+                                <div class="alert alert-danger" ng-show="error">
+                                    {{error}}
+                                </div>
 
-                            <div class="form-group">
-                                <button class="btn btn-lg btn-success btn-block left" ng-click="reset()">Send Reset Token</button>
+                                <div></div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-Mail" name="email" type="text" autofocus ng-model="email">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-success btn-block left" ng-click="reset()" ng-disabled="sending">
+                                        Send Reset Token
+                                        <i ng-show="sending" class="fa fa-spinner fa-spin"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="row">
-                                <a class="col-md-6" ui-sref="public.login">Back to Login</a>
-                                <a class="col-md-6 text-right" ui-sref="public.register">Register</a>
-                            </div>
+                                <div class="row">
+                                    <a class="col-md-6" ui-sref="public.login">Back to Login</a>
+                                    <a class="col-md-6 text-right" ui-sref="public.register">Register</a>
+                                </div>
+
                         </fieldset>
                     </form>
                 </div>
