@@ -75,4 +75,11 @@ interface IUserService1 extends IContract {
      * @param $newsletter
      */
     public function UpdateProfile($userid, $username, $newsletter);
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $privileges
+     */
+    public function PutUserPrivileges($userid, $privileges);
 }
