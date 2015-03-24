@@ -52,7 +52,7 @@ class Migrator {
 
         $currentversion = 0;
 
-        if($conn->query("SHOW TABLES LIKE 'SETTINGS'")->num_rows == 1)
+        if($conn->query("SHOW TABLES LIKE 'settings'")->num_rows == 1)
         {
             if($conn->query("SHOW COLUMNS FROM `settings` LIKE 'schemaversion'")->num_rows == 1) {
                 $currentversion = intval($conn->query("SELECT schemaversion FROM settings")->fetch_row()[0]);
@@ -62,6 +62,7 @@ class Migrator {
         }
 
         $versions = array_values(array_diff(scandir($migrationsPath, SCANDIR_SORT_ASCENDING), array('..', '.')));
+        sort($versions, SORT_NUMERIC);
 
         $this->logger->log("Current: " . $currentversion);
         $this->logger->log("Latest: " . $versions[sizeof($versions) - 1]);
