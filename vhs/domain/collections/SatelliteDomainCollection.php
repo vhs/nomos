@@ -58,6 +58,17 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    public function all() {
+        $childOnCol = $this->childKey->on->name;
+
+        $all = array();
+
+        foreach(array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item)
+            $all[$item->$childOnCol] = $item;
+
+        return $all;
+    }
+
     public function compare(Domain $a, Domain $b) {
         $childOnCol = $this->childKey->on->name;
         return ($a->$childOnCol === $b->$childOnCol);
@@ -123,7 +134,7 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->raiseBeforeSave();
 
         $actualNew = array_diff($this->__new, $this->__removed, $this->__existing);
-        $actualRemove = array_diff($this->__removed, $this->__existing);
+        $actualRemove = array_intersect($this->__removed, $this->__existing);
 
         $parentOnCol = $this->parentKey->on->name;
         $childOnCol = $this->childKey->on->name;
@@ -144,7 +155,10 @@ class SatelliteDomainCollection extends DomainCollection {
 
         if(count($actualRemove) > 0) {
             Database::delete($this->joinTable->Table(),
-                Where::In($childCol, array_keys($actualRemove))
+                Where::_And(
+                    Where::Equal($this->parentKey->column, $this->parent->$parentOnCol),
+                    Where::In($this->childKey->column, array_keys($actualRemove))
+                )
             );
         }
 

@@ -26,9 +26,7 @@ abstract class DomainCollection extends Notifier  {
         $this->__removed = array();
     }
 
-    public function all() {
-        return array_diff(array_merge($this->__existing, $this->__new), $this->__removed);
-    }
+    abstract public function all();
 
     abstract public function compare(Domain $a, Domain $b);
 
