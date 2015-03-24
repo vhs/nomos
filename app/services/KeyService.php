@@ -116,8 +116,6 @@ class KeyService extends Service implements IKeyService1 {
     public function PutKeyPrivileges($keyid, $privileges) {
         $key = $this->GetKey($keyid);
 
-        $key->privileges->clear();
-
         $privArray = $privileges;
 
         if(!is_array($privArray)) {
@@ -126,6 +124,9 @@ class KeyService extends Service implements IKeyService1 {
         }
 
         $privs = Privilege::findByCodes(...$privArray);
+
+        foreach($key->privileges->all() as $priv)
+            $key->privileges->remove($priv);
 
         foreach($privs as $priv)
             $key->privileges->add($priv);

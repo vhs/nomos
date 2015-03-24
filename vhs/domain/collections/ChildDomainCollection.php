@@ -59,6 +59,17 @@ class ChildDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    public function all() {
+        $childPkName = $this->childKey->column->name;
+
+        $all = array();
+
+        foreach(array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item)
+            $all[$item->$childPkName] = $item;
+
+        return $all;
+    }
+
     public function clear() {
         $this->__existing = array();
         $this->__new = array();
@@ -130,7 +141,7 @@ class ChildDomainCollection extends DomainCollection {
         $this->raiseBeforeSave();
 
         $actualNew = array_diff($this->__new, $this->__removed, $this->__existing);
-        $actualRemove = array_diff($this->__removed, $this->__existing);
+        $actualRemove = array_intersect($this->__removed, $this->__existing);
 
         $childColName = $this->childColumn->name;
         $parentColName = $this->parentColumn->name;
