@@ -45,6 +45,10 @@ class Key extends Domain {
         return array_unique($privs);
     }
 
+    public static function findByTypes(...$types) {
+        return self::where(Where::In(KeySchema::Columns()->type, $types));
+    }
+
     public static function findByRfid($rfid) {
         return self::where(Where::_And(
             Where::Equal(KeySchema::Columns()->type, "rfid"),
