@@ -18,7 +18,7 @@ define("_VALID_PHP", true);
       redirect_to("../index.php");
 ?>
 <?php
-  /* Proccess Cart */
+  /* Process Cart */
   if (isset($_POST['addtocart']))
       : list($membership_id, $gate_id) = explode(":", $_POST['addtocart']);
   
@@ -46,7 +46,7 @@ define("_VALID_PHP", true);
   endif;
 ?>
 <?php
-    /* Proccess User */
+    /* Process User */
     if (isset($_POST['processUser'])) {
         if (intval($_POST['processUser']) == 0 || empty($_POST['processUser'])) {
             redirect_to("../account.php");

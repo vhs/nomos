@@ -34,6 +34,10 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function UpdatePassword($userid, $password) {
+        if (CurrentUser::getIdentity() != $userid || CurrentUser::hasAnyPermissions("administrator") != true) {
+            return;
+        }
+
         $user = $this->GetUser($userid);
 
         if(is_null($user)) return;
@@ -53,13 +57,10 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
-    public function UpdateProfile($userid, $username, $fname, $lname, $email, $newsletter) {
+    public function UpdateProfile($userid, $username, $newsletter) {
         $user = $this->GetUser($userid);
 
         $user->username = $username;
-        $user->fname = $fname;
-        $user->lname = $lname;
-        $user->email = $email;
         $user->newsletter = $newsletter;
 
         $user->save();
@@ -85,7 +86,10 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function RequestPasswordReset($email) {
-        $user = User::findByEmail($email);
+        $user = User::findByEmail($email)[0];
+        if(is_null($user)) {
+            return [ "success" => false, "msg" => "Unable to find a user by that e-mail address" ];
+        }
 
         $request = new PasswordResetRequest();
 
@@ -94,30 +98,39 @@ class UserService extends Service implements IUserService1 {
 
         $request->save();
 
-        //TODO email token
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'].'/';
+
+        $emailService = new EmailService();
+        $emailService->EmailUser($user, 'MMP Password Recovery', 'recover', [
+            'token' => $request->token,
+            'host' => $protocol.$domainName
+        ]);
+        return [ "success" => true ];
     }
 
     public function ResetPassword($token, $password) {
-        $request = PasswordResetRequest::findByToken($token);
 
-        if(!is_null($request) && count($request) == 1) {
-            $created = $request->created;
+        $request = PasswordResetRequest::findByToken($token)[0];
+
+        if(!is_null($request)) {
+            $created = new DateTime($request->created);
             $userid = $request->userid;
 
             $request->delete();
+            $created->modify("+2 hours");
+            if ($created > new DateTime()) {
 
-            if (date_add($created, "PT15M") > new DateTime()) {
                 $user = User::find($userid);
 
                 if (!is_null($user)) {
                     $user->password = PasswordUtil::hash($password);
                     $user->save();
 
-                    return "Success";
+                    return ["success" => true ];
                 }
             }
         }
-
-        throw new \Exception("Invalid token");
+        return [ "success" => false, "msg" => "Invalid Token" ];
     }
 }

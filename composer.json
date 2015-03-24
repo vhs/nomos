@@ -1,0 +1,7 @@
+{
+    "require": {
+	  "aws/aws-sdk-php": "2.*",
+      "nicmart/string-template": "~0.1",
+        "league/oauth2-client": "0.10.*"
+    }
+}

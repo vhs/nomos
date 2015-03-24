@@ -218,3 +218,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#Vagrant
+.vagrant
+
+#Composer
+composer.lock
+composer.phar
+vendor
