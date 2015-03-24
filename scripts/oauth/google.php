@@ -11,11 +11,11 @@ $host = OauthHelper::redirectHost();
 
 $action = $_GET["action"] ?: "link";
 
-$provider = new League\OAuth2\Client\Provider\Github([
-    'clientId'      => OAUTH_GITHUB_CLIENT,
-    'clientSecret'  => OAUTH_GITHUB_SECRET,
-    'redirectUri'   => $host.'/oauth/github.php?action='.$action,
-    'scopes'        => [ ],
+$provider = new League\OAuth2\Client\Provider\Google([
+    'clientId'      => OAUTH_GOOGLE_CLIENT,
+    'clientSecret'  => OAUTH_GOOGLE_SECRET,
+    'redirectUri'   => $host.'/oauth/google.php?action='.$action,
+    'scopes'        => [ 'email' ],
     ]);
 
 $oauthHelper = new OauthHelper($provider);
@@ -29,7 +29,7 @@ if (!isset($_GET['code'])) {
 }
 
 if ($_GET['action'] == 'link' && !is_null($userDetails)) {
-    $oauthHelper->linkAccount($userDetails->uid, 'github', "GitHub Account for " . $userDetails->nickname);
+    $oauthHelper->linkAccount($userDetails->uid, 'google', "Google Account for " . $userDetails->name);
     header('Location: /index.html#/profile/');
     die();
 }
