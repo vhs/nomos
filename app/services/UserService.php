@@ -13,6 +13,7 @@ use app\contracts\IUserService1;
 use app\domain\Key;
 use app\domain\Membership;
 use app\domain\PasswordResetRequest;
+use app\domain\Privilege;
 use app\domain\User;
 use app\security\PasswordUtil;
 use DateTime;
@@ -132,5 +133,23 @@ class UserService extends Service implements IUserService1 {
             }
         }
         return [ "success" => false, "msg" => "Invalid Token" ];
+    }
+
+    public function PutUserPrivileges($userid, $privileges) {
+        $user = User::find($userid);
+
+        $privArray = $privileges;
+
+        if(!is_array($privArray)) {
+            $privArray = array();
+            array_push($privArray, $privileges);
+        }
+
+        $privs = Privilege::findByCodes(...$privArray);
+
+        foreach($privs as $priv)
+            $user->privileges->add($priv);
+
+        $user->save();
     }
 }
