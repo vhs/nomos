@@ -30,7 +30,7 @@ class Privilege extends Domain {
     public static function findByCode($code) {
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
 
-        if(count($privs) > 1)
+        if(count($privs) > 0)
             return $privs[0];
 
         return null;

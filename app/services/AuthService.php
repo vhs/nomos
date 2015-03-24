@@ -149,6 +149,57 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
+     * Check to see if the user service/id is valid. A service could be github/slack/google
+     * @permission authenticated
+     * @param $service
+     * @param $id
+     * @return mixed
+     */
+    public function CheckService($service, $id) {
+
+        $retval = array();
+        $retval["valid"] = false;
+        $retval["type"] = null;
+        $retval["privileges"] = null;
+
+        $keys = Key::findByService($service, $id);
+
+        $logAccess = function($granted) use ($service, $id) {
+            try {
+                AccessLog::log($id, $service, $granted, $_SERVER['REMOTE_ADDR']);
+            } catch(\Exception $ex) {/*mmm*/}
+        };
+
+        if(count($keys) <> 1) {
+            $logAccess(false);
+            return $retval;
+        }
+
+        $key = $keys[0];
+
+        if($key->userid == null) {
+            $logAccess(false);
+            return $retval;
+        }
+
+        $user = User::find($key->userid);
+
+        if($user->active == 'y') {
+            $retval["valid"] = true;
+            $retval["type"] = $user->membership->code;
+            $retval["privileges"] = $key->getAbsolutePrivileges();
+
+            $logAccess(true);
+
+            return $retval;
+        }
+
+        $logAccess(false);
+
+        return $retval;
+    }
+
+    /**
      * @permission authenticated
      * @param $rfid
      * @return mixed

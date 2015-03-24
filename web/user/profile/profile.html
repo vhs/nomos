@@ -38,13 +38,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname">
+                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname">
+                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname" disabled>
                                 </div>
                             </div>
                         </div>
@@ -52,20 +52,20 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-9">
-                                    <label>Email</label>
+                                    <label>Paypal Email</label>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="checkbox" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Last Name" ng-model="profile.email">
+                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.email" disabled>
                         </div>
 
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="well well-sm" ng-if="profile.hasPrivilege('door')">
                                     <h4>Access PIN</h4>
-                                    <small>When accessing VHS input the entire PIN. First 4 digits are immutable to ensure uniqueness.</small>
+                                    <small>When accessing VHS, use the entire PIN. First 4 digits are unique. Admins can see this!</small>
 
                                     <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
 
@@ -134,6 +134,23 @@
                     </div>
                     <!-- /.col-lg-6 (nested) -->
                     <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="well well-sm">
+                                    <h4>Linked Accounts</h4>
+                                    <small>Linked accounts are used to access other service such as the laser cutter</small>
+                                    <div>
+                                        <span ng-repeat="key in currentUser.keys | filter:filterLinked">
+                                            <img ng-src="/images/provider/{{key.type}}.png">
+                                        </span>
+                                    </div>
+                                    <h5>Link New Account</h5>
+                                    <a href="/oauth/github.php?action=link" class="btn btn-sm btn-info">GitHub</a>
+                                    <a href="/oauth/slack.php?action=link" class="btn btn-sm btn-info">Slack</a>
+                                    <a href="/oauth/google.php?action=link" class="btn btn-sm btn-info">Google</a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="well well-sm">
@@ -255,10 +272,6 @@
             </div>
             <form name="changePasswordForm" ng-submit="changePassword(changePasswordForm.$valid)" novalidate>
                 <div class="modal-body">
-                    <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine }">
-                        <input class="form-control" type="password" placeholder="Current Password" name="currentPassword" ng-model="currentPassword" required>
-                        <p class="help-block" ng-show="changePasswordForm.currentPassword.$invalid && !changePasswordForm.currentPassword.$pristine">Incorrect password</p>
-                    </div>
                     <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
                         <input class="form-control" type="password" placeholder="New Password" name="newPassword" ng-model="newPassword" ng-minlength="4" required ng-change="comparePasswords()">
                         <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">Passwords must be at least 4 characters long</p>
