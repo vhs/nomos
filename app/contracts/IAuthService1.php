@@ -35,6 +35,14 @@ interface IAuthService1 extends IContract {
     public function CheckPin($pin);
 
     /**
+     * @permission administrator|service-auth
+     * @param $service
+     * @param $id
+     * @return mixed
+     */
+    public function CheckService($service, $id);
+
+    /**
      * @permission administrator|rfid-auth
      * @param $rfid
      * @return mixed

@@ -66,10 +66,24 @@ class Key extends Domain {
         ));
     }
 
+    public static function findByService($service, $key) {
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, $service),
+            Where::Equal(KeySchema::Columns()->key, $key)
+        ));
+    }
+
     public static function getSystemApiKeys() {
         return self::where(Where::_And(
             Where::Null(KeySchema::Columns()->userid),
             Where::Equal(KeySchema::Columns()->type, "rfid")
+        ));
+    }
+
+    public static function findKeyAndType($key, $type) {
+        return self::where(Where::_And(
+            Where::Equal(KeySchema::Columns()->type, $type),
+            Where::Equal(KeySchema::Columns()->key, $key)
         ));
     }
 
