@@ -187,7 +187,7 @@ class AuthService extends Service implements IAuthService1 {
         if($user->active == 'y') {
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
-            $retval["privileges"] = $key->getAbsolutePrivileges();
+            $retval["privileges"] = array_unique(array_merge($key->privileges->all(), $user->privileges->all()));
 
             $logAccess(true);
 
@@ -223,7 +223,7 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         if($user->active == 'y') {
-            $retval["privileges"] = $key->getAbsolutePrivileges();
+            $retval["privileges"] = array_unique(array_merge($key->privileges->all(), $user->privileges->all()));
             $retval["valid"] = true;
             $retval["type"] = $user->membership->code;
             return $retval;
