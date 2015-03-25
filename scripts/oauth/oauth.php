@@ -1,6 +1,7 @@
 <?php
 
 use app\security\Authenticate;
+use app\domain\Privilege;
 use vhs\security\CurrentUser;
 use app\domain\Key;
 
@@ -45,6 +46,9 @@ class OauthHelper {
         $key->userid = CurrentUser::getIdentity();
         $key->type = $serviceType;
         $key->notes = $notes;
+
+        $key->privileges->clear();
+        $key->privileges->add(Privilege::findByCode('inherit'));
 
         $key->save();
     }
