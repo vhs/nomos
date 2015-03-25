@@ -97,7 +97,7 @@ class PinService extends Service implements IPinService1 {
 
         $pinid = explode("|", $key->key)[0];
 
-        $key->key = $pinid . "|" . intval($pin);
+        $key->key = $pinid . "|" . sprintf("%04s", intval($pin));
 
         $key->save();
     }
