@@ -49,3 +49,17 @@
   align-items: center;
   height:100%;
 }
+
+.gravatar-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.keyholder-apply {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.subpanel {
+    padding-bottom: 20px;
+}
