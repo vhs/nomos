@@ -49,3 +49,8 @@
   align-items: center;
   height:100%;
 }
+
+.gravatar-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
