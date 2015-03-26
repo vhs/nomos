@@ -1,29 +1,89 @@
 <span show-during-resolve class="glyphicon glyphicon-refresh loading-icon"></span>
 <div id="wrapper">
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header"><a ui-sref="user.home"><img src="/images/logo.png"/></a></div>
 
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{currentUser.fname}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a ui-sref="user.home"><i class="fa fa-home fa-fw"></i> Home</a>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a ui-sref="user.home"><img src="/images/logo.png"/></a>
+        </div>
+        <!-- /.navbar-header -->
+
+
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav in" id="side-menu">
+                    <li>
+                        <div class="row gravatar-row">
+                            <div class="col-xs-2 col-sm-3 col-sm-offset-2">
+                                <img src="http://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=http%3A%2F%2Florempixel.com%2F64%2F64%2Fpeople%2F" />
+                            </div>
+                            <div class="col-xs-8 col-sm-7">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a ui-sref="user.profile">@{{currentUser.username}}</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        {{currentUser.membership.title}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a ui-sref="user.home" ng-class="{active: $state.is('user.home')}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="user.profile" ng-class="{active: $state.is('user.profile')}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="user.dooraccess" ng-class="{active: $state.is('user.dooraccess')}"><i class="fa fa-key fa-fw"></i> Door Access</a>
+                    </li>
+                    <li>
+                        <a ui-sref="user.apikeys" ng-class="{active: $state.is('user.apikeys')}"><i class="fa fa-cubes fa-fw"></i> Manage API Keys</a>
+                    </li>
+                    <li>
+                        <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"><i class="fa fa-tasks fa-fw"></i> Get Involved!</a>
                     </li>
                     <li ng-if="currentUser.hasPrivilege('administrator')">
                         <a ui-sref="admin.home"><i class="fa fa-user fa-fw"></i> Administration</a>
                     </li>
-                    <li><a ui-sref="user.profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li>
+                        <a ui-sref="public.logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
-                    <li><a ui-sref="user.settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a ui-sref="public.logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
+
                 </ul>
-                <!-- /.dropdown-user -->
-            </li>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <!--
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a ui-sref="user.home"><img src="/images/logo.png"/></a>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
         </ul>
 
         <br />
@@ -67,16 +127,7 @@
                         <a ui-sref="user.dooraccess" ng-class="{active: $state.is('user.dooraccess')}"><i class="fa fa-key fa-fw"></i> Door Access</a>
                     </li>
                     <li>
-                        <a ui-sref="user.vhsopen" ng-class="{active: $state.is('user.vhsopen')}"><i class="fa fa-check fa-fw"></i> Is VHS Open</a>
-                    </li>
-                    <li>
-                        <a ui-sref="user.membership" ng-class="{active: $state.is('user.membership')}"><i class="fa fa-users fa-fw"></i> Manage Membership</a>
-                    </li>
-                    <li>
                         <a ui-sref="user.apikeys" ng-class="{active: $state.is('user.apikeys')}"><i class="fa fa-cubes fa-fw"></i> Manage API Keys</a>
-                    </li>
-                    <li>
-                        <a ui-sref="user.transactions" ng-class="{active: $state.is('user.transactions')}"><i class="fa fa-tasks fa-fw"></i> View Transactions</a>
                     </li>
                     <li>
                         <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"><i class="fa fa-tasks fa-fw"></i> Get Involved!</a>
@@ -84,10 +135,12 @@
 
                 </ul>
             </div>
-            <!-- /.sidebar-collapse -->
+
         </div>
-        <!-- /.navbar-static-side -->
+
     </nav>
+    -->
+    <!-- /.navbar-top-links -->
 
     <div id="page-wrapper">
         <div ui-view></div>
