@@ -11,10 +11,15 @@ angular
             GetUser: function(userid) {
                 return $http.get("/services/web/UserService1.svc/GetUser?userid=" + userid)
                     .then(function(response) {
-                        response.data.keys.forEach(function(key, i, keys) {
+                        response.data.keys.forEach(function(key) {
                             if(key.type == "pin") {
-                                keys[i].pinid = ('0000' + key.key.split('|')[0]).slice(-4);
-                                keys[i].pin = ('0000' + key.key.split('|')[1]).slice(-4);
+                                if (key.key) {
+                                    key.pinid = ('0000' + key.key.split('|')[0]).slice(-4);
+                                    key.pin = ('0000' + key.key.split('|')[1]).slice(-4);
+                                } else {
+                                    key.pinid = '0000';
+                                    key.pin = '0000';
+                                }
                             }
                         });
 
