@@ -1,18 +1,51 @@
-Get involved!
-<br />
-<br />
-Here's how you do it:
-<br />
-The code for this web app (Membership Manager Pro) is here:
-<br />
-<a href="https://github.com/vhs/membership-manager-pro">https://github.com/vhs/membership-manager-pro</a>
-<br />
-It is a private repo, so you will need to be added to the VHS account.
-<br />
-Contact Jarrett, Funvill, or Garthomite on the forums to get access.
-<br />
-Check the <a href="https://github.com/vhs/membership-manager-pro/wiki">GitHub wiki</a> for instructions on how to get started.
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Get involved!</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<p>Great, here's how you can help</p>
+<h3>Source Code</h3>
+<p>The code for this web app (Membership Manager Pro) is located in github</p>
+<p><a href="https://github.com/vhs/membership-manager-pro">https://github.com/vhs/membership-manager-pro</a></p>
+<p>
+    It is a private repo, so you will need to be added to the VHS account. Contact Jarrett, Funvill, or
+    Garthomite on the forums to get access.
+</p>
+
+<h3>Development</h3>
+
+<p>
+Check the <a href="https://github.com/vhs/membership-manager-pro/wiki">Project GitHub wiki</a> for instructions on how to get started.
  MMP testing is done with a Vagrant file that automagically sets up a test VM with the proper settings.
-<br />
-To coordinate development, get on #mmp on Slack (a kind of web-based IRC that is amazing).
-Message the above people to get invited.
+</p>
+
+<h3>Slack</h3>
+
+To coordinate development, get on #mmp on Slack (a kind of web-based IRC that is amazing). If you would like to request
+an invite to slack.
+
+<br><br>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Request Slack Invitation
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="http://slackinvite-vanhack.rhcloud.com/invite">
+                    <div class="input-group">
+                        <input type="text" name="email" class="form-control" ng-value="currentUser.email" placeholder="E-Mail Address">
+                        <input type="hidden" name="return" ng-value="slackReturn">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Send</button>
+                        </span>
+                    </div>
+                    <p class="text-success" ng-show="success"><br>Success! An invite has been sent</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
