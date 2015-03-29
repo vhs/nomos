@@ -6,10 +6,13 @@ angular
         $stateProvider
             .state('user.getinvolved', {
                 parent: "user",
-                url: '/getinvolved/',
+                url: '/getinvolved/?res',
                 templateUrl: 'user/getinvolved/getinvolved.html',
-                controller: ['$scope', function($scope) {
-
+                controller: ['$scope', '$location','$stateParams', function($scope, $location, $stateParams) {
+                    if ($stateParams.res){
+                        $scope.success = true;
+                    }
+                    $scope.slackReturn = $location.absUrl().split("?")[0];
                 }]
             });
     }]);
