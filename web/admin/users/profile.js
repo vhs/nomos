@@ -16,8 +16,39 @@ angular
                         return UserService1.GetUser($stateParams.userId);
                     }]
                 },
-                controller: ['$scope', '$modal', 'user', function($scope, $modal, user) {
+                controller: ['$scope', '$modal', 'user', 'PrivilegeService', function($scope, $modal, user, PrivilegeService) {
                     $scope.user = user;
+                    var currentPriv = {};
+                    //Build a map of selected privileges
+                    angular.forEach(user.privileges, function(userPriv){
+                        currentPriv[userPriv.code] = userPriv;
+                    });
+                    var promise = PrivilegeService.GetAllPrivileges();
+                    promise.then(function(privileges){
+                        $scope.privileges = [];
+                        angular.forEach(privileges, function(privilege){
+                            privilege.selected = angular.isDefined(currentPriv[privilege.code]);
+                            $scope.privileges.push(privilege);
+                        });
+                    });
+
+                    $scope.togglePrivilege = function(privilege){
+                        privilege.selected = !privilege.selected;
+                        $scope.privilegeDirty = true;
+                    };
+
+                    $scope.updatePrivileges = function(){
+                        var codes = [];
+                        angular.forEach($scope.privileges, function(priv){
+                            if (priv.selected){
+                                codes.push(priv.code);
+                            }
+                        });
+
+                        PrivilegeService.PutUserPrivileges(user.id, codes).then(function(){
+                            $scope.privilegeDirty = false;
+                        });
+                    };
                 }]
             });
     }]);
