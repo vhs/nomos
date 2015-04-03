@@ -122,8 +122,8 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <button ng-click="resetProfileForm()" type="button" class="btn btn-default col-xs-5 col-sm-3">Reset</button>
-                                <button disabled type="button" class="btn btn-success pull-right col-xs-5 col-sm-3" ng-if="profileForm.$dirty">Saved</button>
-                                <button ng-disabled="profileForm.$invalid" type="submit" class="btn btn-primary pull-right col-xs-5 col-sm-3" ng-if="!profileForm.$dirty">Save Profile</button>
+                                <button disabled type="button" class="btn btn-success pull-right col-xs-5 col-sm-3" ng-if="!profileForm.$dirty">Saved</button>
+                                <button ng-disabled="profileForm.$invalid" type="submit" class="btn btn-primary pull-right col-xs-5 col-sm-3" ng-if="profileForm.$dirty">Save Profile</button>
                             </div>
                         </div>
 
