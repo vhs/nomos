@@ -4,9 +4,9 @@
 
 <div  ng-if="currentUser.hasPrivilege('door')">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
-        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{key.pinid}}{{key.pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
+        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         The code for the inner door is now <strong>1234</strong>. Enter this code, then turn the thumbturn toward the hinges.<br><br>
-        All together: <strong>104</strong>, then <strong>{{key.pinid}}{{key.pin}}</strong>, then <strong>1234</strong> inside.<br><br>
+        All together: <strong>104</strong>, then <strong>{{pin}}</strong>, then <strong>1234</strong> inside.<br><br>
 
     </p>
 
@@ -18,9 +18,9 @@
 </div>
 <div  ng-if="!currentUser.hasPrivilege('door')">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
-        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{key.pinid}}{{key.pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
+        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         VHS is unit 104, end of the hall and then on your left.<br><br>
-        All together: <strong>104</strong>, then <strong>{{key.pinid}}{{key.pin}}</strong>.<br><br>
+        All together: <strong>104</strong>, then <strong>{{pin}}</strong>.<br><br>
 
     </p>
 </div>
