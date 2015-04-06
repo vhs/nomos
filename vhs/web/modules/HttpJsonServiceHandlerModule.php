@@ -25,6 +25,8 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
     public function handle(HttpServer $server) {
         $input = null;
 
+        $server->header("Content-Type: application/json", true);
+
         $uri = $_SERVER["SCRIPT_NAME"];
 
         switch($_SERVER['REQUEST_METHOD']) {
