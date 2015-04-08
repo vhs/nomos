@@ -28,13 +28,14 @@ class AccessLog extends Domain {
         return true;
     }
 
-    public static function log($key, $type, $authorized, $from_ip) {
+    public static function log($key, $type, $authorized, $from_ip, $userid = null) {
         $entry = new AccessLog();
         $entry->key = $key;
         $entry->type = $type;
         $entry->authorized = $authorized;
         $entry->from_ip = $from_ip;
         $entry->time = date(Database::DateFormat());
+        $entry->userid = $userid;
         $entry->save();
 
         return $entry;

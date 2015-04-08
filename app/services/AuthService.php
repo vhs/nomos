@@ -113,9 +113,9 @@ class AuthService extends Service implements IAuthService1 {
 
         $keys = Key::findByPin($pinid ."|" . $pin);
 
-        $logAccess = function($granted) use ($pin) {
+        $logAccess = function($granted, $userid = null) use ($pinid, $pin) {
             try {
-                AccessLog::log($pin, 'pin', $granted, $_SERVER['REMOTE_ADDR']);
+                AccessLog::log($pinid ."|" . $pin, 'pin', $granted, $_SERVER['REMOTE_ADDR'], $userid);
             } catch(\Exception $ex) {/*mmm*/}
         };
 
@@ -138,12 +138,12 @@ class AuthService extends Service implements IAuthService1 {
             $retval["type"] = $user->membership->code;
             $retval["privileges"] = $key->getAbsolutePrivileges();
 
-            $logAccess(true);
+            $logAccess(true, $user->id);
 
             return $retval;
         }
 
-        $logAccess(false);
+        $logAccess(false, $user->id);
 
         return $retval;
     }
@@ -164,9 +164,9 @@ class AuthService extends Service implements IAuthService1 {
 
         $keys = Key::findByService($service, $id);
 
-        $logAccess = function($granted) use ($service, $id) {
+        $logAccess = function($granted, $userid = null) use ($service, $id) {
             try {
-                AccessLog::log($id, $service, $granted, $_SERVER['REMOTE_ADDR']);
+                AccessLog::log($id, $service, $granted, $_SERVER['REMOTE_ADDR'], $userid);
             } catch(\Exception $ex) {/*mmm*/}
         };
 
@@ -189,12 +189,12 @@ class AuthService extends Service implements IAuthService1 {
             $retval["type"] = $user->membership->code;
             $retval["privileges"] = $key->getAbsolutePrivileges();
 
-            $logAccess(true);
+            $logAccess(true, $user->id);
 
             return $retval;
         }
 
-        $logAccess(false);
+        $logAccess(false, $user->id);
 
         return $retval;
     }
