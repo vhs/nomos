@@ -105,10 +105,10 @@ class Authenticate extends Singleton implements IAuthenticate {
                 throw $ex;
             }
 
-            AccessLog::log($username, "userpass", true, $ipaddr);
+            AccessLog::log($username, "userpass", true, $ipaddr, $user->id);
 
         } else {
-            AccessLog::log($username, "userpass", false, $ipaddr);
+            AccessLog::log($username, "userpass", false, $ipaddr, $user->id);
             throw new InvalidCredentials("Incorrect username or password");
         }
     }
@@ -154,7 +154,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             try {
                 $user = User::find($key->userid);
             } catch (\Exception $ex) {
-                AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
+                AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr, $key->userid);
                 throw new InvalidCredentials("Invalid key");
             }
 
@@ -186,7 +186,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             )
         );
 
-        AccessLog::log($credentials->getToken(), $credentials->getType(), true, $ipaddr);
+        AccessLog::log($credentials->getToken(), $credentials->getType(), true, $ipaddr, $key->userid);
     }
 
     public static function logout() {

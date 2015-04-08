@@ -24,6 +24,7 @@ class AccessLogSchema extends Schema {
         $table->addColumn("authorized", Type::Bool(false, false));
         $table->addColumn("from_ip", Type::String(false, "", 15));
         $table->addColumn("time", Type::DateTime(false, date("Y-m-d H:i:s")));
+        $table->addColumn("userid", Type::Int());
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
