@@ -16,14 +16,14 @@ angular
                         return UserService1.GetUser($stateParams.userId);
                     }]
                 },
-                controller: ['$scope', '$modal', 'user', 'PrivilegeService', function($scope, $modal, user, PrivilegeService) {
+                controller: ['$scope', '$modal', 'user', 'PrivilegeService1', function($scope, $modal, user, PrivilegeService1) {
                     $scope.user = user;
                     var currentPriv = {};
                     //Build a map of selected privileges
                     angular.forEach(user.privileges, function(userPriv){
                         currentPriv[userPriv.code] = userPriv;
                     });
-                    var promise = PrivilegeService.GetAllPrivileges();
+                    var promise = PrivilegeService1.GetAllPrivileges();
                     promise.then(function(privileges){
                         $scope.privileges = [];
                         angular.forEach(privileges, function(privilege){
@@ -45,7 +45,7 @@ angular
                             }
                         });
 
-                        PrivilegeService.PutUserPrivileges(user.id, codes).then(function(){
+                        PrivilegeService1.PutUserPrivileges(user.id, codes).then(function(){
                             $scope.privilegeDirty = false;
                         });
                     };
