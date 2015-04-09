@@ -58,14 +58,35 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
-    public function UpdateProfile($userid, $username, $newsletter) {
+    public function UpdateUsername($userid, $username) {
         $user = $this->GetUser($userid);
 
+        if(is_null($user)) return;
+
         $user->username = $username;
-        $user->newsletter = $newsletter;
 
         $user->save();
+    }
 
+    public function UpdateName($userid, $fname, $lname) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->fname = $fname;
+        $user->lname = $lname;
+
+        $user->save();
+    }
+
+    public function UpdateEmail($userid, $email) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->email = $email;
+
+        $user->save();
     }
 
     public function Register($username, $password, $email, $fname, $lname) {
