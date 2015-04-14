@@ -4,10 +4,19 @@
 
 <div  ng-if="currentUser.hasPrivilege('door')">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
-        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
+        There will be a prompt to enter your pin. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         The code for the inner door is now <strong>1234</strong>. Enter this code, then turn the thumbturn toward the hinges.<br><br>
         All together: <strong>104</strong>, then <strong>{{pin}}</strong>, then <strong>1234</strong> inside.<br><br>
 
+    </p>
+    <h4>Extra tips:</h4>
+    <p>
+        <ul>
+    <li>Type 0104 to make the buzzer dial faster</li>
+    <li>You don't need to wait for the voice prompt to stop talking before entering your PIN</li>
+    <li>Leading zeroes in your PIN are optional</li>
+    <li>Dial * after your pin to skip the timeout and buzz-in faster</li>
+    </ul>
     </p>
 
     <h3>Exit</h3>
@@ -21,9 +30,22 @@
         There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         VHS is unit 104, end of the hall and then on your left.<br><br>
         All together: <strong>104</strong>, then <strong>{{pin}}</strong>.<br><br>
+    <h4>Extra tips:</h4>
+    <p>
+    <ul>
+        <li>Type 0104 to make the buzzer dial faster</li>
+        <li>You don't need to wait for the voice prompt to stop talking before entering your PIN</li>
+        <li>Leading zeroes in your PIN are optional</li>
+        <li>Dial * after your pin to skip the timeout and buzz-in faster</li>
+        <li>Check <a href="http://www.isvhsopen.com">www.isvhsopen.com</a> to quickly see if we're open</li>
+        <li>Please don't try to sneak into the building! We want to be good neighbours</li>
+    </ul>
+    </p>
 
     </p>
 </div>
 
-    <p><b>Thanks!</b></p>
+
+
+<p><b>Thanks!</b></p>
 <p><i>The Membership Coordinator(s)</i></p>
