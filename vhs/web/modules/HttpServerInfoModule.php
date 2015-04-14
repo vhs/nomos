@@ -14,8 +14,14 @@ use vhs\web\IHttpModule;
 
 class HttpServerInfoModule implements IHttpModule {
 
+    private $name;
+
+    public function __construct($name = "Madhacks") {
+        $this->name = $name;
+    }
+
     public function handle(HttpServer $server) {
-        $server->header("Server: Madhacks");
+        $server->header("Server: " . $this->name);
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {}
