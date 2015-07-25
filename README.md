@@ -23,10 +23,12 @@ Install Vagrant. On some Linux distros, Apt has older versions that cause proble
 
 For x64:
 > wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb
+
 > sudo dpkg -i vagrant_1.7.4_x86_64.deb
 
 For x86:
-> wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_i686.deb
+> wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_i686.deb &&
+
 > sudo dpkg -i vagrant_1.7.4_i686.deb
 
 
@@ -42,8 +44,10 @@ https://www.vagrantup.com/downloads.html
 
 
 > git clone git@github.com:vhs/membership-manager-pro.git
+
 > cd membership-manager-pro
-> vagrant up
+
+> vagrant up --provision
 
 Vagrant will now download a Virtualbox image (~1GB)
 
