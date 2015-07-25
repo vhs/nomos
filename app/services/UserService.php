@@ -15,8 +15,11 @@ use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
+use app\schema\UserSchema;
 use app\security\PasswordUtil;
 use DateTime;
+use vhs\database\Database;
+use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
@@ -172,6 +175,20 @@ class UserService extends Service implements IUserService1 {
 
         foreach($privs as $priv)
             $user->privileges->add($priv);
+
+        $user->save();
+    }
+
+    public function UpdateMembership($userid, $membershipid) {
+        $user = User::find($userid);
+
+        $membership = Membership::find($membershipid);
+
+        if(is_null($user) || is_null($membership)) {
+            throw new \Exception("Invalid user or membership type");
+        }
+
+        $user->membership = $membership;
 
         $user->save();
     }
