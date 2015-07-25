@@ -96,4 +96,12 @@ interface IUserService1 extends IContract {
      * @param $privileges
      */
     public function PutUserPrivileges($userid, $privileges);
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $membershipid
+     * @return mixed
+     */
+    public function UpdateMembership($userid, $membershipid);
 }
