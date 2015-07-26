@@ -13,14 +13,14 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
-class UserSchema extends Schema {
+class IpnSchema extends Schema {
     public static function init() {
 
         $table = new Table("ipn");
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("created", Type::DateTime(true, date("Y-m-d H:i:s")));
-        $table->addColumn("validation", Type::Enum("yes", "no"));
+        $table->addColumn("validation", Type::Enum("VERIFIED", "INVALID"));
         $table->addColumn("payment_status", Type::String(false, "", 255));
         $table->addColumn("payment_amount", Type::String(false, "", 255));
         $table->addColumn("payment_currency", Type::String(false, "", 255));
