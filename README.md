@@ -57,18 +57,6 @@ Install Virtualbox and then Vagrant from their websites:
 
 2. Vagrant will now download and configure Virtualbox image (~1GB)
 
-3. On the host computer, log in to the VM using:
-
-> vagrant ssh
-
-This shell is now SSHed into the VM. All future commands will be in this context.
-
-4. Set up the Nomos database structure:
-
-> cd tools
-
-> php migrate.php
-
 
 
 ### Use
