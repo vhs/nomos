@@ -44,3 +44,6 @@ if [ -z `mysql --host=localhost --user=root --password=hackspace -s -N -e "SELEC
   mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'127.0.0.1' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
   mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'localhost' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
 fi
+
+cd /vagrant/tools
+php migrate.php
