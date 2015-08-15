@@ -15,7 +15,7 @@ angular
                         });
                     }]
                 },
-                controller: ['$state', '$scope', '$modal', 'key', 'ApiKeyService1', function($state, $scope, $modal, key, ApiKeyService1) {
+                controller: ['$state', '$scope', '$modal', 'currentUser', 'key', 'ApiKeyService1', 'PrivilegeService1', function($state, $scope, $modal, currentUser, key, ApiKeyService1, PrivilegeService1) {
                     $scope.key = key;
                     $scope.doesExpire = false;
 
@@ -69,6 +69,38 @@ angular
                     };
                     $scope.timepicker = {
                         changed: updateExpiry
+                    };
+
+                    var currentPriv = {};
+                    //Build a map of selected privileges
+                    angular.forEach(key.privileges, function(keyPriv){
+                        currentPriv[keyPriv.code] = keyPriv;
+                    });
+                    var promise = PrivilegeService1.GetUserPrivileges(currentUser.id);
+                    promise.then(function(privileges){
+                        $scope.privileges = [];
+                        angular.forEach(privileges, function(privilege){
+                            privilege.selected = angular.isDefined(currentPriv[privilege.code]);
+                            $scope.privileges.push(privilege);
+                        });
+                    });
+
+                    $scope.togglePrivilege = function(privilege){
+                        privilege.selected = !privilege.selected;
+                        $scope.privilegeDirty = true;
+                    };
+
+                    $scope.updatePrivileges = function(){
+                        var codes = [];
+                        angular.forEach($scope.privileges, function(priv){
+                            if (priv.selected){
+                                codes.push(priv.code);
+                            }
+                        });
+
+                        PrivilegeService1.PutKeyPrivileges(key.id, codes).then(function(){
+                            $scope.privilegeDirty = false;
+                        });
                     };
 
                     $scope.save = function () {

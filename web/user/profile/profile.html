@@ -17,7 +17,7 @@
                     <div class="col-lg-12 subpanel">
                         <div class="overlay" ng-show="updating">
                             <div class="row vertical-align">
-                                <div class="col-lg-offset-5">
+                                <div class="col-md-2 col-md-offset-5">
                                     <div class="fa fa-spin fa-spinner fa-5x "></div>
                                 </div>
                             </div>
@@ -38,13 +38,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname" disabled>
+                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname" ng-disabled="!currentUser.hasPrivilege('full-profile')">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname" disabled>
+                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname" ng-disabled="!currentUser.hasPrivilege('full-profile')">
                                 </div>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                     <div class="checkbox pull-right" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.email" disabled>
+                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
                         </div>
 
                         <div class="row">
