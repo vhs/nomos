@@ -11,7 +11,7 @@ namespace app\modules;
 
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
-use app\services\IpnService;
+use app\domain\Ipn;
 
 class HttpPaymentGatewayHandlerModule implements IHttpModule {
 
@@ -22,15 +22,11 @@ class HttpPaymentGatewayHandlerModule implements IHttpModule {
     public function handle(HttpServer $server)
     {
         // Check to see this is a paypal handel. We want to abandon this as soon as possible.
-        // http://192.168.38.10/services/gateway/paypal
         $uri = $_SERVER["SCRIPT_NAME"];
         if ($uri != "/services/gateway/paypal") return;
 
         // Put this url into paypal
         // IPN URL: http://cook.hackspace.ca:8888/services/gateway/paypal
-
-        // Use this url to test posting locally
-        // http://localhost:8080/services/gateway/paypal?mc_gross=19.95&$payment_status=payment_status&mc_currency=CND&payer_email=one@one.com&item_number=1234&item_name=batman
 
         // read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
         $req = 'cmd=_notify-validate';
@@ -77,22 +73,11 @@ class HttpPaymentGatewayHandlerModule implements IHttpModule {
         }
         curl_close($ch);
 
-
-        // $response  = "VERIFIED" ;
-/*
-        $server->clear();
-        $server->code(200);
-        $server->output($req);
-        $server->end();
-        return ;
-*/
         // The IPN is verified, process it
-        $service = new IpnService();
-
         // inspect IPN validation result and act accordingly
         if (strcmp ($response, "VERIFIED") == 0)
         {
-            $result = $service->Paypal( "VERIFIED", $_REQUEST['$payment_status'], $_REQUEST['mc_gross'], $_REQUEST['mc_currency'], $_REQUEST['payer_email'], $_REQUEST['item_name'], $_REQUEST['item_number'], $req ) ;
+            $result = $this->UpdatePaypalTable( "VERIFIED", $_REQUEST['$payment_status'], $_REQUEST['mc_gross'], $_REQUEST['mc_currency'], $_REQUEST['payer_email'], $_REQUEST['item_name'], $_REQUEST['item_number'], $req ) ;
 
             $server->clear();
             $server->code(200);
@@ -103,7 +88,7 @@ class HttpPaymentGatewayHandlerModule implements IHttpModule {
         } else if (strcmp ($response, "INVALID") == 0) {
             // IPN invalid, log for manual investigation
             $server->log("Error: Could not validate paypal IPN" . $req );
-            $result = $service->Paypal( "INVALID", '', '', '', '', '', '', $req ) ;
+            $result = $this->UpdatePaypalTableInvalid( $req ) ;
 
             $server->clear();
             $server->code(500);
@@ -112,8 +97,8 @@ class HttpPaymentGatewayHandlerModule implements IHttpModule {
             return ;
         }
         else {
-            $server->log("Error: unknown paypal IPN error" . $req );
-            $result = $service->Paypal( "INVALID", '', '', '', '', '', '', $req ) ;
+            $server->log("Error: Unknown Paypal IPN Error" . $req );
+            $result = $this->UpdatePaypalTableInvalid( $req ) ;
 
             $server->clear();
             $server->code(500);
@@ -121,6 +106,37 @@ class HttpPaymentGatewayHandlerModule implements IHttpModule {
             $server->end();
             return ;
         }
+    }
+
+
+    public function UpdatePaypalTableInvalid( $raw) {
+        // Create the IPN recored in the database
+        $ipn = new Ipn() ;
+        $ipn->validation 		= "INVALID";
+        $ipn->raw 				= $raw;
+        $ipn->save();
+
+        // Print the results
+        return "INVALID" ;
+    }
+    public function UpdatePaypalTable($validation, $payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw )
+    {
+
+        // Create the IPN recored in the database
+        $ipn = new Ipn() ;
+
+        $ipn->validation 		= $validation;
+        $ipn->payment_status 	= $payment_status ;
+        $ipn->payment_amount 	= $mc_gross ;
+        $ipn->payment_currency 	= $mc_currency ;
+        $ipn->payer_email 		= $payer_email ;
+        $ipn->item_name 		= $item_name ;
+        $ipn->item_number 		= $item_number ;
+        $ipn->raw 				= $raw;
+        $ipn->save();
+
+        // Print the results for debug.
+        return $ipn->validation;
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {}
