@@ -16,7 +16,7 @@ use vhs\domain\Schema;
 use app\schema\MembershipSchema;
 use app\schema\UserSchema;
 
-class PaymentsSchema extends Schema {
+class PaymentSchema extends Schema {
     public static function init() {
 
         $table = new Table("payments");
