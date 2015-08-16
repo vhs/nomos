@@ -16,9 +16,13 @@ use vhs\database\wheres\Where;
 use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
 use vhs\database\wheres\IWhereGenerator;
+use vhs\database\limits\ILimitGenerator;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\IOffsetGenerator;
+use vhs\database\offsets\Offset;
 use vhs\database\wheres\WhereOr;
 
-class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
+class MySqlGenerator implements IWhereGenerator, IOrderByGenerator, ILimitGenerator, IOffsetGenerator {
 
     public function generateAnd(WhereAnd $where) {
         $sql = "(";
@@ -115,6 +119,22 @@ class MySqlGenerator implements IWhereGenerator, IOrderByGenerator {
 
         $clause = substr($clause, 0, -2);
 
+        return $clause;
+    }
+
+    public function generateLimit(Limit $limit) {
+        $clause = "";
+        if(isset($limit->limit) && is_numeric($limit->limit)) {
+            $clause = sprintf(" LIMIT %s ", intval($limit->limit));
+        }
+        return $clause;
+    }
+
+    public function generateOffset(Offset $offset) {
+        $clause = "";
+        if(isset($offset->offset) && is_numeric($offset->offset)) {
+            $clause = sprintf(" OFFSET %s ", intval($offset->offset));
+        }
         return $clause;
     }
 }
