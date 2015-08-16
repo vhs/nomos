@@ -22,13 +22,13 @@ class PaymentSchema extends Schema {
         $table = new Table("payments");
 
         $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("transactionref", Type::String(false, "", 100));  //txn_id
+        $table->addColumn("txn_id", Type::String(false, "", 100));  //txn_id
         $table->addColumn("membership_id", Type::Int(false, 0));
         $table->addColumn("user_id", Type::Int(false, 0));
         $table->addColumn("rate_amount", Type::String(false, "", 255));
         $table->addColumn("currency", Type::String(false, "", 3));
         $table->addColumn("date", Type::DateTime(true, date("Y-m-d H:i:s")));
-        $table->addColumn("paymentprocessor", Type::String(false, "", 255));
+        $table->addColumn("pp", Type::String(false, "", 255));
         $table->addColumn("ip", Type::String(false, "", 20));
         $table->addColumn("status", Type::Int(false, 0));
 
