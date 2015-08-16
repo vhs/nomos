@@ -34,3 +34,4 @@ class IpnSchema extends Schema {
         return $table;
     }
 }
+
