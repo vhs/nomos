@@ -25,29 +25,17 @@ class IpnService extends Service implements IIpnService1
 		// Check to see if the IPN exists with the ID 
 		if(is_null($ipn)) return false;
 
-        // Test the IPN againts paypal to ensure that its valid. 
-        // Get the 
-		$myPost = array();
-		$myPost['payment_status'] 	= urldecode( $ipn->payment_status );
-		$myPost['mc_gross'] 		= urldecode( $ipn->payment_amount );
-		$myPost['mc_currency'] 		= urldecode( $ipn->payment_currency );
-		$myPost['payer_email'] 		= urldecode( $ipn->payer_email );
-		$myPost['item_name'] 		= urldecode( $ipn->item_name );
-		$myPost['item_number'] 		= urldecode( $ipn->item_number );
+		/** 
+		 * Capture the IPN messages that PayPal sends to your listener.
+		 * After receiving an IPN message from PayPal, you must respond to PayPal with a POST message 
+		 * that is an exact copy of the received message but with "cmd=_notify-validate" added to the 
+		 * end of the message. Append to your message a duplicate of the notification received (the same 
+		 * IPN fields and values in the exact order you received them):
+		 * Source: https://developer.paypal.com/docs/classic/ipn/ht_ipn/ 
+		 */
 
 		// read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
-		$req = 'cmd=_notify-validate';
-		if(function_exists('get_magic_quotes_gpc')) {
-		   $get_magic_quotes_exists = true;
-		} 
-		foreach ($myPost as $key => $value) {        
-		   if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) { 
-		        $value = urlencode(stripslashes($value)); 
-		   } else {
-		        $value = urlencode($value);
-		   }
-		   $req .= "&$key=$value";
-		}
+		$req = 'cmd=_notify-validate'. $ipn->raw ; 
 		 
 		// Step 2: POST IPN data back to PayPal to validate
 		$ch = curl_init('https://www.paypal.com/cgi-bin/webscr');
@@ -94,6 +82,14 @@ class IpnService extends Service implements IIpnService1
 	}
 
 
+	// http://192.168.38.10/services/web/IpnService1.svc/Paypal?
+	// 		mc_gross=19.95&protection_eligibility=Eligible&address_status=confirmed&payer_id=LPLWNMTBWMFAY&
+	//		tax=0.00&address_street=1+Main+St&payment_date=20%3A12%3A59+Jan+13%2C+2009+PST&payment_status=Completed&
+	// 		charset=windows-1252&address_zip=95131&first_name=Test&mc_fee=0.88&address_country_code=US&address_name=Test+User&notify_version=2.6&
+	//		custom=&payer_status=verified&address_country=United+States&address_city=San+Jose&quantity=1&verify_sign=AtkOfCXbDm2hu0ZELryHFjY-Vb7PAUvS6nMXgysbElEn9v-1XcmSoGtf&
+	//		payer_email=gpmac_1231902590_per%40paypal.com&txn_id=61E67681CH3238416&payment_type=instant&last_name=User&address_state=CA&
+	// 		receiver_email=gpmac_1231902686_biz%40paypal.com&payment_fee=0.88&receiver_id=S8XGHLYDW9T3S&txn_type=express_checkout&item_name=&mc_currency=USD&item_number=&
+	//		residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=&payment_gross=19.95&shipping=0.00
 	public function Paypal($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number )
 	{
 
@@ -105,7 +101,7 @@ class IpnService extends Service implements IIpnService1
         $ipn->payment_amount 	= $mc_gross ; 
         $ipn->payment_currency 	= $mc_currency ; 
         $ipn->payer_email 		= $payer_email ; 
-        $ipn->raw 				= "Everything else, all thing things, fuck you im right"; 
+        $ipn->raw 				= "mc_gross=19.95&protection_eligibility=Eligible&address_status=confirmed&payer_id=LPLWNMTBWMFAY&tax=0.00&address_street=1+Main+St&payment_date=20%3A12%3A59+Jan+13%2C+2009+PST&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Test&mc_fee=0.88&address_country_code=US&address_name=Test+User&notify_version=2.6&custom=&payer_status=verified&address_country=United+States&address_city=San+Jose&quantity=1&verify_sign=AtkOfCXbDm2hu0ZELryHFjY-Vb7PAUvS6nMXgysbElEn9v-1XcmSoGtf&payer_email=gpmac_1231902590_per%40paypal.com&txn_id=61E67681CH3238416&payment_type=instant&last_name=User&address_state=CA&receiver_email=gpmac_1231902686_biz%40paypal.com&payment_fee=0.88&receiver_id=S8XGHLYDW9T3S&txn_type=express_checkout&item_name=&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=&payment_gross=19.95&shipping=0.00"; 
         $ipn->save();
 
         // Check to see if this paypal interaction is valid. 
