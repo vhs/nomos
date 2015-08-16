@@ -13,6 +13,8 @@ use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
+use app\schema\MembershipSchema;
+use app\schema\UserSchema;
 
 class PaymentsSchema extends Schema {
     public static function init() {
@@ -22,6 +24,7 @@ class PaymentsSchema extends Schema {
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("transactionref", Type::String(false, "", 100));  //txn_id
         $table->addColumn("membership_id", Type::Int(false, 0));
+        $table->addColumn("user_id", Type::Int(false, 0));
         $table->addColumn("rate_amount", Type::String(false, "", 255));
         $table->addColumn("currency", Type::String(false, "", 3));
         $table->addColumn("date", Type::DateTime(true, date("Y-m-d H:i:s")));
@@ -31,7 +34,9 @@ class PaymentsSchema extends Schema {
 
 
         $table->setConstraints(
-            Constraint::PrimaryKey($table->columns->id)
+            Constraint::PrimaryKey($table->columns->id),
+            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id),
+            Constraint::ForeignKey($table->columns->user_id, UserSchema::Table(), UserSchema::Columns()->id)
         ); 
 
         return $table;
