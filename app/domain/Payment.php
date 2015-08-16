@@ -15,7 +15,7 @@ use vhs\domain\validations\ValidationResults;
 
 class Payment extends Domain {
     public static function Define() {
-        Privilege::Schema(PaymentSchema::Type());
+        Payment::Schema(PaymentSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {

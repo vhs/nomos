@@ -13,7 +13,6 @@ class PaymentService extends Service implements IPaymentService1 {
 
     public function GetPaginated($offset, $limit) {
         $payments = Payment::findAll();
-        print_r($payments);die();
         return array_slice($payments, $offset, $limit);
     }
 }
