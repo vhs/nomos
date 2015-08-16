@@ -24,6 +24,7 @@
                 
                 <th></th>
             </tr>
+
             </tfoot>
 
             <tbody>
@@ -38,5 +39,13 @@
             </tbody>
         </table>
 
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-1">
+        <span class="btn btn-primary" ng-click="prevPage()" ng-if="pagination.offset > 0">Prev</span>
+    </div>
+    <div class="col-md-offset-10 col-lg-1">
+        <span class="btn btn-primary" ng-click="nextPage()" ng-if="payments.length > 0">Next</span></th>
     </div>
 </div>
