@@ -26,7 +26,7 @@ class HttpServer {
     /** @var HttpRequest */
     public $request;
 
-    public function __construct(IHttpModule $infoModule = null, Logger $logger = null) {
+    public function __construct(HttpServerInfoModule $infoModule = null, Logger $logger = null) {
         if(is_null($logger))
             $this->logger = new SilentLogger();
         else
