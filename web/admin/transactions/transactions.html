@@ -1,1 +1,57 @@
-ToDo: write it, yo
+<div class="row">
+    <div class="col-lg-12">
+
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>Paypal transactions</h4
+
+        <table ng-if="transactions.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>created</th>
+                <th>validation</th>
+                <th>payment_status</th>
+                <th>payment_amount</th>
+                <th>payment_currency</th>
+                <th>payer_email</th>
+                <th>item_name</th>
+                <th>item_number</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>created</th>
+                <th>validation</th>
+                <th>payment_status</th>
+                <th>payment_amount</th>
+                <th>payment_currency</th>
+                <th>payer_email</th>
+                <th>item_name</th>
+                <th>item_number</th>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            <tr ng-repeat="transaction in transactions">
+
+                <td>{{transaction.id}}</td>
+                <td>{{transaction.created}}</td>
+                <td>{{transaction.validation}}</td>
+                <td>{{transaction.payment_status}}</td>
+                <td>{{transaction.payment_amount}}</td>
+                <td>{{transaction.payment_currency}}</td>
+                <td>{{transaction.payer_email}}</td>
+                <td>{{transaction.item_name}}</td>
+                <td>{{transaction.item_number}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
