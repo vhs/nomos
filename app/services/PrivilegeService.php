@@ -76,4 +76,65 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
         return $privileges;
     }
+
+    public function GetPrivilege($id) {
+        return Privilege::find($id);
+    }
+
+    public function CreatePrivilege($name, $code, $description, $icon, $enabled) {
+        $privs = Privilege::findByCode($code);
+
+        if(count($privs) <> 0)
+            throw new \Exception("Privilege already exists with that code");
+
+        $priv = new Privilege();
+
+        $priv->name = $name;
+        $priv->code = $code;
+        $priv->description = $description;
+        $priv->icon = $icon;
+        $priv->enabled = $enabled;
+
+        $priv->save();
+
+        return $priv;
+    }
+
+    public function UpdatePrivilegeName($id, $name) {
+        $priv = Privilege::find($id);
+
+        $priv->name = $name;
+
+        $priv->save();
+    }
+
+    public function UpdatePrivilegeDescription($id, $description) {
+        $priv = Privilege::find($id);
+
+        $priv->description = $description;
+
+        $priv->save();
+    }
+
+    public function UpdatePrivilegeIcon($id, $icon) {
+        $priv = Privilege::find($id);
+
+        $priv->icon = $icon;
+
+        $priv->save();
+    }
+
+    public function UpdatePrivilegeEnabled($id, $enabled) {
+        $priv = Privilege::find($id);
+
+        $priv->enabled = $enabled;
+
+        $priv->save();
+    }
+
+    public function DeletePrivilege($id) {
+        $priv = Privilege::find($id);
+
+        $priv->delete();
+    }
 }

@@ -25,6 +25,18 @@ interface IUserService1 extends IContract {
     public function Register($username, $password, $email, $fname, $lname);
 
     /**
+     * @permission administrator
+     * @param $username
+     * @param $password
+     * @param $email
+     * @param $fname
+     * @param $lname
+     * @param $membershipid
+     * @return mixed
+     */
+    public function Create($username, $password, $email, $fname, $lname, $membershipid);
+
+    /**
      * @permission anonymous
      * @param $email
      * @return mixed
@@ -70,11 +82,25 @@ interface IUserService1 extends IContract {
      * @permission administrator|user
      * @param $userid
      * @param $username
-     * @param $lname
-     * @param $email
-     * @param $newsletter
      */
-    public function UpdateProfile($userid, $username, $newsletter);
+    public function UpdateUsername($userid, $username);
+
+    /**
+     * @permission administrator|full-profile
+     * @param $userid
+     * @param $fname
+     * @param $lname
+     * @return mixed
+     */
+    public function UpdateName($userid, $fname, $lname);
+
+    /**
+     * @permission administrator|full-profile
+     * @param $userid
+     * @param $email
+     * @return mixed
+     */
+    public function UpdateEmail($userid, $email);
 
     /**
      * @permission administrator
@@ -82,4 +108,12 @@ interface IUserService1 extends IContract {
      * @param $privileges
      */
     public function PutUserPrivileges($userid, $privileges);
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $membershipid
+     * @return mixed
+     */
+    public function UpdateMembership($userid, $membershipid);
 }

@@ -42,8 +42,26 @@ angular
                         return response.data;
                     });
             },
-            UpdateProfile: function(userid, username, newsletter) {
-                return $http.post("/services/web/UserService1.svc/UpdateProfile", {userid: userid, username: username, newsletter: newsletter})
+            UpdateUsername: function(userid, username) {
+                return $http.post("/services/web/UserService1.svc/UpdateUsername", {userid: userid, username: username})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            UpdateNewsletter: function(userid, subscribe) {
+                return $http.post("/services/web/UserService1.svc/UpdateNewsletter", {userid: userid, subscribe: subscribe})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            UpdateName: function(userid, fname, lname) {
+                return $http.post("/services/web/UserService1.svc/UpdateName", {userid: userid, fname: fname, lname: lname})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            UpdateEmail: function(userid, email) {
+                return $http.post("/services/web/UserService1.svc/UpdateEmail", {userid: userid, email: email})
                     .then(function(response) {
                         return response.data;
                     });
@@ -68,6 +86,12 @@ angular
             },
             UpdatePassword: function(userid, password) {
                 return $http.post("/services/web/UserService1.svc/UpdatePassword", {userid: userid, password: password});
+            },
+            UpdateMembership: function(userid, membershipid) {
+                return $http.post("/services/web/UserService1.svc/UpdateMembership", {userid: userid, membershipid: membershipid});
+            },
+            Create: function(username, password, email, fname, lname, membershipid) {
+                return $http.post("/services/web/UserService1.svc/Create", {username:username, password:password, email:email, fname:fname, lname:lname, membershipid:membershipid});
             }
         };
     }]);

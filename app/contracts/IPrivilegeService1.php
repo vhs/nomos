@@ -31,4 +31,61 @@ interface IPrivilegeService1 extends IContract {
      * @return mixed
      */
     public function GetUserPrivileges($userid);
+
+    /**
+     * @permission user
+     * @param $id
+     * @return mixed
+     */
+    public function GetPrivilege($id);
+
+    /**
+     * @permission administrator
+     * @param $name
+     * @param $code
+     * @param $description
+     * @param $icon
+     * @param $enabled
+     * @return mixed
+     */
+    public function CreatePrivilege($name, $code, $description, $icon, $enabled);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $name
+     * @return mixed
+     */
+    public function UpdatePrivilegeName($id, $name);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $description
+     * @return mixed
+     */
+    public function UpdatePrivilegeDescription($id, $description);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $icon
+     * @return mixed
+     */
+    public function UpdatePrivilegeIcon($id, $icon);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $enabled
+     * @return mixed
+     */
+    public function UpdatePrivilegeEnabled($id, $enabled);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @return mixed
+     */
+    public function DeletePrivilege($id);
 }
