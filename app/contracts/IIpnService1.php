@@ -13,14 +13,16 @@ interface IIpnService1 extends IContract {
 
     /**
      * @permission anonymous
+     * @param $validation
      * @param $payment_status
      * @param $mc_gross
      * @param $mc_currency
      * @param $payer_email
      * @param $item_name
      * @param $item_number
+     * @param $raw
      * @return mixed
      */
-    public function Paypal($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number );
+    public function Paypal($validation, $payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw );
     
 };
