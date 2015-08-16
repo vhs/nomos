@@ -97,21 +97,16 @@ class IpnService extends Service implements IIpnService1
 	public function Paypal($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number )
 	{
 
-		return "Marker 1";
-
 		// Create the IPN recored with invalid. 
 		$ipn = new Ipn() ; 
-		return "Marker 2";
 
 		$ipn->validation 		= "INVALID";
         $ipn->payment_status 	= $payment_status ; 
         $ipn->payment_amount 	= $mc_gross ; 
         $ipn->payment_currency 	= $mc_currency ; 
         $ipn->payer_email 		= $payer_email ; 
-        $ipn->raw 				= "Everything else, all thing things, fuck you i'm right"; 
+        $ipn->raw 				= "Everything else, all thing things, fuck you im right"; 
         $ipn->save();
-
-		return "Marker 3";
 
         // Check to see if this paypal interaction is valid. 
         // You can test paypal interactions anytime, not just on creation. 

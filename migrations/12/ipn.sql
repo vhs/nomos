@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `ipnrequest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
   `validation` varchar(255) NOT NULL,
   `payment_status` varchar(255) NOT NULL,
   `payment_amount` varchar(255) NOT NULL,

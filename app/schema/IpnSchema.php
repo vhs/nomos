@@ -2,7 +2,8 @@
 /**
  * Created by: Fuck you, I am not giving you my name
  * User: Steven Smethurst
- * Date: 2015Jul25
+ * Date: 2015Jul25 
+ * Time: like, midnight almost
  */
 
 namespace app\schema;
@@ -15,8 +16,7 @@ use vhs\domain\Schema;
 
 class IpnSchema extends Schema {
     public static function init() {
-
-        $table = new Table("ipn");
+        $table = new Table("ipnrequest");
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("created", Type::DateTime(true, date("Y-m-d H:i:s")));
@@ -28,7 +28,7 @@ class IpnSchema extends Schema {
         $table->addColumn("raw", Type::String(false, "", 255));
 
         $table->setConstraints(
-            Constraint::PrimaryKey($table->columns->id),
+            Constraint::PrimaryKey($table->columns->id)
         );
 
         return $table;
