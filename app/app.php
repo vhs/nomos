@@ -19,5 +19,7 @@ $serverLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/server.
 \vhs\web\HttpContext::Server()->register(new \app\modules\HttpPaymentGatewayHandlerModule());
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule("web"));
 
+\app\monitors\PaypalIpnMonitor::getInstance()->Init($serverLog);
+
 \vhs\web\HttpContext::Server()->handle();
 
