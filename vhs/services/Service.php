@@ -13,7 +13,7 @@ abstract class Service {
     /** @var ServiceContext $context */
     protected $context;
 
-    public function __construct(ServiceContext $context) {
+    public function __construct(ServiceContext $context = null) {
         $this->context = $context;
     }
 }
