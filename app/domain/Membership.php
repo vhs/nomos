@@ -24,4 +24,5 @@ class Membership extends Domain {
     public function validate(ValidationResults &$results) {
 
     }
+
 }
