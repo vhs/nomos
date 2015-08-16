@@ -11,7 +11,7 @@ require_once(dirname(__FILE__) . "/../vhs/vhs.php");
 
 define('ROOT_NAMESPACE_PATH', dirname(dirname(__FILE__)));
 
-$sqlLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/sql.log") : new \vhs\loggers\SilentLogger();
+$sqlLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/sql.log") : new \vhs\loggers\SilentLogger();
 
 \vhs\database\Database::setLogger($sqlLog);
 \vhs\database\Database::setRethrow(true);

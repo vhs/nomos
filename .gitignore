@@ -2,6 +2,7 @@ conf/config.ini.php
 backup
 *.gz
 *.zip
+logs/*.log
 
 
 #################
