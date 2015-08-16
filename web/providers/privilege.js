@@ -27,6 +27,10 @@ angular
                 return $http.post("/services/web/KeyService1.svc/PutKeyPrivileges",
                     { keyid: keyid, privileges: codes.join() });
             },
+            PutMembershipPrivileges: function(membershipId, codes) {
+                return $http.post("/services/web/MembershipService1.svc/PutPrivileges",
+                    { membershipId: membershipId, privileges: codes.join() });
+            },
             GetAllSystemPermissions: function() {
                 return $http.get("/services/web/PrivilegeService1.svc/GetAllSystemPermissions")
                     .then(function(response){
