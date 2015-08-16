@@ -15,8 +15,11 @@ use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
+use app\schema\UserSchema;
 use app\security\PasswordUtil;
 use DateTime;
+use vhs\database\Database;
+use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
@@ -58,14 +61,35 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
-    public function UpdateProfile($userid, $username, $newsletter) {
+    public function UpdateUsername($userid, $username) {
         $user = $this->GetUser($userid);
 
+        if(is_null($user)) return;
+
         $user->username = $username;
-        $user->newsletter = $newsletter;
 
         $user->save();
+    }
 
+    public function UpdateName($userid, $fname, $lname) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->fname = $fname;
+        $user->lname = $lname;
+
+        $user->save();
+    }
+
+    public function UpdateEmail($userid, $email) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->email = $email;
+
+        $user->save();
     }
 
     public function Register($username, $password, $email, $fname, $lname) {
@@ -82,6 +106,28 @@ class UserService extends Service implements IUserService1 {
         $user->active = "y";//"t"; //TODO send email activation
 
         $user->save();
+
+        return $user;
+    }
+
+    public function Create($username, $password, $email, $fname, $lname, $membershipid) {
+        if (User::exists($username, $email))
+            throw new \Exception("User already exists");
+
+        $user = new User();
+
+        $user->username = $username;
+        $user->password = PasswordUtil::hash($password);
+        $user->email = $email;
+        $user->fname = $fname;
+        $user->lname = $lname;
+        $user->active = "t";
+
+        $user->save();
+
+        try {
+            $this->UpdateMembership($user->id, $membershipid);
+        } catch(\Exception $ex) {}
 
         return $user;
     }
@@ -151,6 +197,20 @@ class UserService extends Service implements IUserService1 {
 
         foreach($privs as $priv)
             $user->privileges->add($priv);
+
+        $user->save();
+    }
+
+    public function UpdateMembership($userid, $membershipid) {
+        $user = User::find($userid);
+
+        $membership = Membership::find($membershipid);
+
+        if(is_null($user) || is_null($membership)) {
+            throw new \Exception("Invalid user or membership type");
+        }
+
+        $user->membership = $membership;
 
         $user->save();
     }
