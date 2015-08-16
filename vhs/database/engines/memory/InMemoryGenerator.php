@@ -46,6 +46,10 @@ use vhs\database\wheres\Where;
 use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
 use vhs\database\wheres\WhereOr;
+use vhs\database\limits\ILimitGenerator;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\IOffsetGenerator;
+use vhs\database\offsets\Offset;
 
 class InMemoryGenerator implements
     IWhereGenerator,
@@ -56,6 +60,8 @@ class InMemoryGenerator implements
     IQueryGenerator,
     IColumnGenerator,
     ITableGenerator,
+    ILimitGenerator,
+    IOffsetGenerator,
     IOnGenerator {
 
     public function generateAnd(WhereAnd $where) {
@@ -161,6 +167,14 @@ class InMemoryGenerator implements
     public function generateDescending(OrderByDescending $descending) {
         // TODO: Implement generateDescending() method.
         throw new \Exception("Implement generateDescending() method.");
+    }
+
+    public function generateLimit(Limit $limit) {
+        return $limit->limit;
+    }
+
+    public function generateOffset(Offset $offset) {
+        return $offset->offset;
     }
 
     public function generatePrimaryKey(PrimaryKey $constraint)
