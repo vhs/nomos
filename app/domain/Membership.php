@@ -11,6 +11,8 @@ namespace app\domain;
 
 use app\schema\MembershipPrivilegeSchema;
 use app\schema\MembershipSchema;
+use vhs\database\orders\OrderBy;
+use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
@@ -25,4 +27,23 @@ class Membership extends Domain {
 
     }
 
+    public static function findByCode($code) {
+        return Membership::where(
+            Where::Equal(MembershipSchema::Columns()->code, $code)
+        );
+    }
+
+    public static function findForPriceLevel($price) {
+        $memberships = Membership::where(
+            Where::_And(
+                Where::LesserEqual(MembershipSchema::Columns()->price, $price),
+                Where::Equal(MembershipSchema::Columns()->active, true)
+            ), OrderBy::Descending(MembershipSchema::Columns()->price), 1
+        );
+
+        if (!is_null($memberships))
+            return $memberships[0];
+
+        return null;
+    }
 }

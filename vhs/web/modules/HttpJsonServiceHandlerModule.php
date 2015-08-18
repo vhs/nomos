@@ -27,9 +27,9 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
         $server->header("Content-Type: application/json", true);
 
-        $uri = $_SERVER["SCRIPT_NAME"];
+        $uri = $server->request->url;
 
-        switch($_SERVER['REQUEST_METHOD']) {
+        switch($server->request->method) {
             case 'HEAD':
                 $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
                 break;
@@ -52,9 +52,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         }
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-        $server->output($ex->getMessage());
-    }
+    public function handleException(HttpServer $server, \Exception $ex) { }
 
     public function endResponse(HttpServer $server) { }
 }
