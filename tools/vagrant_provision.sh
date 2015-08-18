@@ -38,11 +38,12 @@ cd /vagrant/
 php composer.phar install
 
 # configure database
-# sudo sed -i 's/127.0.0.1/0.0.0.0/g' /opt/bitnami-nginxstack/mysql/my.cnf
+sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
 if [ -z `mysql --host=localhost --user=root --password=hackspace -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='vhs_membership';"` ]; then 
   mysql --host=localhost --user=root --password=hackspace -e 'CREATE DATABASE vhs_membership;'
-  mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'127.0.0.1' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
-  mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'localhost' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
+  mysql --host=localhost --user=root --password=hackspace -e "CREATE USER 'vhs_membership'@'%' IDENTIFIED BY '9fab3d41c56cc07962766f4ddda708e1';"
+  mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 fi
 
 cd /vagrant/tools
