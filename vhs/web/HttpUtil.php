@@ -22,4 +22,25 @@ class HttpUtil {
         }
         return $headers;
     }
+
+    public static function getRequestMethod() {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function getRequestUrl() {
+        return $_SERVER["SCRIPT_NAME"];
+    }
+
+    /**
+     * @returns HttpRequest
+     */
+    public static function getCurrentRequest() {
+        $req = new HttpRequest();
+
+        $req->url = self::getRequestUrl();
+        $req->method = self::getRequestMethod();
+        $req->headers = self::parseRequestHeaders();
+
+        return $req;
+    }
 }
