@@ -57,9 +57,7 @@ class HttpServer {
         $this->handling = true;
         $this->clear();
 
-        $this->request = new HttpRequest();
-
-        $this->request->headers = HttpUtil::parseRequestHeaders();
+        $this->request = HttpUtil::getCurrentRequest();
 
         session_start();
 

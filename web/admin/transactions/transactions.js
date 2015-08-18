@@ -6,11 +6,16 @@ angular
         $stateProvider
             .state('admin.transactions', {
                 parent: "admin",
-                url: '/transactions/',
+                url: '/admin/transactions/',
                 data: {
                     access: "admin"
                 },
                 templateUrl: 'admin/transactions/transactions.html',
+                resolve: {
+                    transactions: ['IpnService1', function(IpnService1) {
+                        return IpnService1.GetAll();
+                    }]
+                },
 
                 controller: ['$scope', '$modal', 'transactions', function($scope, $modal, transactions) {
                     $scope.transactions = transactions;
