@@ -9,8 +9,7 @@
 namespace vhs\database;
 
 
-interface IConvertible
-{
+interface IConvertible {
     /**
      * @param IConverter $converter
      * @param mixed $value
