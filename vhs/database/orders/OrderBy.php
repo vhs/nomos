@@ -30,7 +30,7 @@ abstract class OrderBy implements IGeneratable {
         return new OrderByDescending($column, $orderBy);
     }
 
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }

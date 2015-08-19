@@ -14,9 +14,8 @@ class Limit implements IGeneratable {
     return new Limit($limit);
   }
 
-  public function generate(IGenerator $generator) {
+  public function generate(IGenerator $generator, $value = null) {
     /** @var ILimitGenerator $generator */
-    // return $generator->generateLimit($this); 
     return $this->generateLimit($generator);
   }
 

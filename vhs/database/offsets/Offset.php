@@ -14,10 +14,9 @@ class Offset implements IGeneratable {
     return new Offset($offset);
   }
 
-  public function generate(IGenerator $generator) {
-    /** @var ILimitGenerator $generator */
-    return $generator->generateOffset($this); 
-    //return $this->generateLimit($generator);
+  public function generate(IGenerator $generator, $value = null) {
+    /** @var IOffsetGenerator $generator */
+    return $this->generateOffset($generator);
   }
 
   private function generateOffset(IOffsetGenerator $generator) {
