@@ -10,11 +10,11 @@ namespace vhs\database\constraints;
 
 
 use vhs\database\Column;
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\Table;
 
-abstract class Constraint implements IGeneratable {
+abstract class Constraint extends Element {
 
     public $column;
 
@@ -22,11 +22,15 @@ abstract class Constraint implements IGeneratable {
         $this->column = $column;
     }
 
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+    }
+
     public static function PrimaryKey(Column $column) {
         return new PrimaryKey($column);
     }
 
-    public static function ForeignKey(Column $column, Table $foreignTable, Column $on) {
+    public static function ForeignKey(Column $column, Table &$foreignTable, Column $on) {
         return new ForeignKey($column, $foreignTable, $on);
     }
 

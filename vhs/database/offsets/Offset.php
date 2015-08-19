@@ -2,10 +2,10 @@
 
 namespace vhs\database\offsets;
 
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
 
-class Offset implements IGeneratable {
+class Offset extends Element {
   public function __construct($offset) {
       $this->offset = $offset;
   }

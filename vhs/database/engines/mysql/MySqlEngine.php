@@ -151,6 +151,10 @@ class MySqlEngine extends Engine {
             foreach($rows as $row) {
                 $record = array_combine($query->columns->names(), $row);
 
+                /* TODO fix potential bug with joins having same column names but are namespaced
+                 *  ie alias0.col alias1.col
+                 * it's entirely possible the mysqli garbage doesn't support this. I haven't bothered to check yet.
+                */
                 /** @var Column $col */
                 foreach($query->columns->all() as $col)
                     if (in_array($col->name, $record) && !is_null($record[$col->name]))
@@ -163,8 +167,6 @@ class MySqlEngine extends Engine {
         } else {
             throw new DatabaseException($this->conn->error);
         }
-
-        $this->logger->log(var_export($records, true));
 
         return $records;
     }

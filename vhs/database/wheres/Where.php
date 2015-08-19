@@ -9,10 +9,10 @@
 namespace vhs\database\wheres;
 
 use vhs\database\Column;
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
 
-abstract class Where implements IGeneratable {
+abstract class Where extends Element {
 
     public static function _And(Where ...$where) {
         return new WhereAnd(...$where);
