@@ -15,6 +15,7 @@ use app\domain\Privilege;
 use app\domain\User;
 use app\schema\SettingsSchema;
 use vhs\database\Database;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -79,7 +80,7 @@ class KeyService extends Service implements IKeyService1 {
                         $key->key = $value;
                         break;
                     case "pin":
-                        $nextpinid = Database::scalar(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid);
+                        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
                         $key->key = sprintf("%04s", $nextpinid) . "|" . sprintf("%04s", rand(0, 9999));
                         $key->privileges->add(Privilege::findByCode("inherit"));
                         break;

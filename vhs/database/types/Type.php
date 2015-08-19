@@ -10,13 +10,16 @@ namespace vhs\database\types;
 
 
 use vhs\database\exceptions\InvalidSchemaException;
+use vhs\database\IConvertable;
+use vhs\database\IConverter;
 use vhs\database\IGeneratable;
 use vhs\database\IGenerator;
 
-abstract class Type implements IGeneratable {
+abstract class Type implements IGeneratable, IConvertable {
 
     public $nullable;
     public $default;
+    public $value;
 
     public function __construct($nullable = true, $default = null) {
         if(!$nullable && is_null($default))
@@ -60,12 +63,25 @@ abstract class Type implements IGeneratable {
 
     /**
      * @param IGenerator $generator
+     * @param mixed $value
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var ITypeGenerator $generator */
-        return $this->generateType($generator);
+        return $this->generateType($generator, $value);
     }
 
-    abstract public function generateType(ITypeGenerator $generator);
+    abstract public function generateType(ITypeGenerator $generator, $value = null);
+
+    /**
+     * @param IConverter $converter
+     * @param mixed $value
+     * @return mixed
+     */
+    public function convert(IConverter $converter, $value = null) {
+        /** @var ITypeConverter $converter */
+        return $this->covertType($converter, $value);
+    }
+
+    abstract public function covertType(ITypeConverter $converter, $value = null);
 }

@@ -64,9 +64,10 @@ abstract class Where implements IGeneratable {
 
     /**
      * @param IGenerator $generator
+     * @param null $value
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IWhereGenerator $generator */
         return $this->generateWhere($generator);
     }

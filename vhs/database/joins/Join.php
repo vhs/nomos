@@ -43,7 +43,7 @@ abstract class Join implements IGeneratable {
         return new JoinCross($table, $on);
     }
 
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IJoinGenerator $generator */
         return $this->generateJoin($generator);
     }

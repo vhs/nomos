@@ -8,21 +8,21 @@
 
 namespace vhs\database;
 
-use vhs\database\orders\OrderBy;
 use vhs\database\queries\Query;
-use vhs\database\wheres\Where;
+use vhs\database\queries\QueryDelete;
+use vhs\database\queries\QueryInsert;
+use vhs\database\queries\QuerySelect;
+use vhs\database\queries\QueryUpdate;
 
 interface IDataInterface {
     public static function DateFormat();
 
-    //TODO support joins some how
-    public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null);
-    public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null);
-    public function delete(Table $table, Where $where = null);
-    public function create(Table $table, $data);
-    public function update(Table $table, $data, Where $where = null);
-    public function count(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null);
-    public function exists(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null);
-    public function query(Query $query);
+    public function scalar(QuerySelect $query);
+    public function select(QuerySelect $query);
+    public function delete(QueryDelete $query);
+    public function insert(QueryInsert $query);
+    public function update(QueryUpdate $query);
+    public function count(QuerySelect $query);
+    public function exists(QuerySelect $query);
     public function arbitrary($command);
 }
