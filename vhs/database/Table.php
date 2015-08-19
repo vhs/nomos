@@ -59,7 +59,7 @@ class Table implements IGeneratable {
      * @param IGenerator $generator
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var ITableGenerator $generator */
         return $this->generateTable($generator);
     }

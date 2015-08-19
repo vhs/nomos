@@ -11,7 +11,11 @@ namespace vhs\database\types;
 
 class TypeText extends Type {
 
-    public function generateType(ITypeGenerator $generator) {
-        return $generator->generateText($this);
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateText($this, $value);
+    }
+
+    public function covertType(ITypeConverter $converter, $value = null) {
+        return $converter->convertText($this, $value);
     }
 }

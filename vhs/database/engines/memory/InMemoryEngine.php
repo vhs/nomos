@@ -14,6 +14,10 @@ use vhs\database\Columns;
 use vhs\database\Engine;
 use vhs\database\orders\OrderBy;
 use vhs\database\queries\Query;
+use vhs\database\queries\QueryDelete;
+use vhs\database\queries\QueryInsert;
+use vhs\database\queries\QuerySelect;
+use vhs\database\queries\QueryUpdate;
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 use vhs\Logger;
@@ -45,23 +49,26 @@ class InMemoryEngine extends Engine {
         return true; // ha
     }
 
-    public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $this->logger->log("scalar: ");
-        $value = $this->select($table, new Columns($column), $where, $orderBy, $limit);
+    public function scalar(QuerySelect $query) {
 
-        if(sizeof($value) <> 1)
+        $this->logger->log("scalar: ");
+
+        $record = $this->select($query);
+
+        if(sizeof($record) <> 1)
             return null;
         else
-            return $value[0];
+            return $record[$query->columns[0]->name];
     }
 
-    public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $this->logger->log("select " . $table->name . " " . implode(", ", $columns->names()) . " " . $where);
+    public function select(QuerySelect $query)
+    {
+        $this->logger->log("select " . $query->table->name . " " . implode(", ", $query->columns->names()) . " " . $query->where);
 
-        if(!array_key_exists($table->name, $this->datastore))
+        if(!array_key_exists($query->table->name, $this->datastore))
             return array();
 
-        $match = (!is_null($where)) ? $where->generate($this->generator) : function() { return true; };
+        $match = (!is_null($query->where)) ? $query->where->generate($this->generator) : function() { return true; };
 
         if(isset($orderBy) || isset($limit))
             throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");
@@ -70,10 +77,10 @@ class InMemoryEngine extends Engine {
 
         $cols = array();
 
-        foreach($columns->all() as $column)
+        foreach($query->columns->all() as $column)
             array_push($cols, $column->name);
 
-        foreach($this->datastore[$table->name] as $row) {
+        foreach($this->datastore[$query->table->name] as $row) {
             if ($match($row)) {
                 array_push(
                     $results,
@@ -85,32 +92,32 @@ class InMemoryEngine extends Engine {
         return $results;
     }
 
-    public function delete(Table $table, Where $where = null) {
-        $this->logger->log("delete " . $table->name . " " . $where);
-        if(!array_key_exists($table->name, $this->datastore))
+    public function delete(QueryDelete $query) {
+        $this->logger->log("delete " . $query->table->name . " " . $query->where);
+        if(!array_key_exists($query->table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
+        $match = (!is_null($query->where)) ? $query->where->generate($this->generator) : function($item) { return true; };
 
-        foreach($this->datastore[$table->name] as $key => $row) {
+        foreach($this->datastore[$query->table->name] as $key => $row) {
             if ($match($row)) {
-                unset($this->datastore[$table->name][$key]);
+                unset($this->datastore[$query->table->name][$key]);
             }
         }
 
         return true;
     }
 
-    public function create(Table $table, $data) {
-        $this->logger->log("create " . $table->name . " " . var_export($data, true));
-        if(!array_key_exists($table->name, $this->datastore))
-            $this->datastore[$table->name] = array();
+    public function insert(QueryInsert $query) {
+        $this->logger->log("insert " . $query->table->name . " " . var_export($query->values, true));
+        if(!array_key_exists($query->table->name, $this->datastore))
+            $this->datastore[$query->table->name] = array();
 
         $pks = array();
 
-        foreach($table->getPrimaryKeys() as $pk) {
-            if(!array_key_exists($pk->column->name, $data)) {
-                $key = $table->name . "." . $pk->column->name;
+        foreach($query->table->getPrimaryKeys() as $pk) {
+            if(!array_key_exists($pk->column->name, $query->values)) {
+                $key = $query->table->name . "." . $pk->column->name;
                 if(!array_key_exists($key, $this->keyIncrementors))
                     $this->keyIncrementors[$key] = 0;
                 $this->keyIncrementors[$key] += 1;
@@ -118,7 +125,7 @@ class InMemoryEngine extends Engine {
             }
         }
 
-        array_push($this->datastore[$table->name], $data);
+        array_push($this->datastore[$query->table->name], $data);
 
         if(count($pks) == 1)
             return array_values($pks)[0];
@@ -126,17 +133,17 @@ class InMemoryEngine extends Engine {
         return $pks;
     }
 
-    public function update(Table $table, $data, Where $where = null) {
-        $this->logger->log("update " . $table->name . " " . var_export($data, true) . " " . $where);
-        if(!array_key_exists($table->name, $this->datastore))
+    public function update(QueryUpdate $query) {
+        $this->logger->log("update " . $query->table->name . " " . var_export($query->values, true) . " " . $query->where);
+        if(!array_key_exists($query->table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
+        $match = (!is_null($query->where)) ? $query->where->generate($this->generator) : function($item) { return true; };
 
-        foreach($this->datastore[$table->name] as $key => $row) {
+        foreach($this->datastore[$query->table->name] as $key => $row) {
             if ($match($row)) {
-                foreach($data as $column => $value) {
-                    $this->datastore[$table->name][$key][$column] = $value;
+                foreach($query->values as $column => $value) {
+                    $this->datastore[$query->table->name][$key][$column] = $value;
                 }
             }
         }
@@ -144,35 +151,30 @@ class InMemoryEngine extends Engine {
         return true;
     }
 
-    public function count(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $this->logger->log("count " . $table->name . " " . $where);
-        if(!array_key_exists($table->name, $this->datastore))
+    public function count(QuerySelect $query) {
+        $this->logger->log("count " . $query->table->name . " " . $query->where);
+        if(!array_key_exists($query->table->name, $this->datastore))
             return false;
 
-        $match = (!is_null($where)) ? $where->generate($this->generator) : function($item) { return true; };
+        $match = (!is_null($query->where)) ? $query->where->generate($this->generator) : function($item) { return true; };
 
         if(isset($orderBy) || isset($limit))
             throw new \Exception("TODO implement OrderBy and limit for InMemoryEngine");
 
         $count = 0;
 
-        foreach($this->datastore[$table->name] as $row)
+        foreach($this->datastore[$query->table->name] as $row)
             if ($match($row)) $count += 1;
 
         return $count;
     }
 
-    public function exists(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
+    public function exists(QuerySelect $query) {
         $this->logger->log("exists: ");
-        return $this->count($table, $where, $orderBy, $limit) > 0;
+        return $this->count($query) > 0;
     }
 
     public function arbitrary($command) {
         return false;
-    }
-
-    public function query(Query $query)
-    {
-        // TODO: Implement query() method.
     }
 }

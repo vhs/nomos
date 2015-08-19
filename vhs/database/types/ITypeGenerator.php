@@ -13,12 +13,12 @@ use vhs\database\IGenerator;
 
 interface ITypeGenerator extends IGenerator {
 
-    public function generateBool(TypeBool $type);
-    public function generateInt(TypeInt $type);
-    public function generateFloat(TypeFloat $type);
-    public function generateString(TypeString $type);
-    public function generateText(TypeText $type);
-    public function generateDate(TypeDate $type);
-    public function generateDateTime(TypeDateTime $type);
-    public function generateEnum(TypeEnum $type);
+    public function generateBool(TypeBool $type, $value = null);
+    public function generateInt(TypeInt $type, $value = null);
+    public function generateFloat(TypeFloat $type, $value = null);
+    public function generateString(TypeString $type, $value = null);
+    public function generateText(TypeText $type, $value = null);
+    public function generateDate(TypeDate $type, $value = null);
+    public function generateDateTime(TypeDateTime $type, $value = null);
+    public function generateEnum(TypeEnum $type, $value = null);
 }
