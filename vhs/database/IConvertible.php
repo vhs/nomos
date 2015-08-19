@@ -9,7 +9,7 @@
 namespace vhs\database;
 
 
-interface IConvertable
+interface IConvertible
 {
     /**
      * @param IConverter $converter
