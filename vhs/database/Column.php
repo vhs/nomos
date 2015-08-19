@@ -11,7 +11,7 @@ namespace vhs\database;
 
 use vhs\database\types\Type;
 
-class Column implements IGeneratable {
+class Column extends Element {
 
     public $table;
     public $name;
@@ -23,6 +23,14 @@ class Column implements IGeneratable {
         $this->name = $name;
         $this->type = $type;
         $this->serializable = $serializable;
+    }
+
+    public function __clone() {
+        $this->type = clone $this->type;
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->table = $table;
     }
 
     public function getAbsoluteName() {

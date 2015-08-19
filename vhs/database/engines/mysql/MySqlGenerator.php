@@ -9,6 +9,16 @@
 namespace vhs\database\engines\mysql;
 
 use vhs\database\Column;
+use vhs\database\IColumnGenerator;
+use vhs\database\IOnGenerator;
+use vhs\database\joins\IJoinGenerator;
+use vhs\database\joins\Join;
+use vhs\database\joins\JoinCross;
+use vhs\database\joins\JoinInner;
+use vhs\database\joins\JoinLeft;
+use vhs\database\joins\JoinOuter;
+use vhs\database\joins\JoinRight;
+use vhs\database\On;
 use vhs\database\orders\IOrderByGenerator;
 use vhs\database\orders\OrderBy;
 use vhs\database\orders\OrderByAscending;
@@ -44,7 +54,11 @@ class MySqlGenerator implements
     ILimitGenerator,
     IOffsetGenerator,
     IQueryGenerator,
-    ITypeGenerator {
+    ITypeGenerator,
+    IJoinGenerator,
+    IOnGenerator,
+    IColumnGenerator
+    {
 
     /**
      * @var \mysqli
@@ -91,7 +105,7 @@ class MySqlGenerator implements
 
     public function generateComparator(WhereComparator $where) {
         if ($where->isArray) {
-            $sql = '`' . $where->column->name . '`';
+            $sql = $where->column->generate($this);
 
             if($where->equal)
                 $sql .= " IN (";
@@ -107,8 +121,17 @@ class MySqlGenerator implements
 
             return $sql;
         } else {
-            $col = '`' . $where->column->name . '`';
-            $val = $this->cleanValue($where->value, $where->column->type);
+            $col = $where->column->generate($this);
+            $val = $where->value;
+            $value = null;
+
+            if(get_class($val) == "vhs\\database\\Column") {
+                /** @var Column $val */
+                $value = $val->generate($this);
+            } else {
+                $value = "'" . $this->cleanValue($where->value, $where->column->type) . "'";
+            }
+
             $sign = "";
 
             if($where->null_compare) {
@@ -122,7 +145,7 @@ class MySqlGenerator implements
                 if ($where->equal) $sign .= "=";
                 else if(!$where->greater && !$where->lesser) $sign = "<>";
 
-                return "{$col} {$sign} '{$val}'";
+                return "{$col} {$sign} {$value}";
             }
         }
     }
@@ -147,7 +170,7 @@ class MySqlGenerator implements
     }
 
     private function gen(OrderBy $orderBy, $type) {
-        $clause = '`' . $orderBy->column->name . '`' . " " . $type . ", ";
+        $clause = $orderBy->column->generate($this) . " {$type}, ";
 
         foreach($orderBy->orderBy as $n)
             /** @var OrderBy $n */
@@ -176,13 +199,20 @@ class MySqlGenerator implements
 
     public function generateSelect(QuerySelect $query)
     {
-        $selector = implode(", ", array_map(function($col) { return '`' . $col . '`'; }, $query->columns->names()));
+        $selector = implode(", ", array_map(function(Column $column) { return $column->generate($this); }, $query->columns->all()));
         $clause = (!is_null($query->where)) ? $query->where->generate($this) : "";
         $orderClause = (!is_null($query->orderBy)) ? $query->orderBy->generate($this) : "";
         $limit = (!is_null($query->limit)) ? $query->limit->generate($this) : "";
         $offset = (!is_null($query->offset)) ? $query->offset->generate($this) : "";
 
-        $sql = "SELECT {$selector} FROM `{$query->table->name}`";
+        $sql = "SELECT {$selector} FROM `{$query->table->name}` AS {$query->table->alias}";
+
+        if(!is_null($query->joins)) {
+            /** @var Join $join */
+            foreach($query->joins as $join) {
+                $sql .= " " . $join->generate($this);
+            }
+        }
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -204,9 +234,10 @@ class MySqlGenerator implements
         $columns = array();
         $values = array();
 
-        foreach($query->values as $column => $value) {
-            array_push($columns, '`' . $column . '`');
-            array_push($values, "'" . $this->cleanValue($value, $query->columns->getByName($column)->type) . "'");
+        foreach($query->values as $columnName => $value) {
+            $column = $query->columns->getByName($columnName);
+            array_push($columns, "`{$column->name}`");
+            array_push($values, "'" . $this->cleanValue($value, $column->type) . "'");
         }
 
         $columns = implode(", ", $columns);
@@ -222,16 +253,17 @@ class MySqlGenerator implements
         $clause = (!is_null($query->where)) ? $query->where->generate($this) : "";
         $setsql = implode(", ",
             array_map(
-                function($column, $value) use($query)
+                function($columnName, $value) use($query)
                 {
-                    return "`" . $column . "` = '" . $this->cleanValue($value, $query->columns->getByName($column)->type) . "'";
+                    $column = $query->columns->getByName($columnName);
+                    return $column->generate($this) . " = '" . $this->cleanValue($value, $column->type) . "'";
                 },
                 array_keys($query->values),
                 array_values($query->values)
             )
         );
 
-        $sql = "UPDATE `{$query->table->name}` SET {$setsql}";
+        $sql = "UPDATE `{$query->table->name}` AS {$query->table->alias} SET {$setsql}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -243,7 +275,7 @@ class MySqlGenerator implements
     {
         $clause = (!is_null($query->where)) ? $query->where->generate($this) : "";
 
-        $sql = "DELETE FROM `{$query->table->name}`";
+        $sql = "DELETE FROM `{$query->table->name}` AS {$query->table->alias}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
@@ -317,5 +349,40 @@ class MySqlGenerator implements
             $val = $this->conn->real_escape_string($value);
 
         return (string) $val;
+    }
+
+    public function generateLeft(JoinLeft $join)
+    {
+        return "LEFT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateRight(JoinRight $join)
+    {
+        return "RIGHT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateOuter(JoinOuter $join)
+    {
+        return "OUTER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateInner(JoinInner $join)
+    {
+        return "INNER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateCross(JoinCross $join)
+    {
+        return "CROSS JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateOn(On $on)
+    {
+        return "(".$on->where->generate($this).")";
+    }
+
+    public function generateColumn(Column $column)
+    {
+        return "{$column->table->alias}.`{$column->name}`";
     }
 }

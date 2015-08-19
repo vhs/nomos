@@ -9,13 +9,13 @@
 namespace vhs\database\types;
 
 
+use vhs\database\Element;
 use vhs\database\exceptions\InvalidSchemaException;
 use vhs\database\IConvertible;
 use vhs\database\IConverter;
-use vhs\database\IGeneratable;
 use vhs\database\IGenerator;
 
-abstract class Type implements IGeneratable, IConvertible {
+abstract class Type extends Element implements IConvertible {
 
     public $nullable;
     public $default;
