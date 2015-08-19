@@ -18,35 +18,35 @@ class MetricService extends Service implements IMetricService1 {
 
     public function GetNewMembers($start_range, $end_range) {
         return array(
-            "start_range": $start_range,
-            "end_range": $end_range,
-            "value": rand(0,100)
+            "start_range" => $start_range,
+            "end_range" => $end_range,
+            "value" => 0
         );
     }
 
     public function GetNewKeyHolders($start_range, $end_range) {
         return array(
-            "start_range": $start_range,
-            "end_range": $end_range,
-            "value": rand(0,100)
+            "start_range" => $start_range,
+            "end_range" => $end_range,
+            "value" => 0
         );
     }
 
 
     public function GetTotalMembers($start_range, $end_range) {
         return array(
-            "start_range": $start_range,
-            "end_range": $end_range,
-            "value": rand(0,100)
+            "start_range" => $start_range,
+            "end_range" => $end_range,
+            "value" => 0
         );
     }
 
 
     public function GetTotalKeyHolders($start_range, $end_range) {
         return array(
-            "start_range": $start_range,
-            "end_range": $end_range,
-            "value": rand(0,100)
+            "start_range" => $start_range,
+            "end_range" => $end_range,
+            "value" => 0
         );
     }
 }
