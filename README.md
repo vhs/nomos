@@ -57,6 +57,10 @@ Install Virtualbox and then Vagrant from their websites:
 
 2. Vagrant will now download and configure Virtualbox image (~1GB)
 
+### Running Unit Test
+
+1. `../vendor/phpunit/phpunit/phpunit --bootstrap autoload.php WhereTests`
+
 
 
 ### Use

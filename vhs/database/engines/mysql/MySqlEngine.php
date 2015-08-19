@@ -13,9 +13,16 @@ use vhs\database\Columns;
 use vhs\database\Engine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
 use vhs\database\queries\Query;
+use vhs\database\queries\QueryDelete;
+use vhs\database\queries\QueryInsert;
+use vhs\database\queries\QuerySelect;
+use vhs\database\queries\QueryUpdate;
 use vhs\database\Table;
+use vhs\database\types\Type;
 use vhs\database\wheres\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
@@ -24,6 +31,7 @@ class MySqlEngine extends Engine {
 
     private $autoCreateDatabase;
     private $generator;
+    private $converter;
     private $logger;
     private $info;
 
@@ -41,6 +49,7 @@ class MySqlEngine extends Engine {
         $this->logger = new SilentLogger();
 
         $this->generator = new MySqlGenerator();
+        $this->converter = new MySqlConverter();
     }
 
     public function setLogger(Logger $logger) {
@@ -70,6 +79,8 @@ class MySqlEngine extends Engine {
 
         $this->conn->select_db($this->info->getDatabase());
 
+        $this->generator->SetMySqli($this->conn);
+
         return true;
     }
 
@@ -79,142 +90,21 @@ class MySqlEngine extends Engine {
         unset($this->conn);
     }
 
-    public function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $row = $this->select($table, new Columns($column), $where, $orderBy, $limit);
+    public function scalar(QuerySelect $query) {
+        $row = $this->select($query);
 
         if(sizeof($row) <> 1)
             return null;
 
-        return $row[0][$column->name];
+        return $row[0][$query->columns[0]->name];
     }
 
-    public function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $selector = implode(", ", array_map(function($col) { return '`' . $col . '`'; }, $columns->names()));
-        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
 
-        $boolColumnNames = array();
-        /** @var Column $column */
-        foreach($columns->all() as $column) {
-            if(get_class($column->type) == "vhs\\database\\types\\TypeBool")
-                array_push($boolColumnNames, $column->name);
-        }
+    public function count(QuerySelect $query) {
 
-        $sql = "SELECT {$selector} FROM `{$table->name}`";
+        $query->columns = new Columns(new Column($query->table, "1", Type::String()));
 
-        if(!empty($clause))
-            $sql .= " WHERE {$clause}";
-
-        if(!empty($orderClause))
-            $sql .= " ORDER BY {$orderClause}";
-
-        if(isset($limit) && is_numeric($limit))
-            $sql .= " LIMIT " . intval($limit);
-
-        $this->logger->log($sql);
-
-        $records = array();
-
-        if($q = $this->conn->query($sql)) {
-
-            $rows = $q->fetch_all();
-
-            foreach($rows as $row) {
-                $record = array_combine($columns->names(), $row);
-
-                //TODO clean up how we translate values from mysql to php. Fucking mysql and their bit bools
-                foreach($boolColumnNames as $col)
-                    if(!is_null($record[$col]))
-                        $record[$col] = ($record[$col] == 1);
-
-                array_push($records, $record);
-            }
-
-            $q->close();
-        } else {
-            throw new DatabaseException($this->conn->error);
-        }
-
-        return $records;
-    }
-
-    public function delete(Table $table, Where $where = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-
-        $sql = "DELETE FROM `{$table->name}`";
-
-        if(!empty($clause))
-            $sql .= " WHERE {$clause}";
-
-        $this->logger->log($sql);
-
-        if($q = $this->conn->query($sql))
-            return true;
-
-        throw new DatabaseException($this->conn->error);
-    }
-
-    public function create(Table $table, $data) {
-        $columns = array();
-        $values = array();
-
-        foreach($data as $column => $value) {
-            array_push($columns, '`' . $column . '`');
-            array_push($values, "'" . $value . "'");
-        }
-
-        $columns = implode(", ", $columns);
-        $values = implode(", ", $values);
-
-        $sql = "INSERT INTO `{$table->name}` ({$columns}) VALUES ({$values})";
-
-        $this->logger->log($sql);
-
-        if($q = $this->conn->query($sql))
-            return $this->conn->insert_id;
-
-        throw new DatabaseException($this->conn->error);
-    }
-
-    public function update(Table $table, $data, Where $where = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-        $setsql = implode(", ",
-            array_map(
-                function($column, $value) {
-                    return "`" . $column . "` = '" . $value . "'";
-                },
-                array_keys($data),
-                array_values($data)
-            )
-        );
-
-        $sql = "UPDATE `{$table->name}` SET {$setsql}";
-
-        if(!empty($clause))
-            $sql .= " WHERE {$clause}";
-
-        $this->logger->log($sql);
-
-        if($q = $this->conn->query($sql))
-            return true;
-
-        throw new DatabaseException($this->conn->error);
-    }
-
-    public function count(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $clause = (!is_null($where)) ? $where->generate($this->generator) : "";
-        $orderClause = (!is_null($orderBy)) ? $orderBy->generate($this->generator) : "";
-
-        $sql = "SELECT 1 FROM `{$table->name}`";
-
-        if(!empty($clause))
-            $sql .= " WHERE {$clause}";
-
-        if(!empty($orderClause))
-            $sql .= " ORDER BY {$orderClause}";
-
-        if(isset($limit) && is_numeric($limit))
-            $sql .= " LIMIT " . intval($limit);
+        $sql = $query->generate($this->generator);
 
         $this->logger->log($sql);
 
@@ -231,21 +121,84 @@ class MySqlEngine extends Engine {
         return $rows;
     }
 
-    public function exists(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        return ($this->count($table, $where, $orderBy, $limit) > 0);
+    public function exists(QuerySelect $query) {
+        return ($this->count($query) > 0);
     }
 
     public function arbitrary($command) {
         $this->logger->log("[ARBITRARY] " . $command);
 
-        if($q = $this->conn->query($command))
+        if($q = $this->conn->query($command)) {
+            $q->close();
+
+            return true;
+        }
+
+        throw new DatabaseException($this->conn->error);
+    }
+
+    public function select(QuerySelect $query) {
+        $sql = $query->generate($this->generator);
+
+        $this->logger->log($sql);
+
+        $records = array();
+
+        if($q = $this->conn->query($sql)) {
+
+            $rows = $q->fetch_all();
+
+            foreach($rows as $row) {
+                $record = array_combine($query->columns->names(), $row);
+
+                /** @var Column $col */
+                foreach($query->columns->all() as $col)
+                    if (in_array($col->name, $record) && !is_null($record[$col->name]))
+                        $record[$col->name] = $col->type->convert($this->converter, $record[$col->name]);
+
+                array_push($records, $record);
+            }
+
+            $q->close();
+        } else {
+            throw new DatabaseException($this->conn->error);
+        }
+
+        $this->logger->log(var_export($records, true));
+
+        return $records;
+    }
+
+    public function delete(QueryDelete $query) {
+        $sql = $query->generate($this->generator);
+
+        $this->logger->log($sql);
+
+        if($q = $this->conn->query($sql))
             return true;
 
         throw new DatabaseException($this->conn->error);
     }
 
-    public function query(Query $query)
-    {
-        // TODO: Implement query() method.
+    public function update(QueryUpdate $query) {
+        $sql = $query->generate($this->generator);
+
+        $this->logger->log($sql);
+
+        if($q = $this->conn->query($sql))
+            return true;
+
+        throw new DatabaseException($this->conn->error);
+    }
+
+    public function insert(QueryInsert $query) {
+        $sql = $query->generate($this->generator);
+
+        $this->logger->log($sql);
+
+        if($q = $this->conn->query($sql))
+            return $this->conn->insert_id;
+
+        throw new DatabaseException($this->conn->error);
     }
 }
