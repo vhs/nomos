@@ -10,7 +10,7 @@ use app\schema\EmailSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 
-class Email extends Domain {
+class Metric extends Domain {
     public static function Define() {
         
     }
