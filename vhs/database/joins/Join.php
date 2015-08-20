@@ -9,18 +9,31 @@
 namespace vhs\database\joins;
 
 
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\On;
 use vhs\database\Table;
 
-abstract class Join implements IGeneratable {
+abstract class Join extends Element {
 
+    /** @var  Table */
     public $table;
+    /** @var  On */
     public $on;
 
     public function __construct(Table $table, On $on) {
-        $this->$table = $table;
+        $this->table = clone $table;
+        $this->on = $on;
+        $this->on->__updateTable($this->table);
+    }
+
+    public function __clone() {
+        $this->on = clone $this->on;
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->table = $table;
+        $this->on->__updateTable($table);
     }
 
     public static function Left(Table $table, On $on) {
