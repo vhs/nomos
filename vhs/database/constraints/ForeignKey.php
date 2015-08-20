@@ -19,11 +19,20 @@ class ForeignKey extends Constraint {
     /** @var Column */
     public $on;
 
-    public function __construct(Column $column, Table $table, Column $on) {
+    public function __construct(Column $column, Table &$table, Column $on) {
         $this->table = $table;
         $this->on = $on;
 
         parent::__construct($column);
+    }
+
+    public function __clone() {
+        $this->on = clone $this->on;
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->table = $table;
+        $this->on->__updateTable($table);
     }
 
     public function generateConstraint(IConstraintGenerator $generator) {
