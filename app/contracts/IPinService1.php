@@ -29,6 +29,15 @@ interface IPinService1 extends IContract {
     public function GeneratePin($userid);
 
     /**
+     * @permission gen-temp-pin|administrator
+     * @param $expires
+     * @param $privileges
+     * @param $notes
+     * @return mixed
+     */
+    public function GenerateTemporaryPin($expires, $privileges, $notes);
+
+    /**
      * Change a pin
      * @permission administrator|user
      * @param $pin
