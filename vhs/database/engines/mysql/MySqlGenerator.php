@@ -9,6 +9,7 @@
 namespace vhs\database\engines\mysql;
 
 use vhs\database\Column;
+use vhs\database\exceptions\DatabaseException;
 use vhs\database\IColumnGenerator;
 use vhs\database\IOnGenerator;
 use vhs\database\joins\IJoinGenerator;
@@ -113,7 +114,7 @@ class MySqlGenerator implements
                 $sql .= " NOT IN (";
 
             foreach($where->value as $val)
-                $sql .= "'" . $this->cleanValue($val, $where->column->type) . "', ";
+                $sql .= $where->column->type->generate($this, $val) . ", ";
 
             $sql = substr($sql, 0, -2);
 
@@ -129,7 +130,7 @@ class MySqlGenerator implements
                 /** @var Column $val */
                 $value = $val->generate($this);
             } else {
-                $value = "'" . $this->cleanValue($where->value, $where->column->type) . "'";
+                $value = $where->column->type->generate($this, $where->value);
             }
 
             $sign = "";
@@ -148,17 +149,6 @@ class MySqlGenerator implements
                 return "{$col} {$sign} {$value}";
             }
         }
-    }
-
-    private function cleanValue($value, Type $type = null) {
-        $val = $value;
-
-        if(is_null($val)) return "null";
-
-        if(!is_null($type))
-            $val = $type->generate($this, $value);
-
-        return (string) $val;
     }
 
     public function generateAscending(OrderByAscending $ascending) {
@@ -237,7 +227,7 @@ class MySqlGenerator implements
         foreach($query->values as $columnName => $value) {
             $column = $query->columns->getByName($columnName);
             array_push($columns, "`{$column->name}`");
-            array_push($values, "'" . $this->cleanValue($value, $column->type) . "'");
+            array_push($values, $column->type->generate($this, $value));
         }
 
         $columns = implode(", ", $columns);
@@ -256,7 +246,7 @@ class MySqlGenerator implements
                 function($columnName, $value) use($query)
                 {
                     $column = $query->columns->getByName($columnName);
-                    return $column->generate($this) . " = '" . $this->cleanValue($value, $column->type) . "'";
+                    return $column->generate($this) . " = " . $column->type->generate($this, $value);
                 },
                 array_keys($query->values),
                 array_values($query->values)
@@ -283,72 +273,86 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    private function genVal(callable $gen, Type $type, $value = null) {
+        if (is_null($value)) {
+            if ($type->nullable) return "NULL";
+            else return $type->generate($this, $type->default);
+        }
+
+        $val = $gen($value);
+
+        if (!is_null($this->conn))
+            $val = $this->conn->real_escape_string($val);
+
+        return "'{$val}'";
+    }
+
     public function generateBool(TypeBool $type, $value = null)
     {
-        $val = boolval($value);
-
-        if ($val === true)
-            return "1";
-        else
-            return "0";
+        return $this->genVal(function($val) {
+            if (boolval($val) === true)
+                return "1";
+            else
+                return "0";
+        }, $type, $value);
     }
 
     public function generateInt(TypeInt $type, $value = null)
     {
-        $val = intval($value);
-
-        return (string) $val;
+        return $this->genVal(function($val) {
+            return intval($val);
+        }, $type, $value);
     }
 
     public function generateFloat(TypeFloat $type, $value = null)
     {
-        $val = floatval($value);
-
-        return (string) $val;
+        return $this->genVal(function($val) {
+            return floatval($val);
+        }, $type, $value);
     }
 
     public function generateString(TypeString $type, $value = null)
     {
-        $val = $value;
+        return $this->genVal(function($val) use ($type) {
+            $v = (string) $val;
+            if (strlen($v) > $type->length)
+                throw new DatabaseException("Value of Type::String exceeds defined length of {$type->length}");
 
-        if (!is_null($this->conn))
-            $val = $this->conn->real_escape_string($value);
-
-        return (string) $val;
+            return $v;
+        }, $type, $value);
     }
 
     public function generateText(TypeText $type, $value = null)
     {
-        $val = $value;
-
-        if (!is_null($this->conn))
-            $val = $this->conn->real_escape_string($value);
-
-        return (string) $val;
+        return $this->genVal(function($val) use ($type) {
+            return (string) $val;
+        }, $type, $value);
     }
 
     public function generateDate(TypeDate $type, $value = null)
     {
-        $val = date('Y-m-d', strtotime(str_replace('-', '/', $value)));
-
-        return (string) $val;
+        return $this->genVal(function($val) {
+            return (string) date('Y-m-d', strtotime(str_replace('-', '/', $val)));
+        }, $type, $value);
     }
 
     public function generateDateTime(TypeDateTime $type, $value = null)
     {
-        $val = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $value)));
-
-        return (string) $val;
+        return $this->genVal(function($val) {
+            return (string) date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $val)));
+        }, $type, $value);
     }
 
     public function generateEnum(TypeEnum $type, $value = null)
     {
-        $val = $value;
+        return $this->genVal(function($val) use ($type) {
+            $v = (string) $val;
 
-        if (!is_null($this->conn))
-            $val = $this->conn->real_escape_string($value);
+            if(!in_array($v, $type->values))
+                throw new DatabaseException("Enum {$v} does not exist in Type::Enum");
 
-        return (string) $val;
+            return $v;
+        }, $type, $value);
     }
 
     public function generateLeft(JoinLeft $join)

@@ -58,7 +58,7 @@ abstract class Type extends Element implements IConvertible {
     }
 
     public static function Enum(...$values) {
-        return new TypeEnum($values);
+        return new TypeEnum(...$values);
     }
 
     /**
