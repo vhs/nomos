@@ -5,8 +5,11 @@
  * Date: 12/12/2014
  * Time: 2:41 PM
  */
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1); 
+ 
+if (DEBUG) {
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1); 
+}
 
 
 require_once("../conf/config.ini.php");
