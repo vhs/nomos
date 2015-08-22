@@ -149,7 +149,7 @@ class UserService extends Service implements IUserService1 {
         $domainName = $_SERVER['HTTP_HOST'].'/';
 
         $emailService = new EmailService();
-        $emailService->EmailUser($user, 'MMP Password Recovery', 'recover', [
+        $emailService->EmailUser($user, 'Nomos Password Recovery', 'recover', [
             'token' => $request->token,
             'host' => $protocol.$domainName
         ]);
