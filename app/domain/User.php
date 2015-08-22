@@ -12,8 +12,10 @@ namespace app\domain;
 use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
 use vhs\database\Database;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
+use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
 class User extends Domain {
@@ -26,6 +28,13 @@ class User extends Domain {
 
     public function validate(ValidationResults &$results) {
 
+        $this->validateEmail($results);
+
+    }
+
+    private function validateEmail(ValidationResults &$results) {
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL))
+            $results->add(new ValidationFailure("Invalid e-mail address"));
     }
 
     public static function findByUsername($username) {
@@ -52,7 +61,7 @@ class User extends Domain {
         else
             $where = $usernameWhere;
 
-        return Database::exists(UserSchema::Table(), $where);
+        return Database::exists(Query::select(UserSchema::Table(), UserSchema::Columns(), $where));
     }
 }
 

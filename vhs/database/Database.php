@@ -165,14 +165,6 @@ class Database extends Singleton {
         });
     }
 
-    public static function query(Query $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $query) {
-            return $db->engine->query($query);
-        });
-    }
-
     public static function arbitrary($command) {
         /** @var Database $db */
         $db = self::getInstance();

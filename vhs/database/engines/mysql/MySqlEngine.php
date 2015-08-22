@@ -96,7 +96,7 @@ class MySqlEngine extends Engine {
         if(sizeof($row) <> 1)
             return null;
 
-        return $row[0][$query->columns[0]->name];
+        return $row[0][$query->columns->all()[0]->name];
     }
 
 
