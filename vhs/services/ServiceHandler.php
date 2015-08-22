@@ -10,17 +10,22 @@ namespace vhs\services;
 
 
 
+use vhs\Logger;
+use vhs\services\endpoints\Endpoint;
 use vhs\services\exceptions\InvalidRequestException;
 use vhs\SplClassLoader;
 use vhs\SplClassLoaderItem;
 
 class ServiceHandler {
 
+    /** @var Logger */
+    private $logger;
     private $endpointNamespace;
     private $rootNamespacePath;
     private $uriPrefixPath;
 
-    public function __construct($endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
+    public function __construct(Logger $logger, $endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
+        $this->logger = $logger;
         $this->endpointNamespace = $endpointNamespace;
         $this->rootNamespacePath = (is_null($rootNamespacePath)) ? dirname(__FILE__) : $rootNamespacePath;
         $this->uriPrefixPath = $uriPrefixPath;
@@ -29,6 +34,7 @@ class ServiceHandler {
     }
 
     public function handle($uri, $data = null, $isNative = false) {
+        /** @var Endpoint[] $endpoints */
         $endpoints = array();
 
         if (!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc/(?P<method>.*)%im', $uri, $regs)) {
@@ -51,6 +57,7 @@ class ServiceHandler {
             $discovery = array();
 
             foreach($endpoints as $class) {
+                /** @var Endpoint $endpoint */
                 $endpoint = $this->endpointNamespace . '\\' . $class;
 
                 $discovery[$class . '.svc'] = $endpoint::getInstance()->deserializeOutput($endpoint::getInstance()->discover());
@@ -63,11 +70,14 @@ class ServiceHandler {
              */
             return json_encode($discovery);
         } else {
+            /** @var Endpoint $endpoint */
             $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
 
             if (array_key_exists("method", $regs)) {
                 $args = $data;
                 if ($isNative) $args = $endpoint::getInstance()->serializeInput($data);
+
+                $endpoint::getInstance()->logger = $this->logger;
 
                 $method = $regs['method'];
                 $out = $endpoint::getInstance()->handleRequest($method, $args);
@@ -82,6 +92,11 @@ class ServiceHandler {
         }
     }
 
+    /**
+     * @param $uri
+     * @return Endpoint
+     * @throws InvalidRequestException
+     */
     private function getEndpoint($uri) {
         if(!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
             throw new InvalidRequestException("Invalid service request");
@@ -93,6 +108,7 @@ class ServiceHandler {
     }
 
     public function discover($uri, $isNative = false) {
+        /** @var Endpoint $endpoint */
         $endpoint = $this->getEndpoint($uri);
 
         $out = $endpoint::getInstance()->discover();
@@ -103,6 +119,9 @@ class ServiceHandler {
             return $out;
     }
 
+    /**
+     * @return Endpoint[]
+     */
     public function getAllEndpoints() {
         $files = scandir($this->rootNamespacePath . "/" . str_replace("\\", "/", $this->endpointNamespace));
 
@@ -110,6 +129,7 @@ class ServiceHandler {
 
         foreach($files as $file) {
             if(preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                /** @var Endpoint $endpoint */
                 $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
                 array_push($endpoints, $endpoint::getInstance());
             }

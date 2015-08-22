@@ -126,7 +126,7 @@ class MySqlGenerator implements
             $val = $where->value;
             $value = null;
 
-            if(get_class($val) == "vhs\\database\\Column") {
+            if(is_object($val) && get_class($val) == "vhs\\database\\Column") {
                 /** @var Column $val */
                 $value = $val->generate($this);
             } else {
