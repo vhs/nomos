@@ -25,6 +25,18 @@ interface IUserService1 extends IContract {
     public function Register($username, $password, $email, $fname, $lname);
 
     /**
+     * @permission administrator
+     * @param $username
+     * @param $password
+     * @param $email
+     * @param $fname
+     * @param $lname
+     * @param $membershipid
+     * @return mixed
+     */
+    public function Create($username, $password, $email, $fname, $lname, $membershipid);
+
+    /**
      * @permission anonymous
      * @param $email
      * @return mixed

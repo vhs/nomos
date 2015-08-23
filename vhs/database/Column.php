@@ -11,7 +11,7 @@ namespace vhs\database;
 
 use vhs\database\types\Type;
 
-class Column implements IGeneratable {
+class Column extends Element {
 
     public $table;
     public $name;
@@ -25,6 +25,14 @@ class Column implements IGeneratable {
         $this->serializable = $serializable;
     }
 
+    public function __clone() {
+        $this->type = clone $this->type;
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->table = $table;
+    }
+
     public function getAbsoluteName() {
         return $this->table->name .".". $this->name;
     }
@@ -33,7 +41,7 @@ class Column implements IGeneratable {
      * @param IGenerator $generator
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IColumnGenerator $generator */
         return $this->generateColumn($generator);
     }

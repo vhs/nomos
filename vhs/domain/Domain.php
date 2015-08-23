@@ -11,7 +11,10 @@ namespace vhs\domain;
 use vhs\database\Column;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\Database;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\collections\ChildDomainCollection;
 use vhs\domain\collections\DomainCollection;
@@ -365,9 +368,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     protected function hydrate($pk = null) {
         $record = Database::select(
-            self::Schema()->Table(),
-            self::Schema()->Columns(),
-            $this->pkWhere($pk)
+            Query::Select(
+                self::Schema()->Table(),
+                self::Schema()->Columns(),
+                $this->pkWhere($pk)
+            )
         );
 
         if(sizeof($record) <> 1) {
@@ -383,15 +388,18 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return true;
     }
 
-    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null) {
+    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
         $class = get_called_class();
 
         $records = Database::select(
-            self::Schema()->Table(),
-            self::Schema()->Columns(),
-            $where,
-            $orderBy,
-            $limit
+            Query::Select(
+                self::Schema()->Table(),
+                self::Schema()->Columns(),
+                $where,
+                $orderBy,
+                (!is_null($limit)) ? Limit::Limit($limit) : null,
+                (!is_null($offset)) ? Offset::Offset($offset) : null
+            )
         );
 
         $items = array();
@@ -450,10 +458,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param Where $where
      * @param OrderBy $orderBy
      * @param null $limit
+     * @param null $offset
      * @return array
      */
-    public static function where(Where $where, OrderBy $orderBy = null, $limit = null) {
-        return self::hydrateMany($where, $orderBy, $limit);
+    public static function where(Where $where, OrderBy $orderBy = null, $limit = null, $offset = null) {
+        return self::hydrateMany($where, $orderBy, $limit, $offset);
     }
 
     protected static function arbitraryFind($sql) {
@@ -497,9 +506,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         if($isNew) {
             $this->raiseBeforeCreate();
 
-            $pks = Database::create(
-                self::Schema()->Table(),
-                $this->getValues(true)
+            $pks = Database::insert(
+                Query::Insert(
+                    self::Schema()->Table(),
+                    self::Schema()->Columns(),
+                    $this->getValues(true)
+                )
             );
 
             $this->setValues($this->extractPkValues($pks));
@@ -507,9 +519,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
             $this->raiseBeforeUpdate();
 
             Database::update(
-                self::Schema()->Table(),
-                $this->getValues(true),
-                $this->pkWhere()
+                Query::Update(
+                    self::Schema()->Table(),
+                    self::Schema()->Columns(),
+                    $this->pkWhere(),
+                    $this->getValues(true)
+                )
             );
         }
 
@@ -539,8 +554,10 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     public function delete() {
         Database::delete(
-            self::Schema()->Table(),
-            $this->pkWhere()
+            Query::Delete(
+                self::Schema()->Table(),
+                $this->pkWhere()
+            )
         );
 
         $pks = self::Schema()->PrimaryKeys();

@@ -18,7 +18,7 @@ class QueryUpdate extends Query {
     public $columns;
     public $values;
 
-    public function __construct(Table $table, Where $where = null, Columns $columns, array $values) {
+    public function __construct(Table $table, Columns $columns, Where $where = null, array $values) {
         parent::__construct($table, $where);
 
         $this->columns = $columns;
