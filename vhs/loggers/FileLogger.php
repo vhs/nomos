@@ -27,7 +27,7 @@ class FileLogger extends Logger {
 
     public function log($message) {
         $this->ensureFile();
-
-        fwrite($this->file, "[".date('Y-m-d H:i:s')."] " . $message . PHP_EOL);
+        if (is_resource($this->file))
+            fwrite($this->file, "[".date('Y-m-d H:i:s')."] " . $message . PHP_EOL);
     }
 }
