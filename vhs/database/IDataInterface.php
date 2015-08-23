@@ -13,6 +13,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 
 interface IDataInterface {
     public static function DateFormat();
@@ -22,7 +23,7 @@ interface IDataInterface {
     public function delete(QueryDelete $query);
     public function insert(QueryInsert $query);
     public function update(QueryUpdate $query);
-    public function count(QuerySelect $query);
+    public function count(QueryCount $query);
     public function exists(QuerySelect $query);
     public function arbitrary($command);
 }
