@@ -1,7 +1,10 @@
 {
-    "require": {
+  "require": {
 	  "aws/aws-sdk-php": "2.*",
-      "nicmart/string-template": "~0.1",
-        "league/oauth2-client": "0.10.*"
-    }
+    "nicmart/string-template": "~0.1",
+    "league/oauth2-client": "0.10.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.4"
+  }
 }

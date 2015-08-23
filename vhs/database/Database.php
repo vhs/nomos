@@ -12,9 +12,11 @@ namespace vhs\database;
 use vhs\database\engines\memory\InMemoryEngine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
-use vhs\database\orders\OrderBy;
 use vhs\database\queries\Query;
-use vhs\database\wheres\Where;
+use vhs\database\queries\QueryDelete;
+use vhs\database\queries\QueryInsert;
+use vhs\database\queries\QuerySelect;
+use vhs\database\queries\QueryUpdate;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\Singleton;
@@ -69,6 +71,7 @@ class Database extends Singleton {
     }
 
     public static function setRethrow($rethrow) {
+        /** @var Database $db */
         $db = self::getInstance();
 
         $db->setRethrowInternal($rethrow);
@@ -84,6 +87,7 @@ class Database extends Singleton {
     }
 
     public static function setEngine(Engine $engine) {
+        /** @var Database $db */
         $db = self::getInstance();
 
         $db->setEngineInternal($engine);
@@ -105,63 +109,64 @@ class Database extends Singleton {
         return self::getInstance()->engine->DateFormat();
     }
 
-    public static function scalar(Table $table, Column $column, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $column, $where, $orderBy, $limit) {
-            return $db->engine->scalar($table, $column, $where, $orderBy, $limit);
-        });
-    }
-
-    public static function select(Table $table, Columns $columns, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $columns, $where, $orderBy, $limit) {
-            return $db->engine->select($table, $columns, $where, $orderBy, $limit);
-        });
-    }
-
-    public static function delete(Table $table, Where $where = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $where) {
-            return $db->engine->delete($table, $where);
-        });
-    }
-
-    public static function create(Table $table, $data) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $data) {
-            return $db->engine->create($table, $data);
-        });
-    }
-
-    public static function update(Table $table, $data, Where $where = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $data, $where) {
-            return $db->engine->update($table, $data, $where);
-        });
-    }
-
-    public static function count(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $where, $orderBy, $limit) {
-            return $db->engine->count($table, $where, $orderBy, $limit);
-        });
-    }
-
-    public static function exists(Table $table, Where $where = null, OrderBy $orderBy = null, $limit = null) {
-        $db = self::getInstance();
-        return $db->invokeEngine(function() use ($db, $table, $where, $orderBy, $limit) {
-            return $db->engine->exists($table, $where, $orderBy, $limit);
-        });
-    }
-
-    public static function query(Query $query) {
+    public static function scalar(QuerySelect $query) {
+        /** @var Database $db */
         $db = self::getInstance();
         return $db->invokeEngine(function() use ($db, $query) {
-            return $db->engine->query($query);
+            return $db->engine->scalar($query);
+        });
+    }
+
+    public static function select(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->select($query);
+        });
+    }
+
+    public static function delete(QueryDelete $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->delete($query);
+        });
+    }
+
+    public static function insert(QueryInsert $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->insert($query);
+        });
+    }
+
+    public static function update(QueryUpdate $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->update($query);
+        });
+    }
+
+    public static function count(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->count($query);
+        });
+    }
+
+    public static function exists(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function() use ($db, $query) {
+            return $db->engine->exists($query);
         });
     }
 
     public static function arbitrary($command) {
+        /** @var Database $db */
         $db = self::getInstance();
         return $db->invokeEngine(function() use ($db, $command) {
             //TODO warn that this is not ideal

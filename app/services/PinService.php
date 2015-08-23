@@ -13,7 +13,9 @@ use app\contracts\IPinService1;
 use app\domain\Key;
 use app\domain\Privilege;
 use app\schema\SettingsSchema;
+use vhs\database\Columns;
 use vhs\database\Database;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -46,7 +48,7 @@ class PinService extends Service implements IPinService1 {
         $pin = $this->GetUserPin($userid);
 
         if(is_null($pin)) {
-            $nextpinid = Database::scalar(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid);
+            $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
 
             $key = new Key();
             $key->userid = $userid;
@@ -55,6 +57,10 @@ class PinService extends Service implements IPinService1 {
             $key->notes = "User generated PIN";
 
             $pin = $key;
+
+            $priv = Privilege::findByCode("inherit");
+            if (!is_null($priv))
+                $pin->privileges->add($priv);
         }
 
         $pinid = explode("|", $pin->key)[0];
@@ -62,7 +68,37 @@ class PinService extends Service implements IPinService1 {
         $pin->key = sprintf("%04s", $pinid) . "|" . sprintf("%04s", rand(0, 9999));
         $pin->notes = "User generated PIN";
 
-        $pin->privileges->add(Privilege::findByCode("inherit"));
+        $pin->save();
+
+        return $pin;
+    }
+
+    public function GenerateTemporaryPin($expires, $privileges, $notes) {
+        $userid = CurrentUser::getIdentity();
+
+        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
+
+        $pin = new Key();
+        $pin->userid = $userid;
+        $pin->expires = $expires;
+        $pin->type = 'pin';
+        $pin->key = sprintf("%04s", $nextpinid) . "|" . sprintf("%04s", rand(0, 9999));
+        $pin->notes = $notes;
+
+        $privArray = $privileges;
+
+        if(!is_array($privArray)) {
+            $privArray = explode(",", $privileges);
+        }
+
+        $privs = Privilege::findByCodes(...$privArray);
+
+        if (!is_null($privs) && is_array($privs)) {
+            foreach($privs as $priv) {
+                if (CurrentUser::hasAllPermissions($priv->code))
+                    $pin->privileges->add($priv);
+            }
+        }
 
         $pin->save();
 

@@ -16,9 +16,11 @@ angular
                         return UserService1.GetUser($stateParams.userId);
                     }]
                 },
-                controller: ['$scope', '$modal', '$timeout', 'profile', 'PrivilegeService1', 'UserService1', function($scope, $modal, $timeout, profile, PrivilegeService1, UserService1) {
+                controller: ['$scope', '$modal', '$timeout', 'profile', 'PrivilegeService1', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1) {
+                    $scope.currentProfile = profile;
                     $scope.profile = profile;
                     var currentPriv = {};
+                    var currentMembership = profile.membership;
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
@@ -26,7 +28,7 @@ angular
                     $scope.passwordsMatch = true;
 
                     $scope.generatePin = function() {
-                        PinService1.GeneratePin($scope.currentUser.id).then(function(response){
+                        PinService1.GeneratePin($scope.profile.id).then(function(response){
                             var split = response.key.split("|");
                             response.pinid = split[0];
                             response.pin = split[1];
@@ -35,7 +37,7 @@ angular
                     };
 
                     $scope.changePassword = function(isValid) {
-                        UserService1.UpdatePassword($scope.currentUser.id, $scope.newPassword).then(function(response) {
+                        UserService1.UpdatePassword($scope.profile.id, $scope.newPassword).then(function(response) {
                             alert('Password was changed successfully.');
                             $('#passwordChange').modal('hide'); // forgive me spaghetti monster, for I have sinned. I have done view logic in my controller.
                             $scope.resetPasswordForm();
@@ -56,7 +58,7 @@ angular
 
                     $scope.resetProfileForm = function() {
                         $scope.profileForm.$setPristine();
-                        $scope.profile = angular.copy($scope.currentUser);
+                        $scope.profile = angular.copy($scope.currentProfile);
                     };
 
                     $scope.updateProfile = function() {
@@ -64,7 +66,7 @@ angular
                         $scope.pendingUpdate = 1;
 
                         UserService1.UpdateUsername(
-                            $scope.currentUser.id,
+                            $scope.profile.id,
                             $scope.profile.username
                         ).then(function() {
 
@@ -85,7 +87,7 @@ angular
 
                                 $scope.pendingUpdate += 1;
                                 UserService1.UpdateNewsletter(
-                                    $scope.currentUser.id,
+                                    $scope.profile.id,
                                     $scope.profile.newsletter
                                 ).then(function() { $scope.pendingUpdate -= 1; });
 
@@ -112,8 +114,10 @@ angular
                     };
 
                     $scope.profileUpdated = function() {
-                        UserService1.GetUser($scope.currentUser.id).then(function(data) {
-                            $scope.$parent.currentUser = data;
+                        UserService1.GetUser($scope.profile.id).then(function(data) {
+                            $scope.currentProfile = data;
+                            if ($scope.profile.id == $scope.$parent.currentUser.id)
+                                $scope.$parent.currentUser = data;
                             $scope.resetProfileForm();
                             $scope.updating = false;
                         });
@@ -147,6 +151,43 @@ angular
 
                         PrivilegeService1.PutUserPrivileges(profile.id, codes).then(function(){
                             $scope.privilegeDirty = false;
+                        });
+                    };
+
+                    //Build a map of selected membership
+                    var mpromise = MembershipService1.GetAll();
+                    mpromise.then(function(memberships){
+                        $scope.memberships = [];
+                        angular.forEach(memberships, function(membership){
+                            membership.selected = membership.code == currentMembership.code;
+                            $scope.memberships.push(membership);
+                        });
+                    });
+
+                    $scope.switchMembership = function(membership){
+
+                        angular.forEach($scope.memberships, function(mem){
+                            if (membership.code != mem.code)
+                                mem.selected = false;
+                        });
+
+                        membership.selected = !membership.selected;
+
+                        $scope.membershipDirty = true;
+                    };
+
+                    $scope.updateMembership = function(){
+                        var membership = null;
+                        angular.forEach($scope.memberships, function(mem){
+                            if (mem.selected){
+                                membership = mem;
+                            }
+                        });
+
+                        if (membership == null) return;
+
+                        UserService1.UpdateMembership(profile.id, membership.id).then(function(){
+                            $scope.membershipDirty = false;
                         });
                     };
 

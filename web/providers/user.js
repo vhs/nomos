@@ -48,8 +48,8 @@ angular
                         return response.data;
                     });
             },
-            UpdateNewsletter: function(userid, newsletter) {
-                return $http.post("/services/web/UserService1.svc/UpdateNewsletter", {userid: userid, newsletter: newsletter})
+            UpdateNewsletter: function(userid, subscribe) {
+                return $http.post("/services/web/UserService1.svc/UpdateNewsletter", {userid: userid, subscribe: subscribe})
                     .then(function(response) {
                         return response.data;
                     });
@@ -86,6 +86,12 @@ angular
             },
             UpdatePassword: function(userid, password) {
                 return $http.post("/services/web/UserService1.svc/UpdatePassword", {userid: userid, password: password});
+            },
+            UpdateMembership: function(userid, membershipid) {
+                return $http.post("/services/web/UserService1.svc/UpdateMembership", {userid: userid, membershipid: membershipid});
+            },
+            Create: function(username, password, email, fname, lname, membershipid) {
+                return $http.post("/services/web/UserService1.svc/Create", {username:username, password:password, email:email, fname:fname, lname:lname, membershipid:membershipid});
             }
         };
     }]);

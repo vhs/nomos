@@ -19,4 +19,12 @@ class ServiceContext {
     public function __construct(Endpoint $endpoint) {
         $this->endpoint = $endpoint;
     }
+
+    public function log($message) {
+        if (is_null($this->endpoint->logger)) return;
+
+        $type = get_class($this->endpoint);
+
+        $this->endpoint->logger->log("[{$type}] $message");
+    }
 }

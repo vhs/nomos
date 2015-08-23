@@ -12,6 +12,7 @@ namespace vhs\domain\collections;
 use vhs\database\Columns;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\Database;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
@@ -50,9 +51,9 @@ class SatelliteDomainCollection extends DomainCollection {
         $self = $this; //Cannot use $this as lexical variable
         $parent->onBeforeDelete(function() use ($self) {
             $parentOnCol = $self->parentKey->on->name;
-            Database::delete($self->joinTable->Table(),
+            Database::delete(Query::Delete($self->joinTable->Table(),
                 Where::Equal($self->parentKey->column, $self->parent->$parentOnCol)
-            );
+            ));
         });
 
         $this->clear();
@@ -113,9 +114,9 @@ class SatelliteDomainCollection extends DomainCollection {
 
         $parentOnCol = $this->parentKey->on->name;
 
-        $rows = Database::select($this->joinTable->Table(), new Columns($this->childKey->column),
+        $rows = Database::select(Query::Select($this->joinTable->Table(), new Columns($this->childKey->column),
             Where::Equal($this->parentKey->column, $this->parent->$parentOnCol)
-        );
+        ));
 
         if(is_null($rows) || count($rows) <= 0) return;
 
@@ -149,17 +150,17 @@ class SatelliteDomainCollection extends DomainCollection {
                 $data[$parentCol] = $this->parent->$parentOnCol;
                 $data[$childCol] = $item->$childOnCol;
 
-                Database::create($this->joinTable->Table(), $data);
+                Database::insert(Query::Insert($this->joinTable->Table(), $this->joinTable->Columns(), $data));
             }
         }
 
         if(count($actualRemove) > 0) {
-            Database::delete($this->joinTable->Table(),
+            Database::delete(Query::Delete($this->joinTable->Table(),
                 Where::_And(
                     Where::Equal($this->parentKey->column, $this->parent->$parentOnCol),
                     Where::In($this->childKey->column, array_keys($actualRemove))
                 )
-            );
+            ));
         }
 
         $this->raiseSaved();

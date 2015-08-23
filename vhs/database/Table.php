@@ -14,12 +14,20 @@ use vhs\database\constraints\PrimaryKey;
 use vhs\database\joins\Join;
 use vhs\database\types\Type;
 
-class Table implements IGeneratable {
+class Table extends Element {
+
+    /** @var int */
+    private static $cloneIndex = 0;
+
+    /** @var string */
+    public $aliasPrefix;
 
     /** @var string */
     public $name;
-    /** @var Join */
-    public $join;
+    /** @var null|string */
+    public $alias;
+    /** @var Join[] */
+    public $joins;
     /** @var Columns */
     public $columns;
     /** @var Constraint[] */
@@ -27,12 +35,42 @@ class Table implements IGeneratable {
 
     /**
      * @param string $name
+     * @param string $alias
      * @param Join $join
      */
-    public function __construct($name, Join $join = null) {
+    public function __construct($name, $alias = null, Join ...$join) {
         $this->name = $name;
-        $this->join = $join;
+
+        if (is_null($alias)) // 'm gvn' hr ll sh's gt, cptn!
+            $alias = str_ireplace(array('a','e','i','o','u'), '', $name);
+
+        $this->aliasPrefix = $alias;
+        $this->alias = $alias . (string)self::$cloneIndex;
+
+        if (is_null($this->joins))
+            $this->joins = array();
+
+        foreach($join as $j)
+            array_push($this->joins, $j);
+
         $this->columns = new Columns();
+    }
+
+    public function __clone() {
+        parent::__clone();
+
+        self::$cloneIndex += 1;
+
+        $this->alias = $this->aliasPrefix . (string)self::$cloneIndex;
+
+        foreach($this->joins as $join)
+            $join->__updateTable($this);
+
+        foreach($this->columns->all() as $column)
+            $column->__updateTable($this);
+
+        foreach($this->constraints as $constraint)
+            $constraint->__updateTable($this);
     }
 
     public function setConstraints(Constraint ...$constraints) {
@@ -59,7 +97,7 @@ class Table implements IGeneratable {
      * @param IGenerator $generator
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var ITableGenerator $generator */
         return $this->generateTable($generator);
     }

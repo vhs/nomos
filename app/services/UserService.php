@@ -110,6 +110,28 @@ class UserService extends Service implements IUserService1 {
         return $user;
     }
 
+    public function Create($username, $password, $email, $fname, $lname, $membershipid) {
+        if (User::exists($username, $email))
+            throw new \Exception("User already exists");
+
+        $user = new User();
+
+        $user->username = $username;
+        $user->password = PasswordUtil::hash($password);
+        $user->email = $email;
+        $user->fname = $fname;
+        $user->lname = $lname;
+        $user->active = "t";
+
+        $user->save();
+
+        try {
+            $this->UpdateMembership($user->id, $membershipid);
+        } catch(\Exception $ex) {}
+
+        return $user;
+    }
+
     public function RequestPasswordReset($email) {
         $user = User::findByEmail($email)[0];
         if(is_null($user)) {

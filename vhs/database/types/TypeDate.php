@@ -11,7 +11,11 @@ namespace vhs\database\types;
 
 class TypeDate extends Type {
 
-    public function generateType(ITypeGenerator $generator) {
-        return $generator->generateDate($this);
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateDate($this, $value);
+    }
+
+    public function covertType(ITypeConverter $converter, $value = null) {
+        return $converter->convertDate($this, $value);
     }
 }

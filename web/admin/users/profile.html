@@ -287,3 +287,22 @@
         </div>
     </div>
 </div>
+
+<div class="col-sm-12 col-lg-5">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Membership
+        </div>
+        <div class="panel-body">
+            <div class="list-group">
+                <a href="" class="list-group-item clearfix" ng-repeat="membership in memberships" ng-click="switchMembership(membership)">
+                    <button ng-show="membership.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                    {{membership.title}}
+                </a>
+            </div>
+        </div>
+        <div class="panel-footer clearfix">
+            <button class="btn btn-primary pull-right" ng-disabled="!membershipDirty" ng-click="updateMembership()">Save</button>
+        </div>
+    </div>
+</div>

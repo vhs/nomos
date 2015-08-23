@@ -9,12 +9,15 @@
 namespace vhs\database\orders;
 
 use vhs\database\Column;
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
+use vhs\database\Table;
 
-abstract class OrderBy implements IGeneratable {
+abstract class OrderBy extends Element {
 
+    /** @var Column */
     public $column;
+    /** @var OrderBy[]  */
     public $orderBy = array();
 
     public function __construct(Column $column, OrderBy ...$orderBy) {
@@ -22,15 +25,22 @@ abstract class OrderBy implements IGeneratable {
         $this->orderBy = $orderBy;
     }
 
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+
+        foreach($this->orderBy as $orderBy)
+            $orderBy->__updateTable($table);
+    }
+
     public static function Ascending(Column $column, OrderBy ...$orderBy) {
-        return new OrderByAscending($column, $orderBy);
+        return new OrderByAscending($column, ...$orderBy);
     }
 
     public static function Descending(Column $column, OrderBy ...$orderBy) {
-        return new OrderByDescending($column, $orderBy);
+        return new OrderByDescending($column, ...$orderBy);
     }
 
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }

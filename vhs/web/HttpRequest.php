@@ -14,9 +14,11 @@ class HttpRequest {
     /** @var array */
     public $headers;
 
-    public function __construct() {
+    /** @var string */
+    public $url;
 
-    }
+    /** @var string */
+    public $method;
 
-
+    public function __construct() { }
 }
