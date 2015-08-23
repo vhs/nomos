@@ -32,7 +32,7 @@ angular
           $scope.newKeyHolders = newKeyHolders;
           $scope.totalMembers = totalMembers;
           $scope.totalKeyHolders = totalKeyHolders;
-          $scope.date = "January 2015";
+          $scope.date = moment().format("MMMM YYYY");
       }]
     });
 }]);
