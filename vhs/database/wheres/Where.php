@@ -9,10 +9,10 @@
 namespace vhs\database\wheres;
 
 use vhs\database\Column;
-use vhs\database\IGeneratable;
+use vhs\database\Element;
 use vhs\database\IGenerator;
 
-abstract class Where implements IGeneratable {
+abstract class Where extends Element {
 
     public static function _And(Where ...$where) {
         return new WhereAnd(...$where);
@@ -64,9 +64,10 @@ abstract class Where implements IGeneratable {
 
     /**
      * @param IGenerator $generator
+     * @param null $value
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IWhereGenerator $generator */
         return $this->generateWhere($generator);
     }

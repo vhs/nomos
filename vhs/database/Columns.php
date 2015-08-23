@@ -9,8 +9,10 @@
 namespace vhs\database;
 
 
-class Columns {
+use vhs\Cloneable;
 
+class Columns {
+    use Cloneable;
     /** @var Column[] */
     public $__columns;
 

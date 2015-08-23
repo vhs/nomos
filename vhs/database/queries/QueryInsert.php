@@ -18,8 +18,8 @@ class QueryInsert extends Query {
     public $columns;
     public $values;
 
-    public function __construct(Table $table, Where $where = null, Columns $columns, array $values) {
-        parent::__construct($table, $where);
+    public function __construct(Table $table, Columns $columns, array $values) {
+        parent::__construct($table);
 
         $this->columns = $columns;
         $this->values = $values;

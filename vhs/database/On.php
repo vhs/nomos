@@ -11,12 +11,17 @@ namespace vhs\database;
 
 use vhs\database\wheres\Where;
 
-class On implements IGeneratable {
+class On extends Element {
 
+    /** @var Where */
     public $where;
 
     public function __construct(Where $where) {
         $this->where = $where;
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->where->__updateTable($table);
     }
 
     public static function Where(Where $where) {
@@ -25,9 +30,10 @@ class On implements IGeneratable {
 
     /**
      * @param IGenerator $generator
+     * @param null $value
      * @return mixed
      */
-    public function generate(IGenerator $generator) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IOnGenerator $generator */
         return $this->generateOn($generator);
     }
