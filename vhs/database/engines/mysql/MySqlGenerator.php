@@ -29,6 +29,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 use vhs\database\types\ITypeGenerator;
 use vhs\database\types\Type;
 use vhs\database\types\TypeBool;
@@ -196,6 +197,37 @@ class MySqlGenerator implements
         $offset = (!is_null($query->offset)) ? $query->offset->generate($this) : "";
 
         $sql = "SELECT {$selector} FROM `{$query->table->name}` AS {$query->table->alias}";
+
+        if(!is_null($query->joins)) {
+            /** @var Join $join */
+            foreach($query->joins as $join) {
+                $sql .= " " . $join->generate($this);
+            }
+        }
+
+        if(!empty($clause))
+            $sql .= " WHERE {$clause}";
+
+        if(!empty($orderClause))
+            $sql .= " ORDER BY {$orderClause}";
+
+        if(!empty($limit))
+            $sql .= " {$limit}";
+
+        if(!empty($offset))
+            $sql .= " {$offset}";
+
+        return $sql;
+    }
+
+    public function generateSelectCount(QueryCount $query)
+    {
+        $clause = (!is_null($query->where)) ? $query->where->generate($this) : "";
+        $orderClause = (!is_null($query->orderBy)) ? $query->orderBy->generate($this) : "";
+        $limit = (!is_null($query->limit)) ? $query->limit->generate($this) : "";
+        $offset = (!is_null($query->offset)) ? $query->offset->generate($this) : "";
+
+        $sql = "SELECT COUNT(*) FROM `{$query->table->name}` AS {$query->table->alias}";
 
         if(!is_null($query->joins)) {
             /** @var Join $join */

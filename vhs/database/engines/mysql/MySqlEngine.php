@@ -21,6 +21,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\database\wheres\Where;
@@ -100,25 +101,25 @@ class MySqlEngine extends Engine {
     }
 
 
-    public function count(QuerySelect $query) {
-
-        $query->columns = new Columns(new Column($query->table, "1", Type::String()));
+    public function count(QueryCount $query) {
 
         $sql = $query->generate($this->generator);
 
         $this->logger->log($sql);
 
-        $rows = 0;
-
         if($q = $this->conn->query($sql)) {
-            $rows = $q->num_rows;
-
+            $rows = $q->fetch_all();
+            $row = $rows[0];
             $q->close();
+
+            if(sizeof($row) <> 1)
+                return null;
+
+            return $row[0][0];
+        
         } else {
             throw new DatabaseException($this->conn->error);
         }
-
-        return $rows;
     }
 
     public function exists(QuerySelect $query) {
@@ -128,10 +129,12 @@ class MySqlEngine extends Engine {
     public function arbitrary($command) {
         $this->logger->log("[ARBITRARY] " . $command);
 
+        $rows = array();
         if($q = $this->conn->query($command)) {
+            $rows = $q->fetch_all();
             $q->close();
 
-            return true;
+            return $rows;
         }
 
         throw new DatabaseException($this->conn->error);
