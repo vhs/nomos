@@ -51,6 +51,10 @@ abstract class Query implements IGeneratable {
         return new QueryDelete($table, $where);
     }
 
+    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+        return new QueryCount($table, $where, $orderBy, $limit, $offset);
+    }
+
     public function Join(Join ...$join) {
 
         if (is_null($this->joins))
