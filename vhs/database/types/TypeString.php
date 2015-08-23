@@ -19,7 +19,11 @@ class TypeString extends Type {
         $this->length = $length;
     }
 
-    public function generateType(ITypeGenerator $generator) {
-        return $generator->generateString($this);
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateString($this, $value);
+    }
+
+    public function covertType(ITypeConverter $converter, $value = null) {
+        return $converter->convertString($this, $value);
     }
 }

@@ -9,9 +9,12 @@ angular
                 url: '/dooraccess/',
                 templateUrl: 'user/dooraccess/dooraccess.html',
                 resolve: {
-                    pin: ['currentUser', 'PinService1', function(currentUser, PinService1) {
+                    pin: ['currentUser', '$location', 'PinService1', function(currentUser, $location, PinService1) {
                         return PinService1.GetUserPin(currentUser.id).then(function(data) {
-                            return data.key.replace("|","");
+                            if (data.key != null)
+                                return data.key.replace("|","");
+
+                            return null;
                         });
                     }]
                 },

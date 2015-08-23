@@ -9,6 +9,7 @@
 namespace vhs\services\endpoints;
 
 
+use vhs\Logger;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\exceptions\InvalidContractException;
@@ -17,12 +18,18 @@ use vhs\services\IContract;
 
 abstract class Endpoint implements IEndpoint {
 
+    /** @var Logger $logger */
+    public $logger;
+
     protected $internal_service;
 
     protected function __construct(IContract $service) {
         $this->internal_service = $service;
     }
 
+    /**
+     * @return Endpoint
+     */
     final public static function getInstance() {
         static $aoInstance = array();
 

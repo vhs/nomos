@@ -46,6 +46,10 @@ use vhs\database\wheres\Where;
 use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
 use vhs\database\wheres\WhereOr;
+use vhs\database\limits\ILimitGenerator;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\IOffsetGenerator;
+use vhs\database\offsets\Offset;
 
 class InMemoryGenerator implements
     IWhereGenerator,
@@ -56,6 +60,8 @@ class InMemoryGenerator implements
     IQueryGenerator,
     IColumnGenerator,
     ITableGenerator,
+    ILimitGenerator,
+    IOffsetGenerator,
     IOnGenerator {
 
     public function generateAnd(WhereAnd $where) {
@@ -163,6 +169,14 @@ class InMemoryGenerator implements
         throw new \Exception("Implement generateDescending() method.");
     }
 
+    public function generateLimit(Limit $limit) {
+        return $limit->limit;
+    }
+
+    public function generateOffset(Offset $offset) {
+        return $offset->offset;
+    }
+
     public function generatePrimaryKey(PrimaryKey $constraint)
     {
         // TODO: Implement generatePrimaryKey() method.
@@ -171,46 +185,6 @@ class InMemoryGenerator implements
     public function generateForeignKey(ForeignKey $constraint)
     {
         // TODO: Implement generateForeignKey() method.
-    }
-
-    public function generateBool(TypeBool $type)
-    {
-        // TODO: Implement generateBool() method.
-    }
-
-    public function generateInt(TypeInt $type)
-    {
-        // TODO: Implement generateInt() method.
-    }
-
-    public function generateFloat(TypeFloat $type)
-    {
-        // TODO: Implement generateFloat() method.
-    }
-
-    public function generateString(TypeString $type)
-    {
-        // TODO: Implement generateString() method.
-    }
-
-    public function generateText(TypeText $type)
-    {
-        // TODO: Implement generateText() method.
-    }
-
-    public function generateDate(TypeDate $type)
-    {
-        // TODO: Implement generateDate() method.
-    }
-
-    public function generateDateTime(TypeDateTime $type)
-    {
-        // TODO: Implement generateDateTime() method.
-    }
-
-    public function generateEnum(TypeEnum $type)
-    {
-        // TODO: Implement generateEnum() method.
     }
 
     public function generateLeft(JoinLeft $join)
@@ -271,5 +245,37 @@ class InMemoryGenerator implements
     public function generateOn(On $on)
     {
         // TODO: Implement generateOn() method.
+    }
+
+    public function generateBool(TypeBool $type, $value = null) {
+        // TODO: Implement generateBool() method.
+    }
+
+    public function generateInt(TypeInt $type, $value = null) {
+        // TODO: Implement generateInt() method.
+    }
+
+    public function generateFloat(TypeFloat $type, $value = null) {
+        // TODO: Implement generateFloat() method.
+    }
+
+    public function generateString(TypeString $type, $value = null) {
+        // TODO: Implement generateString() method.
+    }
+
+    public function generateText(TypeText $type, $value = null) {
+        // TODO: Implement generateText() method.
+    }
+
+    public function generateDate(TypeDate $type, $value = null) {
+        // TODO: Implement generateDate() method.
+    }
+
+    public function generateDateTime(TypeDateTime $type, $value = null) {
+        // TODO: Implement generateDateTime() method.
+    }
+
+    public function generateEnum(TypeEnum $type, $value = null) {
+        // TODO: Implement generateEnum() method.
     }
 }

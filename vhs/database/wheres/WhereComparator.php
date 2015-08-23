@@ -9,6 +9,7 @@
 namespace vhs\database\wheres;
 
 use vhs\database\Column;
+use vhs\database\Table;
 
 class WhereComparator extends Where {
 
@@ -17,6 +18,7 @@ class WhereComparator extends Where {
     public $greater = false;
     public $lesser = false;
     public $null_compare = false;
+    /** @var Column */
     public $column;
     public $value;
 
@@ -28,6 +30,10 @@ class WhereComparator extends Where {
         $this->greater = $greater;
         $this->lesser = $lesser;
         $this->isArray = is_array($value);
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
     }
 
     public function generateWhere(IWhereGenerator $generator) {

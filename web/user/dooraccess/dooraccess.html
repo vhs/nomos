@@ -1,8 +1,12 @@
 <h2>What you need to know:</h2>
 <h3>Entry</h3>
 
+<div ng-show="pin == null">
+    <p>You must set a PIN before you can access the space. Click the generate PIN on your <a ui-sref="user.profile">profile page</a> and set your desired PIN code. Keep it safe.</p>
+</div>
 
-<div  ng-if="currentUser.hasPrivilege('door')">
+
+<div  ng-if="currentUser.hasPrivilege('door') && pin != null">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
         There will be a prompt to enter your pin. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         The code for the inner door is now <strong>1234</strong>. Enter this code, then turn the thumbturn toward the hinges.<br><br>
