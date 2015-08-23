@@ -17,7 +17,7 @@ angular
         .then(function(response) { return response.data; });
     },
     GetTotalKeyHolders: function(start, end) {
-      return $http.post("/services/web/MetricService1.svc/GetNewKeyHolders", {start_range: start, end_range: end})
+      return $http.post("/services/web/MetricService1.svc/GetTotalKeyHolders", {start_range: start, end_range: end})
         .then(function(response) { return response.data; });
     },
   };
