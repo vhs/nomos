@@ -31,6 +31,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 use vhs\database\Table;
 use vhs\database\types\ITypeGenerator;
 use vhs\database\types\TypeBool;
@@ -213,6 +214,11 @@ class InMemoryGenerator implements
     }
 
     public function generateSelect(QuerySelect $query)
+    {
+        // TODO: Implement generateSelect() method.
+    }
+
+    public function generateSelectCount(QueryCount $query)
     {
         // TODO: Implement generateSelect() method.
     }

@@ -17,6 +17,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\Singleton;
@@ -149,7 +150,7 @@ class Database extends Singleton {
         });
     }
 
-    public static function count(QuerySelect $query) {
+    public static function count(QueryCount $query) {
         /** @var Database $db */
         $db = self::getInstance();
         return $db->invokeEngine(function() use ($db, $query) {

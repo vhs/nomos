@@ -18,6 +18,7 @@ use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
+use vhs\database\queries\QueryCount;
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 use vhs\Logger;
@@ -151,7 +152,7 @@ class InMemoryEngine extends Engine {
         return true;
     }
 
-    public function count(QuerySelect $query) {
+    public function count(QueryCount $query) {
         $this->logger->log("count " . $query->table->name . " " . $query->where);
         if(!array_key_exists($query->table->name, $this->datastore))
             return false;
