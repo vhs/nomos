@@ -5,7 +5,8 @@
  * Date: 12/12/2014
  * Time: 2:41 PM
  */
- 
+
+//Debug defined in /conf/config.ini.php
 if (DEBUG) {
     error_reporting(E_ALL);
     ini_set("display_errors", 1); 
