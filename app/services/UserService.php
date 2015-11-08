@@ -17,6 +17,7 @@ use app\domain\Privilege;
 use app\domain\User;
 use app\schema\UserSchema;
 use app\security\PasswordUtil;
+use Aws\CloudFront\Exception\Exception;
 use DateTime;
 use vhs\database\Database;
 use vhs\database\wheres\Where;
@@ -111,8 +112,10 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function Create($username, $password, $email, $fname, $lname, $membershipid) {
-        if (User::exists($username, $email))
+        if (User::exists($username, $email)) {
+            $this->context->log("wtf");
             throw new \Exception("User already exists");
+        }
 
         $user = new User();
 
@@ -213,5 +216,55 @@ class UserService extends Service implements IUserService1 {
         $user->membership = $membership;
 
         $user->save();
+    }
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $status
+     * @return mixed
+     */
+    public function UpdateStatus($userid, $status)
+    {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("administrator") != true) return;
+
+        switch($status) {
+            case "active":
+            case "y":
+            case "true":
+                $status = "y";
+                break;
+            case "pending":
+            case "t":
+                $status = "t";
+                break;
+            case "banned":
+            case "b":
+                $status = "b";
+                break;
+            default:
+                $status = "n";
+                break;
+        }
+
+        $user->active = $status;
+
+        $user->save();
+    }
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetStatuses()
+    {
+        return array(
+            array("title"=>"Active", "code"=>"y"),
+            array("title"=>"Inactive", "code"=>"n"),
+            array("title"=>"Asshole", "code"=>"t"),
+            array("title"=>"Banned", "code"=>"b")
+        );
     }
 }

@@ -92,6 +92,16 @@ angular
             },
             Create: function(username, password, email, fname, lname, membershipid) {
                 return $http.post("/services/web/UserService1.svc/Create", {username:username, password:password, email:email, fname:fname, lname:lname, membershipid:membershipid});
+            },
+            GetStatuses: function() {
+                return $http.get("/services/web/UserService1.svc/GetStatuses")
+                    .then(function(response) { return response.data; });
+            },
+            UpdateStatus: function(userid, status) {
+                return $http.post("/services/web/UserService1.svc/UpdateStatus", {userid: userid, status: status})
+                    .then(function(response) {
+                        return response.data;
+                    });
             }
         };
     }]);
