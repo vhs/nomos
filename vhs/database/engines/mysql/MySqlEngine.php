@@ -123,7 +123,7 @@ class MySqlEngine extends Engine {
     }
 
     public function exists(QuerySelect $query) {
-        return ($this->count($query) > 0);
+        return ($this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0);
     }
 
     public function arbitrary($command) {

@@ -61,7 +61,7 @@ class PaypalGateway implements IPaymentGateway
         // inspect IPN validation result and act accordingly
         if (strcmp ($response, "VERIFIED") == 0)
         {
-            $result = $this->UpdatePaypalTable(
+            $result = $this->CreateIPNRecord(
                 $_REQUEST['payment_status'],
                 $_REQUEST['mc_gross'],
                 $_REQUEST['mc_currency'],
@@ -76,17 +76,17 @@ class PaypalGateway implements IPaymentGateway
         else if (strcmp($response, "INVALID") == 0)
         {
             // IPN invalid, log for manual investigation
-            $result = $this->UpdatePaypalTableInvalid($req);
+            $result = $this->CreateInvalidIPNRecord($req);
             throw new PaymentGatewayException("Error: Could not validate paypal IPN " . $req);
         }
 
-        $this->UpdatePaypalTableInvalid($req);
+        $this->CreateInvalidIPNRecord($req);
         throw new PaymentGatewayException("Error: Unknown Paypal IPN Error " . $req);
     }
 
-    public function UpdatePaypalTableInvalid($raw)
+    public function CreateInvalidIPNRecord($raw)
     {
-        // Create the IPN recored in the database
+        // Create the IPN record in the database
         $ipn = new Ipn();
         $ipn->validation = "INVALID";
         $ipn->raw = $raw;
@@ -95,9 +95,9 @@ class PaypalGateway implements IPaymentGateway
         return "INVALID";
     }
 
-    public function UpdatePaypalTable($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw)
+    public function CreateIPNRecord($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw)
     {
-        // Create the IPN recored in the database
+        // Create the IPN record in the database
         $ipn = new Ipn();
 
         $ipn->validation        = "VERIFIED";
