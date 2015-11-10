@@ -306,3 +306,22 @@
         </div>
     </div>
 </div>
+
+<div class="col-sm-12 col-lg-5">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Status
+        </div>
+        <div class="panel-body">
+            <div class="list-group">
+                <a href="" class="list-group-item clearfix" ng-repeat="status in statuses" ng-click="switchStatus(status)">
+                    <button ng-show="status.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                    {{status.title}}
+                </a>
+            </div>
+        </div>
+        <div class="panel-footer clearfix">
+            <button class="btn btn-primary pull-right" ng-disabled="!statusDirty" ng-click="updateStatus()">Save</button>
+        </div>
+    </div>
+</div>

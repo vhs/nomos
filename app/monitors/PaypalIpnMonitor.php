@@ -21,8 +21,8 @@ class PaypalIpnMonitor extends Monitor {
 
     private $logger;
 
-    public function Init(Logger $logger = null) {
-        $this->logger = $logger;
+    public function Init(Logger &$logger = null) {
+        $this->logger = &$logger;
         Ipn::onAnyCreated([$this, "handleCreated"]);
     }
 

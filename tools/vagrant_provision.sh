@@ -46,5 +46,10 @@ if [ -z `mysql --host=localhost --user=root --password=hackspace -s -N -e "SELEC
   mysql --host=localhost --user=root --password=hackspace -e "GRANT ALL PRIVILEGES ON vhs_membership.* TO 'vhs_membership'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 fi
 
+touch /vagrant/app/sql.log
+touch /vagrant/app/server.log
+chmod 777 /vagrant/app/sql.log
+chmod 777 /vagrant/app/server.log
+
 cd /vagrant/tools
 php migrate.php

@@ -21,6 +21,11 @@ angular
                     $scope.profile = profile;
                     var currentPriv = {};
                     var currentMembership = profile.membership;
+                    var currentStatus = {
+                        title: "",
+                        code: profile.active,
+                        selected: true
+                    };
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
@@ -188,6 +193,43 @@ angular
 
                         UserService1.UpdateMembership(profile.id, membership.id).then(function(){
                             $scope.membershipDirty = false;
+                        });
+                    };
+
+                    //Build a map of selected statii
+                    var mpromise = UserService1.GetStatuses();
+                    mpromise.then(function(statuses){
+                        $scope.statuses = [];
+                        angular.forEach(statuses, function(status){
+                            status.selected = status.code == currentStatus.code;
+                            $scope.statuses.push(status);
+                        });
+                    });
+
+                    $scope.switchStatus = function(status){
+
+                        angular.forEach($scope.statuses, function(stat){
+                            if (status.code != stat.code)
+                                stat.selected = false;
+                        });
+
+                        status.selected = !status.selected;
+
+                        $scope.statusDirty = true;
+                    };
+
+                    $scope.updateStatus = function(){
+                        var status = null;
+                        angular.forEach($scope.statuses, function(stat){
+                            if (stat.selected){
+                                status = stat;
+                            }
+                        });
+
+                        if (status == null) return;
+
+                        UserService1.UpdateStatus(profile.id, status.code).then(function(){
+                            $scope.statusDirty = false;
                         });
                     };
 

@@ -28,8 +28,7 @@ class HttpExceptionHandlerModule implements IHttpModule
 
     public function handleException(HttpServer $server, \Exception $ex)
     {
-        if ($this->level == "verbose")
-        {
+        if (DEBUG) {
             $server->output($ex->getMessage());
             $server->output($ex->getTraceAsString());
         }

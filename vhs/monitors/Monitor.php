@@ -14,5 +14,5 @@ use vhs\Singleton;
 
 abstract class Monitor extends Singleton {
 
-    abstract public function Init(Logger $logger = null);
+    abstract public function Init(Logger &$logger = null);
 }

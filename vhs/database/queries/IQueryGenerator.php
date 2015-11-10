@@ -16,4 +16,5 @@ interface IQueryGenerator extends IGenerator {
     public function generateInsert(QueryInsert $query);
     public function generateUpdate(QueryUpdate $query);
     public function generateDelete(QueryDelete $query);
+    public function generateSelectCount(QueryCount $query);
 }
