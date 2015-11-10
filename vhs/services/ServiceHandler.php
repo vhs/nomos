@@ -24,8 +24,8 @@ class ServiceHandler {
     private $rootNamespacePath;
     private $uriPrefixPath;
 
-    public function __construct(Logger $logger, $endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
-        $this->logger = $logger;
+    public function __construct(Logger &$logger, $endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
+        $this->logger = &$logger;
         $this->endpointNamespace = $endpointNamespace;
         $this->rootNamespacePath = (is_null($rootNamespacePath)) ? dirname(__FILE__) : $rootNamespacePath;
         $this->uriPrefixPath = $uriPrefixPath;
@@ -77,7 +77,7 @@ class ServiceHandler {
                 $args = $data;
                 if ($isNative) $args = $endpoint::getInstance()->serializeInput($data);
 
-                $endpoint::getInstance()->logger = $this->logger;
+                $endpoint::getInstance()->logger = &$this->logger;
 
                 $method = $regs['method'];
                 $out = $endpoint::getInstance()->handleRequest($method, $args);

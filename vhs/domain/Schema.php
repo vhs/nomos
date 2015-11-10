@@ -56,7 +56,7 @@ abstract class Schema implements ISchema {
     /**
      * @return Table
      */
-    public static function Table() {
+    public static function &Table() {
         return self::getInstance()->internal_table;
     }
 
