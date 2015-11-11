@@ -29,7 +29,7 @@ class EmailService {
         ));
 
         $client->sendEmail(array(
-            'Source' => MMP_FROM_EMAIL,
+            'Source' => NOMOS_FROM_EMAIL,
             'Destination' => array(
                 'ToAddresses' => array($user->email),
             ),

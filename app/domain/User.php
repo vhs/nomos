@@ -37,18 +37,31 @@ class User extends Domain {
             $results->add(new ValidationFailure("Invalid e-mail address"));
     }
 
+    /**
+     * @param $username
+     * @return User[]
+     */
     public static function findByUsername($username) {
         return User::where(
             Where::Equal(UserSchema::Columns()->username, $username)
         );
     }
 
+    /**
+     * @param $email
+     * @return User[]
+     */
     public static function findByEmail($email) {
         return User::where(
             Where::Equal(UserSchema::Columns()->email, $email)
         );
     }
 
+    /**
+     * @param string|null $username
+     * @param string|null $email
+     * @return boolean
+     */
     public static function exists($username = null, $email = null) {
         $usernameWhere = Where::Equal(UserSchema::Columns()->username, $username);
         $emailWhere = Where::Equal(UserSchema::Columns()->email, $email);

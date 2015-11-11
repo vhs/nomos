@@ -27,12 +27,20 @@ class Membership extends Domain {
 
     }
 
+    /**
+     * @param $code
+     * @return Membership[]
+     */
     public static function findByCode($code) {
         return Membership::where(
             Where::Equal(MembershipSchema::Columns()->code, $code)
         );
     }
 
+    /**
+     * @param $price
+     * @return Membership
+     */
     public static function findForPriceLevel($price) {
         $memberships = Membership::where(
             Where::_And(
@@ -41,7 +49,7 @@ class Membership extends Domain {
             ), OrderBy::Descending(MembershipSchema::Columns()->price), 1
         );
 
-        if (!is_null($memberships))
+        if (!is_null($memberships) && count($memberships) > 0)
             return $memberships[0];
 
         return null;
