@@ -92,8 +92,8 @@ class PaymentMonitor extends Monitor {
                 return;
             }
 
-            $emailService->EmailUser(
-                [ 'email' => NOMOS_FROM_EMAIL ],
+            $emailService->Email(
+                NOMOS_FROM_EMAIL,
                 '[Nomos] New User Created!',
                 'admin_newuser',
                 [
@@ -122,8 +122,8 @@ class PaymentMonitor extends Monitor {
         $payment->status = 1; //processed
         $payment->save();
 
-        $emailService->EmailUser(
-            [ 'email' => NOMOS_FROM_EMAIL ],
+        $emailService->Email(
+            NOMOS_FROM_EMAIL,
             '[Nomos] User payment made!',
             'admin_payment',
             [

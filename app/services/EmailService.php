@@ -14,6 +14,10 @@ class EmailService {
     }
 
     public function EmailUser($user, $subject, $tmpl, $context) {
+        $this->Email($user->email, $subject, $tmpl, $context);
+    }
+
+    public function Email($email, $subject, $tmpl, $context) {
         $html = $this->LoadTemplate($context, $tmpl, 'html');
         $txt = $this->LoadTemplate($context, $tmpl, 'txt');
         if(is_null($html) || is_null($txt)) {
@@ -31,7 +35,7 @@ class EmailService {
         $client->sendEmail(array(
             'Source' => NOMOS_FROM_EMAIL,
             'Destination' => array(
-                'ToAddresses' => array($user->email),
+                'ToAddresses' => array($email),
             ),
             'Message' => array(
                 'Subject' => array(
