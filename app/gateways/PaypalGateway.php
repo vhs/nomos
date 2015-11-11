@@ -34,10 +34,12 @@ class PaypalGateway implements IPaymentGateway
 
         // Step 2: POST IPN data back to PayPal to validate
         // ToDo: this should be an option available from the admin interface
-        $paypal_sandbox = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        $paypal_live    = 'https://www.paypal.com/cgi-bin/webscr';
+        $paypal = 'https://www.paypal.com/cgi-bin/webscr';
+        if (DEBUG) {
+            $paypal = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        }
 
-        $ch = curl_init($paypal_sandbox);
+        $ch = curl_init($paypal);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);

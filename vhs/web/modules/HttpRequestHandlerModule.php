@@ -29,8 +29,8 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
     }
 
     public function handle(HttpServer $server) {
-        if(in_array($server->request->method, $this->registry))
-            if (in_array($server->request->url, $this->registry[$server->request->method]))
+        if(array_key_exists($server->request->method, $this->registry))
+            if (array_key_exists($server->request->url, $this->registry[$server->request->method]))
                 $this->registry[$server->request->method][$server->request->url]->handle($server);
     }
 

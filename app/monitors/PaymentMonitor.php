@@ -44,7 +44,7 @@ class PaymentMonitor extends Monitor {
         $host = $protocol.$domainName;
 
         /** @var Payment $payment */
-        $payment = $args[0];
+        $payment = Payment::find($args[0]->id);
 
         if ($payment->status == 1)
             return;
@@ -92,14 +92,16 @@ class PaymentMonitor extends Monitor {
                 return;
             }
 
-            $emailService->EmailUser(
-                [ 'email' => NOMOS_FROM_EMAIL ],
+            $emailService->Email(
+                NOMOS_FROM_EMAIL,
                 '[Nomos] New User Created!',
                 'admin_newuser',
                 [
                     'email' => $payment->payer_email,
                     'fname' => $payment->payer_fname,
-                    'lname' => $payment->payer_lname
+                    'lname' => $payment->payer_lname,
+                    'host' => $host,
+                    'id' => $user->id
                 ]
             );
 
@@ -122,8 +124,8 @@ class PaymentMonitor extends Monitor {
         $payment->status = 1; //processed
         $payment->save();
 
-        $emailService->EmailUser(
-            [ 'email' => NOMOS_FROM_EMAIL ],
+        $emailService->Email(
+            NOMOS_FROM_EMAIL,
             '[Nomos] User payment made!',
             'admin_payment',
             [

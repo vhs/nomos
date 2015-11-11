@@ -27,7 +27,7 @@ class IpnSchema extends Schema {
         $table->addColumn("payer_email", Type::String(false, "", 255));
         $table->addColumn("item_name", Type::String(false, "", 255));
         $table->addColumn("item_number", Type::String(false, "", 255));
-        $table->addColumn("raw", Type::String(false, "", 255));
+        $table->addColumn("raw", Type::Text());
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id)

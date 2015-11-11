@@ -19,7 +19,7 @@ class HttpPaymentGatewayHandler extends HttpRequestHandler
     /** @var IPaymentGateway */
     private $gateway;
 
-    public function __constructor(IPaymentGateway $gateway)
+    public function __construct(IPaymentGateway $gateway)
     {
         $this->gateway = $gateway;
     }
