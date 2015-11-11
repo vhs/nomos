@@ -16,6 +16,16 @@ define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
 
 class PasswordUtil {
 
+    public static function generate() {
+        return self::hash(
+            substr(
+                str_shuffle(
+                    str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',16)
+                ),0,16
+            )
+        );
+    }
+
     public static function hash($password) {
         return self::password_hash(sha1($password), PASSWORD_BCRYPT);
     }

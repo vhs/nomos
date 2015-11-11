@@ -104,9 +104,21 @@ class UserService extends Service implements IUserService1 {
         $user->email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
-        $user->active = "y";//"t"; //TODO send email activation
+        $user->active = "t";
+        $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
+
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'].'/';
+
+        $emailService = new EmailService();
+
+        //todo finish this template and add the supporting services to actual active the account
+        $emailService->EmailUser($user, 'VHS Nomos Account Activation', 'welcome', [
+            'token' => $user->token,
+            'host' => $protocol.$domainName
+        ]);
 
         return $user;
     }
@@ -125,12 +137,24 @@ class UserService extends Service implements IUserService1 {
         $user->fname = $fname;
         $user->lname = $lname;
         $user->active = "t";
+        $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
 
         try {
             $this->UpdateMembership($user->id, $membershipid);
         } catch(\Exception $ex) {}
+
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'].'/';
+
+        $emailService = new EmailService();
+
+        //todo finish this template and add the supporting services to actual active the account
+        $emailService->EmailUser($user, 'VHS Nomos Account Activation', 'welcome', [
+            'token' => $user->token,
+            'host' => $protocol.$domainName
+        ]);
 
         return $user;
     }
@@ -212,6 +236,9 @@ class UserService extends Service implements IUserService1 {
         if(is_null($user) || is_null($membership)) {
             throw new \Exception("Invalid user or membership type");
         }
+
+        if ($membership->code == "key-holder" && !$user->privileges->contains(Privilege::findByCode("vetted")))
+            return;
 
         $user->membership = $membership;
 

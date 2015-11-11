@@ -5,8 +5,8 @@
 
 namespace app\domain;
 
+use app\schema\PaymentSchema;
 use app\schema\UserSchema;
-use app\schema\PaymentsSchema;
 use app\domain\User;
 use vhs\database\Database;
 use vhs\database\On;
@@ -55,19 +55,19 @@ class Metric extends Domain {
     public static function TotalMemberCount($start, $end) {
       $where = Where::_And(
         Where::Equal(UserSchema::Columns()->active,"y"),
-        Where::Equal(PaymentsSchema::Columns()->status, 1),
+        Where::Equal(PaymentSchema::Columns()->status, 1),
         Where::_And(
-          Where::GreaterEqual(PaymentsSchema::Columns()->date, date('Y-m-d 00:00:00', $start)),
-          Where::Lesser(PaymentsSchema::Columns()->date, date('Y-m-d 00:00:00', $end))
+          Where::GreaterEqual(PaymentSchema::Columns()->date, date('Y-m-d 00:00:00', $start)),
+          Where::Lesser(PaymentSchema::Columns()->date, date('Y-m-d 00:00:00', $end))
         )
       );
 
       $query = Query::count(UserSchema::Table(), $where);
 
       $joinPayments = Join::Left(
-        PaymentsSchema::Table, 
+        PaymentSchema::Table,
         On::Where(
-          Where::Equal(UserSchema::Columns()->id,PaymentsSchema::Columns()->user_id)
+          Where::Equal(UserSchema::Columns()->id,PaymentSchema::Columns()->user_id)
         )
       );
       $query->Join($joinPayments);
