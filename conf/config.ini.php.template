@@ -5,9 +5,9 @@
 	* the database configuration settings. 
 	*/
 	 define('DB_SERVER', 'localhost'); 
-	 define('DB_USER', 'vhs_membership'); 
+	 define('DB_USER', 'vhs');
 	 define('DB_PASS', 'password');
-	 define('DB_DATABASE', 'vhs_membership');
+	 define('DB_DATABASE', 'nomos');
 
      define('NOMOS_FROM_EMAIL', 'membership@hackspace.ca');
      // @funvill has these, ask him for the values

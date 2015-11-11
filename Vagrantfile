@@ -12,14 +12,14 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  # If you want 64bit image, on your first `vagrant up` do this instead
-  # `X64_VAGRANT=true vagrant up`
-  if ENV.has_key?('X64_VAGRANT')
-    print "Using 64 bit image\n"
-    config.vm.box = "puphpet/ubuntu1404-x64"
-  else
+  # If you want 32it image, on your first `vagrant up` do this instead
+  # `X32_VAGRANT=true vagrant up`
+  if ENV.has_key?('X32_VAGRANT')
     print "Using 32 bit image\n"
     config.vm.box = "puphpet/ubuntu1404-x32"
+  else
+    print "Using 64 bit image\n"
+    config.vm.box = "puphpet/ubuntu1404-x64"
   end
   
 
@@ -60,7 +60,7 @@ Vagrant.configure(2) do |config|
     vb.memory = "1024"
   end
   config.vm.provider "parallels" do |v|
-    v.name = "mmp"
+    v.name = "nomos"
     # v.update_guest_tools = true
     # v.check_guest_tools = false
     # v.optimize_power_consumption = false
