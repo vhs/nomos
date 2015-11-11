@@ -9,12 +9,8 @@
 namespace app\monitors;
 
 use app\domain\Ipn;
-use app\domain\Membership;
 use app\domain\Payment;
-use app\domain\User;
-use app\security\PasswordUtil;
-use app\services\EmailService;
-use app\services\UserService;
+use DateTime;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 
@@ -33,7 +29,7 @@ class PaypalIpnMonitor extends Monitor {
         /** @var Ipn $ipn */
         $ipn = $args[0];
 
-        if ($ipn->validation == "VERIFIED" && $ipn->payment_status == "COMPLETED") {
+        if ($ipn->validation == "VERIFIED" && $ipn->payment_status == "Completed") {
             $this->logger->log("We have a valid $ipn record, create a transaction, update users, etc");
 
             $kvp = explode("&", $ipn->raw);
@@ -57,7 +53,7 @@ class PaypalIpnMonitor extends Monitor {
 
             $payment = new Payment();
 
-            $payment->txn_id = $ipn->id; //todo this should prob be a paypal transaction id
+            $payment->txn_id = (array_key_exists("txn_id", $raw)) ? $raw["txn_id"] : $ipn->id;
 
             $payment->rate_amount = $ipn->payment_amount;
             $payment->currency = $ipn->payment_currency;
@@ -66,12 +62,12 @@ class PaypalIpnMonitor extends Monitor {
             $payment->status = 0; //we haven't processed the payment internally yet
 
             $payment->payer_email = $ipn->payer_email;
-            $payment->payer_fname = (in_array("first_name", $raw)) ? $raw["first_name"] : $ipn->payer_email;
-            $payment->payer_lname = (in_array("last_name", $raw)) ? $raw["last_name"] : $ipn->payer_email;
+            $payment->payer_fname = (array_key_exists("first_name", $raw)) ? $raw["first_name"] : $ipn->payer_email;
+            $payment->payer_lname = (array_key_exists("last_name", $raw)) ? $raw["last_name"] : $ipn->payer_email;
 
             $payment->item_number = $ipn->item_number;
             $payment->item_name = $ipn->item_name;
-            $payment->date = $ipn->created; //todo this is prob wrong, we should get a paypal date
+            $payment->date = (array_key_exists("payment_date", $raw)) ? (new DateTime(urldecode($raw["payment_date"])))->format("Y-m-d H:i:s") : $ipn->created; //todo ensure timezones
 
             $payment->save();
         }

@@ -17,7 +17,7 @@ class HttpExceptionHandlerModule implements IHttpModule
     //todo do something about the levels here
     private $level;
 
-    public function __constructor($level)
+    public function __construct($level)
     {
         $this->level = $level;
     }

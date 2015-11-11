@@ -44,7 +44,7 @@ class PaymentMonitor extends Monitor {
         $host = $protocol.$domainName;
 
         /** @var Payment $payment */
-        $payment = $args[0];
+        $payment = Payment::find($args[0]->id);
 
         if ($payment->status == 1)
             return;
