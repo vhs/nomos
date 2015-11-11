@@ -99,7 +99,9 @@ class PaymentMonitor extends Monitor {
                 [
                     'email' => $payment->payer_email,
                     'fname' => $payment->payer_fname,
-                    'lname' => $payment->payer_lname
+                    'lname' => $payment->payer_lname,
+                    'host' => $host,
+                    'id' => $user->id
                 ]
             );
 
