@@ -54,6 +54,9 @@
                     <li>
                         <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"><i class="fa fa-tasks fa-fw"></i> Get Involved!</a>
                     </li>
+                    <li>
+                        <a ui-sref="user.stats" ng-class="{active: $state.is('user.stats')}"><i class="fa fa-tasks fa-fw"></i> Stats</a>
+                    </li>
                     <li ng-if="currentUser.hasPrivilege('administrator')">
                         <a ui-sref="admin.home"><i class="fa fa-user fa-fw"></i> Administration</a>
                     </li>
