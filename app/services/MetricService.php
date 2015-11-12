@@ -6,6 +6,8 @@ namespace app\services;
 use app\contracts\IMetricService1;
 use app\domain\Metric;
 use app\domain\Membership;
+use app\domain\Payment;
+use app\domain\User;
 use app\schema\SettingsSchema;
 use vhs\database\Database;
 use vhs\database\wheres\Where;
@@ -40,7 +42,6 @@ class MetricService extends Service implements IMetricService1 {
         );
     }
 
-
     public function GetTotalMembers($start_range, $end_range) {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
@@ -52,7 +53,6 @@ class MetricService extends Service implements IMetricService1 {
         );
     }
 
-
     public function GetTotalKeyHolders($start_range, $end_range) {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
@@ -63,5 +63,22 @@ class MetricService extends Service implements IMetricService1 {
             "end_range" => $end_range,
             "value" => $count
         );
+    }
+
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetPendingAccounts() {
+        return User::where(Where::Equal(User::Schema()->Columns()->active, 't'));
+    }
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetExceptionPayments() {
+        return Payment::where(Where::NotEqual(Payment::Schema()->Columns()->status, 1));
     }
 }

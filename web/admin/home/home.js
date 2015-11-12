@@ -8,8 +8,20 @@ angular
                 parent: "admin",
                 url: '/admin/',
                 templateUrl: 'admin/home/home.html',
-                controller: ['$scope', function($scope) {
-                    $scope.date = "January 2015";
+                resolve:
+                {
+                    pendingAccounts: ['$stateParams', 'MetricService1', function ($stateParams, MetricService1) {
+                        return MetricService1.GetPendingAccounts();
+                    }],
+                    paymentExceptions: ['$stateParams', 'MetricService1', function ($stateParams, MetricService1) {
+                        return MetricService1.GetExceptionPayments();
+                    }]
+                },
+                controller: ['$scope', 'pendingAccounts', 'paymentExceptions', function($scope, pendingAccounts, paymentExceptions) {
+                    $scope.date = moment().format("MMMM YYYY");
+
+                    $scope.pendingAccounts = pendingAccounts;
+                    $scope.paymentExceptions = paymentExceptions;
                 }]
             });
     }]);

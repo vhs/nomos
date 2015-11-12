@@ -20,5 +20,13 @@ angular
       return $http.post("/services/web/MetricService1.svc/GetTotalKeyHolders", {start_range: start, end_range: end})
         .then(function(response) { return response.data; });
     },
+    GetPendingAccounts: function() {
+      return $http.post("/services/web/MetricService1.svc/GetPendingAccounts", {})
+          .then(function(response) { return response.data; });
+    },
+    GetExceptionPayments: function() {
+      return $http.post("/services/web/MetricService1.svc/GetExceptionPayments", {})
+          .then(function(response) { return response.data; });
+    }
   };
 }]);

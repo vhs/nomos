@@ -156,6 +156,10 @@ class InMemoryGenerator implements
                 if ($item !== $value) return true;
             }
 
+            if ($where->like) {
+                return (strpos($item, $value) != false);
+            }
+
             return false;
         };
     }

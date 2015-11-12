@@ -11,13 +11,34 @@ angular
                     access: "admin"
                 },
                 templateUrl: 'admin/users/users.html',
-                resolve: {
-                    users: ['currentUser', 'UserService1', function(currentUser, UserService1) {
-                        return UserService1.GetUsers();
-                    }]
-                },
-                controller: ['$scope', '$modal', '$timeout', 'users', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, users, UserService1, MembershipService1) {
-                    $scope.users = users;
+                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, UserService1, MembershipService1) {
+                    $scope.users = [];
+
+                    $scope.showPending = false;
+                    $scope.togglePending = function(val) {
+                        $scope.showPending = val;
+                        $scope.refresh();
+                    };
+
+                    $scope.showCash = false;
+                    $scope.toggleCash = function(val) {
+                        $scope.showCash = val;
+                        $scope.refresh();
+                    };
+
+                    $scope.showExpired = false;
+                    $scope.toggleExpired = function(val) {
+                        $scope.showExpired = val;
+                        $scope.refresh();
+                    };
+
+                    $scope.listService = {
+                        page: 0,
+                        size: 10,
+                        columns: "id,username,fname,lname,email,privileges,created,mem_expire",
+                        order: "id",
+                        search: null
+                    };
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
@@ -30,14 +51,117 @@ angular
                         }
                     };
 
+                    $scope.getUsers = function() {
+
+                        var filter = null;
+                        var filters = [];
+
+                        if ($scope.showExpired) {
+                            filters.push({
+                                column: "mem_expire",
+                                operator: "<=",
+                                value: moment().format("YYYY-MM-DD hh:mm:ss")
+                            });
+                        }
+
+                        if ($scope.showCash) {
+                            filters.push({
+                                column: "cash",
+                                operator: "=",
+                                value: "1"
+                            });
+                        }
+
+                        if ($scope.showPending) {
+                            filters.push({
+                                column: "active",
+                                operator: "=",
+                                value: "t"
+                            });
+                        }
+
+                        if ($scope.listService.search != null && $scope.listService.search != "") {
+                            var val = "%" + $scope.listService.search + "%";
+                            filters.push({
+                                left: {
+                                    column: "username",
+                                    operator: "like",
+                                    value: val
+                                },
+                                operator: "or",
+                                right: {
+                                    left: {
+                                        column: "email",
+                                        operator: "like",
+                                        value: val
+                                    },
+                                    operator: "or",
+                                    right: {
+                                        left: {
+                                            column: "fname",
+                                            operator: "like",
+                                            value: val
+                                        },
+                                        operator: "or",
+                                        right: {
+                                            column: "lname",
+                                            operator: "like",
+                                            value: val
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        var addRightmost = function(filter, val) {
+                            if (filter.right != null)
+                                addRightmost(filter.right, val);
+                            filter.right = val;
+                        };
+
+                        for (var i = 0; i < filters.length; i++) {
+                            if (filter == null) {
+                                if (filters.length > 1) {
+                                    filter = {
+                                        left: filters[i],
+                                        operator: "and",
+                                        right: null
+                                    };
+                                } else {
+                                    filter = filters[i];
+                                    break;
+                                }
+                            } else {
+                                if (i == filters.length - 1) {
+                                    addRightmost(filter, filters[i]);
+                                } else {
+                                    addRightmost(filter, {
+                                        left: filters[i],
+                                        operator: "and",
+                                        right: null
+                                    });
+                                }
+                            }
+                        }
+
+                        return UserService1.ListUsers($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
                     $scope.updated = function() {
-                        UserService1.GetUsers().then(function(data) {
+                        $scope.getUsers().then(function(data) {
                             $scope.users = data;
                             $scope.resetForms();
                             $scope.updating = false;
                             $scope.pendingUpdate = 0;
                         });
                     };
+
+                    $scope.refresh = function() {
+                        $scope.updating = true;
+                        $scope.updated();
+                    };
+
+                    $scope.refresh();
 
                     $scope.resetForms = function() {
 

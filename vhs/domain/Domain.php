@@ -9,11 +9,13 @@
 namespace vhs\domain;
 
 use vhs\database\Column;
+use vhs\database\Columns;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\Database;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
+use vhs\database\orders\OrderByAscending;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\collections\ChildDomainCollection;
@@ -461,8 +463,99 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param null $offset
      * @return array
      */
-    public static function where(Where $where, OrderBy $orderBy = null, $limit = null, $offset = null) {
+    public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
         return self::hydrateMany($where, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * Returns a key value pair of data from this domain
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return array
+     */
+    public static function page($page, $size, $columns, $order, $filters) {
+
+        $columnNames = explode(",", $columns);
+        $orders = explode(",", $order);
+
+        $cols = [];
+        $orderBys = [];
+
+        foreach($orders as $col)
+            if (self::Schema()->Columns()->contains($col))
+                array_push($orderBys, new OrderByAscending(self::Schema()->Columns()->getByName($col)));
+
+        foreach($columnNames as $col)
+            if (self::Schema()->Columns()->contains($col) || array_key_exists($col, self::Relationships()))
+                array_push($cols, $col);
+
+        /** @var OrderBy $orderBy */
+        $orderBy = array_pop($orderBys);
+        $orderBy->orderBy = $orderBys;
+
+        $where = self::constructFilter(self::Schema()->Columns(), $filters);
+
+        $users = self::where($where, $orderBy, $size, $page);
+
+        $retval = [];
+
+        foreach($users as $user) {
+            $val = [];
+
+            foreach ($cols as $col)
+                $val[$col] = $user->$col;
+
+            array_push($retval, $val);
+        }
+
+        return $retval;
+    }
+
+    /**
+     * Expects an object format like:
+     * Expression {
+     *   left: Expression,
+     *   operator: Operator,
+     *   right: Expression,
+     *   column: Column,
+     *   value: Value
+     * }
+     * @param Columns $columns
+     * @param $filter
+     * @return null|Where
+     */
+    private static function constructFilter(Columns $columns, $filter) {
+        if (is_object($filter)) {
+            switch($filter->operator) {
+                case "and":
+                    return Where::_And(self::constructFilter($columns, $filter->left), self::constructFilter($columns, $filter->right));
+                case "or":
+                    return Where::_Or(self::constructFilter($columns, $filter->left), self::constructFilter($columns, $filter->right));
+                case "=":
+                    return Where::Equal($columns->getByName($filter->column), $filter->value);
+                case "!=":
+                    return Where::NotEqual($columns->getByName($filter->column), $filter->value);
+                case ">":
+                    return Where::Greater($columns->getByName($filter->column), $filter->value);
+                case "<":
+                    return Where::Lesser($columns->getByName($filter->column), $filter->value);
+                case ">=":
+                    return Where::GreaterEqual($columns->getByName($filter->column), $filter->value);
+                case "<=":
+                    return Where::LesserEqual($columns->getByName($filter->column), $filter->value);
+                case "like":
+                    return Where::Like($columns->getByName($filter->column), $filter->value);
+                case "is null":
+                    return Where::Null($columns->getByName($filter->column));
+                case "not null":
+                    return Where::NotNull($columns->getByName($filter->column));
+                default:
+                    return null;
+            }
+        }
     }
 
     protected static function arbitraryFind($sql) {

@@ -58,6 +58,17 @@ interface IUserService1 extends IContract {
     public function GetUsers();
 
     /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListUsers($page, $size, $columns, $order, $filters);
+
+    /**
      * @permission administrator|user
      * @param $userid
      * @return mixed
