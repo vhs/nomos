@@ -484,9 +484,20 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $cols = [];
         $orderBys = [];
 
-        foreach($orders as $col)
+        foreach($orders as $col) {
+            $isDesc = false;
+            if (strpos($col, " desc")) {
+                $isDesc = true;
+                $col = str_replace(" desc", "" , $col);
+            }
+
             if (self::Schema()->Columns()->contains($col))
-                array_push($orderBys, new OrderByAscending(self::Schema()->Columns()->getByName($col)));
+                array_push($orderBys,
+                    ($isDesc) ?
+                        OrderBy::Descending(self::Schema()->Columns()->getByName($col))
+                        : OrderBy::Ascending(self::Schema()->Columns()->getByName($col))
+                );
+        }
 
         foreach($columnNames as $col)
             if (self::Schema()->Columns()->contains($col) || array_key_exists($col, self::Relationships()))

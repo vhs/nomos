@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" ng-if="goodStanding">
                                 <div class="well well-sm">
                                     <h4>Access PIN</h4>
                                     <small>When accessing VHS, use the entire PIN. First 4 digits are unique. Admins can see this!</small>
@@ -68,7 +68,10 @@
                                     <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
 
                                     <div ng-repeat="key in profile.keys | filter:{type:'pin'}">
-                                        <div class="form-group input-group">
+                                        <div class="form-group input-group" ng-if="!showPin">
+                                            <button type="button" class="btn btn-default" ng-click="togglePin(true)" style="width:9em;">Show PIN</button>
+                                        </div>
+                                        <div class="form-group input-group" ng-if="showPin" ng-mouseleave="togglePin(false)">
                                             <span class="input-group-addon" style="padding-right:0;">{{key.pinid}}</span>
                                             <input type="text" class="form-control" style="padding-left:0; width:4em;" ng-minlength="4" ng-maxlength="4" maxlength="4" ng-model="key.pin">
                                             <span class="input-group-btn" style="float:left;">
@@ -104,20 +107,79 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-lg-6">
-                                <div class="form-group col-xs-12 col-sm-6 col-lg-12">
-                                    <label>Registration Date</label>
-                                    <p class="form-control-static">{{profile.created}}</p>
+
+                            <div class="col-xs-12 col-lg-6" ng-if="goodStanding">
+                                <div class="panel panel-green">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-thumbs-up fa-5x"></i>
+                                            </div>
+                                            <div class="col-xs-9">
+                                                <div class="huge">Current</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                Your account is in good standing! Thank you!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="http://hackspace.ca/wp/membership/">http://hackspace.ca/wp/membership/</a>
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="form-group col-xs-12 col-sm-6 col-lg-12">
-
-                                    <label>Last Login</label>
-                                    <p class="form-control-static">{{profile.lastlogin}}</p>
-
+                            <div class="col-xs-12 col-lg-6" ng-if="!goodStanding">
+                                <div class="panel panel-red">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-thumbs-down fa-5x"></i>
+                                            </div>
+                                            <div class="col-xs-9">
+                                                <div class="huge">Expired!</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                Please visit the membership page to update your subscription!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="http://hackspace.ca/wp/membership/">http://hackspace.ca/wp/membership/</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-xs-12 col-sm-6 col-lg-4">
+                                <label>Registration Date</label>
+                                <p class="form-control-static">{{member_since}}</p>
+                                <p class="form-control-static">Member for {{member_for}}!</p>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-6 col-lg-4">
+
+                                <label>Last Login</label>
+                                <p class="form-control-static">{{last_login}}</p>
+
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-6 col-lg-4">
+
+                                <label>Membership Expiry</label>
+                                <p class="form-control-static">{{expiry_date}}</p>
+                                <p class="form-control-static">{{expiry}}</p>
+
+                            </div>
+
+                        </div>
+
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -255,14 +317,52 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="well well-sm">
-                            <h4>Privileges (Badges)</h4>
-                            <small>Your specific privileges:</small>
-                            <div ng-repeat="privilege in currentUser.privileges">
-                                {{privilege.code}}
+                            <div class="row">
+                                <div class="col-lg-12">
+                            <h4>Privileges</h4>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                            <b>Account Privileges:</b>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4" ng-repeat="privilege in currentUser.privileges">
+                                    <div class="panel panel-green">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-key fa-3x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="big">{{privilege.name}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <small>Inherited membership privileges:</small>
-                            <div ng-repeat="privilege in currentUser.membership.privileges">
-                                {{privilege.code}}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <b>Membership privileges:</b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4" ng-repeat="privilege in currentUser.membership.privileges">
+                                    <div class="panel panel-green">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-key fa-3x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="big">{{privilege.name}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

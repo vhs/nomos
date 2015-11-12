@@ -283,8 +283,8 @@ class UserService extends Service implements IUserService1 {
     {
         return array(
             array("title"=>"Active", "code"=>"y"),
+            array("title"=>"Pending", "code"=>"t"),
             array("title"=>"Inactive", "code"=>"n"),
-            array("title"=>"Asshole", "code"=>"t"),
             array("title"=>"Banned", "code"=>"b")
         );
     }

@@ -4,14 +4,17 @@ angular
     .module('mmpApp')
     .factory('PaymentService1', ['$http', function ($http) {
         return {
-          
-          Get: function(paymentId) {
-            return $http.get("/services/web/PaymentService1.svc/Get?paymentId=" + paymentId)
+            GetPayment: function(id) {
+                return $http.get("/services/web/PaymentService1.svc/GetPayment?id=" + id)
                     .then(function(response) { return response.data; });
-          },
-          GetPaginated: function(offset, limit) {
-            return $http.post("/services/web/PaymentService1.svc/GetPaginated", {offset: offset, limit: limit})
+            },
+            ListUserPayments: function(userid, page, size, columns, order, filters) {
+                return $http.post("/services/web/PaymentService1.svc/ListUserPayments", { userid: userid, page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
-          }
+            },
+            ListPayments: function(page, size, columns, order, filters) {
+                return $http.post("/services/web/PaymentService1.svc/ListPayments", { page: page, size: size, columns: columns, order: order, filters: filters })
+                    .then(function(response) { return response.data; });
+            }
         };
     }]);
