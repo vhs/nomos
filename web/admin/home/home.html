@@ -1,3 +1,67 @@
-<h4>Admin home</h4>
-
-Many sections incomplete!
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{date}}</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{pendingAccounts.length}}</div>
+                        <div>Pending Accounts</div>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="showAccounts = !showAccounts">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+            <div ng-show="showAccounts">
+                <div class="row" ng-repeat="account in pendingAccounts">
+                    <div class="col-lg-12">
+                        {{account.created | date}} <a ui-sref="admin.profile({userId: account.id})">{{account.email}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{paymentExceptions.length}}</div>
+                        <div>Payment Exceptions</div>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="showPayments = !showPayments" class="ng-click">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+            <div ng-show="showPayments">
+                <div class="row" ng-repeat="payment in paymentExceptions">
+                    <div class="col-lg-12">
+                        {{payment.date}} {{payment.payer_email}} ${{payment.rate_amount}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

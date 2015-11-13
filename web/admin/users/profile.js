@@ -21,6 +21,8 @@ angular
                     $scope.profile = profile;
                     var currentPriv = {};
                     var currentMembership = profile.membership;
+                    if (currentMembership == null)
+                        currentMembership = {};
                     var currentStatus = {
                         title: "",
                         code: profile.active,

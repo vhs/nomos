@@ -10,8 +10,22 @@ angular
                 templateUrl: 'user/profile/profile.html',
                 controller: ['$scope', '$timeout', 'PinService1', 'UserService1', function($scope, $timeout, PinService1, UserService1) {
 
+                    $scope.showPin = false;
+                    $scope.togglePin = function(val) { $scope.showPin = val; };
+
                     $scope.PinService1 = PinService1;
                     $scope.profile = angular.copy($scope.currentUser);
+
+                    var today = new Date();
+
+                    $scope.goodStanding = new Date($scope.profile.mem_expire) > today;
+
+                    $scope.member_since = moment($scope.profile.created).format("MMMM Do, YYYY");
+                    $scope.member_for = moment($scope.profile.created).fromNow(true);
+                    $scope.last_login = moment($scope.profile.lastlogin).format("MMM DD, YYYY, h:mm:ss a");
+                    $scope.expiry = moment($scope.profile.mem_expire).fromNow();
+                    $scope.expiry_date = moment($scope.profile.mem_expire).format("MMMM Do YYYY");
+
                     $scope.filterLinked = function(key){
                         return key.type === 'github' ||
                             key.type === 'slack' ||

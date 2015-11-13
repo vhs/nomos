@@ -145,7 +145,8 @@ class MySqlGenerator implements
                 if ($where->greater) $sign .= ">";
                 if ($where->lesser) $sign .= "<";
                 if ($where->equal) $sign .= "=";
-                else if(!$where->greater && !$where->lesser) $sign = "<>";
+                else if(!$where->greater && !$where->lesser && !$where->like) $sign = "<>";
+                else if ($where->like) $sign .= "LIKE";
 
                 return "{$col} {$sign} {$value}";
             }

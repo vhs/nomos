@@ -16,7 +16,66 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-warning" ng-click="openCreateUser()">Create User</button>
+    <div class="row">
+        <div class="col-lg-1">
+            <button type="button" class="btn btn-warning" ng-click="openCreateUser()">Create User</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="row">
+                <div class="col-lg-1">
+                    <label>Page</label> <input class="form-control" title="Page" type="text" ng-model="listService.page" ng-keyup="$event.keyCode == 13 && refresh()" />
+                </div>
+                <div class="col-lg-1">
+                    <label>Page Size</label> <input class="form-control" title="Page Size" type="text" ng-model="listService.size" ng-keyup="$event.keyCode == 13 && refresh()" />
+                </div>
+
+                <div class="col-lg-3">
+                    <label>Columns</label> <input class="form-control" title="Columns" type="text" ng-model="listService.columns" ng-keyup="$event.keyCode == 13 && refresh()" />
+                </div>
+                <div class="col-lg-3">
+                    <label>Order</label> <input class="form-control" title="Order" type="text" ng-model="listService.order" ng-keyup="$event.keyCode == 13 && refresh()" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <label>Search</label> <input class="form-control" title="Search" type="text" ng-model="listService.search" ng-keyup="$event.keyCode == 13 && refresh()" />
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <b>Quick Filters</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="toggleExpired(true)" ng-if="!showExpired">Expired Users</button>
+                            <button class="btn btn-danger" ng-click="toggleExpired(false)" ng-if="showExpired">Expired Users</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="toggleCash(true)" ng-if="!showCash">Cash Users</button>
+                            <button class="btn btn-danger" ng-click="toggleCash(false)" ng-if="showCash">Cash Users</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="togglePending(true)" ng-if="!showPending">Pending Users</button>
+                            <button class="btn btn-danger" ng-click="togglePending(false)" ng-if="showPending">Pending Users</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <button class="btn btn-primary" ng-click="refresh()">Search</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
         <p ng-if="!users.length">No users</p>
 

@@ -54,6 +54,10 @@ abstract class Where extends Element {
         return new WhereComparator($column, null, true, false, false, false);
     }
 
+    public static function Like(Column $column, $value) {
+        return new WhereComparator($column, $value, false, false, false, false, true);
+    }
+
     public static function In(Column $column, array $value) {
         return self::Equal($column, $value);
     }

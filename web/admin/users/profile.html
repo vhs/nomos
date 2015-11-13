@@ -103,15 +103,22 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-lg-6">
-                                <div class="form-group col-xs-12 col-sm-6 col-lg-12">
+                                <div class="form-group col-xs-12 col-sm-6 col-lg-6">
                                     <label>Registration Date</label>
                                     <p class="form-control-static">{{profile.created}}</p>
                                 </div>
 
-                                <div class="form-group col-xs-12 col-sm-6 col-lg-12">
+                                <div class="form-group col-xs-12 col-sm-6 col-lg-6">
 
                                     <label>Last Login</label>
                                     <p class="form-control-static">{{profile.lastlogin}}</p>
+
+                                </div>
+
+                                <div class="form-group col-xs-12 col-sm-6 col-lg-12">
+
+                                    <label>Membership Expiry</label>
+                                    <p class="form-control-static">{{profile.mem_expire}}</p>
 
                                 </div>
                             </div>
@@ -137,10 +144,53 @@
                 </div>
             </form>
             <!-- /.row (nested) -->
+        <div class="row">
+
+    <div class="col-sm-12 col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Membership
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="" class="list-group-item clearfix" ng-repeat="membership in memberships" ng-click="switchMembership(membership)">
+                        <button ng-show="membership.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                        {{membership.title}}
+                    </a>
+                </div>
+            </div>
+            <div class="panel-footer clearfix">
+                <button class="btn btn-primary pull-right" ng-disabled="!membershipDirty" ng-click="updateMembership()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Status
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="" class="list-group-item clearfix" ng-repeat="status in statuses" ng-click="switchStatus(status)">
+                        <button ng-show="status.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                        {{status.title}}
+                    </a>
+                </div>
+            </div>
+            <div class="panel-footer clearfix">
+                <button class="btn btn-primary pull-right" ng-disabled="!statusDirty" ng-click="updateStatus()">Save</button>
+            </div>
+        </div>
+    </div>
+
+            </div>
+
         </div>
         <!-- /.panel-body -->
     </div>
     <!-- /.panel -->
+
 </div>
 
 <div class="col-lg-6 col-sm-12">
@@ -251,16 +301,72 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="well well-sm">
-                        <h4>Privileges (Badges)</h4>
-                        <small>Your specific privileges:</small>
-                        <div ng-repeat="privilege in profile.privileges">
-                            {{privilege.code}}
+                <div class="col-sm-12 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Permissions
                         </div>
-                        <small>Inherited membership privileges:</small>
-                        <div ng-repeat="privilege in profile.membership.privileges">
-                            {{privilege.code}}
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="" class="list-group-item clearfix" ng-repeat="privilege in privileges" ng-click="togglePrivilege(privilege)">
+                                    <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                                    {{privilege.name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <button class="btn btn-primary pull-right" ng-disabled="!privilegeDirty" ng-click="updatePrivileges()">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="well well-sm">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Privileges</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b>Account Privileges:</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6" ng-repeat="privilege in currentUser.privileges">
+                                <div class="panel panel-green">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-key fa-3x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div class="big">{{privilege.name}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b>Membership privileges:</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6" ng-repeat="privilege in currentUser.membership.privileges">
+                                <div class="panel panel-green">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-key fa-3x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div class="big">{{privilege.name}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -269,59 +375,3 @@
     </div>
 </div>
 
-<div class="col-sm-12 col-lg-5">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Permissions
-        </div>
-        <div class="panel-body">
-            <div class="list-group">
-                <a href="" class="list-group-item clearfix" ng-repeat="privilege in privileges" ng-click="togglePrivilege(privilege)">
-                    <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
-                    {{privilege.name}}
-                </a>
-            </div>
-        </div>
-        <div class="panel-footer clearfix">
-            <button class="btn btn-primary pull-right" ng-disabled="!privilegeDirty" ng-click="updatePrivileges()">Save</button>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-12 col-lg-5">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Membership
-        </div>
-        <div class="panel-body">
-            <div class="list-group">
-                <a href="" class="list-group-item clearfix" ng-repeat="membership in memberships" ng-click="switchMembership(membership)">
-                    <button ng-show="membership.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
-                    {{membership.title}}
-                </a>
-            </div>
-        </div>
-        <div class="panel-footer clearfix">
-            <button class="btn btn-primary pull-right" ng-disabled="!membershipDirty" ng-click="updateMembership()">Save</button>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-12 col-lg-5">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Status
-        </div>
-        <div class="panel-body">
-            <div class="list-group">
-                <a href="" class="list-group-item clearfix" ng-repeat="status in statuses" ng-click="switchStatus(status)">
-                    <button ng-show="status.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
-                    {{status.title}}
-                </a>
-            </div>
-        </div>
-        <div class="panel-footer clearfix">
-            <button class="btn btn-primary pull-right" ng-disabled="!statusDirty" ng-click="updateStatus()">Save</button>
-        </div>
-    </div>
-</div>

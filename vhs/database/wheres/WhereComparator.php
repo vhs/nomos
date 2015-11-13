@@ -18,11 +18,12 @@ class WhereComparator extends Where {
     public $greater = false;
     public $lesser = false;
     public $null_compare = false;
+    public $like = false;
     /** @var Column */
     public $column;
     public $value;
 
-    public function __construct(Column $column, $value, $null_compare, $equal, $greater, $lesser) {
+    public function __construct(Column $column, $value, $null_compare, $equal, $greater, $lesser, $like = false) {
         $this->column = $column;
         $this->value = $value;
         $this->null_compare = $null_compare;
@@ -30,6 +31,7 @@ class WhereComparator extends Where {
         $this->greater = $greater;
         $this->lesser = $lesser;
         $this->isArray = is_array($value);
+        $this->like = $like;
     }
 
     public function __updateTable(Table &$table) {
@@ -56,6 +58,9 @@ class WhereComparator extends Where {
 
         if ($this->equal)
             $s .= " equal ";
+
+        if ($this->like)
+            $s .= " like ";
 
         if ($this->isArray)
             $s .= "(" . implode(", ", $this->value) . ")";

@@ -10,19 +10,13 @@ namespace app\services;
 
 
 use app\contracts\IUserService1;
-use app\domain\Key;
 use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
-use app\schema\UserSchema;
 use app\security\PasswordUtil;
-use Aws\CloudFront\Exception\Exception;
 use DateTime;
-use vhs\database\Database;
-use vhs\database\wheres\Where;
 use vhs\security\CurrentUser;
-use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class UserService extends Service implements IUserService1 {
@@ -289,9 +283,14 @@ class UserService extends Service implements IUserService1 {
     {
         return array(
             array("title"=>"Active", "code"=>"y"),
+            array("title"=>"Pending", "code"=>"t"),
             array("title"=>"Inactive", "code"=>"n"),
-            array("title"=>"Asshole", "code"=>"t"),
             array("title"=>"Banned", "code"=>"b")
         );
+    }
+
+    public function ListUsers($page, $size, $columns, $order, $filters)
+    {
+        return User::page($page, $size, $columns, $order, $filters);
     }
 }

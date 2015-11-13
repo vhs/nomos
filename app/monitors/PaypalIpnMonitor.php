@@ -44,22 +44,22 @@ class PaypalIpnMonitor extends Monitor {
                     $raw[$pair[0]] = $pair[1];
             }
 
-            //todo this should prob be a paypal transaction id
-            if (Payment::exists($ipn->id))
-            {
+            $txn_id = (array_key_exists("txn_id", $raw)) ? $raw["txn_id"] : $ipn->id;
+
+            if (Payment::exists($txn_id)) {
                 $this->logger->log("Payment record already exists for this IPN transaction.. odd");
                 return;
             }
 
             $payment = new Payment();
 
-            $payment->txn_id = (array_key_exists("txn_id", $raw)) ? $raw["txn_id"] : $ipn->id;
+            $payment->txn_id = $txn_id;
 
             $payment->rate_amount = $ipn->payment_amount;
             $payment->currency = $ipn->payment_currency;
             $payment->pp = "PayPal";
 
-            $payment->status = 0; //we haven't processed the payment internally yet
+            $payment->status = 0; //we haven't yet processed the payment internally
 
             $payment->payer_email = $ipn->payer_email;
             $payment->payer_fname = (array_key_exists("first_name", $raw)) ? $raw["first_name"] : $ipn->payer_email;
@@ -72,5 +72,4 @@ class PaypalIpnMonitor extends Monitor {
             $payment->save();
         }
     }
-
 }
