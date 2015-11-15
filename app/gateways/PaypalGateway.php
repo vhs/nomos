@@ -64,12 +64,12 @@ class PaypalGateway implements IPaymentGateway
         if (strcmp ($response, "VERIFIED") == 0)
         {
             $result = $this->CreateIPNRecord(
-                $_REQUEST['payment_status'],
-                $_REQUEST['mc_gross'],
-                $_REQUEST['mc_currency'],
-                $_REQUEST['payer_email'],
-                $_REQUEST['item_name'],
-                $_REQUEST['item_number'],
+                (array_key_exists('payment_status', $_REQUEST)) ? $_REQUEST['payment_status'] : null,
+                (array_key_exists('mc_gross', $_REQUEST)) ? $_REQUEST['mc_gross'] : null,
+                (array_key_exists('mc_currency', $_REQUEST)) ? $_REQUEST['mc_currency'] : null,
+                (array_key_exists('payer_email', $_REQUEST)) ? $_REQUEST['payer_email'] : null,
+                (array_key_exists('item_name', $_REQUEST)) ? $_REQUEST['item_name'] : null,
+                (array_key_exists('item_number', $_REQUEST)) ? $_REQUEST['item_number'] : null,
                 $req
             );
 

@@ -8,7 +8,7 @@ angular
                 parent: "public",
                 url: '/login/',
                 templateUrl: 'public/login/login.html',
-                controller: ['$scope', '$location', 'AuthService1', function($scope, $location, AuthService1) {
+                controller: ['$state', '$scope', '$location', 'AuthService1', function($state, $scope, $location, AuthService1) {
                     $scope.error = null;
 
                     $scope.login = function() {
@@ -16,7 +16,7 @@ angular
                         AuthService1.Login($scope.username, $scope.password).then(
                             function(response) {
                                 if(response == '"Access Granted"')
-                                    $location.path("/");
+                                    $state.go('user.home');
                                 else
                                     $scope.error = JSON.parse(response);
                             });

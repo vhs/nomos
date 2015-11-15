@@ -15,6 +15,11 @@ var app = angular
   $urlRouterProvider.otherwise("/");
 }]);
 
+app.run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+});
+
 app.directive('showDuringResolve', function($rootScope) {
 
     return {
@@ -49,6 +54,12 @@ app.directive('resolveLoader', function($rootScope, $timeout) {
 
             $rootScope.$on('$routeChangeSuccess', function() {
                 element.addClass('ng-hide');
+            });
+
+            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+                if (error === "login") {
+                    $rootScope.$state.go("public.login");
+                }
             });
         }
     };

@@ -10,13 +10,12 @@ angular
                 data: {
                     access: "user"
                 },
-                resolve: { currentUser: ["CurrentUser", function(CurrentUser) { return CurrentUser.getCurrentUser(); }] },
+                resolve: { currentUser: ["$q", "CurrentUser", function($q, CurrentUser) {
+                    return CurrentUser.getCurrentUser();
+                }] },
                 controller: ['$scope', '$location', 'currentUser', function($scope, $location, currentUser) {
                     $scope.loading = true;
                     $scope.currentUser = currentUser;
-
-                    if(!$scope.currentUser.id)
-                        $location.path("/login/");
                 }]
             });
     }]);
