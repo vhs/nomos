@@ -11,7 +11,7 @@ angular
                             return data;
                         });
                     } else {
-                        return data;
+                        throw "login";
                     }
                 });
             }
