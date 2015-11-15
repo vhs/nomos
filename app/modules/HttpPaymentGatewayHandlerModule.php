@@ -14,9 +14,12 @@ use vhs\web\modules\HttpRequestHandlerModule;
 
 class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule
 {
-    public static function register(IPaymentGateway $gateway)
+    public static function register(IPaymentGateway $gateway, $url = null)
     {
         $path = "/services/gateways/" . $gateway->Name();
+        if (!is_null($url))
+            $path = $url;
+
         $handler = new HttpPaymentGatewayHandler($gateway);
 
         self::getInstance()->register_internal("GET", $path, $handler);

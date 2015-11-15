@@ -28,6 +28,7 @@ $serverLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs
 
 
 \app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway());
+\app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway(), "/gateways/paypal/ipn.php");
 
 \app\monitors\PaypalIpnMonitor::getInstance()->Init($serverLog);
 \app\monitors\PaymentMonitor::getInstance()->Init($serverLog);
