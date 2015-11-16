@@ -298,7 +298,7 @@ class MySqlGenerator implements
     {
         $clause = (!is_null($query->where)) ? $query->where->generate($this) : "";
 
-        $sql = "DELETE FROM `{$query->table->name}` AS {$query->table->alias}";
+        $sql = "DELETE {$query->table->alias} FROM `{$query->table->name}` AS {$query->table->alias}";
 
         if(!empty($clause))
             $sql .= " WHERE {$clause}";
