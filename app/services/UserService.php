@@ -179,9 +179,11 @@ class UserService extends Service implements IUserService1 {
 
     public function ResetPassword($token, $password) {
 
-        $request = PasswordResetRequest::findByToken($token)[0];
+        $requests = PasswordResetRequest::findByToken($token);
 
-        if(!is_null($request)) {
+        if(!is_null($requests) && count($requests) == 1) {
+            /** @var PasswordResetRequest $request */
+            $request = $requests[0];
             $created = new DateTime($request->created);
             $userid = $request->userid;
 
