@@ -29,17 +29,7 @@ class HttpPaymentGatewayHandler extends HttpRequestHandler
         $server->clear();
         $server->code(200);
 
-        try
-        {
-            $server->output($this->gateway->Process($_REQUEST));
-        }
-        catch (PaymentGatewayException $ex)
-        {
-            if (DEBUG)
-                throw new \Exception($ex->getMessage());
-            else
-                throw new \Exception("Error occurred while processing payment gateway (".$this->gateway->Name().")");
-        }
+        $server->output($this->gateway->Process($_REQUEST));
 
         $server->end();
     }
