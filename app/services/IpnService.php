@@ -15,6 +15,10 @@ class IpnService extends Service implements IIpnService1 {
     public function Get($ipnId) {
         return Ipn::find($ipnId);
     }
+
+    public function ListRecords($page, $size, $columns, $order, $filters) {
+        return Ipn::page($page, $size, $columns, $order, $filters);
+    }
 }
 ?>
 

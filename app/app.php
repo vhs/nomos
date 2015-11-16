@@ -16,7 +16,7 @@ if (DEBUG) {
 
 require_once("include.php");
 
-$serverLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.log") : new \vhs\loggers\SilentLogger();
+$serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.log");
 
 \vhs\web\HttpContext::Init(new \vhs\web\HttpServer(new \vhs\web\modules\HttpServerInfoModule("Nomos"), $serverLog));
 
