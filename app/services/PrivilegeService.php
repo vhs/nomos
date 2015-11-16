@@ -17,10 +17,6 @@ use vhs\services\ServiceRegistry;
 
 class PrivilegeService extends Service implements IPrivilegeService1 {
 
-    /**
-     * @permission administrator
-     * @return mixed
-     */
     public function GetAllSystemPermissions() {
         $endpoints = ServiceRegistry::get("web")->getAllEndpoints();
 
@@ -45,19 +41,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
         return $retval;
     }
 
-    /**
-     * @permission administrator
-     * @return mixed
-     */
     public function GetAllPrivileges() {
         return Privilege::findAll();
     }
 
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @return mixed
-     */
     public function GetUserPrivileges($userid) {
         $privileges = array();
         $userService = new UserService($this->context);
