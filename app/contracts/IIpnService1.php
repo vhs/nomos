@@ -22,4 +22,14 @@ interface IIpnService1 extends IContract {
      */
     public function Get($ipnId);
 
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListRecords($page, $size, $columns, $order, $filters);
 }

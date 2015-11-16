@@ -19,7 +19,7 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
 
     protected function register_internal($method, $url, HttpRequestHandler $handler)
     {
-        if(!in_array($method, $this->registry))
+        if(!array_key_exists($method, $this->registry))
             $this->registry[$method] = array();
 
         $this->registry[$method][$url] = $handler;
