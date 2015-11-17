@@ -95,6 +95,8 @@ class MetricService extends Service implements IMetricService1 {
             Where::_And(
                 Where::Equal(UserSchema::Columns()->active,"y"),
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
+                Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start)),
                 Where::LesserEqual($join->table->columns->date, date('Y-m-d 00:00:00', $end)),
                 Where::GreaterEqual($join->table->columns->date, date('Y-m-d 00:00:00', $start)),
                 Where::Equal($join->table->columns->status, 1)
@@ -140,6 +142,8 @@ class MetricService extends Service implements IMetricService1 {
                 Where::Equal(UserSchema::Columns()->active,"y"),
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
                 Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
+                Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start)),
                 Where::LesserEqual($join->table->columns->date, date('Y-m-d 00:00:00', $end)),
                 Where::GreaterEqual($join->table->columns->date, date('Y-m-d 00:00:00', $start)),
                 Where::Equal($join->table->columns->status, 1)
