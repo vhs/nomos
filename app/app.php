@@ -24,6 +24,7 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpBasicAuthModule("Nomos", \app\security\Authenticate::getInstance()));
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpExceptionHandlerModule("verbose", $serverLog));
 \vhs\web\HttpContext::Server()->register(\app\modules\HttpPaymentGatewayHandlerModule::getInstance());
+\vhs\web\HttpContext::Server()->register(\app\security\oauth\modules\OAuthHandlerModule::getInstance());
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule("web"));
 
 
@@ -32,5 +33,9 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 
 \app\monitors\PaypalIpnMonitor::getInstance()->Init($serverLog);
 \app\monitors\PaymentMonitor::getInstance()->Init($serverLog);
+
+\app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GithubOAuthHandler());
+\app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GoogleOAuthHandler());
+\app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\SlackOAuthHandler());
 
 \vhs\web\HttpContext::Server()->handle();
