@@ -162,6 +162,8 @@ class AuthService extends Service implements IAuthService1 {
         $retval["type"] = null;
         $retval["privileges"] = null;
 
+        $service = strtolower($service);
+
         $keys = Key::findByService($service, $id);
 
         $logAccess = function($granted, $userid = null) use ($service, $id) {
