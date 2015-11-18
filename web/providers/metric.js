@@ -9,7 +9,7 @@ angular
         .then(function(response) { return response.data; });
     },
     GetTotalMembers: function(start, end) {
-      return $http.post("/services/web/MetricService1.svc/GetTotalMembers", {start_range: start, end_range: end})
+      return $http.get("/services/web/MetricService1.svc/GetTotalMembers")
         .then(function(response) { return response.data; });
     },
     GetNewKeyHolders: function(start, end) {
@@ -17,7 +17,7 @@ angular
         .then(function(response) { return response.data; });
     },
     GetTotalKeyHolders: function(start, end) {
-      return $http.post("/services/web/MetricService1.svc/GetTotalKeyHolders", {start_range: start, end_range: end})
+      return $http.get("/services/web/MetricService1.svc/GetTotalKeyHolders")
         .then(function(response) { return response.data; });
     },
     GetPendingAccounts: function() {

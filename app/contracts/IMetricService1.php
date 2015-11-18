@@ -28,19 +28,15 @@ interface IMetricService1 extends IContract {
 
     /**
      * @permission user
-     * @param string $start_range string iso date in UTC, if empty is start of today
-     * @param string $end_range string iso date in UTC, if empty is end of today
      * @return mixed
      */
-    public function GetTotalMembers($start_range, $end_range);
+    public function GetTotalMembers();
 
     /**
      * @permission user
-     * @param string $start_range string iso date in UTC, if empty is start of today
-     * @param string $end_range string iso date in UTC, if empty is end of today
      * @return mixed
      */
-    public function GetTotalKeyHolders($start_range, $end_range);
+    public function GetTotalKeyHolders();
 
     /**
      * @permission administrator
