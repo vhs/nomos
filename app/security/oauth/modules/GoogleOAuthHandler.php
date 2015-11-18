@@ -26,7 +26,7 @@ class GoogleOAuthHandler extends OAuthHandler
         $provider = new Google([
             'clientId'      => OAUTH_GOOGLE_CLIENT,
             'clientSecret'  => OAUTH_GOOGLE_SECRET,
-            'redirectUri'   => $host.$this->getUrl().'.php?action='.$action,
+            'redirectUri'   => $host.$this->getUrl().'?action='.$action,
             'scopes'        => [ 'email' ],
         ]);
 
