@@ -227,3 +227,6 @@ pip-log.txt
 composer.lock
 composer.phar
 vendor
+
+#Docker env
+docker/nomos.env
