@@ -106,6 +106,12 @@ angular
                     .then(function(response) {
                         return response.data;
                     });
+            },
+            UpdateExpiry: function(userid, date) {
+                return $http.post("/services/web/UserService1.svc/UpdateExpiry", {userid: userid, date: date})
+                    .then(function(response) {
+                        return response.data;
+                    });
             }
         };
     }]);

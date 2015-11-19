@@ -33,10 +33,6 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function UpdatePassword($userid, $password) {
-        if (CurrentUser::getIdentity() != $userid || CurrentUser::hasAnyPermissions("administrator") != true) {
-            return;
-        }
-
         $user = $this->GetUser($userid);
 
         if(is_null($user)) return;
@@ -294,5 +290,23 @@ class UserService extends Service implements IUserService1 {
     public function ListUsers($page, $size, $columns, $order, $filters)
     {
         return User::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $date
+     * @return mixed
+     */
+    public function UpdateExpiry($userid, $date)
+    {
+        $user = User::find($userid);
+
+        if (is_null($user))
+            return;
+
+        $user->mem_expire = (new DateTime($date))->format("Y-m-d H:i:s");
+
+        $user->save();
     }
 }
