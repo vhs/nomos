@@ -5,7 +5,9 @@ namespace app\services;
 
 use app\contracts\IPaymentService1;
 use app\domain\Payment;
+use app\endpoints\web\UserService1;
 use app\schema\SettingsSchema;
+use Aws\CloudFront\Exception\Exception;
 use vhs\database\Database;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
@@ -31,10 +33,16 @@ class PaymentService extends Service implements IPaymentService1 {
     }
 
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters) {
-        if (!(CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions("administrator")))
-            return null;
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
 
-        $userFilter = Filter::Equal("user_id", $userid);
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        if (is_null($user))
+            throw new \Exception("User not found or you do not have access");
+
+        $userFilter = Filter::_Or(Filter::Equal("user_id", $user->id), Filter::Equal("payer_email", $user->email));
 
         if (is_null($filters) || $filters == "")
             $filters = $userFilter;

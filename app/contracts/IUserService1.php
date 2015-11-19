@@ -141,4 +141,12 @@ interface IUserService1 extends IContract {
      * @return mixed
      */
     public function GetStatuses();
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $date
+     * @return mixed
+     */
+    public function UpdateExpiry($userid, $date);
 }

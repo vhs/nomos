@@ -77,39 +77,45 @@ angular
                             $scope.profile.username
                         ).then(function() {
 
-                                if ($scope.currentUser.hasPrivilege("full-profile")) {
-                                    $scope.pendingUpdate += 1;
-                                    UserService1.UpdateName(
-                                        $scope.currentUser.id,
-                                        $scope.profile.fname,
-                                        $scope.profile.lname
-                                    ).then(function() { $scope.pendingUpdate -= 1; });
-
-                                    $scope.pendingUpdate += 1;
-                                    UserService1.UpdateEmail(
-                                        $scope.currentUser.id,
-                                        $scope.profile.email
-                                    ).then(function() { $scope.pendingUpdate -= 1; });
-                                }
-
+                            if ($scope.currentUser.hasPrivilege("full-profile")) {
                                 $scope.pendingUpdate += 1;
-                                UserService1.UpdateNewsletter(
-                                    $scope.profile.id,
-                                    $scope.profile.newsletter
+                                UserService1.UpdateName(
+                                    $scope.currentUser.id,
+                                    $scope.profile.fname,
+                                    $scope.profile.lname
                                 ).then(function() { $scope.pendingUpdate -= 1; });
 
-                                $scope.profile.keys.forEach(function(key) {
-                                    if(key.type == 'pin' && key.pin) {
-                                        $scope.pendingUpdate += 1;
-                                        $scope.PinService1.UpdatePin(key.id, key.pin).then(function() {
-                                            $scope.pendingUpdate -= 1;
-                                        });
-                                    }
-                                });
+                                $scope.pendingUpdate += 1;
+                                UserService1.UpdateEmail(
+                                    $scope.currentUser.id,
+                                    $scope.profile.email
+                                ).then(function() { $scope.pendingUpdate -= 1; });
+                            }
 
-                                $scope.checkUpdated();
-                                $scope.pendingUpdate -= 1;
+                            $scope.pendingUpdate += 1;
+                            UserService1.UpdateNewsletter(
+                                $scope.profile.id,
+                                $scope.profile.newsletter
+                            ).then(function() { $scope.pendingUpdate -= 1; });
+
+                            $scope.profile.keys.forEach(function(key) {
+                                if(key.type == 'pin' && key.pin) {
+                                    $scope.pendingUpdate += 1;
+                                    $scope.PinService1.UpdatePin(key.id, key.pin).then(function() {
+                                        $scope.pendingUpdate -= 1;
+                                    });
+                                }
                             });
+
+                            $scope.pendingUpdate += 1;
+                            UserService1.UpdateExpiry(
+                                $scope.profile.id,
+                                $scope.profile.mem_expire
+                            ).then(function() { $scope.pendingUpdate -= 1; });
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
+                        });
                     };
 
                     $scope.checkUpdated = function() {
@@ -156,8 +162,14 @@ angular
                             }
                         });
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         PrivilegeService1.PutUserPrivileges(profile.id, codes).then(function(){
                             $scope.privilegeDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
@@ -193,8 +205,14 @@ angular
 
                         if (membership == null) return;
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         UserService1.UpdateMembership(profile.id, membership.id).then(function(){
                             $scope.membershipDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
@@ -230,8 +248,14 @@ angular
 
                         if (status == null) return;
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         UserService1.UpdateStatus(profile.id, status.code).then(function(){
                             $scope.statusDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
