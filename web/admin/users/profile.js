@@ -156,8 +156,14 @@ angular
                             }
                         });
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         PrivilegeService1.PutUserPrivileges(profile.id, codes).then(function(){
                             $scope.privilegeDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
@@ -193,8 +199,14 @@ angular
 
                         if (membership == null) return;
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         UserService1.UpdateMembership(profile.id, membership.id).then(function(){
                             $scope.membershipDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
@@ -230,8 +242,14 @@ angular
 
                         if (status == null) return;
 
+                        $scope.updating = true;
+                        $scope.pendingUpdate = 1;
+
                         UserService1.UpdateStatus(profile.id, status.code).then(function(){
                             $scope.statusDirty = false;
+
+                            $scope.checkUpdated();
+                            $scope.pendingUpdate -= 1;
                         });
                     };
 
