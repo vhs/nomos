@@ -19,11 +19,13 @@ class GenuineCardSchema extends Schema {
         $table = new Table("genuinecard");
 
         $table->addColumn("id", Type::Int(false, 0));
+        $table->addColumn("key", Type::String(false, null, 255));
         $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));
-        $table->addColumn("issued", Type::DateTime(true, date("Y-m-d H:i:s")));
+        $table->addColumn("issued", Type::DateTime(true, null));
         $table->addColumn("active", Type::Bool(false, false));
-        $table->addColumn("payment_id", Type::Int(true, 0));
-        $table->addColumn("user_id", Type::Int(true, 0));
+        $table->addColumn("paymentid", Type::Int(true, 0));
+        $table->addColumn("userid", Type::Int(true, 0));
         $table->addColumn("owneremail", Type::String(true, "", 255));
+        $table->addColumn("notes", Type::String(true, "", 255));
     }
 }

@@ -11,6 +11,7 @@ namespace vhs\database\wheres;
 use vhs\database\Column;
 use vhs\database\Element;
 use vhs\database\IGenerator;
+use vhs\database\queries\Query;
 
 abstract class Where extends Element {
 
@@ -58,11 +59,11 @@ abstract class Where extends Element {
         return new WhereComparator($column, $value, false, false, false, false, true);
     }
 
-    public static function In(Column $column, array $value) {
+    public static function In(Column $column, $value) {
         return self::Equal($column, $value);
     }
 
-    public static function NotIn(Column $column, array $value) {
+    public static function NotIn(Column $column, $value) {
         return self::NotEqual($column, $value);
     }
 

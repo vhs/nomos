@@ -1,0 +1,12 @@
+CREATE TABLE `genuinecard` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `key` VARCHAR(255) NOT NULL,
+  `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `issued` TIMESTAMP NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `paymentid` INT(11) NULL,
+  `userid` INT(11) NULL,
+  `owneremail` VARCHAR(255) NOT NULL,
+  `notes` TEXT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
