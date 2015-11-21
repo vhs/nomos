@@ -67,7 +67,16 @@ class PaypalIpnMonitor extends Monitor {
 
             $payment->item_number = $ipn->item_number;
             $payment->item_name = $ipn->item_name;
-            $payment->date = (array_key_exists("payment_date", $raw)) ? (new DateTime(urldecode($raw["payment_date"])))->format("Y-m-d H:i:s") : $ipn->created; //todo ensure timezones
+
+            $date = (array_key_exists("payment_date", $raw)) ? urldecode($raw["payment_date"]) : null;
+
+            if (!is_null($date)) {
+                $date = (new DateTime(substr($date, 0, strpos($date, "("))))->format("Y-m-d H:i:s");
+            } else {
+                $date = $ipn->created;
+            }
+
+            $payment->date = $date;
 
             $payment->save();
         }

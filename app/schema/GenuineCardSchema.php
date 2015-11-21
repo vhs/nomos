@@ -9,8 +9,8 @@
 namespace app\schema;
 
 
+use vhs\database\constraints\Constraint;
 use vhs\database\Table;
-use vhs\domain\Domain;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
@@ -19,7 +19,7 @@ class GenuineCardSchema extends Schema {
         $table = new Table("genuinecard");
 
         $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("key", Type::String(false, null, 255));
+        $table->addColumn("key", Type::String(false, "", 255));
         $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));
         $table->addColumn("issued", Type::DateTime(true, null));
         $table->addColumn("active", Type::Bool(false, false));
@@ -27,5 +27,11 @@ class GenuineCardSchema extends Schema {
         $table->addColumn("userid", Type::Int(true, 0));
         $table->addColumn("owneremail", Type::String(true, "", 255));
         $table->addColumn("notes", Type::String(true, "", 255));
+
+        $table->setConstraints(
+            Constraint::PrimaryKey($table->columns->id)
+        );
+
+        return $table;
     }
 }

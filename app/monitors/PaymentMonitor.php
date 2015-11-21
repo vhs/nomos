@@ -103,7 +103,13 @@ class PaymentMonitor extends Monitor {
                     'fname' => $user->fname
                 ]
             );
+
+            $payment->user_id = $user->id;
         }
+
+        $payment->status = 1;
+
+        $payment->save();
     }
 
     private function processMemberPayment(User $user, Payment $payment) {

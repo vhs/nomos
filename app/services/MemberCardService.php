@@ -13,6 +13,7 @@ use app\contracts\IMemberCardService1;
 use app\domain\GenuineCard;
 use app\domain\Payment;
 use app\domain\User;
+use vhs\database\Columns;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\Filter;
@@ -31,7 +32,7 @@ class MemberCardService implements IMemberCardService1
     {
         $keys = GenuineCard::findByKey($key);
 
-        if (!is_null($keys) || count($keys) <> 0) //card already registered
+        if (!is_null($keys) && count($keys) <> 0) //card already registered
             throw new \Exception("Failed to register card");
 
         $card = new GenuineCard();
@@ -80,7 +81,12 @@ class MemberCardService implements IMemberCardService1
                 Where::Equal(Payment::Schema()->Columns()->item_number, "vhs_card_2015"), //TODO eventually put these into card campaigns or something
                 Where::Equal(Payment::Schema()->Columns()->payer_email, $email),
                 Where::Equal(Payment::Schema()->Columns()->user_id, $user->id),
-                Where::NotIn(Payment::Schema()->Columns()->id, Query::Select(GenuineCard::Schema()->Table(), GenuineCard::Schema()->Columns()->paymentid))
+                Where::NotIn(Payment::Schema()->Columns()->id,
+                    Query::Select(
+                        GenuineCard::Schema()->Table(),
+                        new Columns(GenuineCard::Schema()->Columns()->paymentid)
+                    )
+                )
             )
         );
 
@@ -116,7 +122,7 @@ class MemberCardService implements IMemberCardService1
      */
     public function ListGenuineCards($page, $size, $columns, $order, $filters)
     {
-        GenuineCard::page($page, $size, $columns, $order, $filters);
+        return GenuineCard::page($page, $size, $columns, $order, $filters);
     }
 
     /**

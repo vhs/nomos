@@ -26,7 +26,7 @@ angular
                     $scope.listService = {
                         page: 0,
                         size: 10,
-                        columns: "id,txn_id,status,user_id,payer_fname,payer_lname,payer_email,date,pp,rate_amount,currency",
+                        columns: "id,txn_id,status,user_id,payer_fname,payer_lname,payer_email,date,pp,item_number,rate_amount,currency",
                         order: "date desc",
                         search: null
                     };
