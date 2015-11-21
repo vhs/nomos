@@ -1,0 +1,12 @@
+Hey {{fname}},
+
+Thanks for purchasing a VHS Membership card!
+
+Currently, member cards can only be picked up in person. You'll need to arrange for a time to be down at the space with a director and they can issue you your card!
+
+The directors have been notified of your purchase and will be in touch as soon as they can!
+
+Thank you,
+- Vancouver Hackspace Society
+
+http://membership.hackspace.ca

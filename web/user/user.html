@@ -1,6 +1,5 @@
 <span show-during-resolve class="glyphicon glyphicon-refresh loading-icon"></span>
 <div id="wrapper" ng-show="currentUser.id" ng-cloak>
-
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,6 +42,10 @@
 
                     <li>
                         <a ui-sref="user.profile" ng-class="{active: $state.is('user.profile')}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="user.purchase" ng-class="{active: $state.is('user.purchase')}"><i class="fa fa-user fa-fw"></i> Purchase</a>
                     </li>
 
                     <li>

@@ -1,6 +1,6 @@
 <div class="row">
-<div class="col-lg-12">
-        <h4>Payments</h4>
+    <div class="col-lg-12">
+        <h4>Member Card Management</h4>
         <div class="overlay" ng-show="updating">
             <div class="row vertical-align text-center icon-align-center">
                 <div class="col-md-2 col-md-offset-5">
@@ -8,6 +8,42 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Register Card as Genuine Card</h3>
+            </div>
+            <div class="panel-body">
+                <label>Card Serial Number</label> <input class="form-control" title="Key" type="text" ng-model="registerkey" />
+                <br/>
+                <button class="btn btn-primary" ng-click="registerCard()">Register Card</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Issue Card</h3>
+            </div>
+            <div class="panel-body">
+                <label>Card Serial Number</label> <input class="form-control" title="Key" type="text" ng-model="issuekey" />
+                <label>Owner Email</label> <input class="form-control" title="Email" type="text" ng-model="issueemail" />
+                <br/>
+                <button class="btn btn-primary" ng-click="issueCard()">Issue Card</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">List of Genuine Cards</h3>
+        </div>
+        <div class="panel-body">
 
     <div class="row">
         <div class="col-lg-12">
@@ -60,49 +96,50 @@
         </div>
     </div>
 
-        <p ng-if="!payments.length">No payments</p>
-        <table ng-if="payments.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Status</th>
-                <th>TXN ID</th>
-                <th colspan="2">User</th>
-                <th>Processor</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-                <th>Date</th>
-                <th>Status</th>
-                <th>TXN ID</th>
-                <th colspan="2">User</th>
-                <th>Processor</th>
-                <th>Item</th>
-                <th>Price</th>
-                
-                <th></th>
-            </tr>
+    <p ng-if="!membercards.length">No Genuine Cards Registered</p>
+    <table ng-if="membercards.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Created</th>
+            <th>Issued</th>
+            <th>Active</th>
+            <th>PaymentID</th>
+            <th>UserID</th>
+            <th>Owner Email</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Key</th>
+            <th>Created</th>
+            <th>Issued</th>
+            <th>Active</th>
+            <th>PaymentID</th>
+            <th>UserID</th>
+            <th>Owner Email</th>
+            <th>Notes</th>
+        </tr>
 
-            </tfoot>
+        </tfoot>
 
-            <tbody>
-            <tr ng-repeat="payment in payments">
-                <td>{{payment.date}}</td>
-                <td>{{payment.status}}</td>
-                <td>{{payment.txn_id}}</td>
-                <td><a type="button" class="btn btn-primary btn-circle" ng-if="payment.user_id" ui-sref="admin.users.profile({user: payment.user_id})"><i class="fa fa-edit"></i></a> {{payment.payer_fname}} {{payment.payer_lname}}</td>
-                <td>{{payment.payer_email}}</td>
-                <td>{{payment.pp}}</td>
-                <td>{{payment.item_number}}</td>
-                <td>${{payment.rate_amount}} {{payment.currency}}</td>
-                <td><a type="button" class="btn btn-primary btn-circle" ui-sref="admin.payments.view({paymentId: payment.id})"><i class="fa fa-edit"></i></a></td>
-            </tr>
-            </tbody>
-        </table>
+        <tbody>
+        <tr ng-repeat="card in membercards">
+            <td>{{card.key}}</td>
+            <td>{{card.created}}</td>
+            <td>{{card.issued}}</td>
+            <td>{{card.active}}</td>
+            <td>{{card.paymentid}}</td>
+            <td>{{card.userid}}</td>
+            <td>{{card.owneremail}}</td>
+            <td>{{card.notes}}</td>
+        </tr>
+        </tbody>
+    </table>
 
     </div>
+    </div>
+    </div>
+
 </div>

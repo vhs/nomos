@@ -22,10 +22,15 @@ class PaymentMonitor extends Monitor {
 
     /** @var Logger */
     private $logger;
+    /** @var EmailService */
+    private $emailService;
+    private $host;
 
     public function Init(Logger &$logger = null)
     {
         $this->logger = &$logger;
+        $this->emailService = new EmailService();
+
         Payment::onAnyCreated([$this, "paymentCreated"]);
     }
 
@@ -36,12 +41,10 @@ class PaymentMonitor extends Monitor {
 
     public function paymentCreated($args)
     {
-        $emailService = new EmailService();
-
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'].'/';
 
-        $host = $protocol.$domainName;
+        $this->host = $protocol.$domainName;
 
         /** @var Payment $payment */
         $payment = Payment::find($args[0]->id);
@@ -60,6 +63,56 @@ class PaymentMonitor extends Monitor {
             $user = $users[0];
         }
 
+        if ($payment->item_number == "vhs_card_2015") {
+            $this->processMembershipCardPayment($user, $payment);
+        } else {
+            $this->processMemberPayment($user, $payment);
+        }
+    }
+
+    private function processMembershipCardPayment(User $user, Payment $payment) {
+        if (is_null($user)) {
+            $this->emailService->Email(
+                NOMOS_FROM_EMAIL,
+                "[Nomos] Unknown user purchased Membership Card - " . $payment->payer_fname . " " . $payment->lname,
+                'admin_error',
+                [
+                    'message' => $payment->fname . " " . $payment->lname . " with email "
+                        . $payment->payer_email . " purchased a membership card but we "
+                        . "don't have an account for them... they'll need an account before"
+                        . " we can issue a member card."
+                ]
+            );
+        } else {
+            $this->emailService->Email(
+                NOMOS_FROM_EMAIL,
+                "[Nomos] New Membership Card Purchase! - " . $payment->payer_fname . " " . $payment->lname,
+                'admin_membercard_purchased',
+                [
+                    'email' => $payment->payer_email,
+                    'fname' => $payment->payer_fname,
+                    'lname' => $payment->payer_lname
+                ]
+            );
+
+            $this->emailService->EmailUser(
+                $user,
+                'VHS Membership Card Purchased!',
+                'membercard_purchased',
+                [
+                    'fname' => $user->fname
+                ]
+            );
+
+            $payment->user_id = $user->id;
+        }
+
+        $payment->status = 1;
+
+        $payment->save();
+    }
+
+    private function processMemberPayment(User $user, Payment $payment) {
         //TODO get membership type via item_name/item_number from payment record
         /** @var Membership $membership */
         $membership = Membership::findForPriceLevel($payment->rate_amount);
@@ -92,7 +145,7 @@ class PaymentMonitor extends Monitor {
                 return;
             }
 
-            $emailService->Email(
+            $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
                 '[Nomos] New User Created!',
                 'admin_newuser',
@@ -100,7 +153,7 @@ class PaymentMonitor extends Monitor {
                     'email' => $payment->payer_email,
                     'fname' => $payment->payer_fname,
                     'lname' => $payment->payer_lname,
-                    'host' => $host,
+                    'host' => $this->host,
                     'id' => $user->id
                 ]
             );
@@ -124,7 +177,7 @@ class PaymentMonitor extends Monitor {
         $payment->status = 1; //processed
         $payment->save();
 
-        $emailService->Email(
+        $this->emailService->Email(
             NOMOS_FROM_EMAIL,
             '[Nomos] User payment made!',
             'admin_payment',
@@ -137,12 +190,12 @@ class PaymentMonitor extends Monitor {
             ]
         );
 
-        $emailService->EmailUser(
+        $this->emailService->EmailUser(
             $user,
             'VHS Membership Payment Received!',
             'payment',
             [
-                'host' => $host,
+                'host' => $this->host,
                 'fname' => $user->fname,
             ]
         );
