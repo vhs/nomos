@@ -1,4 +1,4 @@
-Hey {{fname}},
+Hey {{fname}} {{lname}},
 
 Thanks for purchasing a VHS Membership card!
 

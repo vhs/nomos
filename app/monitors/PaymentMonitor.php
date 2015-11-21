@@ -100,7 +100,8 @@ class PaymentMonitor extends Monitor {
                 'VHS Membership Card Purchased!',
                 'membercard_purchased',
                 [
-                    'fname' => $user->fname
+                    'fname' => $user->fname,
+                    'lname' => $user->lname
                 ]
             );
 
