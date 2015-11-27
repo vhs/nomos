@@ -320,4 +320,13 @@ class UserService extends Service implements IUserService1 {
 
         $user->save();
     }
+
+    public function GetStanding($userid) {
+        $user = $this->GetUser($userid);
+
+        if (is_null($user)) return false;
+
+        return new DateTime($user->mem_expire) > new DateTime();
+    }
+
 }
