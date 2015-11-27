@@ -54,7 +54,7 @@ class PaymentMonitor extends Monitor {
 
         /** @var User $user */
         $user = null;
-        $users = User::findByEmail($payment->payer_email);
+        $users = User::findByPaymentEmail($payment->payer_email);
 
         if (count($users) > 1) {
             $this->log("Found more than one user for email '{$payment->payer_email}' unable to process payment");

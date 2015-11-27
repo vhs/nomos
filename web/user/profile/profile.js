@@ -93,6 +93,12 @@ angular
                                     $scope.currentUser.id,
                                     $scope.profile.email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
+
+                                $scope.pendingUpdate += 1;
+                                UserService1.UpdatePaymentEmail(
+                                    $scope.currentUser.id,
+                                    $scope.profile.payment_email
+                                ).then(function() { $scope.pendingUpdate -= 1; });
                             }
 
                             $scope.pendingUpdate += 1;

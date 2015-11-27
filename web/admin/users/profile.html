@@ -51,11 +51,20 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <label>Paypal Email</label>
+                                    <label>Email</label>
                                     <div class="checkbox pull-right" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                            <input class="form-control" placeholder="Email" ng-model="profile.email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Paypal Email</label>
+                                </div>
+                            </div>
+                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.payment_email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
                         </div>
 
                         <div class="row">
