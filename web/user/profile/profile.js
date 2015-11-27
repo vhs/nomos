@@ -16,9 +16,11 @@ angular
                     $scope.PinService1 = PinService1;
                     $scope.profile = angular.copy($scope.currentUser);
 
-                    var today = new Date();
+                    $scope.goodStanding = false;
 
-                    $scope.goodStanding = new Date($scope.profile.mem_expire) > today;
+                    UserService1.GetStanding($scope.profile.id).then(function(data) {
+                        $scope.goodStanding = (data == 'true');
+                    });
 
                     $scope.member_since = moment($scope.profile.created).format("MMMM Do, YYYY");
                     $scope.member_for = moment($scope.profile.created).fromNow(true);

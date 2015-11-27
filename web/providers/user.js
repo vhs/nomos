@@ -118,6 +118,12 @@ angular
                     .then(function(response) {
                         return response.data;
                     });
+            },
+            GetStanding: function(userid) {
+                return $http.get("/services/web/UserService1.svc/GetStanding?userid=" + userid)
+                    .then(function(response) {
+                        return response.data;
+                    });
             }
         };
     }]);
