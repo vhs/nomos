@@ -16,7 +16,7 @@ angular
                         return UserService1.GetUser($stateParams.userId);
                     }]
                 },
-                controller: ['$scope', '$modal', '$timeout', 'profile', 'PrivilegeService1', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1) {
+                controller: ['$scope', '$modal', '$timeout', 'profile', 'PrivilegeService1', 'UserService1', 'MembershipService1', 'PinService1', function($scope, $modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1, PinService1) {
                     $scope.currentProfile = profile;
                     $scope.profile = profile;
                     var currentPriv = {};
@@ -90,6 +90,12 @@ angular
                                     $scope.currentUser.id,
                                     $scope.profile.email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
+
+                                $scope.pendingUpdate += 1;
+                                UserService1.UpdatePaymentEmail(
+                                    $scope.currentUser.id,
+                                    $scope.profile.payment_email
+                                ).then(function() { $scope.pendingUpdate -= 1; });
                             }
 
                             $scope.pendingUpdate += 1;
@@ -101,7 +107,7 @@ angular
                             $scope.profile.keys.forEach(function(key) {
                                 if(key.type == 'pin' && key.pin) {
                                     $scope.pendingUpdate += 1;
-                                    $scope.PinService1.UpdatePin(key.id, key.pin).then(function() {
+                                    PinService1.UpdatePin(key.id, key.pin).then(function() {
                                         $scope.pendingUpdate -= 1;
                                     });
                                 }
@@ -217,8 +223,8 @@ angular
                     };
 
                     //Build a map of selected statii
-                    var mpromise = UserService1.GetStatuses();
-                    mpromise.then(function(statuses){
+                    var mpromiseUser = UserService1.GetStatuses();
+                    mpromiseUser.then(function(statuses){
                         $scope.statuses = [];
                         angular.forEach(statuses, function(status){
                             status.selected = status.code == currentStatus.code;

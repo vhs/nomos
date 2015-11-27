@@ -83,6 +83,16 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
+    public function UpdatePaymentEmail($userid, $email) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->payment_email = $email;
+
+        $user->save();
+    }
+
     public function Register($username, $password, $email, $fname, $lname) {
         if (User::exists($username, $email))
             throw new \Exception("User already exists");
@@ -124,6 +134,7 @@ class UserService extends Service implements IUserService1 {
         $user->username = $username;
         $user->password = PasswordUtil::hash($password);
         $user->email = $email;
+        $user->payment_email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
         $user->active = "t";

@@ -70,6 +70,12 @@ angular
                         return response.data;
                     });
             },
+            UpdatePaymentEmail: function(userid, email) {
+                return $http.post("/services/web/UserService1.svc/UpdatePaymentEmail", {userid: userid, email: email})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
             Register: function(username, password, email, fname, lname) {
                 return $http.post("/services/web/UserService1.svc/Register", {username: username, password: password, email: email, fname: fname, lname: lname})
                     .then(function(response) {

@@ -58,6 +58,16 @@ class User extends Domain {
     }
 
     /**
+     * @param $email
+     * @return User[]
+     */
+    public static function findByPaymentEmail($email) {
+        return User::where(
+            Where::Equal(UserSchema::Columns()->payment_email, $email)
+        );
+    }
+
+    /**
      * @param string|null $username
      * @param string|null $email
      * @return boolean
