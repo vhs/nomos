@@ -64,7 +64,7 @@ class MemberCardService implements IMemberCardService1
      */
     public function IssueCard($email, $key)
     {
-        $users = User::findByEmail($email);
+        $users = User::findByPaymentEmail($email);
 
         if (is_null($users) || count($users) <> 1)
             throw new \Exception("Invalid email address");
