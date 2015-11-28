@@ -6,10 +6,13 @@ namespace app\services;
 use app\contracts\IPaymentService1;
 use app\domain\Payment;
 use app\endpoints\web\UserService1;
+use app\monitors\PaymentMonitor;
+use app\processors\PaymentProcessor;
 use app\schema\SettingsSchema;
 use Aws\CloudFront\Exception\Exception;
 use vhs\database\Database;
 use vhs\domain\Filter;
+use vhs\loggers\StringLogger;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
@@ -54,5 +57,24 @@ class PaymentService extends Service implements IPaymentService1 {
 
     public function ListPayments($page, $size, $columns, $order, $filters) {
         return Payment::page($page, $size, $columns, $order, $filters);
+    }
+
+    public function ReplayPaymentProcessing($paymentid) {
+        $log = new StringLogger();
+
+        $log->log("Attempting a reply of payment id: " . $paymentid);
+
+        $processor = new PaymentProcessor($log);
+
+        try {
+            $processor->paymentCreated($paymentid);
+        } catch(\Exception $ex) {
+            $log->log("Exception: " . $ex->getMessage());
+            $log->log($ex->getTraceAsString());
+        }
+
+        $log->log("Replay complete.");
+
+        return $log->fullText();
     }
 }
