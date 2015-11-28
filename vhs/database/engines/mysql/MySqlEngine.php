@@ -115,7 +115,7 @@ class MySqlEngine extends Engine {
             if(sizeof($row) <> 1)
                 return null;
 
-            return $row[0][0];
+            return $row[0];
         
         } else {
             throw new DatabaseException($this->conn->error);
