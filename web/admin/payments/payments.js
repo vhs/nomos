@@ -11,6 +11,14 @@ angular
                 controller: ['$scope', 'PaymentService1', function($scope, PaymentService1) {
                     $scope.payments = [];
 
+                    $scope.replay = function (id) {
+                        $scope.updating = true;
+                        PaymentService1.ReplayPaymentProcessing(id).then(function(data){
+                            alert(data);
+                            $scope.updated();
+                        });
+                    };
+
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
                         $scope.showPending = val;

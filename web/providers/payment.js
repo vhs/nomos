@@ -15,6 +15,10 @@ angular
             ListPayments: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/PaymentService1.svc/ListPayments", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
+            },
+            ReplayPaymentProcessing: function(id) {
+                return $http.get("/services/web/PaymentService1.svc/ReplayPaymentProcessing?paymentid=" + id)
+                    .then(function(response) { return response.data; });
             }
         };
     }]);
