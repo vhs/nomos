@@ -14,18 +14,20 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-keys E5267A6C && \
         nginx \
 	&& apt-get clean && rm -r /var/lib/apt/lists/*
 
-COPY ["app", "/www/app"]
-COPY ["web", "/www/web"]
-COPY ["vhs", "/www/vhs"]
-COPY ["tools", "/www/tools"]
 COPY ["composer.json", "/www/"]
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/www/ && \
     cd /www/ && \
-    php composer.phar install
+    php composer.phar install && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf
 
+COPY ["app", "/www/app"]
+COPY ["web", "/www/web"]
+COPY ["vhs", "/www/vhs"]
+COPY ["migrations", "/www/migrations"]
+COPY ["tools", "/www/tools"]
 COPY ["conf/nginx-vhost-docker.conf", "/etc/nginx/sites-enabled/default"]
 COPY ["docker", "/usr/bin"]
 COPY ["conf/config.ini.php.docker", "/www/conf/config.ini.php"]
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf 
+CMD ["/usr/bin/docker_run.sh"]
