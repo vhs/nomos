@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-lg-12">
+
+
+        <h1>Purchase</h1>
+        <div class="overlay" ng-show="updating">
+            <div class="row vertical-align text-center icon-align-center">
+                <div class="col-md-2 col-md-offset-5">
+                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;">VHS Membership Card</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div ng-if="membercard_one">
+                                    <a href="/images/vhs-member-card-2015-full.png" target="_new">
+                                        <img src="/images/vhs-member-card-2015-thumb.png" style="border:solid 2px #ddd;border-radius:10px;cursor: pointer;"/>
+                                    </a>
+                                </div>
+                                <div ng-if="membercard_two">
+                                    <a href="/images/vhs-member-card-2015-2-full.png" target="_new">
+                                        <img src="/images/vhs-member-card-2015-2-thumb.png" style="border:solid 2px #ddd;border-radius:10px;cursor: pointer;"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a ng-click="membercard_image('1');">
+                                            <img src="/images/vhs-member-card-2015-thumb.png" width="64" style="border:solid 2px #5e5e5e;border-radius:10px;cursor: pointer;" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a ng-click="membercard_image('2');">
+                                            <img src="/images/vhs-member-card-2015-2-thumb.png" width="64" style="border:solid 2px #5e5e5e;border-radius:10px;cursor: pointer;" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span style="font-weight: bold;font-size:1.5em;">CAD$5.00</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="ECHV5FED26JKG">
+                                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

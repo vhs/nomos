@@ -1,0 +1,26 @@
+Membership card has been purchased!
+
+Member: {{fname}} {{lname}} {{email}}
+
+A director needs to arrange a time with this member to be at the space and issue them a card.
+
+The process to issue a card:
+
+Download the Android VHS Mobile app:
+
+If registered genuine member cards remain, register a new card as a genuine member card first.
+
+1. In the app, select "Register Genuine Member Card"
+2. Scan a new member card from the admin cabinet
+3. Await confirmation that the card is registered
+
+Select a registered genuine member card:
+
+1. In the app, select "Issue Member Card"
+2. Enter the member's email address
+3. Scan the genuine member card
+4. Await confirmation that the card has been successfully issued!
+5. Give the card to the member
+
+Thank you,
+- Vancouver Hackspace Society

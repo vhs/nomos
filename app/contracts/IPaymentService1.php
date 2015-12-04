@@ -41,4 +41,11 @@ interface IPaymentService1 extends IContract {
      * @return mixed
      */
     public function ListPayments($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $paymentid
+     * @return mixed
+     */
+    public function ReplayPaymentProcessing($paymentid);
 }

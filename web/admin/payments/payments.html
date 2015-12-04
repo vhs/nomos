@@ -69,6 +69,7 @@
                 <th>TXN ID</th>
                 <th colspan="2">User</th>
                 <th>Processor</th>
+                <th>Item</th>
                 <th>Price</th>
                 <th></th>
             </tr>
@@ -80,6 +81,7 @@
                 <th>TXN ID</th>
                 <th colspan="2">User</th>
                 <th>Processor</th>
+                <th>Item</th>
                 <th>Price</th>
                 
                 <th></th>
@@ -90,11 +92,15 @@
             <tbody>
             <tr ng-repeat="payment in payments">
                 <td>{{payment.date}}</td>
-                <td>{{payment.status}}</td>
+                <td>
+                    <span>{{payment.status}}</span>
+                    <a type="button" class="btn btn-primary btn-circle" ng-click="replay(payment.id)" ng-if="payment.status == 0"><i class="fa fa-ambulance"></i></a>
+                </td>
                 <td>{{payment.txn_id}}</td>
                 <td><a type="button" class="btn btn-primary btn-circle" ng-if="payment.user_id" ui-sref="admin.users.profile({user: payment.user_id})"><i class="fa fa-edit"></i></a> {{payment.payer_fname}} {{payment.payer_lname}}</td>
                 <td>{{payment.payer_email}}</td>
                 <td>{{payment.pp}}</td>
+                <td>{{payment.item_number}}</td>
                 <td>${{payment.rate_amount}} {{payment.currency}}</td>
                 <td><a type="button" class="btn btn-primary btn-circle" ui-sref="admin.payments.view({paymentId: payment.id})"><i class="fa fa-edit"></i></a></td>
             </tr>

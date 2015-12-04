@@ -25,6 +25,7 @@ use vhs\database\orders\OrderBy;
 use vhs\database\orders\OrderByAscending;
 use vhs\database\orders\OrderByDescending;
 use vhs\database\queries\IQueryGenerator;
+use vhs\database\queries\Query;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
@@ -106,7 +107,7 @@ class MySqlGenerator implements
     }
 
     public function generateComparator(WhereComparator $where) {
-        if ($where->isArray) {
+        if ($where->isArray || (is_object($where->value) && get_class($where->value) == "vhs\\database\\queries\\QuerySelect")) {
             $sql = $where->column->generate($this);
 
             if($where->equal)
@@ -114,10 +115,14 @@ class MySqlGenerator implements
             else
                 $sql .= " NOT IN (";
 
-            foreach($where->value as $val)
-                $sql .= $where->column->type->generate($this, $val) . ", ";
+            if ($where->isArray && !(is_object($where->value) && get_class($where->value) == "vhs\\database\\queries\\QuerySelect")) {
+                foreach ($where->value as $val)
+                    $sql .= $where->column->type->generate($this, $val) . ", ";
 
-            $sql = substr($sql, 0, -2);
+                $sql = substr($sql, 0, -2);
+            } else {
+                $sql .= $where->value->generate($this);
+            }
 
             $sql .= ")";
 

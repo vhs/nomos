@@ -114,6 +114,14 @@ interface IUserService1 extends IContract {
     public function UpdateEmail($userid, $email);
 
     /**
+     * @permission administrator|full-profile
+     * @param $userid
+     * @param $email
+     * @return mixed
+     */
+    public function UpdatePaymentEmail($userid, $email);
+
+    /**
      * @permission administrator
      * @param $userid
      * @param $privileges
@@ -141,4 +149,19 @@ interface IUserService1 extends IContract {
      * @return mixed
      */
     public function GetStatuses();
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $date
+     * @return mixed
+     */
+    public function UpdateExpiry($userid, $date);
+
+    /**
+     * @permission user|administrator
+     * @param $userid
+     * @return mixed
+     */
+    public function GetStanding($userid);
 }

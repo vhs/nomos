@@ -16,9 +16,11 @@ angular
                     $scope.PinService1 = PinService1;
                     $scope.profile = angular.copy($scope.currentUser);
 
-                    var today = new Date();
+                    $scope.goodStanding = false;
 
-                    $scope.goodStanding = new Date($scope.profile.mem_expire) > today;
+                    UserService1.GetStanding($scope.profile.id).then(function(data) {
+                        $scope.goodStanding = (data == 'true');
+                    });
 
                     $scope.member_since = moment($scope.profile.created).format("MMMM Do, YYYY");
                     $scope.member_for = moment($scope.profile.created).fromNow(true);
@@ -92,6 +94,12 @@ angular
                                 UserService1.UpdateEmail(
                                     $scope.currentUser.id,
                                     $scope.profile.email
+                                ).then(function() { $scope.pendingUpdate -= 1; });
+
+                                $scope.pendingUpdate += 1;
+                                UserService1.UpdatePaymentEmail(
+                                    $scope.currentUser.id,
+                                    $scope.profile.payment_email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
                             }
 

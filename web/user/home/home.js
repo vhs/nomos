@@ -13,13 +13,13 @@ angular
             return MetricService1.GetNewMembers(moment().utc().startOf('month').toISOString(), moment().utc().endOf('month').toISOString());
           }],
           totalMembers: ['$stateParams', 'MetricService1', function($stateParams, MetricService1) {
-              return MetricService1.GetTotalMembers(moment().utc().startOf('month').toISOString(), moment().utc().endOf('month').toISOString());
+              return MetricService1.GetTotalMembers();
           }],
           newKeyHolders: ['$stateParams', 'MetricService1', function($stateParams, MetricService1) {
               return MetricService1.GetNewKeyHolders(moment().utc().startOf('month').toISOString(), moment().utc().endOf('month').toISOString());
           }],
           totalKeyHolders: ['$stateParams', 'MetricService1', function($stateParams, MetricService1) {
-              return MetricService1.GetTotalKeyHolders(moment().utc().startOf('month').toISOString(), moment().utc().endOf('month').toISOString());
+              return MetricService1.GetTotalKeyHolders();
           }],
           allPermissions: ['PrivilegeService1', function(PrivilegeService1) {
               return PrivilegeService1.GetAllPrivileges();

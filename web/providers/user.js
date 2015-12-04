@@ -70,6 +70,12 @@ angular
                         return response.data;
                     });
             },
+            UpdatePaymentEmail: function(userid, email) {
+                return $http.post("/services/web/UserService1.svc/UpdatePaymentEmail", {userid: userid, email: email})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
             Register: function(username, password, email, fname, lname) {
                 return $http.post("/services/web/UserService1.svc/Register", {username: username, password: password, email: email, fname: fname, lname: lname})
                     .then(function(response) {
@@ -103,6 +109,18 @@ angular
             },
             UpdateStatus: function(userid, status) {
                 return $http.post("/services/web/UserService1.svc/UpdateStatus", {userid: userid, status: status})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            UpdateExpiry: function(userid, date) {
+                return $http.post("/services/web/UserService1.svc/UpdateExpiry", {userid: userid, date: date})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            GetStanding: function(userid) {
+                return $http.get("/services/web/UserService1.svc/GetStanding?userid=" + userid)
                     .then(function(response) {
                         return response.data;
                     });

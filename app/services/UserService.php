@@ -33,10 +33,6 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function UpdatePassword($userid, $password) {
-        if (CurrentUser::getIdentity() != $userid || CurrentUser::hasAnyPermissions("administrator") != true) {
-            return;
-        }
-
         $user = $this->GetUser($userid);
 
         if(is_null($user)) return;
@@ -87,6 +83,16 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
+    public function UpdatePaymentEmail($userid, $email) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user) || CurrentUser::hasAnyPermissions("full-profile", "administrator") != true) return;
+
+        $user->payment_email = $email;
+
+        $user->save();
+    }
+
     public function Register($username, $password, $email, $fname, $lname) {
         if (User::exists($username, $email))
             throw new \Exception("User already exists");
@@ -128,6 +134,7 @@ class UserService extends Service implements IUserService1 {
         $user->username = $username;
         $user->password = PasswordUtil::hash($password);
         $user->email = $email;
+        $user->payment_email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
         $user->active = "t";
@@ -295,4 +302,31 @@ class UserService extends Service implements IUserService1 {
     {
         return User::page($page, $size, $columns, $order, $filters);
     }
+
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $date
+     * @return mixed
+     */
+    public function UpdateExpiry($userid, $date)
+    {
+        $user = User::find($userid);
+
+        if (is_null($user))
+            return;
+
+        $user->mem_expire = (new DateTime($date))->format("Y-m-d H:i:s");
+
+        $user->save();
+    }
+
+    public function GetStanding($userid) {
+        $user = $this->GetUser($userid);
+
+        if (is_null($user)) return false;
+
+        return new DateTime($user->mem_expire) > new DateTime();
+    }
+
 }
