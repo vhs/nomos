@@ -22,7 +22,7 @@ interface IMemberCardService1 extends IContract {
     public function RegisterGenuineCard($key, $notes);
 
     /**
-     * @permission user
+     * @permission authenticated
      * @param $key
      * @return mixed
      */
