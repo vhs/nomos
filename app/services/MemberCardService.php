@@ -52,7 +52,7 @@ class MemberCardService implements IMemberCardService1
     public function ValidateGenuineCard($key) {
         $keys = GenuineCard::findByKey($key);
 
-        return (!is_null($keys) || count($keys) == 1);
+        return (!is_null($keys) && count($keys) == 1);
     }
 
     /**
