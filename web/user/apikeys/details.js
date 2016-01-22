@@ -79,6 +79,7 @@ angular
                     var promise = PrivilegeService1.GetUserPrivileges(currentUser.id);
                     promise.then(function(privileges){
                         $scope.privileges = [];
+                        privileges.push({code:"inherit",name:"Inherit (acts as you)"});
                         angular.forEach(privileges, function(privilege){
                             privilege.selected = angular.isDefined(currentPriv[privilege.code]);
                             $scope.privileges.push(privilege);

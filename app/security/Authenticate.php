@@ -160,7 +160,9 @@ class Authenticate extends Singleton implements IAuthenticate {
 
             if (!is_null($user) && self::isUserValid($user)) {
                 $identity = $user->id;
+
                 if(in_array("inherit", $privileges)) {
+                    array_push($privileges, "user");
                     array_merge(
                         $privileges,
                         array_map(
