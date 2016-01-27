@@ -188,6 +188,8 @@ class AuthService extends Service implements IAuthService1 {
 
         if($user->active == 'y') {
             $retval["valid"] = true;
+            $retval["userId"] = $user->id;
+            $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
             $retval["privileges"] = $key->getAbsolutePrivileges();
 
