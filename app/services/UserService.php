@@ -300,7 +300,10 @@ class UserService extends Service implements IUserService1 {
 
     public function ListUsers($page, $size, $columns, $order, $filters)
     {
-        return User::page($page, $size, $columns, $order, $filters);
+        return User::page($page, $size, $columns, $order, $filters,
+            (CurrentUser::hasAnyPermissions("grants") && !CurrentUser::hasAnyPermissions("administrator")) ?
+            ["id", "username", "fname", "lname", "email"] : []
+        );
     }
 
     /**
@@ -329,4 +332,89 @@ class UserService extends Service implements IUserService1 {
         return new DateTime($user->mem_expire) > new DateTime();
     }
 
+    /**
+     * @permission grants
+     * @param $userid
+     * @param $privilege
+     * @return mixed
+     */
+    public function GrantPrivilege($userid, $privilege)
+    {
+        if(!CurrentUser::canGrantAllPermissions($privilege))
+            return;
+
+        $user = User::find($userid);
+
+        if ($user == null)
+            return;
+
+        /** @var Privilege $priv */
+        $priv = Privilege::findByCode($privilege);
+
+        if ($priv == null)
+            return;
+
+        foreach($user->privileges->all() as $p) {
+            if ($p->code == $priv->code)
+                return;
+        }
+
+        $user->privileges->add($priv);
+        $user->save();
+    }
+
+    /**
+     * @permission grants
+     * @param $userid
+     * @param $privilege
+     * @return mixed
+     */
+    public function RevokePrivilege($userid, $privilege)
+    {
+        if(!CurrentUser::canGrantAllPermissions($privilege))
+            return;
+
+        $user = User::find($userid);
+
+        if ($user == null)
+            return;
+
+        $priv = Privilege::findByCode($privilege);
+
+        if ($priv == null)
+            return;
+
+        $remove = null;
+
+        foreach($user->privileges->all() as $p) {
+            if ($p->code == $priv->code)
+                $remove = $p;
+        }
+
+        if (!is_null($remove)) {
+            $user->privileges->remove($remove);
+            $user->save();
+        }
+    }
+
+    /**
+     * @permission grants
+     * @param $userid
+     * @return mixed
+     */
+    public function GetGrantUserPrivileges($userid)
+    {
+        /** @var User $user */
+        $user = User::find($userid);
+
+        if ($user == null)
+            return [];
+
+        if (CurrentUser::canGrantAllPermissions("*"))
+            return $user->getPrivilegeCodes();
+
+        $me = User::find(CurrentUser::getIdentity());
+
+        return array_intersect($user->getPrivilegeCodes(), $me->getGrantCodes());
+    }
 }

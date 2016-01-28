@@ -474,12 +474,15 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param $columns
      * @param $order
      * @param $filters
+     * @param array $allowed_columns
      * @return array
      */
-    public static function page($page, $size, $columns, $order, $filters) {
-
+    public static function page($page, $size, $columns, $order, $filters, array $allowed_columns = null) {
         $columnNames = explode(",", $columns);
         $orders = explode(",", $order);
+
+        if (count($allowed_columns) > 0)
+            $columnNames = array_intersect($allowed_columns, $columnNames);
 
         $cols = [];
         $orderBys = [];
@@ -499,15 +502,23 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 );
         }
 
-        foreach($columnNames as $col)
-            if (self::Schema()->Columns()->contains($col) || array_key_exists($col, self::Relationships()))
+        $actualColumns = new Columns();
+
+        foreach($columnNames as $col) {
+            if (self::Schema()->Columns()->contains($col)) {
+                $actualColumns->add(self::Schema()->Columns()->getByName($col));
                 array_push($cols, $col);
+            }
+
+            if (array_key_exists($col, self::Relationships()))
+                array_push($cols, $col);
+        }
 
         /** @var OrderBy $orderBy */
         $orderBy = array_pop($orderBys);
         $orderBy->orderBy = $orderBys;
 
-        $where = self::constructFilter(self::Schema()->Columns(), $filters);
+        $where = self::constructFilter($actualColumns, $filters);
 
         $users = self::where($where, $orderBy, $size, $page);
 
@@ -540,6 +551,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      */
     private static function constructFilter(Columns $columns, $filter) {
         if (is_object($filter)) {
+
+            if ($filter->operator != "and" && $filter->operator != "or")
+                if (!$columns->contains($filter->column))
+                    return null;
+
             switch($filter->operator) {
                 case "and":
                     return Where::_And(self::constructFilter($columns, $filter->left), self::constructFilter($columns, $filter->right));

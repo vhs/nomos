@@ -124,6 +124,24 @@ angular
                     .then(function(response) {
                         return response.data;
                     });
+            },
+            GetGrantUserPrivileges: function(userid) {
+                return $http.get("/services/web/UserService1.svc/GetGrantUserPrivileges?userid=" + userid)
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            GrantPrivilege: function(userid, privilege) {
+                return $http.post("/services/web/UserService1.svc/GrantPrivilege", {userid: userid, privilege: privilege})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
+            RevokePrivilege: function(userid, privilege) {
+                return $http.post("/services/web/UserService1.svc/RevokePrivilege", {userid: userid, privilege: privilege})
+                    .then(function(response) {
+                        return response.data;
+                    });
             }
         };
     }]);

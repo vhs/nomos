@@ -20,7 +20,7 @@ interface IPrivilegeService1 extends IContract {
     public function GetAllSystemPermissions();
 
     /**
-     * @permission administrator|user
+     * @permission administrator|user|grants
      * @return mixed
      */
     public function GetAllPrivileges();
