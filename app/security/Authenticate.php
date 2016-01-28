@@ -88,9 +88,18 @@ class Authenticate extends Singleton implements IAuthenticate {
                 )
             );
 
+            $grants = array();
+            foreach($privileges as $priv) {
+                if (strpos($priv, "grant:") === 0)
+                    array_push($grants, substr($priv, 6));
+            }
+
+            if (count($grants) > 0)
+                array_push($privileges, "grants");
+
             array_push($privileges, "user");
 
-            CurrentUser::setPrincipal(new UserPrincipal($user->id, $privileges));
+            CurrentUser::setPrincipal(new UserPrincipal($user->id, $privileges, $grants));
 
             $user->lastlogin = date(Database::DateFormat());
 
@@ -181,10 +190,20 @@ class Authenticate extends Singleton implements IAuthenticate {
             }
         }
 
+        $grants = array();
+        foreach($privileges as $priv) {
+            if (strpos($priv, "grant:") === 0)
+                array_push($grants, substr($priv, 6));
+        }
+
+        if (count($grants) > 0)
+            array_push($privileges, "grants");
+
         CurrentUser::setPrincipal(
             new TokenPrincipal(
                 $identity,
-                $privileges
+                $privileges,
+                $grants
             )
         );
 

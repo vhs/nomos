@@ -23,6 +23,9 @@ class AnonPrincipal implements IPrincipal {
         return in_array('anonymous', $permission);
     }
 
+    public function canGrantAllPermissions(...$permission) { return false; }
+    public function canGrantAnyPermissions(...$permission) { return false; }
+
     public function getIdentity() {
         return null;
     }

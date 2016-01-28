@@ -58,7 +58,7 @@ interface IUserService1 extends IContract {
     public function GetUsers();
 
     /**
-     * @permission administrator
+     * @permission administrator|grants
      * @param $page
      * @param $size
      * @param $columns
@@ -164,4 +164,27 @@ interface IUserService1 extends IContract {
      * @return mixed
      */
     public function GetStanding($userid);
+
+    /**
+     * @permission grants
+     * @param $userid
+     * @return mixed
+     */
+    public function GetGrantUserPrivileges($userid);
+
+    /**
+     * @permission grants
+     * @param $userid
+     * @param $privilege
+     * @return mixed
+     */
+    public function GrantPrivilege($userid, $privilege);
+
+    /**
+     * @permission grants
+     * @param $userid
+     * @param $privilege
+     * @return mixed
+     */
+    public function RevokePrivilege($userid, $privilege);
 }

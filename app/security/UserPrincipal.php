@@ -15,14 +15,18 @@ class UserPrincipal implements IPrincipal, \JsonSerializable {
 
     private $id;
     private $permissions;
+    private $grants;
 
-    public function __construct($id, $permissions) {
+    public function __construct($id, $permissions, $grants = null) {
         $this->id = $id;
         $this->permissions = $permissions;
+        $this->grants = $grants;
     }
 
     public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->permissions)) == 0); }
     public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->permissions)) > 0); }
+    public function canGrantAllPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_diff($permission, $this->grants)) == 0); }
+    public function canGrantAnyPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_intersect($permission, $this->grants)) > 0); }
     public function getIdentity() { return $this->id; }
     public function isAnon() { return false; }
 

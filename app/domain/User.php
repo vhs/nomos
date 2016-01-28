@@ -26,6 +26,25 @@ class User extends Domain {
         User::Relationship("privileges", Privilege::Type(), UserPrivilegeSchema::Type());
     }
 
+    public function getPrivilegeCodes() {
+        $codes = array();
+
+        foreach($this->privileges->all() as $priv)
+            array_push($codes, $priv->code);
+
+        return $codes;
+    }
+
+    public function getGrantCodes() {
+        $grants = array();
+        foreach($this->privileges->all() as $priv) {
+            if (strpos($priv->code, "grant:") === 0)
+                array_push($grants, substr($priv->code, 6));
+        }
+
+        return $grants;
+    }
+
     public function validate(ValidationResults &$results) {
 
         $this->validateEmail($results);

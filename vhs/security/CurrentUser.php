@@ -62,6 +62,14 @@ class CurrentUser {
         return CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
     }
 
+    final public static function canGrantAllPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->canGrantAllPermissions(...$permission);
+    }
+
+    final public static function canGrantAnyPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->canGrantAnyPermissions(...$permission);
+    }
+
     final public static function getIdentity() {
         return CurrentUser::getPrincipal()->getIdentity();
     }
