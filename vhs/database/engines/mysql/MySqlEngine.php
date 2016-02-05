@@ -159,9 +159,10 @@ class MySqlEngine extends Engine {
                  * it's entirely possible the mysqli garbage doesn't support this. I haven't bothered to check yet.
                 */
                 /** @var Column $col */
-                foreach($query->columns->all() as $col)
-                    if (in_array($col->name, $record) && !is_null($record[$col->name]))
+                foreach($query->columns->all() as $col) {
+                    if (array_key_exists($col->name, $record) && !is_null($record[$col->name]))
                         $record[$col->name] = $col->type->convert($this->converter, $record[$col->name]);
+                }
 
                 array_push($records, $record);
             }
