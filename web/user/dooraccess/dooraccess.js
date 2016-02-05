@@ -16,10 +16,14 @@ angular
 
                             return null;
                         });
+                    }],
+                    innerdoor: ['PreferenceService1', function(PreferenceService1) {
+                        return PreferenceService1.SystemPreference("innerdoor");
                     }]
                 },
-                controller: ['$scope', 'pin', function($scope, pin) {
+                controller: ['$scope', 'pin', 'innerdoor', function($scope, pin, innerdoor) {
                     $scope.pin = pin;
+                    $scope.innerdoor = innerdoor.value;
                 }]
             });
     }]);
