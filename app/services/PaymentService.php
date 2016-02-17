@@ -52,6 +52,13 @@ class PaymentService extends Service implements IPaymentService1 {
         else
             $filters = Filter::_And($userFilter, $filters);
 
+        $cols = explode(",", $columns);
+
+        array_push($cols, "user_id");
+        array_push($cols, "payer_email");
+
+        $columns = implode(",", array_unique($cols));
+
         return Payment::page($page, $size, $columns, $order, $filters);
     }
 
