@@ -48,10 +48,10 @@ if [ -z `mysql --host=localhost --user=root --password=password -s -N -e "SELECT
   mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON nomos.* TO 'vhs'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 fi
 
-touch /vagrant/app/sql.log
-touch /vagrant/app/server.log
-chmod 777 /vagrant/app/sql.log
-chmod 777 /vagrant/app/server.log
+touch /vagrant/logs/sql.log
+touch /vagrant/logs/server.log
+chmod 777 /vagrant/logs/sql.log
+chmod 777 /vagrant/logs/server.log
 
 cd /vagrant/tools
 php migrate.php
