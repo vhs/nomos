@@ -34,7 +34,7 @@ class MetricService extends Service implements IMetricService1 {
     public function GetNewKeyHolders($start_range, $end_range) {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
-        $membership = Membership::findByCode('key-holder');
+        $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::NewMembershipByIdCount($membership[0]->id, $start, $end);
         return array(
             "start_range" => $start_range,
@@ -51,7 +51,7 @@ class MetricService extends Service implements IMetricService1 {
     }
 
     public function GetTotalKeyHolders() {
-        $membership = Membership::findByCode('key-holder');
+        $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::TotalMembershipByIdCount($membership[0]->id);
         return array(
             "value" => $count

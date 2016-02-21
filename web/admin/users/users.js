@@ -11,8 +11,20 @@ angular
                     access: "admin"
                 },
                 templateUrl: 'admin/users/users.html',
-                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, UserService1, MembershipService1) {
+                resolve: {
+                    statuses: ['UserService1', function (UserService1) {
+                        return UserService1.GetStatuses();
+                    }]
+                },
+                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', 'statuses', function($scope, $modal, $timeout, UserService1, MembershipService1, statuses) {
                     $scope.users = [];
+                    $scope.statuses = statuses;
+
+                    $scope.convertStatus = function(code) {
+                        for(var i in $scope.statuses)
+                            if ($scope.statuses[i].code == code)
+                                return $scope.statuses[i].title;
+                    };
 
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
@@ -35,7 +47,7 @@ angular
                     $scope.listService = {
                         page: 0,
                         size: 10,
-                        columns: "id,username,fname,lname,email,privileges,created,mem_expire",
+                        columns: "id,username,fname,lname,email,privileges,created,mem_expire,active,cash",
                         order: "id",
                         search: null
                     };

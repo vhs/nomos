@@ -29,6 +29,12 @@ class PaypalIpnMonitor extends Monitor {
         /** @var Ipn $ipn */
         $ipn = $args[0];
 
+        /*
+         * TODO handle non-complete transactions & txn_type
+         *  txn_type=subscr_failed
+         *  txn_type=subscr_cancel
+         *  txn_type=subscr_payment
+         */
         if ($ipn->validation == "VERIFIED" && $ipn->payment_status == "Completed") {
             $this->logger->log("We have a valid $ipn record, create a transaction, update users, etc");
 
