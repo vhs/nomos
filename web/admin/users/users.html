@@ -85,7 +85,7 @@
                 <th>Username</th>
                 <th>Realname</th>
                 <th>Email</th>
-                <th>Badges</th>
+                <th>Status</th>
                 <th>Creation</th>
                 <th>Expiry</th>
                 <th></th>
@@ -96,7 +96,7 @@
                 <th>Username</th>
                 <th>Realname</th>
                 <th>Email</th>
-                <th>Badges</th>
+                <th>Status</th>
                 <th>Creation</th>
                 <th>Expiry</th>
                 <th></th>
@@ -108,7 +108,7 @@
                 <td><a ui-sref="admin.users.profile({user: user.id})">{{user.username}}</a></td>
                 <td>{{user.fname}} {{user.lname}}</td>
                 <td>{{user.email}}</td>
-                <td><span ng-repeat="priv in user.privileges">{{priv.code}} </span></td>
+                <td>{{convertStatus(user.active)}}</td>
                 <td>{{user.created}}</td>
                 <td>{{user.mem_expire}}</td>
                 <td><a type="button" class="btn btn-primary btn-circle" ui-sref="admin.profile({userId: user.id})"><i class="fa fa-edit"></i></a></td>

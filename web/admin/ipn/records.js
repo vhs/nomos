@@ -69,58 +69,50 @@ angular
                             var val = "%" + $scope.listService.search + "%";
                             filters.push({
                                 left: {
-                                    column: "validation",
+                                    column: "payment_status",
                                     operator: "like",
                                     value: val
                                 },
                                 operator: "or",
                                 right: {
                                     left: {
-                                        column: "payment_status",
+                                        column: "payment_amount",
                                         operator: "like",
                                         value: val
                                     },
                                     operator: "or",
                                     right: {
                                         left: {
-                                            column: "payment_amount",
+                                            column: "payment_currency",
                                             operator: "like",
                                             value: val
                                         },
                                         operator: "or",
                                         right: {
                                             left: {
-                                                column: "payment_currency",
+                                                column: "payer_email",
                                                 operator: "like",
                                                 value: val
                                             },
                                             operator: "or",
                                             right: {
                                                 left: {
-                                                    column: "payer_email",
+                                                    column: "item_name",
                                                     operator: "like",
                                                     value: val
                                                 },
                                                 operator: "or",
                                                 right: {
                                                     left: {
-                                                        column: "item_name",
+                                                        column: "item_number",
                                                         operator: "like",
                                                         value: val
                                                     },
                                                     operator: "or",
                                                     right: {
-                                                        left: {
-                                                            column: "item_number",
-                                                            operator: "like",
-                                                            value: val
-                                                        },
-                                                        operator: "or",
-                                                        right: {
-                                                            column: "raw",
-                                                            operator: "like",
-                                                            value: val
-                                                        }
+                                                        column: "raw",
+                                                        operator: "like",
+                                                        value: val
                                                     }
                                                 }
                                             }

@@ -61,10 +61,12 @@ class PaymentProcessor
             $user = $users[0];
         }
 
-        if ($payment->item_number == "vhs_card_2015") {
+        if (in_array($payment->item_number, Membership::allCodes())) {
+            $this->processMemberPayment($user, $payment);
+        } elseif ($payment->item_number == "vhs_card_2015") {
             $this->processMembershipCardPayment($user, $payment);
         } else {
-            $this->processMemberPayment($user, $payment);
+            $this->processDonationPayment($user, $payment);
         }
     }
 
@@ -112,16 +114,20 @@ class PaymentProcessor
     }
 
     private function processMemberPayment(User $user = null, Payment $payment) {
-        //TODO get membership type via item_name/item_number from payment record
         /** @var Membership $membership */
-        $membership = Membership::findForPriceLevel($payment->rate_amount);
-        if (is_null($membership)) {
-            $memberships = Membership::findByCode("member");
+        $membership = null;
+
+        $memberships = Membership::findByCode($payment->item_number);
+
+        if (!is_null($memberships) && count($memberships) == 1) {
+            $membership = $memberships[0];
+        } else {
+            $memberships = Membership::findByCode(Membership::MEMBER);
 
             if (!is_null($memberships) && count($memberships) == 1) {
                 $membership = $memberships[0];
             } else {
-                $this->log("Missing membership type 'member'. Unable to process payment.");
+                $this->log("Missing membership type '".Membership::MEMBER."'. Unable to process payment.");
                 return;
             }
         }
@@ -160,14 +166,15 @@ class PaymentProcessor
         } else {
             if ($user->membership_id != $membership->id)
                 $userService->UpdateMembership($user->id, $membership->id);
+            else
+                $userService->UpdateStatus($user->id, "active");
+            $user = User::find($user->id);
         }
 
         $expiry = new DateTime($payment->date);
         $expiry->add(new \DateInterval("P1M1W")); //add 1 month with a 1 week grace period
 
         $user->mem_expire = $expiry->format("Y-m-d H:i:s");
-
-        $user->active = "y";
 
         $user->save();
 
@@ -198,5 +205,9 @@ class PaymentProcessor
                 'fname' => $user->fname,
             ]
         );
+    }
+
+    private function processDonationPayment(User $user = null, Payment $payment) {
+
     }
 }

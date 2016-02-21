@@ -11,12 +11,20 @@ namespace app\domain;
 
 use app\schema\MembershipPrivilegeSchema;
 use app\schema\MembershipSchema;
+use vhs\database\Columns;
+use vhs\database\Database;
 use vhs\database\orders\OrderBy;
+use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
 class Membership extends Domain {
+
+    const KEYHOLDER = "vhs_membership_keyholder";
+    const MEMBER = "vhs_membership_member";
+    const FRIEND = "vhs_membership_friend";
+
     public static function Define() {
         Membership::Schema(MembershipSchema::Type());
 
@@ -53,5 +61,16 @@ class Membership extends Domain {
             return $memberships[0];
 
         return null;
+    }
+
+    public static function allCodes() {
+        $rows = Database::select(Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column("code"))));
+
+        $values = array();
+
+        foreach($rows as $row)
+            array_push($values, $row['code']);
+
+        return $values;
     }
 }
