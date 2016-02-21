@@ -76,6 +76,12 @@ angular
                         return response.data;
                     });
             },
+            UpdateCash: function(userid, cash) {
+                return $http.post("/services/web/UserService1.svc/UpdateCash", {userid: userid, cash: cash})
+                    .then(function(response) {
+                        return response.data;
+                    });
+            },
             Register: function(username, password, email, fname, lname) {
                 return $http.post("/services/web/UserService1.svc/Register", {username: username, password: password, email: email, fname: fname, lname: lname})
                     .then(function(response) {

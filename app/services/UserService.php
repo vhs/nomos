@@ -93,6 +93,16 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
+    public function UpdateCash($userid, $cash) {
+        $user = User::find($userid);
+
+        if (is_null($user)) return;
+
+        $user->cash = boolval($cash);
+
+        $user->save();
+    }
+
     public function Register($username, $password, $email, $fname, $lname) {
         if (User::exists($username, $email))
             throw new \Exception("User already exists");
