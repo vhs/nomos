@@ -21,6 +21,11 @@ use vhs\domain\validations\ValidationResults;
 
 class Membership extends Domain {
 
+    /* TODO HACK we should instead add privileges to the membership types and check those instead when checking types
+     * however currently the metric service is also using these to determine new member types, etc so we need to figure
+     * out how to do metrics a bit more dynamically. Prob by querying and looping through all the membership types instead
+     * or have the client request them.
+     */
     const KEYHOLDER = "vhs_membership_keyholder";
     const MEMBER = "vhs_membership_member";
     const FRIEND = "vhs_membership_friend";
