@@ -61,8 +61,20 @@
                             <button class="btn btn-danger" ng-click="toggleCash(false)" ng-if="showCash">Cash Users</button>
                         </div>
                         <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="toggleActive(true)" ng-if="!showActive">Active Users</button>
+                            <button class="btn btn-danger" ng-click="toggleActive(false)" ng-if="showActive">Active Users</button>
+                        </div>
+                        <div class="col-lg-2">
                             <button class="btn btn-primary" ng-click="togglePending(true)" ng-if="!showPending">Pending Users</button>
                             <button class="btn btn-danger" ng-click="togglePending(false)" ng-if="showPending">Pending Users</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="toggleInactive(true)" ng-if="!showInactive">Inactive Users</button>
+                            <button class="btn btn-danger" ng-click="toggleInactive(false)" ng-if="showInactive">Inactive Users</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" ng-click="toggleBanned(true)" ng-if="!showBanned">Banned Users</button>
+                            <button class="btn btn-danger" ng-click="toggleBanned(false)" ng-if="showBanned">Banned Users</button>
                         </div>
                     </div>
                 </div>
@@ -86,8 +98,10 @@
                 <th>Realname</th>
                 <th>Email</th>
                 <th>Status</th>
+                <th>Cash</th>
                 <th>Creation</th>
                 <th>Expiry</th>
+                <th>Last Login</th>
                 <th></th>
             </tr>
             </thead>
@@ -97,8 +111,10 @@
                 <th>Realname</th>
                 <th>Email</th>
                 <th>Status</th>
+                <th>Cash</th>
                 <th>Creation</th>
                 <th>Expiry</th>
+                <th>Last Login</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -109,8 +125,10 @@
                 <td>{{user.fname}} {{user.lname}}</td>
                 <td>{{user.email}}</td>
                 <td>{{convertStatus(user.active)}}</td>
-                <td>{{user.created}}</td>
-                <td>{{user.mem_expire}}</td>
+                <td><span ng-show="{{user.cash}}">Cash</span></td>
+                <td>{{user.member_since}} ({{user.member_for}})</td>
+                <td>{{user.expiry_date}} ({{user.expiry}})</td>
+                <td>{{user.last_login}}</td>
                 <td><a type="button" class="btn btn-primary btn-circle" ui-sref="admin.profile({userId: user.id})"><i class="fa fa-edit"></i></a></td>
             </tr>
             </tbody>
