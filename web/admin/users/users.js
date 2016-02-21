@@ -26,7 +26,7 @@ angular
                                 return $scope.statuses[i].title;
                     };
 
-                    $scope.showPending = true;
+                    $scope.showPending = false;
                     $scope.togglePending = function(val) {
                         $scope.showPending = val;
                         $scope.refresh();
@@ -44,7 +44,7 @@ angular
                         $scope.refresh();
                     };
 
-                    $scope.showActive = true;
+                    $scope.showActive = false;
                     $scope.toggleActive = function(val) {
                         $scope.showActive = val;
                         $scope.refresh();
