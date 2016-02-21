@@ -65,7 +65,7 @@ angular
                     $scope.listService = {
                         page: 0,
                         size: 20,
-                        columns: "id,username,fname,lname,email,privileges,created,mem_expire,active,cash",
+                        columns: "id,username,fname,lname,email,privileges,created,mem_expire,active,cash,lastlogin",
                         order: "created desc",
                         search: null
                     };
