@@ -208,6 +208,54 @@ class PaymentProcessor
     }
 
     private function processDonationPayment(User $user = null, Payment $payment) {
+        if (is_null($user)) {
+            $this->emailService->Email(
+                NOMOS_FROM_EMAIL,
+                "[Nomos] Unknown user made a random donation - " . $payment->payer_fname . " " . $payment->lname,
+                'admin_error',
+                [
+                    'message' => $payment->fname . " " . $payment->lname . " with email "
+                        . $payment->payer_email . " made a donation but we "
+                        . "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. "
+                        . "item_number = " . $payment->item_number
+                        . "item_name = " . $payment->item_name
+                        . "rate_amount = " . $payment->rate_amount
+                        . "currency = " . $payment->currency
+                ]
+            );
+        } else {
+            $this->emailService->Email(
+                NOMOS_FROM_EMAIL,
+                "[Nomos] New random donation! - " . $payment->payer_fname . " " . $payment->lname,
+                'admin_donation_random',
+                [
+                    'email' => $payment->payer_email,
+                    'fname' => $payment->payer_fname,
+                    'lname' => $payment->payer_lname,
+                    'item_number' => $payment->item_number,
+                    'item_name' => $payment->item_name,
+                    'rate_amount' => $payment->rate_amount,
+                    'currency' => $payment->currency
+                ]
+            );
 
+            $this->emailService->EmailUser(
+                $user,
+                'VHS Donation!',
+                'donation_random',
+                [
+                    'fname' => $user->fname,
+                    'lname' => $user->lname,
+                    'rate_amount' => $payment->rate_amount,
+                    'currency' => $payment->currency
+                ]
+            );
+
+            $payment->user_id = $user->id;
+        }
+
+        $payment->status = 1;
+
+        $payment->save();
     }
 }

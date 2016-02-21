@@ -1,0 +1,11 @@
+Random donation by {{fname}} {{lname}} {{email}}
+
+of {{currency}}{{rate_amount}} was received!
+
+item_number: {{item_number}}
+item_name: {{item_name}}
+
+If the item_name isn't blank or something expected to be a donation that means the item_number above is probably blank or not configured to a membership type or a purchase we have.
+
+Thank you,
+- Vancouver Hackspace Society
