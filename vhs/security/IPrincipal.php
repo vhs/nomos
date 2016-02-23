@@ -16,4 +16,5 @@ interface IPrincipal {
     public function canGrantAnyPermissions(...$permission);
     public function getIdentity();
     public function isAnon();
+    public function __toString();
 }

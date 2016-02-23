@@ -83,8 +83,6 @@ class Database extends Singleton {
             $this->engine->disconnect();
 
         $this->engine = $engine;
-
-        $this->logger->log("Using: " . $this->engine);
     }
 
     public static function setEngine(Engine $engine) {
@@ -96,8 +94,6 @@ class Database extends Singleton {
 
     private function setLoggerInternal(Logger $logger) {
         $this->logger = $logger;
-
-        $this->logger->log("Using: " . $this->logger);
     }
 
     public static function setLogger(Logger $logger) {
