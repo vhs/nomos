@@ -33,4 +33,8 @@ class AnonPrincipal implements IPrincipal {
     public function isAnon() {
         return true;
     }
+
+    public function __toString() {
+        return "anon";
+    }
 }

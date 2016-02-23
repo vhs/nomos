@@ -15,11 +15,13 @@ class TokenPrincipal implements IPrincipal {
     private $id;
     private $permissions;
     private $grants;
+    private $name;
 
-    public function __construct($id, $permissions, $grants = null) {
+    public function __construct($id, $permissions, $grants = null, $name = null) {
         $this->id = $id;
         $this->permissions = $permissions;
         $this->grants = $grants;
+        $this->name = $name;
     }
 
     public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->permissions)) == 0); }
@@ -33,5 +35,9 @@ class TokenPrincipal implements IPrincipal {
 
     public function isAnon() {
         return false;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 }
