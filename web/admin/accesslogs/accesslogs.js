@@ -80,23 +80,15 @@ angular
                                         operator: "or",
                                         right: {
                                             left: {
-                                                column: "authorized",
+                                                column: "from_ip",
                                                 operator: "like",
                                                 value: val
                                             },
                                             operator: "or",
                                             right: {
-                                                left: {
-                                                    column: "from_ip",
-                                                    operator: "like",
-                                                    value: val
-                                                },
-                                                operator: "or",
-                                                right: {
-                                                    column: "time",
-                                                    operator: "like",
-                                                    value: val
-                                                }
+                                                column: "time",
+                                                operator: "like",
+                                                value: val
                                             }
                                         }
                                     }
