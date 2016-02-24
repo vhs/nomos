@@ -122,11 +122,11 @@ class InMemoryEngine extends Engine {
                 if(!array_key_exists($key, $this->keyIncrementors))
                     $this->keyIncrementors[$key] = 0;
                 $this->keyIncrementors[$key] += 1;
-                $pks[$pk->column->name] = $data[$pk->column->name] = $this->keyIncrementors[$key];
+                $pks[$pk->column->name] = $query->values[$pk->column->name] = $this->keyIncrementors[$key];
             }
         }
 
-        array_push($this->datastore[$query->table->name], $data);
+        array_push($this->datastore[$query->table->name], $query->values);
 
         if(count($pks) == 1)
             return array_values($pks)[0];

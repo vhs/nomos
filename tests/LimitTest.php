@@ -15,20 +15,6 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
-class TestSchema extends Schema {
-    /**
-     * @return Table
-     */
-    public static function init() {
-        $table = new Table("test");
-        $table->addColumn("test1", Type::String());
-        $table->addColumn("test3", Type::String());
-        $table->addColumn("test5", Type::String());
-
-        return $table;
-    }
-}
-
 class LimitTests extends PHPUnit_Framework_TestCase {
 
     /** @var Logger */
