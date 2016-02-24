@@ -25,13 +25,29 @@ class PermPrincipal implements \vhs\security\IPrincipal {
     public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->perms)) > 0); }
     public function getIdentity() { return null; }
     public function isAnon() { return false; }
+
+    public function canGrantAllPermissions(...$permission)
+    {
+        // TODO: Implement canGrantAllPermissions() method.
+    }
+
+    public function canGrantAnyPermissions(...$permission)
+    {
+        // TODO: Implement canGrantAnyPermissions() method.
+    }
+
+    public function __toString()
+    {
+        return "perm";
+    }
 }
 
 class ServiceTests extends PHPUnit_Framework_TestCase {
 
     public static function setUpBeforeClass() {
-        ServiceRegistry::register("web", 'tests\\endpoints\\web', dirname(__FILE__) . '\\..');
-        ServiceRegistry::register("native", 'tests\\endpoints\\native', dirname(__FILE__) . '\\..');
+        $logger = new \vhs\loggers\SilentLogger();
+        ServiceRegistry::register($logger, "web", 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
+        ServiceRegistry::register($logger, "native", 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
     }
 
     public static function tearDownAfterClass() {
