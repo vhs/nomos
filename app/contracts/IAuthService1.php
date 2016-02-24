@@ -61,4 +61,27 @@ interface IAuthService1 extends IContract {
      * @return boolean
      */
     public function CheckUsername($username);
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListAccessLog($page, $size, $columns, $order, $filters);
 }

@@ -18,6 +18,7 @@ use app\security\Authenticate;
 use app\security\credentials\PinCredentials;
 use vhs\database\Database;
 use vhs\database\wheres\Where;
+use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
@@ -243,5 +244,60 @@ class AuthService extends Service implements IAuthService1 {
      */
     public function CheckUsername($username) {
         return Database::exists(UserSchema::Table(), Where::Equal(UserSchema::Column("username"), $username));
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     * @throws \Exception
+     */
+    public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters)
+    {
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
+
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        if (is_null($user))
+            throw new \Exception("User not found or you do not have access");
+
+        $userFilter = Filter::Equal("userid", $user->id);
+
+        if (is_null($filters) || $filters == "")
+            $filters = $userFilter;
+        else
+            $filters = Filter::_And($userFilter, $filters);
+
+        $cols = explode(",", $columns);
+
+        array_push($cols, "userid");
+
+        $columns = implode(",", array_unique($cols));
+
+        return AccessLog::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListAccessLog($page, $size, $columns, $order, $filters)
+    {
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        return AccessLog::page($page, $size, $columns, $order, $filters);
     }
 }
