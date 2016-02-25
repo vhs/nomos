@@ -9,3 +9,4 @@
 require_once("vhs/vhs.php");
 
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', dirname(__FILE__) . '/..'));
+\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', dirname(__FILE__) . '/..'));

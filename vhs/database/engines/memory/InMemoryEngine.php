@@ -90,6 +90,8 @@ class InMemoryEngine extends Engine {
             }
         }
 
+        $this->logger->log(var_export($results, true));
+
         return $results;
     }
 
