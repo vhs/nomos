@@ -36,6 +36,12 @@ class Key extends Domain {
                     foreach ($user->privileges->all() as $userpriv) {
                         array_push($privs, $userpriv);
                     }
+
+                    if (!is_null($user->membership)) {
+                        foreach ($user->membership->privileges->all() as $mempriv) {
+                            array_push($privs, $mempriv);
+                        }
+                    }
                 }
             }
 
