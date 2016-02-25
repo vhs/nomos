@@ -4,16 +4,16 @@ angular
     .module('mmpApp.admin')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('admin.ipnrecords', {
+            .state('admin.accesslogs', {
                 parent: "admin",
-                url: '/admin/ipn/records',
-                templateUrl: 'admin/ipn/records.html',
-                controller: ['$scope', 'IpnService1', function($scope, IpnService1) {
-                    $scope.records = [];
+                url: '/admin/accesslogs',
+                templateUrl: 'admin/accesslogs/accesslogs.html',
+                controller: ['$scope', 'AuthService1', function($scope, AuthService1) {
+                    $scope.accesslogs = [];
 
-                    $scope.showPending = false;
-                    $scope.togglePending = function(val) {
-                        $scope.showPending = val;
+                    $scope.showUnauthorized = false;
+                    $scope.toggleUnauthorized = function(val) {
+                        $scope.showUnauthorized = val;
                         $scope.refresh();
                     };
 
@@ -26,12 +26,10 @@ angular
                     $scope.listService = {
                         page: 0,
                         size: 10,
-                        columns: "id,created,validation,payment_status,payment_amount,payment_currency,payer_email,item_name,item_number,raw",
-                        order: "created desc",
+                        columns: "id,key,type,authorized,from_ip,time,userid",
+                        order: "time desc",
                         search: null
                     };
-
-                    $scope.columns = $scope.listService.columns.split(',');
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
@@ -44,24 +42,16 @@ angular
                         }
                     };
 
-                    $scope.getRecords = function() {
+                    $scope.getAccessLogs = function() {
 
                         var filter = null;
                         var filters = [];
 
-                        if ($scope.showPending) {
+                        if ($scope.showUnauthorized) {
                             filters.push({
-                                column: "payment_status",
+                                column: "authorized",
                                 operator: "=",
                                 value: "0"
-                            });
-                        }
-
-                        if ($scope.showOrphaned) {
-                            filters.push({
-                                column: "validation",
-                                operator: "=",
-                                value: "INVALID"
                             });
                         }
 
@@ -69,52 +59,36 @@ angular
                             var val = "%" + $scope.listService.search + "%";
                             filters.push({
                                 left: {
-                                    column: "payment_status",
+                                    column: "userid",
                                     operator: "like",
                                     value: val
                                 },
                                 operator: "or",
                                 right: {
                                     left: {
-                                        column: "payment_amount",
+                                        column: "key",
                                         operator: "like",
                                         value: val
                                     },
                                     operator: "or",
                                     right: {
                                         left: {
-                                            column: "payment_currency",
+                                            column: "type",
                                             operator: "like",
                                             value: val
                                         },
                                         operator: "or",
                                         right: {
                                             left: {
-                                                column: "payer_email",
+                                                column: "from_ip",
                                                 operator: "like",
                                                 value: val
                                             },
                                             operator: "or",
                                             right: {
-                                                left: {
-                                                    column: "item_name",
-                                                    operator: "like",
-                                                    value: val
-                                                },
-                                                operator: "or",
-                                                right: {
-                                                    left: {
-                                                        column: "item_number",
-                                                        operator: "like",
-                                                        value: val
-                                                    },
-                                                    operator: "or",
-                                                    right: {
-                                                        column: "raw",
-                                                        operator: "like",
-                                                        value: val
-                                                    }
-                                                }
+                                                column: "time",
+                                                operator: "like",
+                                                value: val
                                             }
                                         }
                                     }
@@ -153,12 +127,12 @@ angular
                             }
                         }
 
-                        return IpnService1.ListRecords($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return AuthService1.ListAccessLog($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getRecords().then(function(data) {
-                            $scope.records = data;
+                        $scope.getAccessLogs().then(function(data) {
+                            $scope.accesslogs = data;
                             //$scope.resetForms();
                             $scope.updating = false;
                             $scope.pendingUpdate = 0;

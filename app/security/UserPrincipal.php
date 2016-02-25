@@ -16,11 +16,13 @@ class UserPrincipal implements IPrincipal, \JsonSerializable {
     private $id;
     private $permissions;
     private $grants;
+    private $username;
 
-    public function __construct($id, $permissions, $grants = null) {
+    public function __construct($id, $permissions, $grants = null, $username = null) {
         $this->id = $id;
         $this->permissions = $permissions;
         $this->grants = $grants;
+        $this->username = $username;
     }
 
     public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->permissions)) == 0); }
@@ -36,5 +38,9 @@ class UserPrincipal implements IPrincipal, \JsonSerializable {
         $data['permissions'] = $this->permissions;
 
         return $data;
+    }
+
+    public function __toString() {
+        return "user:" . $this->username;
     }
 }

@@ -11,8 +11,20 @@ angular
                     access: "admin"
                 },
                 templateUrl: 'admin/users/users.html',
-                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', function($scope, $modal, $timeout, UserService1, MembershipService1) {
+                resolve: {
+                    statuses: ['UserService1', function (UserService1) {
+                        return UserService1.GetStatuses();
+                    }]
+                },
+                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', 'statuses', function($scope, $modal, $timeout, UserService1, MembershipService1, statuses) {
                     $scope.users = [];
+                    $scope.statuses = statuses;
+
+                    $scope.convertStatus = function(code) {
+                        for(var i in $scope.statuses)
+                            if ($scope.statuses[i].code == code)
+                                return $scope.statuses[i].title;
+                    };
 
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
@@ -32,11 +44,29 @@ angular
                         $scope.refresh();
                     };
 
+                    $scope.showActive = false;
+                    $scope.toggleActive = function(val) {
+                        $scope.showActive = val;
+                        $scope.refresh();
+                    };
+
+                    $scope.showInactive = false;
+                    $scope.toggleInactive = function(val) {
+                        $scope.showInactive = val;
+                        $scope.refresh();
+                    };
+
+                    $scope.showBanned = false;
+                    $scope.toggleBanned = function(val) {
+                        $scope.showBanned = val;
+                        $scope.refresh();
+                    };
+
                     $scope.listService = {
                         page: 0,
-                        size: 10,
-                        columns: "id,username,fname,lname,email,privileges,created,mem_expire",
-                        order: "id",
+                        size: 20,
+                        columns: "id,username,fname,lname,email,privileges,created,mem_expire,active,cash,lastlogin",
+                        order: "created desc",
                         search: null
                     };
 
@@ -55,6 +85,7 @@ angular
 
                         var filter = null;
                         var filters = [];
+                        var orFilters = [];
 
                         if ($scope.showExpired) {
                             filters.push({
@@ -72,11 +103,35 @@ angular
                             });
                         }
 
+                        if ($scope.showActive) {
+                            orFilters.push({
+                                column: "active",
+                                operator: "=",
+                                value: "y"
+                            });
+                        }
+
                         if ($scope.showPending) {
-                            filters.push({
+                            orFilters.push({
                                 column: "active",
                                 operator: "=",
                                 value: "t"
+                            });
+                        }
+
+                        if ($scope.showInactive) {
+                            orFilters.push({
+                                column: "active",
+                                operator: "=",
+                                value: "n"
+                            });
+                        }
+
+                        if ($scope.showBanned) {
+                            orFilters.push({
+                                column: "active",
+                                operator: "=",
+                                value: "b"
                             });
                         }
 
@@ -144,12 +199,46 @@ angular
                             }
                         }
 
+                        for (var i = 0; i < orFilters.length; i++) {
+                            if (filter == null) {
+                                if (orFilters.length > 1) {
+                                    filter = {
+                                        left: orFilters[i],
+                                        operator: "or",
+                                        right: null
+                                    };
+                                } else {
+                                    filter = orFilters[i];
+                                    break;
+                                }
+                            } else {
+                                if (i == orFilters.length - 1) {
+                                    addRightmost(filter, orFilters[i]);
+                                } else {
+                                    addRightmost(filter, {
+                                        left: orFilters[i],
+                                        operator: "or",
+                                        right: null
+                                    });
+                                }
+                            }
+                        }
+
                         return UserService1.ListUsers($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
                     };
 
                     $scope.updated = function() {
                         $scope.getUsers().then(function(data) {
                             $scope.users = data;
+
+                            $scope.users.forEach(function(user) {
+                                user.member_since = moment(user.created).format("MMMM Do, YYYY");
+                                user.member_for = moment(user.created).fromNow(true);
+                                user.last_login = moment(user.lastlogin).format("MMM DD, YYYY, h:mm:ss a");
+                                user.expiry = moment(user.mem_expire).fromNow();
+                                user.expiry_date = moment(user.mem_expire).format("MMMM Do YYYY");
+                            });
+
                             $scope.resetForms();
                             $scope.updating = false;
                             $scope.pendingUpdate = 0;

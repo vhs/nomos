@@ -8,4 +8,6 @@
 
 require_once("SplClassLoader.php");
 
+define('INSTANCE_ID', uniqid());
+
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('vhs', dirname(__FILE__) . '/..'));

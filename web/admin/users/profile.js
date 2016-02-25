@@ -80,20 +80,20 @@ angular
                             if ($scope.currentUser.hasPrivilege("full-profile")) {
                                 $scope.pendingUpdate += 1;
                                 UserService1.UpdateName(
-                                    $scope.currentUser.id,
+                                    $scope.profile.id,
                                     $scope.profile.fname,
                                     $scope.profile.lname
                                 ).then(function() { $scope.pendingUpdate -= 1; });
 
                                 $scope.pendingUpdate += 1;
                                 UserService1.UpdateEmail(
-                                    $scope.currentUser.id,
+                                    $scope.profile.id,
                                     $scope.profile.email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
 
                                 $scope.pendingUpdate += 1;
                                 UserService1.UpdatePaymentEmail(
-                                    $scope.currentUser.id,
+                                    $scope.profile.id,
                                     $scope.profile.payment_email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
                             }
@@ -102,6 +102,12 @@ angular
                             UserService1.UpdateNewsletter(
                                 $scope.profile.id,
                                 $scope.profile.newsletter
+                            ).then(function() { $scope.pendingUpdate -= 1; });
+
+                            $scope.pendingUpdate += 1;
+                            UserService1.UpdateCash(
+                                $scope.profile.id,
+                                $scope.profile.cash
                             ).then(function() { $scope.pendingUpdate -= 1; });
 
                             $scope.profile.keys.forEach(function(key) {

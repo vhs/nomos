@@ -62,6 +62,7 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Paypal Email</label>
+                                    <div class="checkbox pull-right" style="margin:0;"><label><input type="checkbox" ng-model="profile.cash">Cash Member</label></div>
                                 </div>
                             </div>
                             <input class="form-control" placeholder="Paypal Email" ng-model="profile.payment_email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
@@ -141,7 +142,7 @@
                             </div>
                         </div>
 
-                        <div class="row keyholder-apply" ng-if="profile.membership.code != 'key-holder' && profile.hasPrivilege('vetted')">
+                        <div class="row keyholder-apply" ng-if="profile.membership.code != 'vhs_membership_keyholder' && profile.hasPrivilege('vetted')">
                             <div class="col-xs-offset-1 col-xs-10 col-lg-offset-0 col-lg-6">
                                 <button type="button" class="btn btn-danger col-xs-12" >Apply for Key Holder</button>
                             </div>

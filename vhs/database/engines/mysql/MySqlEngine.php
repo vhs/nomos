@@ -71,9 +71,7 @@ class MySqlEngine extends Engine {
 
         if($this->autoCreateDatabase) {
             $sql = "CREATE DATABASE IF NOT EXISTS {$this->info->getDatabase()};";
-            if ($this->conn->query($sql) === TRUE) {
-                $this->logger->log("Database created successfully");
-            } else {
+            if ($this->conn->query($sql) !== true) {
                 throw new DatabaseException($this->conn->error);
             }
         }
@@ -116,7 +114,7 @@ class MySqlEngine extends Engine {
                 return null;
 
             return $row[0];
-        
+
         } else {
             throw new DatabaseException($this->conn->error);
         }

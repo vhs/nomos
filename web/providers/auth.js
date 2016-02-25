@@ -15,6 +15,14 @@ angular
             Logout: function() {
                 return $http.get("/services/web/AuthService1.svc/Logout")
                     .then(function(response) { return response.data; });
+            },
+            ListUserAccessLog: function(userid, page, size, columns, order, filters) {
+                return $http.post("/services/web/AuthService1.svc/ListUserAccessLog", { userid: userid, page: page, size: size, columns: columns, order: order, filters: filters })
+                    .then(function(response) { return response.data; });
+            },
+            ListAccessLog: function(page, size, columns, order, filters) {
+                return $http.post("/services/web/AuthService1.svc/ListAccessLog", { page: page, size: size, columns: columns, order: order, filters: filters })
+                    .then(function(response) { return response.data; });
             }
         };
     }]);

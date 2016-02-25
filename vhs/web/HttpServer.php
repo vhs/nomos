@@ -39,7 +39,7 @@ class HttpServer {
     }
 
     public function log($message) {
-        $this->logger->log("[HttpServer] " . $message);
+        $this->logger->log($message);
     }
 
     public function register(IHttpModule $module) {
@@ -49,11 +49,9 @@ class HttpServer {
         }
 
         array_push($this->modules, $module);
-        $this->log("Module registered " . get_class($module));
     }
 
     public function handle() {
-        $this->log("Begin handling");
         $this->handling = true;
         $this->clear();
 
@@ -74,6 +72,9 @@ class HttpServer {
             $index += 1;
         }
 
+
+        $this->log($this->request->method . " " . $this->request->url . " " . json_encode($this->request->headers));
+
         if(!is_null($exception)) {
             /** @var IHttpModule $module */
             foreach(array_reverse(array_slice($this->modules, 0, $index + 1)) as $module) {
@@ -83,15 +84,12 @@ class HttpServer {
 
         //$this->end();
 
-        $this->log("Response code: " . $this->http_response_code);
         http_response_code($this->http_response_code);
 
-        $this->log("Sending headers");
         foreach($this->headerBuffer as $header) {
             $header();
         }
 
-        $this->log("Sending output");
         foreach($this->outputBuffer as $output) {
             $output();
         }
@@ -121,7 +119,6 @@ class HttpServer {
             }
         }
 
-        $this->log("Response end");
         exit();
     }
 
@@ -133,8 +130,6 @@ class HttpServer {
         unset($this->outputBuffer);
         $this->outputBuffer = array();
         $this->http_response_code = 200;
-
-        $this->log("Buffers dumped");
     }
 
     public function output($data) {
@@ -157,7 +152,6 @@ class HttpServer {
         $self = $this;
         array_push($this->headerBuffer, function() use ($self, $string, $replace, $http_response_code) {
             if (headers_sent() === false) {
-                $self->log("[Header] " . $string);
                 header($string, $replace, $http_response_code);
             }
         });
@@ -174,7 +168,6 @@ class HttpServer {
 
         $self = $this;
         array_push($this->headerBuffer, function() use ($self) {
-            $self->log("Response end - sent only headers");
             exit();
         });
     }
