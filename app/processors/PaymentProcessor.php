@@ -74,9 +74,9 @@ class PaymentProcessor
         if (is_null($user)) {
             $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
-                "[Nomos] Unknown user purchased Membership Card - " . $payment->payer_fname . " " . $payment->lname,
                 'admin_error',
                 [
+                    'subject' => "[Nomos] Unknown user purchased Membership Card - " . $payment->payer_fname . " " . $payment->lname,
                     'message' => $payment->fname . " " . $payment->lname . " with email "
                         . $payment->payer_email . " purchased a membership card but we "
                         . "don't have an account for them... they'll need an account before"
@@ -86,7 +86,6 @@ class PaymentProcessor
         } else {
             $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
-                "[Nomos] New Membership Card Purchase! - " . $payment->payer_fname . " " . $payment->lname,
                 'admin_membercard_purchased',
                 [
                     'email' => $payment->payer_email,
@@ -97,7 +96,6 @@ class PaymentProcessor
 
             $this->emailService->EmailUser(
                 $user,
-                'VHS Membership Card Purchased!',
                 'membercard_purchased',
                 [
                     'fname' => $user->fname,
@@ -152,7 +150,6 @@ class PaymentProcessor
 
             $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
-                '[Nomos] New User Created!',
                 'admin_newuser',
                 [
                     'email' => $payment->payer_email,
@@ -185,7 +182,6 @@ class PaymentProcessor
 
         $this->emailService->Email(
             NOMOS_FROM_EMAIL,
-            '[Nomos] User payment made!',
             'admin_payment',
             [
                 'email' => $payment->payer_email,
@@ -198,7 +194,6 @@ class PaymentProcessor
 
         $this->emailService->EmailUser(
             $user,
-            'VHS Membership Payment Received!',
             'payment',
             [
                 'host' => $this->host,
@@ -211,9 +206,9 @@ class PaymentProcessor
         if (is_null($user)) {
             $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
-                "[Nomos] Unknown user made a random donation - " . $payment->payer_fname . " " . $payment->lname,
                 'admin_error',
                 [
+                    'subject' => "[Nomos] Unknown user made a random donation - " . $payment->payer_fname . " " . $payment->lname,
                     'message' => $payment->fname . " " . $payment->lname . " with email "
                         . $payment->payer_email . " made a donation but we "
                         . "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. "
@@ -226,7 +221,6 @@ class PaymentProcessor
         } else {
             $this->emailService->Email(
                 NOMOS_FROM_EMAIL,
-                "[Nomos] New random donation! - " . $payment->payer_fname . " " . $payment->lname,
                 'admin_donation_random',
                 [
                     'email' => $payment->payer_email,
@@ -241,7 +235,6 @@ class PaymentProcessor
 
             $this->emailService->EmailUser(
                 $user,
-                'VHS Donation!',
                 'donation_random',
                 [
                     'fname' => $user->fname,

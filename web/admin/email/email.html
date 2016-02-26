@@ -1,0 +1,217 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h4>Email Templates</h4>
+        <div class="overlay" ng-show="updating">
+            <div class="row vertical-align text-center icon-align-center">
+                <div class="col-md-2 col-md-offset-5">
+                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-warning" ng-click="openCreateTemplate()">Create Email Template</button>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-1">
+                        <label>Page</label> <input class="form-control" title="Page" type="text" ng-model="listService.page" ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+                    <div class="col-lg-1">
+                        <label>Page Size</label> <input class="form-control" title="Page Size" type="text" ng-model="listService.size" ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Columns</label> <input class="form-control" title="Columns" type="text" ng-model="listService.columns" ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Order</label> <input class="form-control" title="Order" type="text" ng-model="listService.order" ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Search</label> <input class="form-control" title="Search" type="text" ng-model="listService.search" ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button class="btn btn-primary" ng-click="refresh()">Search</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <p ng-if="!templates.length">No email templates</p>
+        <table ng-if="templates.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Subject</th>
+                <th>Help</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Subject</th>
+                <th>Help</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            </tfoot>
+
+            <tbody>
+            <tr ng-repeat="template in templates">
+                <td>{{template.id}}</td>
+                <td>{{template.name}}</td>
+                <td>{{template.code}}</td>
+                <td>{{template.subject}}</td>
+                <td>{{template.help}}</td>
+                <td><button type="button" class="btn btn-primary btn-circle" ng-click="openEditTemplate(template);"><i class="fa fa-edit"></i></button></td>
+                <td><button type="button" class="btn btn-danger btn-circle" ng-click="openDeleteTemplate(template);"><i class="fa fa-remove"></i></button></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <script type="text/ng-template" id="CreateTemplateModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Email Template</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" placeholder="Name" ng-model="template.name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input class="form-control" placeholder="Code" ng-model="template.code">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input class="form-control" placeholder="Subject" ng-model="template.subject">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Help Text - Description of this template</label>
+                            <input class="form-control" placeholder="Help" ng-model="template.help">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Text Body</label>
+                            <textarea class="form-control" placeholder="Text Body" ng-model="template.body"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>HTML Body</label>
+                            <textarea class="form-control" placeholder="Html Body" ng-model="template.html"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Create</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="EditTemplateModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Email Template {{template.code}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" placeholder="Name" ng-model="template.name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input class="form-control" placeholder="Code" ng-model="template.code">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input class="form-control" placeholder="Subject" ng-model="template.subject">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Help Text - Description of this template</label>
+                            <input class="form-control" placeholder="Help" ng-model="template.help">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Text Body</label>
+                            <textarea class="form-control" placeholder="Text Body" ng-model="template.body"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>HTML Body</label>
+                            <textarea class="form-control" placeholder="Html Body" ng-model="template.html"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Save</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="DeleteTemplateModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Email Template?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Delete</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+    </div>
+</div>
