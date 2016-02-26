@@ -1,7 +1,0 @@
-Dear {{fname}},
-
-Thank you for your payment!
-
-- Vancouver Hackspace Society
-
-{{host}}

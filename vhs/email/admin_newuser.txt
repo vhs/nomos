@@ -1,7 +1,0 @@
-New user added!
-
-{{fname}} {{lname}}
-Email: {{email}}
-
-{{host}}/#/users/{{id}}
-
