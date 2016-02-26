@@ -1,6 +1,0 @@
-Dear {{fname}} {{lname}},
-
-Your donation of {{currency}}{{rate_amount}} was received!
-
-Thank you,
-- Vancouver Hackspace Society
