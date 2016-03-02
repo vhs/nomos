@@ -24,11 +24,15 @@ if(sizeof($argv) > 1 && !is_null($argv[1])) {
 $backup = new Backup(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
 $migrator = new Migrator(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
 
-if($do_backup)
-    $backup->backup();
+if($do_backup) {
+    if($backup->backup())
+        print "Backup succeeded\n";
+    else
+        print "Backup failed\n";
+}
 
 
 if($migrator->migrate($target_version, "../migrations"))
-    print "Migration succeed\n";
+    print "Migration succeeded\n";
 else
     print "Migration failed\n";

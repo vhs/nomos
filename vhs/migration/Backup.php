@@ -52,7 +52,7 @@ class Backup {
         }
     }
 
-    public function backup($fileName = null, $backupPath = "backup/") {
+    public function backup($backupPath = "backup/", $fileName = null) {
 
         $this->logger->log('Starting backup');
         
@@ -70,6 +70,8 @@ class Backup {
         $sql = 'SHOW TABLES';
         $i = 0;
         $result = $conn->query($sql);
+        if(!$result)
+            return false;
 
         //Grab all tables
         while($row = $result->fetch_array())
@@ -87,31 +89,25 @@ class Backup {
             
             
             $create_result = $conn->query($sql);
+            if(!$result)
+                return false;
             $create_row = $create_result->fetch_row();
             $return .= $create_row[1];
             
             $sql = 'SELECT * FROM `' . $table . '`;';
             
             $result = $conn->query($sql);
-            
-            //Grab key type
-            //for($i = 0; $keys = $result->fetch_row(); $i++) {
-                
-                
-            //$num_fields = mysql_num_fields($result);
+            if(!$result)
+                return false;
             $num_fields = @intval($result->num_rows);
-            
-            //print_r($result);
 
             $return .= ";\nINSERT INTO `" . $table . '` VALUES(';
             
             $types = $result->fetch_fields();
-            //print_r($types);
-            
+
+            //Grab all keys
             for($i = 0; $keys = $result->fetch_row(); $i++) {
-                //
-                //print_r($keys);
-                //print_r($result->fetch_field());
+
                 if($i)
                     $return .= "),\n(";
                 
@@ -119,21 +115,16 @@ class Backup {
                 $e = 0;
                 foreach($keys as $key) {
                     
-                    //$key = str_replace('\'', '\'\'', preg_replace("/\n/", "\\n", $key));
                     $key = $conn->escape_string($key);
                     
-
                     if($this->is_mysql_num($types[$e]->type)) {
                         if(!$key && $key !== 0 && $key !== '0') {
-                            //print(" (Key: " . $key . " - " . gettype($key) . ") ");
                             $key = 'NULL';
                         }
                     } else {
                         $key = '\''. $key .'\'' ;
                     }
                     
-
-
                     if (!$firstKey)
                         $return .= ' , ';
                     $return .= $key;
@@ -147,17 +138,15 @@ class Backup {
             
             print($i . " keys.\n");
 
-            //print($i . "\n");
-            //print($sql . "\n");
 
         }
 
-
-
-        //print($return);
-        $handle = fopen($backupPath . 'db-backup-'.time().'-'.(md5($return)).'.sql','w+');
+        $fileName =  (!is_null($fileName) ? $fileName : 'db-backup-'.time().'-'.(md5($return)).'.sql';
+        $handle = fopen($backupPath . $fileName,'w+');
         fwrite($handle, $return);
         fclose($handle);
+        
+        return true;
 
     }
 }
