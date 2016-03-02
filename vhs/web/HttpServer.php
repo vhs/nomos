@@ -63,6 +63,8 @@ class HttpServer {
         /** @var IHttpModule $module */
         $index = 0;
         foreach($this->modules as $module) {
+            if($this->endset) break;
+
             try {
                 $module->handle($this);
             } catch(\Exception $ex) {
