@@ -124,8 +124,7 @@ class UserService extends Service implements IUserService1 {
 
         $emailService = new EmailService();
 
-        //todo finish this template and add the supporting services to actual active the account
-        $emailService->EmailUser($user, 'VHS Nomos Account Activation', 'welcome', [
+        $emailService->EmailUser($user, 'welcome', [
             'token' => $user->token,
             'host' => $protocol.$domainName
         ]);
@@ -161,8 +160,7 @@ class UserService extends Service implements IUserService1 {
 
         $emailService = new EmailService();
 
-        //todo finish this template and add the supporting services to actual active the account
-        $emailService->EmailUser($user, 'VHS Nomos Account Activation', 'welcome', [
+        $emailService->EmailUser($user, 'welcome', [
             'token' => $user->token,
             'host' => $protocol.$domainName
         ]);
@@ -187,7 +185,7 @@ class UserService extends Service implements IUserService1 {
         $domainName = $_SERVER['HTTP_HOST'].'/';
 
         $emailService = new EmailService();
-        $emailService->EmailUser($user, 'Nomos Password Recovery', 'recover', [
+        $emailService->EmailUser($user, 'recover', [
             'token' => $request->token,
             'host' => $protocol.$domainName
         ]);

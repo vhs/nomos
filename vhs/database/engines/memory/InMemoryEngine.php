@@ -47,6 +47,9 @@ class InMemoryEngine extends Engine {
     }
 
     public function disconnect() {
+        $this->keyIncrementors = array();
+        $this->datastore = array();
+        $this->logger->log("disconnected");
         return true; // ha
     }
 

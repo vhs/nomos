@@ -6,6 +6,7 @@
  * Time: 4:29 PM
  */
 
+require_once("vendor/autoload.php");
 require_once("vhs/vhs.php");
 
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', dirname(__FILE__) . '/..'));

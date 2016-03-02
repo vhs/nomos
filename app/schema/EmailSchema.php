@@ -20,9 +20,11 @@ class EmailSchema extends Schema {
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("name", Type::String(true, null, 255));
+        $table->addColumn("code", Type::String(true, null, 255));
         $table->addColumn("subject", Type::String(true, null, 255));
         $table->addColumn("help", Type::String(true, null, 255));
         $table->addColumn("body", Type::Text());
+        $table->addColumn("html", Type::Text());
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id)

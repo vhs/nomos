@@ -48,7 +48,12 @@ class Key extends Domain {
             array_push($privs, $priv);
         }
 
-        return array_unique($privs);
+        $retval = array();
+
+        foreach(array_unique($privs) as $priv) //hack array_unique may convert to object
+            array_push($retval, $priv);
+
+        return $retval;
     }
 
     public static function findByTypes(...$types) {
