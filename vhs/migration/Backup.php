@@ -45,14 +45,29 @@ class Backup {
             case 9:     //MEDIUMINT
             case 16:    //BIT
             case 246:   //DECIMAL / NUMERIC / FIXED
-                return 1;
+                return true;
                 break;
             default:
-                return 0;
+                return false;
         }
     }
 
-    public function backup($backupPath = "backup/", $fileName = null) {
+    public function external_backup($backupPath = "backup/", $fileName = null) {
+        $this->logger->log('Starting backup');
+        
+        $fileName =  (!is_null($fileName)) ? $fileName : 'db-backup-' . time() . '.sql';
+
+        $command = "mysqldump -u '" . $this->user . "' -p" . $this->password . " '" . $this->database . "' > '" . $backupPath . $fileName . "'";
+        
+        exec($command, $output, $return);
+        
+        if(!$return)
+            return true;
+        else
+            return false;
+    }
+
+    public function internal_backup($backupPath = "backup/", $fileName = null) {
 
         $this->logger->log('Starting backup');
         
@@ -135,13 +150,11 @@ class Backup {
             }
             $return.= ");\n";
             
-            
             print($i . " keys.\n");
-
 
         }
 
-        $fileName =  (!is_null($fileName) ? $fileName : 'db-backup-'.time().'-'.(md5($return)).'.sql';
+        $fileName =  (!is_null($fileName)) ? $fileName : 'db-backup-'.time().'-'.(md5($return)).'.sql';
         $handle = fopen($backupPath . $fileName,'w+');
         fwrite($handle, $return);
         fclose($handle);

@@ -25,7 +25,7 @@ $backup = new Backup(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger
 $migrator = new Migrator(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
 
 if($do_backup) {
-    if($backup->backup())
+    if($backup->external_backup())
         print "Backup succeeded\n";
     else
         print "Backup failed\n";
