@@ -67,6 +67,8 @@ class OAuthHelper
         $key->notes = $notes;
 
         $key->privileges->clear();
+        $key->save();
+
         $key->privileges->add(Privilege::findByCode('inherit'));
 
         $key->save();
