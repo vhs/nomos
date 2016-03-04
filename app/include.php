@@ -29,6 +29,25 @@ $mySqlEngine->setLogger($sqlLog);
 
 \vhs\database\Database::setEngine($mySqlEngine);
 
+$rabbitLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/rabbit.log") : new \vhs\loggers\SilentLogger();
+
+\vhs\messaging\MessageQueue::setLogger($rabbitLog);
+\vhs\messaging\MessageQueue::setRethrow(true);
+
+$rabbitMQ = new \vhs\messaging\engines\RabbitMQ\RabbitMQEngine(
+    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(
+        RABBITMQ_HOST,
+        RABBITMQ_PORT,
+        RABBITMQ_USER,
+        RABBITMQ_PASSWORD,
+        RABBITMQ_VHOST
+    )
+);
+
+$rabbitMQ->setLogger($rabbitLog);
+
+\vhs\messaging\MessageQueue::setEngine($rabbitMQ);
+
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', ROOT_NAMESPACE_PATH));
 
 $serviceLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/service.log") : new \vhs\loggers\SilentLogger();

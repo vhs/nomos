@@ -30,6 +30,12 @@
      define('OAUTH_GOOGLE_CLIENT', '');
      define('OAUTH_GOOGLE_SECRET', '');
 
+     define('RABBITMQ_HOST', 'localhost');
+     define('RABBITMQ_PORT', '5672');
+     define('RABBITMQ_USER', 'nomos');
+     define('RABBITMQ_PASSWORD', 'password');
+     define('RABBITMQ_VHOST', 'nomos');
+
 	/** 
 	* Show MySql Errors. 
 	* Not recomended for live site. true/false 

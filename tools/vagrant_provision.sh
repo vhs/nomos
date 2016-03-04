@@ -55,3 +55,19 @@ chmod 777 /vagrant/app/server.log
 
 cd /vagrant/tools
 php migrate.php
+
+# rabbitmq
+
+
+echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
+wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+sudo apt-key add rabbitmq-signing-key-public.asc
+sudo apt-get update
+sudo apt-get install --yes -q rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl add_user vhs password
+sudo rabbitmqctl set_user_tags vhs administrator
+sudo rabbitmqctl add_user nomos password
+sudo rabbitmqctl add_vhost nomos
+sudo rabbitmqctl set_permissions -p nomos vhs ".*" ".*" ".*"
+sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
