@@ -195,4 +195,31 @@ interface IUserService1 extends IContract {
      * @return mixed
      */
     public function RevokePrivilege($userid, $privilege);
+
+    /**
+     * @permission administrator
+     * @param $useridA
+     * @param $useridB
+     * @return mixed
+     */
+    public function Compare($useridA, $useridB);
+
+    /**
+     * Merge original and annexe keeping only fields from annexe as listed in criterion.
+     *
+     * @permission administrator
+     * @param $originalId
+     * @param $annexeId
+     * @param $new - create a new third object with the result otherwise merge into original
+     * @param $keep - keep the original and annexe objects otherwise delete annexe or both depending on $new
+     * @param $criterion - list of fields to use from the annexe
+     * @return mixed
+     *
+     *  new &  keep = creates a new user and keeps both original and annexe
+     * !new &  keep = merges annexe into original but keeps the annexe
+     * !new & !keep = merges annexe into original and deletes the annexe
+     *  new & !keep = creates a new user but deletes both original and annexe
+     *
+     */
+    public function Merge($originalId, $annexeId, $new, $keep, $criterion);
 }

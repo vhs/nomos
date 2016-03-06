@@ -16,6 +16,7 @@ use app\domain\Privilege;
 use app\domain\User;
 use app\security\PasswordUtil;
 use DateTime;
+use vhs\database\Column;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
@@ -426,5 +427,67 @@ class UserService extends Service implements IUserService1 {
         $me = User::find(CurrentUser::getIdentity());
 
         return array_intersect($user->getPrivilegeCodes(), $me->getGrantCodes());
+    }
+
+    public function Compare($useridA, $useridB) {
+        $userA = $this->GetUser($useridA);
+        $userB = $this->GetUser($useridB);
+
+        $result = array();
+
+        /** @var Column $column */
+        foreach(User::Schema()->Columns()->all() as $column) {
+            $col = $column->name;
+
+            $result[$col] = [
+                "a" => $userA->$col,
+                "equal" => ($userA->$col === $userB->$col),
+                "b" => $userB->$col
+            ];
+        }
+
+        //TODO compare dependent sub objects, either via the domain relationships on the user domain or manually.
+        // ideally we'd have a way to automatically get all of the depend relationships to userid across all schema
+        // classes so that if new stuff is made it is included properly in the compare and merge functions.
+
+        return $result;
+    }
+
+
+    /**
+     * Merge original and annexe keeping only fields from annexe as listed in criterion.
+     *
+     * @permission administrator
+     * @param $originalId
+     * @param $annexeId
+     * @param $new - create a new third object with the result otherwise merge into original
+     * @param $keep - keep the original and annexe objects otherwise delete annexe or both depending on $new
+     * @param $criterion - list of fields to use from the annexe
+     * @return mixed
+     *
+     *  new &  keep = creates a new user and keeps both original and annexe
+     * !new &  keep = merges annexe into original but keeps the annexe
+     * !new & !keep = merges annexe into original and deletes the annexe
+     *  new & !keep = creates a new user but deletes both original and annexe
+     *
+     */
+    public function Merge($originalId, $annexeId, $new, $keep, $criterion)
+    {
+        // TODO: Implement Merge() method.
+        // criterion is likely not useful for domain relatated objects. I think the rule should be to simply update
+        //  all relationships with the $new user ID or the original user ID depending on the $new flag - in the event of
+        //  a conflict we take the $original. This is especially true for child owned relationships.
+
+        // It will be complicated/difficult to update loosely coupled child related objects in an automatic way, if at all
+        //  such as AccessLog or Payment records. Perhaps we need to define some relationship types as optional so they
+        //  don't hydrate automatically. This way we could define loose schema relationships for the purposes of reflection
+        //  but not create a hard constraint.
+
+        // In the case of Payment records or AccessLog records we record an optional userId.. Domain objects hydrate relationships
+        //  automatically and strictly. If it is an optional relationship (ie. nullable or stale (deleted object)) then
+        //  the hydrate could fail. Also we probably don't care to actually hydrate them anyway but having the relationship
+        //  defined would allow us to reflect and discover dependencies holistically.
+
+
     }
 }
