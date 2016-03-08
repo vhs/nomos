@@ -42,10 +42,14 @@ class RabbitMQEngine extends Engine
 
     public function connect()
     {
-        $this->channels = array();
+        if (!is_null($this->connection)) {
+            if ($this->connection->isConnected())
+                return;
+            else
+                $this->disconnect();
+        }
 
-        if (!is_null($this->connection))
-            $this->disconnect();
+        $this->channels = array();
 
         $this->connection = new AMQPStreamConnection(
             $this->info->getHost(),
@@ -69,6 +73,12 @@ class RabbitMQEngine extends Engine
 
         unset($this->channels);
         unset($this->connection);
+    }
+
+    public function ensure($channel, $queue) {
+        $ch = $this->getChannel($channel);
+
+        $ch->queue_declare($channel.".".$queue, false, false, false, false);
     }
 
     public function publish($channel, $queue, $message)
@@ -110,6 +120,7 @@ class RabbitMQEngine extends Engine
      * @return AMQPChannel
      */
     private function getChannel($channel) {
+        /*
         if (array_key_exists($channel, $this->channels)) {
             return $this->channels[$channel];
         }
@@ -119,5 +130,7 @@ class RabbitMQEngine extends Engine
         $this->channels[$channel] = $ch;
 
         return $ch;
+        */
+        return $this->connection->channel();
     }
 }

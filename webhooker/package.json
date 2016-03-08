@@ -1,0 +1,15 @@
+{
+  "name": "webhooker",
+  "version": "1.0.0",
+  "description": "Nomos WebHook Broker",
+  "author": "Thomas LaFreniere <thomas@lafreniere.co>",
+  "license": "MIT",
+  "main": "webhooker.js",
+  "scripts": {
+    "start": "node webhooker.js"
+  },
+  "dependencies": {
+    "daemon": "^1.1.0",
+    "amqplib": "^0.4.1"
+  }
+}

@@ -673,6 +673,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     public function delete() {
+
+        $this->raiseBeforeDelete();
+
         Database::delete(
             Query::Delete(
                 self::Schema()->Table(),
@@ -683,6 +686,8 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $pks = self::Schema()->PrimaryKeys();
         foreach($pks as $pk)
             $this->__set($pk->column->name, null);
+
+        $this->raiseDeleted();
     }
 
     public function onBeforeChange(callable $listener) { $this->on("BeforeChange", $listener); }
