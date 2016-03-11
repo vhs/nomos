@@ -21,6 +21,19 @@ interface IEventService1 extends IContract
     function GetEvents();
 
     /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    function GetDomainDefinitions();
+
+    /**
+     * @permission webhook|administrator
+     * @param $domain
+     * @return mixed
+     */
+    function GetDomainDefinition($domain);
+
+    /**
      * @permission user
      * @return mixed
      */

@@ -13,6 +13,7 @@ use app\contracts\IEventService1;
 use app\domain\Event;
 use app\domain\Privilege;
 use Aws\CloudFront\Exception\Exception;
+use vhs\domain\Domain;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
@@ -182,5 +183,35 @@ class EventService extends Service implements IEventService1
         }
 
         return $retval;
+    }
+
+    /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    function GetDomainDefinitions()
+    {
+
+        foreach (glob("domain/*.php") as $filename)
+            include_once $filename;
+
+
+        $domains = array();
+        foreach(get_declared_classes() as $class) {
+            if (is_subclass_of($class, "\\vhs\\domain\\Domain"))
+                $domains[] = str_replace("app\\domain\\", "", $class);
+        }
+
+        return $domains;
+    }
+
+    /**
+     * @permission webhook|administrator
+     * @param $domain
+     * @return mixed
+     */
+    function GetDomainDefinition($domain)
+    {
+        // TODO: Implement GetDomainDefinition() method.
     }
 }

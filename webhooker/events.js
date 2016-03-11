@@ -96,3 +96,59 @@ Events.prototype.handleEvent = function(event, data) {
 
     this.handler(event, data);
 };
+
+
+/*
+open.then(function(conn) {
+    var ok = conn.createChannel();
+
+    ok = ok.then(function(ch) {
+        //ch.assertQueue("AccessLog.created");
+
+        var options = {
+            host: config.nomos.host,
+            path: '/services/web/EventService1.svc/GetEvents',
+            method: 'GET',
+            headers: { 'X-Api-Key': config.nomos.token }
+        };
+
+        http.get(options, function(res) {
+            res.setEncoding('utf8');
+
+            if (res.statusCode == 200) {
+
+                res.on('data', function (chunk) {
+
+                    var events = JSON.parse(chunk);
+
+                    for(var i = 0; i < events.length; i++) {
+                        (function(event) {
+                            ch.consume(event.domain + "." + event.event, function (msg) {
+                                if (msg != null) {
+
+                                    ch.ack(msg);
+
+                                    if (event.domain == "WebHook")
+                                        webhooks.refresh();
+
+                                    var data = JSON.parse(msg.content.toString())[0][0];
+
+                                    handleEvent(event, data);
+                                }
+                            });
+                        })(events[i]);
+                    }
+
+                });
+            } else {
+                console.log(res.statusCode);
+            }
+
+        }).on('error', function(e) {
+            console.log(e.message);
+        });
+    });
+
+    return ok;
+}).then(null, console.warn);
+*/

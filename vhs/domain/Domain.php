@@ -56,6 +56,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
+    public static function AccessDefinition() {
+        $checks = self::Schema()->Table()->checks;
+
+        foreach($checks as $check)
+            $check->serialize();
+    }
+
     /**
      * @param string $domain
      * @param Schema $joinTable

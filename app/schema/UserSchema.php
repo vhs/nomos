@@ -9,6 +9,7 @@
 namespace app\schema;
 
 
+use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -46,6 +47,12 @@ class UserSchema extends Schema {
             Constraint::PrimaryKey($table->columns->id),
             Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
         );
+
+        $access = new PrivilegedAccess($table->columns->id);
+        $access->Table($table, "owner");
+        $access->Column($table->columns->username, "owner", "user", "webhook");
+
+        $table->setAccess($access);
 
         return $table;
     }
