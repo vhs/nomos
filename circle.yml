@@ -1,6 +1,8 @@
 machine:
   php:
     version: 5.6.14
+  environment:
+    CIRCLE_ARTIFACTS: coverage/
 
 dependencies:
   pre:
@@ -9,5 +11,4 @@ dependencies:
 test:
   override:
     - phpunit --coverage-html coverage
-      environment:
-        CIRCLE_ARTIFACTS: coverage/
+
