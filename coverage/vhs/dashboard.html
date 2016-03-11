@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\Source\nomos/vhs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/nv.d3.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="../js/html5shiv.min.js"></script>
+  <script src="../js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="../index.html">C:\Source\nomos</a></li>
+        <li><a href="index.html">vhs</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Logger.php.html#11">Logger</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#12">Filter</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpServerInfoModule.php.html#15">HttpServerInfoModule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#16">HttpRequestHandlerModule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpJsonServiceHandlerModule.php.html#17">HttpJsonServiceHandlerModule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpExceptionHandlerModule.php.html#16">HttpExceptionHandlerModule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#18">HttpBasicAuthModule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#12">HttpUtil</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#16">HttpServer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/UserPassCredentials.php.html#12">UserPassCredentials</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="migration/Migrator.php.html#14">Migrator</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="loggers/SilentLogger.php.html#13">SilentLogger</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationFailure.php.html#11">ValidationFailure</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationException.php.html#11">ValidationException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cloneable.php.html#18">Cloneable</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#5">SplClassLoaderItem</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="messaging/ConnectionInfo.php.html#12">ConnectionInfo</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#22">MySqlConverter</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="messaging/Engine.php.html#14">Engine</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationResults.php.html#11">ValidationResults</a></td><td class="text-right">25%</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#12">AnonPrincipal</a></td><td class="text-right">25%</td></tr>
+       <tr><td><a href="services/ServiceContext.php.html#14">ServiceContext</a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#54">MySqlGenerator</a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="database/Database.php.html#25">Database</a></td><td class="text-right">41%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#19">ServiceHandler</a></td><td class="text-right">41%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#14">CurrentUser</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#23">Query</a></td><td class="text-right">53%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#18">SplClassLoader</a></td><td class="text-right">56%</td></tr>
+       <tr><td><a href="database/Table.php.html#17">Table</a></td><td class="text-right">58%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#55">InMemoryGenerator</a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#27">InMemoryEngine</a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="domain/DomainValueCache.php.html#12">DomainValueCache</a></td><td class="text-right">72%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#21">SatelliteDomainCollection</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="database/types/Type.php.html#18">Type</a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Singleton.php.html#11">Singleton</a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="database/types/TypeEnum.php.html#14">TypeEnum</a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="domain/Notifier.php.html#12">Notifier</a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="database/wheres/WhereComparator.php.html#14">WhereComparator</a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#19">Endpoint</a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#54">MySqlGenerator</a></td><td class="text-right">1763</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#16">HttpServer</a></td><td class="text-right">1332</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#22">MySqlConverter</a></td><td class="text-right">650</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#55">InMemoryGenerator</a></td><td class="text-right">370</td></tr>
+       <tr><td><a href="migration/Migrator.php.html#14">Migrator</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="database/Database.php.html#25">Database</a></td><td class="text-right">141</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#27">InMemoryEngine</a></td><td class="text-right">115</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#18">HttpBasicAuthModule</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#19">ServiceHandler</a></td><td class="text-right">99</td></tr>
+       <tr><td><a href="Cloneable.php.html#18">Cloneable</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#16">HttpRequestHandlerModule</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="web/modules/HttpJsonServiceHandlerModule.php.html#17">HttpJsonServiceHandlerModule</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#18">SplClassLoader</a></td><td class="text-right">48</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#12">AnonPrincipal</a></td><td class="text-right">43</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#12">HttpUtil</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#14">CurrentUser</a></td><td class="text-right">34</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#21">SatelliteDomainCollection</a></td><td class="text-right">34</td></tr>
+       <tr><td><a href="database/Table.php.html#17">Table</a></td><td class="text-right">31</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#19">Endpoint</a></td><td class="text-right">31</td></tr>
+       <tr><td><a href="web/modules/HttpExceptionHandlerModule.php.html#16">HttpExceptionHandlerModule</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#23">Query</a></td><td class="text-right">19</td></tr>
+       <tr><td><a href="database/types/Type.php.html#18">Type</a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="domain/Notifier.php.html#12">Notifier</a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="domain/validations/ValidationException.php.html#11">ValidationException</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/wheres/WhereComparator.php.html#14">WhereComparator</a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="domain/DomainValueCache.php.html#12">DomainValueCache</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="services/ServiceContext.php.html#14">ServiceContext</a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="database/types/TypeEnum.php.html#14">TypeEnum</a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Singleton.php.html#11">Singleton</a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Logger.php.html#14"><abbr title="Logger::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationException.php.html#30"><abbr title="ValidationException::getResults">getResults</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#64"><abbr title="Filter::IsNull">IsNull</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#68"><abbr title="Filter::IsNotNull">IsNotNull</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Notifier.php.html#43"><abbr title="Notifier::staticOn">staticOn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Schema.php.html#70"><abbr title="Schema::Constraints">Constraints</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#73"><abbr title="SatelliteDomainCollection::compare">compare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#98"><abbr title="SatelliteDomainCollection::remove">remove</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationException.php.html#15"><abbr title="ValidationException::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationFailure.php.html#14"><abbr title="ValidationFailure::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#56"><abbr title="Filter::GreaterEqual">GreaterEqual</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationFailure.php.html#18"><abbr title="ValidationFailure::getMessage">getMessage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationResults.php.html#17"><abbr title="ValidationResults::add">add</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/validations/ValidationResults.php.html#31"><abbr title="ValidationResults::getFailures">getFailures</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="loggers/SilentLogger.php.html#14"><abbr title="SilentLogger::log">log</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="migration/Migrator.php.html#22"><abbr title="Migrator::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="migration/Migrator.php.html#34"><abbr title="Migrator::migrate">migrate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#14"><abbr title="AnonPrincipal::hasAllPermissions">hasAllPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#29"><abbr title="AnonPrincipal::getIdentity">getIdentity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#60"><abbr title="Filter::Like">Like</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#52"><abbr title="Filter::Greater">Greater</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#57"><abbr title="CurrentUser::hasAllPermissions">hasAllPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#73"><abbr title="Query::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#377"><abbr title="MySqlGenerator::generateDateTime">generateDateTime</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#396"><abbr title="MySqlGenerator::generateLeft">generateLeft</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#401"><abbr title="MySqlGenerator::generateRight">generateRight</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#406"><abbr title="MySqlGenerator::generateOuter">generateOuter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#411"><abbr title="MySqlGenerator::generateInner">generateInner</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#416"><abbr title="MySqlGenerator::generateCross">generateCross</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#54"><abbr title="Query::Count">Count</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#58"><abbr title="Query::Join">Join</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/types/Type.php.html#52"><abbr title="Type::Date">Date</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#48"><abbr title="Filter::LesserEqual">LesserEqual</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/types/Type.php.html#81"><abbr title="Type::convert">convert</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/DomainValueCache.php.html#37"><abbr title="DomainValueCache::clear">clear</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#20"><abbr title="Filter::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#28"><abbr title="Filter::_And">_And</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#32"><abbr title="Filter::_Or">_Or</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#36"><abbr title="Filter::Equal">Equal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#40"><abbr title="Filter::NotEqual">NotEqual</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="domain/Filter.php.html#44"><abbr title="Filter::Lesser">Lesser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#37"><abbr title="AnonPrincipal::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#61"><abbr title="CurrentUser::hasAnyPermissions">hasAnyPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#363"><abbr title="MySqlGenerator::generateText">generateText</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpExceptionHandlerModule.php.html#22"><abbr title="HttpExceptionHandlerModule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#26"><abbr title="HttpUtil::getRequestMethod">getRequestMethod</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#30"><abbr title="HttpUtil::getRequestUrl">getRequestUrl</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#37"><abbr title="HttpUtil::getCurrentRequest">getCurrentRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#23"><abbr title="HttpBasicAuthModule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#28"><abbr title="HttpBasicAuthModule::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#45"><abbr title="HttpBasicAuthModule::handleException">handleException</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#51"><abbr title="HttpBasicAuthModule::requestAuth">requestAuth</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpExceptionHandlerModule.php.html#32"><abbr title="HttpExceptionHandlerModule::handleException">handleException</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#177"><abbr title="HttpServer::end">end</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpJsonServiceHandlerModule.php.html#21"><abbr title="HttpJsonServiceHandlerModule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpJsonServiceHandlerModule.php.html#25"><abbr title="HttpJsonServiceHandlerModule::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#20"><abbr title="HttpRequestHandlerModule::register_internal">register_internal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#28"><abbr title="HttpRequestHandlerModule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#31"><abbr title="HttpRequestHandlerModule::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpServerInfoModule.php.html#19"><abbr title="HttpServerInfoModule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/modules/HttpServerInfoModule.php.html#23"><abbr title="HttpServerInfoModule::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cloneable.php.html#20"><abbr title="Cloneable::__clone">__clone</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#14"><abbr title="HttpUtil::parseRequestHeaders">parseRequestHeaders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#168"><abbr title="HttpServer::sendOnlyHeaders">sendOnlyHeaders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#65"><abbr title="CurrentUser::canGrantAllPermissions">canGrantAllPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#29"><abbr title="HttpServer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#69"><abbr title="CurrentUser::canGrantAnyPermissions">canGrantAnyPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#73"><abbr title="CurrentUser::getIdentity">getIdentity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#77"><abbr title="CurrentUser::isAnon">isAnon</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="security/UserPassCredentials.php.html#17"><abbr title="UserPassCredentials::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="services/ServiceContext.php.html#23"><abbr title="ServiceContext::log">log</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#27"><abbr title="ServiceHandler::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#125"><abbr title="ServiceHandler::getAllEndpoints">getAllEndpoints</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#66"><abbr title="Endpoint::getAllPermissions">getAllPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#41"><abbr title="HttpServer::log">log</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#162"><abbr title="HttpServer::code">code</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#45"><abbr title="HttpServer::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#54"><abbr title="HttpServer::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#102"><abbr title="HttpServer::endResponse">endResponse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#127"><abbr title="HttpServer::clear">clear</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#137"><abbr title="HttpServer::output">output</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#182"><abbr title="HttpServer::anonymous function">anonymous function</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#145"><abbr title="HttpServer::redirect">redirect</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#151"><abbr title="HttpServer::header">header</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#370"><abbr title="MySqlGenerator::generateDate">generateDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#421"><abbr title="MySqlGenerator::generateOn">generateOn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#345"><abbr title="MySqlGenerator::generateFloat">generateFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#167"><abbr title="InMemoryGenerator::generateAscending">generateAscending</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Table.php.html#100"><abbr title="Table::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Table.php.html#109"><abbr title="Table::generateTable">generateTable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#35"><abbr title="InMemoryEngine::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#41"><abbr title="InMemoryEngine::setLogger">setLogger</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#56"><abbr title="InMemoryEngine::scalar">scalar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#160"><abbr title="InMemoryEngine::count">count</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#178"><abbr title="InMemoryEngine::exists">exists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#183"><abbr title="InMemoryEngine::arbitrary">arbitrary</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#172"><abbr title="InMemoryGenerator::generateDescending">generateDescending</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="messaging/Engine.php.html#20"><abbr title="Engine::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#185"><abbr title="InMemoryGenerator::generatePrimaryKey">generatePrimaryKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#190"><abbr title="InMemoryGenerator::generateForeignKey">generateForeignKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#195"><abbr title="InMemoryGenerator::generateLeft">generateLeft</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#200"><abbr title="InMemoryGenerator::generateRight">generateRight</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#205"><abbr title="InMemoryGenerator::generateOuter">generateOuter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#210"><abbr title="InMemoryGenerator::generateInner">generateInner</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#338"><abbr title="MySqlGenerator::generateInt">generateInt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#220"><abbr title="InMemoryGenerator::generateSelect">generateSelect</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#225"><abbr title="InMemoryGenerator::generateSelectCount">generateSelectCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Table.php.html#59"><abbr title="Table::__clone">__clone</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#165"><abbr title="Database::arbitrary">arbitrary</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#235"><abbr title="InMemoryGenerator::generateUpdate">generateUpdate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#34"><abbr title="Database::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#10"><abbr title="SplClassLoaderItem::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#26"><abbr title="SplClassLoader::getInstance">getInstance</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#42"><abbr title="SplClassLoader::setNamespaceSeparator">setNamespaceSeparator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#52"><abbr title="SplClassLoader::getNamespaceSeparator">getNamespaceSeparator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#57"><abbr title="SplClassLoader::add">add</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#62"><abbr title="SplClassLoader::remove">remove</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#70"><abbr title="SplClassLoader::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#78"><abbr title="SplClassLoader::unregister">unregister</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="messaging/ConnectionInfo.php.html#15"><abbr title="ConnectionInfo::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#41"><abbr title="Database::__destruct">__destruct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#157"><abbr title="Database::exists">exists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#45"><abbr title="Database::handleException">handleException</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#70"><abbr title="Database::setRethrowInternal">setRethrowInternal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#74"><abbr title="Database::setRethrow">setRethrow</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#95"><abbr title="Database::setLoggerInternal">setLoggerInternal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#99"><abbr title="Database::setLogger">setLogger</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#105"><abbr title="Database::DateFormat">DateFormat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#109"><abbr title="Database::scalar">scalar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#168"><abbr title="Database::anonymous function">anonymous function</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#149"><abbr title="Database::count">count</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#230"><abbr title="InMemoryGenerator::generateInsert">generateInsert</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#215"><abbr title="InMemoryGenerator::generateCross">generateCross</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#240"><abbr title="InMemoryGenerator::generateDelete">generateDelete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#77"><abbr title="MySqlGenerator::SetMySqli">SetMySqli</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#25"><abbr title="MySqlConverter::convertBool">convertBool</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#37"><abbr title="MySqlConverter::convertInt">convertInt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#49"><abbr title="MySqlConverter::convertFloat">convertFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#245"><abbr title="InMemoryGenerator::generateColumn">generateColumn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#73"><abbr title="MySqlConverter::convertText">convertText</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#85"><abbr title="MySqlConverter::convertDate">convertDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#97"><abbr title="MySqlConverter::convertDateTime">convertDateTime</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#109"><abbr title="MySqlConverter::convertEnum">convertEnum</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#161"><abbr title="MySqlGenerator::generateAscending">generateAscending</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#284"><abbr title="InMemoryGenerator::generateDateTime">generateDateTime</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#165"><abbr title="MySqlGenerator::generateDescending">generateDescending</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#169"><abbr title="MySqlGenerator::gen">gen</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#197"><abbr title="MySqlGenerator::generateSelect">generateSelect</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#386"><abbr title="MySqlGenerator::anonymous function">anonymous function</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#229"><abbr title="MySqlGenerator::generateSelectCount">generateSelectCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#260"><abbr title="MySqlGenerator::generateInsert">generateInsert</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#279"><abbr title="MySqlGenerator::generateUpdate">generateUpdate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#302"><abbr title="MySqlGenerator::generateDelete">generateDelete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#328"><abbr title="MySqlGenerator::generateBool">generateBool</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#288"><abbr title="InMemoryGenerator::generateEnum">generateEnum</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#61"><abbr title="MySqlConverter::convertString">convertString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cloneable.php.html#29"><abbr title="Cloneable::__arrayCopy">__arrayCopy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#276"><abbr title="InMemoryGenerator::generateText">generateText</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#264"><abbr title="InMemoryGenerator::generateInt">generateInt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#255"><abbr title="InMemoryGenerator::generateOn">generateOn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#268"><abbr title="InMemoryGenerator::generateFloat">generateFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#272"><abbr title="InMemoryGenerator::generateString">generateString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#260"><abbr title="InMemoryGenerator::generateBool">generateBool</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#280"><abbr title="InMemoryGenerator::generateDate">generateDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryGenerator.php.html#250"><abbr title="InMemoryGenerator::generateTable">generateTable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="database/Database.php.html#52"><abbr title="Database::invokeEngine">invokeEngine</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#36"><abbr title="ServiceHandler::handle">handle</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#25"><abbr title="CurrentUser::getInstance">getInstance</abbr></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#314"><abbr title="MySqlGenerator::genVal">genVal</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="database/Columns.php.html#43"><abbr title="Columns::add">add</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#100"><abbr title="ServiceHandler::getEndpoint">getEndpoint</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="database/Columns.php.html#85"><abbr title="Columns::getByName">getByName</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="database/wheres/WhereComparator.php.html#45"><abbr title="WhereComparator::__toString">__toString</abbr></a></td><td class="text-right">76%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#83"><abbr title="SatelliteDomainCollection::add">add</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="domain/collections/ChildDomainCollection.php.html#140"><abbr title="ChildDomainCollection::save">save</abbr></a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="domain/Notifier.php.html#59"><abbr title="Notifier::staticRaise">staticRaise</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="database/types/TypeEnum.php.html#25"><abbr title="TypeEnum::__construct">__construct</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#134"><abbr title="SatelliteDomainCollection::save">save</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="domain/Domain.php.html#301"><abbr title="Domain::pkWhere">pkWhere</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#110"><abbr title="ServiceHandler::discover">discover</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Singleton.php.html#14"><abbr title="Singleton::getInstance">getInstance</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="database/types/Type.php.html#24"><abbr title="Type::__construct">__construct</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#30"><abbr title="SatelliteDomainCollection::__construct">__construct</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#101"><abbr title="InMemoryEngine::delete">delete</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="domain/collections/ChildDomainCollection.php.html#33"><abbr title="ChildDomainCollection::__construct">__construct</abbr></a></td><td class="text-right">86%</td></tr>
+       <tr><td><a href="domain/Domain.php.html#605"><abbr title="Domain::save">save</abbr></a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="domain/Domain.php.html#163"><abbr title="Domain::__get">__get</abbr></a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#142"><abbr title="InMemoryEngine::update">update</abbr></a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#50"><abbr title="Endpoint::getContract">getContract</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="migration/Migrator.php.html#34"><abbr title="Migrator::migrate">migrate</abbr></a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#229"><abbr title="MySqlGenerator::generateSelectCount">generateSelectCount</abbr></a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#197"><abbr title="MySqlGenerator::generateSelect">generateSelect</abbr></a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#54"><abbr title="HttpServer::handle">handle</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#160"><abbr title="InMemoryEngine::count">count</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#102"><abbr title="HttpServer::endResponse">endResponse</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#28"><abbr title="HttpBasicAuthModule::handle">handle</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="web/modules/HttpJsonServiceHandlerModule.php.html#25"><abbr title="HttpJsonServiceHandlerModule::handle">handle</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#36"><abbr title="ServiceHandler::handle">handle</abbr></a></td><td class="text-right">26</td></tr>
+       <tr><td><a href="Cloneable.php.html#20"><abbr title="Cloneable::__clone">__clone</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#109"><abbr title="MySqlConverter::convertEnum">convertEnum</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Cloneable.php.html#29"><abbr title="Cloneable::__arrayCopy">__arrayCopy</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="database/Table.php.html#59"><abbr title="Table::__clone">__clone</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#151"><abbr title="HttpServer::header">header</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#145"><abbr title="HttpServer::redirect">redirect</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="security/AnonPrincipal.php.html#14"><abbr title="AnonPrincipal::hasAllPermissions">hasAllPermissions</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#29"><abbr title="HttpServer::__construct">__construct</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#37"><abbr title="MySqlConverter::convertInt">convertInt</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#302"><abbr title="MySqlGenerator::generateDelete">generateDelete</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#279"><abbr title="MySqlGenerator::generateUpdate">generateUpdate</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#125"><abbr title="ServiceHandler::getAllEndpoints">getAllEndpoints</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#25"><abbr title="MySqlConverter::convertBool">convertBool</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="web/HttpUtil.php.html#14"><abbr title="HttpUtil::parseRequestHeaders">parseRequestHeaders</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#98"><abbr title="SatelliteDomainCollection::remove">remove</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#97"><abbr title="MySqlConverter::convertDateTime">convertDateTime</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#85"><abbr title="MySqlConverter::convertDate">convertDate</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#73"><abbr title="MySqlConverter::convertText">convertText</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#61"><abbr title="MySqlConverter::convertString">convertString</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlConverter.php.html#49"><abbr title="MySqlConverter::convertFloat">convertFloat</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#31"><abbr title="HttpRequestHandlerModule::handle">handle</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="domain/Domain.php.html#605"><abbr title="Domain::save">save</abbr></a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="database/wheres/WhereComparator.php.html#45"><abbr title="WhereComparator::__toString">__toString</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#30"><abbr title="SatelliteDomainCollection::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="domain/collections/ChildDomainCollection.php.html#33"><abbr title="ChildDomainCollection::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#142"><abbr title="InMemoryEngine::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#162"><abbr title="HttpServer::code">code</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="services/ServiceContext.php.html#23"><abbr title="ServiceContext::log">log</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#27"><abbr title="ServiceHandler::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#45"><abbr title="HttpServer::register">register</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#168"><abbr title="HttpServer::sendOnlyHeaders">sendOnlyHeaders</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="migration/Migrator.php.html#22"><abbr title="Migrator::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#66"><abbr title="Endpoint::getAllPermissions">getAllPermissions</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#127"><abbr title="HttpServer::clear">clear</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/modules/HttpExceptionHandlerModule.php.html#32"><abbr title="HttpExceptionHandlerModule::handleException">handleException</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="domain/validations/ValidationException.php.html#15"><abbr title="ValidationException::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#177"><abbr title="HttpServer::end">end</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#62"><abbr title="SplClassLoader::remove">remove</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/Database.php.html#45"><abbr title="Database::handleException">handleException</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/modules/HttpRequestHandlerModule.php.html#20"><abbr title="HttpRequestHandlerModule::register_internal">register_internal</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#56"><abbr title="InMemoryEngine::scalar">scalar</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#169"><abbr title="MySqlGenerator::gen">gen</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#386"><abbr title="MySqlGenerator::anonymous function">anonymous function</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#260"><abbr title="MySqlGenerator::generateInsert">generateInsert</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#328"><abbr title="MySqlGenerator::generateBool">generateBool</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="database/queries/Query.php.html#58"><abbr title="Query::Join">Join</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/modules/HttpBasicAuthModule.php.html#45"><abbr title="HttpBasicAuthModule::handleException">handleException</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SplClassLoader.php.html#26"><abbr title="SplClassLoader::getInstance">getInstance</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="web/HttpServer.php.html#137"><abbr title="HttpServer::output">output</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="domain/Domain.php.html#301"><abbr title="Domain::pkWhere">pkWhere</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="database/engines/memory/InMemoryEngine.php.html#101"><abbr title="InMemoryEngine::delete">delete</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="security/CurrentUser.php.html#25"><abbr title="CurrentUser::getInstance">getInstance</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="database/engines/mysql/MySqlGenerator.php.html#314"><abbr title="MySqlGenerator::genVal">genVal</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="domain/collections/ChildDomainCollection.php.html#140"><abbr title="ChildDomainCollection::save">save</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#134"><abbr title="SatelliteDomainCollection::save">save</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="database/Database.php.html#52"><abbr title="Database::invokeEngine">invokeEngine</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="services/endpoints/Endpoint.php.html#50"><abbr title="Endpoint::getContract">getContract</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="domain/Domain.php.html#163"><abbr title="Domain::__get">__get</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="database/Columns.php.html#85"><abbr title="Columns::getByName">getByName</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="domain/collections/SatelliteDomainCollection.php.html#83"><abbr title="SatelliteDomainCollection::add">add</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="database/types/TypeEnum.php.html#25"><abbr title="TypeEnum::__construct">__construct</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="database/types/Type.php.html#24"><abbr title="Type::__construct">__construct</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#100"><abbr title="ServiceHandler::getEndpoint">getEndpoint</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="database/Columns.php.html#43"><abbr title="Columns::add">add</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="services/ServiceHandler.php.html#110"><abbr title="ServiceHandler::discover">discover</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="domain/Notifier.php.html#59"><abbr title="Notifier::staticRaise">staticRaise</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Singleton.php.html#14"><abbr title="Singleton::getInstance">getInstance</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 3.3.0</a> using <a href="http://php.net/" target="_top">PHP 7.0.4</a> and <a href="https://phpunit.de/">PHPUnit 5.2.10</a> at Fri Mar 11 20:25:42 UTC 2016.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../js/holder.min.js" type="text/javascript"></script>
+  <script src="../js/d3.min.js" type="text/javascript"></script>
+  <script src="../js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([19,0,0,2,1,3,4,2,2,6,4,61], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([165,0,0,0,0,0,2,1,7,14,8,383], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,2,"<a href=\"Logger.php.html#11\">Logger<\/a>"],[80,4,"<a href=\"Singleton.php.html#11\">Singleton<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#5\">SplClassLoaderItem<\/a>"],[56.410256410256,19,"<a href=\"SplClassLoader.php.html#18\">SplClassLoader<\/a>"],[100,6,"<a href=\"database\/Column.php.html#14\">Column<\/a>"],[90,21,"<a href=\"database\/Columns.php.html#14\">Columns<\/a>"],[0,2,"<a href=\"messaging\/ConnectionInfo.php.html#12\">ConnectionInfo<\/a>"],[41.071428571429,24,"<a href=\"database\/Database.php.html#25\">Database<\/a>"],[100,1,"<a href=\"database\/Element.php.html#14\">Element<\/a>"],[0,4,"<a href=\"messaging\/Engine.php.html#14\">Engine<\/a>"],[100,5,"<a href=\"database\/On.php.html#14\">On<\/a>"],[58.064516129032,15,"<a href=\"database\/Table.php.html#17\">Table<\/a>"],[100,6,"<a href=\"database\/constraints\/Constraint.php.html#17\">Constraint<\/a>"],[100,4,"<a href=\"database\/constraints\/ForeignKey.php.html#15\">ForeignKey<\/a>"],[100,1,"<a href=\"database\/constraints\/PrimaryKey.php.html#12\">PrimaryKey<\/a>"],[65.277777777778,42,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#27\">InMemoryEngine<\/a>"],[64,79,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#55\">InMemoryGenerator<\/a>"],[100,6,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#13\">MySqlConnectionInfo<\/a>"],[0,25,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#22\">MySqlConverter<\/a>"],[100,32,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#31\">MySqlEngine<\/a>"],[40.425531914894,89,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#54\">MySqlGenerator<\/a>"],[100,0,"<a href=\"database\/exceptions\/DatabaseConnectionException.php.html#11\">DatabaseConnectionException<\/a>"],[100,0,"<a href=\"database\/exceptions\/DatabaseException.php.html#11\">DatabaseException<\/a>"],[100,0,"<a href=\"database\/exceptions\/InvalidSchemaException.php.html#12\">InvalidSchemaException<\/a>"],[100,10,"<a href=\"database\/joins\/Join.php.html#17\">Join<\/a>"],[100,1,"<a href=\"database\/joins\/JoinCross.php.html#12\">JoinCross<\/a>"],[100,1,"<a href=\"database\/joins\/JoinInner.php.html#12\">JoinInner<\/a>"],[100,1,"<a href=\"database\/joins\/JoinLeft.php.html#12\">JoinLeft<\/a>"],[100,1,"<a href=\"database\/joins\/JoinOuter.php.html#12\">JoinOuter<\/a>"],[100,1,"<a href=\"database\/joins\/JoinRight.php.html#12\">JoinRight<\/a>"],[100,4,"<a href=\"database\/limits\/Limit.php.html#9\">Limit<\/a>"],[100,4,"<a href=\"database\/offsets\/Offset.php.html#8\">Offset<\/a>"],[100,7,"<a href=\"database\/orders\/OrderBy.php.html#16\">OrderBy<\/a>"],[100,1,"<a href=\"database\/orders\/OrderByAscending.php.html#11\">OrderByAscending<\/a>"],[100,1,"<a href=\"database\/orders\/OrderByDescending.php.html#11\">OrderByDescending<\/a>"],[53.846153846154,10,"<a href=\"database\/queries\/Query.php.html#23\">Query<\/a>"],[100,2,"<a href=\"database\/queries\/QueryCount.php.html#19\">QueryCount<\/a>"],[100,1,"<a href=\"database\/queries\/QueryDelete.php.html#15\">QueryDelete<\/a>"],[100,2,"<a href=\"database\/queries\/QueryInsert.php.html#16\">QueryInsert<\/a>"],[100,2,"<a href=\"database\/queries\/QuerySelect.php.html#19\">QuerySelect<\/a>"],[100,2,"<a href=\"database\/queries\/QueryUpdate.php.html#16\">QueryUpdate<\/a>"],[80,15,"<a href=\"database\/types\/Type.php.html#18\">Type<\/a>"],[100,2,"<a href=\"database\/types\/TypeBool.php.html#12\">TypeBool<\/a>"],[100,2,"<a href=\"database\/types\/TypeDate.php.html#12\">TypeDate<\/a>"],[100,2,"<a href=\"database\/types\/TypeDateTime.php.html#12\">TypeDateTime<\/a>"],[80,5,"<a href=\"database\/types\/TypeEnum.php.html#14\">TypeEnum<\/a>"],[100,2,"<a href=\"database\/types\/TypeFloat.php.html#12\">TypeFloat<\/a>"],[100,2,"<a href=\"database\/types\/TypeInt.php.html#12\">TypeInt<\/a>"],[100,3,"<a href=\"database\/types\/TypeString.php.html#12\">TypeString<\/a>"],[100,2,"<a href=\"database\/types\/TypeText.php.html#12\">TypeText<\/a>"],[100,16,"<a href=\"database\/wheres\/Where.php.html#16\">Where<\/a>"],[100,6,"<a href=\"database\/wheres\/WhereAnd.php.html#13\">WhereAnd<\/a>"],[85.185185185185,10,"<a href=\"database\/wheres\/WhereComparator.php.html#14\">WhereComparator<\/a>"],[100,6,"<a href=\"database\/wheres\/WhereOr.php.html#13\">WhereOr<\/a>"],[95.289855072464,157,"<a href=\"domain\/Domain.php.html#32\">Domain<\/a>"],[72.727272727273,6,"<a href=\"domain\/DomainValueCache.php.html#12\">DomainValueCache<\/a>"],[0,12,"<a href=\"domain\/Filter.php.html#12\">Filter<\/a>"],[82.758620689655,13,"<a href=\"domain\/Notifier.php.html#12\">Notifier<\/a>"],[95.454545454545,15,"<a href=\"domain\/Schema.php.html#25\">Schema<\/a>"],[91.525423728814,23,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#19\">ChildDomainCollection<\/a>"],[100,21,"<a href=\"domain\/collections\/DomainCollection.php.html#17\">DomainCollection<\/a>"],[100,8,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#14\">ParentDomainCollection<\/a>"],[75.342465753425,25,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#21\">SatelliteDomainCollection<\/a>"],[100,0,"<a href=\"domain\/exceptions\/DomainException.php.html#11\">DomainException<\/a>"],[100,0,"<a href=\"domain\/exceptions\/InvalidColumnDefinitionException.php.html#11\">InvalidColumnDefinitionException<\/a>"],[0,3,"<a href=\"domain\/validations\/ValidationException.php.html#11\">ValidationException<\/a>"],[0,2,"<a href=\"domain\/validations\/ValidationFailure.php.html#11\">ValidationFailure<\/a>"],[25,3,"<a href=\"domain\/validations\/ValidationResults.php.html#11\">ValidationResults<\/a>"],[100,1,"<a href=\"loggers\/ConsoleLogger.php.html#13\">ConsoleLogger<\/a>"],[100,5,"<a href=\"loggers\/FileLogger.php.html#15\">FileLogger<\/a>"],[0,1,"<a href=\"loggers\/SilentLogger.php.html#13\">SilentLogger<\/a>"],[100,3,"<a href=\"loggers\/StringLogger.php.html#14\">StringLogger<\/a>"],[100,17,"<a href=\"messaging\/MessageQueue.php.html#17\">MessageQueue<\/a>"],[100,7,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#14\">RabbitMQConnectionInfo<\/a>"],[100,15,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#19\">RabbitMQEngine<\/a>"],[100,0,"<a href=\"messaging\/exceptions\/MessageQueueException.php.html#12\">MessageQueueException<\/a>"],[0,18,"<a href=\"migration\/Migrator.php.html#14\">Migrator<\/a>"],[100,1,"<a href=\"monitors\/Monitor.php.html#15\">Monitor<\/a>"],[25,9,"<a href=\"security\/AnonPrincipal.php.html#12\">AnonPrincipal<\/a>"],[52.631578947368,14,"<a href=\"security\/CurrentUser.php.html#14\">CurrentUser<\/a>"],[0,3,"<a href=\"security\/UserPassCredentials.php.html#12\">UserPassCredentials<\/a>"],[100,0,"<a href=\"security\/exceptions\/InvalidCredentials.php.html#12\">InvalidCredentials<\/a>"],[100,1,"<a href=\"security\/exceptions\/UnauthorizedException.php.html#12\">UnauthorizedException<\/a>"],[100,1,"<a href=\"services\/Service.php.html#12\">Service<\/a>"],[100,1,"<a href=\"services\/ServiceClient.php.html#12\">ServiceClient<\/a>"],[33.333333333333,3,"<a href=\"services\/ServiceContext.php.html#14\">ServiceContext<\/a>"],[41.666666666667,20,"<a href=\"services\/ServiceHandler.php.html#19\">ServiceHandler<\/a>"],[100,2,"<a href=\"services\/ServiceRegistry.php.html#15\">ServiceRegistry<\/a>"],[88.524590163934,30,"<a href=\"services\/endpoints\/Endpoint.php.html#19\">Endpoint<\/a>"],[100,4,"<a href=\"services\/endpoints\/JsonEndpoint.php.html#12\">JsonEndpoint<\/a>"],[100,4,"<a href=\"services\/endpoints\/NativeEndpoint.php.html#12\">NativeEndpoint<\/a>"],[100,0,"<a href=\"services\/exceptions\/InvalidContractException.php.html#12\">InvalidContractException<\/a>"],[100,0,"<a href=\"services\/exceptions\/InvalidRequestException.php.html#12\">InvalidRequestException<\/a>"],[100,3,"<a href=\"web\/HttpContext.php.html#14\">HttpContext<\/a>"],[100,1,"<a href=\"web\/HttpRequest.php.html#12\">HttpRequest<\/a>"],[100,1,"<a href=\"web\/HttpRequestHandler.php.html#12\">HttpRequestHandler<\/a>"],[0,36,"<a href=\"web\/HttpServer.php.html#16\">HttpServer<\/a>"],[0,6,"<a href=\"web\/HttpUtil.php.html#12\">HttpUtil<\/a>"],[0,10,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#18\">HttpBasicAuthModule<\/a>"],[0,5,"<a href=\"web\/modules\/HttpExceptionHandlerModule.php.html#16\">HttpExceptionHandlerModule<\/a>"],[0,8,"<a href=\"web\/modules\/HttpJsonServiceHandlerModule.php.html#17\">HttpJsonServiceHandlerModule<\/a>"],[0,8,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#16\">HttpRequestHandlerModule<\/a>"],[0,4,"<a href=\"web\/modules\/HttpServerInfoModule.php.html#15\">HttpServerInfoModule<\/a>"],[0,8,"<a href=\"Cloneable.php.html#18\">Cloneable<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Logger.php.html#12\">Logger::log<\/a>"],[0,1,"<a href=\"Logger.php.html#14\">Logger::__toString<\/a>"],[100,1,"<a href=\"Singleton.php.html#12\">Singleton::__construct<\/a>"],[80,2,"<a href=\"Singleton.php.html#14\">Singleton::getInstance<\/a>"],[100,1,"<a href=\"Singleton.php.html#25\">Singleton::__clone<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#10\">SplClassLoaderItem::__construct<\/a>"],[100,1,"<a href=\"SplClassLoader.php.html#24\">SplClassLoader::__construct<\/a>"],[0,2,"<a href=\"SplClassLoader.php.html#26\">SplClassLoader::getInstance<\/a>"],[100,1,"<a href=\"SplClassLoader.php.html#35\">SplClassLoader::__clone<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#42\">SplClassLoader::setNamespaceSeparator<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#52\">SplClassLoader::getNamespaceSeparator<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#57\">SplClassLoader::add<\/a>"],[0,2,"<a href=\"SplClassLoader.php.html#62\">SplClassLoader::remove<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#70\">SplClassLoader::register<\/a>"],[0,1,"<a href=\"SplClassLoader.php.html#78\">SplClassLoader::unregister<\/a>"],[100,8,"<a href=\"SplClassLoader.php.html#89\">SplClassLoader::loadClass<\/a>"],[100,1,"<a href=\"database\/Column.php.html#21\">Column::__construct<\/a>"],[100,1,"<a href=\"database\/Column.php.html#28\">Column::__clone<\/a>"],[100,1,"<a href=\"database\/Column.php.html#32\">Column::__updateTable<\/a>"],[100,1,"<a href=\"database\/Column.php.html#36\">Column::getAbsoluteName<\/a>"],[100,1,"<a href=\"database\/Column.php.html#44\">Column::generate<\/a>"],[100,1,"<a href=\"database\/Column.php.html#49\">Column::generateColumn<\/a>"],[100,1,"<a href=\"database\/Columns.php.html#19\">Columns::__construct<\/a>"],[100,1,"<a href=\"database\/Columns.php.html#23\">Columns::__get<\/a>"],[100,1,"<a href=\"database\/Columns.php.html#30\">Columns::all<\/a>"],[100,2,"<a href=\"database\/Columns.php.html#34\">Columns::names<\/a>"],[75,2,"<a href=\"database\/Columns.php.html#43\">Columns::add<\/a>"],[100,4,"<a href=\"database\/Columns.php.html#53\">Columns::remove<\/a>"],[100,3,"<a href=\"database\/Columns.php.html#63\">Columns::Equals<\/a>"],[100,1,"<a href=\"database\/Columns.php.html#73\">Columns::EqualsByName<\/a>"],[100,3,"<a href=\"database\/Columns.php.html#77\">Columns::contains<\/a>"],[75,3,"<a href=\"database\/Columns.php.html#85\">Columns::getByName<\/a>"],[100,1,"<a href=\"messaging\/ConnectionInfo.php.html#13\">ConnectionInfo::getDetails<\/a>"],[0,1,"<a href=\"messaging\/ConnectionInfo.php.html#15\">ConnectionInfo::__toString<\/a>"],[0,1,"<a href=\"database\/Database.php.html#34\">Database::__construct<\/a>"],[0,1,"<a href=\"database\/Database.php.html#41\">Database::__destruct<\/a>"],[0,2,"<a href=\"database\/Database.php.html#45\">Database::handleException<\/a>"],[50,3,"<a href=\"database\/Database.php.html#52\">Database::invokeEngine<\/a>"],[0,1,"<a href=\"database\/Database.php.html#70\">Database::setRethrowInternal<\/a>"],[0,1,"<a href=\"database\/Database.php.html#74\">Database::setRethrow<\/a>"],[100,2,"<a href=\"database\/Database.php.html#81\">Database::setEngineInternal<\/a>"],[100,1,"<a href=\"database\/Database.php.html#88\">Database::setEngine<\/a>"],[0,1,"<a href=\"database\/Database.php.html#95\">Database::setLoggerInternal<\/a>"],[0,1,"<a href=\"database\/Database.php.html#99\">Database::setLogger<\/a>"],[0,1,"<a href=\"database\/Database.php.html#105\">Database::DateFormat<\/a>"],[0,1,"<a href=\"database\/Database.php.html#109\">Database::scalar<\/a>"],[0,1,"<a href=\"database\/Database.php.html#168\">Database::anonymous function<\/a>"],[100,1,"<a href=\"database\/Database.php.html#117\">Database::select<\/a>"],[100,1,"<a href=\"database\/Database.php.html#125\">Database::delete<\/a>"],[100,1,"<a href=\"database\/Database.php.html#133\">Database::insert<\/a>"],[100,1,"<a href=\"database\/Database.php.html#141\">Database::update<\/a>"],[0,1,"<a href=\"database\/Database.php.html#149\">Database::count<\/a>"],[0,1,"<a href=\"database\/Database.php.html#157\">Database::exists<\/a>"],[0,1,"<a href=\"database\/Database.php.html#165\">Database::arbitrary<\/a>"],[100,1,"<a href=\"database\/Element.php.html#17\">Element::__updateTable<\/a>"],[100,1,"<a href=\"messaging\/Engine.php.html#16\">Engine::setLogger<\/a>"],[100,1,"<a href=\"messaging\/Engine.php.html#17\">Engine::connect<\/a>"],[100,1,"<a href=\"messaging\/Engine.php.html#18\">Engine::disconnect<\/a>"],[0,1,"<a href=\"messaging\/Engine.php.html#20\">Engine::__toString<\/a>"],[100,1,"<a href=\"database\/On.php.html#19\">On::__construct<\/a>"],[100,1,"<a href=\"database\/On.php.html#23\">On::__updateTable<\/a>"],[100,1,"<a href=\"database\/On.php.html#27\">On::Where<\/a>"],[100,1,"<a href=\"database\/On.php.html#36\">On::generate<\/a>"],[100,1,"<a href=\"database\/On.php.html#41\">On::generateOn<\/a>"],[90.909090909091,4,"<a href=\"database\/Table.php.html#41\">Table::__construct<\/a>"],[0,4,"<a href=\"database\/Table.php.html#59\">Table::__clone<\/a>"],[100,1,"<a href=\"database\/Table.php.html#76\">Table::setConstraints<\/a>"],[100,1,"<a href=\"database\/Table.php.html#80\">Table::addColumn<\/a>"],[100,3,"<a href=\"database\/Table.php.html#87\">Table::getPrimaryKeys<\/a>"],[0,1,"<a href=\"database\/Table.php.html#100\">Table::generate<\/a>"],[0,1,"<a href=\"database\/Table.php.html#109\">Table::generateTable<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#21\">Constraint::__construct<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#25\">Constraint::__updateTable<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#29\">Constraint::PrimaryKey<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#33\">Constraint::ForeignKey<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#41\">Constraint::generate<\/a>"],[100,1,"<a href=\"database\/constraints\/Constraint.php.html#46\">Constraint::generateConstraint<\/a>"],[100,1,"<a href=\"database\/constraints\/ForeignKey.php.html#22\">ForeignKey::__construct<\/a>"],[100,1,"<a href=\"database\/constraints\/ForeignKey.php.html#29\">ForeignKey::__clone<\/a>"],[100,1,"<a href=\"database\/constraints\/ForeignKey.php.html#33\">ForeignKey::__updateTable<\/a>"],[100,1,"<a href=\"database\/constraints\/ForeignKey.php.html#38\">ForeignKey::generateConstraint<\/a>"],[100,1,"<a href=\"database\/constraints\/PrimaryKey.php.html#14\">PrimaryKey::generateConstraint<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#33\">InMemoryEngine::DateFormat<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#35\">InMemoryEngine::__construct<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#41\">InMemoryEngine::setLogger<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#45\">InMemoryEngine::connect<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#49\">InMemoryEngine::disconnect<\/a>"],[0,2,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#56\">InMemoryEngine::scalar<\/a>"],[93.333333333333,8,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#68\">InMemoryEngine::select<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#165\">InMemoryEngine::anonymous function<\/a>"],[85.714285714286,5,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#101\">InMemoryEngine::delete<\/a>"],[100,6,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#117\">InMemoryEngine::insert<\/a>"],[87.5,6,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#142\">InMemoryEngine::update<\/a>"],[0,7,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#160\">InMemoryEngine::count<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#178\">InMemoryEngine::exists<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryEngine.php.html#183\">InMemoryEngine::arbitrary<\/a>"],[100,4,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#68\">InMemoryGenerator::generateAnd<\/a>"],[93.75,22,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#104\">InMemoryGenerator::anonymous function<\/a>"],[100,4,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#85\">InMemoryGenerator::generateOr<\/a>"],[100,22,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#102\">InMemoryGenerator::generateComparator<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#167\">InMemoryGenerator::generateAscending<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#172\">InMemoryGenerator::generateDescending<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#177\">InMemoryGenerator::generateLimit<\/a>"],[100,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#181\">InMemoryGenerator::generateOffset<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#185\">InMemoryGenerator::generatePrimaryKey<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#190\">InMemoryGenerator::generateForeignKey<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#195\">InMemoryGenerator::generateLeft<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#200\">InMemoryGenerator::generateRight<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#205\">InMemoryGenerator::generateOuter<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#210\">InMemoryGenerator::generateInner<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#215\">InMemoryGenerator::generateCross<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#220\">InMemoryGenerator::generateSelect<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#225\">InMemoryGenerator::generateSelectCount<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#230\">InMemoryGenerator::generateInsert<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#235\">InMemoryGenerator::generateUpdate<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#240\">InMemoryGenerator::generateDelete<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#245\">InMemoryGenerator::generateColumn<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#250\">InMemoryGenerator::generateTable<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#255\">InMemoryGenerator::generateOn<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#260\">InMemoryGenerator::generateBool<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#264\">InMemoryGenerator::generateInt<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#268\">InMemoryGenerator::generateFloat<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#272\">InMemoryGenerator::generateString<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#276\">InMemoryGenerator::generateText<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#280\">InMemoryGenerator::generateDate<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#284\">InMemoryGenerator::generateDateTime<\/a>"],[0,1,"<a href=\"database\/engines\/memory\/InMemoryGenerator.php.html#288\">InMemoryGenerator::generateEnum<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#19\">MySqlConnectionInfo::__construct<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#28\">MySqlConnectionInfo::getDetails<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#37\">MySqlConnectionInfo::getServer<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#38\">MySqlConnectionInfo::getUsername<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#39\">MySqlConnectionInfo::getPassword<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlConnectionInfo.php.html#40\">MySqlConnectionInfo::getDatabase<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#25\">MySqlConverter::convertBool<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#37\">MySqlConverter::convertInt<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#49\">MySqlConverter::convertFloat<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#61\">MySqlConverter::convertString<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#73\">MySqlConverter::convertText<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#85\">MySqlConverter::convertDate<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#97\">MySqlConverter::convertDateTime<\/a>"],[0,4,"<a href=\"database\/engines\/mysql\/MySqlConverter.php.html#109\">MySqlConverter::convertEnum<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#44\">MySqlEngine::DateFormat<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#46\">MySqlEngine::__construct<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#56\">MySqlEngine::setLogger<\/a>"],[100,6,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#60\">MySqlEngine::connect<\/a>"],[100,3,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#86\">MySqlEngine::disconnect<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#92\">MySqlEngine::scalar<\/a>"],[100,3,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#102\">MySqlEngine::count<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#123\">MySqlEngine::exists<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#127\">MySqlEngine::arbitrary<\/a>"],[100,6,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#141\">MySqlEngine::select<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#176\">MySqlEngine::delete<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#187\">MySqlEngine::update<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlEngine.php.html#198\">MySqlEngine::insert<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#77\">MySqlGenerator::SetMySqli<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#81\">MySqlGenerator::generateAnd<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#95\">MySqlGenerator::generateOr<\/a>"],[93.103448275862,20,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#109\">MySqlGenerator::generateComparator<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#161\">MySqlGenerator::generateAscending<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#165\">MySqlGenerator::generateDescending<\/a>"],[0,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#169\">MySqlGenerator::gen<\/a>"],[100,3,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#181\">MySqlGenerator::generateLimit<\/a>"],[100,3,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#189\">MySqlGenerator::generateOffset<\/a>"],[0,11,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#197\">MySqlGenerator::generateSelect<\/a>"],[0,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#386\">MySqlGenerator::anonymous function<\/a>"],[0,11,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#229\">MySqlGenerator::generateSelectCount<\/a>"],[0,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#260\">MySqlGenerator::generateInsert<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#279\">MySqlGenerator::generateUpdate<\/a>"],[0,3,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#302\">MySqlGenerator::generateDelete<\/a>"],[71.428571428571,4,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#314\">MySqlGenerator::genVal<\/a>"],[0,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#328\">MySqlGenerator::generateBool<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#338\">MySqlGenerator::generateInt<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#345\">MySqlGenerator::generateFloat<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#352\">MySqlGenerator::generateString<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#363\">MySqlGenerator::generateText<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#370\">MySqlGenerator::generateDate<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#377\">MySqlGenerator::generateDateTime<\/a>"],[100,2,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#384\">MySqlGenerator::generateEnum<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#396\">MySqlGenerator::generateLeft<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#401\">MySqlGenerator::generateRight<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#406\">MySqlGenerator::generateOuter<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#411\">MySqlGenerator::generateInner<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#416\">MySqlGenerator::generateCross<\/a>"],[0,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#421\">MySqlGenerator::generateOn<\/a>"],[100,1,"<a href=\"database\/engines\/mysql\/MySqlGenerator.php.html#426\">MySqlGenerator::generateColumn<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#24\">Join::__construct<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#30\">Join::__clone<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#34\">Join::__updateTable<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#39\">Join::Left<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#43\">Join::Right<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#47\">Join::Inner<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#51\">Join::Outer<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#55\">Join::Cross<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#59\">Join::generate<\/a>"],[100,1,"<a href=\"database\/joins\/Join.php.html#64\">Join::generateJoin<\/a>"],[100,1,"<a href=\"database\/joins\/JoinCross.php.html#14\">JoinCross::generateJoin<\/a>"],[100,1,"<a href=\"database\/joins\/JoinInner.php.html#14\">JoinInner::generateJoin<\/a>"],[100,1,"<a href=\"database\/joins\/JoinLeft.php.html#14\">JoinLeft::generateJoin<\/a>"],[100,1,"<a href=\"database\/joins\/JoinOuter.php.html#14\">JoinOuter::generateJoin<\/a>"],[100,1,"<a href=\"database\/joins\/JoinRight.php.html#14\">JoinRight::generateJoin<\/a>"],[100,1,"<a href=\"database\/limits\/Limit.php.html#10\">Limit::__construct<\/a>"],[100,1,"<a href=\"database\/limits\/Limit.php.html#14\">Limit::Limit<\/a>"],[100,1,"<a href=\"database\/limits\/Limit.php.html#18\">Limit::generate<\/a>"],[100,1,"<a href=\"database\/limits\/Limit.php.html#23\">Limit::generateLimit<\/a>"],[100,1,"<a href=\"database\/offsets\/Offset.php.html#9\">Offset::__construct<\/a>"],[100,1,"<a href=\"database\/offsets\/Offset.php.html#13\">Offset::Offset<\/a>"],[100,1,"<a href=\"database\/offsets\/Offset.php.html#17\">Offset::generate<\/a>"],[100,1,"<a href=\"database\/offsets\/Offset.php.html#22\">Offset::generateOffset<\/a>"],[100,1,"<a href=\"database\/orders\/OrderBy.php.html#23\">OrderBy::__construct<\/a>"],[100,2,"<a href=\"database\/orders\/OrderBy.php.html#28\">OrderBy::__updateTable<\/a>"],[100,1,"<a href=\"database\/orders\/OrderBy.php.html#35\">OrderBy::Ascending<\/a>"],[100,1,"<a href=\"database\/orders\/OrderBy.php.html#39\">OrderBy::Descending<\/a>"],[100,1,"<a href=\"database\/orders\/OrderBy.php.html#43\">OrderBy::generate<\/a>"],[100,1,"<a href=\"database\/orders\/OrderBy.php.html#48\">OrderBy::generateOrderBy<\/a>"],[100,1,"<a href=\"database\/orders\/OrderByAscending.php.html#13\">OrderByAscending::generateOrderBy<\/a>"],[100,1,"<a href=\"database\/orders\/OrderByDescending.php.html#13\">OrderByDescending::generateOrderBy<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#33\">Query::__construct<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#38\">Query::Select<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#42\">Query::Insert<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#46\">Query::Update<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#50\">Query::Delete<\/a>"],[0,1,"<a href=\"database\/queries\/Query.php.html#54\">Query::Count<\/a>"],[0,2,"<a href=\"database\/queries\/Query.php.html#58\">Query::Join<\/a>"],[0,1,"<a href=\"database\/queries\/Query.php.html#73\">Query::generate<\/a>"],[100,1,"<a href=\"database\/queries\/Query.php.html#78\">Query::generateQuery<\/a>"],[100,1,"<a href=\"database\/queries\/QueryCount.php.html#30\">QueryCount::__construct<\/a>"],[100,1,"<a href=\"database\/queries\/QueryCount.php.html#38\">QueryCount::generateQuery<\/a>"],[100,1,"<a href=\"database\/queries\/QueryDelete.php.html#17\">QueryDelete::generateQuery<\/a>"],[100,1,"<a href=\"database\/queries\/QueryInsert.php.html#21\">QueryInsert::__construct<\/a>"],[100,1,"<a href=\"database\/queries\/QueryInsert.php.html#28\">QueryInsert::generateQuery<\/a>"],[100,1,"<a href=\"database\/queries\/QuerySelect.php.html#30\">QuerySelect::__construct<\/a>"],[100,1,"<a href=\"database\/queries\/QuerySelect.php.html#39\">QuerySelect::generateQuery<\/a>"],[100,1,"<a href=\"database\/queries\/QueryUpdate.php.html#21\">QueryUpdate::__construct<\/a>"],[100,1,"<a href=\"database\/queries\/QueryUpdate.php.html#28\">QueryUpdate::generateQuery<\/a>"],[80,3,"<a href=\"database\/types\/Type.php.html#24\">Type::__construct<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#32\">Type::Bool<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#36\">Type::Int<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#40\">Type::Float<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#44\">Type::String<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#48\">Type::Text<\/a>"],[0,1,"<a href=\"database\/types\/Type.php.html#52\">Type::Date<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#56\">Type::DateTime<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#60\">Type::Enum<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#69\">Type::generate<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#74\">Type::generateType<\/a>"],[0,1,"<a href=\"database\/types\/Type.php.html#81\">Type::convert<\/a>"],[100,1,"<a href=\"database\/types\/Type.php.html#86\">Type::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeBool.php.html#14\">TypeBool::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeBool.php.html#18\">TypeBool::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeDate.php.html#14\">TypeDate::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeDate.php.html#18\">TypeDate::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeDateTime.php.html#14\">TypeDateTime::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeDateTime.php.html#18\">TypeDateTime::covertType<\/a>"],[80,3,"<a href=\"database\/types\/TypeEnum.php.html#25\">TypeEnum::__construct<\/a>"],[100,1,"<a href=\"database\/types\/TypeEnum.php.html#34\">TypeEnum::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeEnum.php.html#38\">TypeEnum::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeFloat.php.html#14\">TypeFloat::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeFloat.php.html#18\">TypeFloat::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeInt.php.html#14\">TypeInt::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeInt.php.html#18\">TypeInt::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeString.php.html#16\">TypeString::__construct<\/a>"],[100,1,"<a href=\"database\/types\/TypeString.php.html#22\">TypeString::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeString.php.html#26\">TypeString::covertType<\/a>"],[100,1,"<a href=\"database\/types\/TypeText.php.html#14\">TypeText::generateType<\/a>"],[100,1,"<a href=\"database\/types\/TypeText.php.html#18\">TypeText::covertType<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#18\">Where::_And<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#22\">Where::_Or<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#26\">Where::Equal<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#30\">Where::NotEqual<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#34\">Where::Greater<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#38\">Where::GreaterEqual<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#42\">Where::Lesser<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#46\">Where::LesserEqual<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#50\">Where::Null<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#54\">Where::NotNull<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#58\">Where::Like<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#62\">Where::In<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#66\">Where::NotIn<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#75\">Where::generate<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#80\">Where::generateWhere<\/a>"],[100,1,"<a href=\"database\/wheres\/Where.php.html#82\">Where::__toString<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereAnd.php.html#18\">WhereAnd::__construct<\/a>"],[100,2,"<a href=\"database\/wheres\/WhereAnd.php.html#22\">WhereAnd::__updateTable<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereAnd.php.html#27\">WhereAnd::generateWhere<\/a>"],[100,2,"<a href=\"database\/wheres\/WhereAnd.php.html#31\">WhereAnd::__toString<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereComparator.php.html#26\">WhereComparator::__construct<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereComparator.php.html#37\">WhereComparator::__updateTable<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereComparator.php.html#41\">WhereComparator::generateWhere<\/a>"],[76.470588235294,7,"<a href=\"database\/wheres\/WhereComparator.php.html#45\">WhereComparator::__toString<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereOr.php.html#18\">WhereOr::__construct<\/a>"],[100,2,"<a href=\"database\/wheres\/WhereOr.php.html#22\">WhereOr::__updateTable<\/a>"],[100,1,"<a href=\"database\/wheres\/WhereOr.php.html#27\">WhereOr::generateWhere<\/a>"],[100,2,"<a href=\"database\/wheres\/WhereOr.php.html#31\">WhereOr::__toString<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#43\">Domain::Type<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#48\">Domain::ensureDefined<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#64\">Domain::Relationship<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#74\">Domain::Relationships<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#86\">Domain::Schema<\/a>"],[97.674418604651,11,"<a href=\"domain\/Domain.php.html#97\">Domain::__construct<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#361\">Domain::anonymous function<\/a>"],[87.5,4,"<a href=\"domain\/Domain.php.html#163\">Domain::__get<\/a>"],[91.666666666667,4,"<a href=\"domain\/Domain.php.html#176\">Domain::__set<\/a>"],[100,7,"<a href=\"domain\/Domain.php.html#191\">Domain::getInternalData<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#217\">Domain::serialize<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#221\">Domain::jsonSerialize<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#225\">Domain::unserialize<\/a>"],[100,3,"<a href=\"domain\/Domain.php.html#229\">Domain::__toString<\/a>"],[100,7,"<a href=\"domain\/Domain.php.html#241\">Domain::getValues<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#266\">Domain::getValue<\/a>"],[100,4,"<a href=\"domain\/Domain.php.html#273\">Domain::setValues<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#287\">Domain::checkIsDirty<\/a>"],[100,3,"<a href=\"domain\/Domain.php.html#291\">Domain::checkIsNew<\/a>"],[80,5,"<a href=\"domain\/Domain.php.html#301\">Domain::pkWhere<\/a>"],[91.666666666667,5,"<a href=\"domain\/Domain.php.html#320\">Domain::extractPkValues<\/a>"],[100,5,"<a href=\"domain\/Domain.php.html#344\">Domain::hydrateRelationships<\/a>"],[90.909090909091,3,"<a href=\"domain\/Domain.php.html#371\">Domain::hydrate<\/a>"],[100,4,"<a href=\"domain\/Domain.php.html#393\">Domain::hydrateMany<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#419\">Domain::arbitraryHydrate<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#440\">Domain::find<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#455\">Domain::findAll<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#466\">Domain::where<\/a>"],[100,11,"<a href=\"domain\/Domain.php.html#480\">Domain::page<\/a>"],[100,16,"<a href=\"domain\/Domain.php.html#552\">Domain::constructFilter<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#588\">Domain::arbitraryFind<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#596\">Domain::validate<\/a>"],[87.179487179487,10,"<a href=\"domain\/Domain.php.html#605\">Domain::save<\/a>"],[100,2,"<a href=\"domain\/Domain.php.html#675\">Domain::delete<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#688\">Domain::onBeforeChange<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#689\">Domain::onAnyBeforeChange<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#690\">Domain::raiseBeforeChange<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#692\">Domain::onChanged<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#693\">Domain::onAnyChanged<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#694\">Domain::raiseChanged<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#696\">Domain::onBeforeDelete<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#697\">Domain::onAnyBeforeDelete<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#698\">Domain::raiseBeforeDelete<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#700\">Domain::onDeleted<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#701\">Domain::onAnyDeleted<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#702\">Domain::raiseDeleted<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#704\">Domain::onBeforeSave<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#705\">Domain::onAnyBeforeSave<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#706\">Domain::raiseBeforeSave<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#708\">Domain::onSaved<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#709\">Domain::onAnySaved<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#710\">Domain::raiseSaved<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#712\">Domain::onBeforeCreate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#713\">Domain::onAnyBeforeCreate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#714\">Domain::raiseBeforeCreate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#716\">Domain::onCreated<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#717\">Domain::onAnyCreated<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#718\">Domain::raiseCreated<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#720\">Domain::onBeforeUpdate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#721\">Domain::onAnyBeforeUpdate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#722\">Domain::raiseBeforeUpdate<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#724\">Domain::onUpdated<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#725\">Domain::onAnyUpdated<\/a>"],[100,1,"<a href=\"domain\/Domain.php.html#726\">Domain::raiseUpdated<\/a>"],[100,1,"<a href=\"domain\/DomainValueCache.php.html#18\">DomainValueCache::__construct<\/a>"],[100,1,"<a href=\"domain\/DomainValueCache.php.html#23\">DomainValueCache::hasChanged<\/a>"],[100,1,"<a href=\"domain\/DomainValueCache.php.html#27\">DomainValueCache::getValue<\/a>"],[100,2,"<a href=\"domain\/DomainValueCache.php.html#31\">DomainValueCache::setValue<\/a>"],[0,1,"<a href=\"domain\/DomainValueCache.php.html#37\">DomainValueCache::clear<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#20\">Filter::__construct<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#28\">Filter::_And<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#32\">Filter::_Or<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#36\">Filter::Equal<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#40\">Filter::NotEqual<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#44\">Filter::Lesser<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#48\">Filter::LesserEqual<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#52\">Filter::Greater<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#56\">Filter::GreaterEqual<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#60\">Filter::Like<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#64\">Filter::IsNull<\/a>"],[0,1,"<a href=\"domain\/Filter.php.html#68\">Filter::IsNotNull<\/a>"],[100,3,"<a href=\"domain\/Notifier.php.html#16\">Notifier::__ensureListeners<\/a>"],[100,4,"<a href=\"domain\/Notifier.php.html#24\">Notifier::__ensureStaticListeners<\/a>"],[100,1,"<a href=\"domain\/Notifier.php.html#37\">Notifier::on<\/a>"],[0,1,"<a href=\"domain\/Notifier.php.html#43\">Notifier::staticOn<\/a>"],[100,2,"<a href=\"domain\/Notifier.php.html#51\">Notifier::raise<\/a>"],[80,2,"<a href=\"domain\/Notifier.php.html#59\">Notifier::staticRaise<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#29\">Schema::__construct<\/a>"],[100,2,"<a href=\"domain\/Schema.php.html#36\">Schema::getInstance<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#47\">Schema::__clone<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#52\">Schema::Type<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#59\">Schema::Table<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#66\">Schema::Columns<\/a>"],[0,1,"<a href=\"domain\/Schema.php.html#70\">Schema::Constraints<\/a>"],[100,3,"<a href=\"domain\/Schema.php.html#77\">Schema::PrimaryKeys<\/a>"],[100,3,"<a href=\"domain\/Schema.php.html#86\">Schema::ForeignKeys<\/a>"],[100,1,"<a href=\"domain\/Schema.php.html#95\">Schema::Column<\/a>"],[86.666666666667,6,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#33\">ChildDomainCollection::__construct<\/a>"],[100,2,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#62\">ChildDomainCollection::all<\/a>"],[100,1,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#73\">ChildDomainCollection::clear<\/a>"],[100,1,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#79\">ChildDomainCollection::compare<\/a>"],[100,1,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#84\">ChildDomainCollection::contains<\/a>"],[100,3,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#89\">ChildDomainCollection::add<\/a>"],[100,3,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#107\">ChildDomainCollection::remove<\/a>"],[100,2,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#124\">ChildDomainCollection::hydrate<\/a>"],[78.571428571429,4,"<a href=\"domain\/collections\/ChildDomainCollection.php.html#140\">ChildDomainCollection::save<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#23\">DomainCollection::clear<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#29\">DomainCollection::all<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#31\">DomainCollection::compare<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#33\">DomainCollection::contains<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#35\">DomainCollection::containsKey<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#39\">DomainCollection::add<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#41\">DomainCollection::remove<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#43\">DomainCollection::hydrate<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#45\">DomainCollection::save<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#47\">DomainCollection::onBeforeRemove<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#48\">DomainCollection::raiseBeforeRemove<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#50\">DomainCollection::onRemoved<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#51\">DomainCollection::raiseRemoved<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#53\">DomainCollection::onBeforeAdd<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#54\">DomainCollection::raiseBeforeAdd<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#56\">DomainCollection::onAdded<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#57\">DomainCollection::raiseAdded<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#59\">DomainCollection::onBeforeSave<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#60\">DomainCollection::raiseBeforeSave<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#62\">DomainCollection::onSaved<\/a>"],[100,1,"<a href=\"domain\/collections\/DomainCollection.php.html#63\">DomainCollection::raiseSaved<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#16\">ParentDomainCollection::all<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#20\">ParentDomainCollection::compare<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#24\">ParentDomainCollection::contains<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#28\">ParentDomainCollection::containsKey<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#32\">ParentDomainCollection::add<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#38\">ParentDomainCollection::remove<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#44\">ParentDomainCollection::hydrate<\/a>"],[100,1,"<a href=\"domain\/collections\/ParentDomainCollection.php.html#48\">ParentDomainCollection::save<\/a>"],[84.615384615385,6,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#30\">SatelliteDomainCollection::__construct<\/a>"],[100,1,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#52\">SatelliteDomainCollection::anonymous function<\/a>"],[100,2,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#62\">SatelliteDomainCollection::all<\/a>"],[0,1,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#73\">SatelliteDomainCollection::compare<\/a>"],[100,1,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#78\">SatelliteDomainCollection::contains<\/a>"],[77.777777777778,3,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#83\">SatelliteDomainCollection::add<\/a>"],[0,3,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#98\">SatelliteDomainCollection::remove<\/a>"],[100,4,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#112\">SatelliteDomainCollection::hydrate<\/a>"],[80,4,"<a href=\"domain\/collections\/SatelliteDomainCollection.php.html#134\">SatelliteDomainCollection::save<\/a>"],[0,2,"<a href=\"domain\/validations\/ValidationException.php.html#15\">ValidationException::__construct<\/a>"],[0,1,"<a href=\"domain\/validations\/ValidationException.php.html#30\">ValidationException::getResults<\/a>"],[0,1,"<a href=\"domain\/validations\/ValidationFailure.php.html#14\">ValidationFailure::__construct<\/a>"],[0,1,"<a href=\"domain\/validations\/ValidationFailure.php.html#18\">ValidationFailure::getMessage<\/a>"],[0,1,"<a href=\"domain\/validations\/ValidationResults.php.html#17\">ValidationResults::add<\/a>"],[100,1,"<a href=\"domain\/validations\/ValidationResults.php.html#24\">ValidationResults::isSuccess<\/a>"],[0,1,"<a href=\"domain\/validations\/ValidationResults.php.html#31\">ValidationResults::getFailures<\/a>"],[100,1,"<a href=\"loggers\/ConsoleLogger.php.html#14\">ConsoleLogger::log<\/a>"],[100,1,"<a href=\"loggers\/FileLogger.php.html#20\">FileLogger::__construct<\/a>"],[100,2,"<a href=\"loggers\/FileLogger.php.html#24\">FileLogger::ensureFile<\/a>"],[100,2,"<a href=\"loggers\/FileLogger.php.html#29\">FileLogger::log<\/a>"],[0,1,"<a href=\"loggers\/SilentLogger.php.html#14\">SilentLogger::log<\/a>"],[100,1,"<a href=\"loggers\/StringLogger.php.html#18\">StringLogger::__construct<\/a>"],[100,1,"<a href=\"loggers\/StringLogger.php.html#23\">StringLogger::log<\/a>"],[100,1,"<a href=\"loggers\/StringLogger.php.html#28\">StringLogger::fullText<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#28\">MessageQueue::__construct<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#33\">MessageQueue::__destruct<\/a>"],[100,2,"<a href=\"messaging\/MessageQueue.php.html#37\">MessageQueue::handleException<\/a>"],[100,3,"<a href=\"messaging\/MessageQueue.php.html#44\">MessageQueue::invokeEngine<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#62\">MessageQueue::setRethrowInternal<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#66\">MessageQueue::setLoggerInternal<\/a>"],[100,2,"<a href=\"messaging\/MessageQueue.php.html#70\">MessageQueue::setEngineInternal<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#77\">MessageQueue::setRethrow<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#84\">MessageQueue::setLogger<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#91\">MessageQueue::setEngine<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#98\">MessageQueue::publish<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#111\">MessageQueue::anonymous function<\/a>"],[100,1,"<a href=\"messaging\/MessageQueue.php.html#107\">MessageQueue::consume<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#22\">RabbitMQConnectionInfo::__construct<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#32\">RabbitMQConnectionInfo::getDetails<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#42\">RabbitMQConnectionInfo::getHost<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#43\">RabbitMQConnectionInfo::getPort<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#44\">RabbitMQConnectionInfo::getUsername<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#45\">RabbitMQConnectionInfo::getPassword<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQConnectionInfo.php.html#46\">RabbitMQConnectionInfo::getVHost<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#30\">RabbitMQEngine::__construct<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#38\">RabbitMQEngine::setLogger<\/a>"],[100,2,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#43\">RabbitMQEngine::connect<\/a>"],[100,4,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#59\">RabbitMQEngine::disconnect<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#74\">RabbitMQEngine::publish<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#83\">RabbitMQEngine::consume<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#89\">RabbitMQEngine::anonymous function<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#94\">RabbitMQEngine::hasCallbacks<\/a>"],[100,1,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#101\">RabbitMQEngine::wait<\/a>"],[100,2,"<a href=\"messaging\/engines\/RabbitMQ\/RabbitMQEngine.php.html#112\">RabbitMQEngine::getChannel<\/a>"],[0,2,"<a href=\"migration\/Migrator.php.html#22\">Migrator::__construct<\/a>"],[0,16,"<a href=\"migration\/Migrator.php.html#34\">Migrator::migrate<\/a>"],[100,1,"<a href=\"monitors\/Monitor.php.html#17\">Monitor::Init<\/a>"],[0,3,"<a href=\"security\/AnonPrincipal.php.html#14\">AnonPrincipal::hasAllPermissions<\/a>"],[100,1,"<a href=\"security\/AnonPrincipal.php.html#22\">AnonPrincipal::hasAnyPermissions<\/a>"],[100,1,"<a href=\"security\/AnonPrincipal.php.html#26\">AnonPrincipal::canGrantAllPermissions<\/a>"],[100,1,"<a href=\"security\/AnonPrincipal.php.html#27\">AnonPrincipal::canGrantAnyPermissions<\/a>"],[0,1,"<a href=\"security\/AnonPrincipal.php.html#29\">AnonPrincipal::getIdentity<\/a>"],[100,1,"<a href=\"security\/AnonPrincipal.php.html#33\">AnonPrincipal::isAnon<\/a>"],[0,1,"<a href=\"security\/AnonPrincipal.php.html#37\">AnonPrincipal::__toString<\/a>"],[100,1,"<a href=\"security\/CurrentUser.php.html#21\">CurrentUser::__construct<\/a>"],[62.5,4,"<a href=\"security\/CurrentUser.php.html#25\">CurrentUser::getInstance<\/a>"],[100,1,"<a href=\"security\/CurrentUser.php.html#41\">CurrentUser::__clone<\/a>"],[100,1,"<a href=\"security\/CurrentUser.php.html#46\">CurrentUser::getPrincipal<\/a>"],[100,1,"<a href=\"security\/CurrentUser.php.html#53\">CurrentUser::setPrincipal<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#57\">CurrentUser::hasAllPermissions<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#61\">CurrentUser::hasAnyPermissions<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#65\">CurrentUser::canGrantAllPermissions<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#69\">CurrentUser::canGrantAnyPermissions<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#73\">CurrentUser::getIdentity<\/a>"],[0,1,"<a href=\"security\/CurrentUser.php.html#77\">CurrentUser::isAnon<\/a>"],[0,1,"<a href=\"security\/UserPassCredentials.php.html#17\">UserPassCredentials::__construct<\/a>"],[100,1,"<a href=\"security\/UserPassCredentials.php.html#22\">UserPassCredentials::getUsername<\/a>"],[100,1,"<a href=\"security\/UserPassCredentials.php.html#23\">UserPassCredentials::getPassword<\/a>"],[100,1,"<a href=\"security\/exceptions\/UnauthorizedException.php.html#14\">UnauthorizedException::__construct<\/a>"],[100,1,"<a href=\"services\/Service.php.html#16\">Service::__construct<\/a>"],[100,1,"<a href=\"services\/ServiceClient.php.html#13\">ServiceClient::__callStatic<\/a>"],[100,1,"<a href=\"services\/ServiceContext.php.html#19\">ServiceContext::__construct<\/a>"],[0,2,"<a href=\"services\/ServiceContext.php.html#23\">ServiceContext::log<\/a>"],[0,2,"<a href=\"services\/ServiceHandler.php.html#27\">ServiceHandler::__construct<\/a>"],[50,11,"<a href=\"services\/ServiceHandler.php.html#36\">ServiceHandler::handle<\/a>"],[75,2,"<a href=\"services\/ServiceHandler.php.html#100\">ServiceHandler::getEndpoint<\/a>"],[80,2,"<a href=\"services\/ServiceHandler.php.html#110\">ServiceHandler::discover<\/a>"],[0,3,"<a href=\"services\/ServiceHandler.php.html#125\">ServiceHandler::getAllEndpoints<\/a>"],[100,1,"<a href=\"services\/ServiceRegistry.php.html#23\">ServiceRegistry::get<\/a>"],[100,1,"<a href=\"services\/ServiceRegistry.php.html#33\">ServiceRegistry::register<\/a>"],[100,1,"<a href=\"services\/endpoints\/Endpoint.php.html#26\">Endpoint::__construct<\/a>"],[100,2,"<a href=\"services\/endpoints\/Endpoint.php.html#33\">Endpoint::getInstance<\/a>"],[100,1,"<a href=\"services\/endpoints\/Endpoint.php.html#44\">Endpoint::__clone<\/a>"],[87.5,4,"<a href=\"services\/endpoints\/Endpoint.php.html#50\">Endpoint::getContract<\/a>"],[0,2,"<a href=\"services\/endpoints\/Endpoint.php.html#66\">Endpoint::getAllPermissions<\/a>"],[100,3,"<a href=\"services\/endpoints\/Endpoint.php.html#78\">Endpoint::getMethodPermissions<\/a>"],[100,2,"<a href=\"services\/endpoints\/Endpoint.php.html#95\">Endpoint::discover<\/a>"],[100,1,"<a href=\"services\/endpoints\/Endpoint.php.html#151\">Endpoint::anonymous function<\/a>"],[100,14,"<a href=\"services\/endpoints\/Endpoint.php.html#111\">Endpoint::handleRequest<\/a>"],[100,1,"<a href=\"services\/endpoints\/JsonEndpoint.php.html#14\">JsonEndpoint::serializeOutput<\/a>"],[100,1,"<a href=\"services\/endpoints\/JsonEndpoint.php.html#18\">JsonEndpoint::deserializeOutput<\/a>"],[100,1,"<a href=\"services\/endpoints\/JsonEndpoint.php.html#22\">JsonEndpoint::serializeInput<\/a>"],[100,1,"<a href=\"services\/endpoints\/JsonEndpoint.php.html#26\">JsonEndpoint::deserializeInput<\/a>"],[100,1,"<a href=\"services\/endpoints\/NativeEndpoint.php.html#13\">NativeEndpoint::serializeOutput<\/a>"],[100,1,"<a href=\"services\/endpoints\/NativeEndpoint.php.html#14\">NativeEndpoint::deserializeOutput<\/a>"],[100,1,"<a href=\"services\/endpoints\/NativeEndpoint.php.html#15\">NativeEndpoint::deserializeInput<\/a>"],[100,1,"<a href=\"services\/endpoints\/NativeEndpoint.php.html#16\">NativeEndpoint::serializeInput<\/a>"],[100,1,"<a href=\"web\/HttpContext.php.html#18\">HttpContext::Init<\/a>"],[100,2,"<a href=\"web\/HttpContext.php.html#26\">HttpContext::Server<\/a>"],[100,1,"<a href=\"web\/HttpRequest.php.html#23\">HttpRequest::__construct<\/a>"],[100,1,"<a href=\"web\/HttpRequestHandler.php.html#14\">HttpRequestHandler::handle<\/a>"],[0,3,"<a href=\"web\/HttpServer.php.html#29\">HttpServer::__construct<\/a>"],[0,1,"<a href=\"web\/HttpServer.php.html#41\">HttpServer::log<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#45\">HttpServer::register<\/a>"],[0,8,"<a href=\"web\/HttpServer.php.html#54\">HttpServer::handle<\/a>"],[0,5,"<a href=\"web\/HttpServer.php.html#102\">HttpServer::endResponse<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#127\">HttpServer::clear<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#137\">HttpServer::output<\/a>"],[0,1,"<a href=\"web\/HttpServer.php.html#182\">HttpServer::anonymous function<\/a>"],[0,3,"<a href=\"web\/HttpServer.php.html#145\">HttpServer::redirect<\/a>"],[0,3,"<a href=\"web\/HttpServer.php.html#151\">HttpServer::header<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#162\">HttpServer::code<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#168\">HttpServer::sendOnlyHeaders<\/a>"],[0,2,"<a href=\"web\/HttpServer.php.html#177\">HttpServer::end<\/a>"],[0,3,"<a href=\"web\/HttpUtil.php.html#14\">HttpUtil::parseRequestHeaders<\/a>"],[0,1,"<a href=\"web\/HttpUtil.php.html#26\">HttpUtil::getRequestMethod<\/a>"],[0,1,"<a href=\"web\/HttpUtil.php.html#30\">HttpUtil::getRequestUrl<\/a>"],[0,1,"<a href=\"web\/HttpUtil.php.html#37\">HttpUtil::getCurrentRequest<\/a>"],[0,1,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#23\">HttpBasicAuthModule::__construct<\/a>"],[0,5,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#28\">HttpBasicAuthModule::handle<\/a>"],[0,2,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#45\">HttpBasicAuthModule::handleException<\/a>"],[0,1,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#51\">HttpBasicAuthModule::requestAuth<\/a>"],[100,1,"<a href=\"web\/modules\/HttpBasicAuthModule.php.html#60\">HttpBasicAuthModule::endResponse<\/a>"],[0,1,"<a href=\"web\/modules\/HttpExceptionHandlerModule.php.html#22\">HttpExceptionHandlerModule::__construct<\/a>"],[100,1,"<a href=\"web\/modules\/HttpExceptionHandlerModule.php.html#28\">HttpExceptionHandlerModule::handle<\/a>"],[100,1,"<a href=\"web\/modules\/HttpExceptionHandlerModule.php.html#30\">HttpExceptionHandlerModule::endResponse<\/a>"],[0,2,"<a href=\"web\/modules\/HttpExceptionHandlerModule.php.html#32\">HttpExceptionHandlerModule::handleException<\/a>"],[0,1,"<a href=\"web\/modules\/HttpJsonServiceHandlerModule.php.html#21\">HttpJsonServiceHandlerModule::__construct<\/a>"],[0,5,"<a href=\"web\/modules\/HttpJsonServiceHandlerModule.php.html#25\">HttpJsonServiceHandlerModule::handle<\/a>"],[100,1,"<a href=\"web\/modules\/HttpJsonServiceHandlerModule.php.html#55\">HttpJsonServiceHandlerModule::handleException<\/a>"],[100,1,"<a href=\"web\/modules\/HttpJsonServiceHandlerModule.php.html#57\">HttpJsonServiceHandlerModule::endResponse<\/a>"],[0,2,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#20\">HttpRequestHandlerModule::register_internal<\/a>"],[0,1,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#28\">HttpRequestHandlerModule::__construct<\/a>"],[0,3,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#31\">HttpRequestHandlerModule::handle<\/a>"],[100,1,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#37\">HttpRequestHandlerModule::handleException<\/a>"],[100,1,"<a href=\"web\/modules\/HttpRequestHandlerModule.php.html#39\">HttpRequestHandlerModule::endResponse<\/a>"],[0,1,"<a href=\"web\/modules\/HttpServerInfoModule.php.html#19\">HttpServerInfoModule::__construct<\/a>"],[0,1,"<a href=\"web\/modules\/HttpServerInfoModule.php.html#23\">HttpServerInfoModule::handle<\/a>"],[100,1,"<a href=\"web\/modules\/HttpServerInfoModule.php.html#27\">HttpServerInfoModule::handleException<\/a>"],[100,1,"<a href=\"web\/modules\/HttpServerInfoModule.php.html#29\">HttpServerInfoModule::endResponse<\/a>"],[0,4,"<a href=\"Cloneable.php.html#20\">Cloneable::__clone<\/a>"],[0,4,"<a href=\"Cloneable.php.html#29\">Cloneable::__arrayCopy<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

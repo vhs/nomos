@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\Source\nomos/app/services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../css/nv.d3.min.css" rel="stylesheet">
+  <link href="../../css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="../../js/html5shiv.min.js"></script>
+  <script src="../../js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="../../index.html">C:\Source\nomos</a></li>
+        <li><a href="../index.html">app</a></li>
+        <li><a href="index.html">services</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ApiKeyService.php.html#20">ApiKeyService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IpnService.php.html#10">IpnService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#24">KeyService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#21">MemberCardService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#17">MembershipService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#19">MetricService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentService.php.html#19">PaymentService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#24">PinService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#18">PreferenceService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#18">PrivilegeService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#22">UserService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#26">AuthService</a></td><td class="text-right">22%</td></tr>
+       <tr><td><a href="EmailService.php.html#9">EmailService</a></td><td class="text-right">69%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="UserService.php.html#22">UserService</a></td><td class="text-right">7482</td></tr>
+       <tr><td><a href="KeyService.php.html#24">KeyService</a></td><td class="text-right">812</td></tr>
+       <tr><td><a href="PinService.php.html#24">PinService</a></td><td class="text-right">552</td></tr>
+       <tr><td><a href="PreferenceService.php.html#18">PreferenceService</a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="AuthService.php.html#26">AuthService</a></td><td class="text-right">502</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#20">ApiKeyService</a></td><td class="text-right">462</td></tr>
+       <tr><td><a href="MemberCardService.php.html#21">MemberCardService</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#18">PrivilegeService</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="MembershipService.php.html#17">MembershipService</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="PaymentService.php.html#19">PaymentService</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="EmailService.php.html#9">EmailService</a></td><td class="text-right">23</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ApiKeyService.php.html#21"><abbr title="ApiKeyService::GetSystemApiKeys">GetSystemApiKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#36"><abbr title="PreferenceService::anonymous function">anonymous function</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#67"><abbr title="PrivilegeService::GetPrivilege">GetPrivilege</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#48"><abbr title="PrivilegeService::GetUserPrivileges">GetUserPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#44"><abbr title="PrivilegeService::GetAllPrivileges">GetAllPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#20"><abbr title="PrivilegeService::GetAllSystemPermissions">GetAllSystemPermissions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#179"><abbr title="PreferenceService::ListSystemPreferences">ListSystemPreferences</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#159"><abbr title="PreferenceService::DeleteSystemPreference">DeleteSystemPreference</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#137"><abbr title="PreferenceService::UpdateSystemPreference">UpdateSystemPreference</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#106"><abbr title="PreferenceService::PutSystemPreferencePrivileges">PutSystemPreferencePrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#83"><abbr title="PreferenceService::UpdateSystemPreferenceEnabled">UpdateSystemPreferenceEnabled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#56"><abbr title="PreferenceService::PutSystemPreference">PutSystemPreference</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PreferenceService.php.html#24"><abbr title="PreferenceService::GetAllSystemPreferences">GetAllSystemPreferences</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#90"><abbr title="PrivilegeService::UpdatePrivilegeName">UpdatePrivilegeName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#141"><abbr title="PinService::AccessInstructions">AccessInstructions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#127"><abbr title="PinService::UpdatePin">UpdatePin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#108"><abbr title="PinService::UpdateUserPin">UpdateUserPin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#76"><abbr title="PinService::GenerateTemporaryPin">GenerateTemporaryPin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#43"><abbr title="PinService::GeneratePin">GeneratePin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PinService.php.html#26"><abbr title="PinService::GetUserPin">GetUserPin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentService.php.html#69"><abbr title="PaymentService::ReplayPaymentProcessing">ReplayPaymentProcessing</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentService.php.html#65"><abbr title="PaymentService::ListPayments">ListPayments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentService.php.html#38"><abbr title="PaymentService::ListUserPayments">ListUserPayments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentService.php.html#26"><abbr title="PaymentService::GetPayment">GetPayment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#155"><abbr title="MetricService::TotalMembershipByIdCount">TotalMembershipByIdCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#71"><abbr title="PrivilegeService::CreatePrivilege">CreatePrivilege</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#98"><abbr title="PrivilegeService::UpdatePrivilegeDescription">UpdatePrivilegeDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#114"><abbr title="MetricService::TotalMemberCount">TotalMemberCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#135"><abbr title="UserService::Create">Create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#382"><abbr title="UserService::RevokePrivilege">RevokePrivilege</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#351"><abbr title="UserService::GrantPrivilege">GrantPrivilege</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#337"><abbr title="UserService::GetStanding">GetStanding</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#325"><abbr title="UserService::UpdateExpiry">UpdateExpiry</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#311"><abbr title="UserService::ListUsers">ListUsers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#301"><abbr title="UserService::GetStatuses">GetStatuses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#267"><abbr title="UserService::UpdateStatus">UpdateStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#242"><abbr title="UserService::UpdateMembership">UpdateMembership</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#222"><abbr title="UserService::PutUserPrivileges">PutUserPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#195"><abbr title="UserService::ResetPassword">ResetPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#171"><abbr title="UserService::RequestPasswordReset">RequestPasswordReset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#106"><abbr title="UserService::Register">Register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#106"><abbr title="PrivilegeService::UpdatePrivilegeIcon">UpdatePrivilegeIcon</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#96"><abbr title="UserService::UpdateCash">UpdateCash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#86"><abbr title="UserService::UpdatePaymentEmail">UpdatePaymentEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#76"><abbr title="UserService::UpdateEmail">UpdateEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#65"><abbr title="UserService::UpdateName">UpdateName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#55"><abbr title="UserService::UpdateUsername">UpdateUsername</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#45"><abbr title="UserService::UpdateNewsletter">UpdateNewsletter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#35"><abbr title="UserService::UpdatePassword">UpdatePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#28"><abbr title="UserService::GetUser">GetUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#24"><abbr title="UserService::GetUsers">GetUsers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#122"><abbr title="PrivilegeService::DeletePrivilege">DeletePrivilege</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#114"><abbr title="PrivilegeService::UpdatePrivilegeEnabled">UpdatePrivilegeEnabled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#130"><abbr title="MetricService::NewMembershipByIdCount">NewMembershipByIdCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#84"><abbr title="MetricService::NewMemberCount">NewMemberCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#25"><abbr title="ApiKeyService::GetUserApiKeys">GetUserApiKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#159"><abbr title="AuthService::CheckService">CheckService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#26"><abbr title="KeyService::GetSystemKeys">GetSystemKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IpnService.php.html#19"><abbr title="IpnService::ListRecords">ListRecords</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IpnService.php.html#15"><abbr title="IpnService::Get">Get</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IpnService.php.html#12"><abbr title="IpnService::GetAll">GetAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmailService.php.html#15"><abbr title="EmailService::Email">Email</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmailService.php.html#11"><abbr title="EmailService::EmailUser">EmailUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#296"><abbr title="AuthService::ListAccessLog">ListAccessLog</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#260"><abbr title="AuthService::ListUserAccessLog">ListUserAccessLog</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#245"><abbr title="AuthService::CheckUsername">CheckUsername</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#212"><abbr title="AuthService::CheckRfid">CheckRfid</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#170"><abbr title="AuthService::anonymous function">anonymous function</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#74"><abbr title="MetricService::GetExceptionPayments">GetExceptionPayments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#88"><abbr title="AuthService::Logout">Logout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#78"><abbr title="AuthService::CurrentUser">CurrentUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#64"><abbr title="AuthService::RfidLogin">RfidLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#49"><abbr title="AuthService::PinLogin">PinLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#34"><abbr title="AuthService::Login">Login</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#105"><abbr title="ApiKeyService::DeleteApiKey">DeleteApiKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#85"><abbr title="ApiKeyService::PutApiKeyPrivileges">PutApiKeyPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#77"><abbr title="ApiKeyService::UpdateApiKey">UpdateApiKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#56"><abbr title="ApiKeyService::GenerateUserApiKey">GenerateUserApiKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#43"><abbr title="ApiKeyService::GetApiKey">GetApiKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#33"><abbr title="ApiKeyService::GenerateSystemApiKey">GenerateSystemApiKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#33"><abbr title="KeyService::GetAllKeys">GetAllKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#40"><abbr title="KeyService::GetKey">GetKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#53"><abbr title="KeyService::GetUserKeys">GetUserKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#31"><abbr title="MembershipService::Update">Update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#66"><abbr title="MetricService::GetPendingAccounts">GetPendingAccounts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#53"><abbr title="MetricService::GetTotalKeyHolders">GetTotalKeyHolders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#46"><abbr title="MetricService::GetTotalMembers">GetTotalMembers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#34"><abbr title="MetricService::GetNewKeyHolders">GetNewKeyHolders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MetricService.php.html#21"><abbr title="MetricService::GetNewMembers">GetNewMembers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#78"><abbr title="MembershipService::PutPrivileges">PutPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#70"><abbr title="MembershipService::UpdateActive">UpdateActive</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#62"><abbr title="MembershipService::UpdateTrial">UpdateTrial</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#54"><abbr title="MembershipService::UpdateRecurring">UpdateRecurring</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#46"><abbr title="MembershipService::UpdatePrivate">UpdatePrivate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#27"><abbr title="MembershipService::Get">Get</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#70"><abbr title="KeyService::GenerateUserKey">GenerateUserKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#23"><abbr title="MembershipService::GetAll">GetAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MembershipService.php.html#19"><abbr title="MembershipService::Create">Create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#165"><abbr title="MemberCardService::GetGenuineCardDetails">GetGenuineCardDetails</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#139"><abbr title="MemberCardService::ListUserGenuineCards">ListUserGenuineCards</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#123"><abbr title="MemberCardService::ListGenuineCards">ListGenuineCards</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#65"><abbr title="MemberCardService::IssueCard">IssueCard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#52"><abbr title="MemberCardService::ValidateGenuineCard">ValidateGenuineCard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MemberCardService.php.html#31"><abbr title="MemberCardService::RegisterGenuineCard">RegisterGenuineCard</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#138"><abbr title="KeyService::DeleteKey">DeleteKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#117"><abbr title="KeyService::PutKeyPrivileges">PutKeyPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KeyService.php.html#107"><abbr title="KeyService::UpdateKey">UpdateKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#415"><abbr title="UserService::GetGrantUserPrivileges">GetGrantUserPrivileges</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#97"><abbr title="AuthService::CheckPin">CheckPin</abbr></a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="UserService.php.html#267"><abbr title="UserService::UpdateStatus">UpdateStatus</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="KeyService.php.html#70"><abbr title="KeyService::GenerateUserKey">GenerateUserKey</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="UserService.php.html#382"><abbr title="UserService::RevokePrivilege">RevokePrivilege</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="KeyService.php.html#53"><abbr title="KeyService::GetUserKeys">GetUserKeys</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="UserService.php.html#135"><abbr title="UserService::Create">Create</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="PinService.php.html#76"><abbr title="PinService::GenerateTemporaryPin">GenerateTemporaryPin</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="MemberCardService.php.html#65"><abbr title="MemberCardService::IssueCard">IssueCard</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="UserService.php.html#351"><abbr title="UserService::GrantPrivilege">GrantPrivilege</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="UserService.php.html#242"><abbr title="UserService::UpdateMembership">UpdateMembership</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PaymentService.php.html#38"><abbr title="PaymentService::ListUserPayments">ListUserPayments</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#20"><abbr title="PrivilegeService::GetAllSystemPermissions">GetAllSystemPermissions</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PreferenceService.php.html#106"><abbr title="PreferenceService::PutSystemPreferencePrivileges">PutSystemPreferencePrivileges</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="KeyService.php.html#40"><abbr title="KeyService::GetKey">GetKey</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PinService.php.html#43"><abbr title="PinService::GeneratePin">GeneratePin</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="UserService.php.html#106"><abbr title="UserService::Register">Register</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#43"><abbr title="ApiKeyService::GetApiKey">GetApiKey</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="UserService.php.html#171"><abbr title="UserService::RequestPasswordReset">RequestPasswordReset</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="MemberCardService.php.html#139"><abbr title="MemberCardService::ListUserGenuineCards">ListUserGenuineCards</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="AuthService.php.html#159"><abbr title="AuthService::CheckService">CheckService</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="UserService.php.html#195"><abbr title="UserService::ResetPassword">ResetPassword</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="AuthService.php.html#260"><abbr title="AuthService::ListUserAccessLog">ListUserAccessLog</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#48"><abbr title="PrivilegeService::GetUserPrivileges">GetUserPrivileges</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="PinService.php.html#26"><abbr title="PinService::GetUserPin">GetUserPin</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="PaymentService.php.html#26"><abbr title="PaymentService::GetPayment">GetPayment</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="PinService.php.html#108"><abbr title="PinService::UpdateUserPin">UpdateUserPin</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="MembershipService.php.html#78"><abbr title="MembershipService::PutPrivileges">PutPrivileges</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="KeyService.php.html#117"><abbr title="KeyService::PutKeyPrivileges">PutKeyPrivileges</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="AuthService.php.html#212"><abbr title="AuthService::CheckRfid">CheckRfid</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#222"><abbr title="UserService::PutUserPrivileges">PutUserPrivileges</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#56"><abbr title="ApiKeyService::GenerateUserApiKey">GenerateUserApiKey</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="PreferenceService.php.html#159"><abbr title="PreferenceService::DeleteSystemPreference">DeleteSystemPreference</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#65"><abbr title="UserService::UpdateName">UpdateName</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#76"><abbr title="UserService::UpdateEmail">UpdateEmail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#45"><abbr title="UserService::UpdateNewsletter">UpdateNewsletter</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#86"><abbr title="UserService::UpdatePaymentEmail">UpdatePaymentEmail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#28"><abbr title="UserService::GetUser">GetUser</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#311"><abbr title="UserService::ListUsers">ListUsers</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#25"><abbr title="ApiKeyService::GetUserApiKeys">GetUserApiKeys</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#415"><abbr title="UserService::GetGrantUserPrivileges">GetGrantUserPrivileges</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmailService.php.html#15"><abbr title="EmailService::Email">Email</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#85"><abbr title="ApiKeyService::PutApiKeyPrivileges">PutApiKeyPrivileges</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ApiKeyService.php.html#105"><abbr title="ApiKeyService::DeleteApiKey">DeleteApiKey</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="PinService.php.html#127"><abbr title="PinService::UpdatePin">UpdatePin</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="MemberCardService.php.html#31"><abbr title="MemberCardService::RegisterGenuineCard">RegisterGenuineCard</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#337"><abbr title="UserService::GetStanding">GetStanding</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserService.php.html#325"><abbr title="UserService::UpdateExpiry">UpdateExpiry</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#34"><abbr title="AuthService::Login">Login</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#49"><abbr title="AuthService::PinLogin">PinLogin</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#64"><abbr title="AuthService::RfidLogin">RfidLogin</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#170"><abbr title="AuthService::anonymous function">anonymous function</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#296"><abbr title="AuthService::ListAccessLog">ListAccessLog</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PreferenceService.php.html#137"><abbr title="PreferenceService::UpdateSystemPreference">UpdateSystemPreference</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PreferenceService.php.html#83"><abbr title="PreferenceService::UpdateSystemPreferenceEnabled">UpdateSystemPreferenceEnabled</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserService.php.html#96"><abbr title="UserService::UpdateCash">UpdateCash</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="KeyService.php.html#33"><abbr title="KeyService::GetAllKeys">GetAllKeys</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="MemberCardService.php.html#52"><abbr title="MemberCardService::ValidateGenuineCard">ValidateGenuineCard</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserService.php.html#55"><abbr title="UserService::UpdateUsername">UpdateUsername</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PaymentService.php.html#69"><abbr title="PaymentService::ReplayPaymentProcessing">ReplayPaymentProcessing</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserService.php.html#35"><abbr title="UserService::UpdatePassword">UpdatePassword</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PrivilegeService.php.html#71"><abbr title="PrivilegeService::CreatePrivilege">CreatePrivilege</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PreferenceService.php.html#36"><abbr title="PreferenceService::anonymous function">anonymous function</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PreferenceService.php.html#56"><abbr title="PreferenceService::PutSystemPreference">PutSystemPreference</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="KeyService.php.html#26"><abbr title="KeyService::GetSystemKeys">GetSystemKeys</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#97"><abbr title="AuthService::CheckPin">CheckPin</abbr></a></td><td class="text-right">5</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 3.3.0</a> using <a href="http://php.net/" target="_top">PHP 7.0.4</a> and <a href="https://phpunit.de/">PHPUnit 5.2.10</a> at Fri Mar 11 20:25:42 UTC 2016.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../../js/jquery.min.js" type="text/javascript"></script>
+  <script src="../../js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../../js/holder.min.js" type="text/javascript"></script>
+  <script src="../../js/d3.min.js" type="text/javascript"></script>
+  <script src="../../js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([11,0,0,1,0,0,0,1,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([108,0,0,0,0,0,0,0,0,1,0,11], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,21,"<a href=\"ApiKeyService.php.html#20\">ApiKeyService<\/a>"],[22.857142857143,32,"<a href=\"AuthService.php.html#26\">AuthService<\/a>"],[69.491525423729,16,"<a href=\"EmailService.php.html#9\">EmailService<\/a>"],[0,3,"<a href=\"IpnService.php.html#10\">IpnService<\/a>"],[0,28,"<a href=\"KeyService.php.html#24\">KeyService<\/a>"],[0,18,"<a href=\"MemberCardService.php.html#21\">MemberCardService<\/a>"],[0,12,"<a href=\"MembershipService.php.html#17\">MembershipService<\/a>"],[0,10,"<a href=\"MetricService.php.html#19\">MetricService<\/a>"],[0,12,"<a href=\"PaymentService.php.html#19\">PaymentService<\/a>"],[0,23,"<a href=\"PinService.php.html#24\">PinService<\/a>"],[0,22,"<a href=\"PreferenceService.php.html#18\">PreferenceService<\/a>"],[0,18,"<a href=\"PrivilegeService.php.html#18\">PrivilegeService<\/a>"],[0,86,"<a href=\"UserService.php.html#22\">UserService<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"ApiKeyService.php.html#21\">ApiKeyService::GetSystemApiKeys<\/a>"],[0,3,"<a href=\"ApiKeyService.php.html#25\">ApiKeyService::GetUserApiKeys<\/a>"],[0,1,"<a href=\"ApiKeyService.php.html#33\">ApiKeyService::GenerateSystemApiKey<\/a>"],[0,5,"<a href=\"ApiKeyService.php.html#43\">ApiKeyService::GetApiKey<\/a>"],[0,4,"<a href=\"ApiKeyService.php.html#56\">ApiKeyService::GenerateUserApiKey<\/a>"],[0,1,"<a href=\"ApiKeyService.php.html#77\">ApiKeyService::UpdateApiKey<\/a>"],[0,3,"<a href=\"ApiKeyService.php.html#85\">ApiKeyService::PutApiKeyPrivileges<\/a>"],[0,3,"<a href=\"ApiKeyService.php.html#105\">ApiKeyService::DeleteApiKey<\/a>"],[0,2,"<a href=\"AuthService.php.html#34\">AuthService::Login<\/a>"],[0,2,"<a href=\"AuthService.php.html#49\">AuthService::PinLogin<\/a>"],[0,2,"<a href=\"AuthService.php.html#64\">AuthService::RfidLogin<\/a>"],[0,1,"<a href=\"AuthService.php.html#78\">AuthService::CurrentUser<\/a>"],[0,1,"<a href=\"AuthService.php.html#88\">AuthService::Logout<\/a>"],[80,5,"<a href=\"AuthService.php.html#97\">AuthService::CheckPin<\/a>"],[0,2,"<a href=\"AuthService.php.html#170\">AuthService::anonymous function<\/a>"],[0,5,"<a href=\"AuthService.php.html#159\">AuthService::CheckService<\/a>"],[0,4,"<a href=\"AuthService.php.html#212\">AuthService::CheckRfid<\/a>"],[0,1,"<a href=\"AuthService.php.html#245\">AuthService::CheckUsername<\/a>"],[0,5,"<a href=\"AuthService.php.html#260\">AuthService::ListUserAccessLog<\/a>"],[0,2,"<a href=\"AuthService.php.html#296\">AuthService::ListAccessLog<\/a>"],[0,1,"<a href=\"EmailService.php.html#11\">EmailService::EmailUser<\/a>"],[0,3,"<a href=\"EmailService.php.html#15\">EmailService::Email<\/a>"],[100,1,"<a href=\"EmailService.php.html#66\">EmailService::GetTemplate<\/a>"],[100,1,"<a href=\"EmailService.php.html#77\">EmailService::UpdateTemplateName<\/a>"],[100,1,"<a href=\"EmailService.php.html#90\">EmailService::UpdateTemplateCode<\/a>"],[100,1,"<a href=\"EmailService.php.html#103\">EmailService::UpdateTemplateSubject<\/a>"],[100,1,"<a href=\"EmailService.php.html#116\">EmailService::UpdateTemplateHelp<\/a>"],[100,1,"<a href=\"EmailService.php.html#129\">EmailService::UpdateTemplateBody<\/a>"],[100,1,"<a href=\"EmailService.php.html#142\">EmailService::UpdateTemplateHtml<\/a>"],[100,2,"<a href=\"EmailService.php.html#159\">EmailService::PutTemplate<\/a>"],[100,2,"<a href=\"EmailService.php.html#181\">EmailService::DeleteTemplate<\/a>"],[100,1,"<a href=\"EmailService.php.html#198\">EmailService::ListTemplates<\/a>"],[0,1,"<a href=\"IpnService.php.html#12\">IpnService::GetAll<\/a>"],[0,1,"<a href=\"IpnService.php.html#15\">IpnService::Get<\/a>"],[0,1,"<a href=\"IpnService.php.html#19\">IpnService::ListRecords<\/a>"],[0,2,"<a href=\"KeyService.php.html#26\">KeyService::GetSystemKeys<\/a>"],[0,2,"<a href=\"KeyService.php.html#33\">KeyService::GetAllKeys<\/a>"],[0,5,"<a href=\"KeyService.php.html#40\">KeyService::GetKey<\/a>"],[0,6,"<a href=\"KeyService.php.html#53\">KeyService::GetUserKeys<\/a>"],[0,7,"<a href=\"KeyService.php.html#70\">KeyService::GenerateUserKey<\/a>"],[0,1,"<a href=\"KeyService.php.html#107\">KeyService::UpdateKey<\/a>"],[0,4,"<a href=\"KeyService.php.html#117\">KeyService::PutKeyPrivileges<\/a>"],[0,1,"<a href=\"KeyService.php.html#138\">KeyService::DeleteKey<\/a>"],[0,3,"<a href=\"MemberCardService.php.html#31\">MemberCardService::RegisterGenuineCard<\/a>"],[0,2,"<a href=\"MemberCardService.php.html#52\">MemberCardService::ValidateGenuineCard<\/a>"],[0,6,"<a href=\"MemberCardService.php.html#65\">MemberCardService::IssueCard<\/a>"],[0,1,"<a href=\"MemberCardService.php.html#123\">MemberCardService::ListGenuineCards<\/a>"],[0,5,"<a href=\"MemberCardService.php.html#139\">MemberCardService::ListUserGenuineCards<\/a>"],[0,1,"<a href=\"MemberCardService.php.html#165\">MemberCardService::GetGenuineCardDetails<\/a>"],[0,1,"<a href=\"MembershipService.php.html#19\">MembershipService::Create<\/a>"],[0,1,"<a href=\"MembershipService.php.html#23\">MembershipService::GetAll<\/a>"],[0,1,"<a href=\"MembershipService.php.html#27\">MembershipService::Get<\/a>"],[0,1,"<a href=\"MembershipService.php.html#31\">MembershipService::Update<\/a>"],[0,1,"<a href=\"MembershipService.php.html#46\">MembershipService::UpdatePrivate<\/a>"],[0,1,"<a href=\"MembershipService.php.html#54\">MembershipService::UpdateRecurring<\/a>"],[0,1,"<a href=\"MembershipService.php.html#62\">MembershipService::UpdateTrial<\/a>"],[0,1,"<a href=\"MembershipService.php.html#70\">MembershipService::UpdateActive<\/a>"],[0,4,"<a href=\"MembershipService.php.html#78\">MembershipService::PutPrivileges<\/a>"],[0,1,"<a href=\"MetricService.php.html#21\">MetricService::GetNewMembers<\/a>"],[0,1,"<a href=\"MetricService.php.html#34\">MetricService::GetNewKeyHolders<\/a>"],[0,1,"<a href=\"MetricService.php.html#46\">MetricService::GetTotalMembers<\/a>"],[0,1,"<a href=\"MetricService.php.html#53\">MetricService::GetTotalKeyHolders<\/a>"],[0,1,"<a href=\"MetricService.php.html#66\">MetricService::GetPendingAccounts<\/a>"],[0,1,"<a href=\"MetricService.php.html#74\">MetricService::GetExceptionPayments<\/a>"],[0,1,"<a href=\"MetricService.php.html#84\">MetricService::NewMemberCount<\/a>"],[0,1,"<a href=\"MetricService.php.html#114\">MetricService::TotalMemberCount<\/a>"],[0,1,"<a href=\"MetricService.php.html#130\">MetricService::NewMembershipByIdCount<\/a>"],[0,1,"<a href=\"MetricService.php.html#155\">MetricService::TotalMembershipByIdCount<\/a>"],[0,4,"<a href=\"PaymentService.php.html#26\">PaymentService::GetPayment<\/a>"],[0,5,"<a href=\"PaymentService.php.html#38\">PaymentService::ListUserPayments<\/a>"],[0,1,"<a href=\"PaymentService.php.html#65\">PaymentService::ListPayments<\/a>"],[0,2,"<a href=\"PaymentService.php.html#69\">PaymentService::ReplayPaymentProcessing<\/a>"],[0,4,"<a href=\"PinService.php.html#26\">PinService::GetUserPin<\/a>"],[0,5,"<a href=\"PinService.php.html#43\">PinService::GeneratePin<\/a>"],[0,6,"<a href=\"PinService.php.html#76\">PinService::GenerateTemporaryPin<\/a>"],[0,4,"<a href=\"PinService.php.html#108\">PinService::UpdateUserPin<\/a>"],[0,3,"<a href=\"PinService.php.html#127\">PinService::UpdatePin<\/a>"],[0,1,"<a href=\"PinService.php.html#141\">PinService::AccessInstructions<\/a>"],[0,1,"<a href=\"PreferenceService.php.html#24\">PreferenceService::GetAllSystemPreferences<\/a>"],[100,3,"<a href=\"PreferenceService.php.html#34\">PreferenceService::SystemPreference<\/a>"],[0,2,"<a href=\"PreferenceService.php.html#36\">PreferenceService::anonymous function<\/a>"],[0,2,"<a href=\"PreferenceService.php.html#56\">PreferenceService::PutSystemPreference<\/a>"],[0,2,"<a href=\"PreferenceService.php.html#83\">PreferenceService::UpdateSystemPreferenceEnabled<\/a>"],[0,5,"<a href=\"PreferenceService.php.html#106\">PreferenceService::PutSystemPreferencePrivileges<\/a>"],[0,2,"<a href=\"PreferenceService.php.html#137\">PreferenceService::UpdateSystemPreference<\/a>"],[0,4,"<a href=\"PreferenceService.php.html#159\">PreferenceService::DeleteSystemPreference<\/a>"],[0,1,"<a href=\"PreferenceService.php.html#179\">PreferenceService::ListSystemPreferences<\/a>"],[0,5,"<a href=\"PrivilegeService.php.html#20\">PrivilegeService::GetAllSystemPermissions<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#44\">PrivilegeService::GetAllPrivileges<\/a>"],[0,4,"<a href=\"PrivilegeService.php.html#48\">PrivilegeService::GetUserPrivileges<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#67\">PrivilegeService::GetPrivilege<\/a>"],[0,2,"<a href=\"PrivilegeService.php.html#71\">PrivilegeService::CreatePrivilege<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#90\">PrivilegeService::UpdatePrivilegeName<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#98\">PrivilegeService::UpdatePrivilegeDescription<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#106\">PrivilegeService::UpdatePrivilegeIcon<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#114\">PrivilegeService::UpdatePrivilegeEnabled<\/a>"],[0,1,"<a href=\"PrivilegeService.php.html#122\">PrivilegeService::DeletePrivilege<\/a>"],[0,1,"<a href=\"UserService.php.html#24\">UserService::GetUsers<\/a>"],[0,3,"<a href=\"UserService.php.html#28\">UserService::GetUser<\/a>"],[0,2,"<a href=\"UserService.php.html#35\">UserService::UpdatePassword<\/a>"],[0,3,"<a href=\"UserService.php.html#45\">UserService::UpdateNewsletter<\/a>"],[0,2,"<a href=\"UserService.php.html#55\">UserService::UpdateUsername<\/a>"],[0,3,"<a href=\"UserService.php.html#65\">UserService::UpdateName<\/a>"],[0,3,"<a href=\"UserService.php.html#76\">UserService::UpdateEmail<\/a>"],[0,3,"<a href=\"UserService.php.html#86\">UserService::UpdatePaymentEmail<\/a>"],[0,2,"<a href=\"UserService.php.html#96\">UserService::UpdateCash<\/a>"],[0,5,"<a href=\"UserService.php.html#106\">UserService::Register<\/a>"],[0,6,"<a href=\"UserService.php.html#135\">UserService::Create<\/a>"],[0,5,"<a href=\"UserService.php.html#171\">UserService::RequestPasswordReset<\/a>"],[0,5,"<a href=\"UserService.php.html#195\">UserService::ResetPassword<\/a>"],[0,4,"<a href=\"UserService.php.html#222\">UserService::PutUserPrivileges<\/a>"],[0,5,"<a href=\"UserService.php.html#242\">UserService::UpdateMembership<\/a>"],[0,10,"<a href=\"UserService.php.html#267\">UserService::UpdateStatus<\/a>"],[0,1,"<a href=\"UserService.php.html#301\">UserService::GetStatuses<\/a>"],[0,3,"<a href=\"UserService.php.html#311\">UserService::ListUsers<\/a>"],[0,2,"<a href=\"UserService.php.html#325\">UserService::UpdateExpiry<\/a>"],[0,2,"<a href=\"UserService.php.html#337\">UserService::GetStanding<\/a>"],[0,6,"<a href=\"UserService.php.html#351\">UserService::GrantPrivilege<\/a>"],[0,7,"<a href=\"UserService.php.html#382\">UserService::RevokePrivilege<\/a>"],[0,3,"<a href=\"UserService.php.html#415\">UserService::GetGrantUserPrivileges<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
