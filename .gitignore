@@ -230,3 +230,7 @@ vendor
 
 #Docker env
 docker/nomos.env
+
+#Coverage
+coverage.xml
+coverage/.
