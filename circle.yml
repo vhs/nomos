@@ -4,11 +4,9 @@ machine:
   environment:
     CIRCLE_ARTIFACTS: coverage/
 
-dependencies:
+test:
   pre:
     - sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
-
-test:
   override:
     - phpunit --coverage-html coverage
 
