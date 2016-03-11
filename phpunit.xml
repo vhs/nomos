@@ -4,4 +4,21 @@
             <directory phpVersion="5.6.11">tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">app/</directory>
+            <directory suffix=".php">vhs/</directory>
+            <directory suffix=".php">../conf/</directory>
+            <exclude>
+                <file>app/include.php</file>
+                <file>app/app.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <includePath>.</includePath>
+        <includePath>conf/</includePath>
+        <includePath>app/</includePath>
+        <includePath>vhs/</includePath>
+    </php>
 </phpunit>
