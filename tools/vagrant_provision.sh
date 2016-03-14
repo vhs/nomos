@@ -55,4 +55,4 @@ chmod 777 /vagrant/logs/server.log
 chmod 777 /vagrant/tools/backup
 
 cd /vagrant/tools
-php migrate.php
+php migrate.php -m

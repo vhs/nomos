@@ -11,28 +11,37 @@ define("_VALID_PHP", true);
 require_once("../conf/config.ini.php");
 
 $target_version = null;
+$do_migrate = null;
+$backup_filename = null;
 $do_backup = null;
-if(sizeof($argv) > 1 && !is_null($argv[1])) {
-    foreach($argv as $arg) {
-        if(is_numeric($arg))
-            $target_version = intval($argv[1]);
-        if($arg === 'b')
-            $do_backup = 1;   
+
+//-b and -m flags, parameters optional
+$options = getopt('b::m::');
+if(isset($options['m'])) {
+    if($options['m']) {
+        $target_version = intval($options['m']);
     }
+    $do_migrate = true; 
+}
+if(isset($options['b'])) {
+    if($options['b']) {
+        $backup_filename = $options['b'];
+    }
+    $do_backup = true;   
 }
 
-$backup = new Backup(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
-$migrator = new Migrator(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
-
 if($do_backup) {
-    if($backup->external_backup())
+    $backup = new Backup(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
+    if($backup->external_backup($backup_filename))
         print "Backup succeeded\n";
     else
         print "Backup failed\n";
 }
+if($do_migrate) {
+    $migrator = new Migrator(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
+    if($migrator->migrate($target_version, "../migrations"))
+        print "Migration succeeded\n";
+    else
+        print "Migration failed\n";
+}
 
-
-if($migrator->migrate($target_version, "../migrations"))
-    print "Migration succeeded\n";
-else
-    print "Migration failed\n";

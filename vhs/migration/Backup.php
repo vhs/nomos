@@ -52,7 +52,7 @@ class Backup {
         }
     }
 
-    public function external_backup($backupPath = "backup/", $fileName = null) {
+    public function external_backup($fileName = null, $backupPath = "backup/") {
         $this->logger->log('Starting backup');
         
         $fileName =  (!is_null($fileName)) ? $fileName : 'db-backup-' . time() . '.sql';
@@ -67,7 +67,7 @@ class Backup {
             return false;
     }
 
-    public function internal_backup($backupPath = "backup/", $fileName = null) {
+    public function internal_backup($fileName = null, $backupPath = "backup/") {
 
         $this->logger->log('Starting backup');
         
