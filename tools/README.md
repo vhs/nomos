@@ -1,9 +1,10 @@
-Run migrate.php from current directory or it'll mess up. i.e. change your shell to the path
- of the migrate.php file and run it as
+Run migrate.php from current directory only.
 
- ~/tools/> php migrate.php
+There are database backup and migration options.
 
-If you don't have anything created yet, this will do it for you. The default admin account: vhs/password
+` ~/tools/> php migrate.php -m`
+
+If you don't have anything created yet, this will create a current and mostly empty database for you. The default Nomos admin account: vhs/password
 
 If you're making any database schema changes, make a new folder
  with just a single integer +1 from the max. Put whatever
@@ -12,4 +13,22 @@ If you're making any database schema changes, make a new folder
 
 This migration is assuming an offline migration, otherwise data loss could occur.
 
-Read and understand the code in migrate.php before you run this tool. There's no rollbacksies.
+Read and understand the code in migrate.php before you run this tool. There are rollbacksies, but it might not be pretty.
+
+To migrate to a specific database first, include a parameter with the `-m` flag, e.g.:
+
+` ~/tools/> php migrate.php -m5`
+
+
+For backing up the database, use the `-b` flag, with an optional filename parameter. It will save in `~/tools/backup` with a unique filename (if none chosen).
+
+` ~/tools/> php migrate.php -b`
+
+` ~/tools/> php migrate.php -b"myawesomebackup.sql"`
+
+Backup and migration options can be done with one command.
+
+
+` ~/tools/> php migrate.php -b"test.sql" -m`
+
+Backup operation is performed first.

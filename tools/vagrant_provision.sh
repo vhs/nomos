@@ -54,7 +54,7 @@ chmod 777 /vagrant/app/sql.log
 chmod 777 /vagrant/app/server.log
 
 cd /vagrant/tools
-php migrate.php
+php migrate.php -m
 
 # rabbitmq
 
