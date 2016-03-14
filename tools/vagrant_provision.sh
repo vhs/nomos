@@ -48,11 +48,26 @@ if [ -z `mysql --host=localhost --user=root --password=password -s -N -e "SELECT
   mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON nomos.* TO 'vhs'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 fi
 
-touch /vagrant/logs/sql.log
-touch /vagrant/logs/server.log
-chmod 777 /vagrant/logs/sql.log
-chmod 777 /vagrant/logs/server.log
-chmod 777 /vagrant/tools/backup
+touch /vagrant/app/sql.log
+touch /vagrant/app/server.log
+chmod 777 /vagrant/app/sql.log
+chmod 777 /vagrant/app/server.log
 
 cd /vagrant/tools
 php migrate.php -m
+
+# rabbitmq
+
+
+echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
+wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+sudo apt-key add rabbitmq-signing-key-public.asc
+sudo apt-get update
+sudo apt-get install --yes -q rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl add_user vhs password
+sudo rabbitmqctl set_user_tags vhs administrator
+sudo rabbitmqctl add_user nomos password
+sudo rabbitmqctl add_vhost nomos
+sudo rabbitmqctl set_permissions -p nomos vhs ".*" ".*" ".*"
+sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
