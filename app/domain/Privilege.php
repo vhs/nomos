@@ -26,14 +26,14 @@ class Privilege extends Domain {
     }
 
     public static function findByCodes(...$code) {
-        if (!CurrentUser::hasAllPermissions("administrator") && !CurrentUser::hasAllPermissions(...$code) && !CurrentUser::canGrantAllPermissions(...$code))
+        if (!self::checkCodeAccess(...$code))
             throw new UnauthorizedException("Access denied");
 
         return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
     }
 
     public static function findByCode($code) {
-        if (!CurrentUser::hasAllPermissions("administrator") && !CurrentUser::hasAllPermissions($code) && !CurrentUser::canGrantAllPermissions($code))
+        if (!self::checkCodeAccess(...$code))
             throw new UnauthorizedException("Access denied");
 
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
@@ -42,5 +42,14 @@ class Privilege extends Domain {
             return $privs[0];
 
         return null;
+    }
+
+    private static function checkCodeAccess(...$codes) {
+        foreach($codes as $code) {
+            if ($code != 'inherit' && !CurrentUser::hasAllPermissions("administrator") && !CurrentUser::hasAllPermissions($code) && !CurrentUser::canGrantAllPermissions($code))
+                return false;
+        }
+
+        return true;
     }
 }
