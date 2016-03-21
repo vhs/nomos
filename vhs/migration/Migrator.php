@@ -33,6 +33,8 @@ class Migrator {
 
     public function migrate($toVersion = null, $migrationsPath = ".") {
 
+        $this->logger->log('Starting migration');
+        
         $conn = new \mysqli($this->server, $this->user, $this->password);
 
         if ($conn->connect_error) {
