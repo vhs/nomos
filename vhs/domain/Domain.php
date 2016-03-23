@@ -527,15 +527,19 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
         $where = self::constructFilter($actualColumns, $filters);
 
-        $users = self::where($where, $orderBy, $size, $page);
+        $objects = self::where($where, $orderBy, $size, $page);
 
         $retval = [];
 
-        foreach($users as $user) {
+        foreach($objects as $object) {
             $val = [];
 
-            foreach ($cols as $col)
-                $val[$col] = $user->$col;
+            foreach ($cols as $col) {
+                if (array_key_exists($col, self::Relationships()))
+                    $val[$col] = $object->$col->all();
+                else
+                    $val[$col] = $object->$col;
+            }
 
             array_push($retval, $val);
         }

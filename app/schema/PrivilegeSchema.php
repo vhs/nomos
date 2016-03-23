@@ -9,6 +9,7 @@
 namespace app\schema;
 
 
+use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -26,6 +27,8 @@ class PrivilegeSchema extends Schema {
         $table->addColumn("enabled", Type::Bool(false, false));
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
+
+        $table->setAccess(PrivilegedAccess::GenerateAccess("privilege", $table));
 
         return $table;
     }

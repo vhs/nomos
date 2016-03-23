@@ -20,7 +20,7 @@ class TablePrivilegedAccess extends PrivilegedAccess
     /** @var string[] */
     private $privileges;
 
-    public function __construct(Column $ownerColumn, Table $table, ...$privileges)
+    public function __construct(Column $ownerColumn = null, Table $table, ...$privileges)
     {
         parent::__construct($ownerColumn);
         $this->table = $table;
@@ -35,5 +35,25 @@ class TablePrivilegedAccess extends PrivilegedAccess
     public function CanWrite($record, Table $table, Column $column)
     {
         return ($table === $this->table) && $this->hasPrivilegedAccess($record, ...$this->privileges);
+    }
+
+    public function serialize()
+    {
+        return [
+            "type" => "table",
+            "table" => $this->table->name,
+            "privileges" => $this->privileges,
+            "checks" => $this->checks
+        ];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "type" => "table",
+            "table" => $this->table->name,
+            "privileges" => $this->privileges,
+            "checks" => $this->checks
+        ];
     }
 }

@@ -9,6 +9,7 @@
 namespace app\schema;
 
 
+use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -30,6 +31,8 @@ class KeySchema extends Schema {
             Constraint::PrimaryKey($table->columns->id),
             Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
         );
+
+        $table->setAccess(PrivilegedAccess::GenerateAccess("key", $table, $table->columns->userid));
 
         return $table;
     }

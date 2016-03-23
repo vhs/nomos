@@ -14,7 +14,7 @@ angular
                     $scope.listService = {
                         page: 0,
                         size: 10,
-                        columns: "id,name,description,enabled,userid,url,translation,headers,method,eventid",
+                        columns: "id,name,description,enabled,userid,url,translation,headers,method,eventid,privileges",
                         order: "id",
                         search: null,
                         filter: null

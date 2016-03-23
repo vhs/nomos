@@ -198,8 +198,12 @@ class EventService extends Service implements IEventService1
 
         $domains = array();
         foreach(get_declared_classes() as $class) {
-            if (is_subclass_of($class, "\\vhs\\domain\\Domain"))
-                $domains[] = str_replace("app\\domain\\", "", $class);
+            if (is_subclass_of($class, "\\vhs\\domain\\Domain")) {
+                $name = str_replace("app\\domain\\", "", $class);
+                $domains[$name] = [
+                    "checks" => $class::Schema()->Table()->checks
+                ];
+            }
         }
 
         return $domains;

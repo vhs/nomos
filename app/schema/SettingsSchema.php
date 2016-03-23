@@ -9,6 +9,7 @@
 namespace app\schema;
 
 
+use app\security\PrivilegedAccess;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
@@ -45,6 +46,8 @@ class SettingsSchema extends Schema {
         $table->addColumn("version", Type::String(true, null, 5));
         $table->addColumn("schemaversion", Type::Int(false, 2));
         $table->addColumn("nextpinid", Type::Int(false, 0));
+
+        $table->setAccess(PrivilegedAccess::GenerateAccess("setting", $table));
 
         return $table;
     }

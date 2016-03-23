@@ -118,7 +118,7 @@ class WebHookService extends Service implements IWebHookService1
             $hook->privileges->remove($priv);
 
         foreach($privs as $priv)
-            if (CurrentUser::hasAnyPermissions($priv->code))
+            if (CurrentUser::hasAnyPermissions("administrator") || CurrentUser::hasAnyPermissions($priv->code))
                 $hook->privileges->add($priv);
 
         $hook->save();
@@ -226,7 +226,7 @@ class WebHookService extends Service implements IWebHookService1
         if (is_null($user))
             throw new \Exception("User not found or you do not have access");
 
-        $userFilter = Filter::Equal("user_id", $user->id);
+        $userFilter = Filter::Equal("userid", $user->id);
 
         if (is_null($filters) || $filters == "")
             $filters = $userFilter;

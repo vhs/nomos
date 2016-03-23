@@ -9,6 +9,7 @@
 namespace app\schema;
 
 
+use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -40,6 +41,8 @@ class WebHookSchema extends Schema
             Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
             Constraint::ForeignKey($table->columns->eventid, EventSchema::Table(), EventSchema::Columns()->id)
         );
+
+        $table->setAccess(PrivilegedAccess::GenerateAccess("webhook", $table, $table->columns->userid));
 
         return $table;
     }

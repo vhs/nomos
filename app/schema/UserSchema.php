@@ -48,11 +48,7 @@ class UserSchema extends Schema {
             Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
         );
 
-        $access = new PrivilegedAccess($table->columns->id);
-        $access->Table($table, "owner");
-        $access->Column($table->columns->username, "owner", "user", "webhook");
-
-        $table->setAccess($access);
+        $table->setAccess(PrivilegedAccess::GenerateAccess("user", $table, $table->columns->id));
 
         return $table;
     }

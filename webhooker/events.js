@@ -5,18 +5,12 @@
 var http = require('http');
 var amqp = require('amqplib');
 
-module.exports = function(config, handler) { return new Events(config, handler); };
+module.exports = function(config, nomos, handler) { return new Events(config, nomos, handler); };
 
-var Events = function(config, handler) {
+var Events = function(config, nomos, handler) {
     this.config = config;
+    this.nomos = nomos;
     this.handler = handler;
-
-    this.options = {
-        host: config.nomos.host,
-        path: '/services/web/EventService1.svc/GetEvents',
-        method: 'GET',
-        headers: { 'X-Api-Key': config.nomos.token }
-    };
 
     this.rabbitmq = "amqp://" + config.rabbitmq.username + ":" + config.rabbitmq.password + "@" + config.rabbitmq.host + ":" + config.rabbitmq.port + "/" + config.rabbitmq.vhost;
 
@@ -30,18 +24,9 @@ var Events = function(config, handler) {
 
 Events.prototype.loadEvents = function(callback) {
     var self = this;
-
-    http.get(self.options, function(res) {
-        res.setEncoding('utf8');
-
-        if (res.statusCode == 200) {
-
-            res.on('data', function (chunk) {
-                self.events = JSON.parse(chunk);
-
-                if (callback) callback(self.events);
-            });
-        }
+    self.nomos.getAllEvents(function(data) {
+        self.events = data;
+        if (callback) callback(self.events);
     });
 };
 
@@ -91,64 +76,6 @@ Events.prototype.reload = function() {
 
 Events.prototype.handleEvent = function(event, data) {
 
-    console.log("Event happened: " + JSON.stringify(event));
-    console.log("With data: " + JSON.stringify(data));
-
+    console.log("[Event] " + event.name + " " + JSON.stringify(data));
     this.handler(event, data);
 };
-
-
-/*
-open.then(function(conn) {
-    var ok = conn.createChannel();
-
-    ok = ok.then(function(ch) {
-        //ch.assertQueue("AccessLog.created");
-
-        var options = {
-            host: config.nomos.host,
-            path: '/services/web/EventService1.svc/GetEvents',
-            method: 'GET',
-            headers: { 'X-Api-Key': config.nomos.token }
-        };
-
-        http.get(options, function(res) {
-            res.setEncoding('utf8');
-
-            if (res.statusCode == 200) {
-
-                res.on('data', function (chunk) {
-
-                    var events = JSON.parse(chunk);
-
-                    for(var i = 0; i < events.length; i++) {
-                        (function(event) {
-                            ch.consume(event.domain + "." + event.event, function (msg) {
-                                if (msg != null) {
-
-                                    ch.ack(msg);
-
-                                    if (event.domain == "WebHook")
-                                        webhooks.refresh();
-
-                                    var data = JSON.parse(msg.content.toString())[0][0];
-
-                                    handleEvent(event, data);
-                                }
-                            });
-                        })(events[i]);
-                    }
-
-                });
-            } else {
-                console.log(res.statusCode);
-            }
-
-        }).on('error', function(e) {
-            console.log(e.message);
-        });
-    });
-
-    return ok;
-}).then(null, console.warn);
-*/
