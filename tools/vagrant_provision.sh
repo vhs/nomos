@@ -6,7 +6,7 @@ T=`which add-apt-repository`
 if [ -z "`which add-apt-repository`" ]; then
   sudo apt-get install --yes software-properties-common
 fi
-sudo add-apt-repository --yes ppa:ondrej/php5-5.6
+sudo add-apt-repository --yes ppa:ondrej/php
 sudo apt-get update
 
 if [ -z "`which mysqld`" ]; then
@@ -14,7 +14,8 @@ if [ -z "`which mysqld`" ]; then
   echo "mysql-server-5.5 mysql-server/root_password_again password password" | sudo debconf-set-selections
   sudo apt-get install --yes -q mysql-server mysql-client
 fi
-sudo apt-get install --yes -q php5 php5-fpm php5-cli php5-mysqlnd php5-curl
+sudo apt-get install --yes -q php7.0 php7.0-fpm php7.0-cli php7.0-mysqlnd php7.0-curl php7.0-dom php7.0-bcmath
+sudo apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring
 sudo apt-get install --yes -q nginx
 
 # configure nginx

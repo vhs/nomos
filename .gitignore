@@ -1,4 +1,5 @@
 conf/config.ini.php
+tools/rabbitmq-signing-key-public.asc*
 backup
 *.gz
 *.zip
