@@ -22,6 +22,7 @@ CURRENT=`git log --format="%H" -n 1`
 
 if [ $CURRENT != $LATEST ]; then
     cd $CW
+    chmod 755 ./nomos/tools/ghetto_deploy.sh
     ./nomos/tools/ghetto_deploy.sh
     exit
 fi
@@ -74,7 +75,7 @@ cp -R $NOMOS/conf $DEPLOY_NAME/
 cp -R $NOMOS/migrations $DEPLOY_NAME/
 cp -R $NOMOS/tools $DEPLOY_NAME/
 
-chmod 777 $DEPLOY_NAME/logs -R
+chmod 777 $DEPLOY_NAME/logs
 
 cp config.ini.php $DEPLOY_NAME/conf/
 cp config.js $DEPLOY_NAME/webhooker/
