@@ -74,6 +74,8 @@ cp -R $NOMOS/conf $DEPLOY_NAME/
 cp -R $NOMOS/migrations $DEPLOY_NAME/
 cp -R $NOMOS/tools $DEPLOY_NAME/
 
+chmod 777 $DEPLOY_NAME/logs -R
+
 cp config.ini.php $DEPLOY_NAME/conf/
 cp config.js $DEPLOY_NAME/webhooker/
 
