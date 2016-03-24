@@ -22,7 +22,7 @@ CURRENT=`git log --format="%H" -n 1`
 
 if [ $CURRENT != $LATEST ]; then
     cd $CW
-    ./$NOMOS/tools/ghetto_deploy.sh
+    ./nomos/tools/ghetto_deploy.sh
     exit
 fi
 
@@ -94,6 +94,8 @@ cd $CW
 
 cp -R $DEPLOY_NAME $DEPLOY_PATH/.
 
+rm -rf $DEPLOY_NAME
+
 cd $DEPLOY_PATH
 
 if [ -e $APP_NAME ]; then
@@ -118,7 +120,7 @@ if [ -e webhooker ]; then
     rm webhooker
 fi
 
-ln -s webhooker $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin
+ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
 cd /etc/init.d
 
@@ -126,6 +128,6 @@ if [ -e webhooker ]; then
     rm webhooker
 fi
 
-ln -s webhooker $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart
+ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart webhooker
 
 service webhooker start
