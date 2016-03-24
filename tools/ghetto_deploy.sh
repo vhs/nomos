@@ -73,6 +73,7 @@ cp -R $NOMOS/logs $DEPLOY_NAME/
 cp -R $NOMOS/conf $DEPLOY_NAME/
 cp -R $NOMOS/migrations $DEPLOY_NAME/
 cp -R $NOMOS/tools $DEPLOY_NAME/
+cp -R $NOMOS/composer.json $DEPLOY_NAME/
 
 cp config.ini.php $DEPLOY_NAME/conf/
 cp config.js $DEPLOY_NAME/webhooker/
