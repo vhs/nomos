@@ -109,7 +109,7 @@ sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 cd /etc/init
 
 if [ -e "webhooker.conf" ]; then
-    sudo stop webhooker
+    sudo stop webhooker -n
 fi
 
 cd $DEPLOY_PATH/$APP_NAME/tools/
