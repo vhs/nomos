@@ -88,7 +88,7 @@ cd webhooker/
 
 chmod 755 webhooker.sbin
 
-npm install
+npm install --production
 
 cd $CW
 
