@@ -2,12 +2,8 @@ machine:
   php:
     version: 7.0.0RC7
 
-dependencies:
-  override:
-    - wget https://phar.phpunit.de/phpunit.phar
-
 test:
   pre:
     - sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
   override:
-    - php phpunit.phar --coverage-html $CIRCLE_ARTIFACTS
+    - phpunit --coverage-html $CIRCLE_ARTIFACTS
