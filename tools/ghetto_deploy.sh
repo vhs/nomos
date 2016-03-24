@@ -22,8 +22,7 @@ CURRENT=`git log --format="%H" -n 1`
 
 if [ $CURRENT != $LATEST ]; then
     cd $CW
-    chmod 755 ./nomos/tools/ghetto_deploy.sh
-    ./nomos/tools/ghetto_deploy.sh
+    bash ./nomos/tools/ghetto_deploy.sh
     exit
 fi
 
