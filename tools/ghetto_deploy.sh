@@ -126,10 +126,6 @@ sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
 cd /etc/init
 
-if [ -e "webhooker.conf" ]; then
-    sudo rm webhooker.conf
-fi
-
-sudo cp $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.conf webhooker.conf
+sudo cp -R $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.conf webhooker.conf
 
 sudo start webhooker
