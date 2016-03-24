@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
+cd `dirname $0`
+
+WEBHOOKER=`readlink webhooker`
+WEBHOOKER=`dirname $WEBHOOKER`
+
+cd $WEBHOOKER
+
 npm start
