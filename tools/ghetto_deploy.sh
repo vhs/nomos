@@ -106,10 +106,10 @@ fi
 
 sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 
-cd /etc/init.d
+cd /etc/init
 
-if [ -e webhooker ]; then
-    sudo service webhooker stop
+if [ -e "webhooker.conf" ]; then
+    sudo stop webhooker
 fi
 
 cd $DEPLOY_PATH/$APP_NAME/tools/
@@ -124,12 +124,12 @@ fi
 
 sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
-cd /etc/init.d
+cd /etc/init
 
-if [ -e webhooker ]; then
-    sudo rm webhooker
+if [ -e "webhooker.conf" ]; then
+    sudo rm webhooker.conf
 fi
 
-sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart webhooker
+sudo cp $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.conf webhooker.conf
 
-sudo service webhooker start
+sudo start webhooker
