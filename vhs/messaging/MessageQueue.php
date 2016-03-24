@@ -95,6 +95,15 @@ class MessageQueue extends Singleton
         $mq->setEngineInternal($engine);
     }
 
+    public static function ensure($channel, $queue) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->invokeEngine(function() use ($mq, $channel, $queue) {
+            return $mq->engine->ensure($channel, $queue);
+        });
+    }
+
     public static function publish($channel, $queue, $message) {
         /** @var MessageQueue $mq */
         $mq = self::getInstance();

@@ -9,6 +9,7 @@
 namespace vhs\database;
 
 
+use vhs\database\access\IAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\constraints\PrimaryKey;
 use vhs\database\joins\Join;
@@ -32,11 +33,13 @@ class Table extends Element {
     public $columns;
     /** @var Constraint[] */
     public $constraints;
+    /** @var IAccess[] */
+    public $checks;
 
     /**
      * @param string $name
      * @param string $alias
-     * @param Join $join
+     * @param Join|joins\Join[] $join
      */
     public function __construct($name, $alias = null, Join ...$join) {
         $this->name = $name;
@@ -75,6 +78,10 @@ class Table extends Element {
 
     public function setConstraints(Constraint ...$constraints) {
         $this->constraints = $constraints;
+    }
+
+    public function setAccess(IAccess ...$checks) {
+        $this->checks = $checks;
     }
 
     public function addColumn($name, Type $type, $serializable = true) {

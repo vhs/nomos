@@ -11,6 +11,7 @@ namespace vhs\messaging;
 
 interface IMessagingInterface
 {
+    public function ensure($channel, $queue);
     public function publish($channel, $queue, $message);
     public function consume($channel, $queue, callable $callback);
     public function hasCallbacks($channel);

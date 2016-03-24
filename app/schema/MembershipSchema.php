@@ -8,6 +8,7 @@
 
 namespace app\schema;
 
+use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -31,6 +32,8 @@ class MembershipSchema extends Schema {
         $table->addColumn("active", Type::Bool(false, false));
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
+
+        $table->setAccess(PrivilegedAccess::GenerateAccess("membership", $table));
 
         return $table;
     }

@@ -69,6 +69,41 @@ sudo rabbitmq-plugins enable rabbitmq_management
 sudo rabbitmqctl add_user vhs password
 sudo rabbitmqctl set_user_tags vhs administrator
 sudo rabbitmqctl add_user nomos password
+sudo rabbitmqctl add_user webhooker password
 sudo rabbitmqctl add_vhost nomos
 sudo rabbitmqctl set_permissions -p nomos vhs ".*" ".*" ".*"
 sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
+sudo rabbitmqctl set_permissions -p nomos webhooker "" "" ".*"
+
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g npm
+
+cd /vagrant/webhooker/
+npm install
+
+sudo apt-get install --yes -q jq
+
+
+APIKEY=$(curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/GenerateSystemApiKey?notes=webhooker)
+
+if [ ! `curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/GetAllPrivileges | jq -r .[] | jq -r .code | grep webhook` ]; then
+  curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/CreatePrivilege?name=webhook\&code=webhook\&description=webhook\&icon=webhook\&enabled=true
+fi
+
+curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/PutApiKeyPrivileges?keyid=$(echo $APIKEY | jq -r .id)\&privileges=webhook
+
+APIKEY=$(echo $APIKEY | jq .key)
+
+# configure app
+if [ ! -e "/vagrant/webhooker/config.js" ]; then
+  cp /vagrant/webhooker/config.js.template.js /vagrant/conf/config.js
+  sed -i -e 's/token: ""/token: '$APIKEY'/g' /vagrant/webhooker/config.js
+fi
+
+chmod 777 /vagrant/webhooker/webhooker.sbin
+sudo ln -s /vagrant/webhooker/webhooker.sbin /usr/sbin/webhooker
+
+sudo cp /vagrant/webhooker/webhooker.conf /etc/init/webhooker.conf
+
+sudo start webhooker

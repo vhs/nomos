@@ -62,6 +62,9 @@
                         <a ui-sref="user.apikeys" ng-class="{active: $state.is('user.apikeys')}"><i class="fa fa-cubes fa-fw"></i> Manage API Keys</a>
                     </li>
                     <li>
+                        <a ui-sref="user.webhooks" ng-class="{active: $state.is('user.webhooks')}"><i class="fa fa-cubes fa-fw"></i> Web Hooks</a>
+                    </li>
+                    <li>
                         <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"><i class="fa fa-tasks fa-fw"></i> Get Involved!</a>
                     </li>
                     <li ng-if="currentUser.hasPermission('administrator')">
