@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DEPLOY_PATH=/tmp/
+APP_NAME=membership.hackspace.ca
+DEPLOY_PATH=/tmp
 
 echo Ghetto Deploy!
 
@@ -25,7 +26,7 @@ if [ $CURRENT != $LATEST ]; then
     exit
 fi
 
-DEPLOY_NAME=membership.hackspace.ca-`git log --format="%H" -n 1`
+DEPLOY_NAME=$APP_NAME-`git log --format="%H" -n 1`
 
 cd $CW
 
@@ -60,6 +61,8 @@ if [ -e $DEPLOY_NAME ]; then
     rm -rf $DEPLOY_NAME
 fi
 
+echo Building $DEPLOY_NAME
+
 mkdir $DEPLOY_NAME
 
 cp -R $NOMOS/app $DEPLOY_NAME/
@@ -80,10 +83,49 @@ cd $DEPLOY_NAME
 
 php composer.phar --install
 
-cd tools/
+cd webhooker/
+
+chmod 755 webhooker.sbin
+chmod 755 webhooker.upstart
+
+npm install
+
+cd $CW
+
+cp -R $DEPLOY_NAME $DEPLOY_PATH/.
+
+cd $DEPLOY_PATH
+
+if [ -e $APP_NAME ]; then
+    rm $APP_NAME
+fi
+
+ln -s $APP_NAME $DEPLOY_PATH/$DEPLOY_NAME
+
+cd /etc/init.d
+
+if [ -e webhooker ]; then
+    service webhooker stop
+fi
+
+cd $DEPLOY_PATH/$APP_NAME/tools/
 
 php migrate.php -b -m
 
-cd ../webhooker
+cd /usr/sbin
 
-npm install
+if [ -e webhooker ]; then
+    rm webhooker
+fi
+
+ln -s webhooker $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin
+
+cd /etc/init.d
+
+if [ -e webhooker ]; then
+    rm webhooker
+fi
+
+ln -s webhooker $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart
+
+service webhooker start
