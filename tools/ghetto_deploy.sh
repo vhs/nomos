@@ -95,7 +95,7 @@ cd $CW
 
 cp -R $DEPLOY_NAME $DEPLOY_PATH/.
 
-chmod 777 $DEPLOY_PATH/logs
+chmod 777 $DEPLOY_PATH/$DEPLOY_NAME/logs
 
 rm -rf $DEPLOY_NAME
 
