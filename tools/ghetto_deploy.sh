@@ -75,8 +75,6 @@ cp -R $NOMOS/conf $DEPLOY_NAME/
 cp -R $NOMOS/migrations $DEPLOY_NAME/
 cp -R $NOMOS/tools $DEPLOY_NAME/
 
-chmod 777 $DEPLOY_NAME/logs
-
 cp config.ini.php $DEPLOY_NAME/conf/
 cp config.js $DEPLOY_NAME/webhooker/
 
@@ -96,6 +94,8 @@ npm install
 cd $CW
 
 cp -R $DEPLOY_NAME $DEPLOY_PATH/.
+
+chmod 777 $DEPLOY_PATH/logs
 
 rm -rf $DEPLOY_NAME
 
