@@ -81,7 +81,7 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=$DEPLOY_NAME
 
 cd $DEPLOY_NAME
 
-php composer.phar --install
+php composer.phar install
 
 cd webhooker/
 
@@ -99,15 +99,15 @@ rm -rf $DEPLOY_NAME
 cd $DEPLOY_PATH
 
 if [ -e $APP_NAME ]; then
-    rm $APP_NAME
+    sudo rm $APP_NAME
 fi
 
-ln -s $APP_NAME $DEPLOY_PATH/$DEPLOY_NAME
+sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 
 cd /etc/init.d
 
 if [ -e webhooker ]; then
-    service webhooker stop
+    sudo service webhooker stop
 fi
 
 cd $DEPLOY_PATH/$APP_NAME/tools/
@@ -117,17 +117,17 @@ php migrate.php -b -m
 cd /usr/sbin
 
 if [ -e webhooker ]; then
-    rm webhooker
+    sudo rm webhooker
 fi
 
-ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
+sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
 cd /etc/init.d
 
 if [ -e webhooker ]; then
-    rm webhooker
+    sudo rm webhooker
 fi
 
-ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart webhooker
+sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.upstart webhooker
 
-service webhooker start
+sudo service webhooker start
