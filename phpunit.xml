@@ -1,7 +1,7 @@
 <phpunit bootstrap="tests/autoload.php">
     <testsuites>
         <testsuite name="nomos">
-            <directory phpVersion="7.0.2">tests/</directory>
+            <directory phpVersion="7.0.0RC7">tests/</directory>
         </testsuite>
     </testsuites>
     <filter>

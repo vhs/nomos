@@ -1,11 +1,6 @@
 machine:
-
-dependencies:
-  override:
-    - add-apt-repository --yes ppa:ondrej/php
-    - apt-get update
-    - apt-get install --yes -q php7.0 php7.0-fpm php7.0-cli php7.0-mysqlnd php7.0-curl php7.0-dom php7.0-bcmath
-    - apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring
+  php:
+    version: 7.0.0RC7
 
 test:
   pre:
