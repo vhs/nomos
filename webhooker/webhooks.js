@@ -6,15 +6,16 @@ var http = require('http');
 var url = require('url');
 var querystring = require("querystring");
 
-module.exports = function(config, nomos, callback) { return new WebHooks(config, nomos, callback); };
+module.exports = function(options, callback) { return new WebHooks(options, callback); };
 
-var WebHooks = function(config, nomos, callback) {
+var WebHooks = function(options, callback) {
     var self = this;
     this.hooks = [];
 
-    this.config = config;
-    this.nomos = nomos;
-    this.domains = require('./domains.js')(nomos, function() {
+    this.config = options.config;
+    this.nomos = options.nomos;
+    this.log = options.log.child({component: "WebHooks"});
+    this.domains = require('./domains.js')(options, function() {
         self.refresh(callback);
     });
 };
@@ -72,7 +73,7 @@ WebHooks.prototype.find = function(event) {
 WebHooks.prototype.disable = function(id) {
     for(var i = 0; i < this.hooks.length; i++) {
         if (this.hooks[i].id == id) {
-            console.log("[hook] disabling hook " + id);
+            this.log.warn({id: id }, "disabling hook ");
             this.hooks.splice(i, 1);
             //this.nomos.disableHook(id); //TODO fix the loops
         }
@@ -92,13 +93,10 @@ WebHooks.prototype.raise = function(event, data) {
 };
 
 WebHooks.prototype.send = function(event, data, hook) {
-
-
     var self = this;
     var urlObj = url.parse(this.translate(hook.url, data));
 
-    console.log(JSON.stringify(urlObj));
-    console.log(JSON.stringify(data));
+    this.log.info({event:event, data:data, hook:hook, url: urlObj}, "Calling hook " + hook.name);
 
     var param = urlObj.search;
 
@@ -122,11 +120,11 @@ WebHooks.prototype.send = function(event, data, hook) {
     };
 
     var req = http.request(options, function(res) {
-        console.log('[hook] ['+hook.name+'] '+ hook.method + ' ' + hook.url + ' ' + res.statusCode);
+        self.log.info({hook:hook, res: res}, "Hook response " + res.statusCode);
     });
 
     req.on('error', function(e) {
-        console.log('[hook] ['+hook.name+'] '+ hook.method + ' ' + hook.url + ' problem with request: ' + e.message);
+        self.log.warn({hook:hook, exception: e}, "Problem with hook request: " + e.message);
         self.disable(hook.id);
     });
 
@@ -161,4 +159,3 @@ WebHooks.prototype.translate = function(target, data) {
 
     return translated;
 };
-

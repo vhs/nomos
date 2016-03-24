@@ -5,14 +5,15 @@
 var http = require('http');
 var amqp = require('amqplib');
 
-module.exports = function(config, nomos, handler) { return new Events(config, nomos, handler); };
+module.exports = function(options, handler) { return new Events(options, handler); };
 
-var Events = function(config, nomos, handler) {
-    this.config = config;
-    this.nomos = nomos;
+var Events = function(options, handler) {
+    this.config = options.config;
+    this.nomos = options.nomos;
+    this.log = options.log.child({component: "Events"});
     this.handler = handler;
 
-    this.rabbitmq = "amqp://" + config.rabbitmq.username + ":" + config.rabbitmq.password + "@" + config.rabbitmq.host + ":" + config.rabbitmq.port + "/" + config.rabbitmq.vhost;
+    this.rabbitmq = "amqp://" + this.config.rabbitmq.username + ":" + this.config.rabbitmq.password + "@" + this.config.rabbitmq.host + ":" + this.config.rabbitmq.port + "/" + this.config.rabbitmq.vhost;
 
     this.connection = null;
 
@@ -76,6 +77,6 @@ Events.prototype.reload = function() {
 
 Events.prototype.handleEvent = function(event, data) {
 
-    console.log("[Event] " + event.name + " " + JSON.stringify(data));
+    this.log.info({event: event, data: data}, "Event triggered " + event.name);
     this.handler(event, data);
 };

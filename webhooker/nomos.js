@@ -1,9 +1,10 @@
 var http = require('http');
 
-module.exports = function(config) { return new Nomos(config); };
+module.exports = function(options) { return new Nomos(options); };
 
-var Nomos = function(config) {
-    this.config = config;
+var Nomos = function(options) {
+    this.config = options.config;
+    this.log = options.log.child({component: "Nomos"});
 
     this.options = {
         host: this.config.nomos.host,
@@ -42,7 +43,15 @@ Nomos.prototype.generate = function(method, path, args) {
 };
 
 Nomos.prototype.request = function(method, path, args, callback) {
-    var payload = this.generate(method, path, args);
+    var self = this;
+    var payload = null;
+
+    try {
+        payload = this.generate(method, path, args);
+    } catch(e) {
+        self.log.warn({exception: e}, "Exception generating request payload: " + e.message);
+        return;
+    }
 
     var req = http.request(payload.options, function(res) {
         res.setEncoding('utf8');
@@ -62,12 +71,12 @@ Nomos.prototype.request = function(method, path, args, callback) {
         });
 
         res.on('error', function (e) {
-            console.log("problem with response: " + e.message);
+            self.log.warn({exception: e}, "problem with response: " + e.message);
         });
     });
 
     req.on('error', function(e) {
-        console.log("problem with request: " + e.message);
+        self.log.warn({exception: e}, "problem with request: " + e.message);
     });
 
     if (payload.data != null)
@@ -77,12 +86,12 @@ Nomos.prototype.request = function(method, path, args, callback) {
 };
 
 Nomos.prototype.get = function(path, args, callback) {
-    console.log("[nomos] GET " + path);
+    this.log.info({path: path, args: args},"GET " + path);
     this.request("GET", path, args, callback);
 };
 
 Nomos.prototype.post = function(path, data, callback) {
-    console.log("[nomos] POST " + path);
+    this.log.info({path: path, data: data},"POST " + path);
     this.request("POST", path, data, callback);
 };
 
@@ -95,7 +104,7 @@ Nomos.prototype.getAllEvents = function(callback) {
 };
 
 Nomos.prototype.disableHook = function(id, callback) {
-    console.log("[nomos] Disabling webhook: " + id);
+    this.log.warn({id: id},"Disabling webhook " + id);
     this.post('/services/web/WebHookService1.svc/EnableHook', { id: id, enabled: false }, callback);
 };
 

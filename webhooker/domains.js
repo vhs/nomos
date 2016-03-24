@@ -1,7 +1,8 @@
-module.exports = function(nomos, callback) { return new Domains(nomos, callback); };
+module.exports = function(options, callback) { return new Domains(options, callback); };
 
-var Domains = function(nomos, callback) {
-    this.nomos = nomos;
+var Domains = function(options, callback) {
+    this.nomos = options.nomos;
+    this.log = options.log.child({component: "Domains"});
     this.domains = {};
 
     this.refresh(callback);
@@ -19,7 +20,7 @@ Domains.prototype.find = function(name) {
     if (this.domains[name] != null)
         return this.domains[name];
 
-    console.log("Domain does not exist: " + name);
+    this.log.warn("Domain does not exist: " + name);
 
     return null;
 };
@@ -35,7 +36,6 @@ Domains.prototype.hasAnyPrivilege = function(hook, privileges) {
 
 Domains.prototype.hasPrivilege = function(hook, privilege) {
     for (var i = 0; i < hook.privileges.length; i++) {
-        console.log(JSON.stringify(hook.privileges[i].code));
         if (hook.privileges[i].code == "administrator" || hook.privileges[i].code == privilege)
             return true;
     }
@@ -55,32 +55,27 @@ Domains.prototype.resolve = function(hook, data) {
     if (!domain.hasOwnProperty("checks"))
         return retval;
 
-    var innerResolve = function(hook, data, check) {
-        var retval = data;
-
+    var innerResolve = function(hook, data, check, retval) {
         if (check.type == "ownership" && data[check.ownership.name] != null && data[check.ownership.name] == hook.userid)
-            return retval;
+            return data;
 
         if (check.type == "table" && self.hasAnyPrivilege(hook, check.privileges)) {
-            return retval;
+            return data;
         }
 
-        if (check.type == "column" && retval.hasOwnProperty(check.column.name) && !self.hasAnyPrivilege(hook, check.privileges))
-            delete retval[check.column.name];
+        if (check.type == "column" && data.hasOwnProperty(check.column.name) && self.hasAnyPrivilege(hook, check.privileges))
+            retval[check.column.name] = data[check.column.name];
 
         if (check.checks != null) {
             for (var i = 0; i < check.checks.length; i++)
-                retval = innerResolve(hook, retval, check.checks[i]);
-
-            return retval;
+                retval = innerResolve(hook, data, check.checks[i], retval);
         }
 
-        return {};
+        return retval;
     };
 
-    retval = data;
     for(var i = 0; i < domain.checks.length; i++) {
-        retval = innerResolve(hook, retval, domain.checks[i]);
+        retval = innerResolve(hook, data, domain.checks[i], retval);
     }
 
     return retval;

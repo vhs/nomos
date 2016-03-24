@@ -4,12 +4,25 @@
   "description": "Nomos WebHook Broker",
   "author": "Thomas LaFreniere <thomas@lafreniere.co>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vhs/nomos.git"
+  },
   "main": "webhooker.js",
   "scripts": {
-    "start": "node webhooker.js"
+    "start": "node webhooker.js",
+    "test": "mocha ./test",
+    "help": "node webhooker.js --help",
+    "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan"
   },
   "dependencies": {
-    "daemon": "^1.1.0",
-    "amqplib": "^0.4.1"
+    "amqplib": "^0.4.1",
+    "bunyan": "^1.8.0",
+    "commander": "^2.9.0",
+    "daemon": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
   }
 }
