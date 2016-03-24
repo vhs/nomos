@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME=membership.hackspace.ca
-DEPLOY_PATH=/tmp
+DEPLOY_PATH=/var/sites/www
 
 echo Ghetto Deploy!
 
