@@ -6,4 +6,4 @@ test:
   pre:
     - sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
   override:
-    - phpunit --coverage-html $CIRCLE_ARTIFACTS
+    - ./vendor/phpunit/phpunit/phpunit --coverage-html $CIRCLE_ARTIFACTS
