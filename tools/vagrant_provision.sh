@@ -100,5 +100,9 @@ if [ ! -e "/vagrant/webhooker/config.js" ]; then
   sed -i -e 's/token: ""/token: '$APIKEY'/g' /vagrant/webhooker/config.js
 fi
 
-npm start
-=======
+chmod 777 /vagrant/webhooker/webhooker.sbin
+sudo ln -s /vagrant/webhooker/webhooker.sbin /usr/sbin/webhooker
+
+sudo cp /vagrant/webhooker/webhooker.conf /etc/init/webhooker.conf
+
+sudo start webhooker
