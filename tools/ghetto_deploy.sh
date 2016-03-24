@@ -40,7 +40,7 @@ if [ ! -e "config.ini.php" ]; then
     echo "Copied templates to local"
     nano ./config.ini.php
 
-    echo "I assume you've setup config.ini.php properly? Continue?"
+    echo -e "\e[33mI assume you've setup \e[34mconfig.ini.php\e[33m properly? Continue?\e[0m"
     read
 fi
 
@@ -50,14 +50,14 @@ if [ ! -e "config.js" ]; then
     echo "Copied templates to local"
     nano ./config.js
 
-    echo "I assume you've setup config.ini.php properly? Continue?"
+    echo -e "\e[33mI assume you've setup \e[34mconfig.js\e[33m properly? Continue?\e[0m"
     read
 fi
 
 echo Configs ready
 
 if [ -e $DEPLOY_NAME ]; then
-    echo "Purging previous deploy"
+    echo -e "\e[33mPurging previous deploy\e[0m"
     rm -rf $DEPLOY_NAME
 fi
 
@@ -87,7 +87,6 @@ php composer.phar install
 cd webhooker/
 
 chmod 755 webhooker.sbin
-chmod 755 webhooker.upstart
 
 npm install
 
@@ -95,11 +94,17 @@ cd $CW
 
 cp -R $DEPLOY_NAME $DEPLOY_PATH/.
 
+echo Making logs accessible for weak proccesses
+
 chmod 777 $DEPLOY_PATH/$DEPLOY_NAME/logs
+
+echo Purge temp deploy path $DEPLOY_NAME
 
 rm -rf $DEPLOY_NAME
 
 cd $DEPLOY_PATH
+
+echo Updating $APP_NAME link to $DEPLOY_PATH/$DEPLOY_NAME
 
 if [ -e $APP_NAME ]; then
     sudo rm $APP_NAME
@@ -110,12 +115,18 @@ sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 cd /etc/init
 
 if [ -e "webhooker.conf" ]; then
+    echo -e "\e[33mStopping webhooker\e[0m"
     sudo stop webhooker -n
+    echo -e "\e[34mDone\e[0m"
 fi
 
 cd $DEPLOY_PATH/$APP_NAME/tools/
 
+echo Starting backup & migrate
+
 php migrate.php -b -m
+
+echo Updating webhooker sbin
 
 cd /usr/sbin
 
@@ -127,6 +138,12 @@ sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
 cd /etc/init
 
+echo Updating upstart webhooker.conf
+
 sudo cp -R $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.conf webhooker.conf
 
+echo Starting webhooker
+
 sudo start webhooker
+
+echo -e "\e[32mDeploy successful!\e[0m"

@@ -9,8 +9,8 @@ program
     .option('-c, --console', 'Run in non-daemon mode and output log to console')
     .parse(process.argv);
 
-if (!program.console)
-    require('daemon')();
+//if (!program.console)
+    //require('daemon')(); // using start-stop-daemon with upstart for now
 
 var http = require('http');
 var config = require('./config.js').settings;
