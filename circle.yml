@@ -2,8 +2,9 @@ machine:
   php:
     version: 7.0.0RC7
 
-test:
-  pre:
-    - sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
-  override:
-    - ./vendor/phpunit/phpunit/phpunit --coverage-html $CIRCLE_ARTIFACTS
+# apparently 7.0.0RC7 causes seg faults when we try to generate coverage.. disabling until circleCI supports php7+
+#test:
+#  pre:
+#    - sed -i 's/^;//' ~/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
+#  override:
+#    - ./vendor/phpunit/phpunit/phpunit --coverage-html $CIRCLE_ARTIFACTS
