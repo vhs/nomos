@@ -104,6 +104,7 @@ fi
 chmod 777 /vagrant/webhooker/webhooker.sbin
 sudo ln -s /vagrant/webhooker/webhooker.sbin /usr/sbin/webhooker
 
-sudo cp /vagrant/webhooker/webhooker.conf /etc/init/webhooker.conf
+sudo cp /vagrant/webhooker/webhooker.service /lib/systemd/system/webhooker.service
 
-sudo start webhooker
+sudo systemctl enable webhooker.service
+sudo systemctl start webhooker.service

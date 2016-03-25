@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME=membership.hackspace.ca
-DEPLOY_PATH=/var/sites/www
+DEPLOY_PATH=/var/www/sites
 
 echo Ghetto Deploy!
 
@@ -107,6 +107,7 @@ cd $DEPLOY_PATH
 echo Updating $APP_NAME link to $DEPLOY_PATH/$DEPLOY_NAME
 
 if [ -e $APP_NAME ]; then
+    cd $APP_NAME/tools/ && php migrate.php -b && cd $DEPLOY_PATH
     sudo rm $APP_NAME
 fi
 
@@ -136,14 +137,16 @@ fi
 
 sudo ln -s $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.sbin webhooker
 
-cd /etc/init
+cd /lib/systemd/system
 
-echo Updating upstart webhooker.conf
+echo Updating systemd webhooker.service
 
-sudo cp -R $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.conf webhooker.conf
+sudo cp -R $DEPLOY_PATH/$APP_NAME/webhooker/webhooker.service webhooker.service
+
+sudo systemctl enable webhooker.service
 
 echo Starting webhooker
 
-sudo start webhooker
+sudo systemctl start webhooker.service
 
 echo -e "\e[32mDeploy successful!\e[0m"
