@@ -82,7 +82,7 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=$DEPLOY_NAME
 
 cd $DEPLOY_NAME
 
-php composer.phar install
+php composer.phar install --no-dev
 
 cd webhooker/
 
@@ -90,13 +90,21 @@ chmod 755 webhooker.sbin
 
 npm install --production
 
+cd ..
+
+echo Clean up composer
+
+rm composer.json
+rm composer.phar
+rm composer.lock
+
 cd $CW
 
 sudo cp -R $DEPLOY_NAME $DEPLOY_PATH/.
 
 echo Making logs accessible for weak proccesses
 
-chmod 777 $DEPLOY_PATH/$DEPLOY_NAME/logs
+sudo chmod 777 $DEPLOY_PATH/$DEPLOY_NAME/logs
 
 echo Purge temp deploy path $DEPLOY_NAME
 
@@ -123,15 +131,15 @@ fi
 
 cd $DEPLOY_PATH/$APP_NAME/tools/
 
-echo Starting backup & migrate
+echo Starting backup and migrate
 
-php migrate.php -b -m
+sudo php migrate.php -b -m
 
 echo Updating webhooker sbin
 
 cd /usr/sbin
 
-if [ -e webhooker ]; then
+if [ -e "webhooker" ]; then
     sudo rm webhooker
 fi
 
