@@ -4,7 +4,7 @@ Description=WebHooker
 [Service]
 TimeoutStartSec=0
 PIDFile=/run/webhooker.pid
-ExecStart=start-stop-daemon --start --chuid webhooker --make-pidfile --pidfile /run/webhooker.pid --exec /usr/sbin/webhooker
+ExecStart=/sbin/start-stop-daemon --start --chuid webhooker --make-pidfile --pidfile /run/webhooker.pid --exec /usr/sbin/webhooker
 
 [Install]
 WantedBy=multi-user.target

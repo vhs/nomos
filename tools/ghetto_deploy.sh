@@ -115,17 +115,18 @@ cd $DEPLOY_PATH
 echo Updating $APP_NAME link to $DEPLOY_PATH/$DEPLOY_NAME
 
 if [ -e $APP_NAME ]; then
-    cd $APP_NAME/tools/ && php migrate.php -b && cd $DEPLOY_PATH
+    echo Backing up the current deployment before we move over or migrate
+    cd $APP_NAME/tools/ && sudo php migrate.php -b && cd $DEPLOY_PATH
     sudo rm $APP_NAME
 fi
 
 sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 
-cd /etc/init
+cd /lib/systemd/system
 
-if [ -e "webhooker.conf" ]; then
+if [ -e webhooker.service ]; then
     echo -e "\e[33mStopping webhooker\e[0m"
-    sudo stop webhooker -n
+    sudo systemctl stop webhooker
     echo -e "\e[34mDone\e[0m"
 fi
 
@@ -139,7 +140,7 @@ echo Updating webhooker sbin
 
 cd /usr/sbin
 
-if [ -e "webhooker" ]; then
+if [ -e webhooker ]; then
     sudo rm webhooker
 fi
 
