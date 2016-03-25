@@ -92,7 +92,7 @@ npm install --production
 
 cd $CW
 
-cp -R $DEPLOY_NAME $DEPLOY_PATH/.
+sudo cp -R $DEPLOY_NAME $DEPLOY_PATH/.
 
 echo Making logs accessible for weak proccesses
 
