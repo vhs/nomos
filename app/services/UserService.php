@@ -215,6 +215,18 @@ class UserService extends Service implements IUserService1 {
                     return ["success" => true ];
                 }
             }
+        } else {
+            $users = User::findByToken($token);
+
+            if (!is_null($users) && count($users) == 1) {
+                $user = $users[0];
+
+                $user->token = null;
+                $user->password = PasswordUtil::hash($password);
+                $user->save();
+
+                return ["success" => true];
+            }
         }
         return [ "success" => false, "msg" => "Invalid Token" ];
     }
