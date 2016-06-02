@@ -105,5 +105,11 @@ class User extends Domain {
 
         return Database::exists(Query::select(UserSchema::Table(), UserSchema::Columns(), $where));
     }
+
+    public static function findByToken($token) {
+        return User::where(
+            Where::Equal(UserSchema::Columns()->token, $token)
+        );
+    }
 }
 
