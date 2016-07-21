@@ -30,6 +30,10 @@ angular
             ListGenuineCards: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/MemberCardService1.svc/ListGenuineCards", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
+            },
+            UpdateGenuineCardActive: function(key, active) {
+                return $http.post("/services/web/MemberCardService1.svc/UpdateGenuineCardActive", { key: key, active: active })
+                    .then(function(response) { return response.data; });
             }
         };
     }]);
