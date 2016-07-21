@@ -61,6 +61,10 @@ class PaymentProcessor
             $user = $users[0];
         }
 
+        if (is_null($payment->item_number) || $payment->item_number == "" || $payment->item_number == "7_170" || $payment->item_number == "7_142") {
+            $payment = $this->resolveLegacyPayments($payment);
+        }
+
         if (in_array($payment->item_number, Membership::allCodes())) {
             $this->processMemberPayment($user, $payment);
         } elseif ($payment->item_number == "vhs_card_2015") {
@@ -68,6 +72,113 @@ class PaymentProcessor
         } else {
             $this->processDonationPayment($user, $payment);
         }
+    }
+
+    private function resolveLegacyPayments(Payment $payment) {
+        /*
+         * select distinct item_name, item_number, rate_amount from payments where date > '2016-05-01';
++-----------------------------+--------------------------+-------------+
+| item_name                   | item_number              | rate_amount |
++-----------------------------+--------------------------+-------------+
+| Member + Donation           | vhs_membership_member    | 30.00       |
+| Keyholder + Donation        |                          | 60.00       | <- legacy keyholder
+| Member + Donation           |                          | 30.00       | <- legacy member
+| VHS Key Holder + Membership |                          | 50.00       | <- legacy keyholder
+| VHS Membership              |                          | 25.00       | <- legacy member
+| vhs_membership_keyholder    |                          | 50.00       | <- legacy keyholder
+| Member + Donation           |                          | 50.00       | <- legacy keyholder
+| Keyholder + Donation        | vhs_membership_keyholder | 60.00       |
+| Key holder                  | 7_170                    | 50.00       | <- legacy keyholder
+| Friend of VHS               |                          | 10.00       | <- legacy friend
+| Keyholder + Donation        |                          | 80.00       | <- legacy keyholder
+| vhs_membership_keyholder    |                          | 60.00       | <- legacy keyholder
+| Key holder                  | 7_142                    | 50.00       | <- legacy keyholder
+| VHS Membership Card         | vhs_card_2015            | 5.00        |
+| Vancouver Hack Space        |                          | 30.00       | <- donation
++-----------------------------+--------------------------+-------------+
+         */
+
+        if ($payment->item_name == "Key holder" && $payment->item_number == "7_142" && $payment->rate_amount == "50") {
+            $payment->item_name = "Legacy Key Holder - item_number 7_142@$50";
+            $payment->item_number = "vhs_membership_keyholder";
+
+            return $payment;
+        }
+
+        if ($payment->item_name == "Key holder" && $payment->item_number == "7_170" && $payment->rate_amount == "50") {
+            $payment->item_name = "Legacy Key Holder - item_number 7_170@$50";
+            $payment->item_number = "vhs_membership_keyholder";
+
+            return $payment;
+        }
+
+        if (is_null($payment->item_number) || $payment->item_number == "") {
+
+            if ($payment->item_name == "Keyholder + Donation" && $payment->rate_amount == "80") {
+                $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$80";
+                $payment->item_number = "vhs_membership_keyholder";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "Keyholder + Donation" && $payment->rate_amount == "60") {
+                $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$60";
+                $payment->item_number = "vhs_membership_keyholder";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "VHS Key Holder + Membership" && $payment->rate_amount == "50") {
+                $payment->item_name = "Legacy Key Holder - item_name 'VHS Key Holder + Membership'@$50";
+                $payment->item_number = "vhs_membership_keyholder";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "vhs_membership_keyholder" && $payment->rate_amount == "60") {
+                $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$60";
+                $payment->item_number = "vhs_membership_keyholder";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "vhs_membership_keyholder" && $payment->rate_amount == "50") {
+                $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$50";
+                $payment->item_number = "vhs_membership_keyholder";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "Member + Donation" && $payment->rate_amount == "50") {
+                $payment->item_name = "Legacy Key Holder - item_name 'Member + Donation'@$50";
+                $payment->item_number = "vhs_membership_member";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "VHS Membership" && $payment->rate_amount == "25") {
+                $payment->item_name = "Legacy Member - item_name 'VHS Membership'@$25";
+                $payment->item_number = "vhs_membership_member";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "Member + Donation" && $payment->rate_amount == "30") {
+                $payment->item_name = "Legacy Member - item_name 'Member + Donation'@$30";
+                $payment->item_number = "vhs_membership_member";
+
+                return $payment;
+            }
+
+            if ($payment->item_name == "Friend of VHS" && $payment->rate_amount == "10") {
+                $payment->item_name = "Legacy Friend - item_name 'Friend of VHS'@$10";
+                $payment->item_number = "vhs_membership_friend";
+
+                return $payment;
+            }
+        }
+
+        return $payment;
     }
 
     private function processMembershipCardPayment(User $user = null, Payment $payment) {
