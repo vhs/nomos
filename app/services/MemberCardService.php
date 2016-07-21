@@ -166,4 +166,25 @@ class MemberCardService implements IMemberCardService1
     {
         return GenuineCard::findByKey($key)[0];
     }
+
+    /**
+     * @permission administrator
+     * @param $key
+     * @param $active
+     * @return mixed
+     * @throws \Exception
+     */
+    public function UpdateGenuineCardActive($key, $active)
+    {
+        if (!$this->ValidateGenuineCard($key))
+            throw new \Exception("Invalid card");
+
+        $card = GenuineCard::findByKey($key)[0];
+
+        $card->active = $active;
+
+        $card->save();
+
+        return $card;
+    }
 }

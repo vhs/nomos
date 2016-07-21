@@ -66,4 +66,12 @@ interface IMemberCardService1 extends IContract {
      */
     public function GetGenuineCardDetails($key);
 
+    /**
+     * @permission administrator
+     * @param $key
+     * @param $active
+     * @return mixed
+     */
+    public function UpdateGenuineCardActive($key, $active);
+
 }

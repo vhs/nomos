@@ -37,6 +37,8 @@ class HttpExceptionHandlerModule implements IHttpModule
         if (DEBUG) {
             $server->output($ex->getMessage());
             $server->output($ex->getTraceAsString());
+        } else {
+            $server->output($ex->getMessage());
         }
     }
 }
