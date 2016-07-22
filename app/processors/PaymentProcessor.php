@@ -98,14 +98,14 @@ class PaymentProcessor
 +-----------------------------+--------------------------+-------------+
          */
 
-        if ($payment->item_name == "Key holder" && $payment->item_number == "7_142" && $payment->rate_amount == "50") {
+        if ($payment->item_name == "Key holder" && $payment->item_number == "7_142" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
             $payment->item_name = "Legacy Key Holder - item_number 7_142@$50";
             $payment->item_number = "vhs_membership_keyholder";
 
             return $payment;
         }
 
-        if ($payment->item_name == "Key holder" && $payment->item_number == "7_170" && $payment->rate_amount == "50") {
+        if ($payment->item_name == "Key holder" && $payment->item_number == "7_170" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
             $payment->item_name = "Legacy Key Holder - item_number 7_170@$50";
             $payment->item_number = "vhs_membership_keyholder";
 
@@ -114,63 +114,63 @@ class PaymentProcessor
 
         if (is_null($payment->item_number) || $payment->item_number == "") {
 
-            if ($payment->item_name == "Keyholder + Donation" && $payment->rate_amount == "80") {
+            if ($payment->item_name == "Keyholder + Donation" && ($payment->rate_amount == "80" || $payment->rate_amount == "80.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$80";
                 $payment->item_number = "vhs_membership_keyholder";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Keyholder + Donation" && $payment->rate_amount == "60") {
+            if ($payment->item_name == "Keyholder + Donation" && ($payment->rate_amount == "60" || $payment->rate_amount == "60.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$60";
                 $payment->item_number = "vhs_membership_keyholder";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "VHS Key Holder + Membership" && $payment->rate_amount == "50") {
+            if ($payment->item_name == "VHS Key Holder + Membership" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'VHS Key Holder + Membership'@$50";
                 $payment->item_number = "vhs_membership_keyholder";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "vhs_membership_keyholder" && $payment->rate_amount == "60") {
+            if ($payment->item_name == "vhs_membership_keyholder" && ($payment->rate_amount == "60" || $payment->rate_amount == "60.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$60";
                 $payment->item_number = "vhs_membership_keyholder";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "vhs_membership_keyholder" && $payment->rate_amount == "50") {
+            if ($payment->item_name == "vhs_membership_keyholder" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$50";
                 $payment->item_number = "vhs_membership_keyholder";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Member + Donation" && $payment->rate_amount == "50") {
+            if ($payment->item_name == "Member + Donation" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Member + Donation'@$50";
                 $payment->item_number = "vhs_membership_member";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "VHS Membership" && $payment->rate_amount == "25") {
+            if ($payment->item_name == "VHS Membership" && ($payment->rate_amount == "25" || $payment->rate_amount == "25.00")) {
                 $payment->item_name = "Legacy Member - item_name 'VHS Membership'@$25";
                 $payment->item_number = "vhs_membership_member";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Member + Donation" && $payment->rate_amount == "30") {
+            if ($payment->item_name == "Member + Donation" && ($payment->rate_amount == "30" || $payment->rate_amount == "30.00")) {
                 $payment->item_name = "Legacy Member - item_name 'Member + Donation'@$30";
                 $payment->item_number = "vhs_membership_member";
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Friend of VHS" && $payment->rate_amount == "10") {
+            if ($payment->item_name == "Friend of VHS" && ($payment->rate_amount == "10" || $payment->rate_amount == "10.00")) {
                 $payment->item_name = "Legacy Friend - item_name 'Friend of VHS'@$10";
                 $payment->item_number = "vhs_membership_friend";
 
