@@ -84,4 +84,27 @@ interface IAuthService1 extends IContract {
      * @return mixed
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission oauth-provider
+     * @param $bearerToken
+     * @return mixed
+     */
+    public function GetAccessToken($bearerToken);
+
+    /**
+     * @permission oauth-provider
+     * @param $userId
+     * @param $accessToken
+     * @return mixed
+     */
+    public function SaveAccessToken($userId, $accessToken);
+
+    /**
+     * @permission oauth-provider
+     * @param $username
+     * @param $password
+     * @return mixed
+     */
+    public function GetUser($username, $password);
 }

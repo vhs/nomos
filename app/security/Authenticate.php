@@ -51,6 +51,46 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
     }
 
+    public static function authenticateOnly($username, $password) {
+        $ipaddr = null;
+        if(isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
+            $ipaddr = $_SERVER['REMOTE_ADDR'];
+
+        $users = User::findByUsername($username);
+
+        if(count($users) <> 1) {
+            //Try e-mail Address
+            $users = User::findByEmail($username);
+        }
+
+        if(count($users) <> 1) {
+            AccessLog::log($username, "userpass", false, $ipaddr);
+            throw new InvalidCredentials("Incorrect username or password");
+        }
+
+        $user = $users[0];
+
+        if(self::isUserValid($user) && PasswordUtil::check($password, $user->password)) {
+            $user->lastlogin = date(Database::DateFormat());
+
+            if(!is_null($ipaddr))
+                $user->lastip = $_SERVER['REMOTE_ADDR'];
+
+            try {
+                $user->save();
+            } catch(\Exception $ex) {
+                return null;
+            }
+
+            AccessLog::log($username, "userpass", true, $ipaddr, $user->id);
+
+            return $user;
+        } else {
+            AccessLog::log($username, "userpass", false, $ipaddr, $user->id);
+            return null;
+        }
+    }
+
     private static function userLogin($username, $password) {
         $ipaddr = null;
         if(isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
