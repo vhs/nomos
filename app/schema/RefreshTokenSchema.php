@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Thomas
- * Date: 8/5/2016
- * Time: 6:26 PM
+ * Date: 8/6/2016
+ * Time: 12:30 PM
  */
 
 namespace app\schema;
@@ -15,9 +15,9 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
-class AccessTokenSchema extends Schema {
+class RefreshTokenSchema extends Schema {
     public static function init() {
-        $table = new Table("accesstoken");
+        $table = new Table("refreshtoken");
 
         $table->addColumn("id", Type::Int(false, 0));
         $table->addColumn("token", Type::String());
@@ -31,7 +31,7 @@ class AccessTokenSchema extends Schema {
             Constraint::ForeignKey($table->columns->appclientid, AppClientSchema::Table(), AppClientSchema::Columns()->id)
         );
 
-        $table->setAccess(PrivilegedAccess::GenerateAccess("accesstoken", $table));
+        $table->setAccess(PrivilegedAccess::GenerateAccess("accesstoken", $table, $table->columns->userid));
 
         return $table;
     }
