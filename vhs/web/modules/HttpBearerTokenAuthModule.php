@@ -18,11 +18,9 @@ use vhs\web\IHttpModule;
 
 class HttpBearerTokenAuthModule implements IHttpModule {
 
-    private $realm;
     private $authorizer;
 
-    public function __construct($realm, IAuthenticate $authorizer) {
-        $this->realm = $realm;
+    public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
     }
 
