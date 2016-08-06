@@ -12,7 +12,9 @@ namespace app\services;
 use app\contracts\IAuthService1;
 use app\domain\AccessLog;
 use app\domain\AccessToken;
+use app\domain\AppClient;
 use app\domain\Key;
+use app\domain\RefreshToken;
 use app\domain\User;
 use app\schema\UserSchema;
 use app\security\Authenticate;
@@ -318,9 +320,10 @@ class AuthService extends Service implements IAuthService1 {
      * @param $accessToken
      * @return mixed
      */
-    public function SaveAccessToken($userId, $accessToken)
+    public function SaveAccessToken($userId, $accessToken, $clientId, $expires)
     {
         $user = User::find($userId);
+        $client = AppClient::find($clientId);
 
         if(is_null($user)) return false;
 
@@ -329,8 +332,10 @@ class AuthService extends Service implements IAuthService1 {
         $token->token = $accessToken;
         $token->user = $user;
 
-        $expiry = new \DateTime();
-        $expiry->add(new \DateInterval("P1M")); //add 1 month
+        if (!is_null($client))
+            $token->client = $client;
+
+        $expiry = new \DateTime($expires);
 
         $token->expires = $expiry->format("Y-m-d H:i:s");
 
@@ -348,5 +353,196 @@ class AuthService extends Service implements IAuthService1 {
     public function GetUser($username, $password)
     {
         return Authenticate::authenticateOnly($username, $password);
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $clientId
+     * @param $clientSecret
+     * @return mixed
+     */
+    public function GetClient($clientId, $clientSecret)
+    {
+        $client = AppClient::find($clientId);
+
+        if (!is_null($client) && $client->secret == $clientSecret)
+            return $client;
+
+        return null;
+    }
+
+    /**
+     * @permission user
+     * @param $name
+     * @param $description
+     * @param $url
+     * @param $redirectUri
+     * @return mixed
+     */
+    public function RegisterClient($name, $description, $url, $redirectUri)
+    {
+        $client = new AppClient();
+
+        $client->name = $name;
+        $client->description = $description;
+        $client->url = $url;
+        $client->redirectUri = $redirectUri;
+        $client->secret = bin2hex(openssl_random_pseudo_bytes(32));
+        $client->owner = User::find(CurrentUser::getIdentity());
+
+        $client->save();
+
+        return $client;
+    }
+
+    /**
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return array
+     * @throws \Exception
+     */
+    public function ListUserClients($userid, $page, $size, $columns, $order, $filters)
+    {
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
+
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        if (is_null($user))
+            throw new \Exception("User not found or you do not have access");
+
+        $userFilter = Filter::Equal("userid", $user->id);
+
+        if (is_null($filters) || $filters == "")
+            $filters = $userFilter;
+        else
+            $filters = Filter::_And($userFilter, $filters);
+
+        $cols = explode(",", $columns);
+
+        array_push($cols, "userid");
+
+        $columns = implode(",", array_unique($cols));
+
+        return AppClient::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListClients($page, $size, $columns, $order, $filters)
+    {
+        return AppClient::page($page, $size, $columns, $order, $filters);
+    }
+
+    private function GetMyClient($id) {
+
+        $client = AppClient::find($id);
+
+        if (is_null($client))
+            return null;
+
+        if (CurrentUser::getIdentity() == $client->userid || CurrentUser::hasAnyPermissions("administrator"))
+            return $client;
+
+        return null;
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $id
+     * @param $enabled
+     * @return mixed
+     */
+    public function EnableClient($id, $enabled)
+    {
+        $client = $this->GetMyClient($id);
+
+        if (is_null($client)) return;
+
+        $client->enabled = $enabled;
+
+        $client->save();
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $id
+     * @return mixed
+     */
+    public function DeleteClient($id)
+    {
+        $client = $this->GetMyClient($id);
+
+        if (is_null($client)) return;
+
+        $client->delete();
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $refreshToken
+     * @return mixed
+     */
+    public function GetRefreshToken($refreshToken)
+    {
+        return RefreshToken::findByToken($refreshToken);
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $userId
+     * @param $refreshToken
+     * @param $clientId
+     * @param $expires
+     * @return mixed
+     */
+    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires)
+    {
+        $user = User::find($userId);
+        $client = AppClient::find($clientId);
+
+        if(is_null($user)) return false;
+
+        $token = new RefreshToken();
+
+        $token->token = $refreshToken;
+        $token->user = $user;
+
+        if (!is_null($client))
+            $token->client = $client;
+
+        $expiry = new \DateTime($expires);
+
+        $token->expires = $expiry->format("Y-m-d H:i:s");
+
+        $token->save();
+
+        return $user;
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $refreshToken
+     * @return mixed
+     */
+    public function RevokeRefreshToken($refreshToken)
+    {
+        $token = RefreshToken::findByToken($refreshToken);
+
+        if (!is_null($token)) {
+            $token->delete();
+        }
     }
 }

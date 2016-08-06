@@ -2,24 +2,24 @@
 /**
  * Created by PhpStorm.
  * User: Thomas
- * Date: 8/5/2016
- * Time: 6:30 PM
+ * Date: 8/6/2016
+ * Time: 1:11 PM
  */
 
 namespace app\domain;
 
 
-use app\schema\AccessTokenSchema;
+use app\schema\RefreshTokenSchema;
 use vhs\database\orders\OrderBy;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-class AccessToken extends Domain {
+class RefreshToken extends Domain {
     public static function Define() {
-        AccessToken::Schema(AccessTokenSchema::Type());
-        AccessToken::Relationship("user", User::Type());
-        AccessToken::Relationship("client", AppClient::Type());
+        RefreshToken::Schema(RefreshTokenSchema::Type());
+        RefreshToken::Relationship("user", User::Type());
+        RefreshToken::Relationship("client", AppClient::Type());
     }
 
     /**
@@ -32,8 +32,8 @@ class AccessToken extends Domain {
 
     public static function findByToken($token) {
         return self::where(
-            Where::Equal(AccessTokenSchema::Columns()->token, $token),
-            OrderBy::Descending(AccessTokenSchema::Columns()->expires),
+            Where::Equal(RefreshTokenSchema::Columns()->token, $token),
+            OrderBy::Descending(RefreshTokenSchema::Columns()->expires),
             1
         );
     }

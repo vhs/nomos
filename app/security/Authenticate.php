@@ -10,6 +10,7 @@ namespace app\security;
 
 
 use app\domain\AccessLog;
+use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
 use app\security\credentials\ApiCredentials;
@@ -18,6 +19,7 @@ use app\security\credentials\RfidCredentials;
 use app\security\credentials\TokenCredentials;
 use vhs\database\Database;
 use vhs\security\AnonPrincipal;
+use vhs\security\BearerTokenCredentials;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\InvalidCredentials;
 use vhs\security\IAuthenticate;
@@ -46,116 +48,37 @@ class Authenticate extends Singleton implements IAuthenticate {
                 /** @var PinCredentials $credentials */
                 self::keyLogin(Key::findByPin($credentials->getToken()), $credentials);
                 break;
+            case "vhs\\security\\BearerTokenCredentials":
+                /** @var BearerTokenCredentials $credentials */
+                self::bearerLogin($credentials);
+                break;
             default:
                 throw new InvalidCredentials("Unsupported authentication type.");
         }
     }
 
     public static function authenticateOnly($username, $password) {
-        $ipaddr = null;
-        if(isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
-            $ipaddr = $_SERVER['REMOTE_ADDR'];
-
-        $users = User::findByUsername($username);
-
-        if(count($users) <> 1) {
-            //Try e-mail Address
-            $users = User::findByEmail($username);
-        }
-
-        if(count($users) <> 1) {
-            AccessLog::log($username, "userpass", false, $ipaddr);
-            throw new InvalidCredentials("Incorrect username or password");
-        }
-
-        $user = $users[0];
-
-        if(self::isUserValid($user) && PasswordUtil::check($password, $user->password)) {
-            $user->lastlogin = date(Database::DateFormat());
-
-            if(!is_null($ipaddr))
-                $user->lastip = $_SERVER['REMOTE_ADDR'];
-
-            try {
-                $user->save();
-            } catch(\Exception $ex) {
-                return null;
-            }
-
-            AccessLog::log($username, "userpass", true, $ipaddr, $user->id);
-
-            return $user;
-        } else {
-            AccessLog::log($username, "userpass", false, $ipaddr, $user->id);
-            return null;
-        }
+        self::userLogin($username, $password, true);
     }
 
-    private static function userLogin($username, $password) {
-        $ipaddr = null;
-        if(isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
-            $ipaddr = $_SERVER['REMOTE_ADDR'];
+    private static function userLogin($username, $password, $authonly = false) {
+        $ipaddr = self::getRemoteIP();
 
-        $users = User::findByUsername($username);
-
-        if(count($users) <> 1) {
-            //Try e-mail Address
-            $users = User::findByEmail($username);
-        }
-
-        if(count($users) <> 1) {
+        try {
+            $user = self::findUser($username);
+        } catch(\Exception $ex) {
             AccessLog::log($username, "userpass", false, $ipaddr);
-            throw new InvalidCredentials("Incorrect username or password");
+            throw $ex;
         }
-
-        $user = $users[0];
 
         if(self::isUserValid($user) && PasswordUtil::check($password, $user->password)) {
-
-            $membershipPrivs = array();
-
-            if(!is_null($user->membership)) {
-                $membershipPrivs = array_map(
-                    function($privilege) { return $privilege->code; },
-                    $user->membership->privileges->all()
-                );
+            if (!$authonly) {
+                CurrentUser::setPrincipal(self::buildPrincipal($user));
             }
 
-            $privileges = array_merge(
-                $membershipPrivs, array_map(
-                    function($privilege) { return $privilege->code; },
-                    $user->privileges->all()
-                )
-            );
-
-            $grants = array();
-            foreach($privileges as $priv) {
-                if (strpos($priv, "grant:") === 0)
-                    array_push($grants, substr($priv, 6));
-            }
-
-            if (count($grants) > 0)
-                array_push($privileges, "grants");
-
-            array_push($privileges, "user");
-
-            CurrentUser::setPrincipal(new UserPrincipal($user->id, $privileges, $grants, $user->username));
-
-            $user->lastlogin = date(Database::DateFormat());
-
-            if(!is_null($ipaddr))
-                $user->lastip = $_SERVER['REMOTE_ADDR'];
-
-            try {
-                $user->save();
-            } catch(\Exception $ex) {
-                self::logout();
-
-                throw $ex;
-            }
+            self::recordLogin($user, $ipaddr);
 
             AccessLog::log($username, "userpass", true, $ipaddr, $user->id);
-
         } else {
             AccessLog::log($username, "userpass", false, $ipaddr, $user->id);
             throw new InvalidCredentials("Incorrect username or password");
@@ -182,9 +105,7 @@ class Authenticate extends Singleton implements IAuthenticate {
     }
 
     private static function keyLogin($keys, TokenCredentials $credentials) {
-        $ipaddr = null;
-        if(isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
-            $ipaddr = $_SERVER['REMOTE_ADDR'];
+        $ipaddr = self::getRemoteIP();
 
         if(count($keys) <> 1) {
             AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
@@ -253,6 +174,32 @@ class Authenticate extends Singleton implements IAuthenticate {
         AccessLog::log($credentials->getToken(), $credentials->getType(), true, $ipaddr, $key->userid);
     }
 
+    private static function bearerLogin(BearerTokenCredentials $credentials) {
+        $ipaddr = self::getRemoteIP();
+
+        $token = null;
+
+        try {
+            $token = AccessToken::findByToken($credentials->getToken());
+        } catch(\Exception $ex) {}
+
+        if (is_null($token) || is_null($token->user)) {
+            AccessLog::log($credentials->getToken(), "bearer", false, $ipaddr);
+            throw new InvalidCredentials("Invalid access token");
+        }
+
+        if(self::isUserValid($token->user) && $token->client->id === $credentials->getClientId() && $token->client->secret === $credentials->getClientSecret()) {
+            CurrentUser::setPrincipal(self::buildPrincipal($token->user));
+
+            self::recordLogin($token->user, $ipaddr);
+
+            AccessLog::log($credentials->getToken(), "bearer", true, $ipaddr, $token->user->id);
+        } else {
+            AccessLog::log($credentials->getToken(), "bearer", false, $ipaddr, $token->user->id);
+            throw new InvalidCredentials("Invalid access token");
+        }
+    }
+
     public static function logout() {
         CurrentUser::setPrincipal(new AnonPrincipal());
     }
@@ -269,5 +216,95 @@ class Authenticate extends Singleton implements IAuthenticate {
      */
     public static function currentPrincipal() {
         return CurrentUser::getPrincipal();
+    }
+
+    /**
+     * @param $user
+     * @return UserPrincipal
+     */
+    private static function buildPrincipal($user)
+    {
+        $membershipPrivs = array();
+
+        if (!is_null($user->membership)) {
+            $membershipPrivs = array_map(
+                function ($privilege) {
+                    return $privilege->code;
+                },
+                $user->membership->privileges->all()
+            );
+        }
+
+        $privileges = array_merge(
+            $membershipPrivs, array_map(
+                function ($privilege) {
+                    return $privilege->code;
+                },
+                $user->privileges->all()
+            )
+        );
+
+        $grants = array();
+        foreach ($privileges as $priv) {
+            if (strpos($priv, "grant:") === 0)
+                array_push($grants, substr($priv, 6));
+        }
+
+        if (count($grants) > 0)
+            array_push($privileges, "grants");
+
+        array_push($privileges, "user");
+
+        return new UserPrincipal($user->id, $privileges, $grants, $user->username);
+    }
+
+    /**
+     * @param $user
+     * @param $ipaddr
+     * @throws \Exception
+     */
+    private static function recordLogin($user, $ipaddr)
+    {
+        $user->lastlogin = date(Database::DateFormat());
+        $user->lastip = $ipaddr;
+
+        try {
+            $user->save();
+        } catch (\Exception $ex) {
+            self::logout();
+
+            throw $ex;
+        }
+    }
+
+    private static function getRemoteIP()
+    {
+        $ipaddr = null;
+        if (isset($_SERVER) && array_key_exists("REMOTE_ADDR", $_SERVER))
+            $ipaddr = $_SERVER['REMOTE_ADDR'];
+
+        return $ipaddr;
+    }
+
+    /**
+     * @param $username
+     * @return User
+     * @throws InvalidCredentials
+     */
+    private static function findUser($username)
+    {
+        $users = User::findByUsername($username);
+
+        if (count($users) <> 1) {
+            //Try e-mail Address
+            $users = User::findByEmail($username);
+        }
+
+        if (count($users) <> 1) {
+            throw new InvalidCredentials("Incorrect username or password");
+        }
+
+        $user = $users[0];
+        return $user;
     }
 }
