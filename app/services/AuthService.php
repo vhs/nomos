@@ -11,6 +11,7 @@ namespace app\services;
 
 use app\contracts\IAuthService1;
 use app\domain\AccessLog;
+use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
 use app\schema\UserSchema;
@@ -299,5 +300,53 @@ class AuthService extends Service implements IAuthService1 {
             $filters = json_decode($filters);
 
         return AccessLog::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $bearerToken
+     * @return mixed
+     */
+    public function GetAccessToken($bearerToken)
+    {
+        return AccessToken::findByToken($bearerToken);
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $userId
+     * @param $accessToken
+     * @return mixed
+     */
+    public function SaveAccessToken($userId, $accessToken)
+    {
+        $user = User::find($userId);
+
+        if(is_null($user)) return false;
+
+        $token = new AccessToken();
+
+        $token->token = $accessToken;
+        $token->user = $user;
+
+        $expiry = new \DateTime();
+        $expiry->add(new \DateInterval("P1M")); //add 1 month
+
+        $token->expires = $expiry->format("Y-m-d H:i:s");
+
+        $token->save();
+
+        return $user;
+    }
+
+    /**
+     * @permission oauth-provider
+     * @param $username
+     * @param $password
+     * @return mixed
+     */
+    public function GetUser($username, $password)
+    {
+        return Authenticate::authenticateOnly($username, $password);
     }
 }
