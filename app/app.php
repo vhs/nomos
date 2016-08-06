@@ -21,6 +21,7 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 \vhs\web\HttpContext::Init(new \vhs\web\HttpServer(new \vhs\web\modules\HttpServerInfoModule("Nomos"), $serverLog));
 
 \vhs\web\HttpContext::Server()->register(new \app\security\HttpApiAuthModule(\app\security\Authenticate::getInstance()));
+\vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpBearerTokenAuthModule(\app\security\Authenticate::getInstance()));
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpBasicAuthModule("Nomos", \app\security\Authenticate::getInstance()));
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpExceptionHandlerModule("verbose", $serverLog));
 \vhs\web\HttpContext::Server()->register(\app\modules\HttpPaymentGatewayHandlerModule::getInstance());
