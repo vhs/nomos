@@ -386,7 +386,7 @@ class AuthService extends Service implements IAuthService1 {
         $client->name = $name;
         $client->description = $description;
         $client->url = $url;
-        $client->redirectUri = $redirectUri;
+        $client->redirecturi = $redirectUri;
         $client->secret = bin2hex(openssl_random_pseudo_bytes(32));
         $client->owner = User::find(CurrentUser::getIdentity());
 
