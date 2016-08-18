@@ -344,6 +344,38 @@ class AuthService extends Service implements IAuthService1 {
         return $user;
     }
 
+    private function trimUser($user) {
+        if (is_null($user)) return null;
+
+        return [
+            "id" => $user->id,
+            "username" => $user->username,
+            "email" => $user->email,
+            "fname" => $user->fname,
+            "lname" => $user->lname,
+            "membership" => $user->membership,
+            "expires" => $user->mem_expire,
+            "created" => $user->created,
+            "active" => $user->active,
+            "privileges" => $user->privileges
+        ];
+    }
+
+    private function trimClient($client) {
+        if (is_null($client)) return null;
+
+        return [
+            "id" => $client->id,
+            "expires" => $client->expires,
+            "owner" => $this->trimUser($client->owner),
+            "name" => $client->name,
+            "description" => $client->description,
+            "url" => $client->url,
+            "redirecturi" => $client->redirecturi,
+            "enabled" => $client->enabled
+        ];
+    }
+
     /**
      * @permission oauth-provider
      * @param $username
@@ -352,7 +384,7 @@ class AuthService extends Service implements IAuthService1 {
      */
     public function GetUser($username, $password)
     {
-        return Authenticate::authenticateOnly($username, $password);
+        return $this->trimUser(Authenticate::authenticateOnly($username, $password));
     }
 
     /**
@@ -366,7 +398,7 @@ class AuthService extends Service implements IAuthService1 {
         $client = AppClient::find($clientId);
 
         if (!is_null($client) && $client->secret == $clientSecret)
-            return $client;
+            return $this->trimClient($client);
 
         return null;
     }
@@ -529,7 +561,7 @@ class AuthService extends Service implements IAuthService1 {
 
         $token->save();
 
-        return $user;
+        return $this->trimUser($user);
     }
 
     /**

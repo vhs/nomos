@@ -58,7 +58,7 @@ class Authenticate extends Singleton implements IAuthenticate {
     }
 
     public static function authenticateOnly($username, $password) {
-        self::userLogin($username, $password, true);
+        return self::userLogin($username, $password, true);
     }
 
     private static function userLogin($username, $password, $authonly = false) {
@@ -79,6 +79,8 @@ class Authenticate extends Singleton implements IAuthenticate {
             self::recordLogin($user, $ipaddr);
 
             AccessLog::log($username, "userpass", true, $ipaddr, $user->id);
+
+            return $user;
         } else {
             AccessLog::log($username, "userpass", false, $ipaddr, $user->id);
             throw new InvalidCredentials("Incorrect username or password");
