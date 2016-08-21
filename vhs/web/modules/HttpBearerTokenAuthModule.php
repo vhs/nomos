@@ -33,16 +33,13 @@ class HttpBearerTokenAuthModule implements IHttpModule {
         foreach (getallheaders() as $name => $value) {
             if ($name === "Authorization" && substr($value, 0, 7) === "Bearer ") {
                 $bearerToken = substr($value, 7, strlen($value));
-            } else if ($name === "client_id") {
-                $clientId = $value;
-            } else if ($name === "client_secret") {
-                $clientSecret = $value;
+                break;
             }
         }
 
-        if(!is_null($bearerToken) && !is_null($clientId) && !is_null($clientSecret)) {
+        if(!is_null($bearerToken)) {
             try {
-                $this->authorizer->login(new BearerTokenCredentials($bearerToken, $clientId, $clientSecret));
+                $this->authorizer->login(new BearerTokenCredentials($bearerToken));
             }  catch(\Exception $ex) {
                 $server->log("Login attempt failed: " . $ex->getMessage());
                 $server->clear();
