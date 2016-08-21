@@ -17,6 +17,7 @@ use app\security\credentials\ApiCredentials;
 use app\security\credentials\PinCredentials;
 use app\security\credentials\RfidCredentials;
 use app\security\credentials\TokenCredentials;
+use DateTime;
 use vhs\database\Database;
 use vhs\security\AnonPrincipal;
 use vhs\security\BearerTokenCredentials;
@@ -190,7 +191,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             throw new InvalidCredentials("Invalid access token");
         }
 
-        if(self::isUserValid($token->user) && $token->client->id === $credentials->getClientId() && $token->client->secret === $credentials->getClientSecret()) {
+        if(self::isUserValid($token->user) && (is_null($token->client) || ($token->client->enabled && (is_null($token->client->expires) || new DateTime($token->client->expires) > new DateTime())))) {
             CurrentUser::setPrincipal(self::buildPrincipal($token->user));
 
             self::recordLogin($token->user, $ipaddr);
