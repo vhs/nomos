@@ -411,16 +411,17 @@ class AuthService extends Service implements IAuthService1 {
      * @param $redirectUri
      * @return mixed
      */
-    public function RegisterClient($name, $description, $url, $redirectUri)
+    public function RegisterClient($name, $description, $url, $redirecturi)
     {
         $client = new AppClient();
 
         $client->name = $name;
         $client->description = $description;
         $client->url = $url;
-        $client->redirecturi = $redirectUri;
+        $client->redirecturi = $redirecturi;
         $client->secret = bin2hex(openssl_random_pseudo_bytes(32));
         $client->owner = User::find(CurrentUser::getIdentity());
+        $client->expires = '2020-01-01';
 
         $client->save();
 

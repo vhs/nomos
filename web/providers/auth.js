@@ -23,6 +23,14 @@ angular
             ListAccessLog: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/AuthService1.svc/ListAccessLog", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
+            },
+            ListClients: function(page, size, columns, order, filters) {
+                return $http.post("/services/web/AuthService1.svc/ListClients", { page: page, size: size, columns: columns, order: order, filters: filters })
+                    .then(function(response) { return response.data; });
+            },
+            RegisterClient: function(name, description, url, redirecturi) {
+                return $http.post("/services/web/AuthService1.svc/RegisterClient", { name: name, description: description, url: url, redirecturi: redirecturi })
+                    .then(function(response) { return response.data; });
             }
         };
     }]);

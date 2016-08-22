@@ -31,10 +31,14 @@ class AccessToken extends Domain {
     }
 
     public static function findByToken($token) {
-        return self::where(
+        $tokens = self::where(
             Where::Equal(AccessTokenSchema::Columns()->token, $token),
             OrderBy::Descending(AccessTokenSchema::Columns()->expires),
             1
         );
+
+        if (count($tokens) === 1) return $tokens[0];
+
+        return null;
     }
 }

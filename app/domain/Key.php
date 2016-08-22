@@ -91,7 +91,7 @@ class Key extends Domain {
     public static function getSystemApiKeys() {
         return self::where(Where::_And(
             Where::Null(KeySchema::Columns()->userid),
-            Where::Equal(KeySchema::Columns()->type, "rfid")
+            Where::Equal(KeySchema::Columns()->type, "api")
         ));
     }
 

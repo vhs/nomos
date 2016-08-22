@@ -85,16 +85,16 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     public function PutApiKeyPrivileges($keyid, $privileges) {
         $key = $this->GetApiKey($keyid);
 
-        $key->privileges->clear();
-
         $privArray = $privileges;
 
         if(!is_array($privArray)) {
-            $privArray = array();
-            array_push($privArray, $privileges);
+            $privArray = explode(",", $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
+
+        foreach($key->privileges->all() as $priv)
+            $key->privileges->remove($priv);
 
         foreach($privs as $priv)
             $key->privileges->add($priv);

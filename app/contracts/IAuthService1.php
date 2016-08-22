@@ -123,10 +123,10 @@ interface IAuthService1 extends IContract {
      * @param $name
      * @param $description
      * @param $url
-     * @param $redirectUri
+     * @param $redirecturi
      * @return mixed
      */
-    public function RegisterClient($name, $description, $url, $redirectUri);
+    public function RegisterClient($name, $description, $url, $redirecturi);
 
     /**
      * @permission administrator|user
