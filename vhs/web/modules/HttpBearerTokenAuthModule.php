@@ -19,6 +19,7 @@ use vhs\web\IHttpModule;
 class HttpBearerTokenAuthModule implements IHttpModule {
 
     private $authorizer;
+    private $headerKey = "HTTP_AUTHORIZATION";
 
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
@@ -27,14 +28,11 @@ class HttpBearerTokenAuthModule implements IHttpModule {
     public function handle(HttpServer $server) {
 
         $bearerToken = null;
-        $clientId = null;
-        $clientSecret = null;
 
-        foreach (getallheaders() as $name => $value) {
-            if ($name === "Authorization" && substr($value, 0, 7) === "Bearer ") {
-                $bearerToken = substr($value, 7, strlen($value));
-                break;
-            }
+        $authorization = (array_key_exists($this->headerKey, $_SERVER)) ? $_SERVER[$this->headerKey] : null;
+
+        if (!is_null($authorization) && substr($authorization, 0, 7) === "Bearer ") {
+            $bearerToken = substr($authorization, 7, strlen($authorization));
         }
 
         if(!is_null($bearerToken)) {
