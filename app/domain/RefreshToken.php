@@ -31,10 +31,14 @@ class RefreshToken extends Domain {
     }
 
     public static function findByToken($token) {
-        return self::where(
+        $tokens = self::where(
             Where::Equal(RefreshTokenSchema::Columns()->token, $token),
             OrderBy::Descending(RefreshTokenSchema::Columns()->expires),
             1
         );
+
+        if (count($tokens) === 1) return $tokens[0];
+
+        return null;
     }
 }
