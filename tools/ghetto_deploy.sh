@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME=membership.hackspace.ca
+APP_NAME=membership.vanhack.ca
 DEPLOY_PATH=/var/www/sites
 
 echo Ghetto Deploy!

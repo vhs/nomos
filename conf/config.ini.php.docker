@@ -9,7 +9,7 @@ require_once('env.php');
 	 define('DB_PASS', NOMOS_DB_PASSWORD);
 	 define('DB_DATABASE', NOMOS_DB_DATABASE);
 
-     define('NOMOS_FROM_EMAIL', 'membership@hackspace.ca');
+     define('NOMOS_FROM_EMAIL', 'membership@vanhack.ca');
      // @funvill has these, ask him for the values
      // SES is used to send e-mails
 

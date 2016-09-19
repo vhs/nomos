@@ -21,7 +21,7 @@ class PaypalGateway implements IPaymentGateway
     public function Process($data)
     {
         // Put this url into paypal
-        // IPN URL: http://cook.hackspace.ca:8888/services/gateways/paypal
+        // IPN URL: http://cook.vanhack.ca:8888/services/gateways/paypal
 
         // read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
         $req = 'cmd=_notify-validate';

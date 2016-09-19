@@ -76,7 +76,7 @@ class KeyDomainTest extends PHPUnit_Framework_TestCase
         $user = new User();
         $user->membership = $membership;
         $user->username = "vbnm";
-        $user->email = "nomos_tests@hackspace.ca";
+        $user->email = "nomos_tests@vanhack.ca";
         $user->active = "y";
         $user->privileges->add($user_privilege);
         $user->save();
