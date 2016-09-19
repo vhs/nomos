@@ -9,7 +9,7 @@
 	 define('DB_PASS', 'password');
 	 define('DB_DATABASE', 'nomos');
 
-     define('NOMOS_FROM_EMAIL', 'membership@hackspace.ca');
+     define('NOMOS_FROM_EMAIL', 'membership@vanhack.ca');
      // @funvill has these, ask him for the values
      // SES is used to send e-mails
 
