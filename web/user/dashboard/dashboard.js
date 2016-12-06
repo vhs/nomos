@@ -31,11 +31,11 @@ angular
                     }],
                     revenue: ['$rootScope', '$stateParams', 'MetricService1', function($rootScope, $stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
-                        return MetricService1.GetRevenue(moment().utc().subtract(18, "months").startOf('month').toISOString(), moment().utc().endOf('month').toISOString(), "month");
+                        return MetricService1.GetRevenue(moment().utc().subtract(18, "months").startOf('month').toISOString(), moment().utc().subtract(1, "months").endOf('month').toISOString(), "month");
                     }],
                     members: ['$rootScope', '$stateParams', 'MetricService1', function($rootScope, $stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
-                        return MetricService1.GetMembers(moment().utc().subtract(18, "months").startOf('month').toISOString(), moment().utc().endOf('month').toISOString(), "month");
+                        return MetricService1.GetMembers(moment().utc().subtract(18, "months").startOf('month').toISOString(), moment().utc().subtract(1, "months").endOf('month').toISOString(), "month");
                     }],
                     revenueLastMonth: ['$rootScope', '$stateParams', 'MetricService1', function($rootScope, $stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
@@ -130,12 +130,15 @@ angular
                             title: {
                                 text: 'Annual Revenue'
                             },
+                            subtitle: {
+                                text: 'Note: only includes PayPal transactions'
+                            },
                             xAxis: {
                                 type: 'datetime'
                             },
                             yAxis: {
                                 title: {
-                                    text: '$ CDN'
+                                    text: '$ CAD'
                                 }
                             },
                             tooltip: {
@@ -205,7 +208,7 @@ angular
                             },
                             yAxis: {
                                 title: {
-                                    text: '$ CDN'
+                                    text: 'Count'
                                 }
                             },
                             tooltip: {
@@ -235,7 +238,7 @@ angular
                                 },
                                 {
                                     type: 'line',
-                                    name: 'Total Members by Payment',
+                                    name: 'Total Members (PayPal only)',
                                     data: total
                                 }
                             ]
@@ -249,7 +252,10 @@ angular
                                 type: 'solidgauge'
                             },
                             title: {
-                                text: 'Expected Revenue'
+                                text: 'Expected Monthly Revenue - ' + $scope.date
+                            },
+                            subtitle: {
+                                text: 'Note: by PayPal transactions, these happen throughout the month'
                             },
                             xAxis: {
                                 categories: [
@@ -259,13 +265,13 @@ angular
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: '$ CDN'
+                                    text: '$ CAD'
                                 }
                             },
                             series: [
                                 {
                                     type: 'solidgauge',
-                                    name: 'Last Month',
+                                    name: 'Last Month Actual',
                                     data: [{y: revenueLastMonth.grouping.all, color: 'rgba(124, 181, 236, 0.74902)'}],
                                     dataLabels: {
                                         enabled: true,
@@ -282,7 +288,7 @@ angular
                                 },
                                 {
                                     type: 'solidgauge',
-                                    name: 'This Month',
+                                    name: 'This Month to-date',
                                     data: [{y: revenueThisMonth.grouping.all, color: '#5cb85c'}],
                                     dataLabels: {
                                         enabled: true,
