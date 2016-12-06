@@ -5,93 +5,128 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
 <div class="row">
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-users fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{newMembers.value}}</div>
-                        <div>New Members!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
+    <div class="col-lg-6">
+        <hc-chart options="revenueGoalChartOptions" style="width:600px; height: 400px;">Placeholder for generic chart</hc-chart>
+
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-users fa-5x"></i>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{newMembers.value}}</div>
+                                <div>New Members!</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{totalMembers.value}}</div>
-                        <div>Total Members!</div>
-                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
+            <div class="col-lg-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{totalMembers.value}}</div>
+                                <div>Total Members!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-key fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{newKeyHolders.value}}</div>
+                                <div>New Key Holders!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-key fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{totalKeyHolders.value}}</div>
+                                <div>Total Key Holders!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-key fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{newKeyHolders.value}}</div>
-                        <div>New Key Holders!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <hc-chart options="createdByDowHourChartOptions" style="width:450px; height: 300px;">Placeholder for generic chart</hc-chart>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-key fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{totalKeyHolders.value}}</div>
-                        <div>Total Key Holders!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
+    <div class="col-lg-4">
+        <hc-chart options="createdByDowHour30daysChartOptions" style="width:450px; height: 300px;">Placeholder for generic chart</hc-chart>
+    </div>
+    <div class="col-lg-4">
+        <hc-chart options="createdByMonthDowChartOptions" style="width:450px; height: 300px;">Placeholder for generic chart</hc-chart>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <hc-chart options="revenueChartOptions" style="width: 80%;">Placeholder for generic chart</hc-chart>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <hc-chart options="memberChartOptions" style="width: 80%;">Placeholder for generic chart</hc-chart>
     </div>
 </div>

@@ -27,6 +27,18 @@ angular
     GetExceptionPayments: function() {
       return $http.post("/services/web/MetricService1.svc/GetExceptionPayments", {})
           .then(function(response) { return response.data; });
+    },
+    GetRevenue: function(start, end, group) {
+      return $http.post("/services/web/MetricService1.svc/GetRevenue", {start_range: start, end_range: end, group: group})
+          .then(function(response) { return response.data; });
+    },
+    GetMembers: function(start, end, group) {
+      return $http.post("/services/web/MetricService1.svc/GetMembers", {start_range: start, end_range: end, group: group})
+          .then(function(response) { return response.data; });
+    },
+    GetCreatedDates: function(start, end) {
+      return $http.post("/services/web/MetricService1.svc/GetCreatedDates", {start_range: start, end_range: end})
+          .then(function(response) { return response.data; });
     }
   };
 }]);

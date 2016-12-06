@@ -78,4 +78,15 @@ class Membership extends Domain {
 
         return $values;
     }
+
+    public static function allCodeIdMap() {
+        $rows = Database::select(Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column("id"), MembershipSchema::Column("code"))));
+
+        $values = array();
+
+        foreach($rows as $row)
+            $values["id" . $row['id']] = $row['code'];
+
+        return $values;
+    }
 }
