@@ -35,15 +35,27 @@ an invite to Slack:
                 Request Slack Invitation
             </div>
             <div class="panel-body">
-                <form method="POST" action="http://slackinvite-vanhack.rhcloud.com/invite">
+                <div class="overlay" ng-show="updating">
+                    <div class="row vertical-align">
+                        <div class="col-md-2 col-md-offset-5">
+                            <div class="fa fa-spin fa-spinner fa-5x "></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay" ng-show="received" ng-click="received=false;">
+                    <div class="row vertical-align">
+                        <div class="col-md-12">
+                            <div ng-bind-html="response"></div>
+                        </div>
+                    </div>
+                </div>
+                <form role="form" name="profileForm" ng-submit="requestSlackInvite();">
                     <div class="input-group">
-                        <input type="text" name="email" class="form-control" ng-value="currentUser.email" placeholder="E-Mail Address">
-                        <input type="hidden" name="return" ng-value="slackReturn">
+                        <input type="text" name="email" class="form-control" ng-value="currentUser.email" ng-model="email" placeholder="E-Mail Address">
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="submit">Send</button>
                         </span>
                     </div>
-                    <p class="text-success" ng-show="success"><br>Success! An invite has been sent</p>
                 </form>
             </div>
         </div>

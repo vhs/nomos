@@ -195,4 +195,11 @@ interface IUserService1 extends IContract {
      * @return mixed
      */
     public function RevokePrivilege($userid, $privilege);
+
+    /**
+     * @permission user
+     * @param $email
+     * @return mixed
+     */
+    public function RequestSlackInvite($email);
 }
