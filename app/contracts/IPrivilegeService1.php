@@ -26,6 +26,17 @@ interface IPrivilegeService1 extends IContract {
     public function GetAllPrivileges();
 
     /**
+     * @permission administrator|user|grants
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListPrivileges($page, $size, $columns, $order, $filters);
+
+    /**
      * @permission administrator|user
      * @param $userid
      * @return mixed

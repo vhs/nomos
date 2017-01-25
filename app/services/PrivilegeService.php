@@ -45,6 +45,19 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
         return Privilege::findAll();
     }
 
+    /**
+     * @permission administrator|user|grants
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListPrivileges($page, $size, $columns, $order, $filters) {
+        return Privilege::page($page, $size, $columns, $order, $filters);
+    }
+
     public function GetUserPrivileges($userid) {
         $privileges = array();
         $userService = new UserService($this->context);
