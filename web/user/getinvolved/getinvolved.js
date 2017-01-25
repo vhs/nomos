@@ -11,6 +11,7 @@ angular
                 controller: ['$scope', '$location','$stateParams', 'UserService1', '$sce', function($scope, $location, $stateParams, UserService1, $sce) {
                     $scope.updating = false;
                     $scope.received = false;
+                    $scope.email = $scope.currentUser.email;
                     $scope.response = $sce.trustAsHtml("<b>Success! An invite has been sent</b>");
 
                     if ($stateParams.res){
