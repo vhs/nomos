@@ -148,6 +148,12 @@ angular
                     .then(function(response) {
                         return response.data;
                     });
+            },
+            RequestSlackInvite: function(email) {
+                return $http.post("/services/web/UserService1.svc/RequestSlackInvite", {email: email})
+                    .then(function(response) {
+                        return response.data;
+                    });
             }
         };
     }]);

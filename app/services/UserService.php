@@ -439,4 +439,31 @@ class UserService extends Service implements IUserService1 {
 
         return array_intersect($user->getPrivilegeCodes(), $me->getGrantCodes());
     }
+
+    public function RequestSlackInvite($email) {
+        $ch = curl_init('http://slackinvite-vanhack.rhcloud.com/invite');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'email='.$email);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+
+        $error = null;
+
+        if( !($response = curl_exec($ch)))
+            $error = "Error: Got " . curl_error($ch) . " when request slack invite for email: '" . $email . "'";
+
+        curl_close($ch);
+
+        if (!is_null($error)) {
+            $this->context->log($error);
+
+            return $error;
+        }
+
+        return $response;
+    }
 }
