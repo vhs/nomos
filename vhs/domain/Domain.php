@@ -168,7 +168,14 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     public function __get($name) {
-        if(self::Schema()->Columns()->contains($name)) {
+        $internal = (0 === strpos($name, 'internal_'));
+        if ($internal) {
+            $name = substr($name, strlen('internal_'));
+        }
+
+        if (!$internal && method_exists($this, ($method = 'get_'.$name))) {
+            return $this->$method();
+        } else if(self::Schema()->Columns()->contains($name)) {
             $col = self::Schema()->Columns()->getByName($name);
             return $this->__cache->getValue($col->getAbsoluteName());
         } else if (array_key_exists($name, $this->__collections)) {
@@ -181,7 +188,14 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     public function __set($name, $value) {
-        if(self::Schema()->Columns()->contains($name)) {
+        $internal = (0 === strpos($name, 'internal_'));
+        if ($internal) {
+            $name = substr($name, strlen('internal_'));
+        }
+
+        if (!$internal && method_exists($this, ($method = 'set_'.$name))) {
+            $this->$method($value);
+        } else if(self::Schema()->Columns()->contains($name)) {
             $col = self::Schema()->Columns()->getByName($name);
             $this->raiseBeforeChange($col);
             $this->__cache->setValue($col->getAbsoluteName(), $value);
