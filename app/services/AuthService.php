@@ -8,7 +8,7 @@
 
 namespace app\services;
 
-
+use DateTime;
 use app\contracts\IAuthService1;
 use app\domain\AccessLog;
 use app\domain\AccessToken;
@@ -220,23 +220,43 @@ class AuthService extends Service implements IAuthService1 {
 
         $keys = Key::findByRfid($rfid);
 
-        if(count($keys) <> 1)
-            return $retval;
-
-        $key = $keys[0];
-
-        if($key->userid == null)
-            return $retval;
-
-        $user = User::find($key->userid);
-
-        if($user->active == 'y') {
-            $retval["privileges"] = $key->getAbsolutePrivileges();
-            $retval["valid"] = true;
-            $retval["type"] = $user->membership->code;
+        $logAccess = function($granted, $userid = null) use ($rfid) {
+            try {
+                AccessLog::log("rfid", $rfid, $granted, $_SERVER['REMOTE_ADDR'], $userid);
+            } catch(\Exception $ex) {/*mmm*/}
+        };
+        
+        if(count($keys) <> 1) {
+            $logAccess(false);
             return $retval;
         }
-
+        
+        $key = $keys[0];
+        
+        if($key->userid == null) {
+            $logAccess(false);
+            return $retval;
+        }
+        
+        $user = User::find($key->userid);
+        
+        $good_standing = (new DateTime($user->mem_expire) > new DateTime());
+        
+        if($user->active == 'y' && $good_standing) {
+            $retval["valid"] = true;
+            $retval["good_standing"] = (new DateTime($user->mem_expire) > new DateTime());
+            $retval["userId"] = $user->id;
+            $retval["username"] = $user->username;
+            $retval["type"] = $user->membership->code;
+            $retval["privileges"] = $key->getAbsolutePrivileges();
+        
+            $logAccess(true, $user->id);
+        
+            return $retval;
+        }
+        
+        $logAccess(false, $user->id);
+        
         return $retval;
     }
 
