@@ -26,6 +26,7 @@ class ExampleSchema extends Schema {
         $table->addColumn("id", Type::Int());
         $table->addColumn("testA", Type::String(true));
         $table->addColumn("testB", Type::String(true));
+        $table->addColumn("testC", Type::String(true));
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id)
@@ -38,6 +39,22 @@ class ExampleSchema extends Schema {
 class ExampleDomain extends Domain {
     public static function Define() {
         ExampleDomain::Schema(ExampleSchema::Type());
+    }
+
+    public function get_magic() {
+        return "magic field";
+    }
+
+    public function set_magic($value) {
+        $this->testC = $value."magic";
+    }
+
+    public function get_testC() {
+        return $this->internal_testC."fail";
+    }
+
+    public function set_testC($value) {
+        $this->internal_testC = $value."pass";
     }
 
     public function validate(ValidationResults &$results) {
@@ -233,6 +250,12 @@ class DomainTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($records));
         $this->assertEquals("pass", $records[0]->testA);
         $this->assertEquals("eg1", $records[0]->testB);
+        $this->assertEquals("fail", $records[0]->testC);
+        $this->assertEquals("magic field", $records[0]->magic);
+
+        $records[0]->magic = "super magical";
+
+        $this->assertEquals("super magicalmagicpassfail", $records[0]->testC);
 
         $records = ExampleDomain::where(Where::Equal(ExampleSchema::Columns()->testB, "eg"));
 
