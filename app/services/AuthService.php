@@ -99,8 +99,8 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckPin($pin) {
-    	// pin magic
-    	// TODO: documentation 
+        // pin magic
+        // TODO: documentation 
         $pin = str_replace("|", "", $pin);
 
         $intpin = intval($pin);
@@ -146,14 +146,19 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         // Check if account is active and in good standing, and return result set
-        if($user->active == 'y' && $user->valid) {
-            $retval["valid"] = $user->valid;
+        if($user->valid) {
+            $retval["valid"] = true;
+            $retval["userId"] = $user->id;
+            $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
             $retval["privileges"] = $key->getAbsolutePrivileges();
-
+             
             $logAccess(true, $user->id);
 
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidUserError(); 
         }
 
         // Log and return
@@ -170,7 +175,7 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckService($service, $id) {
-		// Set defaults
+        // Set defaults
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
@@ -207,8 +212,8 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         // Check if account is active and in good standing, and return result set
-        if($user->active == 'y' && $user->valid) {
-            $retval["valid"] = $user->valid;
+        if($user->valid) {
+            $retval["valid"] = true;
             $retval["userId"] = $user->id;
             $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
@@ -217,6 +222,9 @@ class AuthService extends Service implements IAuthService1 {
             $logAccess(true, $user->id);
 
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidUserError();
         }
 
         // Log and return
@@ -231,7 +239,7 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckRfid($rfid) {
-    	// Set defaults
+        // Set defaults
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
@@ -265,8 +273,8 @@ class AuthService extends Service implements IAuthService1 {
         $user = User::find($key->userid);
 
         // Check if account is active and in good standing, and return result set
-        if($user->active == 'y' && $user->valid) {
-            $retval["valid"] = $user->valid;
+        if($user->valid) {
+            $retval["valid"] = true;
             $retval["userId"] = $user->id;
             $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
@@ -275,6 +283,9 @@ class AuthService extends Service implements IAuthService1 {
             $logAccess(true, $user->id);
         
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidUserError();
         }
         
         $logAccess(false, $user->id);
