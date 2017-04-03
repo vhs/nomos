@@ -136,7 +136,7 @@ class User extends Domain {
      * Get a friendly error message for user validity
      * @return mixed
      */
-    public function getInvalidUserError() {
+    public function getInvalidReason() {
         if( $this->valid )
             return false;
         

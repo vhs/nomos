@@ -158,7 +158,7 @@ class AuthService extends Service implements IAuthService1 {
             return $retval;
         } else {
             $retval["username"] = $user->username;
-            $retval["message"] = $user->getInvalidUserError(); 
+            $retval["message"] = $user->getInvalidReason(); 
         }
 
         // Log and return
@@ -224,7 +224,7 @@ class AuthService extends Service implements IAuthService1 {
             return $retval;
         } else {
             $retval["username"] = $user->username;
-            $retval["message"] = $user->getInvalidUserError();
+            $retval["message"] = $user->getInvalidReason();
         }
 
         // Log and return
@@ -285,7 +285,7 @@ class AuthService extends Service implements IAuthService1 {
             return $retval;
         } else {
             $retval["username"] = $user->username;
-            $retval["message"] = $user->getInvalidUserError();
+            $retval["message"] = $user->getInvalidReason();
         }
         
         $logAccess(false, $user->id);
