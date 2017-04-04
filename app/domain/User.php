@@ -8,7 +8,7 @@
 
 namespace app\domain;
 
-
+use DateTime;
 use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
 use vhs\database\Database;
@@ -110,6 +110,45 @@ class User extends Domain {
         return User::where(
             Where::Equal(UserSchema::Columns()->token, $token)
         );
+    }
+
+    /**
+     * Magic field interface method for 'valid'
+     * @return boolean
+     */
+    public function get_valid() {
+        // Check if account is active
+        if( $this->active != 'y')
+            return false;
+    
+        // Check for administrator privilege
+        // We don't want to accidentally lock out administrators
+        // TODO: improve this
+        $privs = $this->getPrivilegeCodes();
+        if( in_array( "administrator", $privs ) )
+            return true;
+    
+        // check if membership has expired
+        return (new DateTime($this->mem_expire) > new DateTime());
+    }
+
+    /**
+     * Get a friendly error message for user validity
+     * @return mixed
+     */
+    public function getInvalidReason() {
+        if( $this->valid )
+            return false;
+        
+        // Check if account is active
+        if( $this->active != 'y')
+            return "Account is not active";
+    
+        // check if membership has expired
+        if( ! ( new DateTime($this->mem_expire) > new DateTime() ) )
+            return "Account expired";
+        
+        return "Unknown error";
     }
 }
 

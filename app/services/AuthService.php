@@ -93,12 +93,14 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
+     * Check to see if the user pin and account is valid.
      * @permission authenticated
      * @param $pin
      * @return mixed
      */
     public function CheckPin($pin) {
-
+        // pin magic
+        // TODO: documentation 
         $pin = str_replace("|", "", $pin);
 
         $intpin = intval($pin);
@@ -110,11 +112,13 @@ class AuthService extends Service implements IAuthService1 {
         $pinid = sprintf("%04s", $pinid);
         $pin = sprintf("%04s", $pin);
 
+        // Set defaults
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
         $retval["privileges"] = null;
 
+        // Find key by pin
         $keys = Key::findByPin($pinid ."|" . $pin);
 
         $logAccess = function($granted, $userid = null) use ($pinid, $pin) {
@@ -123,30 +127,41 @@ class AuthService extends Service implements IAuthService1 {
             } catch(\Exception $ex) {/*mmm*/}
         };
 
+        // If we get an invalid result, log and fail (we should always only get one result)
         if(count($keys) <> 1) {
             $logAccess(false);
             return $retval;
         }
 
+        // Get key
         $key = $keys[0];
 
+        // If missing userid, log and fail
         if($key->userid == null) {
             $logAccess(false);
             return $retval;
         }
 
+        // Fetch user
         $user = User::find($key->userid);
 
-        if($user->active == 'y') {
+        // Check if account is active and in good standing, and return result set
+        if($user->valid) {
             $retval["valid"] = true;
+            $retval["userId"] = $user->id;
+            $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
             $retval["privileges"] = $key->getAbsolutePrivileges();
-
+             
             $logAccess(true, $user->id);
 
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidReason(); 
         }
 
+        // Log and return
         $logAccess(false, $user->id);
 
         return $retval;
@@ -160,14 +175,16 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckService($service, $id) {
-
+        // Set defaults
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
         $retval["privileges"] = null;
 
+        // Always parse service names as lowercase
         $service = strtolower($service);
 
+        // Find service key
         $keys = Key::findByService($service, $id);
 
         $logAccess = function($granted, $userid = null) use ($service, $id) {
@@ -176,21 +193,26 @@ class AuthService extends Service implements IAuthService1 {
             } catch(\Exception $ex) {/*mmm*/}
         };
 
+        // If we get an invalid result, log and fail (we should always only get one result)
         if(count($keys) <> 1) {
             $logAccess(false);
             return $retval;
         }
 
+        // Fetch key
         $key = $keys[0];
 
+        // Check if there's a userid attached to the key, else fail
         if($key->userid == null) {
             $logAccess(false);
             return $retval;
         }
 
+        // Fetch userinfo
         $user = User::find($key->userid);
 
-        if($user->active == 'y') {
+        // Check if account is active and in good standing, and return result set
+        if($user->valid) {
             $retval["valid"] = true;
             $retval["userId"] = $user->id;
             $retval["username"] = $user->username;
@@ -200,8 +222,12 @@ class AuthService extends Service implements IAuthService1 {
             $logAccess(true, $user->id);
 
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidReason();
         }
 
+        // Log and return
         $logAccess(false, $user->id);
 
         return $retval;
@@ -213,11 +239,13 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CheckRfid($rfid) {
+        // Set defaults
         $retval = array();
         $retval["valid"] = false;
         $retval["type"] = null;
         $retval["privileges"] = null;
-
+        
+        // Find key by RFID card id
         $keys = Key::findByRfid($rfid);
 
         $logAccess = function($granted, $userid = null) use ($rfid) {
@@ -226,25 +254,27 @@ class AuthService extends Service implements IAuthService1 {
             } catch(\Exception $ex) {/*mmm*/}
         };
         
+        // If we get an invalid result, log and fail (we should always only get one result)
         if(count($keys) <> 1) {
             $logAccess(false);
             return $retval;
         }
         
+        // Fetch key
         $key = $keys[0];
         
+        // Check if there's a userid attached to the key, else fail
         if($key->userid == null) {
             $logAccess(false);
             return $retval;
         }
         
+        // Fetch user info
         $user = User::find($key->userid);
-        
-        $good_standing = (new DateTime($user->mem_expire) > new DateTime());
-        
-        if($user->active == 'y' && $good_standing) {
+
+        // Check if account is active and in good standing, and return result set
+        if($user->valid) {
             $retval["valid"] = true;
-            $retval["good_standing"] = (new DateTime($user->mem_expire) > new DateTime());
             $retval["userId"] = $user->id;
             $retval["username"] = $user->username;
             $retval["type"] = $user->membership->code;
@@ -253,6 +283,9 @@ class AuthService extends Service implements IAuthService1 {
             $logAccess(true, $user->id);
         
             return $retval;
+        } else {
+            $retval["username"] = $user->username;
+            $retval["message"] = $user->getInvalidReason();
         }
         
         $logAccess(false, $user->id);
