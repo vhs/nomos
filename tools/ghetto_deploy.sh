@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 APP_NAME=membership.vanhack.ca
 DEPLOY_PATH=/var/www/sites
 
@@ -124,7 +126,7 @@ sudo ln -s $DEPLOY_PATH/$DEPLOY_NAME $APP_NAME
 
 echo Reloading php7.0-fpm to destroy apc cache
 
-/etc/init.d/php7.0-fpm reload
+sudo /etc/init.d/php7.0-fpm reload
 
 cd /lib/systemd/system
 
