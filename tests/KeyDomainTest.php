@@ -79,6 +79,9 @@ class KeyDomainTest extends PHPUnit_Framework_TestCase
         $user->email = "nomos_tests@vanhack.ca";
         $user->active = "y";
         $user->privileges->add($user_privilege);
+        $user_expiry = new DateTime("today");
+        $user_expiry->modify("+1 month");
+        $user->mem_expire = $user_expiry->format("Y-m-d H:i:s");
         $user->save();
 
         $this->ids["user"] = $user->id;
