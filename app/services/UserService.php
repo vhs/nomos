@@ -441,7 +441,7 @@ class UserService extends Service implements IUserService1 {
     }
 
     public function RequestSlackInvite($email) {
-        $ch = curl_init('http://slackinvite-vanhack.rhcloud.com/invite');
+        $ch = curl_init('http://slack-invite:3000/invite');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
