@@ -1,6 +1,6 @@
 <?php
 
-namespace app\security;
+namespace vhs\security;
 
 
 use vhs\security\IPrincipal;
