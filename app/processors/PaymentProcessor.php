@@ -39,6 +39,9 @@ class PaymentProcessor
 
     public function paymentCreated($id)
     {
+        $suspended_user = CurrentUser::getPrincipal();
+        CurrentUser::setPrincipal(new SystemPrincipal());
+
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'].'/';
 
@@ -72,6 +75,8 @@ class PaymentProcessor
         } else {
             $this->processDonationPayment($user, $payment);
         }
+
+        CurrentUser::setPrincipal($suspended_user);
     }
 
     private function resolveLegacyPayments(Payment $payment) {
