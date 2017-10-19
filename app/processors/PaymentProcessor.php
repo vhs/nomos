@@ -278,11 +278,34 @@ class PaymentProcessor
             );
 
         } else {
-            if ($user->membership_id != $membership->id)
+            if ($user->membership_id != $membership->id) {
                 $userService->UpdateMembership($user->id, $membership->id);
-            else
-                $userService->UpdateStatus($user->id, "active");
+            } else {
+                if ($user->status == "n") {
+                    $userService->UpdateStatus($user->id, "active");
+                }
+            }
+
             $user = User::find($user->id);
+
+            if ($user->status != "y") {
+                $this->emailService->Email(
+                    NOMOS_FROM_EMAIL,
+                    'admin_error',
+                    [
+                        'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . " " . $payment->lname,
+                        'message' => $payment->fname . " " . $payment->lname . " with email "
+                            . $payment->payer_email . " made a payment but we "
+                            . "they are not active or couldn't be activated... this could be that they are banned or still pending activation. "
+                            . "userid = " . $user->id
+                            . "status = " . $user->status
+                            . "item_number = " . $payment->item_number
+                            . "item_name = " . $payment->item_name
+                            . "rate_amount = " . $payment->rate_amount
+                            . "currency = " . $payment->currency
+                    ]
+                );
+            }
         }
 
         $expiry = new DateTime($payment->date);
