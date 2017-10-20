@@ -282,14 +282,14 @@ class PaymentProcessor
             if ($user->membership_id != $membership->id) {
                 $userService->UpdateMembership($user->id, $membership->id);
             } else {
-                if ($user->status == "n") {
+                if ($user->active == "n") {
                     $userService->UpdateStatus($user->id, "active");
                 }
             }
 
             $user = User::find($user->id);
 
-            if ($user->status != "y") {
+            if ($user->active != "y") {
                 $this->emailService->Email(
                     NOMOS_FROM_EMAIL,
                     'admin_error',
@@ -299,7 +299,7 @@ class PaymentProcessor
                             . $payment->payer_email . " made a payment but we "
                             . "they are not active or couldn't be activated... this could be that they are banned or still pending activation. "
                             . "userid = " . $user->id
-                            . "status = " . $user->status
+                            . "status = " . $user->active
                             . "item_number = " . $payment->item_number
                             . "item_name = " . $payment->item_name
                             . "rate_amount = " . $payment->rate_amount

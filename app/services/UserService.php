@@ -261,7 +261,7 @@ class UserService extends Service implements IUserService1 {
         }
 
         if ($membership->code == Membership::KEYHOLDER && !$user->privileges->contains(Privilege::findByCode("vetted"))) {
-            if ($user->status != "b") {
+            if ($user->active != "b") {
                 $this->UpdateStatus($user->id, "pending");
                 $user = User::find($userid);
             }
