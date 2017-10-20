@@ -13,6 +13,7 @@ use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
 use app\security\PasswordUtil;
+use vhs\security\CurrentUser;
 use vhs\security\SystemPrincipal;
 use app\services\EmailService;
 use app\services\UserService;
