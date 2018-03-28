@@ -1,0 +1,28 @@
+{
+  "name": "nomos.platform.api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vhs/nomos.git"
+  },
+  "author": "Thomas LaFreniere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vhs/nomos/issues"
+  },
+  "homepage": "https://github.com/vhs/nomos#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "swagger-ui-dist": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5",
+    "sinon": "^4.4.8"
+  }
+}

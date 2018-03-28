@@ -1,0 +1,18 @@
+{
+  "summary": "login",
+  "description": "login",
+  "post": {
+    "responses": {
+      "200": {
+        "description": "login",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "summary": "health",
+  "description": "health",
+  "get": {
+    "responses": {
+      "200": {
+        "description": "healthy",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

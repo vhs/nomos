@@ -1,0 +1,26 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "production API"
+    },
+    {
+      "url": "",
+      "description": "sandbox API"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "$ref": "services/health/path.spec.json"
+    },
+    "/login": {
+      "$ref": "services/login/path.spec.json"
+    }
+  }
+}
