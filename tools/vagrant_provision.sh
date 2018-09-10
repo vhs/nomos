@@ -54,6 +54,8 @@ touch /vagrant/app/server.log
 chmod 777 /vagrant/app/sql.log
 chmod 777 /vagrant/app/server.log
 
+chmod a+w /vagrant/logs/*.log
+
 cd /vagrant/tools
 php migrate.php -m
 
