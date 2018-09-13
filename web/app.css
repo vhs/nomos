@@ -68,3 +68,11 @@
     display: none !important;
     background-color: #f8f8f8;
 }
+
+.pagination {
+  margin: 0px;
+}
+
+.before-table {
+  margin-top: 20px;
+}
