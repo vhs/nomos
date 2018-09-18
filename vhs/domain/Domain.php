@@ -583,14 +583,14 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * Constructs the WHERE clause for a filter expression
      * @param $filters
-     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or an empty list which means al columns are allowed
+     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
      * @return array
      */
     
-    private static function constructFilterWhere($filters, array $allowed_columns) {
+    private static function constructFilterWhere($filters, array $allowed_columns = null) {
         $actualColumns = new Columns();
 
-        if(empty($allowed_columns)) {
+        if($allowed_columns == null) {
             // all table columns are allowed
             $actualColumns = self::Schema()->Columns();
         } else {

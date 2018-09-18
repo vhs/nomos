@@ -328,7 +328,7 @@ class UserService extends Service implements IUserService1 {
         if(CurrentUser::hasAnyPermissions("grants") && !CurrentUser::hasAnyPermissions("administrator"))
             return ["id", "username", "fname", "lname", "email"];
         else
-            return [];
+            return null;
     }
 
     public function ListUsers($page, $size, $columns, $order, $filters)
