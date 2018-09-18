@@ -437,6 +437,19 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return $items;
     }
 
+    public static function doCount(Where $where = null) {
+        $class = get_called_class();
+
+        $records = Database::count(
+            Query::Count(
+                self::Schema()->Table(),
+                $where
+            )
+        );
+
+        return (int)$records;
+    }
+
     private static function arbitraryHydrate($sql) {
         $class = get_called_class();
 
@@ -488,6 +501,14 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return self::hydrateMany($where, $orderBy, $limit, $offset);
     }
 
+
+
+    public static function count($filters, array $allowed_columns = null) {
+        $where = self::constructFilterWhere($filters, $allowed_columns);
+
+        return self::doCount($where);
+    }
+
     /**
      * Returns a key value pair of data from this domain
      * @param $page
@@ -523,11 +544,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 );
         }
 
-        $actualColumns = new Columns();
+        /** @var OrderBy $orderBy */
+        $orderBy = array_pop($orderBys);
+        $orderBy->orderBy = $orderBys;
 
         foreach($columnNames as $col) {
             if (self::Schema()->Columns()->contains($col)) {
-                $actualColumns->add(self::Schema()->Columns()->getByName($col));
                 array_push($cols, $col);
             }
 
@@ -535,11 +557,8 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 array_push($cols, $col);
         }
 
-        /** @var OrderBy $orderBy */
-        $orderBy = array_pop($orderBys);
-        $orderBy->orderBy = $orderBys;
 
-        $where = self::constructFilter($actualColumns, $filters);
+        $where = self::constructFilterWhere($filters, $allowed_columns);
 
         $objects = self::where($where, $orderBy, $size, $page);
 
@@ -562,6 +581,32 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
+     * Constructs the WHERE clause for a filter expression
+     * @param $filters
+     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
+     * @return array
+     */
+    
+    private static function constructFilterWhere($filters, array $allowed_columns = null) {
+        $actualColumns = new Columns();
+
+        if($allowed_columns == null) {
+            // all table columns are allowed
+            $actualColumns = self::Schema()->Columns();
+        } else {
+            // only some columns are allowed
+            foreach($allowed_columns as $col) {
+                if (self::Schema()->Columns()->contains($col)) {
+                    $actualColumns->add(self::Schema()->Columns()->getByName($col));
+                }
+            }
+        }
+
+        return self::constructFilter($actualColumns, $filters);
+    }
+
+
+    /**
      * Expects an object format like:
      * Expression {
      *   left: Expression,
@@ -570,7 +615,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *   column: Column,
      *   value: Value
      * }
-     * @param Columns $columns
+     * @param Columns $columns the filters that are allowed to be used in the filter
      * @param $filter
      * @return null|Where
      */

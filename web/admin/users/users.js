@@ -18,6 +18,7 @@ angular
                 },
                 controller: ['$scope', '$modal', '$timeout', 'UserService1', 'MembershipService1', 'statuses', function($scope, $modal, $timeout, UserService1, MembershipService1, statuses) {
                     $scope.users = [];
+                    $scope.userCount = 0;
                     $scope.statuses = statuses;
 
                     $scope.convertStatus = function(code) {
@@ -63,8 +64,9 @@ angular
                     };
 
                     $scope.listService = {
-                        page: 0,
-                        size: 20,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,username,fname,lname,email,privileges,created,mem_expire,active,cash,lastlogin",
                         order: "created desc",
                         search: null
@@ -81,7 +83,7 @@ angular
                         }
                     };
 
-                    $scope.getUsers = function() {
+                    $scope.getFilter = function() {
 
                         var filter = null;
                         var filters = [];
@@ -224,24 +226,40 @@ angular
                             }
                         }
 
-                        return UserService1.ListUsers($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return filter;
+                    };
+
+                    $scope.getUsers = function() {
+                        var filter = $scope.getFilter();
+
+                        return UserService1.ListUsers(($scope.listService.page-1)*$scope.listService.pageSize, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.countUsers = function() {
+                        var filter = $scope.getFilter();
+
+                        return UserService1.CountUsers(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getUsers().then(function(data) {
-                            $scope.users = data;
+                        $scope.countUsers().then(function(data) {
+                            $scope.userCount = data;
 
-                            $scope.users.forEach(function(user) {
-                                user.member_since = moment(user.created).format("MMMM Do, YYYY");
-                                user.member_for = moment(user.created).fromNow(true);
-                                user.last_login = moment(user.lastlogin).format("MMM DD, YYYY, h:mm:ss a");
-                                user.expiry = moment(user.mem_expire).fromNow();
-                                user.expiry_date = moment(user.mem_expire).format("MMMM Do YYYY");
+                            $scope.getUsers().then(function(data) {
+                                $scope.users = data;
+
+                                $scope.users.forEach(function(user) {
+                                    user.member_since = moment(user.created).format("MMMM Do, YYYY");
+                                    user.member_for = moment(user.created).fromNow(true);
+                                    user.last_login = moment(user.lastlogin).format("MMM DD, YYYY, h:mm:ss a");
+                                    user.expiry = moment(user.mem_expire).fromNow();
+                                    user.expiry_date = moment(user.mem_expire).format("MMMM Do YYYY");
+                                });
+
+                                $scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
                             });
-
-                            $scope.resetForms();
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
                         });
                     };
 

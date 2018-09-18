@@ -12,6 +12,10 @@ angular
                 return $http.post("/services/web/UserService1.svc/ListUsers", {page: page, size: size, columns: columns, order: order, filters: filters})
                     .then(function(response) { return response.data; });
             },
+            CountUsers: function(filters) {
+                return $http.post("/services/web/UserService1.svc/CountUsers", {filters: filters})
+                    .then(function(response) { return response.data; });
+            },
             GetUser: function(userid) {
                 return $http.get("/services/web/UserService1.svc/GetUser?userid=" + userid)
                     .then(function(response) {
