@@ -25,7 +25,7 @@ CREATE TABLE `keys` (
 
 ALTER TABLE `settings` ADD COLUMN `nextpinid` int(11) NOT NULL DEFAULT 0;
 
-UPDATE `settings` SET `nextpinid` = (select max(pinid) + 1 from `users`);
+UPDATE `settings` SET `nextpinid` = (select IF(max(pinid) IS NOT NULL,max(pinid)+1,0) from `users`);
 
 INSERT INTO `keys` (`userid`, `type`, `key`, `notes`) SELECT u.id as `userid`, 'rfid' as `type`, u.rfid as `key`, 'Added by system migration v5' as `notes` from `users` u where u.rfid != '';
 INSERT INTO `keys` (`userid`, `type`, `key`, `notes`) SELECT u.id as `userid`, 'pin'  as `type`, CONCAT(u.pinid, '|', u.pin) as `key`, 'Added by system migration v5' as `notes` from `users` u where u.pin is not null;
