@@ -1,5 +1,12 @@
 #!/bin/sh
+
+set -x
+
 export DEBIAN_FRONTEND=noninteractive
+
+# get rid of warning as described here https://serverfault.com/a/717770
+sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf
+sudo dpkg-reconfigure debconf -f noninteractive -p critical
 
 sudo apt-get update
 T=`which add-apt-repository`
@@ -15,7 +22,7 @@ if [ -z "`which mysqld`" ]; then
   sudo apt-get install --yes -q mysql-server mysql-client
 fi
 sudo apt-get install --yes -q php7.0 php7.0-fpm php7.0-cli php7.0-mysqlnd php7.0-curl php7.0-dom php7.0-bcmath
-sudo apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring
+sudo apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring php-xdebug
 sudo apt-get install --yes -q nginx
 
 # configure nginx
@@ -53,7 +60,7 @@ touch /vagrant/app/sql.log
 touch /vagrant/app/server.log
 chmod 777 /vagrant/app/sql.log
 chmod 777 /vagrant/app/server.log
-
+      
 chmod a+w /vagrant/logs/*.log
 
 cd /vagrant/tools
@@ -63,8 +70,11 @@ php migrate.php -m
 
 
 echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
-wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-sudo apt-key add rabbitmq-signing-key-public.asc
+# remove duplicate files
+uniq /etc/apt/sources.list > /tmp/sources.list.uniq
+sudo mv /tmp/sources.list.uniq /etc/apt/sources.list
+
+wget -O - 'https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc' | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install --yes -q rabbitmq-server
 sudo rabbitmq-plugins enable rabbitmq_management
@@ -78,7 +88,7 @@ sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
 sudo rabbitmqctl set_permissions -p nomos webhooker "" "" ".*"
 
 curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt-get install -y nodejs npm
 sudo npm install -g npm
 
 cd /vagrant/webhooker/
@@ -110,3 +120,4 @@ sudo cp /vagrant/webhooker/webhooker.service /lib/systemd/system/webhooker.servi
 
 sudo systemctl enable webhooker.service
 sudo systemctl start webhooker.service
+
