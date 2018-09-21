@@ -56,23 +56,8 @@ jobs:
         - v1-dep-
     # The following line was run implicitly in your 1.0 builds based on what CircleCI inferred about the structure of your project. In 2.0 you need to be explicit about which commands should be run. In some cases you can discard inferred commands if they are not relevant to your project.
     - run:
-         name: Install PHP cli
-         command: sudo docker-php-ext-install cli
-    - run:
-         name: Install PHP mysqlnd
-         command: sudo docker-php-ext-install mysqlnd
-    - run:
-         name: Install PHP curl
-         command: sudo docker-php-ext-install curl
-    - run:
-         name: Install PHP dom
-         command: sudo docker-php-ext-install dom
-    - run:
-         name: Install PHP bcmath
-         command: sudo docker-php-ext-install bcmath
-    - run:
-         name: Install PHP mbstring
-         command: sudo docker-php-ext-install mbstring
+         name: Install PHP dependencies
+         command: sudo docker-php-ext-install mysqlnd curl dom bcmath mbstring
     - run: composer install --no-interaction
     # Save dependency cache
     - save_cache:
