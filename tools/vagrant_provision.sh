@@ -16,13 +16,18 @@ fi
 sudo add-apt-repository --yes ppa:ondrej/php
 sudo apt-get update
 
+# install mysql
 if [ -z "`which mysqld`" ]; then
   echo "mysql-server-5.5 mysql-server/root_password password password" | sudo debconf-set-selections
   echo "mysql-server-5.5 mysql-server/root_password_again password password" | sudo debconf-set-selections
   sudo apt-get install --yes -q mysql-server mysql-client
 fi
+
+# install php
 sudo apt-get install --yes -q php7.0 php7.0-fpm php7.0-cli php7.0-mysqlnd php7.0-curl php7.0-dom php7.0-bcmath
-sudo apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring php-xdebug
+sudo apt-get install --yes -q php7.0-dom php7.0-bcmath php7.0-mbstring php-xdebug php7.0-zip
+
+# install nginx
 sudo apt-get install --yes -q nginx
 
 # configure nginx
@@ -47,6 +52,7 @@ if [ ! -e "/vagrant/composer.phar" ]; then
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant/
 fi
 
+# run composer
 cd /vagrant/
 php composer.phar install
 
@@ -68,17 +74,19 @@ touch /vagrant/logs/sql.log
 touch /vagrant/logs/server.log
 chmod -R a+w /vagrant/logs
 
+# migrate database
 cd /vagrant/tools
 php migrate.php -m
 
 # rabbitmq
 
-
 echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
+
 # remove duplicate files
 uniq /etc/apt/sources.list > /tmp/sources.list.uniq
 sudo mv /tmp/sources.list.uniq /etc/apt/sources.list
 
+# install rabbitmq
 wget -O - 'https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc' | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install --yes -q rabbitmq-server
@@ -92,16 +100,18 @@ sudo rabbitmqctl set_permissions -p nomos vhs ".*" ".*" ".*"
 sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
 sudo rabbitmqctl set_permissions -p nomos webhooker "" "" ".*"
 
+# install nodejs
 curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 sudo apt-get install -y nodejs npm
 sudo npm install -g npm
 
+# install webhooker modules
 cd /vagrant/webhooker/
 npm install
 
 sudo apt-get install --yes -q jq
 
-
+# webhooker nomos permissions
 APIKEY=$(curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/GenerateSystemApiKey?notes=webhooker)
 
 if [ ! `curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/GetAllPrivileges | jq -r .[] | jq -r .code | grep webhook` ]; then
@@ -112,7 +122,7 @@ curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/PutApiKeyP
 
 APIKEY=$(echo $APIKEY | jq .key)
 
-# configure app
+# configure webhooker
 if [ ! -e "/vagrant/webhooker/config.js" ]; then
   cp /vagrant/webhooker/config.js.template.js /vagrant/conf/config.js
   sed -i -e 's/token: ""/token: '$APIKEY'/g' /vagrant/webhooker/config.js
