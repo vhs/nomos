@@ -86,6 +86,13 @@ interface IAuthService1 extends IContract {
     public function ListAccessLog($page, $size, $columns, $order, $filters);
 
     /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountAccessLog($filters);
+
+    /**
      * @permission oauth-provider
      * @param $bearerToken
      * @return mixed
