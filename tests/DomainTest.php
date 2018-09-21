@@ -6,6 +6,8 @@
  * Time: 3:28 PM
  */
 
+use PHPUnit\Framework\TestCase;
+
 use vhs\database\constraints\Constraint;
 use vhs\database\types\Type;
 use vhs\database\wheres\Where;
@@ -63,7 +65,7 @@ class ExampleDomain extends Domain {
     }
 }
 
-class DomainTest extends PHPUnit_Framework_TestCase {
+class DomainTest extends TestCase {
 
     private static $logger;
     private static $mySqlEngine;

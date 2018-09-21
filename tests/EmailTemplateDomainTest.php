@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 use app\domain\EmailTemplate;
 use app\services\EmailService;
 use vhs\database\Database;
@@ -13,7 +15,7 @@ use vhs\loggers\ConsoleLogger;
  * Date: 24/02/16
  * Time: 10:17 AM
  */
-class EmailTemplateDomainTest extends PHPUnit_Framework_TestCase
+class EmailTemplateDomainTest extends TestCase
 {
     /** @var Logger */
     private static $logger;

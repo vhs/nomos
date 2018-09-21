@@ -1,9 +1,13 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 use app\domain\Key;
 use app\domain\Membership;
 use app\domain\Privilege;
 use app\domain\User;
 use app\services\AuthService;
+
 use vhs\database\Database;
 use vhs\database\engines\memory\InMemoryEngine;
 use vhs\Logger;
@@ -15,7 +19,7 @@ use vhs\loggers\ConsoleLogger;
  * Date: 24/02/16
  * Time: 10:17 AM
  */
-class KeyDomainTest extends PHPUnit_Framework_TestCase
+class KeyDomainTest extends TestCase
 {
     /** @var Logger */
     private static $logger;
