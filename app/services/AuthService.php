@@ -358,6 +358,23 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function CountAccessLog($filters)
+    {
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        return AccessLog::count($filters);
+    }
+
+    /**
      * @permission oauth-provider
      * @param $bearerToken
      * @return mixed
