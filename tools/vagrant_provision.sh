@@ -34,6 +34,9 @@ sudo cp -f /vagrant/conf/nginx-vhost-vagrant.conf /etc/nginx/sites-enabled/nomos
 sudo sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf
 sudo service nginx restart
 
+# configure php
+sudo sed -i 's/;error_log = php_errors.log/error_log = \/var\/log\/php7.0-cli.log/g' /etc/php/7.0/cli/php.ini
+
 # configure app
 if [ ! -e "/vagrant/conf/config.ini.php" ]; then
   cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
@@ -61,7 +64,9 @@ touch /vagrant/app/server.log
 chmod 777 /vagrant/app/sql.log
 chmod 777 /vagrant/app/server.log
       
-chmod a+w /vagrant/logs/*.log
+touch /vagrant/logs/sql.log
+touch /vagrant/logs/server.log
+chmod -R a+w /vagrant/logs
 
 cd /vagrant/tools
 php migrate.php -m
