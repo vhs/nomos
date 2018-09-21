@@ -6,6 +6,8 @@
  * Time: 4:53 PM
  */
 
+use PHPUnit\Framework\TestCase;
+
 use vhs\database\Database;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -15,7 +17,7 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
-class LimitTests extends PHPUnit_Framework_TestCase {
+class LimitTests extends TestCase {
 
     /** @var Logger */
     private static $logger;

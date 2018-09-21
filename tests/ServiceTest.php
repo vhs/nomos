@@ -6,6 +6,8 @@
  * Time: 11:02 AM
  */
 
+use PHPUnit\Framework\TestCase;
+
 
 use vhs\services\ServiceClient;
 use \vhs\services\ServiceHandler;
@@ -42,7 +44,7 @@ class PermPrincipal implements \vhs\security\IPrincipal {
     }
 }
 
-class ServiceTests extends PHPUnit_Framework_TestCase {
+class ServiceTests extends TestCase {
 
     public static function setUpBeforeClass() {
         $logger = new \vhs\loggers\SilentLogger();
