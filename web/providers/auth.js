@@ -20,6 +20,10 @@ angular
                 return $http.post("/services/web/AuthService1.svc/ListUserAccessLog", { userid: userid, page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountUserAccessLog: function(userid, filters) {
+                return $http.post("/services/web/AuthService1.svc/CountuserAccessLog", { userid: userid, filters: filters })
+                    .then(function(response) { return response.data; });
+            },
             ListAccessLog: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/AuthService1.svc/ListAccessLog", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
