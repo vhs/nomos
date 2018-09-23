@@ -58,6 +58,16 @@ class PaymentService extends Service implements IPaymentService1 {
         return Payment::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountPayments($filters)
+    {
+        return Payment::count($filters);
+    }
+    
     public function ReplayPaymentProcessing($paymentid) {
         $log = new StringLogger();
 
