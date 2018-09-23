@@ -28,6 +28,10 @@ angular
                 return $http.post("/services/web/WebHookService1.svc/ListUserHooks", { userid: userid, page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountUserHooks: function(userid, filters) {
+                return $http.post("/services/web/WebHookService1.svc/CountUserHooks", { userid: userid, filters: filters })
+                    .then(function(response) { return response.data; });
+            },           
             ListHooks: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/WebHookService1.svc/ListHooks", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });

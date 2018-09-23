@@ -217,6 +217,33 @@ class WebHookService extends Service implements IWebHookService1
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters)
     {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        $cols = explode(",", $columns);
+
+        array_push($cols, "userid");
+
+        $columns = implode(",", array_unique($cols));
+
+        return WebHook::page($page, $size, $columns, $order, $filters);
+    }
+
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountUserHooks($userid, $filters)
+    {
+
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        return WebHook::count($filters);
+    }
+    
+    private function AddUserIDToFilters($userid, $filters)
+    {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
@@ -233,12 +260,6 @@ class WebHookService extends Service implements IWebHookService1
         else
             $filters = Filter::_And($userFilter, $filters);
 
-        $cols = explode(",", $columns);
-
-        array_push($cols, "userid");
-
-        $columns = implode(",", array_unique($cols));
-
-        return WebHook::page($page, $size, $columns, $order, $filters);
+        return $filters;
     }
 }

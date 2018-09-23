@@ -109,4 +109,13 @@ interface IWebHookService1 extends IContract
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters);
 
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return mixed
+     */
+    public function CountUserHooks($userid, $filters);
+
+    
 }
