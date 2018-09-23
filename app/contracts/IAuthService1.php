@@ -167,6 +167,13 @@ interface IAuthService1 extends IContract {
     public function ListClients($page, $size, $columns, $order, $filters);
 
     /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountClients($filters);
+
+    /**
      * @permission administrator|user
      * @param $id
      * @param $enabled

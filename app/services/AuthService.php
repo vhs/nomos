@@ -561,6 +561,16 @@ class AuthService extends Service implements IAuthService1 {
         return AppClient::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountClients($filters)
+    {
+        return AppClient::count($filters);
+    }
+    
     private function GetMyClient($id) {
 
         $client = AppClient::find($id);
