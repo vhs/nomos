@@ -18,13 +18,6 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-1">
-                                        <label>Page</label> <input class="form-control" title="Page" type="text" ng-model="listService.page" ng-keyup="$event.keyCode == 13 && refresh()" />
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <label>Page Size</label> <input class="form-control" title="Page Size" type="text" ng-model="listService.size" ng-keyup="$event.keyCode == 13 && refresh()" />
-                                    </div>
-
                                     <div class="col-lg-3">
                                         <label>Order</label> <input class="form-control" title="Order" type="text" ng-model="listService.order" ng-keyup="$event.keyCode == 13 && refresh()" />
                                     </div>
@@ -56,6 +49,20 @@
 
 
             </div>
+
+            <div class="row before-table">
+              <div class="col-md-7">
+                <pagination  ng-if="itemCount" items-per-page="listService.pageSize" total-items="itemCount" ng-model="listService.page" ng-change="refresh()" max-size="10" boundary-links="true" rotate="false" ></pagination>
+              </div>
+              <div class="col-md-2 inline-control">
+                <label>{{ itemCount }} webhooks found</label>
+              </div>
+              <div class="col-md-1 inline-control">
+                Page size: 
+                <select ng-model="listService.pageSize" ng-options="o for o in listService.allowedPageSizes" ng-change="refresh()"></select>
+              </div>
+            </div>
+
         </div>
 
         <button type="button" class="btn btn-warning" ng-click="openCreate()">Create Web Hook</button>

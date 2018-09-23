@@ -36,6 +36,10 @@ angular
                 return $http.post("/services/web/WebHookService1.svc/ListHooks", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountHooks: function(filters) {
+                return $http.post("/services/web/WebHookService1.svc/CountHooks", { filters: filters })
+                    .then(function(response) { return response.data; });
+            },
             DeleteHook: function(id) {
                 return $http.get("/services/web/WebHookService1.svc/DeleteHook?id=" + id)
                     .then(function(response) { return response.data; });

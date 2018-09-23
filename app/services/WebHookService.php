@@ -205,6 +205,16 @@ class WebHookService extends Service implements IWebHookService1
     }
 
     /**
+     * @permission administrator|webhook
+     * @param $filters
+     * @return int
+     */
+    public function CountHooks($filters)
+    {
+        return WebHook::count($filters);
+    }
+    
+    /**
      * @permission administrator|user
      * @param $userid
      * @param $page
