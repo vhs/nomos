@@ -10,7 +10,8 @@ angular
                 templateUrl: 'admin/ipn/records.html',
                 controller: ['$scope', 'IpnService1', function($scope, IpnService1) {
                     $scope.records = [];
-
+                    $scope.itemCount = 0;
+                    
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
                         $scope.showPending = val;
@@ -24,8 +25,9 @@ angular
                     };
 
                     $scope.listService = {
-                        page: 0,
-                        size: 10,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,created,validation,payment_status,payment_amount,payment_currency,payer_email,item_name,item_number,raw",
                         order: "created desc",
                         search: null
@@ -44,7 +46,7 @@ angular
                         }
                     };
 
-                    $scope.getRecords = function() {
+                    $scope.getFilter = function() {
 
                         var filter = null;
                         var filters = [];
@@ -153,18 +155,36 @@ angular
                             }
                         }
 
-                        return IpnService1.ListRecords($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return filter;
+                    };
+
+                    
+                    $scope.getRecords = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return IpnService1.ListRecords(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getRecordsCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return IpnService1.CountRecords(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getRecords().then(function(data) {
-                            $scope.records = data;
-                            //$scope.resetForms();
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getRecordsCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getRecords().then(function(data) {
+                                $scope.records = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
-
+                    
                     $scope.refresh = function() {
                         $scope.updating = true;
                         $scope.updated();

@@ -19,6 +19,16 @@ class IpnService extends Service implements IIpnService1 {
     public function ListRecords($page, $size, $columns, $order, $filters) {
         return Ipn::page($page, $size, $columns, $order, $filters);
     }
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountRecords($filters)
+    {
+        return Ipn::count($filters);
+    }
 }
 ?>
 
