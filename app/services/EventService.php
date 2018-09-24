@@ -160,6 +160,16 @@ class EventService extends Service implements IEventService1
     }
 
     /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountEvents($filters)
+    {
+        return Event::count($filters);
+    }
+    
+    /**
      * @permission user
      * @return mixed
      */

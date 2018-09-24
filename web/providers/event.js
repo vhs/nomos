@@ -32,6 +32,10 @@ angular
                 return $http.post("/services/web/EventService1.svc/ListEvents", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountEvents: function(filters) {
+                return $http.post("/services/web/EventService1.svc/CountEvents", { filters: filters })
+                    .then(function(response) { return response.data; });
+            },
             DeleteEvent: function(id) {
                 return $http.get("/services/web/EventService1.svc/DeleteEvent?id=" + id)
                     .then(function(response) { return response.data; });
