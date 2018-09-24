@@ -14,7 +14,8 @@ angular
                 controller: ['$scope', '$modal', '$timeout', 'UserService1', 'PrivilegeService1', function($scope, $modal, $timeout, UserService1, PrivilegeService1) {
 
                     $scope.grants = [];
-
+                    $scope.itemCount = 0;
+                    
                     for(var i in $scope.currentUser.privileges)
                     {
                         var priv = $scope.currentUser.privileges[i];
@@ -35,8 +36,9 @@ angular
                     $scope.users = [];
 
                     $scope.listService = {
-                        page: 0,
-                        size: 10,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,username,fname,lname,email",
                         order: "id",
                         search: null
@@ -53,7 +55,7 @@ angular
                         }
                     };
 
-                    $scope.getUsers = function() {
+                    $scope.getFilter = function() {
 
                         var filter = null;
                         var filters = [];
@@ -122,17 +124,36 @@ angular
                             }
                         }
 
-                        return UserService1.ListUsers($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return filter;
+                    };
+
+                    
+                    $scope.getUsers = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return UserService1.ListUsers(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getUsersCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return UserService1.CountUsers(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getUsers().then(function(data) {
-                            $scope.users = data;
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getUsersCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getUsers().then(function(data) {
+                                $scope.users = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
-
+                    
                     $scope.refresh = function() {
                         $scope.updating = true;
                         $scope.updated();
