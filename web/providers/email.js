@@ -43,6 +43,11 @@ angular
             ListTemplates: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/EmailService1.svc/ListTemplates", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
-            }
+            },
+            CountTemplates: function(filters) {
+                return $http.post("/services/web/EmailService1.svc/CountTemplates", { filters: filters })
+                    .then(function(response) { return response.data; });
+            },
+
         };
     }]);

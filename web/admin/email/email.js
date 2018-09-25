@@ -10,10 +10,13 @@ angular
                 templateUrl: 'admin/email/email.html',
                 controller: ['$scope', '$modal', '$timeout', 'EmailService1', function($scope, $modal, $timeout, EmailService1) {
                     $scope.templates = [];
+                    $scope.itemCount = 0;
+
 
                     $scope.listService = {
-                        page: 0,
-                        size: 50,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,name,code,subject,help,body,html",
                         order: "id desc",
                         search: null
@@ -30,7 +33,7 @@ angular
                         }
                     };
 
-                    $scope.getTemplates = function() {
+                    $scope.getFilter = function() {
 
                         var filter = null;
                         var filters = [];
@@ -107,18 +110,38 @@ angular
                             }
                         }
 
-                        return EmailService1.ListTemplates($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return filter;
+                        //return EmailService1.ListTemplates($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+
+                    
+                    $scope.getTemplates = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return EmailService1.ListTemplates(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getTemplatesCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return EmailService1.CountTemplates(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getTemplates().then(function(data) {
-                            $scope.templates = data;
-                            //$scope.resetForms();
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getTemplatesCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getTemplates().then(function(data) {
+                                $scope.templates = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
-
+                    
                     $scope.refresh = function() {
                         $scope.updating = true;
                         $scope.updated();

@@ -10,10 +10,12 @@ angular
                 templateUrl: 'user/webhooks/webhooks.html',
                 controller: ['$scope', 'WebHookService1', function($scope, WebHookService1) {
                     $scope.webhooks = [];
-
+                    $scope.itemCount = 0;
+                    
                     $scope.listService = {
-                        page: 0,
-                        size: 10,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],                        
                         columns: "id,name,description,enabled,userid,url,translation,headers,method,eventid",
                         order: "id",
                         search: null,
@@ -31,9 +33,9 @@ angular
                         }
                     };
 
-                    $scope.load = function() {
+                    $scope.getFilter = function() {
 
-                        $scope.listService.filter = null;
+                        var filter = null;
                         var filters = [];
 
                         if ($scope.listService.search != null && $scope.listService.search != "") {
@@ -92,22 +94,22 @@ angular
                         };
 
                         for (var i = 0; i < filters.length; i++) {
-                            if ($scope.listService.filter == null) {
+                            if (filter == null) {
                                 if (filters.length > 1) {
-                                    $scope.listService.filter = {
+                                    filter = {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
                                     };
                                 } else {
-                                    $scope.listService.filter = filters[i];
+                                    filter = filters[i];
                                     break;
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost($scope.listService.filter, filters[i]);
+                                    addRightmost(filter, filters[i]);
                                 } else {
-                                    addRightmost($scope.listService.filter, {
+                                    addRightmost(filter, {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
@@ -116,16 +118,36 @@ angular
                             }
                         }
 
-                        return WebHookService1.ListUserHooks($scope.currentUser.id, $scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, $scope.listService.filter);
+                        return filter;
+                    };
+
+                    
+                    $scope.getWebHooks = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return WebHookService1.ListUserHooks($scope.currentUser.id, offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getWebHookCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return WebHookService1.CountUserHooks($scope.currentUser.id, filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.load().then(function(data) {
-                            $scope.webhooks = data;
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getWebHookCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getWebHooks().then(function(data) {
+                                $scope.webhooks = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
+
 
                     $scope.refresh = function() {
                         $scope.updating = true;

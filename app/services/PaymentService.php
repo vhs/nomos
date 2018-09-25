@@ -36,36 +36,38 @@ class PaymentService extends Service implements IPaymentService1 {
     }
 
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters) {
-        $userService = new UserService();
-        $user = $userService->GetUser($userid);
-
-        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-
-        if (is_null($user))
-            throw new \Exception("User not found or you do not have access");
-
-        $userFilter = Filter::_Or(Filter::Equal("user_id", $user->id), Filter::Equal("payer_email", $user->email));
-
-        if (is_null($filters) || $filters == "")
-            $filters = $userFilter;
-        else
-            $filters = Filter::_And($userFilter, $filters);
-
-        $cols = explode(",", $columns);
-
-        array_push($cols, "user_id");
-        array_push($cols, "payer_email");
-
-        $columns = implode(",", array_unique($cols));
+        $filters = $this->AddUserIDOrEMailToFilters($userid, $filters);
 
         return Payment::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $userid
+     * @param $filters
+     * @return int
+     */
+    public function CountUserPayments($userid, $filters)
+    {
+        $filters =  $this->AddUserIDOrEMailToFilters($userid, $filters);
+
+        return Payment::count($filters);
+    }
+    
     public function ListPayments($page, $size, $columns, $order, $filters) {
         return Payment::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountPayments($filters)
+    {
+        return Payment::count($filters);
+    }
+    
     public function ReplayPaymentProcessing($paymentid) {
         $log = new StringLogger();
 
@@ -83,5 +85,27 @@ class PaymentService extends Service implements IPaymentService1 {
         $log->log("Replay complete.");
 
         return $log->fullText();
+    }
+
+
+    private function AddUserIDOrEMailToFilters($userid, $filters)
+    {
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
+
+        if (is_string($filters)) //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+
+        if (is_null($user))
+            throw new \Exception("User not found or you do not have access");
+
+        $userFilter = Filter::_Or(Filter::Equal("user_id", $user->id), Filter::Equal("payer_email", $user->email));
+
+        if (is_null($filters) || $filters == "")
+            $filters = $userFilter;
+        else
+            $filters = Filter::_And($userFilter, $filters);
+
+        return $filters;
     }
 }

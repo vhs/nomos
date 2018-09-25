@@ -13,6 +13,7 @@ angular
                 templateUrl: 'admin/oauth/clients.html',
                 controller: ['$scope', '$modal', '$timeout', 'AuthService1', function($scope, $modal, $timeout, AuthService1) {
                     $scope.clients = [];
+                    $scope.itemCount = 0;
 
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
@@ -51,8 +52,9 @@ angular
                     };
 
                     $scope.listService = {
-                        page: 0,
-                        size: 20,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,name,secret,expires,userid,name,description,url,redirecturi,enabled",
                         order: "id",
                         search: null
@@ -69,7 +71,7 @@ angular
                         }
                     };
 
-                    $scope.getClients = function() {
+                    $scope.getFilter= function() {
 
                         var filter = null;
                         var filters = [];
@@ -172,22 +174,43 @@ angular
                             }
                         }
 
-                        return AuthService1.ListClients($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+
+                        return filter;
+                        //return AuthService1.ListClients($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    
+                    $scope.getClients = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return AuthService1.ListClients(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getClientsCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return AuthService1.CountClients(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getClients().then(function(data) {
-                            $scope.clients = data;
+                        $scope.getClientsCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getClients().then(function(data) {
+                                $scope.clients = data;
 
-                            $scope.clients.forEach(function(client) {
-                                client.expiry = moment(client.expires).fromNow();
-                                client.expiry_date = moment(client.expires).format("MMMM Do YYYY");
-                                client.header = window.btoa(client.id + ':' + client.secret);
+                                $scope.clients.forEach(function(client) {
+                                    client.expiry = moment(client.expires).fromNow();
+                                    client.expiry_date = moment(client.expires).format("MMMM Do YYYY");
+                                    client.header = window.btoa(client.id + ':' + client.secret);
+                                });
+
+                                $scope.resetForms();
+                                
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
                             });
-
-                            $scope.resetForms();
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
                         });
                     };
 

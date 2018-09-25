@@ -10,10 +10,12 @@ angular
                 templateUrl: 'admin/events/events.html',
                 controller: ['$scope', '$modal', '$timeout', 'EventService1', 'PrivilegeService1', function($scope, $modal, $timeout, EventService1, PrivilegeService1) {
                     $scope.events = [];
+                    $scope.itemCount = 0;
 
                     $scope.listService = {
-                        page: 0,
-                        size: 50,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,name,domain,event,description,enabled,privileges",
                         order: "domain",
                         search: null,
@@ -31,9 +33,9 @@ angular
                         }
                     };
 
-                    $scope.load = function() {
+                    $scope.getFilter = function() {
 
-                        $scope.listService.filter = null;
+                        var filter = null;
                         var filters = [];
 
                         if ($scope.listService.search != null && $scope.listService.search != "") {
@@ -76,22 +78,22 @@ angular
                         };
 
                         for (var i = 0; i < filters.length; i++) {
-                            if ($scope.listService.filter == null) {
+                            if (filter == null) {
                                 if (filters.length > 1) {
-                                    $scope.listService.filter = {
+                                    filter = {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
                                     };
                                 } else {
-                                    $scope.listService.filter = filters[i];
+                                    filter = filters[i];
                                     break;
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost($scope.listService.filter, filters[i]);
+                                    addRightmost(filter, filters[i]);
                                 } else {
-                                    addRightmost($scope.listService.filter, {
+                                    addRightmost(filter, {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
@@ -100,17 +102,36 @@ angular
                             }
                         }
 
-                        return EventService1.ListEvents($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, $scope.listService.filter);
+                        return filter;
+                    };
+
+                    
+                    $scope.getEvents = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return EventService1.ListEvents(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getEventsCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return EventService1.CountEvents(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.load().then(function(data) {
-                            $scope.events = data;
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getEventsCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getEvents().then(function(data) {
+                                $scope.events = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
-
+                    
                     $scope.refresh = function() {
                         $scope.updating = true;
                         $scope.updated();

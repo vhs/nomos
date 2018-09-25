@@ -10,6 +10,7 @@ angular
                 templateUrl: 'user/transactions/transactions.html',
                 controller: ['$scope', 'PaymentService1', function($scope, PaymentService1) {
                     $scope.payments = [];
+                    $scope.itemCount = 0;
 
                     $scope.showPending = false;
                     $scope.togglePending = function(val) {
@@ -18,8 +19,9 @@ angular
                     };
 
                     $scope.listService = {
-                        page: 0,
-                        size: 10,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,txn_id,status,payer_fname,payer_lname,payer_email,date,pp,rate_amount,currency",
                         order: "date desc",
                         search: null,
@@ -37,9 +39,9 @@ angular
                         }
                     };
 
-                    $scope.getPayments = function() {
+                    $scope.getFilter = function() {
 
-                        $scope.listService.filter = null;
+                        var result = null;
                         var filters = [];
 
                         if ($scope.showPending) {
@@ -106,22 +108,22 @@ angular
                         };
 
                         for (var i = 0; i < filters.length; i++) {
-                            if ($scope.listService.filter == null) {
+                            if (result == null) {
                                 if (filters.length > 1) {
-                                    $scope.listService.filter = {
+                                    result = {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
                                     };
                                 } else {
-                                    $scope.listService.filter = filters[i];
+                                    result = filters[i];
                                     break;
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost($scope.listService.filter, filters[i]);
+                                    addRightmost(result, filters[i]);
                                 } else {
-                                    addRightmost($scope.listService.filter, {
+                                    addRightmost(result, {
                                         left: filters[i],
                                         operator: "and",
                                         right: null
@@ -130,14 +132,32 @@ angular
                             }
                         }
 
-                        return PaymentService1.ListUserPayments($scope.currentUser.id, $scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, $scope.listService.filter);
+                        return result;
+                    };
+                                            
+                    $scope.getPayments = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+
+                        return PaymentService1.ListUserPayments($scope.currentUser.id, offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getPaymentsCount = function() {
+                        var filter = $scope.getFilter();
+
+                        return PaymentService1.CountUserPayments($scope.currentUser.id, filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getPayments().then(function(data) {
-                            $scope.payments = data;
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getPaymentsCount().then(function(data) {
+                            $scope.itemCount = data;
+                            
+                            $scope.getPayments().then(function(data) {
+                                $scope.payments = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
 

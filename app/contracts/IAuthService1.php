@@ -75,6 +75,14 @@ interface IAuthService1 extends IContract {
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters);
 
     /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return mixed
+     */
+    public function CountUserAccessLog($userid, $filters);
+    
+    /**
      * @permission administrator
      * @param $page
      * @param $size
@@ -157,6 +165,13 @@ interface IAuthService1 extends IContract {
      * @return mixed
      */
     public function ListClients($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountClients($filters);
 
     /**
      * @permission administrator|user

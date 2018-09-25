@@ -302,18 +302,7 @@ class AuthService extends Service implements IAuthService1 {
         return Database::exists(UserSchema::Table(), Where::Equal(UserSchema::Column("username"), $username));
     }
 
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     * @throws \Exception
-     */
-    public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters)
+    private function AddUserIDToFilters($userid, $filters)
     {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
@@ -331,15 +320,38 @@ class AuthService extends Service implements IAuthService1 {
         else
             $filters = Filter::_And($userFilter, $filters);
 
-        $cols = explode(",", $columns);
-
-        array_push($cols, "userid");
-
-        $columns = implode(",", array_unique($cols));
-
+        return $filters;
+    }
+    
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     * @throws \Exception
+     */
+    public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters)
+    {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+        
         return AccessLog::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountUserAccessLog($userid, $filters)
+    {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+        return AccessLog::count($filters);
+    }
+    
     /**
      * @permission administrator
      * @param $page
@@ -549,6 +561,16 @@ class AuthService extends Service implements IAuthService1 {
         return AppClient::page($page, $size, $columns, $order, $filters);
     }
 
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountClients($filters)
+    {
+        return AppClient::count($filters);
+    }
+    
     private function GetMyClient($id) {
 
         $client = AppClient::find($id);

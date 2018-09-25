@@ -96,4 +96,12 @@ interface IEmailService1 extends IContract {
      * @return mixed
      */
     public function ListTemplates($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountTemplates($filters);
+
 }

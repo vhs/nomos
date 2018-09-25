@@ -231,8 +231,9 @@ angular
 
                     $scope.getUsers = function() {
                         var filter = $scope.getFilter();
-
-                        return UserService1.ListUsers(($scope.listService.page-1)*$scope.listService.pageSize, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize;
+                        
+                        return UserService1.ListUsers(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
                     };
 
                     $scope.countUsers = function() {

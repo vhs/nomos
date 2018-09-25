@@ -133,8 +133,9 @@ angular
 
                     $scope.getAccessLogs = function() {
                         var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize;
 
-                        return AuthService1.ListAccessLog($scope.listService.page, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                        return AuthService1.ListAccessLog(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
                     };
 
                     $scope.getAccessCount = function() {
