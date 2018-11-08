@@ -260,13 +260,6 @@ class UserService extends Service implements IUserService1 {
             throw new \Exception("Invalid user or membership type");
         }
 
-        if ($membership->code == Membership::KEYHOLDER && !$user->privileges->contains(Privilege::findByCode("vetted"))) {
-            if ($user->active != "b") {
-                $this->UpdateStatus($user->id, "pending");
-                $user = User::find($userid);
-            }
-        }
-
         $user->membership = $membership;
 
         $user->save();
