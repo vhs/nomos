@@ -296,14 +296,14 @@ class PaymentProcessor
                     [
                         'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . " " . $payment->lname,
                         'message' => $payment->fname . " " . $payment->lname . " with email "
-                            . $payment->payer_email . " made a payment but we "
-                            . "they are not active or couldn't be activated... this could be that they are banned or still pending activation. "
-                            . "userid = " . $user->id
-                            . "status = " . $user->active
-                            . "item_number = " . $payment->item_number
-                            . "item_name = " . $payment->item_name
-                            . "rate_amount = " . $payment->rate_amount
-                            . "currency = " . $payment->currency
+                            . $payment->payer_email . " made a payment, but "
+                            . "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n"
+                            . "userid = " . $user->id . "\n"
+                            . "status = " . $user->active . "\n"
+                            . "item_number = " . $payment->item_number . "\n"
+                            . "item_name = " . $payment->item_name . "\n"
+                            . "rate_amount = " . $payment->rate_amount . "\n"
+                            . "currency = " . $payment->currency . "\n"
                     ]
                 );
             }

@@ -127,6 +127,13 @@ class User extends Domain {
         $privs = $this->getPrivilegeCodes();
         if( in_array( "administrator", $privs ) )
             return true;
+
+        $keyholder = Membership::findByCode(Membership::KEYHOLDER)[0];
+
+        // non-vetted but active keyholder
+        if ($this->membership_id == $keyholder->id && !in_array("vetted", $privs)) {
+          return false;
+        }
     
         // check if membership has expired
         return (new DateTime($this->mem_expire) > new DateTime());
@@ -147,6 +154,13 @@ class User extends Domain {
         // check if membership has expired
         if( ! ( new DateTime($this->mem_expire) > new DateTime() ) )
             return "Account expired";
+
+        $privs = $this->getPrivilegeCodes();
+        $keyholder = Membership::findByCode(Membership::KEYHOLDER)[0];
+        // non-vetted but active keyholder
+        if ($this->membership_id == $keyholder->id && !in_array("vetted", $privs)) {
+          return "Account is pending approval";
+        }
         
         return "Unknown error";
     }
