@@ -5,9 +5,12 @@ RUN apt-get update && \
         curl \
         git \
         php7.0 \
+        php7.0-bcmath \
         php7.0-cli \
         php7.0-curl \
+        php7.0-dom \
         php7.0-fpm \
+        php7.0-mbstring \
         php7.0-mysqlnd \
         nginx \
 	&& apt-get clean && rm -r /var/lib/apt/lists/*
