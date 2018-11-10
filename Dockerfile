@@ -1,16 +1,17 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-keys E5267A6C && \
-    echo 'deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main' > /etc/apt/sources.list.d/ondrej-php5-trusty.list && \
-    apt-get update && \
+RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         git \
-        php5 \
-        php5-cli \
-        php5-curl \
-        php5-fpm \
-        php5-mysqlnd \
+        php7.0 \
+        php7.0-bcmath \
+        php7.0-cli \
+        php7.0-curl \
+        php7.0-dom \
+        php7.0-fpm \
+        php7.0-mbstring \
+        php7.0-mysqlnd \
         nginx \
 	&& apt-get clean && rm -r /var/lib/apt/lists/*
 
