@@ -99,7 +99,7 @@ angular
                             }
                         });
 
-                        PrivilegeService1.PutKeyPrivileges(key.id, codes).then(function(){
+                        ApiKeyService1.PutApiKeyPrivileges(key.id, codes).then(function(){
                             $scope.privilegeDirty = false;
                         });
                     };
