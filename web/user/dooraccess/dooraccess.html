@@ -6,7 +6,7 @@
 </div>
 
 
-<div  ng-if="currentUser.hasPrivilege('door') && pin != null">
+<div ng-if="currentUser.hasPrivilege('vetted') && pin != null">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
         There will be a prompt to enter your pin. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         The code for the inner door is now <strong>{{innerdoor}}</strong>. Enter this code, then turn the thumbturn toward the hinges.<br><br>
@@ -29,7 +29,7 @@
     <p>Please test the door to confirmed that it is closed and locked properly.&nbsp;</p>
     <p>For more info on opening and locking the space, see <a href="https://vancouver.vanhack.ca/doku.php?id=schalge_lock_instructions">the wiki page</a>.</p>
 </div>
-<div  ng-if="!currentUser.hasPrivilege('door')">
+<div  ng-if="!currentUser.hasPrivilege('vetted')">
     <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
         There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
         VHS is unit 104, end of the hall and then on your left.<br><br>
