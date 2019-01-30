@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <style>
+            #console {
+              width: 1024px;
+              height: 768px;
+              background-color: black;
+              color: white;
+              font-family: monospace;
+              font-size: 10pt;
+              padding: 8px;
+              overflow-y: scroll;
+            }
+        
+            #stdin {
+                display: flex;
+            }
+            
+            #input {
+                border: none;
+                background-color: black;
+                color: white;
+                font-family: monospace;
+                font-size: 12pt;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+            
+            #input:focus {
+                outline: none;
+            }
+        </style>
+        
+        <script>
+            window.webconsole = null;
+        
+            function init() {
+                window.webconsole = new WebConsole();
+            }
+            
+            class WebConsole {
+                constructor() {
+                    this.socket = new WebSocket("ws://localhost:3000");
+                    this.socket.onmessage = this.receive.bind(this);
+                    
+                    this.elements = {
+                        console: document.getElementById("console"),
+                        stdout: document.getElementById('stdout'),
+                        stdin: document.getElementById('stdin'),
+                        input: document.getElementById('input'),
+                        cursor: document.getElementById('cursor')
+                    };
+                    
+                    this.elements.console.addEventListener("click", this.onConsoleClick.bind(this));
+                    this.elements.input.addEventListener("keypress", this.onInputKeyPress.bind(this));
+
+                    this.connected = false;
+                }
+                
+                onConsoleClick() {
+                    this.elements.input.focus();
+                }
+                
+                onInputKeyPress(e) {
+                    if(e.key === "Enter") {
+                        const value = this.elements.input.value;
+                        this.elements.input.value = "";
+                        
+                        this.cmd(value + "\n");
+                    }
+                }
+                
+                cmd(value) {
+                    if (this.connected) {
+                        this.send("command", value);
+                        
+                        return;
+                    }
+                    
+                    const args = value.trim().split(" ");
+                    
+                    switch(args[0]) {
+                        case "help":
+                            this.write("connect master\nconnect replica");
+                            break;
+                        case "connect":
+                            this.send("connect", args[1]);
+                            this.connected = true;
+                            break;
+                        case "clear":
+                            this.reset();
+                            break;
+                        default:
+                            this.write("\n");
+                            break;
+                    }
+                }
+                
+                write(value) {
+                    this.elements.stdout.innerText += value;
+                }
+                
+                reset() {
+                    this.elements.stdout.innerText = "";
+                }
+                
+                receive(event) {
+                    const cmd = JSON.parse(event.data);
+                    
+                    switch(cmd.type) {
+                        case 'stdout':
+                            this.write(cmd.data);
+                            break;
+                        case 'stderr':
+                            this.write(cmd.data);
+                            break;
+                        case 'close':
+                            this.connected = false;
+                            break;
+                        default:
+                            this.write(cmd.data);
+                            break;
+                    }
+                }
+                
+                send(type, data) {
+                    const envelope = {
+                        type: type,
+                        data: data
+                    };
+                    this.socket.send(JSON.stringify(envelope));
+                }
+            }
+        </script>
+    </head>
+    <body onload="init();">
+        <div id="console">
+            <div id="stdout"></div>
+            <div id="stdin">
+                <div id="cursor">&gt;&nbsp;</div>
+                <input type="text" id="input" />
+            </div>
+        </div>
+    </body>
+</html>

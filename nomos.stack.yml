@@ -1,0 +1,168 @@
+version: "3.1"
+
+services:
+  proxy:
+    image: nomos.proxy:latest
+    secrets:
+      - proxy_fullchain_pem
+      - proxy_privkey_pem
+      - proxy_htpasswd
+    environment:
+      - SERVER_NAME=nomos.localhost
+      - AUTH_BASIC_USER_FILE=/run/secrets/proxy_fullchain_pem
+      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_privkey_pem
+      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_htpasswd
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - proxy
+    depends_on:
+      - visualizer
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  
+  core:
+    image: nomos.core:latest
+    secrets:
+      - mq_vhost
+      - mq_user
+      - mq_password
+      - db_user
+      - db_password
+      - db_database
+      - ses_region
+      - ses_clientid
+      - ses_secret
+      - from_email
+      - oauth_github_client
+      - oauth_github_secret
+      - oauth_slack_client
+      - oauth_slack_secret
+      - oauth_slack_team
+      - oauth_google_client
+      - oauth_google_secret
+    networks:
+      data:
+      app:
+      proxy:
+        aliases:
+          - core
+    depends_on:
+      - rabbitmq
+      - database
+    deploy:
+      mode: replicated
+      
+  web:
+    image: nomos.web:latest
+    networks:
+      proxy:
+        aliases:
+          - web
+    deploy:
+      mode: replicated
+      
+  visualizer:
+    image: dockersamples/visualizer
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      proxy:
+        aliases:
+          - nomos_visualizer
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+          
+  rabbitmq:
+    image: rabbitmq
+    secrets:
+      - mq_vhost
+      - mq_user
+      - mq_password
+    environment:
+      - RABBITMQ_DEFAULT_VHOST_FILE=/run/secrets/mq_vhost
+      - RABBITMQ_DEFAULT_USER_FILE=/run/secrets/mq_user
+      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/mq_password
+    networks:
+      - app
+    deploy:
+      mode: replicated
+      replicas: 1
+          
+  database:
+    image: mysql:5
+    secrets:
+      - db_root_password
+      - db_user
+      - db_password
+      - db_database
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - MYSQL_USER_FILE=/run/secrets/db_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
+      - MYSQL_DATABASE_FILE=/run/secrets/db_database
+    volumes:
+      - "/srv/nomos/storage/database:/var/lib/mysql"
+    networks:
+      - data
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.labels.nomos.persistence == storage]
+      
+secrets:
+  mq_vhost:
+    file: ./secrets/mq_vhost
+  mq_user:
+    file: ./secrets/mq_user
+  mq_password:
+    file: ./secrets/mq_password
+  db_root_password:
+    file: ./secrets/db_root_password
+  db_user:
+    file: ./secrets/db_user
+  db_password:
+    file: ./secrets/db_password
+  db_database:
+    file: ./secrets/db_database
+  ses_region:
+    file: ./secrets/ses_region
+  ses_clientid:
+    file: ./secrets/ses_clientid
+  ses_secret:
+    file: ./secrets/ses_secret
+  from_email:
+    file: ./secrets/from_email
+  oauth_github_client:
+    file: ./secrets/oauth_github_client
+  oauth_github_secret:
+    file: ./secrets/oauth_github_secret
+  oauth_slack_client:
+    file: ./secrets/oauth_slack_client
+  oauth_slack_secret:
+    file: ./secrets/oauth_slack_secret
+  oauth_slack_team:
+    file: ./secrets/oauth_slack_team
+  oauth_google_client:
+    file: ./secrets/oauth_google_client
+  oauth_google_secret:
+    file: ./secrets/oauth_google_secret
+  proxy_fullchain_pem:
+    file: ./secrets/proxy_fullchain_pem
+  proxy_privkey_pem:
+    file: ./secrets/proxy_privkey_pem
+  proxy_htpasswd:
+    file: ./secrets/proxy_htpasswd
+
+networks:
+  data:
+  app:
+  proxy:
+    external: true
+
