@@ -24,7 +24,7 @@
                 background-color: black;
                 color: white;
                 font-family: monospace;
-                font-size: 12pt;
+                font-size: 1;
                 margin: 0;
                 padding: 0;
                 width: 100%;
@@ -59,6 +59,8 @@
                     this.elements.input.addEventListener("keypress", this.onInputKeyPress.bind(this));
 
                     this.connected = false;
+                    this.localCursor = 'root@manager:console#&nbsp;';
+                    this.elements.cursor.innerHTML = this.localCursor;
                 }
                 
                 onConsoleClick() {
@@ -85,23 +87,27 @@
                     
                     switch(args[0]) {
                         case "help":
-                            this.write("connect master\nconnect replica");
+                        case "?":
+                        case "ls":
+                            this.write("connect master\nconnect replica\n\n");
                             break;
                         case "connect":
                             this.send("connect", args[1]);
                             this.connected = true;
+                            this.elements.cursor.innerHTML = `root@${args[1]}:mysql>&nbsp;`;
                             break;
                         case "clear":
                             this.reset();
                             break;
                         default:
-                            this.write("\n");
+                            this.write(`Unknown command ${value}\n`);
                             break;
                     }
                 }
                 
                 write(value) {
                     this.elements.stdout.innerText += value;
+                    this.elements.console.scrollTop = (this.elements.console.scrollHeight - this.elements.console.clientHeight);
                 }
                 
                 reset() {
@@ -120,6 +126,7 @@
                             break;
                         case 'close':
                             this.connected = false;
+                            this.elements.cursor.innerHTML = this.localCursor;
                             break;
                         default:
                             this.write(cmd.data);
@@ -138,10 +145,11 @@
         </script>
     </head>
     <body onload="init();">
+    <h1>DB Manager Console</h1>
         <div id="console">
             <div id="stdout"></div>
             <div id="stdin">
-                <div id="cursor">&gt;&nbsp;</div>
+                <div id="cursor">...</div>
                 <input type="text" id="input" />
             </div>
         </div>
