@@ -1,3 +1,4 @@
+const config = require("./config");
 const express = require("express");
 const WebSocket = require("ws");
 const http = require("http");
@@ -22,7 +23,9 @@ wss.on("connection", ws => {
         ws.mysql.kill('SIGHUP');
       }
       
-      ws.mysql = spawn('script', ['-c', '"mysql -h 172.18.0.1 -u nomos -pnomos"'], { shell: true });
+      const host = obj.data.trim();
+      
+      ws.mysql = spawn('script', ['-c', `"mysql -h ${host} -u root -p${config.db.root_password}"`], { shell: true });
       
       ws.mysql.stdout.on('data', data => {
         console.log(data.toString('utf8'));
@@ -73,4 +76,8 @@ wss.on("connection", ws => {
   });
 });
 
-server.listen(3000);
+module.exports = {
+  server: server,
+  app: app,
+  wss: wss
+};

@@ -92,6 +92,31 @@ class ManagedDatabase {
             }
         });
     }
+    
+    updateVersion(v) {
+      return new Promise(async (resolve, reject) => {
+            try {
+                const settingsTable = await this.query("SHOW TABLES LIKE 'settings';");
+                
+                if (settingsTable.length !== 1) {
+                    return resolve(0);
+                }
+                
+                const schemaversionColumn = await this.query("SHOW COLUMNS FROM `settings` like 'schemaversion';");
+                
+                if (schemaversionColumn.length === 1) {
+                    await this.query(`UPDATE settings SET schemaversion = ${v};`);
+                    
+                    return resolve(v);
+                } else {
+                    return resolve(0);
+                }
+            } catch(err) {
+                console.error(`Error updating version: ${err}`);
+                return reject(err);
+            }
+        });
+    }
 }
 
 module.exports = ManagedDatabase;
