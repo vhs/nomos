@@ -17,6 +17,25 @@ For a development configuration:
 
 `https://dev.nomos.local/`
 
+## Cleanup
+
+```
+docker stack rm nomos
+
+docker system prune
+```
+
+Optional:
+```
+# delete all stopped containers !! not just nomos, although stack rm should clean these all up anyway
+docker rm $(docker ps -aq)
+
+#delete all images !! not just nomos images, deletes everything
+docker rmi $(docker images -q)
+
+rm -rf /srv/nomos/
+```
+
 ## Development
 
 See here for complete setup, API, and philosophy:
