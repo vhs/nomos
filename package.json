@@ -1,6 +1,6 @@
 {
   "name": "nomos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "_In greek mythology, Nomos is the personified spirit of law._",
   "main": "index.js",
   "scripts": {
