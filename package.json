@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./build.sh",
-    "deploy": "docker stack deploy -c nomos.stack.yml nomos"
+    "deploy": "docker stack deploy -c nomos.stack.yml nomos",
+    "admin": "ssh nomos@localhost -p 2222 -L 8080:visualizer:8080 -L 3000:manager:3000"
   },
   "repository": {
     "type": "git",
