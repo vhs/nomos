@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.5"
 
 services:
   proxy:
@@ -19,6 +19,18 @@ services:
       - proxy
     depends_on:
       - visualizer
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  adminvpn:
+    image: nomos.adminvpn:latest
+    secrets:
+      - adminvpn_password
+    ports:
+      - "2222:22"
+    networks:
+      - admin
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -51,7 +63,7 @@ services:
           - core
     depends_on:
       - rabbitmq
-      - database
+      - manager
     deploy:
       mode: replicated
       
@@ -72,6 +84,7 @@ services:
       proxy:
         aliases:
           - nomos_visualizer
+      admin:
     deploy:
       mode: replicated
       replicas: 1
@@ -90,12 +103,37 @@ services:
       - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/mq_password
     networks:
       - app
+      - admin
     deploy:
       mode: replicated
       replicas: 1
           
-  database:
-    image: mysql:5
+  manager:
+    image: nomos.database.manager:latest
+    secrets:
+      - db_root_password
+      - db_user
+      - db_password
+      - db_database
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - MYSQL_USER_FILE=/run/secrets/db_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
+      - MYSQL_DATABASE_FILE=/run/secrets/db_database
+    networks:
+      - data
+      - admin
+    depends_on:
+      - master
+      - replica
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+          
+  master:
+    image: nomos.database.master:latest
     secrets:
       - db_root_password
       - db_user
@@ -107,62 +145,109 @@ services:
       - MYSQL_PASSWORD_FILE=/run/secrets/db_password
       - MYSQL_DATABASE_FILE=/run/secrets/db_database
     volumes:
-      - "/srv/nomos/storage/database:/var/lib/mysql"
+      - "/srv/nomos/storage/master:/var/lib/mysql"
     networks:
       - data
     deploy:
       mode: replicated
       replicas: 1
       placement:
-        constraints: [node.labels.nomos.persistence == storage]
+        constraints: [node.labels.nomos.persistence.master == storage]
+      
+  replica:
+    image: nomos.database.replica:latest
+    secrets:
+      - db_root_password
+      - db_user
+      - db_password
+      - db_database
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - MYSQL_USER_FILE=/run/secrets/db_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
+      - MYSQL_DATABASE_FILE=/run/secrets/db_database
+    volumes:
+      - "/srv/nomos/storage/replica:/var/lib/mysql"
+    networks:
+      - data
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.labels.nomos.persistence.replica == storage]
       
 secrets:
   mq_vhost:
     file: ./secrets/mq_vhost
+    name: mq_vhost_${npm_package_version}
   mq_user:
     file: ./secrets/mq_user
+    name: mq_user_${npm_package_version}
   mq_password:
     file: ./secrets/mq_password
+    name: mq_password_${npm_package_version}
   db_root_password:
     file: ./secrets/db_root_password
+    name: db_root_password_${npm_package_version}
   db_user:
     file: ./secrets/db_user
+    name: db_user_${npm_package_version}
   db_password:
     file: ./secrets/db_password
+    name: db_password_${npm_package_version}
   db_database:
     file: ./secrets/db_database
+    name: db_database_${npm_package_version}
   ses_region:
     file: ./secrets/ses_region
+    name: ses_region_${npm_package_version}
   ses_clientid:
     file: ./secrets/ses_clientid
+    name: ses_clientid_${npm_package_version}
   ses_secret:
     file: ./secrets/ses_secret
+    name: ses_secret_${npm_package_version}
   from_email:
     file: ./secrets/from_email
+    name: from_email_${npm_package_version}
   oauth_github_client:
     file: ./secrets/oauth_github_client
+    name: oauth_github_client_${npm_package_version}
   oauth_github_secret:
     file: ./secrets/oauth_github_secret
+    name: oauth_github_secret_${npm_package_version}
   oauth_slack_client:
     file: ./secrets/oauth_slack_client
+    name: oauth_slack_client_${npm_package_version}
   oauth_slack_secret:
     file: ./secrets/oauth_slack_secret
+    name: oauth_slack_secret_${npm_package_version}
   oauth_slack_team:
     file: ./secrets/oauth_slack_team
+    name: oauth_slack_team_${npm_package_version}
   oauth_google_client:
     file: ./secrets/oauth_google_client
+    name: oauth_google_client_${npm_package_version}
   oauth_google_secret:
     file: ./secrets/oauth_google_secret
+    name: oauth_google_secret_${npm_package_version}
   proxy_fullchain_pem:
     file: ./secrets/proxy_fullchain_pem
+    name: proxy_fullchain_pem_${npm_package_version}
   proxy_privkey_pem:
     file: ./secrets/proxy_privkey_pem
+    name: proxy_privkey_pem_${npm_package_version}
   proxy_htpasswd:
     file: ./secrets/proxy_htpasswd
+    name: proxy_htpasswd_${npm_package_version}
+  adminvpn_password:
+    file: ./secrets/adminvpn_password
+    name: adminvpn_password_${npm_package_version}
 
 networks:
   data:
   app:
   proxy:
     external: true
-
+  admin:
+    external: true

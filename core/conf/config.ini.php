@@ -4,7 +4,7 @@
     * Database Constants - these constants refer to 
     * the database configuration settings. 
     */
-    define('DB_SERVER', 'database'); 
+    define('DB_SERVER', 'master'); 
     define('DB_USER', file_get_contents('/run/secrets/db_user'));
     define('DB_PASS', file_get_contents('/run/secrets/db_password'));
     define('DB_DATABASE', file_get_contents('/run/secrets/db_database'));
@@ -39,4 +39,4 @@
     * Show MySql Errors. 
     * Not recomended for live site. true/false 
     */
-    define('DEBUG', true);
+    define('DEBUG', false);

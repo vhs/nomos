@@ -1,9 +1,33 @@
 
-cd core/
-sudo docker build -t nomos.core:latest .
+cd core
+sudo npm run build
+cd ..
 
-cd ../proxy
-sudo docker build -t nomos.proxy:latest .
+cd proxy
+sudo npm run build
+cd ..
 
-cd ../web
-sudo docker build -t nomos.web:latest .
+cd web
+sudo npm run build
+cd ..
+
+cd adminvpn
+sudo npm run build
+cd ..
+
+cd database
+cd manager
+sudo npm run build
+cd ..
+
+cd master
+sudo npm run build
+cd ..
+
+cd replica
+sudo npm run build
+cd ..
+cd ..
+
+
+

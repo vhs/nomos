@@ -1,12 +1,13 @@
 {
-  "name": "datamgr",
+  "name": "nomos.database.manager",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "testdb": "sudo docker run --name test_nomos_db -e MYSQL_ROOT_PASSWORD=nomos -e MYSQL_USER=nomos -e MYSQL_PASSWORD=nomos -e MYSQL_DATABASE=nomos -p 3306:3306 -d mysql:5",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "docker build -t $npm_package_name:$npm_package_version -t $npm_package_name:latest ."
   },
   "author": "",
   "license": "ISC",

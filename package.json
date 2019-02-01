@@ -1,0 +1,21 @@
+{
+  "name": "nomos",
+  "version": "1.0.0",
+  "description": "_In greek mythology, Nomos is the personified spirit of law._",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./build.sh",
+    "deploy": "docker stack deploy -c nomos.stack.yml nomos"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vhs/nomos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vhs/nomos/issues"
+  },
+  "homepage": "https://github.com/vhs/nomos#readme"
+}

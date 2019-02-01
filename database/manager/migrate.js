@@ -20,7 +20,7 @@ const mysql = require("mysql");
 const ManagedDatabase = require('./ManagedDatabase');
 
 // TODO host
-const host = "192.168.1.66";
+const host = "master";
 
 const db = new ManagedDatabase({
     driver: mysql,
