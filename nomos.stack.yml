@@ -6,12 +6,10 @@ services:
     secrets:
       - proxy_fullchain_pem
       - proxy_privkey_pem
-      - proxy_htpasswd
     environment:
       - SERVER_NAME=nomos.localhost
-      - AUTH_BASIC_USER_FILE=/run/secrets/proxy_fullchain_pem
-      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_privkey_pem
-      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_htpasswd
+      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_fullchain_pem
+      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_privkey_pem
     ports:
       - "80:80"
       - "443:443"
@@ -237,9 +235,6 @@ secrets:
   proxy_privkey_pem:
     file: ./secrets/proxy_privkey_pem
     name: proxy_privkey_pem_${npm_package_version}
-  proxy_htpasswd:
-    file: ./secrets/proxy_htpasswd
-    name: proxy_htpasswd_${npm_package_version}
   adminvpn_password:
     file: ./secrets/adminvpn_password
     name: adminvpn_password_${npm_package_version}
