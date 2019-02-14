@@ -7,46 +7,51 @@
 
 
 <div ng-if="currentUser.hasPrivilege('vetted') && pin != null">
-    <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
-        There will be a prompt to enter your pin. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
-        The code for the inner door is now <strong>{{innerdoor}}</strong>. Enter this code, then turn the thumbturn toward the hinges.<br><br>
-        All together: <strong>104</strong>, then <strong>{{pin}}</strong>, then <strong>{{innerdoor}}</strong> inside.<br><br>
+    <p>Our RFID access system is happening, but will take a bit longer to get installed and tested, in the meanwhile we have setup a temporary access system so keyholders can come in and help set the new space up.</p>
 
-    </p>
-    <h4>Extra tips:</h4>
+    <h4>When entering</h4>
+
+    <p>Access is via the front door on Venables street. The lock is the same as at Cook so just pretend you are in the hallway. The new code is <strong>{{innerdoor}}</strong>.</p>
+    <p>The “is VHS open bot” is now located on the admin cabinet by the small office in the main area if you would like to open the space to non keyholders.</p>
+    <br />
+    <p><b>To open</b>, punch in the current door access number: <strong>{{innerdoor}}</strong></p>
+    <p>The lock is now unlocked and you can turn the thumbturn clockwise to unlock the door.</p>
+    <br />
+    <p><b>NOTE:</b> Due to issues with the lock, when locking the door after you enter, you'll need to close it, then open it and then close the lock again. This will make sure that the front door lock will actually be in a locked position.</p>
+
+    <h4>When leaving</h4>
     <p>
+        <b>Ensure all doors are locked:</b> this means:
         <ul>
-    <li>Type 0104 to make the buzzer dial faster</li>
-    <li>You don't need to wait for the voice prompt to stop talking before entering your PIN</li>
-    <li>Leading zeroes in your PIN are optional</li>
-    <li>Dial * after your pin to skip the timeout and buzz-in faster</li>
-    </ul>
+            <li>the front door,</li>
+            <li>the side door (locked with a deadbolt),</li>
+            <li>the rear sliding doors which are locked with bars into holes in the concrete and a cross bolt between the two doors</li>
+        </ul>
     </p>
-
-    <h3>Exit</h3>
-    <p>CLOSE THE WINDOWS, make sure the space is empty, turn the lights off including the isvhsopen.com switch, and exit. <br>
-        To lock the inner door after you have left, press the Schlage button on the top, then rotate the thumbturn away from the hinges.</p>
+    
+    <p>Failure to do so may result in mass theft of stuff from the hackerspace and general sadness followed by the collapse of the society.</p>
+    <p><b>Turn down the heat</b>, setting it to 15 works. (panel beside the furnace room)</p>
+    <p><b>Turn off the lights</b>, there are two switches beside the sliding doors in the woodshop, and you have to throw two breakers on the east workshop panel, the a switch by the base of the side door stairs, and a series of switches in the upstairs rooms.</p>
+    <p><b>Lock the front door behind you.</b> To lock, press the centre button labeled “Schlage” to engage the knob that turns the deadbolt or use your code and you are good to go. Then give the door a try to make sure its locked.</p>
+    
+    <h4>Exit</h4>
+    <p>To lock the inner door after you have left, press the Schlage button on the top, then rotate the thumbturn (counter-clockwise) away from the hinges.</p>
     <p>Please test the door to confirmed that it is closed and locked properly.&nbsp;</p>
-    <p>For more info on opening and locking the space, see <a href="https://vancouver.vanhack.ca/doku.php?id=schalge_lock_instructions">the wiki page</a>.</p>
+    <p>For more info on opening and locking the space, see:
+        <ul>
+            <li><a href="https://talk.vanhack.ca/t/vhs-1601-venables-interim-access-details-for-keyholders/8755">Interim Instructions on Talk</a></li>
+            <li><a href="https://talk.vanhack.ca/t/important-door-security-info/8767">Important door security info</a></li>
+            <li><a href="https://vancouver.vanhack.ca/doku.php?id=schalge_lock_instructions">the lock wiki page</a></li>
+        </ul>
+    </p>
 </div>
 <div  ng-if="!currentUser.hasPrivilege('vetted')">
-    <p>To enter the main door, first enter the VHS suite number: <strong>104</strong>. This is also written on the directory beside the keypad.<br>
-        There will be a prompt to enter your pin. You don&#039;t have to wait for the prompt to finish talking. Your pin is <strong>{{pin}}</strong> and can be changed in your profile page.  The door will click unlocked, and you can enter.<br>
-        VHS is unit 104, end of the hall and then on your left.<br><br>
-        All together: <strong>104</strong>, then <strong>{{pin}}</strong>.<br><br>
-    <h4>Extra tips:</h4>
     <p>
-    <ul>
-        <li>Type 0104 to make the buzzer dial faster</li>
-        <li>You don't need to wait for the voice prompt to stop talking before entering your PIN</li>
-        <li>Leading zeroes in your PIN are optional</li>
-        <li>Dial * after your pin to skip the timeout and buzz-in faster</li>
-        <li>Check <a href="http://www.isvhsopen.com">www.isvhsopen.com</a> to quickly see if we're open</li>
-        <li>Please don't try to sneak into the building! We want to be good neighbours</li>
-    </ul>
+        <ul>
+            <li>Check <a href="http://www.isvhsopen.com">www.isvhsopen.com</a> or <a href="https://vanhack.slack.com/messages/C0FSQCR6E">#isvhsopen</a> on <a href="https://slack.vanhack.ca">Slack</a> to quickly see if we're open</li>
+        </ul>
     </p>
 
-    </p>
 </div>
 
 
