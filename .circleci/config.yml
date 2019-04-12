@@ -331,7 +331,7 @@ jobs:
 # end nomos.web
 
 # nomos.webhooker
-  build-web:
+  build-webhooker:
     docker:
       - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos/webhooker
