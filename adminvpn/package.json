@@ -15,6 +15,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
     "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
     "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
   }

@@ -18,6 +18,7 @@
     "test": "mocha ./test",
     "help": "node webhooker.js --help",
     "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build npm test",
     "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
     "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
   },

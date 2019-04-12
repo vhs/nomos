@@ -17,6 +17,7 @@
     "start": "node index.js",
     "testdb": "sudo docker run --name test_nomos_db -e MYSQL_ROOT_PASSWORD=nomos -e MYSQL_USER=nomos -e MYSQL_PASSWORD=nomos -e MYSQL_DATABASE=nomos -p 3306:3306 -d mysql:5",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
     "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
     "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
   },

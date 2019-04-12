@@ -197,7 +197,7 @@ class EmailService implements IEmailService1 {
      */
     public function ListTemplates($page, $size, $columns, $order, $filters)
     {
-        return EmailTemplate::page($page, $size, $columns, $order, $filters);
+        return EmailTemplate::page($page, $size, $columns, $order, $filters, []);
     }
 
     /**

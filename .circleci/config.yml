@@ -1,5 +1,134 @@
 version: 2.1
 
+commands:
+  restore_repo:
+    description: "Restore repo from cache"
+    steps:
+      - restore_cache:
+          working_directory: ~/nomos/
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: /tmp/workspace
+
+  load_layers:
+    description: "Load Docker image layer cache"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-layers-{{ checksum "Dockerfile" }}-{{ checksum "package.json" }}
+          paths:
+            - /caches/docker.layers.tar
+      - run: 
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/docker.layers.tar | true
+
+  build_image:
+    description: "Build Docker image"
+    steps:
+      - run:
+          name: Build Docker image
+          command: |
+            NAME=$(npm run env | sed -n 's/npm_package_name=//p')
+            npm run build -- --cache-from=vanhack/${NAME}
+
+  save_layers:
+    description: "Save Docker image layer cache"
+    steps:
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            NAME=$(npm run env | sed -n 's/npm_package_name=//p')
+            docker save -o /caches/docker.layers.tar vanhack/${NAME}
+      - save_cache:
+          key: v1-layers-{{ checksum "Dockerfile" }}-{{ checksum "package.json" }}
+          paths:
+            - /caches/docker.layers.tar
+
+  save_image_to_workspace:
+    description: "Save Docker image to workspace"
+    parameters:
+      name:
+        type: string
+    steps:
+      - run:
+          name: Save Docker image to workspace
+          command: |
+            docker save -o /tmp/workspace/<< parameters.name >>.tar vanhack/<< parameters.name >>
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths: << parameters.name >>.tar
+          
+  build_component:
+    description: "Build component"
+    parameters:
+      name:
+        type: string
+    steps:
+      - setup_remote_docker
+      - restore_repo
+      - set_build_version
+      - load_layers
+      - build_image
+      - save_layers
+      - save_image_to_workspace:
+          name: << parameters.name >>
+
+  test_component:
+    description: "Test component"
+    parameters:
+      name:
+        type: string
+    steps:
+      - setup_remote_docker
+      - restore_repo
+      - load_image_from_workspace:
+          name: << parameters.name >>
+      - set_build_version
+      - run:
+          name: Test Docker image
+          command: |
+            npm run test:ci
+
+  push_component:
+    description: "Push component"
+    parameters:
+      name:
+        type: string
+    steps:
+      - setup_remote_docker
+      - restore_repo
+      - load_image_from_workspace:
+          name: << parameters.name >>
+      - set_build_version
+      - run:
+          name: Push Docker image
+          command: |
+            npm run push
+
+  load_image_from_workspace:
+    description: "Load Docker iamge from workspace"
+    parameters:
+      name:
+        type: string
+    steps:
+      - run:
+          name: Load Docker image
+          command: |
+            docker load -i /tmp/workspace/<< parameters.name >>.tar
+
+  set_build_version:
+    description: "Set the build version for the package"
+    steps:
+      - run:
+          name: Set build version
+          command: |
+            BUILD_NUM=$(cat /tmp/workspace/buildnum.version)
+            sed -ie s/.0-dev/${BUILD_NUM}/ package.json
+
 jobs:
   checkout:
     docker:
@@ -18,93 +147,241 @@ jobs:
       - persist_to_workspace:
           root: ~/nomos
           paths: buildnum.version
-          
+
+# nomos.adminvpn
+  build-adminvpn:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/adminvpn
+    steps:
+      - build_component:
+          name: nomos.adminvpn
+
+  test-adminvpn:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/adminvpn
+    steps:
+      - test_component:
+          name: nomos.adminvpn
+
+  push-adminvpn:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/adminvpn
+    steps:
+      - push_component:
+          name: nomos.adminvpn
+# end nomos.adminvpn
+
+# nomos.core
   build-core:
     docker:
       - image: vanhack/nomos.build:1.0.0.0-dev
-    working_directory: ~/nomos
+    working_directory: ~/nomos/core
     steps:
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - attach_workspace:
-          at: /tmp/workspace
-      - restore_cache:
-          keys:
-            - v1-layers-nomos.core-{{ .Branch }}
-          paths:
-            - /caches/nomos.core.tar
-      - run: 
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/nomos.core.tar | true
-      - run:
-          name: Set build version
-          working_directory: ~/nomos/core
-          command: |
-            BUILD_NUM=$(cat /tmp/workspace/buildnum.version)
-            sed -ie s/.0-dev/${BUILD_NUM}/ package.json
-      - run:
-          name: Build nomos.core Docker image
-          working_directory: ~/nomos/core
-          command: |
-            npm run build -- --cache-from=vanhack/nomos.core
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/nomos.core.tar vanhack/nomos.core
-      - persist_to_workspace:
-          root: /caches
-          paths: nomos.core.tar
-      - save_cache:
-          key: v1-layers-nomos.core-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches/nomos.core.tar
-            
+      - build_component:
+          name: nomos.core
+
   test-core:
     docker:
       - image: vanhack/nomos.build:1.0.0.0-dev
-    working_directory: ~/nomos
+    working_directory: ~/nomos/core
     steps:
-      - setup_remote_docker
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load Docker image
-          command: |
-            docker load -i /tmp/workspace/nomos.core.tar
-      - run:
-          name: Test Docker image
-          command: |
-            docker run vanhack/nomos.core test
+      - test_component:
+          name: nomos.core
 
-            
   push-core:
     docker:
       - image: vanhack/nomos.build:1.0.0.0-dev
-    working_directory: ~/nomos
+    working_directory: ~/nomos/core
     steps:
-      - setup_remote_docker
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load Docker image
-          command: |
-            docker load -i /tmp/workspace/nomos.core.tar
-      - run:
-          name: Push Docker image
-          command: |
-            docker push vanhack/nomos.core
+      - push_component:
+          name: nomos.core
+# end nomos.core
 
-  
+# nomos.database.manager
+  build-database-manager:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/manager
+    steps:
+      - build_component:
+          name: nomos.database.manager
+
+  test-database-manager:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/manager
+    steps:
+      - test_component:
+          name: nomos.database.manager
+
+  push-database-manager:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/manager
+    steps:
+      - push_component:
+          name: nomos.database.manager
+# end nomos.database.manager
+
+# nomos.database.master
+  build-database-master:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/master
+    steps:
+      - build_component:
+          name: nomos.database.master
+
+  test-database-master:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/master
+    steps:
+      - test_component:
+          name: nomos.database.master
+
+  push-database-master:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/master
+    steps:
+      - push_component:
+          name: nomos.database.master
+# end nomos.database.master
+
+# nomos.database.replica
+  build-database-replica:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/replica
+    steps:
+      - build_component:
+          name: nomos.database.replica
+
+  test-database-replica:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/replica
+    steps:
+      - test_component:
+          name: nomos.database.replica
+
+  push-database-replica:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/database/replica
+    steps:
+      - push_component:
+          name: nomos.database.replica
+# end nomos.database.replica
+
+# nomos.proxy
+  build-proxy:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/proxy
+    steps:
+      - build_component:
+          name: nomos.proxy
+
+  test-proxy:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/proxy
+    steps:
+      - test_component:
+          name: nomos.proxy
+
+  push-proxy:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/proxy
+    steps:
+      - push_component:
+          name: nomos.proxy
+# end nomos.proxy
+
+# nomos.web
+  build-web:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/web
+    steps:
+      - build_component:
+          name: nomos.web
+
+  test-web:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/web
+    steps:
+      - test_component:
+          name: nomos.web
+
+  push-web:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/web
+    steps:
+      - push_component:
+          name: nomos.web
+# end nomos.web
+
+# nomos.webhooker
+  build-web:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/webhooker
+    steps:
+      - build_component:
+          name: nomos.webhooker
+
+  test-webhooker:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/webhooker
+    steps:
+      - test_component:
+          name: nomos.webhooker
+
+  push-webhooker:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/webhooker
+    steps:
+      - push_component:
+          name: nomos.webhooker
+# end nomos.webhooker
+          
 workflows:
   version: 2
   beard:
     jobs:
       - checkout
+      # nomos.adminvpn
+      - build-adminvpn:
+          requires:
+            - checkout
+      - test-adminvpn:
+          requires:
+            - build-adminvpn
+      - push-adminvpn:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.core
       - build-core:
           requires:
             - checkout
@@ -113,7 +390,134 @@ workflows:
             - build-core
       - push-core:
           requires:
+            - test-adminvpn
             - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.database.manager
+      - build-database-manager:
+          requires:
+            - checkout
+      - test-database-manager:
+          requires:
+            - build-database-manager
+      - push-database-manager:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.database.master
+      - build-database-master:
+          requires:
+            - checkout
+      - test-database-master:
+          requires:
+            - build-database-master
+      - push-database-master:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.database.replica
+      - build-database-replica:
+          requires:
+            - checkout
+      - test-database-replica:
+          requires:
+            - build-database-replica
+      - push-database-replica:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.proxy
+      - build-proxy:
+          requires:
+            - checkout
+      - test-proxy
+          requires:
+            - build-proxy
+      - push-proxy:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.web
+      - build-web:
+          requires:
+            - checkout
+      - test-web
+          requires:
+            - build-web
+      - push-web:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: master
+      # nomos.webhooker
+      - build-webhooker:
+          requires:
+            - checkout
+      - test-webhooker
+          requires:
+            - build-webhooker
+      - push-webhooker:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-web
+            - test-webhooker
           filters:
             branches:
               only: master
