@@ -51,21 +51,21 @@ commands:
   save_image_to_workspace:
     description: "Save Docker image to workspace"
     parameters:
-      name:
+      component:
         type: string
     steps:
       - run:
           name: Save Docker image to workspace
           command: |
-            docker save -o /tmp/workspace/<< parameters.name >>.tar vanhack/<< parameters.name >>
+            docker save -o /tmp/workspace/<< parameters.component >>.tar vanhack/<< parameters.component >>
       - persist_to_workspace:
           root: /tmp/workspace
-          paths: << parameters.name >>.tar
+          paths: << parameters.component >>.tar
           
   build_component:
     description: "Build component"
     parameters:
-      name:
+      component:
         type: string
     steps:
       - setup_remote_docker
@@ -75,18 +75,18 @@ commands:
       - build_image
       - save_layers
       - save_image_to_workspace:
-          name: << parameters.name >>
+          component: << parameters.component >>
 
   test_component:
     description: "Test component"
     parameters:
-      name:
+      component:
         type: string
     steps:
       - setup_remote_docker
       - restore_repo
       - load_image_from_workspace:
-          name: << parameters.name >>
+          component: << parameters.component >>
       - set_build_version
       - run:
           name: Test Docker image
@@ -96,13 +96,13 @@ commands:
   push_component:
     description: "Push component"
     parameters:
-      name:
+      component:
         type: string
     steps:
       - setup_remote_docker
       - restore_repo
       - load_image_from_workspace:
-          name: << parameters.name >>
+          component: << parameters.component >>
       - set_build_version
       - run:
           name: Push Docker image
@@ -112,13 +112,13 @@ commands:
   load_image_from_workspace:
     description: "Load Docker iamge from workspace"
     parameters:
-      name:
+      component:
         type: string
     steps:
       - run:
           name: Load Docker image
           command: |
-            docker load -i /tmp/workspace/<< parameters.name >>.tar
+            docker load -i /tmp/workspace/<< parameters.component >>.tar
 
   set_build_version:
     description: "Set the build version for the package"
@@ -155,7 +155,7 @@ jobs:
     working_directory: ~/nomos/adminvpn
     steps:
       - build_component:
-          name: nomos.adminvpn
+          component: nomos.adminvpn
 
   test-adminvpn:
     docker:
@@ -163,7 +163,7 @@ jobs:
     working_directory: ~/nomos/adminvpn
     steps:
       - test_component:
-          name: nomos.adminvpn
+          component: nomos.adminvpn
 
   push-adminvpn:
     docker:
@@ -171,7 +171,7 @@ jobs:
     working_directory: ~/nomos/adminvpn
     steps:
       - push_component:
-          name: nomos.adminvpn
+          component: nomos.adminvpn
 # end nomos.adminvpn
 
 # nomos.core
@@ -181,7 +181,7 @@ jobs:
     working_directory: ~/nomos/core
     steps:
       - build_component:
-          name: nomos.core
+          component: nomos.core
 
   test-core:
     docker:
@@ -189,7 +189,7 @@ jobs:
     working_directory: ~/nomos/core
     steps:
       - test_component:
-          name: nomos.core
+          component: nomos.core
 
   push-core:
     docker:
@@ -197,7 +197,7 @@ jobs:
     working_directory: ~/nomos/core
     steps:
       - push_component:
-          name: nomos.core
+          component: nomos.core
 # end nomos.core
 
 # nomos.database.manager
@@ -207,7 +207,7 @@ jobs:
     working_directory: ~/nomos/database/manager
     steps:
       - build_component:
-          name: nomos.database.manager
+          component: nomos.database.manager
 
   test-database-manager:
     docker:
@@ -215,7 +215,7 @@ jobs:
     working_directory: ~/nomos/database/manager
     steps:
       - test_component:
-          name: nomos.database.manager
+          component: nomos.database.manager
 
   push-database-manager:
     docker:
@@ -223,7 +223,7 @@ jobs:
     working_directory: ~/nomos/database/manager
     steps:
       - push_component:
-          name: nomos.database.manager
+          component: nomos.database.manager
 # end nomos.database.manager
 
 # nomos.database.master
@@ -233,7 +233,7 @@ jobs:
     working_directory: ~/nomos/database/master
     steps:
       - build_component:
-          name: nomos.database.master
+          component: nomos.database.master
 
   test-database-master:
     docker:
@@ -241,7 +241,7 @@ jobs:
     working_directory: ~/nomos/database/master
     steps:
       - test_component:
-          name: nomos.database.master
+          component: nomos.database.master
 
   push-database-master:
     docker:
@@ -249,7 +249,7 @@ jobs:
     working_directory: ~/nomos/database/master
     steps:
       - push_component:
-          name: nomos.database.master
+          component: nomos.database.master
 # end nomos.database.master
 
 # nomos.database.replica
@@ -259,7 +259,7 @@ jobs:
     working_directory: ~/nomos/database/replica
     steps:
       - build_component:
-          name: nomos.database.replica
+          component: nomos.database.replica
 
   test-database-replica:
     docker:
@@ -267,7 +267,7 @@ jobs:
     working_directory: ~/nomos/database/replica
     steps:
       - test_component:
-          name: nomos.database.replica
+          component: nomos.database.replica
 
   push-database-replica:
     docker:
@@ -275,7 +275,7 @@ jobs:
     working_directory: ~/nomos/database/replica
     steps:
       - push_component:
-          name: nomos.database.replica
+          component: nomos.database.replica
 # end nomos.database.replica
 
 # nomos.proxy
@@ -285,7 +285,7 @@ jobs:
     working_directory: ~/nomos/proxy
     steps:
       - build_component:
-          name: nomos.proxy
+          component: nomos.proxy
 
   test-proxy:
     docker:
@@ -293,7 +293,7 @@ jobs:
     working_directory: ~/nomos/proxy
     steps:
       - test_component:
-          name: nomos.proxy
+          component: nomos.proxy
 
   push-proxy:
     docker:
@@ -301,7 +301,7 @@ jobs:
     working_directory: ~/nomos/proxy
     steps:
       - push_component:
-          name: nomos.proxy
+          component: nomos.proxy
 # end nomos.proxy
 
 # nomos.web
@@ -311,7 +311,7 @@ jobs:
     working_directory: ~/nomos/web
     steps:
       - build_component:
-          name: nomos.web
+          component: nomos.web
 
   test-web:
     docker:
@@ -319,7 +319,7 @@ jobs:
     working_directory: ~/nomos/web
     steps:
       - test_component:
-          name: nomos.web
+          component: nomos.web
 
   push-web:
     docker:
@@ -327,7 +327,7 @@ jobs:
     working_directory: ~/nomos/web
     steps:
       - push_component:
-          name: nomos.web
+          component: nomos.web
 # end nomos.web
 
 # nomos.webhooker
@@ -337,7 +337,7 @@ jobs:
     working_directory: ~/nomos/webhooker
     steps:
       - build_component:
-          name: nomos.webhooker
+          component: nomos.webhooker
 
   test-webhooker:
     docker:
@@ -345,7 +345,7 @@ jobs:
     working_directory: ~/nomos/webhooker
     steps:
       - test_component:
-          name: nomos.webhooker
+          component: nomos.webhooker
 
   push-webhooker:
     docker:
@@ -353,7 +353,7 @@ jobs:
     working_directory: ~/nomos/webhooker
     steps:
       - push_component:
-          name: nomos.webhooker
+          component: nomos.webhooker
 # end nomos.webhooker
           
 workflows:
