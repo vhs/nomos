@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   checkout:
     docker:
-      - image: vanhack/nomos.build
+      - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
       - checkout
@@ -21,7 +21,7 @@ jobs:
           
   build-core:
     docker:
-      - image: vanhack/nomos.build
+      - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
       - restore_cache:
@@ -65,7 +65,7 @@ jobs:
             
   test-core:
     docker:
-      - image: vanhack/nomos.build
+      - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
       - attach_workspace:
@@ -82,7 +82,7 @@ jobs:
             
   push-core:
     docker:
-      - image: vanhack/nomos.build
+      - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
       - attach_workspace:
