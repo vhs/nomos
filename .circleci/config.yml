@@ -465,7 +465,7 @@ workflows:
       - build-proxy:
           requires:
             - checkout
-      - test-proxy
+      - test-proxy:
           requires:
             - build-proxy
       - push-proxy:
@@ -485,7 +485,7 @@ workflows:
       - build-web:
           requires:
             - checkout
-      - test-web
+      - test-web:
           requires:
             - build-web
       - push-web:
@@ -505,7 +505,7 @@ workflows:
       - build-webhooker:
           requires:
             - checkout
-      - test-webhooker
+      - test-webhooker:
           requires:
             - build-webhooker
       - push-webhooker:
