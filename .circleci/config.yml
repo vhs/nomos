@@ -24,6 +24,7 @@ jobs:
       - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
+      - setup_remote_docker
       - restore_cache:
           keys:
             - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -68,6 +69,7 @@ jobs:
       - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -85,6 +87,7 @@ jobs:
       - image: vanhack/nomos.build:1.0.0.0-dev
     working_directory: ~/nomos
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run:
