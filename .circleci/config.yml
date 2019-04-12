@@ -102,13 +102,13 @@ workflows:
   beard:
     jobs:
       - checkout
-      - build-core
+      - build-core:
           requires:
             - checkout
-      - test-core
+      - test-core:
           requires:
             - build-core
-      - push-core
+      - push-core:
           requires:
             - test-core
           filters:
