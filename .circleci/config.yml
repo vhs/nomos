@@ -107,6 +107,7 @@ commands:
       - run:
           name: Push Docker image
           command: |
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             npm run push
 
   load_image_from_workspace:
@@ -380,7 +381,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.core
       - build-core:
           requires:
@@ -400,7 +401,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.database.manager
       - build-database-manager:
           requires:
@@ -420,7 +421,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.database.master
       - build-database-master:
           requires:
@@ -440,7 +441,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.database.replica
       - build-database-replica:
           requires:
@@ -460,7 +461,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.proxy
       - build-proxy:
           requires:
@@ -480,7 +481,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.web
       - build-web:
           requires:
@@ -500,7 +501,7 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
       # nomos.webhooker
       - build-webhooker:
           requires:
@@ -520,4 +521,4 @@ workflows:
             - test-webhooker
           filters:
             branches:
-              only: master
+              only: v2
