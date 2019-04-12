@@ -1,19 +1,25 @@
 {
-  "name": "webhooker",
+  "name": "nomos.webhooker",
   "version": "1.0.0",
   "description": "Nomos WebHook Broker",
   "author": "Thomas LaFreniere <thomas@lafreniere.co>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/vhs/nomos.git"
+    "url": "git://github.com/vhs/nomos.git",
+    "directory": "webhooker"
+  },
+  "config": {
+    "build": ".0-dev"
   },
   "main": "webhooker.js",
   "scripts": {
     "start": "node webhooker.js",
     "test": "mocha ./test",
     "help": "node webhooker.js --help",
-    "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan"
+    "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan",
+    "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
+    "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
   },
   "dependencies": {
     "amqplib": "^0.4.1",
@@ -23,6 +29,6 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "mocha": "^6.0.2"
   }
 }

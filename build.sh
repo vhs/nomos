@@ -28,3 +28,7 @@ cd replica
 npm run build
 cd ..
 cd ..
+
+cd webhooker
+npm run build
+cd ..

@@ -174,6 +174,23 @@ services:
       placement:
         constraints: [node.labels.nomos.persistence.replica == storage]
       
+  webhooker:
+    image: nomos.webhooker:latest
+    secrets:
+      - mq_user
+      - mq_password
+      - mq_vhost
+      - webhooker_token
+    networks:
+      - app
+      - admin
+    depends_on:
+      - rabbitmq
+      - core
+    deploy:
+      mode: replicated
+      replicas: 1
+      
 secrets:
   mq_vhost:
     file: ./secrets/mq_vhost
@@ -238,6 +255,9 @@ secrets:
   adminvpn_password:
     file: ./secrets/adminvpn_password
     name: adminvpn_password_${npm_package_version}
+  webhooker_token:
+    file: ./secrets/webhooker_token
+    name: webhooker_token_${npm_package_version}
 
 networks:
   data:
