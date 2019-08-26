@@ -11,7 +11,7 @@ For a development configuration:
 
 `sudo npm run build`
 `sudo npm run configure`
-`sudo npm run deploy`
+`sudo npm run deploy:dev`
 
 `sudo bash -c "echo '127.0.0.1 dev.nomos' >> /etc/hosts"`
 

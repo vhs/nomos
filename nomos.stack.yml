@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   proxy:
-    image: nomos.proxy:latest
+    image: vanhack/nomos.proxy:${NOMOS_VERSION:-latest}
     secrets:
       - proxy_fullchain_pem
       - proxy_privkey_pem
@@ -22,7 +22,7 @@ services:
         constraints: [node.role == manager]
 
   adminvpn:
-    image: nomos.adminvpn:latest
+    image: vanhack/nomos.adminvpn:${NOMOS_VERSION:-latest}
     secrets:
       - adminvpn_password
     ports:
@@ -34,7 +34,7 @@ services:
         constraints: [node.role == manager]
   
   core:
-    image: nomos.core:latest
+    image: vanhack/nomos.core:${NOMOS_VERSION:-latest}
     secrets:
       - mq_vhost
       - mq_user
@@ -66,7 +66,7 @@ services:
       mode: replicated
       
   web:
-    image: nomos.web:latest
+    image: vanhack/nomos.web:${NOMOS_VERSION:-latest}
     networks:
       proxy:
         aliases:
@@ -90,7 +90,7 @@ services:
         constraints: [node.role == manager]
           
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3-management
     secrets:
       - mq_vhost
       - mq_user
@@ -107,7 +107,7 @@ services:
       replicas: 1
           
   manager:
-    image: nomos.database.manager:latest
+    image: vanhack/nomos.database.manager:${NOMOS_VERSION:-latest}
     secrets:
       - db_root_password
       - db_user
@@ -131,7 +131,7 @@ services:
         constraints: [node.role == manager]
           
   master:
-    image: nomos.database.master:latest
+    image: vanhack/nomos.database.master:${NOMOS_VERSION:-latest}
     secrets:
       - db_root_password
       - db_user
@@ -153,7 +153,7 @@ services:
         constraints: [node.labels.nomos.persistence.master == storage]
       
   replica:
-    image: nomos.database.replica:latest
+    image: vanhack/nomos.database.replica:${NOMOS_VERSION:-latest}
     secrets:
       - db_root_password
       - db_user
@@ -175,14 +175,17 @@ services:
         constraints: [node.labels.nomos.persistence.replica == storage]
       
   webhooker:
-    image: nomos.webhooker:latest
+    image: vanhack/nomos.webhooker:${NOMOS_VERSION:-latest}
     secrets:
       - mq_user
       - mq_password
       - mq_vhost
       - webhooker_token
+    environment:
+      - NOMOS_CORE_REJECTUNAUTHORIZED=${NOMOS_CORE_REJECTUNAUTHORIZED:-true}
     networks:
       - app
+      - proxy
       - admin
     depends_on:
       - rabbitmq

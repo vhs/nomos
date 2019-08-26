@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./build.sh",
     "configure": "./configure-dev.sh",
-    "deploy": "docker stack deploy -c nomos.stack.yml nomos",
-    "admin": "ssh nomos@localhost -p 2222 -L 8080:visualizer:8080 -L 3000:manager:3000"
+    "deploy": "export NOMOS_VERSION=${NOMOS_VERSION:?nomos version required} && docker stack deploy -c nomos.stack.yml nomos",
+    "deploy:dev": "export NOMOS_VERSION=${NOMOS_VERSION:-1.0.0.0-dev} && export NOMOS_CORE_REJECTUNAUTHORIZED=${NOMOS_CORE_REJECTUNAUTHORIZED:-false} && docker stack deploy -c nomos.stack.yml nomos",
+    "admin": "ssh nomos@localhost -p 2222 -L 8080:visualizer:8080 -L 3000:manager:3000 -L 5672:rabbitmq:5672 -L 15672:rabbitmq:15672"
   },
   "repository": {
     "type": "git",

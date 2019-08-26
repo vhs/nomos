@@ -9,9 +9,6 @@ program
     .option('-c, --console', 'Run in non-daemon mode and output log to console')
     .parse(process.argv);
 
-//if (!program.console)
-    //require('daemon')(); // using start-stop-daemon with upstart for now
-
 var http = require('http');
 var config = require('./config.js').settings;
 
@@ -19,18 +16,9 @@ var bunyan = require('bunyan');
 
 var logStreams = [];
 
-if (program.console) {
-    logStreams.push({
-        stream: process.stdout
-    });
-} else {
-    logStreams.push({
-        type: 'rotating-file',
-        path: '../logs/webhooker.log',
-        period: '1d',
-        count: 5
-    });
-}
+logStreams.push({
+    stream: process.stdout
+});
 
 var log = bunyan.createLogger({
     name: 'webhooker',
