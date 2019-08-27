@@ -156,13 +156,9 @@ services:
     image: vanhack/nomos.database.replica:${NOMOS_VERSION:-latest}
     secrets:
       - db_root_password
-      - db_user
-      - db_password
       - db_database
     environment:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
-      - MYSQL_USER_FILE=/run/secrets/db_user
-      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
       - MYSQL_DATABASE_FILE=/run/secrets/db_database
     volumes:
       - "/srv/nomos/storage/replica:/var/lib/mysql"
