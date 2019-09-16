@@ -7,7 +7,7 @@ services:
       - proxy_fullchain_pem
       - proxy_privkey_pem
     environment:
-      - SERVER_NAME=nomos.localhost
+      - SERVER_NAME=${NOMOS_HOSTNAME}
       - SSL_CERTIFICATE_FILE=/run/secrets/proxy_fullchain_pem
       - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_privkey_pem
     ports:

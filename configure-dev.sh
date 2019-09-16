@@ -19,3 +19,5 @@ mkdir -p /srv/nomos/storage/replica
 
 docker network inspect proxy || docker network create --driver overlay proxy
 docker network inspect admin || docker network create --driver overlay admin
+
+echo "add to /etc/hosts: 127.0.0.1 nomos.local.dev.vanhack.ca"

@@ -4,17 +4,17 @@ upstream www {
 
 server {
   listen 80;
-  server_name nomos.localhost;
+  server_name ${SERVER_NAME};
   return 301 https://$server_name$request_uri;
 }
 
 server {
   listen 443 ssl;
-  server_name nomos.localhost;
+  server_name ${SERVER_NAME};
   
   # SSL
-  ssl_certificate /run/secrets/proxy_fullchain_pem;
-  ssl_certificate_key /run/secrets/proxy_privkey_pem;
+  ssl_certificate ${SSL_CERTIFICATE_FILE};
+  ssl_certificate_key ${SSL_CERTIFICATE_KEY_FILE};
   
   ssl_protocols TLSv1.1 TLSv1.2;
   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
