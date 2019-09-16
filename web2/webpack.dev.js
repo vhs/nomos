@@ -1,0 +1,17 @@
+const merge = require("webpack-merge");
+const common = require("./webpack.common.js");
+
+module.exports = merge(common, {
+  mode: 'development',
+  devtool: 'inline-source-map',
+  devServer: {
+    host: '0.0.0.0',
+    contentBase: './dist',
+    proxy: {
+      '/services': {
+        target: 'https://nomos.dev.vanhack.ca',
+        secure: false
+      }
+    }
+  }
+});

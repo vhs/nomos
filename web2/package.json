@@ -1,0 +1,42 @@
+{
+  "name": "nomos.web2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
+    "build": "webpack --config webpack.prod.js && docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
+    "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
+  },
+  "author": "Thomas LaFreniere <thomas@lafreniere.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vhs/nomos.git",
+    "directory": "web"
+  },
+  "config": {
+    "build": ".0-dev"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.4.0",
+    "eslint-plugin-react": "^7.14.3",
+    "jest": "^24.9.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.4.2",
+    "@material-ui/icons": "^4.4.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1"
+  }
+}
