@@ -9,7 +9,7 @@ module.exports = merge(common, {
     contentBase: './dist',
     proxy: {
       '/services': {
-        target: 'https://nomos.dev.vanhack.ca',
+        target: 'https://nomos.local.dev.vanhack.ca',
         secure: false
       }
     }
