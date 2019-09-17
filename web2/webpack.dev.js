@@ -5,8 +5,9 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    host: '0.0.0.0',
+    host: 'nomos.local.dev.vanhack.ca',
     contentBase: './dist',
+    historyApiFallback: true,
     proxy: {
       '/services': {
         target: 'https://nomos.local.dev.vanhack.ca',

@@ -1,1 +1,1 @@
-export { IndentityContext, IdentityProvider } from './IdentityContext';
+export { IdentityContext, IdentityProvider } from './IdentityContext';
