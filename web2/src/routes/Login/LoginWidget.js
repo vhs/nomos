@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { IdentityContext } from "../Identity";
-import { UserCard } from '../UserCard';
+import { IdentityContext } from "../../components/Identity";
+import { UserCard } from '../../components/UserCard';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardActions';
 import Button from "@material-ui/core/Button";

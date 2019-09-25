@@ -5,11 +5,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { IdentityProvider } from './components/Identity';
 import { PrivateRoute } from './components/PrivateRoute';
 
-import { Dashboard } from './components/Dashboard';
-import { Welcome } from './components/Welcome';
-import { Login } from './components/Login';
-import { Register } from './components/Register';
-import { Kiosk } from './components/Kiosk';
+import { Dashboard } from './routes/Dashboard';
+import { Welcome } from './routes/Welcome';
+import { Login } from './routes/Login';
+import { Register } from './routes/Register';
+import { Kiosk } from './routes/Kiosk';
 
 export const App = () => (
   <React.Fragment>

@@ -1,0 +1,22 @@
+{
+  "name": "nomos.payments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "build": ".0-dev"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
+    "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
+    "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "uuid": "^3.3.3"
+  }
+}
