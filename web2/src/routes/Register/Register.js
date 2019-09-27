@@ -31,8 +31,8 @@ const Register = () => {
 
   return (
     <Container className={classes.container}>
-      <Paper className>
-        <Typography variant="h1">New Member Registration</Typography>
+      <Paper className={classes.paper}>
+        <Typography variant="h6">New Member Registration</Typography>
         <Stepper activeStep={step}>
           <Step>
             <StepLabel>Member Details</StepLabel>

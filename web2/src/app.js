@@ -1,31 +1,36 @@
 import React from 'react';
+import { makeStyles }  from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { IdentityProvider } from './components/Identity';
-import { PrivateRoute } from './components/PrivateRoute';
 
-import { Dashboard } from './routes/Dashboard';
-import { Welcome } from './routes/Welcome';
-import { Login } from './routes/Login';
-import { Register } from './routes/Register';
-import { Kiosk } from './routes/Kiosk';
+import { AppBar } from './components/AppBar';
+import Routes from './components/Routes';
 
-export const App = () => (
-  <React.Fragment>
-    <CssBaseline />
-    <IdentityProvider>
-      <Router>
-        <Switch>
-          <Route path="/welcome" component={Welcome} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/kiosk" component={Kiosk} />
-          <PrivateRoute permissions="user" path="/" component={Dashboard} />
-        </Switch>
-      </Router>
-    </IdentityProvider>
-  </React.Fragment>
-);
+const useStyles = makeStyles(() => ({
+  root: {
+    display: 'flex',
+  }
+}));
+
+export const App = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <IdentityProvider>
+        <Router>
+          <AppBar>
+            <Switch>
+              <Routes />
+            </Switch>
+          </AppBar>
+        </Router>
+      </IdentityProvider>
+    </div>
+  );
+};
 
 export default App;

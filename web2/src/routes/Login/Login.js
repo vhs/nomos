@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import LoginWidget from "./LoginWidget";
 
+import { path as welcome } from '../Welcome';
+
 const useStyles = makeStyles({
   card: {
     marginTop: 80
@@ -45,7 +47,7 @@ const Login = () => {
               </Typography>
 
               <Typography>
-                Not yet a member? <RouterLink to="/register">Join here!</RouterLink>
+                Not yet a member? <RouterLink to={welcome}>Join here!</RouterLink>
               </Typography>
             </Grid>
             <Grid item xs={6}>

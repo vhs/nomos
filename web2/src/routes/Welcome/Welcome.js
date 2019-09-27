@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import CardHeader from "@material-ui/core/CardHeader";
 
+import { path as register } from '../Register';
+
 const useStyles = makeStyles(theme => ({
   container: {
     marginTop: 80
@@ -43,7 +45,7 @@ const Welcome = ({ history }) => {
               <Typography paragraph>2 months of probationary membership followed by a short vetting process on our forums, then full access to the space, 24/7</Typography>
             </CardContent>
             <CardActions>
-              <Button variant="contained" color="secondary" onClick={() => history.push("/register")}>JOIN NOW</Button>
+              <Button variant="contained" color="secondary" onClick={() => history.push(register)}>JOIN NOW</Button>
             </CardActions>
           </Card>
         </Grid>
