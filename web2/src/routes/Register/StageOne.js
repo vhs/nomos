@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import PersonInfo from "./PersonInfo";
@@ -14,10 +15,14 @@ const StageOne = ({ onComplete }) => {
   });
 
   return (
-    <Paper>
-      <PersonInfo onChange={setInfo}/>
-      <Button variant="contained" color="primary" onClick={onComplete} disabled={!info.valid}>Next</Button>
-    </Paper>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <PersonInfo onChange={setInfo} />
+      </Grid>
+      <Grid item xs={12}>
+        <Button variant="contained" color="primary" onClick={onComplete} disabled={!info.valid}>Next</Button>
+      </Grid>
+    </Grid>
   );
 };
 

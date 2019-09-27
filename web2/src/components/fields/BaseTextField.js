@@ -17,6 +17,7 @@ const BaseTextField = ({ value = "", onChange, disabled = false, required = fals
     <TextField
       {...props}
       variant="outlined"
+      fullWidth
       error={valid !== undefined ? !valid : !$valid}
       value={$value}
       onChange={setValue}

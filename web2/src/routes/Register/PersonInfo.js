@@ -1,5 +1,7 @@
 import React, { useState , useEffect } from 'react';
 
+import Grid from "@material-ui/core/Grid";
+
 import { Email, FirstName, LastName } from '../../components/fields';
 
 const PersonInfo = ({ onChange }) => {
@@ -17,11 +19,17 @@ const PersonInfo = ({ onChange }) => {
   }, [email, firstname, lastname]);
 
   return (
-    <React.Fragment>
-      <Email value={email.value} onChange={setEmail} required />
-      <FirstName value={firstname.value} onChange={setFirstName} />
-      <LastName value={lastname.value} onChange={setLastName} />
-    </React.Fragment>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Email value={email.value} onChange={setEmail} required />
+      </Grid>
+      <Grid item xs={6}>
+        <FirstName value={firstname.value} onChange={setFirstName} />
+      </Grid>
+      <Grid item xs={6}>
+        <LastName value={lastname.value} onChange={setLastName} />
+      </Grid>
+    </Grid>
   );
 };
 
