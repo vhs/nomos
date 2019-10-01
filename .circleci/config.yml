@@ -403,6 +403,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -423,6 +424,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -443,6 +445,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -463,6 +466,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -483,6 +487,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -503,6 +508,28 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: v2
+      # nomos.gateway
+      - build-gateway:
+          requires:
+            - checkout
+      - test-gateway:
+          requires:
+            - build-gateway
+      - push-gateway:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -523,6 +550,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -543,6 +571,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
