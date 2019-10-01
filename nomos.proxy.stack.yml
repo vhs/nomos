@@ -22,10 +22,10 @@ services:
 secrets:
   proxy_fullchain_pem:
     file: ./secrets/proxy_fullchain_pem
-    name: proxy_fullchain_pem_${npm_package_version}
+    name: proxy_fullchain_pem_${NOMOS_SECRETS_VERSION}
   proxy_privkey_pem:
     file: ./secrets/proxy_privkey_pem
-    name: proxy_privkey_pem_${npm_package_version}
+    name: proxy_privkey_pem_${NOMOS_SECRETS_VERSION}
 
 networks:
   proxy:
