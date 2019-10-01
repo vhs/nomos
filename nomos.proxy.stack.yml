@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  proxy:
+    image: vanhack/nomos.proxy:${NOMOS_VERSION:-latest}
+    secrets:
+      - proxy_fullchain_pem
+      - proxy_privkey_pem
+    environment:
+      - SERVER_NAME=${NOMOS_HOSTNAME}
+      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_fullchain_pem
+      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_privkey_pem
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - proxy
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      
+secrets:
+  proxy_fullchain_pem:
+    file: ./secrets/proxy_fullchain_pem
+    name: proxy_fullchain_pem_${npm_package_version}
+  proxy_privkey_pem:
+    file: ./secrets/proxy_privkey_pem
+    name: proxy_privkey_pem_${npm_package_version}
+
+networks:
+  proxy:
+    external: true

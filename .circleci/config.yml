@@ -305,6 +305,32 @@ jobs:
           component: nomos.proxy
 # end nomos.proxy
 
+# nomos.gateway
+  build-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - build_component:
+          component: nomos.gateway
+
+  test-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - test_component:
+          component: nomos.gateway
+
+  push-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - push_component:
+          component: nomos.gateway
+# end nomos.gateway
+
 # nomos.web
   build-web:
     docker:

@@ -1,20 +1,14 @@
 version: "3.5"
 
-services:
-  proxy:
-    image: vanhack/nomos.proxy:${NOMOS_VERSION:-latest}
-    secrets:
-      - proxy_fullchain_pem
-      - proxy_privkey_pem
+services:        
+  gateway:
+    image: vanhack/nomos.gateway:${NOMOS_VERSION:-latest}
     environment:
-      - SERVER_NAME=${NOMOS_HOSTNAME}
-      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_fullchain_pem
-      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_privkey_pem
-    ports:
-      - "80:80"
-      - "443:443"
+      - VIRTUAL_HOST=${NOMOS_VIRTUAL_HOST}
     networks:
-      - proxy
+      proxy:
+        aliases:
+          - nomos_gateway
     depends_on:
       - visualizer
     deploy:
@@ -245,12 +239,6 @@ secrets:
   oauth_google_secret:
     file: ./secrets/oauth_google_secret
     name: oauth_google_secret_${npm_package_version}
-  proxy_fullchain_pem:
-    file: ./secrets/proxy_fullchain_pem
-    name: proxy_fullchain_pem_${npm_package_version}
-  proxy_privkey_pem:
-    file: ./secrets/proxy_privkey_pem
-    name: proxy_privkey_pem_${npm_package_version}
   adminvpn_password:
     file: ./secrets/adminvpn_password
     name: adminvpn_password_${npm_package_version}
