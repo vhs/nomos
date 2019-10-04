@@ -54,7 +54,6 @@ local.properties
 
 [Dd]ebug/
 x64/
-build/
 [Bb]in/
 [Oo]bj/
 
@@ -201,7 +200,6 @@ $RECYCLE.BIN/
 # Packages
 *.egg
 *.egg-info
-build/
 eggs/
 parts/
 var/
@@ -235,3 +233,4 @@ docker/nomos.env
 #Coverage
 coverage.xml
 coverage/.
+node_modules

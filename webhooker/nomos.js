@@ -1,4 +1,5 @@
-var http = require('http');
+const http = require('http');
+const https = require('https');
 
 module.exports = function(options) { return new Nomos(options); };
 
@@ -6,9 +7,13 @@ var Nomos = function(options) {
     this.config = options.config;
     this.log = options.log.child({component: "Nomos"});
 
+    this.client = this.config.nomos.protocol === "https:" ? https : http;
+
     this.options = {
         host: this.config.nomos.host,
-        headers: { 'X-Api-Key': this.config.nomos.token }
+        port: this.config.nomos.port,
+        headers: { 'X-Api-Key': this.config.nomos.token },
+        rejectUnauthorized: this.config.nomos.rejectUnauthorized
     };
 };
 
@@ -53,7 +58,7 @@ Nomos.prototype.request = function(method, path, args, callback) {
         return;
     }
 
-    var req = http.request(payload.options, function(res) {
+    var req = this.client.request(payload.options, function(res) {
         res.setEncoding('utf8');
 
         var data = "";

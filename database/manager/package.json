@@ -1,0 +1,29 @@
+{
+  "name": "nomos.database.manager",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Thomas LaFreniere <thomas@lafreniere.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vhs/nomos.git",
+    "directory": "database/manager"
+  },
+  "config": {
+    "build": ".0-dev"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "testdb": "sudo docker run --name test_nomos_db -e MYSQL_ROOT_PASSWORD=nomos -e MYSQL_USER=nomos -e MYSQL_PASSWORD=nomos -e MYSQL_DATABASE=nomos -p 3306:3306 -d mysql:5",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
+    "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
+    "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "ws": "^6.1.3"
+  }
+}

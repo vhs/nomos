@@ -1,0 +1,24 @@
+{
+  "name": "nomos.build",
+  "version": "1.0.0",
+  "description": "Build image for building nomos images in CI",
+  "author": "Thomas LaFreniere <thomas@lafreniere.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vhs/nomos.git",
+    "directory": "build"
+  },
+  "config": {
+    "build": ".0-dev"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
+    "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
+  }
+}
