@@ -1,9 +1,10 @@
+const fs = require("fs");
 const { App } = require("@octokit/app");
 const Octokit = require("@octokit/rest");
 
 const config = {
   id: process.env.APP_ID,
-  privateKey: process.env.PRIVATE_KEY,
+  privateKey: fs.readFileSync(process.env.PRIVATE_KEY_FILE, "utf8"),
   installationId: process.env.INSTALLATION_ID,
   version: process.env.VERSION,
   commit: process.env.COMMIT_SHA
@@ -24,9 +25,29 @@ const octokit = new Octokit({
  }
 });
 
-octokit.repos.createRelease({
-  owner: "vhs",
-  repo: "nomos",
-  tag_name: config.version,
-  target_commitish: config.commit
-});
+(async () => {
+  const releases = await octokit.repos.listReleases({
+    owner: "vhs",
+    repo: "nomos",
+    per_page: 1,
+    page: 1
+  });
+
+  let last = null;
+  
+  if (releases && releases.length >= 1) {
+    last = releases[0].;
+  }
+
+  octokit.repos.createRelease({
+    owner: "vhs",
+    repo: "nomos",
+    tag_name: config.version,
+    name: config.version,
+    target_commitish: config.commit,
+    body: "",
+    draft: false,
+    prerelease: false
+  });
+})();
+
