@@ -11,9 +11,9 @@ const mq_vhost = fs.readFileSync(mq_vhost_file, 'utf8').trim();
 const mq_user = fs.readFileSync(mq_user_file, 'utf8').trim();
 const mq_password = fs.readFileSync(mq_password_file, 'utf8').trim();
 const webhooker_token = fs.readFileSync(webhooker_token_file, 'utf8').trim();
-const nomos_core_host = process.env.NOMOS_INTERNAL_HOSTNAME || "proxy";
-const nomos_core_port = "443";
-const nomos_core_protocol = "https:";
+const nomos_core_host = process.env.NOMOS_INTERNAL_HOSTNAME || "nomos_gateway";
+const nomos_core_port = process.env.NOMOS_INTERNAL_PORT || "80";
+const nomos_core_protocol = process.env.NOMOS_INTERNAL_PROTOCOL || "http:";
 const nomos_core_rejectUnauthorized = process.env.NOMOS_CORE_REJECTUNAUTHORIZED === "false" ? false : true;
 
 exports.settings = {

@@ -305,6 +305,32 @@ jobs:
           component: nomos.proxy
 # end nomos.proxy
 
+# nomos.gateway
+  build-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - build_component:
+          component: nomos.gateway
+
+  test-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - test_component:
+          component: nomos.gateway
+
+  push-gateway:
+    docker:
+      - image: vanhack/nomos.build:1.0.0.0-dev
+    working_directory: ~/nomos/gateway
+    steps:
+      - push_component:
+          component: nomos.gateway
+# end nomos.gateway
+
 # nomos.web
   build-web:
     docker:
@@ -377,6 +403,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -397,6 +424,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -417,6 +445,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -437,6 +466,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -457,6 +487,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -477,6 +508,28 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
+            - test-web
+            - test-webhooker
+          filters:
+            branches:
+              only: v2
+      # nomos.gateway
+      - build-gateway:
+          requires:
+            - checkout
+      - test-gateway:
+          requires:
+            - build-gateway
+      - push-gateway:
+          requires:
+            - test-adminvpn
+            - test-core
+            - test-database-manager
+            - test-database-master
+            - test-database-replica
+            - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -497,6 +550,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:
@@ -517,6 +571,7 @@ workflows:
             - test-database-master
             - test-database-replica
             - test-proxy
+            - test-gateway
             - test-web
             - test-webhooker
           filters:

@@ -1,20 +1,14 @@
 version: "3.5"
 
-services:
-  proxy:
-    image: vanhack/nomos.proxy:${NOMOS_VERSION:-latest}
-    secrets:
-      - proxy_fullchain_pem
-      - proxy_privkey_pem
+services:        
+  gateway:
+    image: vanhack/nomos.gateway:${NOMOS_VERSION:-latest}
     environment:
-      - SERVER_NAME=${NOMOS_HOSTNAME}
-      - SSL_CERTIFICATE_FILE=/run/secrets/proxy_fullchain_pem
-      - SSL_CERTIFICATE_KEY_FILE=/run/secrets/proxy_privkey_pem
-    ports:
-      - "80:80"
-      - "443:443"
+      - VIRTUAL_HOST=${NOMOS_VIRTUAL_HOST}
     networks:
-      - proxy
+      proxy:
+        aliases:
+          - nomos_gateway
     depends_on:
       - visualizer
     deploy:
@@ -193,70 +187,64 @@ services:
 secrets:
   mq_vhost:
     file: ./secrets/mq_vhost
-    name: mq_vhost_${npm_package_version}
+    name: mq_vhost_${NOMOS_SECRETS_VERSION}
   mq_user:
     file: ./secrets/mq_user
-    name: mq_user_${npm_package_version}
+    name: mq_user_${NOMOS_SECRETS_VERSION}
   mq_password:
     file: ./secrets/mq_password
-    name: mq_password_${npm_package_version}
+    name: mq_password_${NOMOS_SECRETS_VERSION}
   db_root_password:
     file: ./secrets/db_root_password
-    name: db_root_password_${npm_package_version}
+    name: db_root_password_${NOMOS_SECRETS_VERSION}
   db_user:
     file: ./secrets/db_user
-    name: db_user_${npm_package_version}
+    name: db_user_${NOMOS_SECRETS_VERSION}
   db_password:
     file: ./secrets/db_password
-    name: db_password_${npm_package_version}
+    name: db_password_${NOMOS_SECRETS_VERSION}
   db_database:
     file: ./secrets/db_database
-    name: db_database_${npm_package_version}
+    name: db_database_${NOMOS_SECRETS_VERSION}
   ses_region:
     file: ./secrets/ses_region
-    name: ses_region_${npm_package_version}
+    name: ses_region_${NOMOS_SECRETS_VERSION}
   ses_clientid:
     file: ./secrets/ses_clientid
-    name: ses_clientid_${npm_package_version}
+    name: ses_clientid_${NOMOS_SECRETS_VERSION}
   ses_secret:
     file: ./secrets/ses_secret
-    name: ses_secret_${npm_package_version}
+    name: ses_secret_${NOMOS_SECRETS_VERSION}
   from_email:
     file: ./secrets/from_email
-    name: from_email_${npm_package_version}
+    name: from_email_${NOMOS_SECRETS_VERSION}
   oauth_github_client:
     file: ./secrets/oauth_github_client
-    name: oauth_github_client_${npm_package_version}
+    name: oauth_github_client_${NOMOS_SECRETS_VERSION}
   oauth_github_secret:
     file: ./secrets/oauth_github_secret
-    name: oauth_github_secret_${npm_package_version}
+    name: oauth_github_secret_${NOMOS_SECRETS_VERSION}
   oauth_slack_client:
     file: ./secrets/oauth_slack_client
-    name: oauth_slack_client_${npm_package_version}
+    name: oauth_slack_client_${NOMOS_SECRETS_VERSION}
   oauth_slack_secret:
     file: ./secrets/oauth_slack_secret
-    name: oauth_slack_secret_${npm_package_version}
+    name: oauth_slack_secret_${NOMOS_SECRETS_VERSION}
   oauth_slack_team:
     file: ./secrets/oauth_slack_team
-    name: oauth_slack_team_${npm_package_version}
+    name: oauth_slack_team_${NOMOS_SECRETS_VERSION}
   oauth_google_client:
     file: ./secrets/oauth_google_client
-    name: oauth_google_client_${npm_package_version}
+    name: oauth_google_client_${NOMOS_SECRETS_VERSION}
   oauth_google_secret:
     file: ./secrets/oauth_google_secret
-    name: oauth_google_secret_${npm_package_version}
-  proxy_fullchain_pem:
-    file: ./secrets/proxy_fullchain_pem
-    name: proxy_fullchain_pem_${npm_package_version}
-  proxy_privkey_pem:
-    file: ./secrets/proxy_privkey_pem
-    name: proxy_privkey_pem_${npm_package_version}
+    name: oauth_google_secret_${NOMOS_SECRETS_VERSION}
   adminvpn_password:
     file: ./secrets/adminvpn_password
-    name: adminvpn_password_${npm_package_version}
+    name: adminvpn_password_${NOMOS_SECRETS_VERSION}
   webhooker_token:
     file: ./secrets/webhooker_token
-    name: webhooker_token_${npm_package_version}
+    name: webhooker_token_${NOMOS_SECRETS_VERSION}
 
 networks:
   data:

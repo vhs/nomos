@@ -13,13 +13,14 @@ For a development configuration:
 `sudo npm run configure`
 `sudo npm run deploy:dev`
 
-`sudo bash -c "echo '127.0.0.1 dev.nomos' >> /etc/hosts"`
+`sudo bash -c "echo '127.0.0.1 nomos.local.dev.vanhack.ca' >> /etc/hosts"`
 
-`https://dev.nomos.local/`
+`https://nomos.local.dev.vanhack.ca/`
 
 ## Cleanup
 
 ```
+docker stack rm nomos_proxy
 docker stack rm nomos
 
 docker system prune

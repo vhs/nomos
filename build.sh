@@ -7,6 +7,10 @@ cd proxy
 npm run build
 cd ..
 
+cd gateway
+npm run build
+cd ..
+
 cd web
 npm run build
 cd ..
