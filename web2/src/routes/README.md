@@ -1,0 +1,3 @@
+***Page routes***
+
+see ./Example
