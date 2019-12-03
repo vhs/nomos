@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const useFieldState = ({ value, validate, required, onChange }) => {
   const [$value, setValue] = useState(value);
@@ -9,7 +9,10 @@ const useFieldState = ({ value, validate, required, onChange }) => {
   };
 
   useEffect(() => {
-    if (required && ($value === undefined || $value === null || $value === "")) {
+    if (
+      required &&
+      ($value === undefined || $value === null || $value === "")
+    ) {
       return setValid(false);
     }
 
@@ -25,11 +28,7 @@ const useFieldState = ({ value, validate, required, onChange }) => {
     });
   }, [$value, valid]);
 
-  return [
-    $value,
-    valid,
-    $setValue
-  ];
+  return [$value, valid, $setValue];
 };
 
 export default useFieldState;

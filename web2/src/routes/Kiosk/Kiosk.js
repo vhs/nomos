@@ -1,5 +1,5 @@
-import React from 'react';
+import React from "react";
 
-const Kiosk = () => (<div>Kiosk</div>);
+const Kiosk = () => <div>Kiosk</div>;
 
 export default Kiosk;

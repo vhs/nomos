@@ -1,16 +1,16 @@
-import React from 'react';
-import { makeStyles }  from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from "react";
+import { makeStyles } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { IdentityProvider } from './components/Identity';
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { IdentityProvider } from "./components/Identity";
 
-import { AppBar } from './components/AppBar';
-import Routes from './components/Routes';
+import { AppBar } from "./components/AppBar";
+import Routes from "./components/Routes";
 
 const useStyles = makeStyles(() => ({
   root: {
-    display: 'flex',
+    display: "flex"
   }
 }));
 

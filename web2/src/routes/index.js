@@ -1,5 +1,7 @@
-export * as Dashboard from './Dashboard';
-export * as Kiosk from './Kiosk';
-export * as Login from './Login';
-export * as Register from './Register';
-export * as Welcome from './Welcome';
+import * as Dashboard from "./Dashboard";
+import * as Kiosk from "./Kiosk";
+import * as Login from "./Login";
+import * as Register from "./Register";
+import * as Welcome from "./Welcome";
+
+export { Dashboard, Kiosk, Login, Register, Welcome };

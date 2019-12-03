@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 
 import StageOne from "./StageOne";
 import StageTwo from "./StageTwo";
 import StageThree from "./StageThree";
 import Finished from "./Finished";
-import {Paper, Typography} from '@material-ui/core';
+import { Paper, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  container: {
-
-  },
+  container: {},
   paper: {
     padding: theme.spacing(2)
   }

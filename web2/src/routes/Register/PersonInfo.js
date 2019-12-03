@@ -1,13 +1,13 @@
-import React, { useState , useEffect } from 'react';
-
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 
-import { Email, FirstName, LastName } from '../../components/fields';
+import { Email, FirstName, LastName } from "../../components/fields";
 
 const PersonInfo = ({ onChange }) => {
-  const [email, setEmail] = useState({ valid: true, value: '' });
-  const [firstname, setFirstName] = useState({ valid: true, value: '' });
-  const [lastname, setLastName] = useState({ valid: true, value: '' });
+  const [email, setEmail] = useState({ valid: true, value: "" });
+  const [firstname, setFirstName] = useState({ valid: true, value: "" });
+  const [lastname, setLastName] = useState({ valid: true, value: "" });
 
   useEffect(() => {
     onChange({
@@ -31,6 +31,10 @@ const PersonInfo = ({ onChange }) => {
       </Grid>
     </Grid>
   );
+};
+
+PersonInfo.propTypes = {
+  onChange: PropTypes.func
 };
 
 export default PersonInfo;

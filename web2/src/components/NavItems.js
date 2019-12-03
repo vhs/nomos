@@ -1,10 +1,10 @@
-import React from 'react';
-import * as routes from '../routes';
+import React from "react";
+import * as routes from "../routes";
 
 const NavItems = () => (
   <React.Fragment>
     {Object.entries(routes).map(([key, { NavItem }]) => {
-      return (NavItem && <NavItem key={key} />);
+      return NavItem && <NavItem key={key} />;
     })}
   </React.Fragment>
 );

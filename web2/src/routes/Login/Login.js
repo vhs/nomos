@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 import LoginWidget from "./LoginWidget";
 
-import { path as welcome } from '../Welcome';
+import { path as welcome } from "../Welcome";
 
 const useStyles = makeStyles({
   card: {
@@ -47,7 +47,8 @@ const Login = () => {
               </Typography>
 
               <Typography>
-                Not yet a member? <RouterLink to={welcome}>Join here!</RouterLink>
+                Not yet a member?{" "}
+                <RouterLink to={welcome}>Join here!</RouterLink>
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -56,7 +57,14 @@ const Login = () => {
           </Grid>
         </CardContent>
       </Card>
-      <Link underline="none" href="https://github.com/vhs/nomos" target="_blank" className={classes.logo}>NOMOS</Link>
+      <Link
+        underline="none"
+        href="https://github.com/vhs/nomos"
+        target="_blank"
+        className={classes.logo}
+      >
+        NOMOS
+      </Link>
     </Container>
   );
 };

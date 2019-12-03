@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 import BaseTextField from "./BaseTextField";
 
-const Username = (props) => (
+const Username = props => (
   <BaseTextField
     id="username"
     autoComplete="username"

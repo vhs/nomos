@@ -1,17 +1,18 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Badge from '@material-ui/core/Badge';
+import React from "react";
+import PropTypes from "prop-types";
+import Avatar from "@material-ui/core/Avatar";
+import Badge from "@material-ui/core/Badge";
 
 import UserStanding from "./UserStanding";
 
-import { formatUserDisplayName } from './UserDisplayName';
+import { formatUserDisplayName } from "./UserDisplayName";
 
 const UserAvatar = ({ user, ...rest }) => (
   <Badge
     overlap="circle"
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
+      vertical: "bottom",
+      horizontal: "right"
     }}
     badgeContent={<UserStanding user={user} />}
   >
@@ -22,5 +23,9 @@ const UserAvatar = ({ user, ...rest }) => (
     />
   </Badge>
 );
+
+UserAvatar.propTypes = {
+  user: PropTypes.object
+};
 
 export default UserAvatar;

@@ -1,7 +1,8 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Avatar from '@material-ui/core/Avatar';
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import Avatar from "@material-ui/core/Avatar";
 import GoodStandingIcon from "@material-ui/icons/SentimentVerySatisfiedRounded";
 import BadStandingIcon from "@material-ui/icons/SentimentDissatisfiedRounded";
 import PendingAccountIcon from "@material-ui/icons/SyncProblemRounded";
@@ -10,7 +11,7 @@ import BannedAccountIcon from "@material-ui/icons/ReportRounded";
 import UnknownStandingIcon from "@material-ui/icons/ReportProblemRounded";
 
 const UserStandingIcon = ({ user, classes }) => {
-  switch(user.active) {
+  switch (user.active) {
     case "y": {
       if (user.isGoodStanding) {
         return (
@@ -20,7 +21,10 @@ const UserStandingIcon = ({ user, classes }) => {
         );
       } else {
         return (
-          <Tooltip title="Account is in bad standing! Likely behind on payments!" placement="right-end">
+          <Tooltip
+            title="Account is in bad standing! Likely behind on payments!"
+            placement="right-end"
+          >
             <BadStandingIcon className={classes.red} />
           </Tooltip>
         );
@@ -28,7 +32,10 @@ const UserStandingIcon = ({ user, classes }) => {
     }
     case "t": {
       return (
-        <Tooltip title="Account pending activation, please contact member coordinator" placement="right-end">
+        <Tooltip
+          title="Account pending activation, please contact member coordinator"
+          placement="right-end"
+        >
           <PendingAccountIcon className={classes.yellow} />
         </Tooltip>
       );
@@ -48,9 +55,14 @@ const UserStandingIcon = ({ user, classes }) => {
       );
     }
     default: {
-      return (<UnknownStandingIcon className={classes.grey} />);
+      return <UnknownStandingIcon className={classes.grey} />;
     }
   }
+};
+
+UserStandingIcon.propTypes = {
+  user: PropTypes.object,
+  classes: PropTypes.object
 };
 
 const useStyles = makeStyles(theme => ({
@@ -85,6 +97,10 @@ const UserStanding = ({ user }) => {
       <UserStandingIcon user={user} classes={classes} />
     </Avatar>
   );
+};
+
+UserStanding.propTypes = {
+  user: PropTypes.object
 };
 
 export default UserStanding;

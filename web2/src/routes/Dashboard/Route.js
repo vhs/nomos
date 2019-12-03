@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Dashboard from "./Dashboard";
 import { PrivateRoute } from "../../components/PrivateRoute";
 

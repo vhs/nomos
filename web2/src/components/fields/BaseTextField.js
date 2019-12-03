@@ -1,11 +1,19 @@
-import React from 'react';
-
+import React from "react";
+import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import useFieldState from "./useFieldState";
 
 export const defaultValidator = () => true;
 
-const BaseTextField = ({ value = "", onChange, disabled = false, required = false, valid, validate = defaultValidator, ...props }) => {
+const BaseTextField = ({
+  value = "",
+  onChange,
+  disabled = false,
+  required = false,
+  valid,
+  validate = defaultValidator,
+  ...props
+}) => {
   const [$value, $valid, setValue] = useFieldState({
     value,
     required,
@@ -25,6 +33,15 @@ const BaseTextField = ({ value = "", onChange, disabled = false, required = fals
       required={required}
     />
   );
+};
+
+BaseTextField.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  required: PropTypes.bool,
+  valid: PropTypes.bool,
+  validate: PropTypes.func
 };
 
 export default BaseTextField;

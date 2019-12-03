@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 import UserAvatar from "./UserAvatar";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardHeader from '@material-ui/core/CardHeader';
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardHeader from "@material-ui/core/CardHeader";
 import UserDisplayName from "./UserDisplayName";
 import UserLoginName from "./UserLoginName";
 
@@ -22,14 +23,19 @@ const UserCard = ({ user, children }) => {
     <Card>
       <CardActionArea>
         <CardHeader
-          avatar={<UserAvatar user={user} className={classes.avatar}/>}
+          avatar={<UserAvatar user={user} className={classes.avatar} />}
           title={<UserLoginName user={user} />}
-          subheader={<UserDisplayName user={user}/>}
+          subheader={<UserDisplayName user={user} />}
         />
       </CardActionArea>
       {children}
     </Card>
   );
+};
+
+UserCard.propTypes = {
+  user: PropTypes.object,
+  children: PropTypes.element
 };
 
 export default UserCard;

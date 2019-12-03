@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 import BaseTextField from "./BaseTextField";
 
-const NewPassword = (props) => (
+const NewPassword = props => (
   <BaseTextField
     id="new-password"
     type="password"

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 import BaseTextField from "./BaseTextField";
 
 export const defaultValidator = value => {
-  return /\S+@\S+\.\S+/.test(value)
+  return /\S+@\S+\.\S+/.test(value);
 };
 
-const Email = (props) => (
+const Email = props => (
   <BaseTextField
     id="email"
     autoComplete="email"

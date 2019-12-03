@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src",
+    "test": "npm run lint && jest -c jest.config.js",
     "test:ci": "docker run vanhack/$npm_package_name:$npm_package_version$npm_package_config_build echo",
     "build": "webpack --config webpack.prod.js && docker build -t vanhack/$npm_package_name:$npm_package_version$npm_package_config_build .",
     "push": "docker push vanhack/$npm_package_name:$npm_package_version$npm_package_config_build"
@@ -21,26 +22,30 @@
     "build": ".0-dev"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-proposal-export-namespace-from": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
     "babel-loader": "^8.0.6",
-    "eslint": "^6.4.0",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.17.0",
     "jest": "^24.9.0",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.8.0",
+    "prettier": "^1.19.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@material-ui/core": "^4.4.2",
-    "@material-ui/icons": "^4.4.1",
+    "@material-ui/core": "^4.7.1",
+    "@material-ui/icons": "^4.5.1",
     "clsx": "^1.0.4",
     "moment": "^2.24.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
-    "react-stripe-elements": "^5.0.1"
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
+    "react-stripe-elements": "^5.1.0"
   }
 }

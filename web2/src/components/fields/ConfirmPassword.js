@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 import BaseTextField from "./BaseTextField";
 
-const ConfirmPassword = (props) => (
+const ConfirmPassword = props => (
   <BaseTextField
     id="confirm-password"
     type="password"
-    autoComplete="confirm-password"
+    autoComplete="new-password"
     label="Confirm Password"
     placeholder="Confirm Password"
     {...props}
