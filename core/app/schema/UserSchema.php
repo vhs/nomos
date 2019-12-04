@@ -41,6 +41,7 @@ class UserSchema extends Schema {
         $table->addColumn("avatar", Type::String(true, "0", 150));
         $table->addColumn("active", Type::Enum("n", "y", "t", "b"));
         $table->addColumn("paypal_id", Type::String(false, "", 255));
+        $table->addColumn("stripe_id", Type::String(false, "", 255));
         $table->addColumn("payment_email", Type::String(false, "", 255));
 
         $table->setConstraints(

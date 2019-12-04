@@ -93,6 +93,16 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
+    public function UpdateStripeId($userid, $stripeid) {
+        $user = $this->GetUser($userid);
+
+        if(is_null($user)) return;
+
+        $user->stripe_id = $stripeid;
+
+        $user->save();
+    }
+
     public function UpdateCash($userid, $cash) {
         $user = User::find($userid);
 

@@ -129,6 +129,14 @@ interface IUserService1 extends IContract {
     public function UpdatePaymentEmail($userid, $email);
 
     /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $stripeid
+     * @return mixed
+     */
+    public function UpdateStripeId($userid, $stripeid);
+
+    /**
      * @permission administrator
      * @param $userid
      * @param $cash

@@ -48,6 +48,20 @@ class SystemPreference extends Domain {
     }
 
     /**
+     * @param $key
+     * @param callable|null $accessCheck Privilege[] returns bool
+     * @return string
+     */
+    public static function findByKeyScalar($key, callable $accessCheck = null) {
+        $prefs = SystemPreference::findByKey($key, $accessCheck);
+
+        if (count($prefs) != 1)
+            return;
+
+        return $prefs[0];
+    }
+
+    /**
      * @param ValidationResults $results
      * @return bool
      */

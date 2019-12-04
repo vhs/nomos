@@ -22,6 +22,13 @@ const useStyles = makeStyles(theme => ({
 const Register = () => {
   const classes = useStyles();
 
+  const [info, setInfo] = useState({
+    email: "",
+    firstname: "",
+    lastname: "",
+
+  });
+
   const [step, setStep] = useState(0);
 
   const completeStage = index => () => setStep(index + 1);
