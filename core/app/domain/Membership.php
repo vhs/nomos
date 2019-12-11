@@ -41,6 +41,15 @@ class Membership extends Domain {
     }
 
     /**
+     * @return Membership[]
+     */
+    public static function findActive() {
+        return Membership::where(
+            Where::Equal(MembershipSchema::Columns()->active, true)
+        );
+    }
+
+    /**
      * @param $code
      * @return Membership[]
      */

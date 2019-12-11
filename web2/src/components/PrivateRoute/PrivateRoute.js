@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { IdentityContext } from "../Identity";
+import { IdentityContext } from "../../providers/Identity";
 
 const PrivateRoute = ({ permissions, component: Component, ...rest }) => {
-  const { hasPermissions, isLoading } = useContext(IdentityContext);
+  const { hasPermissions, loading } = useContext(IdentityContext);
 
   return (
     <Route
       {...rest}
       render={props => {
-        if (isLoading) {
+        if (loading) {
           return <CircularProgress />;
         }
 

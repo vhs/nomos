@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { Email, FirstName, LastName } from "../../components/fields";
 
-const PersonInfo = ({ email, firstname, lastname, onChange }) => {
+const PersonInfo = ({ email, firstname, lastname, onChange, errors }) => {
   const [$email, setEmail] = useState({ valid: true, value: email });
   const [$firstname, setFirstName] = useState({
     valid: true,
@@ -19,12 +19,12 @@ const PersonInfo = ({ email, firstname, lastname, onChange }) => {
       lastname: $lastname.value,
       valid: $email.valid && $firstname.valid && $lastname.valid
     });
-  }, [email, firstname, lastname]);
+  }, [$email, $firstname, $lastname]);
 
   return (
-    <Grid container spacing={2}>
+    <React.Fragment>
       <Grid item xs={12}>
-        <Email value={$email.value} onChange={setEmail} required />
+        <Email value={$email.value} onChange={setEmail} required helperText={errors.email} valid={errors.email ? false : undefined} />
       </Grid>
       <Grid item xs={6}>
         <FirstName value={$firstname.value} onChange={setFirstName} />
@@ -32,7 +32,7 @@ const PersonInfo = ({ email, firstname, lastname, onChange }) => {
       <Grid item xs={6}>
         <LastName value={$lastname.value} onChange={setLastName} />
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 
@@ -40,7 +40,8 @@ PersonInfo.propTypes = {
   email: PropTypes.string,
   firstname: PropTypes.string,
   lastname: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  errors: PropTypes.object
 };
 
 export default PersonInfo;

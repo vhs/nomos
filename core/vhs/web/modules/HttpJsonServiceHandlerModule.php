@@ -47,7 +47,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
             //case 'PUT':
             //case 'DELETE':
             default:
-                throw new InvalidRequestException();
+                throw new InvalidRequestException("Method Not Allowed", 405);
                 break;
         }
     }

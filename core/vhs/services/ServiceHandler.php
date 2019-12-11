@@ -48,7 +48,7 @@ class ServiceHandler {
                         }
                     }
                 } else {
-                    throw new InvalidRequestException("Invalid service request");
+                    throw new InvalidRequestException("Invalid service request", 404);
                 }
             }
         }
@@ -80,7 +80,27 @@ class ServiceHandler {
                 $endpoint::getInstance()->logger = &$this->logger;
 
                 $method = $regs['method'];
-                $out = $endpoint::getInstance()->handleRequest($method, $args);
+                try {
+                    $out = $endpoint::getInstance()->handleRequest($method, $args);
+                } catch(\Exception $ex) {
+                    if ($isNative) {
+                        throw $ex;
+                    } else {
+                        $serializable = array(
+                            "type" => get_class($ex),
+                            "code" => $ex->getCode(),
+                            "message" => $ex->getMessage()
+                        );
+
+                        if (DEBUG) {
+                            $serializable["file"] = $ex->getFile();
+                            $serializable["line"] = $ex->getLine();
+                            $serializable["trace"] = $ex->getTrace();
+                        }
+
+                        throw new \Exception($endpoint::getInstance()->serializeOutput($serializable), $ex->getCode());
+                    }
+                }
             } else {
                 $out = $endpoint::getInstance()->discover();
             }
@@ -99,7 +119,7 @@ class ServiceHandler {
      */
     private function getEndpoint($uri) {
         if(!preg_match('%.*/'.$this->uriPrefixPath.'(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-            throw new InvalidRequestException("Invalid service request");
+            throw new InvalidRequestException("Invalid service request", 404);
         }
 
         $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];

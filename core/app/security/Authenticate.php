@@ -13,6 +13,7 @@ use app\domain\AccessLog;
 use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
+use app\security\credentials\ActivationCredentials;
 use app\security\credentials\ApiCredentials;
 use app\security\credentials\PinCredentials;
 use app\security\credentials\RfidCredentials;
@@ -52,6 +53,10 @@ class Authenticate extends Singleton implements IAuthenticate {
             case "vhs\\security\\BearerTokenCredentials":
                 /** @var BearerTokenCredentials $credentials */
                 self::bearerLogin($credentials);
+                break;
+            case "app\\security\\credentials\\ActivationCredentials":
+                /** @var ActivationCredentials $credentials */
+                self::activationLogin($credentials);
                 break;
             default:
                 throw new InvalidCredentials("Unsupported authentication type.");
@@ -105,6 +110,31 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
 
         return false;
+    }
+
+    private static function activationLogin(TokenCredentials $credentials) {
+        $ipaddr = self::getRemoteIP();
+
+        $users = User::findByToken($credentials->getToken());
+
+        if (is_null($users) || count($users) <> 1) {
+            AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
+            throw new InvalidCredentials("Invalid token");
+        }
+
+        $user = $users[0];
+
+        // only email pending accounts are allowed activation token authentication
+        if ($user->active === "t" && $user->password === "") {
+            CurrentUser::setPrincipal(self::buildPrincipal($user));
+
+            self::recordLogin($user, $ipaddr);
+
+            AccessLog::log($user->username, "activation", true, $ipaddr, $user->id);
+        } else {
+            AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
+            throw new InvalidCredentials("Token expired");
+        }
     }
 
     private static function keyLogin($keys, TokenCredentials $credentials) {

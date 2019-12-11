@@ -9,7 +9,7 @@
     define('DB_PASS', file_get_contents('/run/secrets/db_password'));
     define('DB_DATABASE', file_get_contents('/run/secrets/db_database'));
 
-    define('NOMOS_FROM_EMAIL', file_get_contents('/run/secrets/db_user'));
+    define('NOMOS_FROM_EMAIL', file_get_contents('/run/secrets/from_email'));
 
     // SES is used to send e-mails
     define('AWS_SES_REGION', file_get_contents('/run/secrets/ses_region'));

@@ -10,11 +10,15 @@ namespace app\services;
 
 
 use app\contracts\IUserService1;
+use app\contracts\MustBeAnnonymousException;
+use app\contracts\UserExistsException;
 use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
+use app\security\Authenticate;
 use app\security\PasswordUtil;
+use app\security\credentials\ActivationCredentials;
 use DateTime;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
@@ -113,14 +117,16 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
-    public function Register($username, $password, $email, $fname, $lname) {
+    public function Register($username, $email, $fname, $lname) {
         if (User::exists($username, $email))
-            throw new \Exception("User already exists");
+            throw new UserExistsException("User already exists");
+
+        if (!CurrentUser::isAnon())
+            throw new MustBeAnnonymousException("Must not be logged in");
 
         $user = new User();
 
         $user->username = $username;
-        $user->password = PasswordUtil::hash($password);
         $user->email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
@@ -134,10 +140,14 @@ class UserService extends Service implements IUserService1 {
 
         $emailService = new EmailService();
 
-        $emailService->EmailUser($user, 'welcome', [
+        $emailService->EmailUser($user, 'registration', [
+            'fname' => $user->fname,
+            'lname' => $user->lname,
             'token' => $user->token,
             'host' => $protocol.$domainName
         ]);
+
+        Authenticate::login(new ActivationCredentials($user->token));
 
         return $user;
     }

@@ -9,6 +9,6 @@
 namespace vhs\services\exceptions;
 
 
-class InvalidRequestException extends \Exception {
+class InvalidRequestException extends InvalidInputException {
 
 }

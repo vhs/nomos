@@ -11,8 +11,8 @@ namespace vhs\security\exceptions;
 
 class UnauthorizedException extends \Exception {
 
-    public function __construct($message = "Access denied") {
-        parent::__construct($message);
+    public function __construct($message = "Access denied", $code = 403) {
+        parent::__construct($message, $code);
     }
 
 }

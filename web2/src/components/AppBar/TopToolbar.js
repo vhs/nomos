@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,6 +11,8 @@ import { makeStyles } from "@material-ui/core";
 
 import { path as login } from "../../routes/Login";
 import { path as welcome } from "../../routes/Welcome";
+import { IdentityContext } from "../../providers/Identity";
+import UserAvatar from "../UserCard/UserAvatar";
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -27,6 +29,8 @@ const useStyles = makeStyles(theme => ({
 
 const TopToolbar = ({ onOpen, open, history }) => {
   const classes = useStyles();
+
+  const { loading, identity } = useContext(IdentityContext);
 
   return (
     <Toolbar>
@@ -47,9 +51,12 @@ const TopToolbar = ({ onOpen, open, history }) => {
       >
         VHS Membership
       </Typography>
-      <Button color="inherit" onClick={() => history.push(login)}>
-        Login
-      </Button>
+      {!loading && !identity && (
+        <Button color="inherit" onClick={() => history.push(login)}>
+          Login
+        </Button>
+      )}
+      {!loading && identity && <UserAvatar user={identity} />}
     </Toolbar>
   );
 };

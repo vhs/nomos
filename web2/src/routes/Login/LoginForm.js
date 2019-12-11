@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
-import { IdentityContext } from "../../components/Identity";
+import { IdentityContext } from "../../providers/Identity";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 
 const LoginForm = () => {
-  const { login, error, isLoading } = useContext(IdentityContext);
+  const { login, error, loading } = useContext(IdentityContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +15,7 @@ const LoginForm = () => {
         autoComplete="username"
         autoFocus={true}
         placeholder="Username"
-        disabled={isLoading}
+        disabled={loading}
         value={username}
         onChange={e => setUsername(e.target.value)}
       />
@@ -24,7 +24,7 @@ const LoginForm = () => {
         autoFocus={true}
         placeholder="Password"
         type="password"
-        disabled={isLoading}
+        disabled={loading}
         value={password}
         onChange={e => setPassword(e.target.value)}
         onKeyPress={e => e.key === "Enter" && login(username, password)}
@@ -32,7 +32,7 @@ const LoginForm = () => {
       {error && <Typography color="red">{error}</Typography>}
       <Button
         color="primary"
-        disabled={isLoading}
+        disabled={loading}
         onClick={() => login(username, password)}
       >
         Login

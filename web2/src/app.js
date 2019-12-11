@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { IdentityProvider } from "./components/Identity";
+import { IdentityProvider } from "./providers/Identity";
+import { PlansProvider } from "./providers/Plans";
 
 import { AppBar } from "./components/AppBar";
 import Routes from "./components/Routes";
@@ -21,13 +22,15 @@ export const App = () => {
     <div className={classes.root}>
       <CssBaseline />
       <IdentityProvider>
-        <Router>
-          <AppBar>
-            <Switch>
-              <Routes />
-            </Switch>
-          </AppBar>
-        </Router>
+        <PlansProvider>
+          <Router>
+            <AppBar>
+              <Switch>
+                <Routes />
+              </Switch>
+            </AppBar>
+          </Router>
+        </PlansProvider>
       </IdentityProvider>
     </div>
   );

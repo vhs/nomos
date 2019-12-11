@@ -9,20 +9,25 @@
 namespace app\contracts;
 
 
+use vhs\services\exceptions\InvalidInputException;
 use vhs\services\IContract;
+
+class UserExistsException extends InvalidInputException {}
+class MustBeAnnonymousException extends InvalidInputException {}
 
 interface IUserService1 extends IContract {
 
     /**
      * @permission anonymous
      * @param $username
-     * @param $password
      * @param $email
      * @param $fname
      * @param $lname
      * @return mixed
+     * @throws UserExistsException
+     * @throws MustBeAnnonymousException
      */
-    public function Register($username, $password, $email, $fname, $lname);
+    public function Register($username, $email, $fname, $lname);
 
     /**
      * @permission administrator

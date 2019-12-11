@@ -46,16 +46,16 @@ const hasPermissions = identity => (...permissions) =>
 export const IdentityProvider = ({ children }) => {
   const [identity, setIdentity] = useState(initialIdentity);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState(null);
 
   const refreshIdentity = () => {
-    setIsLoading(true);
+    setLoading(true);
     getIdentity()
       .then(ident => {
         setIdentity(ident);
-        setIsLoading(false);
+        setLoading(false);
       })
       .catch(e => {
         setError(e);
@@ -63,7 +63,7 @@ export const IdentityProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setIsLoading(true);
+    setLoading(true);
     getLogout()
       .then(() => {
         return refreshIdentity();
@@ -74,12 +74,12 @@ export const IdentityProvider = ({ children }) => {
   };
 
   const login = (username, password) => {
-    setIsLoading(true);
+    setLoading(true);
     postLogin(username, password)
       .then(result => {
         if (result !== "Access Granted") {
           setError(result);
-          setIsLoading(false);
+          setLoading(false);
           return;
         }
 
@@ -104,7 +104,7 @@ export const IdentityProvider = ({ children }) => {
         login,
         logout,
         hasPermissions: $hasPermissions,
-        isLoading,
+        loading,
         error
       }}
     >

@@ -7,6 +7,12 @@ use vhs\services\IContract;
 interface ISubscriptionService1 extends IContract {
 
     /**
+     * @permission anonymous
+     * @return mixed
+     */
+    public function GetPlans();
+
+    /**
      * @permission administrator|user
      * @param $userid
      * @return mixed
@@ -20,5 +26,4 @@ interface ISubscriptionService1 extends IContract {
      * @return mixed
      */
     public function CreatePlanSubscription($userid, $planid);
-
 }

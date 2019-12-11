@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-
-import StageOne from "./StageOne";
-import StageTwo from "./StageTwo";
-import StageThree from "./StageThree";
-import Finished from "./Finished";
 import { Paper, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { IdentityContext } from "../../providers/Identity";
+import useRegistration from "./useRegistration";
+import { Email, FirstName, LastName } from "../../components/fields";
 
 const useStyles = makeStyles(theme => ({
   container: {},
@@ -22,37 +19,83 @@ const useStyles = makeStyles(theme => ({
 const Register = () => {
   const classes = useStyles();
 
-  const [info, setInfo] = useState({
-    email: "",
-    firstname: "",
-    lastname: "",
+  const {
+    identity,
+    refreshIdentity,
+    loading: identityLoading,
+    error: identityError
+  } = useContext(IdentityContext);
 
+  console.log(identity);
+
+  const {
+    loading,
+    fields: { email, firstname, lastname },
+    error,
+    valid,
+    submit
+  } = useRegistration({
+    onSuccess: () => {
+      refreshIdentity();
+    }
   });
 
-  const [step, setStep] = useState(0);
+  const disabled = loading || identityLoading;
 
-  const completeStage = index => () => setStep(index + 1);
+  if (identity) {
+    return <Redirect to="/profile" />;
+  }
 
   return (
     <Container className={classes.container}>
       <Paper className={classes.paper}>
-        <Typography variant="h6">New Member Registration</Typography>
-        <Stepper activeStep={step}>
-          <Step>
-            <StepLabel>Member Details</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Create Account</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Payment</StepLabel>
-          </Step>
-        </Stepper>
-
-        {step === 0 && <StageOne onComplete={completeStage(0)} />}
-        {step === 1 && <StageTwo onComplete={completeStage(1)} />}
-        {step === 2 && <StageThree onComplete={completeStage(2)} />}
-        {step > 2 && <Finished />}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h6">New Member Registration</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {error && (
+              <Typography color="textSecondary">{error.message}</Typography>
+            )}
+            {identityError && (
+              <Typography color="textSecondary">{identityError}</Typography>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <Email
+              value={email.value}
+              onChange={email.setValue}
+              required
+              helperText={email.error}
+              valid={email.valid}
+              disabled={disabled}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FirstName
+              value={firstname.value}
+              onChange={firstname.setValue}
+              disabled={disabled}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <LastName
+              value={lastname.value}
+              onChange={lastname.setValue}
+              disabled={disabled}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={submit}
+              disabled={!valid || disabled}
+            >
+              {disabled ? "..." : "Register"}
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </Container>
   );
