@@ -128,6 +128,7 @@ class UserService extends Service implements IUserService1 {
 
         $user->username = $username;
         $user->email = $email;
+        $user->payment_email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
         $user->active = "t";

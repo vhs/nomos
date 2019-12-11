@@ -1,13 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { IdentityProvider } from "./providers/Identity";
-import { PlansProvider } from "./providers/Plans";
 
 import { AppBar } from "./components/AppBar";
 import Routes from "./components/Routes";
+import Theme from "./components/Theme";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,9 +19,8 @@ export const App = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <IdentityProvider>
-        <PlansProvider>
+      <Theme>
+        <IdentityProvider>
           <Router>
             <AppBar>
               <Switch>
@@ -30,8 +28,8 @@ export const App = () => {
               </Switch>
             </AppBar>
           </Router>
-        </PlansProvider>
-      </IdentityProvider>
+        </IdentityProvider>
+      </Theme>
     </div>
   );
 };

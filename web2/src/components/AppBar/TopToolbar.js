@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core";
 import { path as login } from "../../routes/Login";
 import { path as welcome } from "../../routes/Welcome";
 import { IdentityContext } from "../../providers/Identity";
-import UserAvatar from "../UserCard/UserAvatar";
+import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const TopToolbar = ({ onOpen, open, history }) => {
   const classes = useStyles();
 
-  const { loading, identity } = useContext(IdentityContext);
+  const { loading, identity, logout } = useContext(IdentityContext);
 
   return (
     <Toolbar>
@@ -56,7 +56,7 @@ const TopToolbar = ({ onOpen, open, history }) => {
           Login
         </Button>
       )}
-      {!loading && identity && <UserAvatar user={identity} />}
+      {!loading && identity && <UserMenu identity={identity} onLogout={logout} />}
     </Toolbar>
   );
 };

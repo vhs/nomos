@@ -16,7 +16,7 @@ const productSort = (a, b) => {
   return 0;
 };
 
-const StripePlans = () => {
+const StripePlans = ({ onSubscribe }) => {
   const { loading, products } = useContext(PlansContext);
 
   if (loading) {
@@ -27,7 +27,7 @@ const StripePlans = () => {
     <Grid container spacing={2}>
       {products.sort(productSort).map(product => (
         <Grid key={product.id} item xs={12}>
-          <StripeProduct product={product} />
+          <StripeProduct product={product} onSubscribe={onSubscribe} />
         </Grid>
       ))}
     </Grid>

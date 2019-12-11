@@ -5,5 +5,15 @@ import * as Register from "./Register";
 import * as Welcome from "./Welcome";
 import * as Profile from "./Profile";
 import * as Subscribe from "./Subscribe";
+import * as Cards from "./Cards";
 
-export { Dashboard, Kiosk, Login, Register, Welcome, Profile, Subscribe };
+export {
+  Dashboard,
+  Kiosk,
+  Login,
+  Register,
+  Welcome,
+  Profile,
+  Subscribe,
+  Cards
+};

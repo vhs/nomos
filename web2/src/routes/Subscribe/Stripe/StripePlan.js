@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   defaultPlan: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StripePlan = ({ plan }) => {
+const StripePlan = ({ plan, onSubscribe }) => {
   const classes = useStyles();
 
   const currency = plan.currency.toUpperCase();
@@ -30,6 +30,10 @@ const StripePlan = ({ plan }) => {
 
   const description = plan.metadata.description;
 
+  const handleSubscribe = () => {
+    onSubscribe(plan);
+  };
+
   return (
     <Card className={plan.metadata.default ? classes.defaultPlan : undefined}>
       <CardHeader title={plan.nickname} />
@@ -40,7 +44,13 @@ const StripePlan = ({ plan }) => {
         {description && <Typography>{description}</Typography>}
       </CardContent>
       <CardActions>
-        <Button color={plan.metadata.default ? "secondary" : undefined} variant="contained">Subscribe</Button>
+        <Button
+          color={plan.metadata.default ? "secondary" : undefined}
+          variant="contained"
+          onClick={handleSubscribe}
+        >
+          Subscribe
+        </Button>
       </CardActions>
     </Card>
   );

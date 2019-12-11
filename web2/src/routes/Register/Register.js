@@ -12,6 +12,8 @@ import { Email, FirstName, LastName } from "../../components/fields";
 const useStyles = makeStyles(theme => ({
   container: {},
   paper: {
+    maxWidth: "800px",
+    margin: "auto",
     padding: theme.spacing(2)
   }
 }));
@@ -43,7 +45,7 @@ const Register = () => {
   const disabled = loading || identityLoading;
 
   if (identity) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/subscribe" />;
   }
 
   return (

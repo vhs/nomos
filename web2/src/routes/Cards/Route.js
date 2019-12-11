@@ -1,11 +1,11 @@
 import React from "react";
-import Profile from "./Profile";
+import Cards from "./Cards";
 import { PrivateRoute } from "../../components/PrivateRoute";
 
-export const path = "/profile";
+export const path = "/cards";
 
 const Route = () => (
-  <PrivateRoute permissions="user" path={path} component={Profile} />
+  <PrivateRoute permissions="user" path={path} component={Cards} />
 );
 
 export default Route;

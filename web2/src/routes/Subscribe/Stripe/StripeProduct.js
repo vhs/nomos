@@ -10,10 +10,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   defaultProduct: {
-    backgroundColor: theme.palette.grey["200"]
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText
   },
   product: {
-    backgroundColor: theme.palette.grey["300"]
+    backgroundColor: theme.palette.background.default
   }
 }));
 
@@ -27,14 +28,14 @@ const planSort = (a, b) => {
   return 0;
 };
 
-const StripeProduct = ({ product }) => {
+const StripeProduct = ({ product, onSubscribe }) => {
   const classes = useStyles();
   const description = product.metadata.description;
 
   return (
     <Card
       className={
-        product.metadata.default ? classes.defaultProduct : classes.product
+        !product.metadata.default ? classes.defaultProduct : classes.product
       }
     >
       <CardHeader title={product.name} />
@@ -47,7 +48,7 @@ const StripeProduct = ({ product }) => {
           )}
           {product.plans.sort(planSort).map(plan => (
             <Grid key={plan.id} item md={4} xs={12}>
-              <StripePlan plan={plan} />
+              <StripePlan plan={plan} onSubscribe={onSubscribe} />
             </Grid>
           ))}
         </Grid>
