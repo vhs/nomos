@@ -6,7 +6,9 @@ const messages = {
 };
 
 const validators = {
-  email: value => {}
+  email: value => {
+    //TODO regex validate email
+  }
 };
 
 const postRegister = async ({ username, email, fname, lname }) => {

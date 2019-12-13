@@ -78,24 +78,26 @@ const postDetachPaymentMethod = async (userid, paymentmethodid) => {
   return await resp.json();
 };
 
-export const CustomerProvider = ({ userid, children }) => {
+export const CustomerProvider = ({ user = {}, children }) => {
   const [loading, setLoading] = useState(false);
   const [customer, setCustomer] = useState(null);
 
   const refresh = useCallback(() => {
     setLoading(true);
-    postGetCustomerProfile(userid).then(customer => {
+    postGetCustomerProfile(user.id).then(customer => {
       setCustomer(customer);
       setLoading(false);
     });
   }, [setCustomer, setLoading]);
 
   const update = useCallback(
-    ({ address, phone }) => {
+    ({ address, phone }, done) => {
       setLoading(true);
-      postPutCustomerProfile(userid, address, phone).then(customer => {
+      postPutCustomerProfile(user.id, address, phone).then(customer => {
         setCustomer(customer);
         setLoading(false);
+
+        if (done) done(customer);
       });
     },
     [setCustomer, setLoading]
@@ -104,7 +106,7 @@ export const CustomerProvider = ({ userid, children }) => {
   const attachPaymentMethod = useCallback(
     paymentmethodid => {
       setLoading(true);
-      postAttachPaymentMethod(userid, paymentmethodid).then(customer => {
+      postAttachPaymentMethod(user.id, paymentmethodid).then(customer => {
         setCustomer(customer);
         setLoading(false);
       });
@@ -115,7 +117,7 @@ export const CustomerProvider = ({ userid, children }) => {
   const setDefaultPaymentMethod = useCallback(
     paymentmethodid => {
       setLoading(true);
-      postSetDefaultPaymentMethod(userid, paymentmethodid).then(customer => {
+      postSetDefaultPaymentMethod(user.id, paymentmethodid).then(customer => {
         setCustomer(customer);
         setLoading(false);
       });
@@ -126,7 +128,7 @@ export const CustomerProvider = ({ userid, children }) => {
   const detachPaymentMethod = useCallback(
     paymentmethodid => {
       setLoading(true);
-      postDetachPaymentMethod(userid, paymentmethodid).then(customer => {
+      postDetachPaymentMethod(user.id, paymentmethodid).then(customer => {
         setCustomer(customer);
         setLoading(false);
       });
@@ -143,6 +145,7 @@ export const CustomerProvider = ({ userid, children }) => {
       value={{
         loading,
         customer,
+        user,
         refresh,
         update,
         attachPaymentMethod,
@@ -156,6 +159,6 @@ export const CustomerProvider = ({ userid, children }) => {
 };
 
 CustomerProvider.propTypes = {
-  userid: PropTypes.number,
+  user: PropTypes.object,
   children: PropTypes.element
 };

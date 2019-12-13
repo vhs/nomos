@@ -8,7 +8,6 @@ use app\contracts\ICustomerService1;
 use app\domain\SystemPreference;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
-use vhs\security\CurrentUser;
 use vhs\services\Service;
 use Stripe\Stripe;
 
@@ -31,11 +30,7 @@ class CustomerService extends Service implements ICustomerService1 {
      */
     public function GetCustomerProfile($userid)
     {
-        if (!(CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions("administrator"))) {
-            return null;
-        }
-
-        $user = $this->GetUser($userid);
+        $user = (new UserService($this->context))->GetUser($userid);
 
         if(is_null($user)) return null;
 
@@ -76,21 +71,30 @@ class CustomerService extends Service implements ICustomerService1 {
      */
     public function PutCustomerProfile($userid, $address, $phone)
     {
-        if (!(CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions("administrator"))) {
-            return null;
-        }
-
-        $user = $this->GetUser($userid);
+        $user = (new UserService($this->context))->GetUser($userid);
 
         if(is_null($user)) return null;
 
         $this->initStripe();
 
+        $addressObj = null;
+
+        if (!is_null($address)) {
+            $addressObj = [
+                "line1" => $address->line1,
+                "line2" => $address->line2,
+                "city" => $address->city,
+                "state" => $address->state,
+                "country" => $address->country,
+                "postal_code" => $address->postal_code
+            ];
+        }
+
         $customerid = $user->stripe_id;
 
         if (!is_null($customerid) && $customerid != "") {
             return Customer::update($customerid, [
-                "address" => $address,
+                "address" => $addressObj,
                 "phone" => $phone
             ]);
         }
@@ -100,11 +104,11 @@ class CustomerService extends Service implements ICustomerService1 {
         }
 
         $customer = Customer::create([
-            "address" => $address,
+            "address" => $addressObj,
             "phone" => $phone,
             "email" => $user->payment_email,
             "name" => $user->fname." ".$user->lname,
-            "description" => "VHS nomos customer ".$user->payment_email,
+            "description" => $user->fname." ".$user->lname." <".$user->payment_email."> - nomos user[".$user->id."]",
             "metadata" => [
                 "nomos_id" => $user->id
             ]
