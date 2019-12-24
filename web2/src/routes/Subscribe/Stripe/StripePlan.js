@@ -43,15 +43,17 @@ const StripePlan = ({ plan, onSubscribe }) => {
         </Typography>
         {description && <Typography>{description}</Typography>}
       </CardContent>
-      <CardActions>
-        <Button
-          color={plan.metadata.default ? "secondary" : undefined}
-          variant="contained"
-          onClick={handleSubscribe}
-        >
-          Subscribe
-        </Button>
-      </CardActions>
+      {onSubscribe && (
+        <CardActions>
+          <Button
+            color={plan.metadata.default ? "secondary" : undefined}
+            variant="contained"
+            onClick={handleSubscribe}
+          >
+            Subscribe
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };

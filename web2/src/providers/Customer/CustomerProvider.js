@@ -78,16 +78,28 @@ const postDetachPaymentMethod = async (userid, paymentmethodid) => {
   return await resp.json();
 };
 
+const getStripePublicKey = async () => {
+  const resp = await fetch(
+    "/services/web/PreferenceService1.svc/SystemPreference?key=stripe-api-public-key"
+  );
+
+  return await resp.json();
+};
+
 export const CustomerProvider = ({ user = {}, children }) => {
   const [loading, setLoading] = useState(false);
   const [customer, setCustomer] = useState(null);
+  const [stripeAPIKey, setStripeAPIKey] = useState(null);
 
   const refresh = useCallback(() => {
     setLoading(true);
-    postGetCustomerProfile(user.id).then(customer => {
-      setCustomer(customer);
-      setLoading(false);
-    });
+    Promise.all([postGetCustomerProfile(user.id), getStripePublicKey()]).then(
+      ([customer, key]) => {
+        setCustomer(customer);
+        setStripeAPIKey(key);
+        setLoading(false);
+      }
+    );
   }, [setCustomer, setLoading]);
 
   const update = useCallback(
@@ -96,6 +108,8 @@ export const CustomerProvider = ({ user = {}, children }) => {
       postPutCustomerProfile(user.id, address, phone).then(customer => {
         setCustomer(customer);
         setLoading(false);
+
+        refresh();
 
         if (done) done(customer);
       });
@@ -150,7 +164,8 @@ export const CustomerProvider = ({ user = {}, children }) => {
         update,
         attachPaymentMethod,
         setDefaultPaymentMethod,
-        detachPaymentMethod
+        detachPaymentMethod,
+        stripeAPIKey
       }}
     >
       {children}

@@ -7,6 +7,7 @@ import { PlansProvider } from "../../../providers/Plans";
 import StripePlans from "./StripePlans";
 import CustomerProfile from "./CustomerProfile";
 import PaymentMethods from "./PaymentMethods";
+import Confirm from "./Confirm";
 
 const StripeCheckout = () => {
   const { identity } = useContext(IdentityContext);
@@ -19,7 +20,7 @@ const StripeCheckout = () => {
             <DomRoute exact path="/subscribe" component={StripePlans} />
             <DomRoute path="/subscribe/billing" component={CustomerProfile} />
             <DomRoute path="/subscribe/payment" component={PaymentMethods} />
-            <DomRoute path="/subscribe/confirm" component={StripePlans} />
+            <DomRoute path="/subscribe/confirm" component={Confirm} />
           </Switch>
         </CustomerProvider>
       </PlansProvider>

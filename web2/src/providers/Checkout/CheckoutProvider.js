@@ -5,12 +5,15 @@ export const CheckoutContext = React.createContext(null);
 
 export const CheckoutProvider = ({ children }) => {
   const [plan, setPlan] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   return (
     <CheckoutContext.Provider
       value={{
         plan,
-        setPlan
+        setPlan,
+        paymentMethod,
+        setPaymentMethod
       }}
     >
       {children}

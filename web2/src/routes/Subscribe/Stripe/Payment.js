@@ -9,18 +9,16 @@ import Grid from "@material-ui/core/Grid";
 const Payment = () => {
   const { loading, customer } = useContext(CustomerContext);
 
-  return <Card>
-    <CardHeader
-      title="Select Payment"
-    />
-    <CardContent>
-      <Grid container>
-        <Grid item xs={12}>
-
+  return (
+    <Card>
+      <CardHeader title="Select Payment" />
+      <CardContent>
+        <Grid container>
+          <Grid item xs={12}></Grid>
         </Grid>
-      </Grid>
-    </CardContent>
-  </Card>;
+      </CardContent>
+    </Card>
+  );
 };
 
 export default Payment;

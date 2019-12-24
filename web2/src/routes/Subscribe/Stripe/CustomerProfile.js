@@ -44,7 +44,7 @@ const CustomerProfile = ({ history }) => {
   const { loading, customer, user, update } = useContext(CustomerContext);
 
   const onBack = () => {
-    history.goBack();
+    history.replace("/subscribe");
   };
 
   const onContinue = () => {

@@ -2,7 +2,10 @@
 
 namespace app\contracts;
 
+use vhs\services\exceptions\InvalidInputException;
 use vhs\services\IContract;
+
+class PlanDoesNotExistException extends InvalidInputException {}
 
 interface ISubscriptionService1 extends IContract {
 
@@ -23,7 +26,8 @@ interface ISubscriptionService1 extends IContract {
      * @permission administrator|user
      * @param $userid
      * @param $planid
+     * @param $paymentmethodid
      * @return mixed
      */
-    public function CreatePlanSubscription($userid, $planid);
+    public function CreatePlanSubscription($userid, $planid, $paymentmethodid);
 }

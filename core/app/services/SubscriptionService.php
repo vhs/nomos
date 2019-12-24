@@ -3,9 +3,11 @@
 namespace app\services;
 
 
+use app\contracts\CustomerDoesNotExistException;
 use app\contracts\ISubscriptionService1;
 use app\contracts\IUserService1;
 use app\contracts\MustBeAnnonymousException;
+use app\contracts\PlanDoesNotExistException;
 use app\contracts\UserExistsException;
 use app\domain\Membership;
 use app\domain\PasswordResetRequest;
@@ -16,7 +18,9 @@ use app\security\Authenticate;
 use app\security\PasswordUtil;
 use app\security\credentials\ActivationCredentials;
 use DateTime;
+use Stripe\Customer;
 use Stripe\Product;
+use Stripe\Subscription;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 use Stripe\Stripe;
@@ -71,17 +75,36 @@ class SubscriptionService extends Service implements ISubscriptionService1 {
      */
     public function GetUserSubscriptions($userid)
     {
-        // TODO: Implement GetUserSubscriptions() method.
-
         $this->initStripe();
 
+        return (new CustomerService($this->context))->GetCustomerProfile($userid);
     }
 
     /**
      * @inheritDoc
      */
-    public function CreatePlanSubscription($userid, $planid)
+    public function CreatePlanSubscription($userid, $planid, $paymentmethodid)
     {
-        // TODO: Implement CreatePlanSubscription() method.
+        $this->initStripe();
+
+        $customer = (new CustomerService($this->context))->GetCustomerProfile($userid);
+
+        if(is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");;
+
+        $plan = Plan::retrieve('plan_EeE4ns3bvb34ZP');
+
+        if (is_null($plan) || $plan['active'] !== true) {
+            throw new PlanDoesNotExistException("Invalid plan");
+        }
+
+        $subscription = Subscription::create([
+            'customer' => $customer['id'],
+            'default_payment_method' => $paymentmethodid,
+            'items' => [[
+                'plan' => $planid
+            ]]
+        ]);
+
+        return $subscription;
     }
 }
