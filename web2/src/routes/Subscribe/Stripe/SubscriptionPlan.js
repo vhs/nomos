@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StripePlan = ({ plan, onSubscribe }) => {
+const SubscriptionPlan = ({ plan, isSubscribed = false, onSubscribe }) => {
   const classes = useStyles();
 
   const currency = plan.currency.toUpperCase();
@@ -49,8 +49,9 @@ const StripePlan = ({ plan, onSubscribe }) => {
             color={plan.metadata.default ? "secondary" : undefined}
             variant="contained"
             onClick={handleSubscribe}
+            disabled={isSubscribed}
           >
-            Subscribe
+            {isSubscribed ? "Currently Subscribed" : "Subscribe"}
           </Button>
         </CardActions>
       )}
@@ -58,4 +59,4 @@ const StripePlan = ({ plan, onSubscribe }) => {
   );
 };
 
-export default StripePlan;
+export default SubscriptionPlan;

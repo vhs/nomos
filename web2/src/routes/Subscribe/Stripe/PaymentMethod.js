@@ -69,7 +69,7 @@ const handleSubmit = (
       billing_details: {
         name: name.value,
         email: email.value,
-        phone: phone.value,
+        phone: phone.value !== "" ? phone.value : undefined,
         address: {
           line1: lines[0],
           line2: lines.length > 1 ? lines.slice(1).join(", ") : undefined,
@@ -113,7 +113,7 @@ const PaymentMethod = ({ stripe, onCreated, onCancel }) => {
   const defaultBillingInfo = {
     name: customer ? customer.name : `${user.fname} ${user.lname}`,
     email: customer ? customer.email : user.payment_email,
-    phone: customer ? customer.phone : "",
+    phone: (customer ? customer.phone : "") || "",
     address:
       customer && customer.address
         ? {

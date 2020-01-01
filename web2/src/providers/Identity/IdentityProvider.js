@@ -114,5 +114,5 @@ export const IdentityProvider = ({ children }) => {
 };
 
 IdentityProvider.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 };

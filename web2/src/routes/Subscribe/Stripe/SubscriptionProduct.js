@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import StripePlan from "./StripePlan";
+import SubscriptionPlan from "./SubscriptionPlan";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -28,9 +28,13 @@ const planSort = (a, b) => {
   return 0;
 };
 
-const StripeProduct = ({ product, onSubscribe }) => {
+const SubscriptionProduct = ({ product, subscriptions, onSubscribe }) => {
   const classes = useStyles();
   const description = product.metadata.description;
+
+  const subscribedPlans = subscriptions
+    ? subscriptions.reduce((items, sub) => [...items, ...sub.items.data], [])
+    : [];
 
   return (
     <Card
@@ -48,7 +52,13 @@ const StripeProduct = ({ product, onSubscribe }) => {
           )}
           {product.plans.sort(planSort).map(plan => (
             <Grid key={plan.id} item md={4} xs={12}>
-              <StripePlan plan={plan} onSubscribe={onSubscribe} />
+              <SubscriptionPlan
+                plan={plan}
+                isSubscribed={subscribedPlans.some(
+                  item => item.plan.id === plan.id
+                )}
+                onSubscribe={onSubscribe}
+              />
             </Grid>
           ))}
         </Grid>
@@ -57,4 +67,4 @@ const StripeProduct = ({ product, onSubscribe }) => {
   );
 };
 
-export default StripeProduct;
+export default SubscriptionProduct;

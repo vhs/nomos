@@ -26,7 +26,7 @@ const handleSubmit = (update, onContinue) => fields => {
         state: province,
         country: country
       },
-      phone: fields.phone.value
+      phone: fields.phone.value !== "" ? fields.phone.value : null
     },
     onContinue
   );
@@ -48,7 +48,7 @@ const CustomerProfile = ({ history }) => {
   };
 
   const onContinue = () => {
-    history.push("/subscribe/payment");
+    history.push("/subscribe/confirm");
   };
 
   const {
@@ -58,7 +58,7 @@ const CustomerProfile = ({ history }) => {
     fields: {
       name: customer ? customer.name : `${user.fname} ${user.lname}`,
       email: customer ? customer.email : user.payment_email,
-      phone: customer ? customer.phone : "",
+      phone: (customer ? customer.phone : "") || "",
       address:
         customer && customer.address
           ? {

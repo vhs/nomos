@@ -54,3 +54,5 @@ $serviceLog = (DEBUG) ? new \vhs\loggers\FileLogger(dirname(__FILE__) . "/servic
 
 \vhs\services\ServiceRegistry::register($serviceLog, "web", 'app\\endpoints\\web', ROOT_NAMESPACE_PATH);
 \vhs\services\ServiceRegistry::register($serviceLog, "native", 'app\\endpoints\\native', ROOT_NAMESPACE_PATH);
+
+Stripe\Stripe::setApiKey(app\domain\SystemPreference::findByKeyScalar("stripe-api-secret-key")->value);

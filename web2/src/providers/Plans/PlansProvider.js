@@ -39,5 +39,5 @@ export const PlansProvider = ({ children }) => {
 };
 
 PlansProvider.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 };

@@ -4,7 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { IdentityContext } from "../../providers/Identity";
 
 import PaypalUpgrade from "./PaypalUpgrade";
-import StripeCheckout from "./Stripe/StripeCheckout";
+import Checkout from "./Stripe/Checkout";
 
 const Subscribe = () => {
   const { loading, identity } = useContext(IdentityContext);
@@ -21,7 +21,7 @@ const Subscribe = () => {
     return <PaypalUpgrade />;
   }
 
-  return <StripeCheckout />;
+  return <Checkout />;
 };
 
 export default Subscribe;

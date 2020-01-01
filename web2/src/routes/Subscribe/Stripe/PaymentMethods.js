@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Redirect } from "react-router-dom";
 import { CustomerContext } from "../../../providers/Customer";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -19,6 +20,10 @@ const PaymentMethods = ({ history }) => {
     detachPaymentMethod
   } = useContext(CustomerContext);
 
+  if (!customer) {
+    return <Redirect to="/subscribe/billing" />;
+  }
+
   const { setPaymentMethod: $setPaymentMethod } = useContext(CheckoutContext);
 
   const paymentMethods = (customer || {}).paymentMethods || [];
@@ -35,7 +40,7 @@ const PaymentMethods = ({ history }) => {
   const [paymentMethod, setPaymentMethod] = useState(defaultMethod);
 
   const onBack = () => {
-    history.replace("/subscribe/billing");
+    history.replace("/subscribe");
   };
 
   const onContinue = () => {

@@ -5,26 +5,11 @@ namespace app\services;
 
 use app\contracts\CustomerDoesNotExistException;
 use app\contracts\ICustomerService1;
-use app\domain\SystemPreference;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
 use vhs\services\Service;
-use Stripe\Stripe;
 
 class CustomerService extends Service implements ICustomerService1 {
-
-    private function getStripeSecretAPIKey() {
-        return SystemPreference::findByKeyScalar("stripe-api-secret-key")->value;
-    }
-
-    private function getStripePublishableAPIKey() {
-        return SystemPreference::findByKeyScalar("stripe-api-publishable-key")->value;
-    }
-
-    private function initStripe() {
-        Stripe::setApiKey($this->getStripeSecretAPIKey());
-    }
-
     /**
      * @inheritDoc
      */
@@ -33,8 +18,6 @@ class CustomerService extends Service implements ICustomerService1 {
         $user = (new UserService($this->context))->GetUser($userid);
 
         if(is_null($user)) return null;
-
-        $this->initStripe();
 
         $customerid = $user->stripe_id;
 
@@ -74,8 +57,6 @@ class CustomerService extends Service implements ICustomerService1 {
         $user = (new UserService($this->context))->GetUser($userid);
 
         if(is_null($user)) return null;
-
-        $this->initStripe();
 
         $addressObj = null;
 
@@ -179,4 +160,6 @@ class CustomerService extends Service implements ICustomerService1 {
 
         return $this->GetCustomerProfile($userid);
     }
+
+
 }

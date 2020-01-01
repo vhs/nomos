@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SubscriptionsProvider } from "../../providers/Subscriptions";
+import { IdentityContext } from "../../providers/Identity";
+import Subscriptions from "./Subscriptions";
 
 const Profile = () => {
-  return <div>Profile</div>;
+  const { identity } = useContext(IdentityContext);
+  return (
+    <SubscriptionsProvider user={identity}>
+      <div>Profile</div>
+      <Subscriptions />
+    </SubscriptionsProvider>
+  );
 };
 
 export default Profile;

@@ -5,44 +5,20 @@ namespace app\services;
 
 use app\contracts\CustomerDoesNotExistException;
 use app\contracts\ISubscriptionService1;
-use app\contracts\IUserService1;
-use app\contracts\MustBeAnnonymousException;
+use app\contracts\PlanAlreadySubscribedException;
 use app\contracts\PlanDoesNotExistException;
-use app\contracts\UserExistsException;
+use app\contracts\SubscriptionDoesNotExistException;
 use app\domain\Membership;
-use app\domain\PasswordResetRequest;
-use app\domain\Privilege;
-use app\domain\SystemPreference;
-use app\domain\User;
-use app\security\Authenticate;
-use app\security\PasswordUtil;
-use app\security\credentials\ActivationCredentials;
-use DateTime;
-use Stripe\Customer;
+use Stripe\Plan;
 use Stripe\Product;
 use Stripe\Subscription;
-use vhs\security\CurrentUser;
 use vhs\services\Service;
-use Stripe\Stripe;
-use Stripe\Plan;
 
 class SubscriptionService extends Service implements ISubscriptionService1 {
-
-    private function getStripeSecretAPIKey() {
-        return SystemPreference::findByKeyScalar("stripe-api-secret-key")->value;
-    }
-
-    private function getStripePublishableAPIKey() {
-        return SystemPreference::findByKeyScalar("stripe-api-publishable-key")->value;
-    }
-
-    private function initStripe() {
-        Stripe::setApiKey($this->getStripeSecretAPIKey());
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function GetPlans() {
-        $this->initStripe();
-
         $memberships = Membership::findActive();
 
         $membership_codes = array();
@@ -51,14 +27,16 @@ class SubscriptionService extends Service implements ISubscriptionService1 {
             array_push($membership_codes, $membership->code);
         }
 
-        $stripe_products = Product::all(["active" => true]);
+        $stripe_products = Product::all(["active" => true, "type" => "service"]);
 
         $products = array();
 
         foreach($stripe_products->data as $stripe_product) {
-            if(in_array($stripe_product["metadata"]["code"], $membership_codes)) {
+            if(!is_null($stripe_product["metadata"]["membership"]) && in_array($stripe_product["metadata"]["membership"], $membership_codes)) {
                 array_push($products, $stripe_product);
             }
+
+            // TODO collect available add ons
         }
 
         foreach($products as $product) {
@@ -75,36 +53,134 @@ class SubscriptionService extends Service implements ISubscriptionService1 {
      */
     public function GetUserSubscriptions($userid)
     {
-        $this->initStripe();
+        $CustomerService = new CustomerService($this->context);
 
-        return (new CustomerService($this->context))->GetCustomerProfile($userid);
+        $customer = $CustomerService->GetCustomerProfile($userid);
+
+        if (is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");
+
+        $subscriptions = Subscription::all([
+            "customer" => $customer["id"],
+            "expand" => ["data.latest_invoice.payment_intent"]
+        ]);
+
+        return $subscriptions["data"];
     }
 
     /**
      * @inheritDoc
      */
-    public function CreatePlanSubscription($userid, $planid, $paymentmethodid)
+    public function CreatePlanSubscription($userid, $items, $paymentmethodid)
     {
-        $this->initStripe();
-
         $customer = (new CustomerService($this->context))->GetCustomerProfile($userid);
 
-        if(is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");;
+        if (is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");
 
-        $plan = Plan::retrieve('plan_EeE4ns3bvb34ZP');
+        $plans = array();
+        $itemMap = array();
 
-        if (is_null($plan) || $plan['active'] !== true) {
-            throw new PlanDoesNotExistException("Invalid plan");
+        foreach($items as $item) {
+            $plan = Plan::retrieve($item->id, [
+                "expand" => ["product"]
+            ]);
+
+            if (is_null($plan) || $plan["active"] !== true) {
+                throw new PlanDoesNotExistException("Invalid plan");
+            }
+
+            $plan["quantity"] = $item->quantity;
+
+            array_push($plans, $plan);
+            array_push($itemMap, [
+                "plan" => $plan["id"],
+                "quantity" => $item->quantity
+            ]);
+        }
+
+        $subscriptions = $this->GetUserSubscriptions($userid);
+
+        // prevent duplicate membership subscriptions
+        if (!is_null($subscriptions) && count($subscriptions) <> 0) {
+            foreach($subscriptions as $sub) {
+                foreach($plans as $plan) {
+                    if (!is_null($plan["product"]["metadata"]["membership"])) {
+                        foreach ($sub["items"]["data"] as $item) {
+                            if ($item["plan"]["product"] === $plan["product"]["id"]) {
+                                throw new PlanAlreadySubscribedException("Plan subscription already exists");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         $subscription = Subscription::create([
-            'customer' => $customer['id'],
-            'default_payment_method' => $paymentmethodid,
-            'items' => [[
-                'plan' => $planid
-            ]]
+            "customer" => $customer["id"],
+            "default_payment_method" => $paymentmethodid,
+            "items" => $itemMap,
+            "expand" => ["latest_invoice.payment_intent"]
         ]);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function UpdatePlanSubscription($userid, $subscriptionid, $items, $paymentmethodid)
+    {
+        $customer = (new CustomerService($this->context))->GetCustomerProfile($userid);
+
+        if (is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");
+
+        $plans = array();
+        $itemMap = array();
+
+        foreach($items as $item) {
+            $plan = Plan::retrieve($item["id"]);
+
+            if (is_null($plan) || $plan["active"] !== true) {
+                throw new PlanDoesNotExistException("Invalid plan");
+            }
+
+            $plan["quantity"] = $item["quantity"];
+
+            array_push($plans, $plan);
+            array_push($itemMap, [
+                "plan" => $plan["id"],
+                "quantity" => $item->quantity
+            ]);
+        }
+
+        $subscription = Subscription::retrieve($subscriptionid);
+
+        if (is_null($subscription)) {
+            throw new SubscriptionDoesNotExistException("Invalid subscription");
+        }
+
+        $subscription = Subscription::update($subscriptionid, [
+            "items" => $itemMap,
+            "expand" => ["latest_invoice.payment_intent"]
+        ]);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function CancelPlanSubscription($userid, $subscriptionid)
+    {
+        $customer = (new CustomerService($this->context))->GetCustomerProfile($userid);
+
+        if (is_null($customer)) throw new CustomerDoesNotExistException("Customer profile is required");
+
+        $subscription = Subscription::retrieve($subscriptionid);
+
+        if (is_null($subscription)) {
+            throw new SubscriptionDoesNotExistException("Invalid subscription");
+        }
+
+        return $subscription->delete();
     }
 }

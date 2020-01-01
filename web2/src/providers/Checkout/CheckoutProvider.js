@@ -22,5 +22,5 @@ export const CheckoutProvider = ({ children }) => {
 };
 
 CheckoutProvider.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 };
