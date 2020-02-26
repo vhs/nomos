@@ -50,7 +50,7 @@ angular
                     '$scope', 'newMembers', 'totalMembers', 'revenue', 'members', 'revenueLastMonth', 'revenueThisMonth', 'createdDates', 'createdDatesLast30days',
                     function($scope, newMembers, totalMembers, revenue, members, revenueLastMonth, revenueThisMonth, createdDates, createdDatesLast30days) {
                         $scope.newMembers = newMembers;
-                        $scope.newMembersSince = moment().utc().subtract(30, "days").startOf('month').format("MMM dd ");
+                        $scope.newMembersSince = moment().utc().subtract(30, "days").startOf('month').format("MMM DD, YYYY");
                         $scope.totalMembers = totalMembers;
                         $scope.date = moment().format("MMMM YYYY");
                         $scope.revenue = revenue;
