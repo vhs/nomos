@@ -18,8 +18,8 @@ sudo apt-get update
 
 # install mysql
 if [ -z "`which mysqld`" ]; then
-  echo "mysql-server-5.5 mysql-server/root_password password password" | sudo debconf-set-selections
-  echo "mysql-server-5.5 mysql-server/root_password_again password password" | sudo debconf-set-selections
+  echo "mysql-server-5.7 mysql-server/root_password password password" | sudo debconf-set-selections
+  echo "mysql-server-5.7 mysql-server/root_password_again password password" | sudo debconf-set-selections
   sudo apt-get install --yes -q mysql-server mysql-client
 fi
 
@@ -101,7 +101,7 @@ sudo rabbitmqctl set_permissions -p nomos nomos ".*" ".*" ".*"
 sudo rabbitmqctl set_permissions -p nomos webhooker "" "" ".*"
 
 # install nodejs
-curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs npm
 sudo npm install -g npm
 
