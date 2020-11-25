@@ -2,13 +2,16 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="mmpApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="mmpApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="mmpApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="mmpApp" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="mmpApp" class="no-js">
+<!--<![endif]-->
+
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73388434-2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'UA-73388434-2');
@@ -51,6 +54,7 @@
   <script src="https://code.highcharts.com/stock/modules/solid-gauge.js"></script>
   <script src="https://code.highcharts.com/stock/modules/heatmap.js"></script>
 </head>
+
 <body>
 
   <!--[if lt IE 7]>
@@ -93,7 +97,8 @@
   <script src="providers/membership.js"></script>
   <script src="providers/membercard.js"></script>
   <script src="providers/payment.js"></script>
-  <script src="providers/transactions.js"></script>
+  <script src="providers/ipn.js"></script>
+  <script src="providers/stripe.js"></script>
   <script src="providers/metric.js"></script>
   <script src="providers/preference.js"></script>
   <script src="providers/email.js"></script>
@@ -135,6 +140,7 @@
   <script src="admin/payments/payments.js"></script>
   <script src="admin/accesslogs/accesslogs.js"></script>
   <script src="admin/ipn/records.js"></script>
+  <script src="admin/stripe/records.js"></script>
   <script src="admin/systempreferences/systempreferences.js"></script>
   <script src="admin/email/email.js"></script>
   <script src="admin/events/events.js"></script>
@@ -143,6 +149,7 @@
   <script src="admin/apikeys/details.js"></script>
   <script src="admin/oauth/oauth.js"></script>
   <script src="admin/oauth/clients.js"></script>
-  
+
 </body>
+
 </html>
