@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -31,8 +32,10 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 
 \app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway());
 \app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway(), "/gateways/paypal/ipn.php");
+\app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\StripeGateway());
 
 \app\monitors\PaypalIpnMonitor::getInstance()->Init($serverLog);
+\app\monitors\StripeEventMonitor::getInstance()->Init($serverLog);
 \app\monitors\PaymentMonitor::getInstance()->Init($serverLog);
 \app\monitors\DomainEventMonitor::getInstance()->Init($serverLog);
 
