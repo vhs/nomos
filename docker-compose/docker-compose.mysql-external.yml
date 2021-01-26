@@ -4,3 +4,9 @@ services:
   nomos-backend:
     external_links:
       - mysqld:mysqld
+    networks:
+      - mysql
+
+networks:
+  mysql:
+    external: true
