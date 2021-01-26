@@ -10,6 +10,7 @@ angular
                 templateUrl: 'admin/accesslogs/accesslogs.html',
                 controller: ['$scope', 'AuthService1', function($scope, AuthService1) {
                     $scope.accesslogs = [];
+                    $scope.itemCount = 0;
 
                     $scope.showUnauthorized = false;
                     $scope.toggleUnauthorized = function(val) {
@@ -24,8 +25,9 @@ angular
                     };
 
                     $scope.listService = {
-                        page: 0,
-                        size: 10,
+                        page: 1,
+                        pageSize: 10,
+                        allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: "id,key,type,authorized,from_ip,time,userid",
                         order: "time desc",
                         search: null
@@ -42,8 +44,7 @@ angular
                         }
                     };
 
-                    $scope.getAccessLogs = function() {
-
+                    $scope.getFilter = function() {
                         var filter = null;
                         var filters = [];
 
@@ -127,15 +128,32 @@ angular
                             }
                         }
 
-                        return AuthService1.ListAccessLog($scope.listService.page, $scope.listService.size, $scope.listService.columns, $scope.listService.order, filter);
+                        return filter;
+                    }
+
+                    $scope.getAccessLogs = function() {
+                        var filter = $scope.getFilter();
+                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize;
+
+                        return AuthService1.ListAccessLog(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                    };
+
+                    $scope.getAccessCount = function() {
+                        var filter = $scope.getFilter();
+                    
+                        return AuthService1.CountAccessLog(filter);
                     };
 
                     $scope.updated = function() {
-                        $scope.getAccessLogs().then(function(data) {
-                            $scope.accesslogs = data;
-                            //$scope.resetForms();
-                            $scope.updating = false;
-                            $scope.pendingUpdate = 0;
+                        $scope.getAccessCount().then(function(data) {
+                            $scope.itemCount = data;
+
+                            $scope.getAccessLogs().then(function(data) {
+                                $scope.accesslogs = data;
+                                //$scope.resetForms();
+                                $scope.updating = false;
+                                $scope.pendingUpdate = 0;
+                            });
                         });
                     };
 

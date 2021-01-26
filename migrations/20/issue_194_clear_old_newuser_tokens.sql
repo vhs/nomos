@@ -1,1 +1,1 @@
-UPDATE `users` SET `token` = null WHERE `active` != 't';
+UPDATE `users` SET `token` = '0' WHERE `active` != 't';

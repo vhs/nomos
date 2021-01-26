@@ -20,14 +20,26 @@ angular
                 return $http.post("/services/web/AuthService1.svc/ListUserAccessLog", { userid: userid, page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountUserAccessLog: function(userid, filters) {
+                return $http.post("/services/web/AuthService1.svc/CountuserAccessLog", { userid: userid, filters: filters })
+                    .then(function(response) { return response.data; });
+            },
             ListAccessLog: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/AuthService1.svc/ListAccessLog", { page: page, size: size, columns: columns, order: order, filters: filters })
+                    .then(function(response) { return response.data; });
+            },
+            CountAccessLog: function(filters) {
+                return $http.post("/services/web/AuthService1.svc/CountAccessLog", { filters: filters })
                     .then(function(response) { return response.data; });
             },
             ListClients: function(page, size, columns, order, filters) {
                 return $http.post("/services/web/AuthService1.svc/ListClients", { page: page, size: size, columns: columns, order: order, filters: filters })
                     .then(function(response) { return response.data; });
             },
+            CountClients: function(filters) {
+                return $http.post("/services/web/AuthService1.svc/CountClients", { filters: filters })
+                    .then(function(response) { return response.data; });
+            },            
             RegisterClient: function(name, description, url, redirecturi) {
                 return $http.post("/services/web/AuthService1.svc/RegisterClient", { name: name, description: description, url: url, redirecturi: redirecturi })
                     .then(function(response) { return response.data; });

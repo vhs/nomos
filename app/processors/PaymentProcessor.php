@@ -13,6 +13,7 @@ use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
 use app\security\PasswordUtil;
+use vhs\security\CurrentUser;
 use vhs\security\SystemPrincipal;
 use app\services\EmailService;
 use app\services\UserService;
@@ -278,11 +279,34 @@ class PaymentProcessor
             );
 
         } else {
-            if ($user->membership_id != $membership->id)
+            if ($user->membership_id != $membership->id) {
                 $userService->UpdateMembership($user->id, $membership->id);
-            else
-                $userService->UpdateStatus($user->id, "active");
+            } else {
+                if ($user->active == "n") {
+                    $userService->UpdateStatus($user->id, "active");
+                }
+            }
+
             $user = User::find($user->id);
+
+            if ($user->active != "y") {
+                $this->emailService->Email(
+                    NOMOS_FROM_EMAIL,
+                    'admin_error',
+                    [
+                        'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . " " . $payment->lname,
+                        'message' => $payment->fname . " " . $payment->lname . " with email "
+                            . $payment->payer_email . " made a payment, but "
+                            . "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n"
+                            . "userid = " . $user->id . "\n"
+                            . "status = " . $user->active . "\n"
+                            . "item_number = " . $payment->item_number . "\n"
+                            . "item_name = " . $payment->item_name . "\n"
+                            . "rate_amount = " . $payment->rate_amount . "\n"
+                            . "currency = " . $payment->currency . "\n"
+                    ]
+                );
+            }
         }
 
         $expiry = new DateTime($payment->date);

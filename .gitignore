@@ -235,3 +235,5 @@ docker/nomos.env
 #Coverage
 coverage.xml
 coverage/.
+.vscode
+conf/config.js

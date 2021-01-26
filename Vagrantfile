@@ -10,18 +10,8 @@ Vagrant.configure(2) do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
-  # If you want 32it image, on your first `vagrant up` do this instead
-  # `X32_VAGRANT=true vagrant up`
-  if ENV.has_key?('X32_VAGRANT')
-    print "Using 32 bit image\n"
-    config.vm.box = "puphpet/ubuntu1404-x32"
-  else
-    print "Using 64 bit image\n"
-    config.vm.box = "puphpet/ubuntu1404-x64"
-  end
-  
+  print "Using 64 bit image\n"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

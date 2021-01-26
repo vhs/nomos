@@ -6,6 +6,8 @@
  * Time: 4:53 PM
  */
 
+use PHPUnit\Framework\TestCase;
+
 use vhs\database\Database;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -28,7 +30,7 @@ class TestSchema extends Schema {
     }
 }
 
-class WhereTests extends PHPUnit_Framework_TestCase {
+class WhereTests extends TestCase {
 
     /** @var Logger */
     private static $logger;

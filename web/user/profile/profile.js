@@ -101,6 +101,12 @@ angular
                                     $scope.currentUser.id,
                                     $scope.profile.payment_email
                                 ).then(function() { $scope.pendingUpdate -= 1; });
+
+                                $scope.pendingUpdate += 1;
+                                UserService1.UpdateStripeEmail(
+                                    $scope.currentUser.id,
+                                    $scope.profile.stripe_email
+                                ).then(function() { $scope.pendingUpdate -= 1; });
                             }
 
                             $scope.pendingUpdate += 1;

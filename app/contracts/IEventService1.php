@@ -102,4 +102,12 @@ interface IEventService1 extends IContract
      * @return mixed
      */
     public function ListEvents($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission webhook|administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountEvents($filters);
+
 }

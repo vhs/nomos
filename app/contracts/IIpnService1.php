@@ -32,4 +32,12 @@ interface IIpnService1 extends IContract {
      * @return mixed
      */
     public function ListRecords($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountRecords($filters);
+
 }

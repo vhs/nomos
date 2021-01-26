@@ -199,4 +199,14 @@ class EmailService implements IEmailService1 {
     {
         return EmailTemplate::page($page, $size, $columns, $order, $filters);
     }
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountTemplates($filters)
+    {
+        return EmailTemplate::count($filters);
+    }
 }

@@ -32,7 +32,7 @@ class PaymentSchema extends Schema {
         $table->addColumn("rate_amount", Type::String(false, "", 255));
         $table->addColumn("currency", Type::String(true, null, 4));
         $table->addColumn("date", Type::DateTime(false, date("Y-m-d H:i:s")));
-        $table->addColumn("pp", Type::Enum("PayPal", "MoneyBookers"));
+        $table->addColumn("pp", Type::Enum("PayPal", "MoneyBookers", "Stripe"));
         $table->addColumn("ip", Type::String(true, null, 20));
         $table->addColumn("status", Type::Int(false, 0)); // 1==completed, anything else is "pending"
         $table->addColumn("item_name", Type::String(true, null, 255));

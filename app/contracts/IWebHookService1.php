@@ -100,6 +100,13 @@ interface IWebHookService1 extends IContract
 
     /**
      * @permission administrator|user
+     * @param $filters
+     * @return mixed
+     */
+    public function CountHooks($filters);
+
+    /**
+     * @permission administrator|user
      * @param $page
      * @param $size
      * @param $columns
@@ -108,5 +115,14 @@ interface IWebHookService1 extends IContract
      * @return mixed
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters);
+    
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return mixed
+     */
+    public function CountUserHooks($userid, $filters);
 
+    
 }

@@ -263,25 +263,14 @@ class MetricService extends Service implements IMetricService1 {
      * @return int
      */
     public static function NewMemberCount($start, $end) {
-        $join = Join::Left(
-            PaymentSchema::Table(),
-            On::Where(
-                Where::Equal(PaymentSchema::Columns()->payer_email,
-                    UserSchema::Columns()->email)
-            )
-        );
-
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
                 Where::Equal(UserSchema::Columns()->active,"y"),
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
                 Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start)),
-                Where::LesserEqual($join->table->columns->date, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual($join->table->columns->date, date('Y-m-d 00:00:00', $start)),
-                Where::Equal($join->table->columns->status, 1)
-            ))->Join($join);
+                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
+            ));
 
         return Database::count($query);
     }
@@ -309,14 +298,6 @@ class MetricService extends Service implements IMetricService1 {
      * @return int
      */
     public static function NewMembershipByIdCount($membership_id, $start, $end) {
-        $join = Join::Left(
-            PaymentSchema::Table(),
-            On::Where(
-                Where::Equal(PaymentSchema::Columns()->payer_email,
-                    UserSchema::Columns()->email)
-            )
-        );
-
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
@@ -324,11 +305,8 @@ class MetricService extends Service implements IMetricService1 {
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
                 Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
                 Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start)),
-                Where::LesserEqual($join->table->columns->date, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual($join->table->columns->date, date('Y-m-d 00:00:00', $start)),
-                Where::Equal($join->table->columns->status, 1)
-            ))->Join($join);
+                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
+            ));
 
         return Database::count($query);
     }

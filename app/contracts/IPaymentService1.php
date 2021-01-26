@@ -32,6 +32,14 @@ interface IPaymentService1 extends IContract {
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters);
 
     /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return mixed
+     */
+    public function CountUserPayments($userid, $filters);
+    
+    /**
      * @permission administrator
      * @param $page
      * @param $size
@@ -41,6 +49,13 @@ interface IPaymentService1 extends IContract {
      * @return mixed
      */
     public function ListPayments($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator|user
+     * @param $filters
+     * @return mixed
+     */
+    public function CountPayments($filters);
 
     /**
      * @permission administrator

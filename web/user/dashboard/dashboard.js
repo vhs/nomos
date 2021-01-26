@@ -17,14 +17,6 @@ angular
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetTotalMembers();
                     }],
-                    newKeyHolders: ['$rootScope', '$stateParams', 'MetricService1', function($rootScope, $stateParams, MetricService1) {
-                        //if (!$rootScope.authenticated) throw "login";
-                        return MetricService1.GetNewKeyHolders(moment().utc().subtract(30, "days").startOf('month').toISOString(), moment().utc().endOf('month').toISOString());
-                    }],
-                    totalKeyHolders: ['$rootScope', '$stateParams', 'MetricService1', function($rootScope, $stateParams, MetricService1) {
-                        //if (!$rootScope.authenticated) throw "login";
-                        return MetricService1.GetTotalKeyHolders();
-                    }],
                     allPermissions: ['$rootScope', 'PrivilegeService1', function($rootScope, PrivilegeService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return PrivilegeService1.GetAllPrivileges();
@@ -55,12 +47,11 @@ angular
                     }]
                 },
                 controller: [
-                    '$scope', 'newMembers', 'newKeyHolders', 'totalMembers', 'totalKeyHolders', 'revenue', 'members', 'revenueLastMonth', 'revenueThisMonth', 'createdDates', 'createdDatesLast30days',
-                    function($scope, newMembers, newKeyHolders, totalMembers, totalKeyHolders, revenue, members, revenueLastMonth, revenueThisMonth, createdDates, createdDatesLast30days) {
+                    '$scope', 'newMembers', 'totalMembers', 'revenue', 'members', 'revenueLastMonth', 'revenueThisMonth', 'createdDates', 'createdDatesLast30days',
+                    function($scope, newMembers, totalMembers, revenue, members, revenueLastMonth, revenueThisMonth, createdDates, createdDatesLast30days) {
                         $scope.newMembers = newMembers;
-                        $scope.newKeyHolders = newKeyHolders;
+                        $scope.newMembersSince = moment().utc().subtract(30, "days").startOf('month').format("MMM DD, YYYY");
                         $scope.totalMembers = totalMembers;
-                        $scope.totalKeyHolders = totalKeyHolders;
                         $scope.date = moment().format("MMMM YYYY");
                         $scope.revenue = revenue;
                         $scope.members = members;
