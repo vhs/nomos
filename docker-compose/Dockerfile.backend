@@ -7,7 +7,7 @@ CMD ["php-fpm"]
 
 RUN apt-get update \
     && apt-get install -y \
-    git libzip-dev zip
+    git libzip-dev mariadb-client zip
 
 RUN docker-php-ext-install -j$(nproc) bcmath mysqli zip
 

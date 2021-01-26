@@ -52,14 +52,22 @@ class Backup {
         }
     }
 
-    public function external_backup($fileName = null, $backupPath = "backup/") {
+    public function external_backup($do_host = false, $fileName = null, $backupPath = "backup/") {
         $this->logger->log('Starting backup');
         
         $fileName =  (!is_null($fileName)) ? $fileName : 'db-backup-' . time() . '.sql';
 
-        $command = "mysqldump -u '" . $this->user . "' -p" . $this->password . " '" . $this->database . "' > '" . $backupPath . $fileName . "'";
-        
-        exec($command, $output, $return);
+        $command = array();
+        $command[] = "mysqldump";
+        $command[] = "-u '" . $this->user . "'";
+        $command[] = "-p " . $this->password;
+        if($do_host == true)
+            $command[] = "--host " . $this->server;
+        $command[] = "'" . $this->database . "'";
+        $command[] = ">";
+        $command[] = "'" . $backupPath . $fileName . "'";
+
+        exec(implode(" ", $command), $output, $return);
         
         if(!$return)
             return true;

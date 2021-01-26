@@ -1,6 +1,6 @@
 version: "3.5"
 
 services:
-  nomos-frontend:
+  nomos-backend:
     env_file:
       - ../docker/nomos.env
