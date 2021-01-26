@@ -2,6 +2,6 @@
 
 docker_env_config.sh >/var/www/html/conf/env.php
 
-(cd /var/www/html/tools && php migrate.php -b -m)
+(cd /var/www/html/tools && php migrate.php -b -m -t)
 
-/usr/local/bin/docker-php-entrypoint "$@"
+exec /usr/local/bin/docker-php-entrypoint "$@"
