@@ -1,0 +1,7 @@
+version: "3.5"
+
+services:
+  nomos-frontend:
+    volumes:
+      - ../web:/var/www/html
+      - ../conf/nginx-vhost-docker-compose.conf:/etc/nginx/conf.d/default.conf

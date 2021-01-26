@@ -235,3 +235,5 @@ docker/nomos.env
 #Coverage
 coverage.xml
 coverage/.
+
+data/mysql

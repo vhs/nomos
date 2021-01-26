@@ -1,0 +1,23 @@
+FROM php:7-fpm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ENTRYPOINT [ "docker_compose_run.sh" ]
+CMD ["php-fpm"]
+
+RUN apt-get update \
+    && apt-get install -y \
+    git libzip-dev zip
+
+RUN docker-php-ext-install -j$(nproc) bcmath zip
+
+COPY ["composer.json", "/var/www/html/"]
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN /usr/bin/composer install
+
+COPY ["app", "app"]
+COPY ["vhs", "vhs"]
+COPY ["migrations", "migrations"]
+COPY ["tools", "tools"]
+COPY ["docker", "/usr/bin"]
+COPY ["conf/config.ini.php.docker", "/var/www/html/conf/config.ini.php"]
