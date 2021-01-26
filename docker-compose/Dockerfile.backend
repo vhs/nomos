@@ -9,7 +9,7 @@ RUN apt-get update \
     && apt-get install -y \
     git libzip-dev zip
 
-RUN docker-php-ext-install -j$(nproc) bcmath zip
+RUN docker-php-ext-install -j$(nproc) bcmath mysqli zip
 
 COPY ["composer.json", "/var/www/html/"]
 COPY --from=composer /usr/bin/composer /usr/bin/composer
