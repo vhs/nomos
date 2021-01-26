@@ -60,7 +60,7 @@ class Backup {
         $command = array();
         $command[] = "mysqldump";
         $command[] = "-u '" . $this->user . "'";
-        $command[] = "-p " . $this->password;
+        $command[] = "-p" . $this->password;
         if($do_host == true)
             $command[] = "--host " . $this->server;
         $command[] = "'" . $this->database . "'";
