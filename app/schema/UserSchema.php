@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -15,8 +16,10 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
-class UserSchema extends Schema {
-    public static function init() {
+class UserSchema extends Schema
+{
+    public static function init()
+    {
 
         $table = new Table("users");
 
@@ -42,6 +45,8 @@ class UserSchema extends Schema {
         $table->addColumn("active", Type::Enum("n", "y", "t", "b"));
         $table->addColumn("paypal_id", Type::String(false, "", 255));
         $table->addColumn("payment_email", Type::String(false, "", 255));
+        $table->addColumn("stripe_id", Type::String(false, "", 255));
+        $table->addColumn("stripe_email", Type::String(false, "", 255));
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),

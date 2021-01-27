@@ -236,4 +236,6 @@ docker/nomos.env
 coverage.xml
 coverage/.
 
+.vscode
+conf/config.js
 data/mysql
