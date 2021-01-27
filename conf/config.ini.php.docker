@@ -37,6 +37,7 @@ require_once('env.php');
 
      define('STRIPE_API_KEY', NOMOS_STRIPE_API_KEY);
      define('STRIPE_WEBHOOK_SECRET ', NOMOS_STRIPE_WEBHOOK_SECRET);
+     define('STRIPE_PRODUCTS', json_decode(NOMOS_STRIPE_PRODUCTS, true));
 
 	/** 
 	* Show MySql Errors. 
