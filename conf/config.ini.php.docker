@@ -29,6 +29,14 @@ require_once('env.php');
      define('OAUTH_GOOGLE_CLIENT', NOMOS_OAUTH_GOOGLE_CLIENT);
      define('OAUTH_GOOGLE_SECRET', NOMOS_OAUTH_GOOGLE_SECRET);
 
+     define('RABBITMQ_HOST', NOMOS_RABBITMQ_HOST);
+     define('RABBITMQ_PORT', NOMOS_RABBITMQ_PORT);
+     define('RABBITMQ_USER', NOMOS_RABBITMQ_USER);
+     define('RABBITMQ_PASSWORD', NOMOS_RABBITMQ_PASSWORD);
+     define('RABBITMQ_VHOST', NOMOS_RABBITMQ_VHOST);
+
+     define('STRIPE_API_KEY', NOMOS_STRIPE_API_KEY);
+
 	/** 
 	* Show MySql Errors. 
 	* Not recomended for live site. true/false 
