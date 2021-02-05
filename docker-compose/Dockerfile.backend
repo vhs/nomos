@@ -21,3 +21,5 @@ COPY ["migrations", "migrations"]
 COPY ["tools", "tools"]
 COPY ["docker", "/usr/bin"]
 COPY ["conf/config.ini.php.docker", "/var/www/html/conf/config.ini.php"]
+
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
