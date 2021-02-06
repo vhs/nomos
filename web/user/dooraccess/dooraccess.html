@@ -1,28 +1,45 @@
+<h1>Door Access</h1>
+
 <h2>What you need to know:</h2>
+
 <h3>Entry</h3>
 
-<div ng-show="pin == null">
+<!-- <div ng-show="pin == null">
     <p>You must set a PIN before you can access the space. Click the generate PIN on your <a ui-sref="user.profile">profile page</a> and set your desired PIN code. Keep it safe.</p>
+</div> -->
+
+<div ng-if="!currentUser.hasPrivilege('vetted')">
+    <h3>Non-keyholders</h3>
+    <p>If you're not yet a keyholder:</p>
+    <p>
+        <ul>
+            <li>Check <a href="http://www.isvhsopen.com">www.isvhsopen.com</a> or <a href="https://vanhack.slack.com/messages/C0FSQCR6E">#isvhsopen</a> on <a href="https://slack.vanhack.ca">Slack</a> to quickly see if we're open</li>
+            <li>You can apply for keyholder status on <a href="https://talk.vanhack.ca/c/vhs-members-only/keyholder-applications">Talk</a></li>
+            <li>If you want more information on how to apply for keyholder status, you can <a href="https://talk.vanhack.ca/t/how-to-apply-for-key-holder-status/5360">find more information here</a></li>
+        </ul>
+    </p>
 </div>
 
+<h3> Temporary Booking System </h3>
+
+<p>Due to COVID-19, VHS is currently operating at a lower capacity.</p>
+
+<p>Please follow policies outlined in the <a href='https://r.vanhack.ca/covid-plan'>COVID-19 Safety Plan</a> and book using the system below.</p>
+
+<p>For easy access, you can also bookmark this through:</p>
+
+<p><a href='https://booking.vanhack.ca/index.php/appointments'>https://booking.vanhack.ca/index.php/appointments</a></p>
+
+<iframe src="https://booking.vanhack.ca/index.php/appointments" width="760px" height="555px" scrolling="auto" frameborder="0" allowtransparency="true"></iframe>
+
+<p>When you get to the space, all users (members and guests) must sign in through the contactless sign in system:</p>
+
+<p><a href='https://r.vanhack.ca/covid-signin'>https://r.vanhack.ca/covid-signin</a></p>
 
 <div ng-if="currentUser.hasPrivilege('vetted') && pin != null">
-    <h3> Temporary Booking System </h3>
+    <h3>Keyholders</h3>
 
-    <p>Due to COVID-19, VHS is currently operating at a lower capacity.</p>
-    
-    <p>Please follow policies outlined in the <a href='https://docs.google.com/document/d/1z6eTzJB4HotNxpLyClH_6s04Ra79p2L80Mquo7AhPeg/edit?usp=sharing'>COVID-19 Safety Plan</a> and book using the system below.</p>
-
-    <p>For easy access, you can also bookmark this through:</p>
-    <p><a href='https://booking.vanhack.ca/index.php/appointments'>https://booking.vanhack.ca/index.php/appointments</a></p>
-
-    <iframe src="https://booking.vanhack.ca/index.php/appointments" width="760px" height="555px" scrolling="auto" frameborder="0" allowtransparency="true"></iframe>
-
-    <p>When you get to the space, all users (members and guests) must sign in through the contactless sign in system:</p>
-
-    <p><a href='https://r.vanhack.ca/covid-signin'>https://r.vanhack.ca/covid-signin</a></p>
-
-    <p>Our RFID access system is happening, but will take a bit longer to get installed and tested, in the meanwhile we have setup a temporary access system so keyholders can come in and help set the new space up.</p>
+    <p>Our RFID access system is happening, but will take a bit longer to get installed and tested.</p>
 
     <h4>When entering</h4>
 
@@ -35,6 +52,7 @@
     <p><b>NOTE:</b> Due to issues with the lock, when locking the door after you enter, you'll need to close it, then open it and then close the lock again. This will make sure that the front door lock will actually be in a locked position.</p>
 
     <h4>When leaving</h4>
+
     <p>
         <b>Ensure all doors are locked:</b> this means:
         <ul>
@@ -50,6 +68,7 @@
     <p><b>Lock the front door behind you.</b> To lock, press the centre button labeled “Schlage” to engage the knob that turns the deadbolt or use your code and you are good to go. Then give the door a try to make sure its locked.</p>
     
     <h4>Exit</h4>
+
     <p>To lock the inner door after you have left, press the Schlage button on the top, then rotate the thumbturn (counter-clockwise) away from the hinges.</p>
     <p>Please test the door to confirmed that it is closed and locked properly.&nbsp;</p>
     <p>For more info on opening and locking the space, see:
@@ -60,18 +79,6 @@
         </ul>
     </p>
 </div>
-<div  ng-if="!currentUser.hasPrivilege('vetted')">
-    <p>
-        <ul>
-            <li>Check <a href="http://www.isvhsopen.com">www.isvhsopen.com</a> or <a href="https://vanhack.slack.com/messages/C0FSQCR6E">#isvhsopen</a> on <a href="https://slack.vanhack.ca">Slack</a> to quickly see if we're open</li>
-            <li>You can apply for keyholder status on <a href="https://talk.vanhack.ca/c/vhs-members-only/keyholder-applications">Talk</a></li>
-            <li>If you want more information on how to apply for keyholder status, you can <a href="https://talk.vanhack.ca/t/how-to-apply-for-key-holder-status/5360">find more information here</a></li>
-        </ul>
-    </p>
-
-</div>
-
-
 
 <p><b>Thanks!</b></p>
 <p><i>The Membership Coordinator(s)</i></p>
