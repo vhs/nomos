@@ -6,4 +6,4 @@ WEBHOOKER=$(dirname $(readlink webhooker))
 
 cd $WEBHOOKER
 
-npm start
+npm run console
