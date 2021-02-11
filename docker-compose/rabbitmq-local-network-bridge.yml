@@ -1,0 +1,8 @@
+version: "3.5"
+
+services:
+  nomos-rabbitmq:
+    network_mode: bridge
+
+  nomos-webhooker:
+    network_mode: bridge

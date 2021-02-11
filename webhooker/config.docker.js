@@ -10,7 +10,7 @@ exports.settings = {
         vhost:  process.env.NOMOS_RABBITMQ_VHOST || "nomos"
     },
     nomos: {
-        host: process.env.NOMOS_RABBITMQ_NOMOS_HOST || "nomos-backend",
+        host: process.env.NOMOS_RABBITMQ_NOMOS_HOST || "nomos-frontend",
         token: process.env.NOMOS_RABBITMQ_NOMOS_TOKEN || ""
     }
 };

@@ -1,7 +1,7 @@
 version: "3.5"
 
 services:
-  nomos-backend:
+  nomos-frontend:
     networks:
       - rabbitmq
 

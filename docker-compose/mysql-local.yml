@@ -8,4 +8,4 @@ services:
       - MYSQL_USER=${NOMOS_DB_USER}
       - MYSQL_PASS=${NOMOS_DB_PASSWORD}
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ../data/mysql:/var/lib/mysql

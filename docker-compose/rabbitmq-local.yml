@@ -10,8 +10,9 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=${NOMOS_RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${NOMOS_RABBITMQ_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST=${NOMOS_RABBITMQ_VHOST}
     volumes:
-      - ./data/rabbitmq:/var/lib/rabbitmq
+      - ../data/rabbitmq:/var/lib/rabbitmq
 
   nomos-webhooker:
     depends_on:

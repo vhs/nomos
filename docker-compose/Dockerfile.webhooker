@@ -7,7 +7,7 @@ RUN cd /build \
     && mv config.docker.js config.js \
     && npm install --production
 
-FROM node:lts-alpine
+FROM node:lts
 
 RUN mkdir -p /app/logs /app/webhooker
 
@@ -15,4 +15,4 @@ COPY --from=build /build /app/webhooker
 
 WORKDIR /app/webhooker
 
-CMD ["/app/webhooker/webhooker.console"]
+CMD ["/app/webhooker/webhooker.sbin"]
