@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-cd $(dirname $0)
-
-WEBHOOKER=$(dirname $(readlink webhooker))
+WEBHOOKER=$(dirname $(realpath $0))
 
 cd $WEBHOOKER
 
