@@ -1,0 +1,22 @@
+version: "3.5"
+
+services:
+  nomos-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: nomos-rabbitmq
+    restart: always
+    env_file:
+      - ../docker/nomos.env
+    environment:
+      - RABBITMQ_DEFAULT_USER=${NOMOS_RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${NOMOS_RABBITMQ_PASSWORD}
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
+  nomos-webhooker:
+    depends_on:
+      - nomos-rabbitmq
+
+  nomos-backend:
+    depends_on:
+      - nomos-rabbitmq
