@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+  nomos-mysql:
+    image: mysql:5.7
+    container_name: nomos-mysql
+    environment:
+      - MYSQL_USER=${NOMOS_DB_USER}
+      - MYSQL_PASS=${NOMOS_DB_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql

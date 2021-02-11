@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+  nomos-webhooker:
+    image: vanhack/nomos-webhooker
+    container_name: nomos-webhooker
+    restart: always
+
+  nomos-backend:
+    depends_on:
+      - nomos-webhooker

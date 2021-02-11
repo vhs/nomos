@@ -236,4 +236,6 @@ docker/nomos.env
 coverage.xml
 coverage/.
 
-data/mysql
+data/**
+node_modules
+docker-compose.conf

@@ -1,0 +1,6 @@
+version: "3.5"
+
+services:
+  nomos-backend:
+    external_links:
+      - nomos-mysql:${EXTERNAL_MYSQL_HOST}
