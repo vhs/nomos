@@ -9,7 +9,7 @@ require_once('env.php');
      define('DB_PASS', NOMOS_DB_PASSWORD);
      define('DB_DATABASE', NOMOS_DB_DATABASE);
 
-     define('NOMOS_FROM_EMAIL', 'membership@vanhack.ca');
+     define('NOMOS_FROM_EMAIL', defined('NOMOS_EMAIL_FROM') ? NOMOS_EMAIL_FROM : 'membership@vanhack.ca');
 
      // SES is used to send e-mails
      define('AWS_SES_REGION', 'us-west-2');
