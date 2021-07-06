@@ -235,3 +235,7 @@ docker/nomos.env
 #Coverage
 coverage.xml
 coverage/.
+
+data/**
+node_modules
+docker-compose.conf

@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+  nomos-rabbitmq:
+    networks:
+      - rabbitmq
+
+  nomos-webhooker:
+    networks:
+      - rabbitmq
+
+  nomos-backend:
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
+    external: true

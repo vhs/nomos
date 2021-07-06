@@ -4,4 +4,4 @@ WEBHOOKER=$(dirname $(realpath $0))
 
 cd $WEBHOOKER
 
-npm start
+npm run console

@@ -1,0 +1,5 @@
+version: "3.5"
+
+services:
+  nomos-mysql:
+    network_mode: bridge

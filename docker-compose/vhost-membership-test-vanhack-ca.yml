@@ -1,0 +1,7 @@
+version: "3.5"
+
+services:
+  nomos-frontend:
+    environment:
+      VIRTUAL_HOST: membership.test.vanhack.ca
+      LETSENCRYPT_HOST: membership.test.vanhack.ca
