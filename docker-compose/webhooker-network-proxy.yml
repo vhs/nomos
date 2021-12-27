@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  nomos-webhooker:
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

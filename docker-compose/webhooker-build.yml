@@ -1,0 +1,7 @@
+version: "3.5"
+
+services:
+  nomos-webhooker:
+    build:
+      context: ..
+      dockerfile: docker-compose/Dockerfile.webhooker

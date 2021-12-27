@@ -1,0 +1,13 @@
+version: "3.5"
+
+services:
+  nomos-backend:
+    networks:
+      - mysql
+
+  nomos-mysql:
+    networks:
+      - mysql
+
+networks:
+  mysql:

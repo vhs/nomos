@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  nomos-backend:
+    networks:
+      - mysql
+
+networks:
+  mysql:
+    external: true

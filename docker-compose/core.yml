@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+  nomos-frontend:
+    image: vanhack/nomos-frontend
+    container_name: nomos-frontend
+    depends_on:
+      - nomos-backend
+    restart: always
+    links:
+      - nomos-backend:nomos-backend
+
+  nomos-backend:
+    image: vanhack/nomos-backend
+    container_name: nomos-backend
+    restart: always

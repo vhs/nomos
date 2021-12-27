@@ -14,9 +14,10 @@ $target_version = null;
 $do_migrate = null;
 $backup_filename = null;
 $do_backup = null;
+$do_host = false;
 
 //-b and -m flags, parameters optional
-$options = getopt('b::m::');
+$options = getopt('b::m::t::');
 if(isset($options['m'])) {
     if($options['m']) {
         $target_version = intval($options['m']);
@@ -29,10 +30,13 @@ if(isset($options['b'])) {
     }
     $do_backup = true;   
 }
+if(isset($options['t'])) {
+    $do_host = true;
+}
 
 if($do_backup) {
     $backup = new Backup(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
-    if($backup->external_backup($backup_filename))
+    if($backup->external_backup($do_host, $backup_filename))
         print "Backup succeeded\n";
     else
         print "Backup failed\n";
