@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Authors:
+ * - Ty Eggen
+ */
+
 namespace app\services;
 
 use app\contracts\IStripeEventService1;
@@ -9,7 +14,6 @@ use vhs\services\Service;
 
 class StripeEventService extends Service implements IStripeEventService1
 {
-
     public function GetAll()
     {
         return StripeEvent::findAll();

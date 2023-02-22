@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: Thomas
- * Date: 16/08/2015
- * Time: 12:56 AM
+ * Authors:
+ * - Ty Eggen
  */
 
 namespace app\monitors;
@@ -14,17 +13,19 @@ use DateTime;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 
-class StripeEventMonitor extends Monitor {
-
+class StripeEventMonitor extends Monitor
+{
     /** @var Logger */
     private $logger;
 
-    public function Init(Logger &$logger = null) {
+    public function Init(Logger &$logger = null)
+    {
         $this->logger = &$logger;
         StripeEvent::onAnyCreated([$this, "handleCreated"]);
     }
 
-    public function handleCreated($args) {
+    public function handleCreated($args)
+    {
         $this->logger->log(__METHOD__ + ": " + json_encode($args, 1));
 
         /** @var StripeEvent $stripe_event */
@@ -48,39 +49,45 @@ class StripeEventMonitor extends Monitor {
 
             $payment->currency = $stripe_data->data->object->currency;
             $payment->pp = "Stripe";
-            
+
             $payment->status = 0; //we haven't yet processed the payment internally
-            
+
             $payment->payer_email = $stripe_data->data->object->customer_email;
-            
+
             $full_name = !is_null($stripe_data->data->object->customer_name) ? $this->split_name($stripe_data->data->object->customer_name) : array($stripe_data->data->object->customer_email, $stripe_data->data->object->customer_email);
-            
+
             $payment->payer_fname = join(" ", array_slice($full_name, 0, count($full_name) - 1));
             $payment->payer_lname = end($full_name);
-            
+
             // Iterate over $stripe_data->data->object->lines->data
 
             $item_name = "";
             $item_number = "";
             $item_amount = 0.0;
 
-            foreach( $stripe_data->data->object->lines->data as $line_item) {
-                $item_name = !is_null($line_item->description)?$line_item->description : $item_name;
-                if(isset($line_item->plan))
-                    $item_amount = !is_null($line_item->plan->amount)?$line_item->plan->amount/100: $item_amount;
-                if(isset($line_item->plan))
-                    $item_number =  !is_null($line_item->plan->product)?$line_item->plan->product:$item_number;
-                if(isset($line_item->plan))
-                    $item_name = !is_null($line_item->plan->nickname)?$line_item->plan->nickname : $item_name;
-                if(isset($line_item->price))
-                    $item_amount = !is_null($line_item->price->unit_amount/100)?$line_item->price->unit_amount/100: $item_amount;
-                if(isset($line_item->price))
-                    $item_number =  !is_null($line_item->price->product)?$line_item->price->product:$item_number;
-                if(isset($line_item->price))
-                    $item_name = !is_null($line_item->price->nickname)?$line_item->price->nickname : $item_name;
+            foreach ($stripe_data->data->object->lines->data as $line_item) {
+                $item_name = !is_null($line_item->description) ? $line_item->description : $item_name;
+                if (isset($line_item->plan)) {
+                    $item_amount = !is_null($line_item->plan->amount) ? $line_item->plan->amount/100 : $item_amount;
+                }
+                if (isset($line_item->plan)) {
+                    $item_number =  !is_null($line_item->plan->product) ? $line_item->plan->product : $item_number;
+                }
+                if (isset($line_item->plan)) {
+                    $item_name = !is_null($line_item->plan->nickname) ? $line_item->plan->nickname : $item_name;
+                }
+                if (isset($line_item->price)) {
+                    $item_amount = !is_null($line_item->price->unit_amount/100) ? $line_item->price->unit_amount/100 : $item_amount;
+                }
+                if (isset($line_item->price)) {
+                    $item_number =  !is_null($line_item->price->product) ? $line_item->price->product : $item_number;
+                }
+                if (isset($line_item->price)) {
+                    $item_name = !is_null($line_item->price->nickname) ? $line_item->price->nickname : $item_name;
+                }
             }
 
-            if(array_key_exists($item_number, STRIPE_PRODUCTS)) {
+            if (array_key_exists($item_number, STRIPE_PRODUCTS)) {
                 $item_name = STRIPE_PRODUCTS[$item_number]['item_name'];
                 $item_number = STRIPE_PRODUCTS[$item_number]['item_number'];
             }

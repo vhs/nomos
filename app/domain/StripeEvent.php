@@ -1,14 +1,11 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: Thomas
- * Date: 11/12/2014
- * Time: 5:05 PM
+ * Authors:
+ * - Ty Eggen
  */
 
 namespace app\domain;
-
 
 use app\schema\StripeEventSchema;
 use vhs\database\wheres\Where;

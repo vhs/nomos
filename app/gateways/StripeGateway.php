@@ -1,21 +1,17 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: TyIsI
- * Date: 2020-11-10
- * Time: 4:12 PM
+ * Authors:
+ * - Ty Eggen
  */
 
 namespace app\gateways;
 
-
 use app\domain\StripeEvent;
-use \Stripe\Stripe;
+use Stripe\Stripe;
 
 class StripeGateway implements IPaymentGateway
 {
-
     public function __construct()
     {
         \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
@@ -28,8 +24,7 @@ class StripeGateway implements IPaymentGateway
 
     public function Process($payload)
     {
-        if(!isset($_SERVER['HTTP_STRIPE_SIGNATURE']))
-        {
+        if (!isset($_SERVER['HTTP_STRIPE_SIGNATURE'])) {
             throw new PaymentGatewayException("Error: Unknown Stripe Event Error: Missing signature");
             http_response_code(400);
             exit();

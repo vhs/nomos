@@ -1,14 +1,11 @@
 <?php
 
 /**
- * Created by: Fuck you, I am not giving you my name
- * User: TyIsI
- * Date: 2020-11-18
- * Time: like, midnight almost
+ * Authors:
+ * - Ty Eggen
  */
 
 namespace app\schema;
-
 
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
