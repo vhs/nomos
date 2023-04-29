@@ -8,7 +8,7 @@ This system in a way acts as the rule set for how things are governed, via membe
 ## Development
 
 See here for complete setup, API, and philosophy:
-https://github.com/vhs/membership-manager-pro/wiki
+https://github.com/vhs/nomos/wiki
 
 First steps should be installing your test environment:
-https://github.com/vhs/membership-manager-pro/wiki/Contributing
+https://github.com/vhs/nomos/wiki/Contributing
