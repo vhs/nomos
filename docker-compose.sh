@@ -1,20 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-HAS_COMPOSE_PLUGIN=0
+SCRIPT_DIR=$(realpath "$(dirname "$0")")
+
+COMPOSE_CMD=docker-compose
 
 if docker compose > /dev/null 2>&1 ; then
-    HAS_COMPOSE_PLUGIN=1
+    COMPOSE_CMD="docker compose"
 fi
 
-COMPOSE_FILE_ARGS=$(grep -E -v '^(#|;|$)' docker-compose.conf | xargs -n 1 echo -f | xargs)
+COMPOSE_FILE=$(< docker-compose.conf grep -E -v '^(#|;|$)' | xargs | tr ' ' ':')
+export COMPOSE_FILE
 
-# shellcheck disable=SC2034
-COMPOSE_PROJECT_NAME=nomos
+# --env-file is passed in here to make the variables inside available for
+# expansion *inside rules definitions*. This is separate from the
+# service.SVC.env_file directive, which defines the environment *inside* the
+# container.
 
-if [ "${HAS_COMPOSE_PLUGIN}" = "1" ] ; then
-    # shellcheck disable=SC2086
-    docker compose -p nomos ${COMPOSE_FILE_ARGS} "$@"
-else
-    # shellcheck disable=SC2086
-    /usr/bin/env docker-compose -p nomos ${COMPOSE_FILE_ARGS} "$@"
-fi
+# shellcheck disable=SC2086
+/usr/bin/env ${COMPOSE_CMD} -p nomos --env-file "$SCRIPT_DIR"/docker/nomos.env "$@"
