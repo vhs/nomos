@@ -4,6 +4,7 @@ backup
 *.gz
 *.zip
 logs/*.log
+logs/*.log.*
 
 
 #################
