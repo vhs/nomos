@@ -57,6 +57,7 @@ class HttpServer {
 
         $this->request = HttpUtil::getCurrentRequest();
 
+        session_set_cookie_params(["SameSite" => "Strict", "HttpOnly" => "true"]);
         session_start();
 
         $exception = null;
