@@ -9,22 +9,14 @@
 namespace vhs\database\engines\mysql;
 
 use vhs\database\Column;
-use vhs\database\Columns;
 use vhs\database\Engine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
-use vhs\database\limits\Limit;
-use vhs\database\offsets\Offset;
-use vhs\database\orders\OrderBy;
-use vhs\database\queries\Query;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
 use vhs\database\queries\QueryCount;
-use vhs\database\Table;
-use vhs\database\types\Type;
-use vhs\database\wheres\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
@@ -60,7 +52,7 @@ class MySqlEngine extends Engine {
     public function connect() {
         if(isset($this->conn) && !is_null($this->conn)) return true;
 
-        $this->conn = new \mysqli(
+        $this->conn = new MySqlOtelWrapper(
             $this->info->getServer(),
             $this->info->getUsername(),
             $this->info->getPassword()
