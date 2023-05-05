@@ -18,6 +18,8 @@ require_once("include.php");
 
 $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.log");
 
+\vhs\observability\OpenTelemetry::Init($serverLog);
+
 \vhs\web\HttpContext::Init(new \vhs\web\HttpServer(new \vhs\web\modules\HttpServerInfoModule("Nomos"), $serverLog));
 
 \vhs\web\HttpContext::Server()->register(new \app\security\HttpApiAuthModule(\app\security\Authenticate::getInstance()));
