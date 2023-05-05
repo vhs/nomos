@@ -29,6 +29,7 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 \vhs\web\HttpContext::Server()->register(\app\modules\HttpPaymentGatewayHandlerModule::getInstance());
 \vhs\web\HttpContext::Server()->register(\app\security\oauth\modules\OAuthHandlerModule::getInstance());
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule("web"));
+\vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpTraceLinkModule());
 
 
 \app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway());
