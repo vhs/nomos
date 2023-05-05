@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc: # port 4317
+      http: # port 4318
+
+processors:
+  batch:
+
+exporters:
+  otlp:
+    endpoint: "${env:OTLP_UPSTREAM}"
+    headers:
+      "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
