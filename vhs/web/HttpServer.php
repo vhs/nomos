@@ -81,8 +81,10 @@ class HttpServer {
      * Ends the root span for a request. Expected to be called unconditionally
      * at the end of a request's lifecycle (if not, the trace will most likely
      * be shown as missing a root span).
+     *
+     * Called by the RequestFinished exception handler.
      */
-    private function endRootSpan(): void {
+    public function endRootSpan(): void {
         if ($this->root_span) {
             $this->root_span->end();
         }
@@ -167,8 +169,7 @@ class HttpServer {
             }
         }
 
-        $this->endRootSpan();
-        exit();
+        throw new \vhs\RequestFinished();
     }
 
     public function clear() {
@@ -217,7 +218,7 @@ class HttpServer {
 
         $self = $this;
         array_push($this->headerBuffer, function() use ($self) {
-            exit();
+            throw new \vhs\RequestFinished();
         });
     }
 

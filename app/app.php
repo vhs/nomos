@@ -43,4 +43,21 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . "/../logs/server.lo
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GoogleOAuthHandler());
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\SlackOAuthHandler());
 
-\vhs\web\HttpContext::Server()->handle();
+try {
+    \vhs\web\HttpContext::Server()->handle();
+} catch (\vhs\RequestFinished $e) {
+} finally {
+    /*
+     * This is here to fix a problem where exit-handlers need to finish dealing
+     * with a request e.g. by sending traces to an OpenTelemetry service, and
+     * that may take between a few ms and a while, which we should never make
+     * the client wait for.
+     *
+     * https://stackoverflow.com/questions/15273570/continue-processing-php-after-sending-http-response
+     */
+    session_write_close();
+    fastcgi_finish_request();
+    // Ensure that the root span of the server is always closed cleanly.
+    \vhs\web\HttpContext::Server()->endRootSpan();
+    exit();
+}
