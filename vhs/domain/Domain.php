@@ -523,7 +523,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $columnNames = explode(",", $columns);
         $orders = explode(",", $order);
 
-        if (count($allowed_columns) > 0)
+        if (count($allowed_columns ?? []) > 0)
             $columnNames = array_intersect($allowed_columns, $columnNames);
 
         $cols = [];
