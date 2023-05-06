@@ -68,3 +68,43 @@ $ docker inspect nomos-frontend | jq -r '.[0].NetworkSettings.Networks | to_entr
 
 The username is `vhs` and the password is `password`.
 
+### OpenTelemetry
+
+Nomos optionally supports [OpenTelemetry](https://opentelemetry.io/docs/), a
+system for collecting traces, logs, and metrics (we have not yet implemented
+metrics and logs) from production and dev systems to greatly ease debugging and
+performance work. It supports distributed tracing (we have not implemented this
+yet), allowing tracing operations through their whole lifecycle through multiple
+systems.
+
+One feature we've implemented is the `vhs-trace-link` HTTP header, which allows
+you to look at dev tools in your browser, then click the link to open the trace
+for any problematic request and immediately see all the database queries
+performed by that request.
+
+To set it up, you need to choose some kind of aggregation service:
+- [Jaeger](https://jaegertracing.io/) is an open source trace aggregation
+  service that you can self host.
+- [Honeycomb](https://honeycomb.io/) is a proprietary cloud tracing service
+  which does metrics, traces, and logs, as well as dashboards and alerting.
+  They have a generous free tier.
+
+Once you've chosen and set up one of these services, enable
+[opentelemetry-collector.yml](./docker-compose/opentelemetry-collector.yml) in
+`docker-compose.conf`. Next, configure `docker/nomos.env`: set
+`OT_COLLECTOR_OTLP_UPSTREAM` to point to your aggregation service's ingest
+endpoint and optionally set `OT_COLLECTOR_HONEYCOMB_API_KEY` if using Honeycomb
+(make it blank otherwise).
+
+Then, optionally set up the `vhs-trace-link` system by setting
+`NOMOS_TRACE_URL_FORMAT` to the appropriate value for your trace aggregator.
+There is an example given for Honeycomb.
+
+You should start seeing traces in your trace aggregator of choice when you
+start the service and make some backend requests.
+
+#### Caveats
+
+Currently the database traces show full statements because the Nomos database
+library escapes strings instead of using placeholders. This may expose PII if
+used in production. Fixing this is planned.
