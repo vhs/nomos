@@ -1,0 +1,42 @@
+version: "3.5"
+
+services:
+  # This is the OpenTelemetry Collector: https://opentelemetry.io/docs/collector/
+  #
+  # In this case, we use it for batching and queueing traces for multiple
+  # requests from PHP, since OpenTelemetry for PHP is forced to send out all
+  # traces for a request immediately at the end of a request, and it blocks the
+  # completion of the request processing (due to how PHP does init/teardown on
+  # every request).
+  #
+  # It is thus basically mandatory unless the telemetry receiver process is on
+  # the same box and has no rate limits.
+  nomos-otel-collector:
+    image: otel/opentelemetry-collector:0.76.1
+    command: [--config=/etc/otel-collector-config.yaml]
+    volumes:
+      - ../conf/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    container_name: nomos-otel-collector
+    restart: always
+
+    environment:
+      # just set this to garbage/empty if you aren't using Honeycomb; it will be
+      # ignored
+      - "HONEYCOMB_API_KEY=${OT_COLLECTOR_HONEYCOMB_API_KEY}"
+      - "OTLP_UPSTREAM=${OT_COLLECTOR_OTLP_UPSTREAM}"
+    networks:
+      - otel-collector
+  nomos-backend:
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nomos-otel-collector:4318
+      - "OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf"
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_PHP_TRACES_PROCESSOR=batch
+      - OTEL_TRACES_SAMPLER=parentbased_always_on
+    depends_on:
+      - nomos-otel-collector
+    networks:
+      - otel-collector
+
+networks:
+  otel-collector:

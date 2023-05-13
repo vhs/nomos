@@ -35,6 +35,14 @@
      define('RABBITMQ_PASSWORD', 'password');
      define('RABBITMQ_VHOST', 'nomos');
 
+     // Format for URLs to link to traces (see HttpTraceLinkModule)
+     // For Honeycomb, see: https://docs.honeycomb.io/api/direct-trace-links/
+     //    https://ui.honeycomb.io/<team>/environments/<environment>/datasets/nomos/trace?trace_id=%TRACE_ID%&trace_start_ts=%TRACE_START_TS%
+     // The following parameters will be replaced:
+     // %TRACE_ID% - trace ID in use
+     // %TRACE_START_TS% - timestamp of the start of the root span
+     define('TRACE_URL_FORMAT', '(trace url format not configured)');
+
 	/** 
 	* Show MySql Errors. 
 	* Not recomended for live site. true/false 

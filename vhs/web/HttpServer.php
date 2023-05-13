@@ -9,6 +9,12 @@
 namespace vhs\web;
 
 
+use OpenTelemetry\API\Common\Instrumentation\CachedInstrumentation;
+use OpenTelemetry\API\Trace\SpanInterface;
+use OpenTelemetry\API\Trace\SpanKind;
+use OpenTelemetry\API\Trace\StatusCode;
+use OpenTelemetry\Context\ScopeInterface;
+use OpenTelemetry\SemConv\TraceAttributes;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\web\modules\HttpServerInfoModule;
@@ -22,6 +28,9 @@ class HttpServer {
     private $outputBuffer = array();
     private $http_response_code;
     private $endset = false;
+
+    private ?SpanInterface $root_span = null;
+    private ?ScopeInterface $root_scope = null;
 
     /** @var HttpRequest */
     public $request;
@@ -51,6 +60,39 @@ class HttpServer {
         array_push($this->modules, $module);
     }
 
+    /**
+     * Starts the root span for a request, which will appear as one individual
+     * trace in OpenTelemetry.
+     */
+    private function beginRootSpan(): void {
+        // NOTE: OpenTelemetry root spans cannot be implemented as a module
+        // since it needs to create the root span *before* starting other
+        // modules, and end it *after* all the other modules complete.
+        $tracer = (new CachedInstrumentation('vhs\\web\\HttpServer'))->tracer();
+        $this->root_span = $tracer
+            ->spanBuilder($this->request->url)
+            ->setSpanKind(SpanKind::KIND_SERVER)
+            ->setAttribute(TraceAttributes::HTTP_METHOD, $this->request->method)
+            ->startSpan();
+        $this->root_scope = $this->root_span->activate();
+    }
+
+    /**
+     * Ends the root span for a request. Expected to be called unconditionally
+     * at the end of a request's lifecycle (if not, the trace will most likely
+     * be shown as missing a root span).
+     *
+     * Called by the RequestFinished exception handler.
+     */
+    public function endRootSpan(): void {
+        if ($this->root_span) {
+            $this->root_span->end();
+        }
+        if ($this->root_scope) {
+            $this->root_scope->detach();
+        }
+    }
+
     public function handle() {
         $this->handling = true;
         $this->clear();
@@ -58,6 +100,8 @@ class HttpServer {
         $this->request = HttpUtil::getCurrentRequest();
 
         session_start();
+
+        $this->beginRootSpan();
 
         $exception = null;
         /** @var IHttpModule $module */
@@ -69,6 +113,8 @@ class HttpServer {
                 $module->handle($this);
             } catch(\Exception $ex) {
                 $exception = $ex;
+                $this->root_span->recordException($ex);
+                $this->root_span->setStatus(StatusCode::STATUS_ERROR);
                 break;
             }
             $index += 1;
@@ -109,6 +155,8 @@ class HttpServer {
                 $module->endResponse($this);
             } catch(\Exception $ex) {
                 $exception = $ex;
+                $this->root_span->recordException($ex);
+                $this->root_span->setStatus(StatusCode::STATUS_ERROR);
                 break;
             }
             $index += 1;
@@ -121,7 +169,7 @@ class HttpServer {
             }
         }
 
-        exit();
+        throw new \vhs\RequestFinished();
     }
 
     public function clear() {
@@ -170,7 +218,7 @@ class HttpServer {
 
         $self = $this;
         array_push($this->headerBuffer, function() use ($self) {
-            exit();
+            throw new \vhs\RequestFinished();
         });
     }
 
