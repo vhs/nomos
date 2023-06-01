@@ -18,7 +18,6 @@ use app\domain\RefreshToken;
 use app\domain\User;
 use app\schema\UserSchema;
 use app\security\Authenticate;
-use app\security\credentials\PinCredentials;
 use vhs\database\Database;
 use vhs\database\wheres\Where;
 use vhs\domain\Filter;
@@ -39,36 +38,6 @@ class AuthService extends Service implements IAuthService1 {
             Authenticate::getInstance()->login(new UserPassCredentials($username, $password));
         } catch(\Exception $ex) {
             return $ex->getMessage();
-        }
-
-        return "Access Granted";
-    }
-
-    /**
-     * @permission anonymous
-     * @param $pin
-     * @return mixed
-     */
-    public function PinLogin($pin) {
-        try {
-            Authenticate::getInstance()->login(new PinCredentials($pin));
-        } catch(\Exception $ex) {
-            return "Access Denied";
-        }
-
-        return "Access Granted";
-    }
-
-    /**
-     * @permission anonymous
-     * @param $key
-     * @return mixed
-     */
-    public function RfidLogin($key) {
-        try {
-            Authenticate::getInstance()->login(new PinCredentials($key));
-        } catch(\Exception $ex) {
-            return "Access Denied";
         }
 
         return "Access Granted";

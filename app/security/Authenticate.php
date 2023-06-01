@@ -14,8 +14,6 @@ use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
 use app\security\credentials\ApiCredentials;
-use app\security\credentials\PinCredentials;
-use app\security\credentials\RfidCredentials;
 use app\security\credentials\TokenCredentials;
 use DateTime;
 use vhs\database\Database;
@@ -40,14 +38,6 @@ class Authenticate extends Singleton implements IAuthenticate {
             case "app\\security\\credentials\\ApiCredentials":
                 /** @var ApiCredentials $credentials */
                 self::keyLogin(Key::findByApiKey($credentials->getToken()), $credentials);
-                break;
-            case "app\\security\\credentials\\RfidCredentials":
-                /** @var RfidCredentials $credentials */
-                self::keyLogin(Key::findByRfid($credentials->getToken()), $credentials);
-                break;
-            case "app\\security\\credentials\\PinCredentials":
-                /** @var PinCredentials $credentials */
-                self::keyLogin(Key::findByPin($credentials->getToken()), $credentials);
                 break;
             case "vhs\\security\\BearerTokenCredentials":
                 /** @var BearerTokenCredentials $credentials */
