@@ -11,7 +11,7 @@ define('DB_USER', NOMOS_DB_USER);
 define('DB_PASS', NOMOS_DB_PASSWORD);
 define('DB_DATABASE', NOMOS_DB_DATABASE);
 
-if(!defined('NOMOS_EMAIL_FROM')) {
+if(!defined('NOMOS_FROM_EMAIL')) {
     define('NOMOS_FROM_EMAIL', 'membership@vanhack.ca');
 }
 
