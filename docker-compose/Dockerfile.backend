@@ -20,6 +20,6 @@ COPY vhs vhs
 COPY migrations migrations
 COPY tools tools
 COPY docker/*.sh /usr/local/bin/
-COPY conf/config.ini.php.docker /var/www/html/conf/config.ini.php
+COPY conf/config.docker.ini.php /var/www/html/conf/config.ini.php
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
