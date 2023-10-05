@@ -5,7 +5,6 @@ backup
 *.zip
 logs/*.log
 
-
 #################
 ## Eclipse
 #################
@@ -36,7 +35,6 @@ local.properties
 
 # PDT-specific
 .buildpath
-
 
 #################
 ## Visual Studio
@@ -191,7 +189,6 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-
 #############
 ## Python
 #############
@@ -239,3 +236,6 @@ coverage/.
 data/**
 node_modules
 docker-compose.conf
+
+.vscode
+conf/config.js

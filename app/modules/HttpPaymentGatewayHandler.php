@@ -29,8 +29,11 @@ class HttpPaymentGatewayHandler extends HttpRequestHandler
         $server->clear();
         $server->code(200);
 
-        $server->output($this->gateway->Process($_REQUEST));
-
+        if(preg_match('/application\/json/',$_SERVER['CONTENT_TYPE']))
+            $server->output($this->gateway->Process(file_get_contents('php://input')));
+        else
+            $server->output($this->gateway->Process($_REQUEST));
+            
         $server->end();
     }
 }
