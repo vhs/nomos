@@ -158,7 +158,7 @@ class UserService extends Service implements IUserService1
     public function Create($username, $password, $email, $fname, $lname, $membershipid)
     {
         if (User::exists($username, $email)) {
-            $this->context->log("wtf");
+            // $this->context->log("wtf");
             throw new \Exception("User already exists");
         }
 
@@ -496,7 +496,7 @@ class UserService extends Service implements IUserService1
         curl_close($ch);
 
         if (!is_null($error)) {
-            $this->context->log($error);
+            // $this->context->log($error);
 
             return $error;
         }
