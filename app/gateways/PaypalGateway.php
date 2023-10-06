@@ -8,7 +8,6 @@
 
 namespace app\gateways;
 
-
 use app\domain\Ipn;
 
 class PaypalGateway implements IPaymentGateway
@@ -34,15 +33,16 @@ class PaypalGateway implements IPaymentGateway
 
         // Step 2: POST IPN data back to PayPal to validate
         // ToDo: this should be an option available from the admin interface
-        $paypal = 'https://ipnb.paypal.com/cgi-bin/webscr';
+        $paypal = 'https://ipnpb.paypal.com/cgi-bin/webscr';
         if (DEBUG) {
-            $paypal = 'https://ipnb.sandbox.paypal.com/cgi-bin/webscr';
+            $paypal = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
         }
 
         $ch = curl_init($paypal);
+
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
@@ -51,18 +51,19 @@ class PaypalGateway implements IPaymentGateway
 
         $error = null;
 
-        if( !($response = curl_exec($ch)))
+        if(!($response = curl_exec($ch))) {
             $error = "Error: Got " . curl_error($ch) . " when processing IPN data" . $req;
+        }
 
         curl_close($ch);
 
-        if (!is_null($error))
+        if (!is_null($error)) {
             throw new PaymentGatewayException($error);
+        }
 
         // The IPN is verified, process it
         // inspect IPN validation result and act accordingly
-        if (strcmp ($response, "VERIFIED") == 0)
-        {
+        if (strcmp($response, "VERIFIED") == 0) {
             $result = $this->CreateIPNRecord(
                 (array_key_exists('payment_status', $_REQUEST)) ? $_REQUEST['payment_status'] : null,
                 (array_key_exists('mc_gross', $_REQUEST)) ? $_REQUEST['mc_gross'] : null,
@@ -74,9 +75,7 @@ class PaypalGateway implements IPaymentGateway
             );
 
             return $result;
-        }
-        else if (strcmp($response, "INVALID") == 0)
-        {
+        } elseif (strcmp($response, "INVALID") == 0) {
             // IPN invalid, log for manual investigation
             $result = $this->CreateInvalidIPNRecord($req);
             throw new PaymentGatewayException("Error: Could not validate paypal IPN " . $req);
