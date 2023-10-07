@@ -78,54 +78,6 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6" ng-if="goodStanding">
-                                <div class="well well-sm">
-                                    <h4>Access PIN</h4>
-                                    <small>When accessing VHS, use the entire PIN. First 4 digits are unique. Admins can see this!</small>
-
-                                    <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
-
-                                    <div ng-repeat="key in profile.keys | filter:{type:'pin'}">
-                                        <div class="form-group input-group" ng-if="!showPin">
-                                            <button type="button" class="btn btn-default" ng-click="togglePin(true)" style="width:9em;">Show PIN</button>
-                                        </div>
-                                        <div class="form-group input-group" ng-if="showPin" ng-mouseleave="togglePin(false)">
-                                            <span class="input-group-addon" style="padding-right:0;">{{key.pinid}}</span>
-                                            <input type="text" class="form-control" style="padding-left:0; width:4em;" ng-minlength="4" ng-maxlength="4" maxlength="4" ng-model="key.pin">
-                                            <span class="input-group-btn" style="float:left;">
-                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#pin{{key.id}}Modal">
-                                                    <i class="fa fa-info"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                        <div class="modal fade" id="pin{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="pin{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title" id="pin{{key.id}}ModalLabel">PIN {{key.pinid}}{{key.pin}}</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>{{key.notes}}</p>
-                                                        <p>Created: {{key.created}}</p>
-                                                        <p>Special privileges for this key:</p>
-                                                        <div ng-repeat="privilege in key.privileges">
-                                                            {{privilege.code}}
-                                                        </div>
-                                                        <small>Access log to be added</small>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                                <!-- /.modal-content -->
-                                            </div>
-                                            <!-- /.modal-dialog -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="col-xs-12 col-lg-6" ng-if="goodStanding">
                                 <div class="panel panel-green">
                                     <div class="panel-heading">
