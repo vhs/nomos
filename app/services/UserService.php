@@ -39,7 +39,13 @@ class UserService extends Service implements IUserService1 {
             return;
         }
 
-        $user->password = PasswordUtil::hash($password);
+        $hashedPassword = PasswordUtil::hash($password);
+
+        if (!PasswordUtil::checkValidString($hashedPassword)) {
+            throw new \Exception('Invalid password hash');
+        }
+
+        $user->password = $hashedPassword;
 
         $user->save();
     }
@@ -134,10 +140,16 @@ class UserService extends Service implements IUserService1 {
             throw new \Exception('User already exists');
         }
 
+        $hashedPassword = PasswordUtil::hash($password);
+
+        if (!PasswordUtil::checkValidString($hashedPassword)) {
+            throw new \Exception('Invalid password hash');
+        }
+
         $user = new User();
 
         $user->username = $username;
-        $user->password = PasswordUtil::hash($password);
+        $user->password = $hashedPassword;
         $user->email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
@@ -165,10 +177,16 @@ class UserService extends Service implements IUserService1 {
             throw new \Exception('User already exists');
         }
 
+        $hashedPassword = PasswordUtil::hash($password);
+
+        if (!PasswordUtil::checkValidString($hashedPassword)) {
+            throw new \Exception('Invalid password hash');
+        }
+
         $user = new User();
 
         $user->username = $username;
-        $user->password = PasswordUtil::hash($password);
+        $user->password = $hashedPassword;
         $user->email = $email;
         $user->payment_email = $email;
         $user->fname = $fname;
@@ -235,7 +253,14 @@ class UserService extends Service implements IUserService1 {
                 $user = User::find($userid);
 
                 if (!is_null($user)) {
-                    $user->password = PasswordUtil::hash($password);
+                    $hashedPassword = PasswordUtil::hash($password);
+
+                    if (!PasswordUtil::checkValidString($hashedPassword)) {
+                        throw new \Exception('Invalid password hash');
+                    }
+
+                    $user->password = $hashedPassword;
+
                     $user->save();
 
                     return ['success' => true];
@@ -247,8 +272,15 @@ class UserService extends Service implements IUserService1 {
             if (!is_null($users) && count($users) == 1) {
                 $user = $users[0];
 
+                $hashedPassword = PasswordUtil::hash($password);
+
+                if (!PasswordUtil::checkValidString($hashedPassword)) {
+                    throw new \Exception('Invalid password hash');
+                }
+
                 $user->token = null;
-                $user->password = PasswordUtil::hash($password);
+
+                $user->password = $hashedPassword;
                 $user->save();
 
                 return ['success' => true];

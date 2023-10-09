@@ -245,4 +245,8 @@ class PasswordUtil {
 
         return $status === 0;
     }
+
+    public static function checkValidString($testVal) {
+        gettype($testVal) === 'string' && $testVal !== '';
+    }
 }
