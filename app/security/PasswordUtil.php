@@ -17,16 +17,24 @@ if (!defined('PASSWORD_DEFAULT')) {
 }
 
 class PasswordUtil {
+    private static function generateRandomString($length = 16) {
+        $randStr = str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', $length));
+
+        return substr($randStr, 0, $length);
+    }
+
     public static function generate() {
-        return self::hash(substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 16)), 0, 16));
+        return self::hash(self::generateRandomString());
     }
 
     public static function hash($password) {
-        return self::password_hash(sha1($password), PASSWORD_BCRYPT);
+        return password_hash(sha1($password), PASSWORD_BCRYPT);
+        // return self::password_hash(sha1($password), PASSWORD_BCRYPT);
     }
 
     public static function check($password, $hash) {
-        return self::password_verify(sha1($password), $hash);
+        return password_verify(sha1($password), $hash);
+        // return self::password_verify(sha1($password), $hash);
     }
 
     /**
@@ -105,7 +113,7 @@ class PasswordUtil {
         } else {
             $buffer = '';
             $buffer_valid = false;
-            if (function_exists('mcrypt_create_iv') && !defined('PHALANGER')) {
+            if (function_exists('mcrypt_create_iv') && !defined('PHALANGER') && defined('MCRYPT_DEV_URANDOM')) {
                 $buffer = mcrypt_create_iv($raw_salt_len, MCRYPT_DEV_URANDOM);
                 if ($buffer) {
                     $buffer_valid = true;
