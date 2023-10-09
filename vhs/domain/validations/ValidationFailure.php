@@ -11,7 +11,7 @@ namespace vhs\domain\validations;
 class ValidationFailure {
     private $message;
 
-    function __construct($message) {
+    public function __construct($message) {
         $this->message = $message;
     }
 

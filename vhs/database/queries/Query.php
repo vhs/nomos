@@ -21,7 +21,6 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 abstract class Query implements IGeneratable {
-
     /** @var Table */
     public $table;
     /** @var Where */
@@ -35,7 +34,14 @@ abstract class Query implements IGeneratable {
         $this->where = $where;
     }
 
-    public static function Select(Table $table, Columns $columns = null, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+    public static function Select(
+        Table $table,
+        Columns $columns = null,
+        Where $where = null,
+        OrderBy $orderBy = null,
+        Limit $limit = null,
+        Offset $offset = null
+    ) {
         return new QuerySelect($table, $columns, $where, $orderBy, $limit, $offset);
     }
 
@@ -56,9 +62,9 @@ abstract class Query implements IGeneratable {
     }
 
     public function Join(Join ...$join) {
-
-        if (is_null($this->joins))
-            $this->joins = array();
+        if (is_null($this->joins)) {
+            $this->joins = [];
+        }
 
         array_push($this->joins, ...$join);
 
@@ -70,7 +76,7 @@ abstract class Query implements IGeneratable {
      * @param null $value
      * @return mixed
      */
-    function generate(IGenerator $generator, $value = null) {
+    public function generate(IGenerator $generator, $value = null) {
         /** @var IQueryGenerator $generator */
         return $this->generateQuery($generator);
     }

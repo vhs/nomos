@@ -8,11 +8,10 @@ namespace app\contracts;
 use vhs\services\IContract;
 
 interface IIpnService1 extends IContract {
-
     /**
-    * @permission administrator
-    * @return mixed
-    */
+     * @permission administrator
+     * @return mixed
+     */
     public function GetAll();
 
     /**
@@ -39,5 +38,4 @@ interface IIpnService1 extends IContract {
      * @return mixed
      */
     public function CountRecords($filters);
-
 }

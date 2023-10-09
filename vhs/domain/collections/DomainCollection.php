@@ -10,20 +10,18 @@
 
 namespace vhs\domain\collections;
 
-
 use vhs\domain\Domain;
 use vhs\domain\Notifier;
 
-abstract class DomainCollection extends Notifier  {
-
+abstract class DomainCollection extends Notifier {
     protected $__existing;
     protected $__new;
     protected $__removed;
 
     public function clear() {
-        $this->__existing = array();
-        $this->__new = array();
-        $this->__removed = array();
+        $this->__existing = [];
+        $this->__new = [];
+        $this->__removed = [];
     }
 
     abstract public function all();
@@ -44,21 +42,51 @@ abstract class DomainCollection extends Notifier  {
 
     abstract public function save();
 
-    public function onBeforeRemove(callable $listener) { $this->on("BeforeRemove", $listener); }
-    protected function raiseBeforeRemove() { $this->raise("BeforeDelete"); }
+    public function onBeforeRemove(callable $listener) {
+        $this->on('BeforeRemove', $listener);
+    }
 
-    public function onRemoved(callable $listener) { $this->on("Removed", $listener); }
-    protected function raiseRemoved() { $this->raise("Removed"); }
+    protected function raiseBeforeRemove() {
+        $this->raise('BeforeDelete');
+    }
 
-    public function onBeforeAdd(callable $listener) { $this->on("BeforeAdd", $listener); }
-    protected function raiseBeforeAdd() { $this->raise("BeforeUpdate"); }
+    public function onRemoved(callable $listener) {
+        $this->on('Removed', $listener);
+    }
 
-    public function onAdded(callable $listener) { $this->on("Added", $listener); }
-    protected function raiseAdded() { $this->raise("Added"); }
+    protected function raiseRemoved() {
+        $this->raise('Removed');
+    }
 
-    public function onBeforeSave(callable $listener) { $this->on("BeforeSave", $listener); }
-    protected function raiseBeforeSave() { $this->raise("BeforeSave"); }
+    public function onBeforeAdd(callable $listener) {
+        $this->on('BeforeAdd', $listener);
+    }
 
-    public function onSaved(callable $listener) { $this->on("Saved", $listener); }
-    protected function raiseSaved() { $this->raise("Saved"); }
+    protected function raiseBeforeAdd() {
+        $this->raise('BeforeUpdate');
+    }
+
+    public function onAdded(callable $listener) {
+        $this->on('Added', $listener);
+    }
+
+    protected function raiseAdded() {
+        $this->raise('Added');
+    }
+
+    public function onBeforeSave(callable $listener) {
+        $this->on('BeforeSave', $listener);
+    }
+
+    protected function raiseBeforeSave() {
+        $this->raise('BeforeSave');
+    }
+
+    public function onSaved(callable $listener) {
+        $this->on('Saved', $listener);
+    }
+
+    protected function raiseSaved() {
+        $this->raise('Saved');
+    }
 }

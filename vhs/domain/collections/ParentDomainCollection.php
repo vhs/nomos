@@ -8,11 +8,9 @@
 
 namespace vhs\domain\collections;
 
-
 use vhs\domain\Domain;
 
 class ParentDomainCollection extends DomainCollection {
-
     public function all() {
         // TODO: Implement all() method.
     }

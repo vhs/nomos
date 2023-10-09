@@ -8,7 +8,6 @@
 
 namespace vhs\database\types;
 
-
 use vhs\database\Element;
 use vhs\database\exceptions\InvalidSchemaException;
 use vhs\database\IConvertible;
@@ -16,14 +15,14 @@ use vhs\database\IConverter;
 use vhs\database\IGenerator;
 
 abstract class Type extends Element implements IConvertible {
-
     public $nullable;
     public $default;
     public $value;
 
     public function __construct($nullable = true, $default = null) {
-        if(!$nullable && is_null($default))
-            throw new InvalidSchemaException("Default value must be specified if type is not nullable");
+        if (!$nullable && is_null($default)) {
+            throw new InvalidSchemaException('Default value must be specified if type is not nullable');
+        }
 
         $this->nullable = $nullable;
         $this->default = $default;

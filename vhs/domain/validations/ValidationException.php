@@ -9,15 +9,14 @@
 namespace vhs\domain\validations;
 
 class ValidationException extends \Exception {
-
     private $results;
 
-    function __construct(ValidationResults $results) {
+    public function __construct(ValidationResults $results) {
         $this->results = $results;
 
-        $message = "Validation failed:";
+        $message = 'Validation failed:';
 
-        foreach($this->results->getFailures() as $failure) {
+        foreach ($this->results->getFailures() as $failure) {
             $message .= "\t\n" . $failure->getMessage();
         }
 

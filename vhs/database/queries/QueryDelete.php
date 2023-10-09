@@ -8,12 +8,10 @@
 
 namespace vhs\database\queries;
 
-
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 class QueryDelete extends Query {
-
     public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateDelete($this);
     }

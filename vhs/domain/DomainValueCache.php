@@ -8,9 +8,7 @@
 
 namespace vhs\domain;
 
-
 class DomainValueCache {
-
     private $keys;
     private $cache;
     private $changed = false;
@@ -29,7 +27,7 @@ class DomainValueCache {
     }
 
     public function setValue($name, $value, $silent = false) {
-        $this->changed = $this->changed || (!$silent);
+        $this->changed = $this->changed || !$silent;
 
         $this->cache[$name] = $value;
     }

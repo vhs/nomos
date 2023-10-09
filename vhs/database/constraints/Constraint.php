@@ -8,14 +8,12 @@
 
 namespace vhs\database\constraints;
 
-
 use vhs\database\Column;
 use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\Table;
 
 abstract class Constraint extends Element {
-
     public $column;
 
     public function __construct(Column $column) {

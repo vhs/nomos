@@ -8,7 +8,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IApiKeyService1;
 use app\domain\Key;
 use app\domain\Privilege;
@@ -23,7 +22,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     }
 
     public function GetUserApiKeys($userid) {
-        if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
         }
 
@@ -33,7 +32,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     public function GenerateSystemApiKey($notes) {
         $apiKey = new Key();
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
-        $apiKey->type = "api";
+        $apiKey->type = 'api';
         $apiKey->notes = $notes;
         $apiKey->save();
 
@@ -43,29 +42,33 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     public function GetApiKey($keyid) {
         $key = Key::find($keyid);
 
-        if(is_null($key)) throw new \Exception("Invalid keyid");
+        if (is_null($key)) {
+            throw new \Exception('Invalid keyid');
+        }
 
-        if(!CurrentUser::hasAnyPermissions("administrator")) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity())
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
                 throw new UnauthorizedException();
+            }
         }
 
         return $key;
     }
 
     public function GenerateUserApiKey($userid, $notes) {
-        if(!CurrentUser::hasAnyPermissions("administrator") && $userid != CurrentUser::getIdentity()) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
         }
 
         $user = User::find($userid);
 
-        if(is_null($user))
-            throw new \Exception("Invalid userid");
+        if (is_null($user)) {
+            throw new \Exception('Invalid userid');
+        }
 
         $apiKey = new Key();
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
-        $apiKey->type = "api";
+        $apiKey->type = 'api';
         $apiKey->notes = $notes;
 
         $user->keys->add($apiKey);
@@ -87,17 +90,19 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
         $privArray = $privileges;
 
-        if(!is_array($privArray)) {
-            $privArray = explode(",", $privileges);
+        if (!is_array($privArray)) {
+            $privArray = explode(',', $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach($key->privileges->all() as $priv)
+        foreach ($key->privileges->all() as $priv) {
             $key->privileges->remove($priv);
+        }
 
-        foreach($privs as $priv)
+        foreach ($privs as $priv) {
             $key->privileges->add($priv);
+        }
 
         $key->save();
     }
@@ -105,7 +110,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     public function DeleteApiKey($keyid) {
         $key = Key::find($keyid);
 
-        if(!CurrentUser::hasAnyPermissions("administrator") && $key->userid != CurrentUser::getIdentity()) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
         }
 

@@ -8,11 +8,12 @@
 
 namespace vhs\services\endpoints;
 
-
 interface IEndpoint {
     public function serializeOutput($data);
+
     public function deserializeOutput($data);
 
     public function serializeInput($data);
+
     public function deserializeInput($data);
 }

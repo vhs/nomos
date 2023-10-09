@@ -9,8 +9,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
-interface IStripeEventService1 extends IContract
-{
+interface IStripeEventService1 extends IContract {
     /**
      * @permission administrator
      * @return mixed

@@ -8,7 +8,5 @@
 
 namespace vhs\security\exceptions;
 
-
 class InvalidCredentials extends \Exception {
-
 }

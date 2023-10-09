@@ -8,52 +8,45 @@
 
 namespace app\security;
 
-
 use vhs\database\Column;
 use vhs\database\Table;
 use vhs\security\CurrentUser;
 
-class TablePrivilegedAccess extends PrivilegedAccess
-{
+class TablePrivilegedAccess extends PrivilegedAccess {
     /** @var Table */
     private $table;
     /** @var string[] */
     private $privileges;
 
-    public function __construct(Column $ownerColumn = null, Table $table, ...$privileges)
-    {
+    public function __construct(Column $ownerColumn = null, Table $table, ...$privileges) {
         parent::__construct($ownerColumn);
         $this->table = $table;
         $this->privileges = $privileges;
     }
 
-    public function CanRead($record, Table $table, Column $column)
-    {
-        return ($table === $this->table) && $this->hasPrivilegedAccess($record, ...$this->privileges);
+    public function CanRead($record, Table $table, Column $column) {
+        return $table === $this->table && $this->hasPrivilegedAccess($record, ...$this->privileges);
     }
 
-    public function CanWrite($record, Table $table, Column $column)
-    {
-        return ($table === $this->table) && $this->hasPrivilegedAccess($record, ...$this->privileges);
+    public function CanWrite($record, Table $table, Column $column) {
+        return $table === $this->table && $this->hasPrivilegedAccess($record, ...$this->privileges);
     }
 
-    public function serialize()
-    {
+    public function serialize() {
         return [
-            "type" => "table",
-            "table" => $this->table->name,
-            "privileges" => $this->privileges,
-            "checks" => $this->checks
+            'type' => 'table',
+            'table' => $this->table->name,
+            'privileges' => $this->privileges,
+            'checks' => $this->checks
         ];
     }
 
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            "type" => "table",
-            "table" => $this->table->name,
-            "privileges" => $this->privileges,
-            "checks" => $this->checks
+            'type' => 'table',
+            'table' => $this->table->name,
+            'privileges' => $this->privileges,
+            'checks' => $this->checks
         ];
     }
 }

@@ -8,9 +8,7 @@
 
 namespace vhs\database\constraints;
 
-
 class PrimaryKey extends Constraint {
-
     public function generateConstraint(IConstraintGenerator $generator) {
         return $generator->generatePrimaryKey($this);
     }

@@ -8,11 +8,9 @@
 
 namespace app\security;
 
-
 use vhs\security\IPrincipal;
 
 class UserPrincipal implements IPrincipal, \JsonSerializable {
-
     private $id;
     private $permissions;
     private $grants;
@@ -25,15 +23,32 @@ class UserPrincipal implements IPrincipal, \JsonSerializable {
         $this->username = $username;
     }
 
-    public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->permissions)) == 0); }
-    public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->permissions)) > 0); }
-    public function canGrantAllPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_diff($permission, $this->grants)) == 0); }
-    public function canGrantAnyPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_intersect($permission, $this->grants)) > 0); }
-    public function getIdentity() { return $this->id; }
-    public function isAnon() { return false; }
+    public function hasAllPermissions(...$permission) {
+        return count(array_diff($permission, $this->permissions)) == 0;
+    }
+
+    public function hasAnyPermissions(...$permission) {
+        return count(array_intersect($permission, $this->permissions)) > 0;
+    }
+
+    public function canGrantAllPermissions(...$permission) {
+        return in_array('*', $this->grants) || count(array_diff($permission, $this->grants)) == 0;
+    }
+
+    public function canGrantAnyPermissions(...$permission) {
+        return in_array('*', $this->grants) || count(array_intersect($permission, $this->grants)) > 0;
+    }
+
+    public function getIdentity() {
+        return $this->id;
+    }
+
+    public function isAnon() {
+        return false;
+    }
 
     public function jsonSerialize() {
-        $data = array();
+        $data = [];
         $data['id'] = $this->id;
         $data['permissions'] = $this->permissions;
 
@@ -41,6 +56,6 @@ class UserPrincipal implements IPrincipal, \JsonSerializable {
     }
 
     public function __toString() {
-        return "user:" . $this->username;
+        return 'user:' . $this->username;
     }
 }

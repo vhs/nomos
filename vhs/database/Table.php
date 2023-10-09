@@ -8,7 +8,6 @@
 
 namespace vhs\database;
 
-
 use vhs\database\access\IAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\constraints\PrimaryKey;
@@ -16,7 +15,6 @@ use vhs\database\joins\Join;
 use vhs\database\types\Type;
 
 class Table extends Element {
-
     /** @var int */
     private static $cloneIndex = 0;
 
@@ -44,17 +42,21 @@ class Table extends Element {
     public function __construct($name, $alias = null, Join ...$join) {
         $this->name = $name;
 
-        if (is_null($alias)) // 'm gvn' hr ll sh's gt, cptn!
-            $alias = str_ireplace(array('a','e','i','o','u'), '', $name);
+        if (is_null($alias)) {
+            // 'm gvn' hr ll sh's gt, cptn!
+            $alias = str_ireplace(['a', 'e', 'i', 'o', 'u'], '', $name);
+        }
 
         $this->aliasPrefix = $alias;
-        $this->alias = $alias . (string)self::$cloneIndex;
+        $this->alias = $alias . (string) self::$cloneIndex;
 
-        if (is_null($this->joins))
-            $this->joins = array();
+        if (is_null($this->joins)) {
+            $this->joins = [];
+        }
 
-        foreach($join as $j)
+        foreach ($join as $j) {
             array_push($this->joins, $j);
+        }
 
         $this->columns = new Columns();
     }
@@ -64,16 +66,19 @@ class Table extends Element {
 
         self::$cloneIndex += 1;
 
-        $this->alias = $this->aliasPrefix . (string)self::$cloneIndex;
+        $this->alias = $this->aliasPrefix . (string) self::$cloneIndex;
 
-        foreach($this->joins as $join)
+        foreach ($this->joins as $join) {
             $join->__updateTable($this);
+        }
 
-        foreach($this->columns->all() as $column)
+        foreach ($this->columns->all() as $column) {
             $column->__updateTable($this);
+        }
 
-        foreach($this->constraints as $constraint)
+        foreach ($this->constraints as $constraint) {
             $constraint->__updateTable($this);
+        }
     }
 
     public function setConstraints(Constraint ...$constraints) {
@@ -92,10 +97,12 @@ class Table extends Element {
      * @return PrimaryKey[]
      */
     public function getPrimaryKeys() {
-        $pks = array();
-        foreach($this->constraints as $constraint)
-            if($constraint instanceof PrimaryKey)
+        $pks = [];
+        foreach ($this->constraints as $constraint) {
+            if ($constraint instanceof PrimaryKey) {
                 array_push($pks, $constraint);
+            }
+        }
 
         return $pks;
     }

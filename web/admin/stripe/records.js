@@ -1,14 +1,16 @@
 'use strict';
 
-angular
-    .module('mmpApp.admin')
-    .config(['$stateProvider', function ($stateProvider) {
-        $stateProvider
-            .state('admin.striperecords', {
-                parent: "admin",
-                url: '/admin/stripe/records',
-                templateUrl: 'admin/stripe/records.html',
-                controller: ['$scope', 'StripeEventService1', function ($scope, stripeService1) {
+angular.module('mmpApp.admin').config([
+    '$stateProvider',
+    function ($stateProvider) {
+        $stateProvider.state('admin.striperecords', {
+            parent: 'admin',
+            url: '/admin/stripe/records',
+            templateUrl: 'admin/stripe/records.html',
+            controller: [
+                '$scope',
+                'StripeEventService1',
+                function ($scope, stripeService1) {
                     $scope.records = [];
                     $scope.itemCount = 0;
 
@@ -28,9 +30,9 @@ angular
                         page: 1,
                         pageSize: 10,
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
-                        columns: "id,ts,status,created,event_id,type,object,request,api_version,raw",
-                        order: "created desc",
-                        search: null
+                        columns: 'id,ts,status,created,event_id,type,object,request,api_version,raw',
+                        order: 'created desc',
+                        search: null,
                     };
 
                     $scope.columns = $scope.listService.columns.split(',');
@@ -47,86 +49,84 @@ angular
                     };
 
                     $scope.getFilter = function () {
-
                         var filter = null;
                         var filters = [];
 
                         if ($scope.showPending) {
                             filters.push({
-                                column: "payment_status",
-                                operator: "=",
-                                value: "0"
+                                column: 'payment_status',
+                                operator: '=',
+                                value: '0',
                             });
                         }
 
                         if ($scope.showOrphaned) {
                             filters.push({
-                                column: "validation",
-                                operator: "=",
-                                value: "INVALID"
+                                column: 'validation',
+                                operator: '=',
+                                value: 'INVALID',
                             });
                         }
 
-                        if ($scope.listService.search != null && $scope.listService.search != "") {
-                            var val = "%" + $scope.listService.search + "%";
+                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                            var val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
-                                    column: "payment_status",
-                                    operator: "like",
-                                    value: val
+                                    column: 'payment_status',
+                                    operator: 'like',
+                                    value: val,
                                 },
-                                operator: "or",
+                                operator: 'or',
                                 right: {
                                     left: {
-                                        column: "payment_amount",
-                                        operator: "like",
-                                        value: val
+                                        column: 'payment_amount',
+                                        operator: 'like',
+                                        value: val,
                                     },
-                                    operator: "or",
+                                    operator: 'or',
                                     right: {
                                         left: {
-                                            column: "payment_currency",
-                                            operator: "like",
-                                            value: val
+                                            column: 'payment_currency',
+                                            operator: 'like',
+                                            value: val,
                                         },
-                                        operator: "or",
+                                        operator: 'or',
                                         right: {
                                             left: {
-                                                column: "payer_email",
-                                                operator: "like",
-                                                value: val
+                                                column: 'payer_email',
+                                                operator: 'like',
+                                                value: val,
                                             },
-                                            operator: "or",
+                                            operator: 'or',
                                             right: {
                                                 left: {
-                                                    column: "item_name",
-                                                    operator: "like",
-                                                    value: val
+                                                    column: 'item_name',
+                                                    operator: 'like',
+                                                    value: val,
                                                 },
-                                                operator: "or",
+                                                operator: 'or',
                                                 right: {
                                                     left: {
-                                                        column: "item_number",
-                                                        operator: "like",
-                                                        value: val
+                                                        column: 'item_number',
+                                                        operator: 'like',
+                                                        value: val,
                                                     },
-                                                    operator: "or",
+                                                    operator: 'or',
                                                     right: {
-                                                        column: "raw",
-                                                        operator: "like",
-                                                        value: val
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                                        column: 'raw',
+                                                        operator: 'like',
+                                                        value: val,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
                             });
                         }
 
                         var addRightmost = function (filter, val) {
-                            if (filter.right != null)
-                                addRightmost(filter.right, val);
+                            if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
@@ -135,8 +135,8 @@ angular
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     };
                                 } else {
                                     filter = filters[i];
@@ -148,8 +148,8 @@ angular
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     });
                                 }
                             }
@@ -158,12 +158,17 @@ angular
                         return filter;
                     };
 
-
                     $scope.getRecords = function () {
                         var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize
+                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
-                        return stripeService1.ListRecords(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                        return stripeService1.ListRecords(
+                            offset,
+                            $scope.listService.pageSize,
+                            $scope.listService.columns,
+                            $scope.listService.order,
+                            filter,
+                        );
                     };
 
                     $scope.getRecordsCount = function () {
@@ -191,6 +196,8 @@ angular
                     };
 
                     $scope.refresh();
-                }]
-            });
-    }]);
+                },
+            ],
+        });
+    },
+]);

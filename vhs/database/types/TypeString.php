@@ -8,9 +8,7 @@
 
 namespace vhs\database\types;
 
-
 class TypeString extends Type {
-
     public $length;
 
     public function __construct($nullable = true, $default = null, $length = 255) {

@@ -8,8 +8,6 @@
 
 namespace vhs\web;
 
-
-abstract class HttpRequestHandler
-{
-    public abstract function handle(HttpServer $server);
+abstract class HttpRequestHandler {
+    abstract public function handle(HttpServer $server);
 }

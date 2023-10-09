@@ -8,4 +8,5 @@
 
 namespace vhs\domain\exceptions;
 
-class InvalidColumnDefinitionException extends DomainException { }
+class InvalidColumnDefinitionException extends DomainException {
+}

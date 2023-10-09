@@ -11,9 +11,10 @@ namespace vhs\database;
 use vhs\Logger;
 
 abstract class Engine implements IDataInterface {
-
     abstract public function setLogger(Logger $logger);
+
     abstract public function connect();
+
     abstract public function disconnect();
 
     public function __toString() {

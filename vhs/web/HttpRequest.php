@@ -8,9 +8,7 @@
 
 namespace vhs\web;
 
-
 class HttpRequest {
-
     /** @var array */
     public $headers;
 
@@ -20,5 +18,6 @@ class HttpRequest {
     /** @var string */
     public $method;
 
-    public function __construct() { }
+    public function __construct() {
+    }
 }

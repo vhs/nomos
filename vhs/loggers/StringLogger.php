@@ -8,25 +8,20 @@
 
 namespace vhs\loggers;
 
-
 use vhs\Logger;
 
-class StringLogger extends Logger
-{
+class StringLogger extends Logger {
     public $history;
 
-    public function __construct()
-    {
-        $this->history = array();
+    public function __construct() {
+        $this->history = [];
     }
 
-    public function log($message)
-    {
+    public function log($message) {
         array_push($this->history, $message);
     }
 
-    public function fullText()
-    {
+    public function fullText() {
         return implode("\n", $this->history);
     }
 }

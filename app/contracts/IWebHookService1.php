@@ -8,12 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
-interface IWebHookService1 extends IContract
-{
-
+interface IWebHookService1 extends IContract {
     /**
      * @permission webhook|administrator
      * @return mixed
@@ -115,7 +112,7 @@ interface IWebHookService1 extends IContract
      * @return mixed
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters);
-    
+
     /**
      * @permission administrator|user
      * @param $userid
@@ -123,6 +120,4 @@ interface IWebHookService1 extends IContract
      * @return mixed
      */
     public function CountUserHooks($userid, $filters);
-
-    
 }

@@ -8,11 +8,9 @@
 
 namespace vhs\database;
 
-
 use vhs\database\wheres\Where;
 
 class On extends Element {
-
     /** @var Where */
     public $where;
 

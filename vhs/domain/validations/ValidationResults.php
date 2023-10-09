@@ -9,7 +9,7 @@
 namespace vhs\domain\validations;
 
 class ValidationResults {
-    private $failures = array();
+    private $failures = [];
 
     /**
      * @param ValidationFailure $failure
@@ -22,7 +22,7 @@ class ValidationResults {
      * @return bool
      */
     public function isSuccess() {
-        return (sizeof($this->failures) == 0);
+        return sizeof($this->failures) == 0;
     }
 
     /**

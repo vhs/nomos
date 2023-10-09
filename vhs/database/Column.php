@@ -8,11 +8,9 @@
 
 namespace vhs\database;
 
-
 use vhs\database\types\Type;
 
 class Column extends Element implements \Serializable, \JsonSerializable {
-
     public $table;
     public $name;
     public $type;
@@ -34,7 +32,7 @@ class Column extends Element implements \Serializable, \JsonSerializable {
     }
 
     public function getAbsoluteName() {
-        return $this->table->name .".". $this->name;
+        return $this->table->name . '.' . $this->name;
     }
 
     /**
@@ -56,9 +54,8 @@ class Column extends Element implements \Serializable, \JsonSerializable {
      * @return string the string representation of the object or null
      * @since 5.1.0
      */
-    public function serialize()
-    {
-        return $this->table->name . "." . $this->name . "::" . get_class($this->type);
+    public function serialize() {
+        return $this->table->name . '.' . $this->name . '::' . get_class($this->type);
     }
 
     /**
@@ -70,8 +67,7 @@ class Column extends Element implements \Serializable, \JsonSerializable {
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         // TODO: Implement unserialize() method.
     }
 
@@ -82,8 +78,7 @@ class Column extends Element implements \Serializable, \JsonSerializable {
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
-    {
-        return $this->table->name . "." . $this->name . "::" . get_class($this->type);
+    public function jsonSerialize() {
+        return $this->table->name . '.' . $this->name . '::' . get_class($this->type);
     }
 }

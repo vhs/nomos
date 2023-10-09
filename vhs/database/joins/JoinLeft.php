@@ -8,10 +8,8 @@
 
 namespace vhs\database\joins;
 
-
 class JoinLeft extends Join {
-
-    function generateJoin(IJoinGenerator $generator) {
+    public function generateJoin(IJoinGenerator $generator) {
         return $generator->generateLeft($this);
     }
 }

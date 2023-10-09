@@ -8,10 +8,8 @@
 
 namespace app\security\oauth\modules;
 
-
 use vhs\web\HttpRequestHandler;
 
-abstract class OAuthHandler extends HttpRequestHandler
-{
-    public abstract function getUrl();
+abstract class OAuthHandler extends HttpRequestHandler {
+    abstract public function getUrl();
 }

@@ -8,7 +8,6 @@
 
 namespace tests\endpoints\web;
 
-
 use tests\services\TestService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;

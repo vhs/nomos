@@ -8,7 +8,6 @@
 
 namespace app\processors;
 
-
 use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
@@ -20,40 +19,38 @@ use app\services\UserService;
 use DateTime;
 use vhs\Logger;
 
-class PaymentProcessor
-{
+class PaymentProcessor {
     /** @var Logger */
     private $logger;
     private $emailService;
     private $host;
 
-    public function __construct(Logger &$logger = null)
-    {
+    public function __construct(Logger &$logger = null) {
         $this->logger = $logger;
         $this->emailService = new EmailService();
     }
 
-    private function log($message)
-    {
-        if (!is_null($this->logger))
-        $this->logger->log("[PaymentMonitor] {$message}");
+    private function log($message) {
+        if (!is_null($this->logger)) {
+            $this->logger->log("[PaymentMonitor] {$message}");
+        }
     }
 
-    public function paymentCreated($id)
-    {
+    public function paymentCreated($id) {
         $suspended_user = CurrentUser::getPrincipal();
         CurrentUser::setPrincipal(new SystemPrincipal());
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $domainName = $_SERVER['HTTP_HOST'].'/';
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $domainName = $_SERVER['HTTP_HOST'] . '/';
 
-        $this->host = $protocol.$domainName;
+        $this->host = $protocol . $domainName;
 
         /** @var Payment $payment */
         $payment = Payment::find($id);
 
-        if ($payment->status == 1)
+        if ($payment->status == 1) {
             return;
+        }
 
         /** @var User $user */
         $user = null;
@@ -66,13 +63,13 @@ class PaymentProcessor
             $user = $users[0];
         }
 
-        if (is_null($payment->item_number) || $payment->item_number == "" || $payment->item_number == "7_170" || $payment->item_number == "7_142") {
+        if (is_null($payment->item_number) || $payment->item_number == '' || $payment->item_number == '7_170' || $payment->item_number == '7_142') {
             $payment = $this->resolveLegacyPayments($payment);
         }
 
         if (in_array($payment->item_number, Membership::allCodes())) {
             $this->processMemberPayment($user, $payment);
-        } elseif ($payment->item_number == "vhs_card_2015") {
+        } elseif ($payment->item_number == 'vhs_card_2015') {
             $this->processMembershipCardPayment($user, $payment);
         } else {
             $this->processDonationPayment($user, $payment);
@@ -105,81 +102,88 @@ class PaymentProcessor
 +-----------------------------+--------------------------+-------------+
          */
 
-        if ($payment->item_name == "Key holder" && $payment->item_number == "7_142" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
-            $payment->item_name = "Legacy Key Holder - item_number 7_142@$50";
-            $payment->item_number = "vhs_membership_keyholder";
+        if (
+            $payment->item_name == 'Key holder' &&
+            $payment->item_number == '7_142' &&
+            ($payment->rate_amount == '50' || $payment->rate_amount == '50.00')
+        ) {
+            $payment->item_name = 'Legacy Key Holder - item_number 7_142@$50';
+            $payment->item_number = 'vhs_membership_keyholder';
 
             return $payment;
         }
 
-        if ($payment->item_name == "Key holder" && $payment->item_number == "7_170" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
-            $payment->item_name = "Legacy Key Holder - item_number 7_170@$50";
-            $payment->item_number = "vhs_membership_keyholder";
+        if (
+            $payment->item_name == 'Key holder' &&
+            $payment->item_number == '7_170' &&
+            ($payment->rate_amount == '50' || $payment->rate_amount == '50.00')
+        ) {
+            $payment->item_name = 'Legacy Key Holder - item_number 7_170@$50';
+            $payment->item_number = 'vhs_membership_keyholder';
 
             return $payment;
         }
 
-        if (is_null($payment->item_number) || $payment->item_number == "") {
-
-            if ($payment->item_name == "Keyholder + Donation" && ($payment->rate_amount == "80" || $payment->rate_amount == "80.00")) {
+        if (is_null($payment->item_number) || $payment->item_number == '') {
+            if ($payment->item_name == 'Keyholder + Donation' && ($payment->rate_amount == '80' || $payment->rate_amount == '80.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$80";
-                $payment->item_number = "vhs_membership_keyholder";
+                $payment->item_number = 'vhs_membership_keyholder';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Keyholder + Donation" && ($payment->rate_amount == "60" || $payment->rate_amount == "60.00")) {
+            if ($payment->item_name == 'Keyholder + Donation' && ($payment->rate_amount == '60' || $payment->rate_amount == '60.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Keyholder + Donation'@$60";
-                $payment->item_number = "vhs_membership_keyholder";
+                $payment->item_number = 'vhs_membership_keyholder';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "VHS Key Holder + Membership" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
+            if ($payment->item_name == 'VHS Key Holder + Membership' && ($payment->rate_amount == '50' || $payment->rate_amount == '50.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'VHS Key Holder + Membership'@$50";
-                $payment->item_number = "vhs_membership_keyholder";
+                $payment->item_number = 'vhs_membership_keyholder';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "vhs_membership_keyholder" && ($payment->rate_amount == "60" || $payment->rate_amount == "60.00")) {
+            if ($payment->item_name == 'vhs_membership_keyholder' && ($payment->rate_amount == '60' || $payment->rate_amount == '60.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$60";
-                $payment->item_number = "vhs_membership_keyholder";
+                $payment->item_number = 'vhs_membership_keyholder';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "vhs_membership_keyholder" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
+            if ($payment->item_name == 'vhs_membership_keyholder' && ($payment->rate_amount == '50' || $payment->rate_amount == '50.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'vhs_membership_keyholder'@$50";
-                $payment->item_number = "vhs_membership_keyholder";
+                $payment->item_number = 'vhs_membership_keyholder';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Member + Donation" && ($payment->rate_amount == "50" || $payment->rate_amount == "50.00")) {
+            if ($payment->item_name == 'Member + Donation' && ($payment->rate_amount == '50' || $payment->rate_amount == '50.00')) {
                 $payment->item_name = "Legacy Key Holder - item_name 'Member + Donation'@$50";
-                $payment->item_number = "vhs_membership_member";
+                $payment->item_number = 'vhs_membership_member';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "VHS Membership" && ($payment->rate_amount == "25" || $payment->rate_amount == "25.00")) {
+            if ($payment->item_name == 'VHS Membership' && ($payment->rate_amount == '25' || $payment->rate_amount == '25.00')) {
                 $payment->item_name = "Legacy Member - item_name 'VHS Membership'@$25";
-                $payment->item_number = "vhs_membership_member";
+                $payment->item_number = 'vhs_membership_member';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Member + Donation" && ($payment->rate_amount == "30" || $payment->rate_amount == "30.00")) {
+            if ($payment->item_name == 'Member + Donation' && ($payment->rate_amount == '30' || $payment->rate_amount == '30.00')) {
                 $payment->item_name = "Legacy Member - item_name 'Member + Donation'@$30";
-                $payment->item_number = "vhs_membership_member";
+                $payment->item_number = 'vhs_membership_member';
 
                 return $payment;
             }
 
-            if ($payment->item_name == "Friend of VHS" && ($payment->rate_amount == "10" || $payment->rate_amount == "10.00")) {
+            if ($payment->item_name == 'Friend of VHS' && ($payment->rate_amount == '10' || $payment->rate_amount == '10.00')) {
                 $payment->item_name = "Legacy Friend - item_name 'Friend of VHS'@$10";
-                $payment->item_number = "vhs_membership_friend";
+                $payment->item_number = 'vhs_membership_friend';
 
                 return $payment;
             }
@@ -190,36 +194,29 @@ class PaymentProcessor
 
     private function processMembershipCardPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
-            $this->emailService->Email(
-                NOMOS_FROM_EMAIL,
-                'admin_error',
-                [
-                    'subject' => "[Nomos] Unknown user purchased Membership Card - " . $payment->payer_fname . " " . $payment->lname,
-                    'message' => $payment->fname . " " . $payment->lname . " with email "
-                        . $payment->payer_email . " purchased a membership card but we "
-                        . "don't have an account for them... they'll need an account before"
-                        . " we can issue a member card."
-                ]
-            );
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'message' =>
+                    $payment->fname .
+                    ' ' .
+                    $payment->lname .
+                    ' with email ' .
+                    $payment->payer_email .
+                    ' purchased a membership card but we ' .
+                    "don't have an account for them... they'll need an account before" .
+                    ' we can issue a member card.'
+            ]);
         } else {
-            $this->emailService->Email(
-                NOMOS_FROM_EMAIL,
-                'admin_membercard_purchased',
-                [
-                    'email' => $payment->payer_email,
-                    'fname' => $payment->payer_fname,
-                    'lname' => $payment->payer_lname
-                ]
-            );
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname
+            ]);
 
-            $this->emailService->EmailUser(
-                $user,
-                'membercard_purchased',
-                [
-                    'fname' => $user->fname,
-                    'lname' => $user->lname
-                ]
-            );
+            $this->emailService->EmailUser($user, 'membercard_purchased', [
+                'fname' => $user->fname,
+                'lname' => $user->lname
+            ]);
 
             $payment->user_id = $user->id;
         }
@@ -243,14 +240,15 @@ class PaymentProcessor
             if (!is_null($memberships) && count($memberships) == 1) {
                 $membership = $memberships[0];
             } else {
-                $this->log("Missing membership type '".Membership::MEMBER."'. Unable to process payment.");
+                $this->log("Missing membership type '" . Membership::MEMBER . "'. Unable to process payment.");
                 return;
             }
         }
 
         $userService = new UserService();
 
-        if (is_null($user)) { //new user
+        if (is_null($user)) {
+            //new user
             try {
                 $user = $userService->Create(
                     $payment->payer_email,
@@ -266,53 +264,61 @@ class PaymentProcessor
                 return;
             }
 
-            $this->emailService->Email(
-                NOMOS_FROM_EMAIL,
-                'admin_newuser',
-                [
-                    'email' => $payment->payer_email,
-                    'fname' => $payment->payer_fname,
-                    'lname' => $payment->payer_lname,
-                    'host' => $this->host,
-                    'id' => $user->id
-                ]
-            );
-
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname,
+                'host' => $this->host,
+                'id' => $user->id
+            ]);
         } else {
             if ($user->membership_id != $membership->id) {
                 $userService->UpdateMembership($user->id, $membership->id);
             } else {
-                if ($user->active == "n") {
-                    $userService->UpdateStatus($user->id, "active");
+                if ($user->active == 'n') {
+                    $userService->UpdateStatus($user->id, 'active');
                 }
             }
 
             $user = User::find($user->id);
 
-            if ($user->active != "y") {
-                $this->emailService->Email(
-                    NOMOS_FROM_EMAIL,
-                    'admin_error',
-                    [
-                        'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . " " . $payment->lname,
-                        'message' => $payment->fname . " " . $payment->lname . " with email "
-                            . $payment->payer_email . " made a payment, but "
-                            . "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n"
-                            . "userid = " . $user->id . "\n"
-                            . "status = " . $user->active . "\n"
-                            . "item_number = " . $payment->item_number . "\n"
-                            . "item_name = " . $payment->item_name . "\n"
-                            . "rate_amount = " . $payment->rate_amount . "\n"
-                            . "currency = " . $payment->currency . "\n"
-                    ]
-                );
+            if ($user->active != 'y') {
+                $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
+                    'message' =>
+                        $payment->fname .
+                        ' ' .
+                        $payment->lname .
+                        ' with email ' .
+                        $payment->payer_email .
+                        ' made a payment, but ' .
+                        "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n" .
+                        'userid = ' .
+                        $user->id .
+                        "\n" .
+                        'status = ' .
+                        $user->active .
+                        "\n" .
+                        'item_number = ' .
+                        $payment->item_number .
+                        "\n" .
+                        'item_name = ' .
+                        $payment->item_name .
+                        "\n" .
+                        'rate_amount = ' .
+                        $payment->rate_amount .
+                        "\n" .
+                        'currency = ' .
+                        $payment->currency .
+                        "\n"
+                ]);
             }
         }
 
         $expiry = new DateTime($payment->date);
-        $expiry->add(new \DateInterval("P1M1W")); //add 1 month with a 1 week grace period
+        $expiry->add(new \DateInterval('P1M1W')); //add 1 month with a 1 week grace period
 
-        $user->mem_expire = $expiry->format("Y-m-d H:i:s");
+        $user->mem_expire = $expiry->format('Y-m-d H:i:s');
 
         $user->save();
 
@@ -321,69 +327,58 @@ class PaymentProcessor
         $payment->status = 1; //processed
         $payment->save();
 
-        $this->emailService->Email(
-            NOMOS_FROM_EMAIL,
-            'admin_payment',
-            [
-                'email' => $payment->payer_email,
-                'fname' => $payment->payer_fname,
-                'lname' => $payment->payer_lname,
-                'amount' => $payment->rate_amount,
-                'pp' => $payment->pp
-            ]
-        );
+        $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
+            'email' => $payment->payer_email,
+            'fname' => $payment->payer_fname,
+            'lname' => $payment->payer_lname,
+            'amount' => $payment->rate_amount,
+            'pp' => $payment->pp
+        ]);
 
-        $this->emailService->EmailUser(
-            $user,
-            'payment',
-            [
-                'host' => $this->host,
-                'fname' => $user->fname,
-            ]
-        );
+        $this->emailService->EmailUser($user, 'payment', [
+            'host' => $this->host,
+            'fname' => $user->fname
+        ]);
     }
 
     private function processDonationPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
-            $this->emailService->Email(
-                NOMOS_FROM_EMAIL,
-                'admin_error',
-                [
-                    'subject' => "[Nomos] Unknown user made a random donation - " . $payment->payer_fname . " " . $payment->lname,
-                    'message' => $payment->fname . " " . $payment->lname . " with email "
-                        . $payment->payer_email . " made a donation but we "
-                        . "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. "
-                        . "item_number = " . $payment->item_number
-                        . "item_name = " . $payment->item_name
-                        . "rate_amount = " . $payment->rate_amount
-                        . "currency = " . $payment->currency
-                ]
-            );
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'message' =>
+                    $payment->fname .
+                    ' ' .
+                    $payment->lname .
+                    ' with email ' .
+                    $payment->payer_email .
+                    ' made a donation but we ' .
+                    "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. " .
+                    'item_number = ' .
+                    $payment->item_number .
+                    'item_name = ' .
+                    $payment->item_name .
+                    'rate_amount = ' .
+                    $payment->rate_amount .
+                    'currency = ' .
+                    $payment->currency
+            ]);
         } else {
-            $this->emailService->Email(
-                NOMOS_FROM_EMAIL,
-                'admin_donation_random',
-                [
-                    'email' => $payment->payer_email,
-                    'fname' => $payment->payer_fname,
-                    'lname' => $payment->payer_lname,
-                    'item_number' => $payment->item_number,
-                    'item_name' => $payment->item_name,
-                    'rate_amount' => $payment->rate_amount,
-                    'currency' => $payment->currency
-                ]
-            );
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname,
+                'item_number' => $payment->item_number,
+                'item_name' => $payment->item_name,
+                'rate_amount' => $payment->rate_amount,
+                'currency' => $payment->currency
+            ]);
 
-            $this->emailService->EmailUser(
-                $user,
-                'donation_random',
-                [
-                    'fname' => $user->fname,
-                    'lname' => $user->lname,
-                    'rate_amount' => $payment->rate_amount,
-                    'currency' => $payment->currency
-                ]
-            );
+            $this->emailService->EmailUser($user, 'donation_random', [
+                'fname' => $user->fname,
+                'lname' => $user->lname,
+                'rate_amount' => $payment->rate_amount,
+                'currency' => $payment->currency
+            ]);
 
             $payment->user_id = $user->id;
         }

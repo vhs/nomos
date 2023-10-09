@@ -29,7 +29,6 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
 class MySqlEngine extends Engine {
-
     private $autoCreateDatabase;
     private $generator;
     private $converter;
@@ -41,7 +40,9 @@ class MySqlEngine extends Engine {
      */
     private $conn;
 
-    public static function DateFormat() { return "Y-m-d H:i:s"; }
+    public static function DateFormat() {
+        return 'Y-m-d H:i:s';
+    }
 
     public function __construct(MySqlConnectionInfo $connectionInfo, $autoCreateDatabase = false) {
         $this->info = $connectionInfo;
@@ -58,18 +59,17 @@ class MySqlEngine extends Engine {
     }
 
     public function connect() {
-        if(isset($this->conn) && !is_null($this->conn)) return true;
+        if (isset($this->conn) && !is_null($this->conn)) {
+            return true;
+        }
 
-        $this->conn = new \mysqli(
-            $this->info->getServer(),
-            $this->info->getUsername(),
-            $this->info->getPassword()
-        );
+        $this->conn = new \mysqli($this->info->getServer(), $this->info->getUsername(), $this->info->getPassword());
 
-        if($this->conn->connect_error)
+        if ($this->conn->connect_error) {
             throw new DatabaseConnectionException($this->conn->connect_error);
+        }
 
-        if($this->autoCreateDatabase) {
+        if ($this->autoCreateDatabase) {
             $sql = "CREATE DATABASE IF NOT EXISTS {$this->info->getDatabase()};";
             if ($this->conn->query($sql) !== true) {
                 throw new DatabaseException($this->conn->error);
@@ -84,7 +84,9 @@ class MySqlEngine extends Engine {
     }
 
     public function disconnect() {
-        if(isset($this->conn) && !is_null($this->conn)) $this->conn->close();
+        if (isset($this->conn) && !is_null($this->conn)) {
+            $this->conn->close();
+        }
 
         unset($this->conn);
     }
@@ -92,43 +94,42 @@ class MySqlEngine extends Engine {
     public function scalar(QuerySelect $query) {
         $row = $this->select($query);
 
-        if(sizeof($row) <> 1)
+        if (sizeof($row) != 1) {
             return null;
+        }
 
         return $row[0][$query->columns->all()[0]->name];
     }
 
-
     public function count(QueryCount $query) {
-
         $sql = $query->generate($this->generator);
 
         $this->logger->log($sql);
 
-        if($q = $this->conn->query($sql)) {
+        if ($q = $this->conn->query($sql)) {
             $rows = $q->fetch_all();
             $row = $rows[0];
             $q->close();
 
-            if(sizeof($row) <> 1)
+            if (sizeof($row) != 1) {
                 return null;
+            }
 
             return $row[0];
-
         } else {
             throw new DatabaseException($this->conn->error);
         }
     }
 
     public function exists(QuerySelect $query) {
-        return ($this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0);
+        return $this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0;
     }
 
     public function arbitrary($command) {
-        $this->logger->log("[ARBITRARY] " . $command);
+        $this->logger->log('[ARBITRARY] ' . $command);
 
-        $rows = array();
-        if($q = $this->conn->query($command)) {
+        $rows = [];
+        if ($q = $this->conn->query($command)) {
             $rows = $q->fetch_all();
             $q->close();
 
@@ -143,23 +144,23 @@ class MySqlEngine extends Engine {
 
         $this->logger->log($sql);
 
-        $records = array();
+        $records = [];
 
-        if($q = $this->conn->query($sql)) {
-
+        if ($q = $this->conn->query($sql)) {
             $rows = $q->fetch_all();
 
-            foreach($rows as $row) {
+            foreach ($rows as $row) {
                 $record = array_combine($query->columns->names(), $row);
 
                 /* TODO fix potential bug with joins having same column names but are namespaced
                  *  ie alias0.col alias1.col
                  * it's entirely possible the mysqli garbage doesn't support this. I haven't bothered to check yet.
-                */
+                 */
                 /** @var Column $col */
-                foreach($query->columns->all() as $col) {
-                    if (array_key_exists($col->name, $record) && !is_null($record[$col->name]))
+                foreach ($query->columns->all() as $col) {
+                    if (array_key_exists($col->name, $record) && !is_null($record[$col->name])) {
                         $record[$col->name] = $col->type->convert($this->converter, $record[$col->name]);
+                    }
                 }
 
                 array_push($records, $record);
@@ -178,8 +179,9 @@ class MySqlEngine extends Engine {
 
         $this->logger->log($sql);
 
-        if($q = $this->conn->query($sql))
+        if ($q = $this->conn->query($sql)) {
             return true;
+        }
 
         throw new DatabaseException($this->conn->error);
     }
@@ -189,8 +191,9 @@ class MySqlEngine extends Engine {
 
         $this->logger->log($sql);
 
-        if($q = $this->conn->query($sql))
+        if ($q = $this->conn->query($sql)) {
             return true;
+        }
 
         throw new DatabaseException($this->conn->error);
     }
@@ -200,8 +203,9 @@ class MySqlEngine extends Engine {
 
         $this->logger->log($sql);
 
-        if($q = $this->conn->query($sql))
+        if ($q = $this->conn->query($sql)) {
             return $this->conn->insert_id;
+        }
 
         throw new DatabaseException($this->conn->error);
     }

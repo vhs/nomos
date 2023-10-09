@@ -21,27 +21,25 @@ use vhs\Logger;
 use vhs\monitors\Monitor;
 
 class PaymentMonitor extends Monitor {
-
     /** @var PaymentProcessor */
     private $paymentProcessor;
     /** @var Logger */
     private $logger;
 
-    public function Init(Logger &$logger = null)
-    {
+    public function Init(Logger &$logger = null) {
         $this->logger = $logger;
         $this->paymentProcessor = new PaymentProcessor($logger);
 
-        Payment::onAnyCreated([$this, "paymentCreated"]);
+        Payment::onAnyCreated([$this, 'paymentCreated']);
     }
 
-    public function paymentCreated($args)
-    {
+    public function paymentCreated($args) {
         try {
             $this->paymentProcessor->paymentCreated($args[0]->id);
-        } catch(\Exception $ex) {
-            if(!is_null($this->logger))
-                $this->logger->log("[PaymentMonitor] " . $ex->getMessage() . " " . $ex->getTraceAsString());
+        } catch (\Exception $ex) {
+            if (!is_null($this->logger)) {
+                $this->logger->log('[PaymentMonitor] ' . $ex->getMessage() . ' ' . $ex->getTraceAsString());
+            }
         }
     }
 }

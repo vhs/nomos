@@ -9,18 +9,21 @@
 namespace vhs;
 
 abstract class Singleton {
-    protected function __construct() { }
+    protected function __construct() {
+    }
 
     final public static function getInstance() {
-        static $aoInstance = array();
+        static $aoInstance = [];
 
         $class = get_called_class();
 
-        if (!isset($aoInstance[$class]))
+        if (!isset($aoInstance[$class])) {
             $aoInstance[$class] = new $class();
+        }
 
         return $aoInstance[$class];
     }
 
-    final private function __clone() { }
+    final private function __clone() {
+    }
 }

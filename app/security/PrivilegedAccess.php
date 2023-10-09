@@ -8,46 +8,42 @@
 
 namespace app\security;
 
-
 use vhs\database\access\IAccess;
 use vhs\database\Column;
 use vhs\database\Table;
 use vhs\security\CurrentUser;
 
-class PrivilegedAccess implements IAccess
-{
-
+class PrivilegedAccess implements IAccess {
     /** @var Column */
     protected $ownerColumn;
     /** @var IAccess[] */
     protected $checks;
 
-    public static function GenerateAccess($key, Table $table, Column $ownerColumn = null)
-    {
+    public static function GenerateAccess($key, Table $table, Column $ownerColumn = null) {
         $access = null;
         $child = null;
 
         if (is_null($ownerColumn)) {
-            $access = new TablePrivilegedAccess(null, $table, "access:" . $key);
+            $access = new TablePrivilegedAccess(null, $table, 'access:' . $key);
             $child = $access;
         } else {
             $access = new PrivilegedAccess($ownerColumn);
-            $child = $access->Table($table, "access:" . $key);
+            $child = $access->Table($table, 'access:' . $key);
         }
-        foreach($table->columns->all() as $column)
-            $child->Column($column, "access:" . $key, "access:" . $key . ":" . $column->name);
+        foreach ($table->columns->all() as $column) {
+            $child->Column($column, 'access:' . $key, 'access:' . $key . ':' . $column->name);
+        }
 
         return $access;
     }
 
-    public function __construct(Column $ownerColumn = null)
-    {
+    public function __construct(Column $ownerColumn = null) {
         $this->ownerColumn = $ownerColumn;
-        $this->checks = array();
+        $this->checks = [];
     }
 
     public function Register(IAccess ...$checks) {
-        foreach($checks as $check) {
+        foreach ($checks as $check) {
             array_push($this->checks, $check);
         }
     }
@@ -64,38 +60,38 @@ class PrivilegedAccess implements IAccess
         return $access;
     }
 
-    public function CanRead($record, Table $table, Column $column)
-    {
+    public function CanRead($record, Table $table, Column $column) {
         $access = false;
-        foreach($this->checks as $check)
+        foreach ($this->checks as $check) {
             $access &= $check->CanRead($record, $table, $column);
+        }
 
         return $access;
     }
 
-    public function CanWrite($record, Table $table, Column $column)
-    {
+    public function CanWrite($record, Table $table, Column $column) {
         $access = false;
-        foreach($this->checks as $check)
+        foreach ($this->checks as $check) {
             $access &= $check->CanWrite($record, $table, $column);
+        }
 
         return $access;
     }
 
-    public function hasPrivilegedAccess($record, ...$privileges)
-    {
-        if (CurrentUser::hasAnyPermissions("administrator"))
+    public function hasPrivilegedAccess($record, ...$privileges) {
+        if (CurrentUser::hasAnyPermissions('administrator')) {
             return true;
+        }
 
-        if (in_array("owner", $privileges) && $this->IsOwner($record))
+        if (in_array('owner', $privileges) && $this->IsOwner($record)) {
             return true;
+        }
 
         return CurrentUser::hasAnyPermissions($privileges);
     }
 
-    public function IsOwner($record)
-    {
-        return (array_key_exists($this->ownerColumn->name, $record)) && $record[$this->ownerColumn->name] === CurrentUser::getIdentity();
+    public function IsOwner($record) {
+        return array_key_exists($this->ownerColumn->name, $record) && $record[$this->ownerColumn->name] === CurrentUser::getIdentity();
     }
 
     /**
@@ -104,16 +100,15 @@ class PrivilegedAccess implements IAccess
      * @return string the string representation of the object or null
      * @since 5.1.0
      */
-    public function serialize()
-    {
+    public function serialize() {
         return [
-            "type" => "ownership",
-            "ownership" => [
-            "table" => $this->ownerColumn->table->name,
-                "name" => $this->ownerColumn->name,
-                "type" => $this->ownerColumn->type
+            'type' => 'ownership',
+            'ownership' => [
+                'table' => $this->ownerColumn->table->name,
+                'name' => $this->ownerColumn->name,
+                'type' => $this->ownerColumn->type
             ],
-            "checks" => $this->checks
+            'checks' => $this->checks
         ];
     }
 
@@ -126,8 +121,7 @@ class PrivilegedAccess implements IAccess
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         // TODO: Implement unserialize() method.
     }
 
@@ -138,16 +132,15 @@ class PrivilegedAccess implements IAccess
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            "type" => "ownership",
-            "ownership" => [
-                "table" => $this->ownerColumn->table->name,
-                "name" => $this->ownerColumn->name,
-                "type" => $this->ownerColumn->type
+            'type' => 'ownership',
+            'ownership' => [
+                'table' => $this->ownerColumn->table->name,
+                'name' => $this->ownerColumn->name,
+                'type' => $this->ownerColumn->type
             ],
-            "checks" => $this->checks
+            'checks' => $this->checks
         ];
     }
 }

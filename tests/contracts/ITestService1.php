@@ -8,11 +8,9 @@
 
 namespace tests\contracts;
 
-
 use vhs\services\IContract;
 
 interface ITestService1 extends IContract {
-
     /**
      * @permission anonymous
      * @return mixed

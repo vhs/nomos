@@ -1,137 +1,155 @@
 <div class="row">
-    <div class="col-lg-12">
-
-    </div>
+    <div class="col-lg-12"></div>
     <!-- /.col-lg-12 -->
 </div>
 
 <div class="row">
-<div class="col-lg-12">
+    <div class="col-lg-12">
         <h4>Users</h4>
         <div class="overlay" ng-show="updating">
             <div class="row vertical-align text-center icon-align-center">
                 <div class="col-md-2 col-md-offset-5">
-                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                    <div class="fa fa-spin fa-spinner fa-5x"></div>
                 </div>
             </div>
         </div>
 
-    <div class="row">
-        <div class="col-lg-1">
-            <button type="button" class="btn btn-warning" ng-click="openCreateUser()">Create User</button>
-        </div>
-    </div>
-
-    <div class="row">
-
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-
-            <div class="row">
-                <div class="col-lg-3">
-                    <label>Columns</label> <input class="form-control" title="Columns" type="text" ng-model="listService.columns" ng-keyup="$event.keyCode == 13 && refresh()" />
-                </div>
-                <div class="col-lg-3">
-                    <label>Order</label> <input class="form-control" title="Order" type="text" ng-model="listService.order" ng-keyup="$event.keyCode == 13 && refresh()" />
-                </div>
+        <div class="row">
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-warning" ng-click="openCreateUser()">Create User</button>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-lg-3">
-                    <label>Search</label> <input class="form-control" title="Search" type="text" ng-model="listService.search" ng-keyup="$event.keyCode == 13 && refresh()" />
-                </div>
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <b>Quick Filters</b>
-                        </div>
+        <div class="row"></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Columns</label>
+                        <input
+                            class="form-control"
+                            title="Columns"
+                            type="text"
+                            ng-model="listService.columns"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
                     </div>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="toggleExpired(true)" ng-if="!showExpired">Expired Users</button>
-                            <button class="btn btn-danger" ng-click="toggleExpired(false)" ng-if="showExpired">Expired Users</button>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="toggleCash(true)" ng-if="!showCash">Cash Users</button>
-                            <button class="btn btn-danger" ng-click="toggleCash(false)" ng-if="showCash">Cash Users</button>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="toggleActive(true)" ng-if="!showActive">Active Users</button>
-                            <button class="btn btn-danger" ng-click="toggleActive(false)" ng-if="showActive">Active Users</button>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="togglePending(true)" ng-if="!showPending">Pending Users</button>
-                            <button class="btn btn-danger" ng-click="togglePending(false)" ng-if="showPending">Pending Users</button>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="toggleInactive(true)" ng-if="!showInactive">Inactive Users</button>
-                            <button class="btn btn-danger" ng-click="toggleInactive(false)" ng-if="showInactive">Inactive Users</button>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" ng-click="toggleBanned(true)" ng-if="!showBanned">Banned Users</button>
-                            <button class="btn btn-danger" ng-click="toggleBanned(false)" ng-if="showBanned">Banned Users</button>
-                        </div>
+                    <div class="col-lg-3">
+                        <label>Order</label>
+                        <input
+                            class="form-control"
+                            title="Order"
+                            type="text"
+                            ng-model="listService.order"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-3">
-                    <button class="btn btn-primary" ng-click="refresh()">Search</button>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Search</label>
+                        <input
+                            class="form-control"
+                            title="Search"
+                            type="text"
+                            ng-model="listService.search"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <b>Quick Filters</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="toggleExpired(true)" ng-if="!showExpired">Expired Users</button>
+                                <button class="btn btn-danger" ng-click="toggleExpired(false)" ng-if="showExpired">Expired Users</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="toggleCash(true)" ng-if="!showCash">Cash Users</button>
+                                <button class="btn btn-danger" ng-click="toggleCash(false)" ng-if="showCash">Cash Users</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="toggleActive(true)" ng-if="!showActive">Active Users</button>
+                                <button class="btn btn-danger" ng-click="toggleActive(false)" ng-if="showActive">Active Users</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="togglePending(true)" ng-if="!showPending">Pending Users</button>
+                                <button class="btn btn-danger" ng-click="togglePending(false)" ng-if="showPending">Pending Users</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="toggleInactive(true)" ng-if="!showInactive">Inactive Users</button>
+                                <button class="btn btn-danger" ng-click="toggleInactive(false)" ng-if="showInactive">Inactive Users</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="toggleBanned(true)" ng-if="!showBanned">Banned Users</button>
+                                <button class="btn btn-danger" ng-click="toggleBanned(false)" ng-if="showBanned">Banned Users</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button class="btn btn-primary" ng-click="refresh()">Search</button>
+                    </div>
                 </div>
             </div>
-
+        </div>
+        <div class="row before-table">
+            <div class="col-md-7">
+                <pagination
+                    ng-if="userCount"
+                    items-per-page="listService.pageSize"
+                    total-items="userCount"
+                    ng-model="listService.page"
+                    ng-change="refresh()"
+                    max-size="10"
+                    boundary-links="true"
+                    rotate="false"></pagination>
+            </div>
+            <div class="col-md-2 inline-control">
+                <label>{{ userCount }} users found</label>
+            </div>
+            <div class="col-md-1 inline-control">
+                Page size:
+                <select ng-model="listService.pageSize" ng-options="o for o in listService.allowedPageSizes" ng-change="refresh()"></select>
+            </div>
         </div>
     </div>
-    <div class="row before-table">
-        <div class="col-md-7">
-            <pagination  ng-if="userCount" items-per-page="listService.pageSize" total-items="userCount" ng-model="listService.page" ng-change="refresh()" max-size="10" boundary-links="true" rotate="false" ></pagination>
-        </div>
-                <div class="col-md-2 inline-control">
-            <label>{{ userCount }} users found</label>
-        </div>
-        <div class="col-md-1 inline-control">
-            Page size: 
-            <select ng-model="listService.pageSize" ng-options="o for o in listService.allowedPageSizes" ng-change="refresh()"></select>
-        </div>
 
+    <p ng-if="!users.length">No users</p>
 
-    </div>
-    </div>
-
-        <p ng-if="!users.length">No users</p>
-
-        <table ng-if="users.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
+    <table ng-if="users.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
             <tr>
-                <th>Username</th>
-                <th>Realname</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Cash</th>
-                <th>Creation</th>
-                <th>Expiry</th>
-                <th>Last Login</th>
-                <th></th>
+                <th id="username">Username</th>
+                <th id="realname">Realname</th>
+                <th id="email">Email</th>
+                <th id="status">Status</th>
+                <th id="cash">Cash</th>
+                <th id="creation">Creation</th>
+                <th id="expiry">Expiry</th>
+                <th id="last_login">Last Login</th>
+                <th id="empty"></th>
             </tr>
-            </thead>
-            <tfoot>
+        </thead>
+        <tfoot>
             <tr>
-                <th>Username</th>
-                <th>Realname</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Cash</th>
-                <th>Creation</th>
-                <th>Expiry</th>
-                <th>Last Login</th>
-                <th></th>
+                <th id="username">Username</th>
+                <th id="realname">Realname</th>
+                <th id="email">Email</th>
+                <th id="status">Status</th>
+                <th id="cash">Cash</th>
+                <th id="creation">Creation</th>
+                <th id="expiry">Expiry</th>
+                <th id="last_login">Last Login</th>
+                <th id="empty"></th>
             </tr>
-            </tfoot>
+        </tfoot>
 
-            <tbody>
+        <tbody>
             <tr ng-repeat="user in users">
                 <td><a ui-sref="admin.users.profile({user: user.id})">{{user.username}}</a></td>
                 <td>{{user.fname}} {{user.lname}}</td>
@@ -141,10 +159,12 @@
                 <td>{{user.member_since}} ({{user.member_for}})</td>
                 <td>{{user.expiry_date}} ({{user.expiry}})</td>
                 <td>{{user.last_login}}</td>
-                <td><a type="button" class="btn btn-primary btn-circle" ui-sref="admin.profile({userId: user.id})"><i class="fa fa-edit"></i></a></td>
+                <td>
+                    <a type="button" class="btn btn-primary btn-circle" ui-sref="admin.profile({userId: user.id})"><i class="fa fa-edit"></i></a>
+                </td>
             </tr>
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
     <script type="text/ng-template" id="CreateUserModal.html">
         <div class="modal-header">
@@ -202,8 +222,4 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
-
-
-
-    </div>
 </div>

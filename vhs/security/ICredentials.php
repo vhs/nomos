@@ -8,7 +8,5 @@
 
 namespace vhs\security;
 
-
 interface ICredentials {
-
 }

@@ -8,7 +8,6 @@
 
 namespace app\endpoints\web;
 
-
 use app\services\ApiKeyService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;

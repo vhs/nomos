@@ -8,12 +8,11 @@
 
 namespace vhs\database;
 
-
 interface IConvertible {
     /**
      * @param IConverter $converter
      * @param mixed $value
      * @return mixed
      */
-    function convert(IConverter $converter, $value = null);
+    public function convert(IConverter $converter, $value = null);
 }

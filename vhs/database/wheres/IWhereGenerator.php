@@ -12,6 +12,8 @@ use vhs\database\IGenerator;
 
 interface IWhereGenerator extends IGenerator {
     public function generateAnd(WhereAnd $where);
+
     public function generateOr(WhereOr $where);
+
     public function generateComparator(WhereComparator $where);
 }

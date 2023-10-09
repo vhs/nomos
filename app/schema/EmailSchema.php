@@ -8,7 +8,6 @@
 
 namespace app\schema;
 
-
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
@@ -17,21 +16,19 @@ use vhs\domain\Schema;
 
 class EmailSchema extends Schema {
     public static function init() {
-        $table = new Table("email_templates");
+        $table = new Table('email_templates');
 
-        $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("name", Type::String(true, null, 255));
-        $table->addColumn("code", Type::String(true, null, 255));
-        $table->addColumn("subject", Type::String(true, null, 255));
-        $table->addColumn("help", Type::String(true, null, 255));
-        $table->addColumn("body", Type::Text());
-        $table->addColumn("html", Type::Text());
+        $table->addColumn('id', Type::Int(false, 0));
+        $table->addColumn('name', Type::String(true, null, 255));
+        $table->addColumn('code', Type::String(true, null, 255));
+        $table->addColumn('subject', Type::String(true, null, 255));
+        $table->addColumn('help', Type::String(true, null, 255));
+        $table->addColumn('body', Type::Text());
+        $table->addColumn('html', Type::Text());
 
-        $table->setConstraints(
-            Constraint::PrimaryKey($table->columns->id)
-        );
+        $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
-        $table->setAccess(PrivilegedAccess::GenerateAccess("emailtemplate", $table));
+        $table->setAccess(PrivilegedAccess::GenerateAccess('emailtemplate', $table));
 
         return $table;
     }

@@ -12,6 +12,6 @@ use vhs\Logger;
 
 class ConsoleLogger extends Logger {
     public function log($message) {
-        print "[".date('Y-m-d H:i:s')."] " . $message . PHP_EOL;
+        print '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
     }
 }

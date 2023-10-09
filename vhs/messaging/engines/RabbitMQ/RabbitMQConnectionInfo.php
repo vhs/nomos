@@ -8,11 +8,9 @@
 
 namespace vhs\messaging\engines\RabbitMQ;
 
-
 use vhs\messaging\ConnectionInfo;
 
-class RabbitMQConnectionInfo extends ConnectionInfo
-{
+class RabbitMQConnectionInfo extends ConnectionInfo {
     private $host;
     private $port;
     private $username;
@@ -30,18 +28,32 @@ class RabbitMQConnectionInfo extends ConnectionInfo
     }
 
     public function getDetails() {
-        return array(
-            "host" => $this->host,
-            "port" => $this->port,
-            "username" => $this->username,
-            "password" => $this->password,
-            "vhost" => $this->vhost
-        );
+        return [
+            'host' => $this->host,
+            'port' => $this->port,
+            'username' => $this->username,
+            'password' => $this->password,
+            'vhost' => $this->vhost
+        ];
     }
 
-    public function getHost() { return $this->host; }
-    public function getPort() { return $this->port; }
-    public function getUsername() { return $this->username; }
-    public function getPassword() { return $this->password; }
-    public function getVHost() { return $this->vhost; }
+    public function getHost() {
+        return $this->host;
+    }
+
+    public function getPort() {
+        return $this->port;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getVHost() {
+        return $this->vhost;
+    }
 }

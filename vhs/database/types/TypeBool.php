@@ -8,9 +8,7 @@
 
 namespace vhs\database\types;
 
-
 class TypeBool extends Type {
-
     public function generateType(ITypeGenerator $generator, $value = null) {
         return $generator->generateBool($this, $value);
     }

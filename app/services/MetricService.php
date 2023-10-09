@@ -2,7 +2,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IMetricService1;
 use app\domain\Membership;
 use app\domain\Payment;
@@ -18,18 +17,17 @@ use vhs\database\wheres\Where;
 use vhs\services\Service;
 
 class MetricService extends Service implements IMetricService1 {
-
     public function GetNewMembers($start_range, $end_range) {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
         $count = self::NewMemberCount($start, $end);
-        return array(
-            "start_range" => $start_range,
-            "start" => $start,
-            "end_range" => $end_range,
-            "end" => $end,
-            "value" => $count
-        );
+        return [
+            'start_range' => $start_range,
+            'start' => $start,
+            'end_range' => $end_range,
+            'end' => $end,
+            'value' => $count
+        ];
     }
 
     public function GetNewKeyHolders($start_range, $end_range) {
@@ -37,59 +35,60 @@ class MetricService extends Service implements IMetricService1 {
         $end = strtotime($end_range);
         $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::NewMembershipByIdCount($membership[0]->id, $start, $end);
-        return array(
-            "start_range" => $start_range,
-            "end_range" => $end_range,
-            "value" => $count
-        );
+        return [
+            'start_range' => $start_range,
+            'end_range' => $end_range,
+            'value' => $count
+        ];
     }
 
     public function GetTotalMembers() {
         $count = self::TotalMemberCount();
-        return array(
-            "value" => $count
-        );
+        return [
+            'value' => $count
+        ];
     }
 
     public function GetTotalKeyHolders() {
         $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::TotalMembershipByIdCount($membership[0]->id);
-        return array(
-            "value" => $count
-        );
+        return [
+            'value' => $count
+        ];
     }
 
-    public function GetRevenue($start_range, $end_range, $group)
-    {
-        $payments = Payment::where(Where::_And(
-            Where::Equal(Payment::Schema()->Columns()->status, 1),
-            Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
-            Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range)
-        ));
+    public function GetRevenue($start_range, $end_range, $group) {
+        $payments = Payment::where(
+            Where::_And(
+                Where::Equal(Payment::Schema()->Columns()->status, 1),
+                Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
+                Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range)
+            )
+        );
 
-        $byMembership = array();
-        $byDate = array();
+        $byMembership = [];
+        $byDate = [];
 
-        foreach($payments as $payment) {
-            $membershipKey = ($payment->item_number == "" || is_null($payment->item_number)) ? "Donation" : $payment->item_number;
+        foreach ($payments as $payment) {
+            $membershipKey = $payment->item_number == '' || is_null($payment->item_number) ? 'Donation' : $payment->item_number;
             if (!array_key_exists($membershipKey, $byMembership)) {
-                $byMembership[$membershipKey] = array();
+                $byMembership[$membershipKey] = [];
             }
 
             $grouping = new DateTime($payment->date);
 
-            switch($group) {
-                case "day":
-                    $grouping = $grouping->format("Y-m-d");
+            switch ($group) {
+                case 'day':
+                    $grouping = $grouping->format('Y-m-d');
                     break;
-                case "month":
-                    $grouping = $grouping->format("Y-m");
+                case 'month':
+                    $grouping = $grouping->format('Y-m');
                     break;
-                case "year":
-                    $grouping = $grouping->format("Y");
+                case 'year':
+                    $grouping = $grouping->format('Y');
                     break;
                 default:
-                    $grouping = "all";
+                    $grouping = 'all';
                     break;
             }
 
@@ -106,39 +105,42 @@ class MetricService extends Service implements IMetricService1 {
             $byDate[$grouping] += $payment->rate_amount;
         }
 
-        return array(
-            "start_range" => $start_range,
-            "end_range" => $end_range,
-            "grouping" => $byDate,
-            "by_membership" => $byMembership
-        );
+        return [
+            'start_range' => $start_range,
+            'end_range' => $end_range,
+            'grouping' => $byDate,
+            'by_membership' => $byMembership
+        ];
     }
 
     public function GetMembers($start_range, $end_range, $group) {
-        $users = User::where(Where::_And(
-            Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
-            Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
-        ));
+        $users = User::where(
+            Where::_And(
+                Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
+                Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
+            )
+        );
 
-        $payments = Payment::where(Where::_And(
-            Where::Equal(Payment::Schema()->Columns()->status, 1),
-            Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
-            Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range),
-            Where::Like(Payment::Schema()->Columns()->item_number, "vhs_membership_%")
-        ));
+        $payments = Payment::where(
+            Where::_And(
+                Where::Equal(Payment::Schema()->Columns()->status, 1),
+                Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
+                Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range),
+                Where::Like(Payment::Schema()->Columns()->item_number, 'vhs_membership_%')
+            )
+        );
 
+        $created = [];
+        $expired = [];
 
-        $created = array();
-        $expired = array();
-
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $created = $this->countByDate($created, $user->created, $group);
             $expired = $this->countByDate($expired, $user->mem_expire, $group);
         }
 
-        $total = array();
+        $total = [];
 
-        foreach($payments as $payment) {
+        foreach ($payments as $payment) {
             $total = $this->countByDate($total, $payment->date, $group);
         }
 
@@ -146,35 +148,38 @@ class MetricService extends Service implements IMetricService1 {
         ksort($expired);
         ksort($total);
 
-        return array(
-            "start_range" => $start_range,
-            "end_range" => $end_range,
-            "created" => $created,
-            "expired" => $expired,
-            "total" => $total
-        );
+        return [
+            'start_range' => $start_range,
+            'end_range' => $end_range,
+            'created' => $created,
+            'expired' => $expired,
+            'total' => $total
+        ];
     }
 
     private function countByDate($arr, $date, $group) {
-
-        if (is_null($date)) return $arr;
+        if (is_null($date)) {
+            return $arr;
+        }
 
         $grouping = new DateTime($date);
 
-        if ($grouping > new DateTime()) return $arr;
+        if ($grouping > new DateTime()) {
+            return $arr;
+        }
 
-        switch($group) {
-            case "day":
-                $grouping = $grouping->format("Y-m-d");
+        switch ($group) {
+            case 'day':
+                $grouping = $grouping->format('Y-m-d');
                 break;
-            case "month":
-                $grouping = $grouping->format("Y-m");
+            case 'month':
+                $grouping = $grouping->format('Y-m');
                 break;
-            case "year":
-                $grouping = $grouping->format("Y");
+            case 'year':
+                $grouping = $grouping->format('Y');
                 break;
             default:
-                $grouping = "all";
+                $grouping = 'all';
                 break;
         }
 
@@ -188,29 +193,30 @@ class MetricService extends Service implements IMetricService1 {
     }
 
     public function GetCreatedDates($start_range, $end_range) {
-        $users = User::where(Where::_And(
-            Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
-            Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
-        ));
+        $users = User::where(
+            Where::_And(
+                Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
+                Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
+            )
+        );
 
-        $byDowHour = array();
+        $byDowHour = [];
 
-        $byMonthDow = array();
+        $byMonthDow = [];
 
-        foreach($users as $user) {
-
+        foreach ($users as $user) {
             $date = new DateTime($user->created);
 
-            $dow = $date->format("w");
-            $hour = $date->format("G");
-            $month = $date->format("n");
+            $dow = $date->format('w');
+            $hour = $date->format('G');
+            $month = $date->format('n');
 
             if (!array_key_exists($dow, $byDowHour)) {
-                $byDowHour[$dow] = array();
-                $byDowHour[$dow]["total"] = 0;
+                $byDowHour[$dow] = [];
+                $byDowHour[$dow]['total'] = 0;
             }
 
-            $byDowHour[$dow]["total"] += 1;
+            $byDowHour[$dow]['total'] += 1;
 
             if (!array_key_exists($hour, $byDowHour[$dow])) {
                 $byDowHour[$dow][$hour] = 0;
@@ -219,11 +225,11 @@ class MetricService extends Service implements IMetricService1 {
             $byDowHour[$dow][$hour] += 1;
 
             if (!array_key_exists($month, $byMonthDow)) {
-                $byMonthDow[$month] = array();
-                $byMonthDow[$month]["total"] = 0;
+                $byMonthDow[$month] = [];
+                $byMonthDow[$month]['total'] = 0;
             }
 
-            $byMonthDow[$month]["total"] += 1;
+            $byMonthDow[$month]['total'] += 1;
 
             if (!array_key_exists($dow, $byMonthDow[$month])) {
                 $byMonthDow[$month][$dow] = 0;
@@ -232,12 +238,12 @@ class MetricService extends Service implements IMetricService1 {
             $byMonthDow[$month][$dow] += 1;
         }
 
-        return array(
-            "start_range" => $start_range,
-            "end_range" => $end_range,
-            "byDowHour" => $byDowHour,
-            "byMonthDow" => $byMonthDow
-        );
+        return [
+            'start_range' => $start_range,
+            'end_range' => $end_range,
+            'byDowHour' => $byDowHour,
+            'byMonthDow' => $byMonthDow
+        ];
     }
 
     /**
@@ -266,11 +272,12 @@ class MetricService extends Service implements IMetricService1 {
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
-                Where::Equal(UserSchema::Columns()->active,"y"),
+                Where::Equal(UserSchema::Columns()->active, 'y'),
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
                 Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
                 Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
-            ));
+            )
+        );
 
         return Database::count($query);
     }
@@ -282,12 +289,15 @@ class MetricService extends Service implements IMetricService1 {
      * @return int
      */
     public static function TotalMemberCount() {
-        return Database::count(Query::count(
-            UserSchema::Table(),
-            Where::_And(
-                Where::Equal(UserSchema::Columns()->active,"y"),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s'))
-            )));
+        return Database::count(
+            Query::count(
+                UserSchema::Table(),
+                Where::_And(
+                    Where::Equal(UserSchema::Columns()->active, 'y'),
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s'))
+                )
+            )
+        );
     }
 
     /**
@@ -301,23 +311,27 @@ class MetricService extends Service implements IMetricService1 {
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
-                Where::Equal(UserSchema::Columns()->active,"y"),
+                Where::Equal(UserSchema::Columns()->active, 'y'),
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
                 Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
                 Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
                 Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
-            ));
+            )
+        );
 
         return Database::count($query);
     }
 
     public static function TotalMembershipByIdCount($membership_id) {
-        return Database::count(Query::count(
-            UserSchema::Table(),
-            Where::_And(
-                Where::Equal(UserSchema::Columns()->active,"y"),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
-                Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
-            )));
+        return Database::count(
+            Query::count(
+                UserSchema::Table(),
+                Where::_And(
+                    Where::Equal(UserSchema::Columns()->active, 'y'),
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
+                    Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
+                )
+            )
+        );
     }
 }

@@ -8,7 +8,6 @@
 
 namespace tests\schema;
 
-
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -19,10 +18,10 @@ class SwordEnchantmentsSchema extends Schema {
      * @return Table
      */
     public static function init() {
-        $table = new Table("swordenchantments");
+        $table = new Table('swordenchantments');
 
-        $table->addColumn("swordid", Type::Int(false, 0));
-        $table->addColumn("enchantmentid", Type::Int(false, 0));
+        $table->addColumn('swordid', Type::Int(false, 0));
+        $table->addColumn('enchantmentid', Type::Int(false, 0));
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->swordid),

@@ -8,7 +8,6 @@
 
 namespace tests\endpoints\native;
 
-
 use tests\services\TestService;
 use vhs\services\endpoints\NativeEndpoint;
 use vhs\services\ServiceContext;

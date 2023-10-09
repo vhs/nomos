@@ -8,11 +8,9 @@
 
 namespace vhs\services;
 
-
 use vhs\services\endpoints\Endpoint;
 
 class ServiceContext {
-
     /** @var Endpoint $endpoint */
     public $endpoint;
 
@@ -21,7 +19,9 @@ class ServiceContext {
     }
 
     public function log($message) {
-        if (is_null($this->endpoint->logger)) return;
+        if (is_null($this->endpoint->logger)) {
+            return;
+        }
 
         $type = get_class($this->endpoint);
 

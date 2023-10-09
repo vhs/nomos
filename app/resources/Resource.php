@@ -8,24 +8,21 @@
 
 namespace app\resources;
 
-
 use vhs\Singleton;
 
 class Resource extends Singleton {
-
     private $data;
 
     protected function __construct() {
-        $this->data = array();
+        $this->data = [];
 
         //$this->data[] =
-
     }
 
     public function __get($name) {
-        if(array_key_exists($name, $this->data)) {
+        if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
-        return "MissingResource.".$name;
+        return 'MissingResource.' . $name;
     }
 }

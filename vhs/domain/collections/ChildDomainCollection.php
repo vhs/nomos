@@ -8,7 +8,6 @@
 
 namespace vhs\domain\collections;
 
-
 use vhs\database\Column;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\PrimaryKey;
@@ -17,7 +16,6 @@ use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 
 class ChildDomainCollection extends DomainCollection {
-
     /** @var Domain $parent */
     private $parent;
     private $childType;
@@ -28,31 +26,33 @@ class ChildDomainCollection extends DomainCollection {
     /** @var PrimaryKey $childKey */
     private $childKey;
 
-
-
     public function __construct(Domain $parent, $childType) {
         $this->parent = $parent;
         $this->childType = $childType;
 
         $pks = $childType::Schema()->PrimaryKeys();
 
-        if(count($pks) <> 1)
-            throw new DomainException("Unsupported child relationship type. Only child tables having exactly one Primary Key are currently supported.");
+        if (count($pks) != 1) {
+            throw new DomainException(
+                'Unsupported child relationship type. Only child tables having exactly one Primary Key are currently supported.'
+            );
+        }
 
         $this->childKey = $pks[0];
 
         $fks = $childType::Schema()->ForeignKeys();
 
         /** @var ForeignKey $fk */
-        foreach($fks as $fk) {
-            if($fk->table === $parent->Schema()->Table()) {
+        foreach ($fks as $fk) {
+            if ($fk->table === $parent->Schema()->Table()) {
                 $this->childColumn = $fk->column;
                 $this->parentColumn = $fk->on;
             }
         }
 
-        if(is_null($this->parentColumn) || is_null($this->childColumn))
-            throw new DomainException("Child relationship incomplete - missing referenced child and/or parent column on joined tables");
+        if (is_null($this->parentColumn) || is_null($this->childColumn)) {
+            throw new DomainException('Child relationship incomplete - missing referenced child and/or parent column on joined tables');
+        }
 
         //TODO something with before deletes - maybe not because this is a direct relationship
 
@@ -62,18 +62,19 @@ class ChildDomainCollection extends DomainCollection {
     public function all() {
         $childPkName = $this->childKey->column->name;
 
-        $all = array();
+        $all = [];
 
-        foreach(array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item)
+        foreach (array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item) {
             $all[$item->$childPkName] = $item;
+        }
 
         return $all;
     }
 
     public function clear() {
-        $this->__existing = array();
-        $this->__new = array();
-        $this->__removed = array();
+        $this->__existing = [];
+        $this->__new = [];
+        $this->__removed = [];
     }
 
     public function compare(Domain $a, Domain $b) {
@@ -88,15 +89,17 @@ class ChildDomainCollection extends DomainCollection {
 
     public function add(Domain $item) {
         $this->raiseBeforeAdd();
-        if ($this->contains($item))
-            throw new DomainException("Item already exists in collection");
+        if ($this->contains($item)) {
+            throw new DomainException('Item already exists in collection');
+        }
 
         $childPkName = $this->childKey->column->name;
         $childColName = $this->childColumn->name;
         $parentColName = $this->parentColumn->name;
 
-        if (array_key_exists($item->$childPkName, $this->__removed))
+        if (array_key_exists($item->$childPkName, $this->__removed)) {
             unset($this->__removed[$item->$childPkName]);
+        }
 
         $this->__new[$item->$childPkName] = $item;
         $item->$childColName = $this->parent->$parentColName;
@@ -110,8 +113,9 @@ class ChildDomainCollection extends DomainCollection {
             $childPkName = $this->childKey->column->name;
             $childColName = $this->childColumn->name;
 
-            if (array_key_exists($item->$childPkName, $this->__new))
+            if (array_key_exists($item->$childPkName, $this->__new)) {
                 unset($this->__new[$item->$childPkName]);
+            }
 
             $this->__removed[$item->$childPkName] = $item;
 
@@ -128,11 +132,9 @@ class ChildDomainCollection extends DomainCollection {
         $parentColName = $this->parentColumn->name;
         $childPkName = $this->childKey->column->name;
 
-        $items = $child::where(Where::Equal(
-            $this->childColumn, $this->parent->$parentColName
-        ));
+        $items = $child::where(Where::Equal($this->childColumn, $this->parent->$parentColName));
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $this->__existing[$item->$childPkName] = $item;
         }
     }
@@ -146,16 +148,19 @@ class ChildDomainCollection extends DomainCollection {
         $childColName = $this->childColumn->name;
         $parentColName = $this->parentColumn->name;
 
-        foreach($actualNew as $new) {
+        foreach ($actualNew as $new) {
             $new->$childColName = $this->parent->$parentColName;
             $new->save();
         }
 
-        foreach($actualRemove as $remove) {
-            if($this->childColumn->type->nullable)
-                $remove->save();//when we first removed them this column value should've been set to the default value (NULL)
-            else
+        foreach ($actualRemove as $remove) {
+            if ($this->childColumn->type->nullable) {
+                $remove->save();
+            }
+            //when we first removed them this column value should've been set to the default value (NULL)
+            else {
                 $remove->delete();
+            }
         }
 
         $this->raiseSaved();

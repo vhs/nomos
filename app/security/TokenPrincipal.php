@@ -8,7 +8,6 @@
 
 namespace app\security;
 
-
 use vhs\security\IPrincipal;
 
 class TokenPrincipal implements IPrincipal {
@@ -24,10 +23,21 @@ class TokenPrincipal implements IPrincipal {
         $this->name = $name;
     }
 
-    public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->permissions)) == 0); }
-    public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->permissions)) > 0); }
-    public function canGrantAllPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_diff($permission, $this->grants)) == 0); }
-    public function canGrantAnyPermissions(...$permission) { return (in_array("*", $this->grants)) || (count(array_intersect($permission, $this->grants)) > 0); }
+    public function hasAllPermissions(...$permission) {
+        return count(array_diff($permission, $this->permissions)) == 0;
+    }
+
+    public function hasAnyPermissions(...$permission) {
+        return count(array_intersect($permission, $this->permissions)) > 0;
+    }
+
+    public function canGrantAllPermissions(...$permission) {
+        return in_array('*', $this->grants) || count(array_diff($permission, $this->grants)) == 0;
+    }
+
+    public function canGrantAnyPermissions(...$permission) {
+        return in_array('*', $this->grants) || count(array_intersect($permission, $this->grants)) > 0;
+    }
 
     public function getIdentity() {
         return $this->id;

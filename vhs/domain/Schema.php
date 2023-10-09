@@ -8,14 +8,12 @@
 
 namespace vhs\domain;
 
-
 use vhs\database\Columns;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\PrimaryKey;
 use vhs\database\Table;
 
 interface ISchema {
-
     /**
      * @return Table
      */
@@ -23,7 +21,6 @@ interface ISchema {
 }
 
 abstract class Schema implements ISchema {
-
     private $internal_table;
 
     protected function __construct() {
@@ -34,17 +31,19 @@ abstract class Schema implements ISchema {
      * @return Schema
      */
     final private static function getInstance() {
-        static $aoInstance = array();
+        static $aoInstance = [];
 
         $class = get_called_class();
 
-        if (!isset($aoInstance[$class]))
-            $aoInstance[$class] = new $class;
+        if (!isset($aoInstance[$class])) {
+            $aoInstance[$class] = new $class();
+        }
 
         return $aoInstance[$class];
     }
 
-    final private function __clone() { }
+    final private function __clone() {
+    }
 
     /**
      * @return Schema
@@ -75,19 +74,23 @@ abstract class Schema implements ISchema {
      * @return PrimaryKey[]
      */
     public static function PrimaryKeys() {
-        $pks = array();
-        foreach(self::Table()->constraints as $constraint)
-            if($constraint instanceof PrimaryKey)
+        $pks = [];
+        foreach (self::Table()->constraints as $constraint) {
+            if ($constraint instanceof PrimaryKey) {
                 array_push($pks, $constraint);
+            }
+        }
 
         return $pks;
     }
 
     public static function ForeignKeys() {
-        $fks = array();
-        foreach(self::Table()->constraints as $constraint)
-            if($constraint instanceof ForeignKey)
+        $fks = [];
+        foreach (self::Table()->constraints as $constraint) {
+            if ($constraint instanceof ForeignKey) {
                 array_push($fks, $constraint);
+            }
+        }
 
         return $fks;
     }

@@ -9,21 +9,23 @@
                     <form role="form">
                         <fieldset>
                             <div ng-show="success">
-                                <div class="alert alert-success" ng-show="success">
-                                    Password has been updated
-                                </div>
+                                <div class="alert alert-success" ng-show="success">Password has been updated</div>
                                 <a class="btn btn-primary" ui-sref="public.login">Login</a>
                             </div>
                             <div ng-hide="success">
-                                <div class="alert alert-danger" ng-show="error">
-                                    {{error}}
-                                </div>
+                                <div class="alert alert-danger" ng-show="error">{{error}}</div>
                                 <div></div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="password">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="password" />
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Repeat Password" name="repassword" type="password" value="" ng-model="repassword">
+                                    <input
+                                        class="form-control"
+                                        placeholder="Repeat Password"
+                                        name="repassword"
+                                        type="password"
+                                        value=""
+                                        ng-model="repassword" />
                                 </div>
 
                                 <div class="form-group">

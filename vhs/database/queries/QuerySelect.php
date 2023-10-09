@@ -8,7 +8,6 @@
 
 namespace vhs\database\queries;
 
-
 use vhs\database\Columns;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
@@ -17,7 +16,6 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 class QuerySelect extends Query {
-
     /** @var Columns  */
     public $columns;
     /** @var OrderBy  */
@@ -27,7 +25,14 @@ class QuerySelect extends Query {
     /** @var Offset  */
     public $offset;
 
-    public function __construct(Table $table, Columns $columns = null, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+    public function __construct(
+        Table $table,
+        Columns $columns = null,
+        Where $where = null,
+        OrderBy $orderBy = null,
+        Limit $limit = null,
+        Offset $offset = null
+    ) {
         parent::__construct($table, $where);
 
         $this->columns = $columns;

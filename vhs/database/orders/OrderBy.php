@@ -14,11 +14,10 @@ use vhs\database\IGenerator;
 use vhs\database\Table;
 
 abstract class OrderBy extends Element {
-
     /** @var Column */
     public $column;
     /** @var OrderBy[]  */
-    public $orderBy = array();
+    public $orderBy = [];
 
     public function __construct(Column $column, OrderBy ...$orderBy) {
         $this->column = $column;
@@ -28,8 +27,9 @@ abstract class OrderBy extends Element {
     public function __updateTable(Table &$table) {
         $this->column->__updateTable($table);
 
-        foreach($this->orderBy as $orderBy)
+        foreach ($this->orderBy as $orderBy) {
             $orderBy->__updateTable($table);
+        }
     }
 
     public static function Ascending(Column $column, OrderBy ...$orderBy) {

@@ -12,31 +12,26 @@ use League\OAuth2\Client\Entity\User;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
-class Slack extends AbstractProvider
-{
+class Slack extends AbstractProvider {
     public $authorizationHeader = 'token';
 
     public $teamId = '';
 
     public $domain = 'https://slack.com';
 
-    public function urlAuthorize()
-    {
-        return $this->domain.'/oauth/authorize';
+    public function urlAuthorize() {
+        return $this->domain . '/oauth/authorize';
     }
 
-    public function urlAccessToken()
-    {
-        return $this->domain.'/api/oauth.access';
+    public function urlAccessToken() {
+        return $this->domain . '/api/oauth.access';
     }
 
-    public function urlUserDetails(AccessToken $token)
-    {
-        return $this->domain.'/api/auth.test?token='.$token;
+    public function urlUserDetails(AccessToken $token) {
+        return $this->domain . '/api/auth.test?token=' . $token;
     }
 
-    public function getAuthorizationUrl($options = [])
-    {
+    public function getAuthorizationUrl($options = []) {
         $this->state = isset($options['state']) ? $options['state'] : md5(uniqid(rand(), true));
 
         $params = [
@@ -46,14 +41,13 @@ class Slack extends AbstractProvider
             'team' => $this->teamId,
             'scope' => is_array($this->scopes) ? implode($this->scopeSeparator, $this->scopes) : $this->scopes,
             'response_type' => isset($options['response_type']) ? $options['response_type'] : 'code',
-            'approval_prompt' => isset($options['approval_prompt']) ? $options['approval_prompt'] : 'auto',
+            'approval_prompt' => isset($options['approval_prompt']) ? $options['approval_prompt'] : 'auto'
         ];
 
-        return $this->urlAuthorize().'?'.$this->httpBuildQuery($params, '', '&');
+        return $this->urlAuthorize() . '?' . $this->httpBuildQuery($params, '', '&');
     }
 
-    public function userDetails($response, AccessToken $token)
-    {
+    public function userDetails($response, AccessToken $token) {
         $user = new User();
 
         $user->exchangeArray([

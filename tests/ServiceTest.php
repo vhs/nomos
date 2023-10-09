@@ -7,57 +7,61 @@
  */
 
 use PHPUnit\Framework\TestCase;
-
-
 use vhs\services\ServiceClient;
-use \vhs\services\ServiceHandler;
+use vhs\services\ServiceHandler;
 use vhs\services\ServiceRegistry;
 
 class PermPrincipal implements \vhs\security\IPrincipal {
     private $perms;
 
     public function __construct(...$perms) {
-        if(is_null($perms))
-            $perms = array();
+        if (is_null($perms)) {
+            $perms = [];
+        }
 
         $this->perms = $perms;
     }
 
-    public function hasAllPermissions(...$permission) { return (count(array_diff($permission, $this->perms)) == 0); }
-    public function hasAnyPermissions(...$permission) { return (count(array_intersect($permission, $this->perms)) > 0); }
-    public function getIdentity() { return null; }
-    public function isAnon() { return false; }
+    public function hasAllPermissions(...$permission) {
+        return count(array_diff($permission, $this->perms)) == 0;
+    }
 
-    public function canGrantAllPermissions(...$permission)
-    {
+    public function hasAnyPermissions(...$permission) {
+        return count(array_intersect($permission, $this->perms)) > 0;
+    }
+
+    public function getIdentity() {
+        return null;
+    }
+
+    public function isAnon() {
+        return false;
+    }
+
+    public function canGrantAllPermissions(...$permission) {
         // TODO: Implement canGrantAllPermissions() method.
     }
 
-    public function canGrantAnyPermissions(...$permission)
-    {
+    public function canGrantAnyPermissions(...$permission) {
         // TODO: Implement canGrantAnyPermissions() method.
     }
 
-    public function __toString()
-    {
-        return "perm";
+    public function __toString() {
+        return 'perm';
     }
 }
 
 class ServiceTests extends TestCase {
-
     public static function setUpBeforeClass() {
         $logger = new \vhs\loggers\SilentLogger();
-        ServiceRegistry::register($logger, "web", 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
-        ServiceRegistry::register($logger, "native", 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
+        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
+        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
     }
 
     public static function tearDownAfterClass() {
-
     }
 
     protected function setUp() {
-
     }
 
     protected function tearDown() {
@@ -73,7 +77,7 @@ class ServiceTests extends TestCase {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal());
         $this->assertEquals('AnonMethod!', ServiceClient::web_TestService1_AnonMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("randomPermission"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('randomPermission'));
         $this->assertEquals('AnonMethod!', ServiceClient::web_TestService1_AnonMethod());
     }
 
@@ -82,7 +86,6 @@ class ServiceTests extends TestCase {
      * @expectedExceptionMessage Access denied
      */
     public function test_AuthMethod_asAnon() {
-
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_AuthMethod();
@@ -92,12 +95,12 @@ class ServiceTests extends TestCase {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal());
         $this->assertEquals('AuthMethod!', ServiceClient::web_TestService1_AuthMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("randomPermission"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('randomPermission'));
         $this->assertEquals('AuthMethod!', ServiceClient::web_TestService1_AuthMethod());
     }
 
     public function test_PermMethod_asPerm() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("randomPermission"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('randomPermission'));
 
         $this->assertEquals('PermMethod!', ServiceClient::web_TestService1_PermMethod());
     }
@@ -127,24 +130,23 @@ class ServiceTests extends TestCase {
     public function test_ArgMethod_asAnon() {
         //$data = '{ "a": "hello ", "b": "world" }';
 
-        $this->assertEquals('ArgMethod: hello world', ServiceClient::web_TestService1_ArgMethod("hello ", "world"));
+        $this->assertEquals('ArgMethod: hello world', ServiceClient::web_TestService1_ArgMethod('hello ', 'world'));
     }
 
     public function test_native_ArgMethod_asAnon() {
-        $data = array(
-            'a' => "hello ",
-            'b' => "world"
-        );
+        $data = [
+            'a' => 'hello ',
+            'b' => 'world'
+        ];
 
-        $this->assertEquals('ArgMethod: hello world',
-            ServiceClient::native_TestService1_ArgMethod("hello ", "world"));
-            //ServiceRegistry::get("native")->handle("/services/native/TestService1.svc/ArgMethod", $data));
+        $this->assertEquals('ArgMethod: hello world', ServiceClient::native_TestService1_ArgMethod('hello ', 'world'));
+        //ServiceRegistry::get("native")->handle("/services/native/TestService1.svc/ArgMethod", $data));
     }
 
     public function test_ObjReturnMethod_asAnon() {
         $data = '{ "a": "hello " }';
 
-        $this->assertEquals('{"retA":"hello "}', ServiceRegistry::get("web")->handle("/services/web/TestService1.svc/ObjReturnMethod", $data));
+        $this->assertEquals('{"retA":"hello "}', ServiceRegistry::get('web')->handle('/services/web/TestService1.svc/ObjReturnMethod', $data));
     }
 
     /**
@@ -178,33 +180,33 @@ class ServiceTests extends TestCase {
     }
 
     public function test_MultiPermMethod() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2'));
         $this->assertEquals('MultiPermMethod!', ServiceClient::web_TestService1_MultiPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm2", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm2', 'perm3'));
         $this->assertEquals('MultiPermMethod!', ServiceClient::web_TestService1_MultiPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));
         $this->assertEquals('MultiPermMethod!', ServiceClient::web_TestService1_MultiPermMethod());
     }
 
     public function test_AnyPermMethod() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm2"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm2'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm3'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm2", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm2', 'perm3'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
     }
 
@@ -222,12 +224,12 @@ class ServiceTests extends TestCase {
      * @expectedExceptionMessage Access denied
      */
     public function test_AnyPermMethod_wrongSet() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("asdf", "zxcv"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('asdf', 'zxcv'));
         ServiceClient::web_TestService1_AnyPermMethod();
     }
 
     public function test_AllPermMethod() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));
         $this->assertEquals('AllPermMethod!', ServiceClient::web_TestService1_AllPermMethod());
     }
 
@@ -236,7 +238,7 @@ class ServiceTests extends TestCase {
      * @expectedExceptionMessage Access denied
      */
     public function test_AllPermMethod_missingPerm3() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm2"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2'));
         ServiceClient::web_TestService1_AllPermMethod();
     }
 
@@ -245,7 +247,7 @@ class ServiceTests extends TestCase {
      * @expectedExceptionMessage Access denied
      */
     public function test_AllPermMethod_missingPerm2() {
-        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal("perm1", "perm3"));
+        \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm3'));
         ServiceClient::web_TestService1_AllPermMethod();
     }
 

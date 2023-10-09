@@ -1,14 +1,20 @@
 'use strict';
 
-angular
-    .module('mmpApp.admin')
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('admin.webhooks', {
-                parent: "admin",
-                url: '/admin/webhooks/',
-                templateUrl: 'admin/webhooks/webhooks.html',
-                controller: ['$scope', '$modal', '$timeout', 'WebHookService1', 'PrivilegeService1', 'EventService1', function($scope, $modal, $timeout, WebHookService1, PrivilegeService1, EventService1) {
+angular.module('mmpApp.admin').config([
+    '$stateProvider',
+    function ($stateProvider) {
+        $stateProvider.state('admin.webhooks', {
+            parent: 'admin',
+            url: '/admin/webhooks/',
+            templateUrl: 'admin/webhooks/webhooks.html',
+            controller: [
+                '$scope',
+                '$modal',
+                '$timeout',
+                'WebHookService1',
+                'PrivilegeService1',
+                'EventService1',
+                function ($scope, $modal, $timeout, WebHookService1, PrivilegeService1, EventService1) {
                     $scope.webhooks = [];
                     $scope.itemCount = 0;
 
@@ -16,80 +22,78 @@ angular
                         page: 1,
                         pageSize: 10,
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
-                        columns: "id,name,description,enabled,userid,url,translation,headers,method,eventid,privileges",
-                        order: "id",
+                        columns: 'id,name,description,enabled,userid,url,translation,headers,method,eventid,privileges',
+                        order: 'id',
                         search: null,
-                        filter: null
+                        filter: null,
                     };
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
 
-                    $scope.checkUpdated = function() {
-                        if($scope.pendingUpdate <= 0) {
+                    $scope.checkUpdated = function () {
+                        if ($scope.pendingUpdate <= 0) {
                             $scope.updated();
                         } else {
                             $timeout($scope.checkUpdated, 10);
                         }
                     };
 
-                    $scope.getFilter = function() {
-
+                    $scope.getFilter = function () {
                         var filter = null;
                         var filters = [];
 
-                        if ($scope.listService.search != null && $scope.listService.search != "") {
-                            var val = "%" + $scope.listService.search + "%";
+                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                            var val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
-                                    column: "name",
-                                    operator: "like",
-                                    value: val
+                                    column: 'name',
+                                    operator: 'like',
+                                    value: val,
                                 },
-                                operator: "or",
+                                operator: 'or',
                                 right: {
                                     left: {
-                                        column: "description",
-                                        operator: "like",
-                                        value: val
+                                        column: 'description',
+                                        operator: 'like',
+                                        value: val,
                                     },
-                                    operator: "or",
+                                    operator: 'or',
                                     right: {
                                         left: {
-                                            column: "url",
-                                            operator: "like",
-                                            value: val
+                                            column: 'url',
+                                            operator: 'like',
+                                            value: val,
                                         },
-                                        operator: "or",
+                                        operator: 'or',
                                         right: {
                                             left: {
-                                                column: "translation",
-                                                operator: "like",
-                                                value: val
+                                                column: 'translation',
+                                                operator: 'like',
+                                                value: val,
                                             },
-                                            operator: "or",
+                                            operator: 'or',
                                             right: {
                                                 left: {
-                                                    column: "headers",
-                                                    operator: "like",
-                                                    value: val
+                                                    column: 'headers',
+                                                    operator: 'like',
+                                                    value: val,
                                                 },
-                                                operator: "or",
+                                                operator: 'or',
                                                 right: {
-                                                    column: "method",
-                                                    operator: "like",
-                                                    value: val
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                                    column: 'method',
+                                                    operator: 'like',
+                                                    value: val,
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
                             });
                         }
 
-                        var addRightmost = function(filter, val) {
-                            if (filter.right != null)
-                                addRightmost(filter.right, val);
+                        var addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
@@ -98,8 +102,8 @@ angular
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     };
                                 } else {
                                     filter = filters[i];
@@ -111,8 +115,8 @@ angular
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     });
                                 }
                             }
@@ -120,25 +124,30 @@ angular
                         return filter;
                     };
 
-                    
-                    $scope.getHooks = function() {
+                    $scope.getHooks = function () {
                         var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
-                        return WebHookService1.ListHooks(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                        return WebHookService1.ListHooks(
+                            offset,
+                            $scope.listService.pageSize,
+                            $scope.listService.columns,
+                            $scope.listService.order,
+                            filter,
+                        );
                     };
 
-                    $scope.getHooksCount = function() {
+                    $scope.getHooksCount = function () {
                         var filter = $scope.getFilter();
 
                         return WebHookService1.CountHooks(filter);
                     };
 
-                    $scope.updated = function() {
-                        $scope.getHooksCount().then(function(data) {
+                    $scope.updated = function () {
+                        $scope.getHooksCount().then(function (data) {
                             $scope.itemCount = data;
-                            
-                            $scope.getHooks().then(function(data) {
+
+                            $scope.getHooks().then(function (data) {
                                 $scope.webhooks = data;
                                 //$scope.resetForms();
                                 $scope.updating = false;
@@ -146,8 +155,8 @@ angular
                             });
                         });
                     };
-                    
-                    $scope.refresh = function() {
+
+                    $scope.refresh = function () {
                         $scope.updating = true;
                         $scope.updated();
                     };
@@ -155,32 +164,31 @@ angular
                     $scope.refresh();
 
                     $scope.openCreate = function () {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'CreateModal.html',
-                            size: "lg",
+                            size: 'lg',
                             controller: function ($scope, $modalInstance) {
                                 $scope.object = {};
                                 $scope.events = [];
                                 var currentEvent = {};
 
                                 $scope.ok = function () {
-                                    $modalInstance.close({obj: $scope.object, events: $scope.events});
+                                    $modalInstance.close({ obj: $scope.object, events: $scope.events });
                                 };
 
                                 //Build a map of selected events
                                 //currentEvent[object.eventid] = object.eventid;
 
                                 var p = EventService1.GetAccessibleEvents();
-                                p.then(function(events){
+                                p.then(function (events) {
                                     $scope.events = [];
-                                    angular.forEach(events, function(event){
+                                    angular.forEach(events, function (event) {
                                         event.selected = angular.isDefined(currentEvent[event.id]);
                                         $scope.events.push(event);
                                     });
                                 });
 
-                                $scope.selectEvent = function(event){
+                                $scope.selectEvent = function (event) {
                                     event.selected = !event.selected;
                                     $scope.eventDirty = true;
                                 };
@@ -188,7 +196,7 @@ angular
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (arg) {
@@ -198,25 +206,34 @@ angular
                             $scope.pendingUpdate = 0;
 
                             var selectedEventid = null;
-                            angular.forEach(events, function(event){
-                                if (event.selected){
+                            angular.forEach(events, function (event) {
+                                if (event.selected) {
                                     selectedEventid = event.id;
                                 }
                             });
 
                             $scope.pendingUpdate += 1;
-                            WebHookService1.CreateHook(object.name, object.description, false, object.url, object.translation, object.headers, object.method, selectedEventid)
-                                .then(function() { $scope.pendingUpdate -= 1; });
+                            WebHookService1.CreateHook(
+                                object.name,
+                                object.description,
+                                false,
+                                object.url,
+                                object.translation,
+                                object.headers,
+                                object.method,
+                                selectedEventid,
+                            ).then(function () {
+                                $scope.pendingUpdate -= 1;
+                            });
 
                             $scope.checkUpdated();
                         });
                     };
 
                     $scope.openEdit = function (object) {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'EditModal.html',
-                            size: "lg",
+                            size: 'lg',
                             controller: function ($scope, $modalInstance) {
                                 $scope.object = object;
                                 $scope.privileges = [];
@@ -225,23 +242,23 @@ angular
                                 var currentEvent = {};
 
                                 $scope.ok = function () {
-                                    $modalInstance.close({obj: $scope.object, privs: $scope.privileges, events: $scope.events});
+                                    $modalInstance.close({ obj: $scope.object, privs: $scope.privileges, events: $scope.events });
                                 };
 
                                 //Build a map of selected privileges
-                                angular.forEach(object.privileges, function(prefPriv){
+                                angular.forEach(object.privileges, function (prefPriv) {
                                     currentPriv[prefPriv.code] = prefPriv;
                                 });
                                 var promise = PrivilegeService1.GetAllPrivileges();
-                                promise.then(function(privileges){
+                                promise.then(function (privileges) {
                                     $scope.privileges = [];
-                                    angular.forEach(privileges, function(privilege){
+                                    angular.forEach(privileges, function (privilege) {
                                         privilege.selected = angular.isDefined(currentPriv[privilege.code]);
                                         $scope.privileges.push(privilege);
                                     });
                                 });
 
-                                $scope.togglePrivilege = function(privilege){
+                                $scope.togglePrivilege = function (privilege) {
                                     privilege.selected = !privilege.selected;
                                     $scope.privilegeDirty = true;
                                 };
@@ -250,27 +267,26 @@ angular
                                 currentEvent[object.eventid] = object.eventid;
 
                                 var p = EventService1.GetAccessibleEvents();
-                                p.then(function(events){
+                                p.then(function (events) {
                                     $scope.events = [];
-                                    angular.forEach(events, function(event){
+                                    angular.forEach(events, function (event) {
                                         event.selected = angular.isDefined(currentEvent[event.id]);
                                         $scope.events.push(event);
                                     });
                                 });
 
-                                $scope.selectEvent = function(event){
-                                    angular.forEach($scope.events, function(evt) {
+                                $scope.selectEvent = function (event) {
+                                    angular.forEach($scope.events, function (evt) {
                                         evt.selected = false;
                                     });
                                     event.selected = !event.selected;
                                     $scope.eventDirty = true;
                                 };
 
-
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (arg) {
@@ -281,26 +297,38 @@ angular
                             $scope.pendingUpdate = 0;
 
                             var selectedEventid = null;
-                            angular.forEach(events, function(event){
-                                if (event.selected){
+                            angular.forEach(events, function (event) {
+                                if (event.selected) {
                                     selectedEventid = event.id;
                                 }
                             });
 
                             $scope.pendingUpdate += 1;
-                            WebHookService1.UpdateHook(object.id, object.name, object.description, object.enabled, object.url, object.translation, object.headers, object.method, selectedEventid)
-                                .then(function() { $scope.checkUpdated(); $scope.pendingUpdate -= 1; });
+                            WebHookService1.UpdateHook(
+                                object.id,
+                                object.name,
+                                object.description,
+                                object.enabled,
+                                object.url,
+                                object.translation,
+                                object.headers,
+                                object.method,
+                                selectedEventid,
+                            ).then(function () {
+                                $scope.checkUpdated();
+                                $scope.pendingUpdate -= 1;
+                            });
 
                             var codes = [];
-                            angular.forEach(privileges, function(priv){
-                                if (priv.selected){
+                            angular.forEach(privileges, function (priv) {
+                                if (priv.selected) {
                                     codes.push(priv.code);
                                 }
                             });
 
                             $scope.updating = true;
                             $scope.pendingUpdate += 1;
-                            WebHookService1.PutHookPrivileges(object.id, codes).then(function(){
+                            WebHookService1.PutHookPrivileges(object.id, codes).then(function () {
                                 $scope.privilegeDirty = false;
 
                                 $scope.checkUpdated();
@@ -312,10 +340,9 @@ angular
                     };
 
                     $scope.openDelete = function (object) {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'DeleteModal.html',
-                            size: "sm",
+                            size: 'sm',
                             controller: function ($scope, $modalInstance) {
                                 $scope.object = object;
                                 $scope.ok = function () {
@@ -325,7 +352,7 @@ angular
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (object) {
@@ -333,21 +360,21 @@ angular
                             $scope.pendingUpdate = 0;
 
                             $scope.pendingUpdate += 1;
-                            WebHookService1.DeleteHook(object.id)
-                                .then(function() { $scope.pendingUpdate -= 1; });
+                            WebHookService1.DeleteHook(object.id).then(function () {
+                                $scope.pendingUpdate -= 1;
+                            });
 
                             $scope.checkUpdated();
                         });
                     };
 
                     $scope.openEnableDisable = function (object) {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'EnableDisableModal.html',
-                            size: "sm",
+                            size: 'sm',
                             controller: function ($scope, $modalInstance) {
                                 $scope.object = object;
-                                $scope.enable = object.enabled ? "Disable" : "Enable";
+                                $scope.enable = object.enabled ? 'Disable' : 'Enable';
                                 $scope.ok = function () {
                                     $modalInstance.close($scope.object);
                                 };
@@ -355,7 +382,7 @@ angular
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (object) {
@@ -363,12 +390,15 @@ angular
                             $scope.pendingUpdate = 0;
 
                             $scope.pendingUpdate += 1;
-                            WebHookService1.EnableHook(object.id, !object.enabled)
-                                .then(function() { $scope.pendingUpdate -= 1; });
+                            WebHookService1.EnableHook(object.id, !object.enabled).then(function () {
+                                $scope.pendingUpdate -= 1;
+                            });
 
                             $scope.checkUpdated();
                         });
                     };
-                }]
-            });
-    }]);
+                },
+            ],
+        });
+    },
+]);

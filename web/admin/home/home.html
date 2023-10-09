@@ -28,9 +28,7 @@
             </a>
             <div ng-show="showAccounts">
                 <div class="row" ng-repeat="account in pendingAccounts">
-                    <div class="col-lg-12">
-                        {{account.created | date}} <a ui-sref="admin.profile({userId: account.id})">{{account.email}}</a>
-                    </div>
+                    <div class="col-lg-12">{{account.created | date}} <a ui-sref="admin.profile({userId: account.id})">{{account.email}}</a></div>
                 </div>
             </div>
         </div>
@@ -57,9 +55,7 @@
             </a>
             <div ng-show="showPayments">
                 <div class="row" ng-repeat="payment in paymentExceptions">
-                    <div class="col-lg-12">
-                        {{payment.date}} {{payment.payer_email}} ${{payment.rate_amount}}
-                    </div>
+                    <div class="col-lg-12">{{payment.date}} {{payment.payer_email}} ${{payment.rate_amount}}</div>
                 </div>
             </div>
         </div>

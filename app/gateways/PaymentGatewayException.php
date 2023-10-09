@@ -8,8 +8,5 @@
 
 namespace app\gateways;
 
-
-class PaymentGatewayException extends \Exception
-{
-
+class PaymentGatewayException extends \Exception {
 }

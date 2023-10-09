@@ -8,4 +8,5 @@
 
 namespace vhs\database\exceptions;
 
-class DatabaseConnectionException extends DatabaseException {}
+class DatabaseConnectionException extends DatabaseException {
+}

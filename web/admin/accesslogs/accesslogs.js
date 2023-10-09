@@ -1,25 +1,27 @@
 'use strict';
 
-angular
-    .module('mmpApp.admin')
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('admin.accesslogs', {
-                parent: "admin",
-                url: '/admin/accesslogs',
-                templateUrl: 'admin/accesslogs/accesslogs.html',
-                controller: ['$scope', 'AuthService1', function($scope, AuthService1) {
+angular.module('mmpApp.admin').config([
+    '$stateProvider',
+    function ($stateProvider) {
+        $stateProvider.state('admin.accesslogs', {
+            parent: 'admin',
+            url: '/admin/accesslogs',
+            templateUrl: 'admin/accesslogs/accesslogs.html',
+            controller: [
+                '$scope',
+                'AuthService1',
+                function ($scope, AuthService1) {
                     $scope.accesslogs = [];
                     $scope.itemCount = 0;
 
                     $scope.showUnauthorized = false;
-                    $scope.toggleUnauthorized = function(val) {
+                    $scope.toggleUnauthorized = function (val) {
                         $scope.showUnauthorized = val;
                         $scope.refresh();
                     };
 
                     $scope.showOrphaned = false;
-                    $scope.toggleOrphaned = function(val) {
+                    $scope.toggleOrphaned = function (val) {
                         $scope.showOrphaned = val;
                         $scope.refresh();
                     };
@@ -28,78 +30,77 @@ angular
                         page: 1,
                         pageSize: 10,
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
-                        columns: "id,key,type,authorized,from_ip,time,userid",
-                        order: "time desc",
-                        search: null
+                        columns: 'id,key,type,authorized,from_ip,time,userid',
+                        order: 'time desc',
+                        search: null,
                     };
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
 
-                    $scope.checkUpdated = function() {
-                        if($scope.pendingUpdate <= 0) {
+                    $scope.checkUpdated = function () {
+                        if ($scope.pendingUpdate <= 0) {
                             $scope.updated();
                         } else {
                             $timeout($scope.checkUpdated, 10);
                         }
                     };
 
-                    $scope.getFilter = function() {
+                    $scope.getFilter = function () {
                         var filter = null;
                         var filters = [];
 
                         if ($scope.showUnauthorized) {
                             filters.push({
-                                column: "authorized",
-                                operator: "=",
-                                value: "0"
+                                column: 'authorized',
+                                operator: '=',
+                                value: '0',
                             });
                         }
 
-                        if ($scope.listService.search != null && $scope.listService.search != "") {
-                            var val = "%" + $scope.listService.search + "%";
+                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                            var val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
-                                    column: "userid",
-                                    operator: "like",
-                                    value: val
+                                    column: 'userid',
+                                    operator: 'like',
+                                    value: val,
                                 },
-                                operator: "or",
+                                operator: 'or',
                                 right: {
                                     left: {
-                                        column: "key",
-                                        operator: "like",
-                                        value: val
+                                        column: 'key',
+                                        operator: 'like',
+                                        value: val,
                                     },
-                                    operator: "or",
+                                    operator: 'or',
                                     right: {
                                         left: {
-                                            column: "type",
-                                            operator: "like",
-                                            value: val
+                                            column: 'type',
+                                            operator: 'like',
+                                            value: val,
                                         },
-                                        operator: "or",
+                                        operator: 'or',
                                         right: {
                                             left: {
-                                                column: "from_ip",
-                                                operator: "like",
-                                                value: val
+                                                column: 'from_ip',
+                                                operator: 'like',
+                                                value: val,
                                             },
-                                            operator: "or",
+                                            operator: 'or',
                                             right: {
-                                                column: "time",
-                                                operator: "like",
-                                                value: val
-                                            }
-                                        }
-                                    }
-                                }
+                                                column: 'time',
+                                                operator: 'like',
+                                                value: val,
+                                            },
+                                        },
+                                    },
+                                },
                             });
                         }
 
-                        var addRightmost = function(filter, val) {
-                            if (filter.right != null)
-                                addRightmost(filter.right, val);
+                        var addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
@@ -108,8 +109,8 @@ angular
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     };
                                 } else {
                                     filter = filters[i];
@@ -121,34 +122,40 @@ angular
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     });
                                 }
                             }
                         }
 
                         return filter;
-                    }
-
-                    $scope.getAccessLogs = function() {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize;
-
-                        return AuthService1.ListAccessLog(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
                     };
 
-                    $scope.getAccessCount = function() {
+                    $scope.getAccessLogs = function () {
                         var filter = $scope.getFilter();
-                    
+                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+
+                        return AuthService1.ListAccessLog(
+                            offset,
+                            $scope.listService.pageSize,
+                            $scope.listService.columns,
+                            $scope.listService.order,
+                            filter,
+                        );
+                    };
+
+                    $scope.getAccessCount = function () {
+                        var filter = $scope.getFilter();
+
                         return AuthService1.CountAccessLog(filter);
                     };
 
-                    $scope.updated = function() {
-                        $scope.getAccessCount().then(function(data) {
+                    $scope.updated = function () {
+                        $scope.getAccessCount().then(function (data) {
                             $scope.itemCount = data;
 
-                            $scope.getAccessLogs().then(function(data) {
+                            $scope.getAccessLogs().then(function (data) {
                                 $scope.accesslogs = data;
                                 //$scope.resetForms();
                                 $scope.updating = false;
@@ -157,12 +164,14 @@ angular
                         });
                     };
 
-                    $scope.refresh = function() {
+                    $scope.refresh = function () {
                         $scope.updating = true;
                         $scope.updated();
                     };
 
                     $scope.refresh();
-                }]
-            });
-    }]);
+                },
+            ],
+        });
+    },
+]);

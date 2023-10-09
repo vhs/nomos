@@ -8,7 +8,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IPrivilegeService1;
 use app\domain\Privilege;
 use vhs\services\endpoints\Endpoint;
@@ -16,16 +15,15 @@ use vhs\services\Service;
 use vhs\services\ServiceRegistry;
 
 class PrivilegeService extends Service implements IPrivilegeService1 {
-
     public function GetAllSystemPermissions() {
-        $endpoints = ServiceRegistry::get("web")->getAllEndpoints();
+        $endpoints = ServiceRegistry::get('web')->getAllEndpoints();
 
-        $flatPerms = array();
+        $flatPerms = [];
 
         /** @var Endpoint $endpoint */
-        foreach($endpoints as $endpoint) {
-            foreach($endpoint->getAllPermissions() as $permissions) {
-                foreach($permissions as $set) {
+        foreach ($endpoints as $endpoint) {
+            foreach ($endpoint->getAllPermissions() as $permissions) {
+                foreach ($permissions as $set) {
                     array_push($flatPerms, ...$set);
                 }
             }
@@ -33,10 +31,11 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
         $flatPerms = array_unique($flatPerms);
 
-        $retval = array();
+        $retval = [];
 
-        foreach($flatPerms as $perm)
+        foreach ($flatPerms as $perm) {
             array_push($retval, $perm);
+        }
 
         return $retval;
     }
@@ -59,17 +58,17 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     }
 
     public function GetUserPrivileges($userid) {
-        $privileges = array();
+        $privileges = [];
         $userService = new UserService($this->context);
 
         $user = $userService->GetUser($userid);
 
-        if(!is_null($user)) {
-            foreach($user->privileges->all() as $privilege) {
+        if (!is_null($user)) {
+            foreach ($user->privileges->all() as $privilege) {
                 array_push($privileges, $privilege);
             }
 
-            foreach($user->membership->privileges->all() as $privilege) {
+            foreach ($user->membership->privileges->all() as $privilege) {
                 array_push($privileges, $privilege);
             }
         }
@@ -84,8 +83,9 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     public function CreatePrivilege($name, $code, $description, $icon, $enabled) {
         $privs = Privilege::findByCode($code);
 
-        if(count($privs) <> 0)
-            throw new \Exception("Privilege already exists with that code");
+        if (count($privs) != 0) {
+            throw new \Exception('Privilege already exists with that code');
+        }
 
         $priv = new Privilege();
 

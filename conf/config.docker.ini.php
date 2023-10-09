@@ -5,13 +5,13 @@ require_once 'env.php';
 /**
  * Database Constants - these constants refer to
  * the database configuration settings.
-*/
+ */
 define('DB_SERVER', NOMOS_DB_SERVER);
 define('DB_USER', NOMOS_DB_USER);
 define('DB_PASS', NOMOS_DB_PASSWORD);
 define('DB_DATABASE', NOMOS_DB_DATABASE);
 
-if(!defined('NOMOS_FROM_EMAIL')) {
+if (!defined('NOMOS_FROM_EMAIL')) {
     define('NOMOS_FROM_EMAIL', 'membership@vanhack.ca');
 }
 
@@ -44,7 +44,7 @@ define('STRIPE_WEBHOOK_SECRET', NOMOS_STRIPE_WEBHOOK_SECRET);
 define('STRIPE_PRODUCTS', json_decode(NOMOS_STRIPE_PRODUCTS, true));
 
 /**
-* Show MySql Errors.
-* Not recomended for live site. true/false
-*/
+ * Show MySql Errors.
+ * Not recomended for live site. true/false
+ */
 define('DEBUG', false);

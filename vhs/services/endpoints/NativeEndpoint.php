@@ -8,10 +8,20 @@
 
 namespace vhs\services\endpoints;
 
-
 class NativeEndpoint extends Endpoint {
-    public function serializeOutput($data) { return $data; }
-    public function deserializeOutput($data) { return $data; }
-    public function deserializeInput($data) { return $data; }
-    public function serializeInput($data) { return $data; }
+    public function serializeOutput($data) {
+        return $data;
+    }
+
+    public function deserializeOutput($data) {
+        return $data;
+    }
+
+    public function deserializeInput($data) {
+        return $data;
+    }
+
+    public function serializeInput($data) {
+        return $data;
+    }
 }

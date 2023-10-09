@@ -11,7 +11,6 @@ namespace app\contracts;
 use vhs\services\IContract;
 
 interface IEmailService1 extends IContract {
-
     /**
      * @permission administrator
      * @param $id
@@ -103,5 +102,4 @@ interface IEmailService1 extends IContract {
      * @return mixed
      */
     public function CountTemplates($filters);
-
 }

@@ -8,43 +8,40 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
-interface IEventService1 extends IContract
-{
+interface IEventService1 extends IContract {
+    /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    public function GetEvents();
 
     /**
      * @permission webhook|administrator
      * @return mixed
      */
-    function GetEvents();
-
-    /**
-     * @permission webhook|administrator
-     * @return mixed
-     */
-    function GetDomainDefinitions();
+    public function GetDomainDefinitions();
 
     /**
      * @permission webhook|administrator
      * @param $domain
      * @return mixed
      */
-    function GetDomainDefinition($domain);
+    public function GetDomainDefinition($domain);
 
     /**
      * @permission user
      * @return mixed
      */
-    function GetAccessibleEvents();
+    public function GetAccessibleEvents();
 
     /**
      * @permission administrator
      * @param $id
      * @return mixed
      */
-    function GetEvent($id);
+    public function GetEvent($id);
 
     /**
      * @permission administrator
@@ -55,7 +52,7 @@ interface IEventService1 extends IContract
      * @param $enabled
      * @return mixed
      */
-    function CreateEvent($name, $domain, $event, $description, $enabled);
+    public function CreateEvent($name, $domain, $event, $description, $enabled);
 
     /**
      * @permission administrator
@@ -63,7 +60,7 @@ interface IEventService1 extends IContract
      * @param $enabled
      * @return mixed
      */
-    function EnableEvent($id, $enabled);
+    public function EnableEvent($id, $enabled);
 
     /**
      * @permission administrator
@@ -71,7 +68,7 @@ interface IEventService1 extends IContract
      * @param $privileges
      * @return mixed
      */
-    function PutEventPrivileges($id, $privileges);
+    public function PutEventPrivileges($id, $privileges);
 
     /**
      * @permission administrator
@@ -83,14 +80,14 @@ interface IEventService1 extends IContract
      * @param $enabled
      * @return mixed
      */
-    function UpdateEvent($id, $name, $domain, $event, $description, $enabled);
+    public function UpdateEvent($id, $name, $domain, $event, $description, $enabled);
 
     /**
      * @permission administrator
      * @param $id
      * @return mixed
      */
-    function DeleteEvent($id);
+    public function DeleteEvent($id);
 
     /**
      * @permission webhook|administrator
@@ -109,5 +106,4 @@ interface IEventService1 extends IContract
      * @return mixed
      */
     public function CountEvents($filters);
-
 }

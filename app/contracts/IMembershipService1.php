@@ -5,11 +5,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IMembershipService1 extends IContract {
-
     /**
      * @permission administrator
      * @param $title
@@ -22,7 +20,6 @@ interface IMembershipService1 extends IContract {
      * @return mixed
      */
     public function Create($title, $description, $price, $code, $days, $period);
-
 
     /**
      * @permission administrator

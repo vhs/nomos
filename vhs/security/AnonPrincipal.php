@@ -8,13 +8,13 @@
 
 namespace vhs\security;
 
-
 class AnonPrincipal implements IPrincipal {
-
     public function hasAllPermissions(...$permission) {
-        if(count($permission) == 1)
-            if($permission[0] == 'anonymous')
+        if (count($permission) == 1) {
+            if ($permission[0] == 'anonymous') {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -23,8 +23,13 @@ class AnonPrincipal implements IPrincipal {
         return in_array('anonymous', $permission);
     }
 
-    public function canGrantAllPermissions(...$permission) { return false; }
-    public function canGrantAnyPermissions(...$permission) { return false; }
+    public function canGrantAllPermissions(...$permission) {
+        return false;
+    }
+
+    public function canGrantAnyPermissions(...$permission) {
+        return false;
+    }
 
     public function getIdentity() {
         return null;
@@ -35,6 +40,6 @@ class AnonPrincipal implements IPrincipal {
     }
 
     public function __toString() {
-        return "anon";
+        return 'anon';
     }
 }

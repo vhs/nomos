@@ -8,14 +8,12 @@
 
 namespace tests\domain;
 
-
 use tests\schema\EnchantmentSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
 class Enchantment extends Domain {
-
-    static function Define() {
+    public static function Define() {
         Enchantment::Schema(EnchantmentSchema::Type());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.

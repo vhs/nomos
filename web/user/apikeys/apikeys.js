@@ -1,28 +1,35 @@
 'use strict';
 
-angular
-    .module('mmpApp.user')
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('user.apikeys', {
-                parent: "user",
-                url: '/apikeys/',
-                templateUrl: 'user/apikeys/apikeys.html',
-                resolve: {
-                    keys: ['currentUser', 'ApiKeyService1', function(currentUser, ApiKeyService1) {
-                        return ApiKeyService1.GetUserApiKeys(currentUser.id).then(function(data) {
+angular.module('mmpApp.user').config([
+    '$stateProvider',
+    function ($stateProvider) {
+        $stateProvider.state('user.apikeys', {
+            parent: 'user',
+            url: '/apikeys/',
+            templateUrl: 'user/apikeys/apikeys.html',
+            resolve: {
+                keys: [
+                    'currentUser',
+                    'ApiKeyService1',
+                    function (currentUser, ApiKeyService1) {
+                        return ApiKeyService1.GetUserApiKeys(currentUser.id).then(function (data) {
                             return data;
                         });
-                    }]
-                },
-                controller: ['$scope', '$modal', 'keys', 'ApiKeyService1', function($scope, $modal, keys, ApiKeyService1) {
+                    },
+                ],
+            },
+            controller: [
+                '$scope',
+                '$modal',
+                'keys',
+                'ApiKeyService1',
+                function ($scope, $modal, keys, ApiKeyService1) {
                     $scope.keys = keys;
 
                     $scope.openGenerateKey = function () {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'GenerateUserApiKeyModal.html',
-                            size: "sm",
+                            size: 'sm',
                             controller: function ($scope, $modalInstance) {
                                 $scope.ok = function () {
                                     $modalInstance.close($scope.newApiKeyNotes);
@@ -31,21 +38,20 @@ angular
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (newApiKeyNotes) {
-                            ApiKeyService1.GenerateUserApiKey($scope.currentUser.id, newApiKeyNotes).then(function(data) {
+                            ApiKeyService1.GenerateUserApiKey($scope.currentUser.id, newApiKeyNotes).then(function (data) {
                                 $scope.keys.push(data);
                             });
                         });
                     };
 
                     $scope.openDeleteApiKey = function (key) {
-
                         var modalInstance = $modal.open({
                             templateUrl: 'DeleteUserApiKeyModal.html',
-                            size: "sm",
+                            size: 'sm',
                             controller: function ($scope, $modalInstance) {
                                 $scope.key = key;
                                 $scope.ok = function () {
@@ -55,19 +61,19 @@ angular
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');
                                 };
-                            }
+                            },
                         });
 
                         modalInstance.result.then(function (key) {
-                            ApiKeyService1.DeleteApiKey(key.id).then(function(data) {
-                                for(var i = 0; i < $scope.keys.length; i++) {
-                                    if($scope.keys[i].id == key.id)
-                                        $scope.keys.splice(i, 1);
+                            ApiKeyService1.DeleteApiKey(key.id).then(function (data) {
+                                for (var i = 0; i < $scope.keys.length; i++) {
+                                    if ($scope.keys[i].id == key.id) $scope.keys.splice(i, 1);
                                 }
                             });
                         });
                     };
-
-                }]
-            });
-    }]);
+                },
+            ],
+        });
+    },
+]);

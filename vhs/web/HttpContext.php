@@ -8,11 +8,9 @@
 
 namespace vhs\web;
 
-
 use vhs\Singleton;
 
 class HttpContext extends Singleton {
-
     private static $server;
 
     public static function Init(HttpServer $server) {
@@ -24,8 +22,9 @@ class HttpContext extends Singleton {
      * @throws \Exception
      */
     public static function Server() {
-        if(!isset(HttpContext::$server))
-            throw new \Exception("Missing server in context");
+        if (!isset(HttpContext::$server)) {
+            throw new \Exception('Missing server in context');
+        }
 
         return HttpContext::$server;
     }

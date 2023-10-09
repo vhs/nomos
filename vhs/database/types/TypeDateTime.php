@@ -8,9 +8,7 @@
 
 namespace vhs\database\types;
 
-
 class TypeDateTime extends Type {
-
     public function generateType(ITypeGenerator $generator, $value = null) {
         return $generator->generateDateTime($this, $value);
     }

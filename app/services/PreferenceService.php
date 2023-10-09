@@ -8,21 +8,18 @@
 
 namespace app\services;
 
-
 use app\contracts\IPreferenceService1;
 use app\domain\Privilege;
 use app\domain\SystemPreference;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
-class PreferenceService extends Service implements IPreferenceService1
-{
+class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      * @return mixed
      */
-    public function GetAllSystemPreferences()
-    {
+    public function GetAllSystemPreferences() {
         return SystemPreference::findAll();
     }
 
@@ -31,18 +28,19 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $key
      * @return mixed
      */
-    public function SystemPreference($key)
-    {
-        $prefs = SystemPreference::findByKey($key, function($privileges) {
-            $codes = array();
-            foreach($privileges->all() as $priv)
+    public function SystemPreference($key) {
+        $prefs = SystemPreference::findByKey($key, function ($privileges) {
+            $codes = [];
+            foreach ($privileges->all() as $priv) {
                 array_push($codes, $priv->code);
+            }
 
             return CurrentUser::hasAllPermissions(...$codes);
         });
 
-        if (count($prefs) != 1)
+        if (count($prefs) != 1) {
             return null;
+        }
 
         return $prefs[0];
     }
@@ -53,16 +51,16 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $value
      * @return mixed
      */
-    public function PutSystemPreference($key, $value, $enabled, $notes)
-    {
+    public function PutSystemPreference($key, $value, $enabled, $notes) {
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
 
-        if (count($prefs) != 1)
+        if (count($prefs) != 1) {
             $pref = new SystemPreference();
-        else
+        } else {
             $pref = $prefs[0];
+        }
 
         $pref->key = $key;
         $pref->value = $value;
@@ -80,14 +78,14 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $enabled
      * @return mixed
      */
-    public function UpdateSystemPreferenceEnabled($key, $enabled)
-    {
+    public function UpdateSystemPreferenceEnabled($key, $enabled) {
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
 
-        if (count($prefs) != 1)
+        if (count($prefs) != 1) {
             return;
+        }
 
         $pref = $prefs[0];
 
@@ -103,26 +101,28 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $privileges
      * @return mixed
      */
-    public function PutSystemPreferencePrivileges($id, $privileges)
-    {
+    public function PutSystemPreferencePrivileges($id, $privileges) {
         $pref = SystemPreference::find($id);
 
-        if (is_null($pref))
+        if (is_null($pref)) {
             return;
+        }
 
         $privArray = $privileges;
 
-        if(!is_array($privArray)) {
-            $privArray = explode(",", $privileges);
+        if (!is_array($privArray)) {
+            $privArray = explode(',', $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach($pref->privileges->all() as $priv)
+        foreach ($pref->privileges->all() as $priv) {
             $pref->privileges->remove($priv);
+        }
 
-        foreach($privs as $priv)
+        foreach ($privs as $priv) {
             $pref->privileges->add($priv);
+        }
 
         $pref->save();
     }
@@ -134,12 +134,12 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $value
      * @return mixed
      */
-    public function UpdateSystemPreference($id, $key, $value, $enabled, $notes)
-    {
+    public function UpdateSystemPreference($id, $key, $value, $enabled, $notes) {
         $pref = SystemPreference::find($id);
 
-        if (is_null($pref))
+        if (is_null($pref)) {
             return;
+        }
 
         $pref->key = $key;
         $pref->value = $value;
@@ -156,15 +156,16 @@ class PreferenceService extends Service implements IPreferenceService1
      * @param $key
      * @return mixed
      */
-    public function DeleteSystemPreference($key)
-    {
+    public function DeleteSystemPreference($key) {
         $prefs = SystemPreference::findByKey($key);
 
-        if (is_null($prefs) || count($prefs) <= 0)
+        if (is_null($prefs) || count($prefs) <= 0) {
             return;
+        }
 
-        foreach($prefs as $pref)
+        foreach ($prefs as $pref) {
             $pref->delete();
+        }
     }
 
     /**

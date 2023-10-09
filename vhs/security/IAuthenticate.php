@@ -8,9 +8,9 @@
 
 namespace vhs\security;
 
-
 interface IAuthenticate {
     public static function login(ICredentials $credentials);
+
     public static function logout();
 
     /**

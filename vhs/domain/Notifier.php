@@ -8,30 +8,34 @@
 
 namespace vhs\domain;
 
-
 class Notifier {
     private static $__staticListeners;
     private $__listeners;
 
     private function __ensureListeners($event) {
-        if(is_null($this->__listeners))
-            $this->__listeners = array();
+        if (is_null($this->__listeners)) {
+            $this->__listeners = [];
+        }
 
-        if(!isset($this->__listeners[$event]))
-            $this->__listeners[$event] = array();
+        if (!isset($this->__listeners[$event])) {
+            $this->__listeners[$event] = [];
+        }
     }
 
     private static function __ensureStaticListeners($event) {
-        if(is_null(self::$__staticListeners))
-            self::$__staticListeners = array();
+        if (is_null(self::$__staticListeners)) {
+            self::$__staticListeners = [];
+        }
 
         $class = get_called_class();
 
-        if(!isset(self::$__staticListeners[$class]))
-            self::$__staticListeners[$class] = array();
+        if (!isset(self::$__staticListeners[$class])) {
+            self::$__staticListeners[$class] = [];
+        }
 
-        if(!isset(self::$__staticListeners[$class][$event]))
-            self::$__staticListeners[$class][$event] = array();
+        if (!isset(self::$__staticListeners[$class][$event])) {
+            self::$__staticListeners[$class][$event] = [];
+        }
     }
 
     protected function on($event, callable $listener) {
@@ -51,7 +55,7 @@ class Notifier {
     protected function raise($event, ...$args) {
         $this->__ensureListeners($event);
 
-        foreach($this->__listeners[$event] as $listener) {
+        foreach ($this->__listeners[$event] as $listener) {
             $listener($args);
         }
     }
@@ -61,7 +65,7 @@ class Notifier {
 
         $class = get_called_class();
 
-        foreach(self::$__staticListeners[$class][$event] as $listener) {
+        foreach (self::$__staticListeners[$class][$event] as $listener) {
             $listener($args);
         }
     }

@@ -12,7 +12,6 @@ use vhs\database\Column;
 use vhs\database\Table;
 
 class WhereComparator extends Where {
-
     public $isArray = false;
     public $equal = true;
     public $greater = false;
@@ -43,31 +42,37 @@ class WhereComparator extends Where {
     }
 
     public function __toString() {
-        $s = "WhereComparator(";
+        $s = 'WhereComparator(';
 
         $s .= $this->column->name;
 
-        if ($this->null_compare)
-            $s .= " null_compare ";
+        if ($this->null_compare) {
+            $s .= ' null_compare ';
+        }
 
-        if ($this->greater)
-            $s .= " greater ";
+        if ($this->greater) {
+            $s .= ' greater ';
+        }
 
-        if ($this->lesser)
-            $s .= " lesser ";
+        if ($this->lesser) {
+            $s .= ' lesser ';
+        }
 
-        if ($this->equal)
-            $s .= " equal ";
+        if ($this->equal) {
+            $s .= ' equal ';
+        }
 
-        if ($this->like)
-            $s .= " like ";
+        if ($this->like) {
+            $s .= ' like ';
+        }
 
-        if ($this->isArray)
-            $s .= "(" . implode(", ", $this->value) . ")";
-        else
-            $s .= "" . $this->value;
+        if ($this->isArray) {
+            $s .= '(' . implode(', ', $this->value) . ')';
+        } else {
+            $s .= '' . $this->value;
+        }
 
-        $s .= ")";
+        $s .= ')';
 
         return $s;
     }

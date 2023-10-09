@@ -2,7 +2,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IMembershipService1;
 use app\domain\Membership;
 use app\domain\Privilege;
@@ -15,9 +14,8 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class MembershipService extends Service implements IMembershipService1 {
-
     public function Create($title, $description, $price, $code, $days, $period) {
-        return array();
+        return [];
     }
 
     public function GetAll() {
@@ -39,7 +37,7 @@ class MembershipService extends Service implements IMembershipService1 {
         $membership->period = $period;
 
         $membership->save();
-        
+
         return $membership;
     }
 
@@ -47,7 +45,7 @@ class MembershipService extends Service implements IMembershipService1 {
         $membership = $this->Get($membershipId);
 
         $membership->private = $private;
-        
+
         $membership->save();
     }
 
@@ -55,7 +53,7 @@ class MembershipService extends Service implements IMembershipService1 {
         $membership = $this->Get($membershipId);
 
         $membership->recurring = $recurring;
-        
+
         $membership->save();
     }
 
@@ -63,7 +61,7 @@ class MembershipService extends Service implements IMembershipService1 {
         $membership = $this->Get($membershipId);
 
         $membership->trial = $trial;
-        
+
         $membership->save();
     }
 
@@ -71,7 +69,7 @@ class MembershipService extends Service implements IMembershipService1 {
         $membership = $this->Get($membershipId);
 
         $membership->active = $active;
-        
+
         $membership->save();
     }
 
@@ -80,17 +78,19 @@ class MembershipService extends Service implements IMembershipService1 {
 
         $privArray = $privileges;
 
-        if(!is_array($privArray)) {
-            $privArray = explode(",", $privileges);
+        if (!is_array($privArray)) {
+            $privArray = explode(',', $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach($membership->privileges->all() as $priv)
+        foreach ($membership->privileges->all() as $priv) {
             $membership->privileges->remove($priv);
+        }
 
-        foreach($privs as $priv)
+        foreach ($privs as $priv) {
             $membership->privileges->add($priv);
+        }
 
         $membership->save();
     }

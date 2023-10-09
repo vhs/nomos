@@ -8,7 +8,6 @@
 
 namespace app\endpoints\web;
 
-
 use app\services\AuthService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;

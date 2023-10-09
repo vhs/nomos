@@ -8,7 +8,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IKeyService1;
 use app\domain\Key;
 use app\domain\Privilege;
@@ -22,17 +21,18 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class KeyService extends Service implements IKeyService1 {
-
     public function GetSystemKeys() {
-        if(!CurrentUser::hasAnyPermissions("administrator"))
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
             throw new UnauthorizedException();
+        }
 
         return Key::where(Where::Null(Key::Schema()->Columns()->userid));
     }
 
     public function GetAllKeys() {
-        if(!CurrentUser::hasAnyPermissions("administrator"))
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
             throw new UnauthorizedException();
+        }
 
         return Key::findAll();
     }
@@ -40,24 +40,28 @@ class KeyService extends Service implements IKeyService1 {
     public function GetKey($keyid) {
         $key = Key::find($keyid);
 
-        if(is_null($key)) throw new \Exception("Invalid keyid");
+        if (is_null($key)) {
+            throw new \Exception('Invalid keyid');
+        }
 
-        if(!CurrentUser::hasAnyPermissions("administrator")) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity())
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
                 throw new UnauthorizedException();
+            }
         }
 
         return $key;
     }
 
     public function GetUserKeys($userid, $types) {
-        if(CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions("administrator")) {
+        if (CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions('administrator')) {
             $user = User::find($userid);
             if ($user != null) {
-                $keys = array();
-                foreach($user->keys->all() as $key) {
-                    if(in_array($key->type, $types))
+                $keys = [];
+                foreach ($user->keys->all() as $key) {
+                    if (in_array($key->type, $types)) {
                         array_push($keys, $key);
+                    }
                 }
 
                 return $keys;
@@ -68,27 +72,26 @@ class KeyService extends Service implements IKeyService1 {
     }
 
     public function GenerateUserKey($userid, $type, $value, $notes) {
-        if(CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions("administrator")) {
-
+        if (CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions('administrator')) {
             $user = User::find($userid);
 
-            if($user != null) {
+            if ($user != null) {
                 $key = new Key();
 
                 switch ($type) {
-                    case "rfid":
+                    case 'rfid':
                         $key->key = $value;
                         break;
-                    case "pin":
+                    case 'pin':
                         $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
-                        $key->key = sprintf("%04s", $nextpinid) . "|" . sprintf("%04s", rand(0, 9999));
-                        $key->privileges->add(Privilege::findByCode("inherit"));
+                        $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
+                        $key->privileges->add(Privilege::findByCode('inherit'));
                         break;
-                    case "api":
+                    case 'api':
                         $key->key = bin2hex(openssl_random_pseudo_bytes(32));
                         break;
                     default:
-                        throw new \Exception("Unsupported key type");
+                        throw new \Exception('Unsupported key type');
                 }
 
                 $key->notes = $notes;
@@ -119,18 +122,20 @@ class KeyService extends Service implements IKeyService1 {
 
         $privArray = $privileges;
 
-        if(!is_array($privArray)) {
-            $privArray = array();
+        if (!is_array($privArray)) {
+            $privArray = [];
             array_push($privArray, $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach($key->privileges->all() as $priv)
+        foreach ($key->privileges->all() as $priv) {
             $key->privileges->remove($priv);
+        }
 
-        foreach($privs as $priv)
+        foreach ($privs as $priv) {
             $key->privileges->add($priv);
+        }
 
         $key->save();
     }

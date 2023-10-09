@@ -8,7 +8,6 @@
 
 namespace app\endpoints\web;
 
-
 use app\services\PrivilegeService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;

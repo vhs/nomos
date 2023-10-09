@@ -8,11 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IAuthService1 extends IContract {
-
     /**
      * @permission anonymous
      * @return mixed
@@ -81,7 +79,7 @@ interface IAuthService1 extends IContract {
      * @return mixed
      */
     public function CountUserAccessLog($userid, $filters);
-    
+
     /**
      * @permission administrator
      * @param $page
