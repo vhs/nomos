@@ -41,7 +41,7 @@ class UserService extends Service implements IUserService1 {
 
         $hashedPassword = PasswordUtil::hash($password);
 
-        if (!PasswordUtil::checkValidString($hashedPassword)) {
+        if ($hashedPassword === null) {
             throw new \Exception('Invalid password hash');
         }
 
@@ -142,7 +142,7 @@ class UserService extends Service implements IUserService1 {
 
         $hashedPassword = PasswordUtil::hash($password);
 
-        if (!PasswordUtil::checkValidString($hashedPassword)) {
+        if ($hashedPassword === null) {
             throw new \Exception('Invalid password hash');
         }
 
@@ -179,7 +179,7 @@ class UserService extends Service implements IUserService1 {
 
         $hashedPassword = PasswordUtil::hash($password);
 
-        if (!PasswordUtil::checkValidString($hashedPassword)) {
+        if ($hashedPassword === null) {
             throw new \Exception('Invalid password hash');
         }
 
@@ -255,7 +255,7 @@ class UserService extends Service implements IUserService1 {
                 if (!is_null($user)) {
                     $hashedPassword = PasswordUtil::hash($password);
 
-                    if (!PasswordUtil::checkValidString($hashedPassword)) {
+                    if ($hashedPassword === null) {
                         throw new \Exception('Invalid password hash');
                     }
 
@@ -274,7 +274,7 @@ class UserService extends Service implements IUserService1 {
 
                 $hashedPassword = PasswordUtil::hash($password);
 
-                if (!PasswordUtil::checkValidString($hashedPassword)) {
+                if ($hashedPassword === null) {
                     throw new \Exception('Invalid password hash');
                 }
 

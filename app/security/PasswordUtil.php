@@ -246,6 +246,13 @@ class PasswordUtil {
         return $status === 0;
     }
 
+    /**
+     * check if a variable is a valid string
+     *
+     * @param any $testVal
+     *
+     * @return boolean
+     */
     public static function checkValidString($testVal) {
         gettype($testVal) === 'string' && $testVal !== '';
     }
