@@ -15,6 +15,9 @@ angular.module('mmpApp').factory('CurrentUser', [
                                     if (this.principal.permissions[i] == perm) return true;
                                 }
                             };
+
+                            user.valid = new Date(user.mem_expire) > new Date();
+
                             return user;
                         });
                     } else {
