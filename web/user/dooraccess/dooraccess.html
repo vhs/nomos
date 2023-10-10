@@ -2,12 +2,6 @@
 
 <h2>What you need to know:</h2>
 
-<h3>Entry</h3>
-
-<!-- <div ng-show="pin == null">
-    <p>You must set a PIN before you can access the space. Click the generate PIN on your <a ui-sref="user.profile">profile page</a> and set your desired PIN code. Keep it safe.</p>
-</div> -->
-
 <div ng-if="!currentUser.hasPrivilege('vetted')">
     <h3>Non-keyholders</h3>
     <p>If you're not yet a keyholder:</p>
@@ -24,29 +18,13 @@
     </ul>
 </div>
 
-<h3>Temporary Booking System</h3>
+<h3>Booking System</h3>
 
-<p>Due to COVID-19, VHS is currently operating at a lower capacity.</p>
-
-<p>Please follow policies outlined in the <a href="https://r.vanhack.ca/covid-plan">COVID-19 Safety Plan</a> and book using the system below.</p>
-
-<p>For easy access, you can also bookmark this through:</p>
+<p>While initially introduce over the COVID-19 pandemic, select tools and areas use the booking system.</p>
 
 <p><a href="https://booking.vanhack.ca/index.php/appointments">https://booking.vanhack.ca/index.php/appointments</a></p>
 
-<iframe
-    src="https://booking.vanhack.ca/index.php/appointments"
-    width="760px"
-    height="555px"
-    scrolling="auto"
-    frameborder="0"
-    allowtransparency="true"></iframe>
-
-<p>When you get to the space, all users (members and guests) must sign in through the contactless sign in system:</p>
-
-<p><a href="https://r.vanhack.ca/covid-signin">https://r.vanhack.ca/covid-signin</a></p>
-
-<div ng-if="currentUser.hasPrivilege('vetted') && pin != null">
+<div ng-if="currentUser.valid === true && currentUser.hasPrivilege('vetted')">
     <h3>Keyholders</h3>
 
     <p>Our RFID access system is happening, but will take a bit longer to get installed and tested.</p>
