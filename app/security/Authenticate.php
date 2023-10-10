@@ -222,29 +222,32 @@ class Authenticate extends Singleton implements IAuthenticate {
      */
     private static function buildPrincipal($user) {
         $membershipPrivs = [];
-
-        if (!is_null($user->membership)) {
-            $membershipPrivs = array_map(function ($privilege) {
-                return $privilege->code;
-            }, $user->membership->privileges->all());
-        }
-
-        $privileges = array_merge(
-            $membershipPrivs,
-            array_map(function ($privilege) {
-                return $privilege->code;
-            }, $user->privileges->all())
-        );
-
+        $privileges = [];
         $grants = [];
-        foreach ($privileges as $priv) {
-            if (strpos($priv, 'grant:') === 0) {
-                array_push($grants, substr($priv, 6));
-            }
-        }
 
-        if (count($grants) > 0) {
-            array_push($privileges, 'grants');
+        if ($user->valid) {
+            if (!is_null($user->membership)) {
+                $membershipPrivs = array_map(function ($privilege) {
+                    return $privilege->code;
+                }, $user->membership->privileges->all());
+            }
+
+            $privileges = array_merge(
+                $membershipPrivs,
+                array_map(function ($privilege) {
+                    return $privilege->code;
+                }, $user->privileges->all())
+            );
+
+            foreach ($privileges as $priv) {
+                if (strpos($priv, 'grant:') === 0) {
+                    array_push($grants, substr($priv, 6));
+                }
+            }
+
+            if (count($grants) > 0) {
+                array_push($privileges, 'grants');
+            }
         }
 
         array_push($privileges, 'user');
@@ -296,7 +299,6 @@ class Authenticate extends Singleton implements IAuthenticate {
             throw new InvalidCredentials('Incorrect username or password');
         }
 
-        $user = $users[0];
-        return $user;
+        return $users[0];
     }
 }

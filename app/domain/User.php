@@ -107,6 +107,15 @@ class User extends Domain {
     }
 
     /**
+     * Check if user account has expired
+     *
+     * @return boolean
+     */
+    private function hasExpired() {
+        return new DateTime($this->mem_expire) < new DateTime();
+    }
+
+    /**
      * Magic field interface method for 'valid'
      * @return boolean
      */
@@ -125,7 +134,7 @@ class User extends Domain {
         }
 
         // check if membership has expired
-        return new DateTime($this->mem_expire) > new DateTime();
+        return !$this->hasExpired();
     }
 
     /**
@@ -143,7 +152,7 @@ class User extends Domain {
         }
 
         // check if membership has expired
-        if (!(new DateTime($this->mem_expire) > new DateTime())) {
+        if ($this->hasExpired()) {
             return 'Account expired';
         }
 
