@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -57,7 +58,7 @@ class HttpServer {
 
         $this->request = HttpUtil::getCurrentRequest();
 
-        session_set_cookie_params(['SameSite' => 'Strict', 'HttpOnly' => 'true']);
+        session_set_cookie_params(['SameSite' => 'Lax', 'HttpOnly' => 'true']);
         session_start();
 
         $exception = null;
@@ -161,6 +162,7 @@ class HttpServer {
         }
 
         $self = $this;
+
         array_push($this->headerBuffer, function () use ($self, $string, $replace, $http_response_code) {
             if (headers_sent() === false) {
                 header($string, $replace, $http_response_code);
