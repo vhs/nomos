@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -52,13 +53,16 @@ class OAuthHelper {
             print 'Not logged in';
             exit();
         }
+
         //Update old keys even if they are assigned to other users
         $keys = Key::findKeyAndType($serviceUID, $serviceType);
+
         if (count($keys) > 0) {
             $key = $keys[0];
         } else {
             $key = new Key();
         }
+
         $key->key = $serviceUID;
         $key->userid = CurrentUser::getIdentity();
         $key->type = $serviceType;
@@ -73,7 +77,7 @@ class OAuthHelper {
     }
 
     public static function redirectHost() {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $protocol = defined('NOMOS_FORCE_HTTPS') || ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://'; // NOSONAR
         $domainName = $_SERVER['HTTP_HOST'];
         return $protocol . $domainName;
     }
