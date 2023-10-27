@@ -8,17 +8,17 @@
 
 namespace app\monitors;
 
-use app\domain\Membership;
-use app\domain\Payment;
-use app\domain\User;
-use app\processors\PaymentProcessor;
-use app\security\PasswordUtil;
-use app\services\EmailService;
-use app\services\UserService;
-use Aws\CloudFront\Exception\Exception;
 use DateTime;
 use vhs\Logger;
+use app\domain\User;
+use app\domain\Payment;
 use vhs\monitors\Monitor;
+use app\domain\Membership;
+use app\services\UserService;
+use app\security\PasswordUtil;
+use app\services\EmailService;
+use app\processors\PaymentProcessor;
+use Aws\CloudFront\Exception\Exception;
 
 class PaymentMonitor extends Monitor {
     /** @var PaymentProcessor */
