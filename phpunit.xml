@@ -1,24 +1,26 @@
-<phpunit bootstrap="tests/autoload.php">
-    <testsuites>
-        <testsuite name="nomos">
-            <directory phpVersion="7.0.0">tests/</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">app/</directory>
-            <directory suffix=".php">vhs/</directory>
-            <directory suffix=".php">../conf/</directory>
-            <exclude>
-                <file>app/include.php</file>
-                <file>app/app.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-    <php>
-        <includePath>.</includePath>
-        <includePath>conf/</includePath>
-        <includePath>app/</includePath>
-        <includePath>vhs/</includePath>
-    </php>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <coverage/>
+  <testsuites>
+    <testsuite name="nomos">
+      <directory phpVersion="7.0.0">tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <includePath>.</includePath>
+    <includePath>conf/</includePath>
+    <includePath>app/</includePath>
+    <includePath>vhs/</includePath>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">app/</directory>
+      <directory suffix=".php">vhs/</directory>
+      <directory suffix=".php">../conf/</directory>
+    </include>
+    <exclude>
+      <file>app/include.php</file>
+      <file>app/app.php</file>
+    </exclude>
+  </source>
 </phpunit>
