@@ -244,11 +244,15 @@ class UserService extends Service implements IUserService1 {
         if (!is_null($requests) && count($requests) == 1) {
             /** @var PasswordResetRequest $request */
             $request = $requests[0];
+
             $created = new DateTime($request->created);
+
             $userid = $request->userid;
 
             $request->delete();
+
             $created->modify('+2 hours');
+
             if ($created > new DateTime()) {
                 $user = User::find($userid);
 
