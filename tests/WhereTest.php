@@ -29,32 +29,32 @@ class TestSchema extends Schema {
     }
 }
 
-class WhereTests extends TestCase {
+class WhereTest extends TestCase {
     /** @var Logger */
     private static $logger;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         Database::setLogger(self::$logger);
         Database::setEngine(new \vhs\database\engines\memory\InMemoryEngine());
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
     }
 
     private $mySqlGenerator;
     private $inMemoryGenerator;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
     }
 
-    public function test_Equal() {
+    public function test_Equal(): void {
         $where = Where::Equal(TestSchema::Column('test1'), 'test2');
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -71,7 +71,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_NotEqual() {
+    public function test_NotEqual(): void {
         $where = Where::NotEqual(TestSchema::Column('test1'), 'test2');
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -88,7 +88,7 @@ class WhereTests extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_Null() {
+    public function test_Null(): void {
         $where = Where::Null(TestSchema::Column('test1'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -105,7 +105,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data2), "failed by matching 'test3' as null");
     }
 
-    public function test_NotNull() {
+    public function test_NotNull(): void {
         $where = Where::NotNull(TestSchema::Column('test1'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -122,7 +122,7 @@ class WhereTests extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_In() {
+    public function test_In(): void {
         $where = Where::In(TestSchema::Column('test1'), ['a', 'b', 'c']);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -143,7 +143,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data4));
     }
 
-    public function test_NotIn() {
+    public function test_NotIn(): void {
         $where = Where::NotIn(TestSchema::Column('test1'), ['a', 'b', 'c']);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -164,7 +164,7 @@ class WhereTests extends TestCase {
         $this->assertTrue($clause($data4));
     }
 
-    public function test_Greater() {
+    public function test_Greater(): void {
         $where = Where::Greater(TestSchema::Column('test1'), 1);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -181,7 +181,7 @@ class WhereTests extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_GreaterEqual() {
+    public function test_GreaterEqual(): void {
         $where = Where::GreaterEqual(TestSchema::Column('test1'), 1);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -200,7 +200,7 @@ class WhereTests extends TestCase {
         $this->assertTrue($clause($data3));
     }
 
-    public function test_Lesser() {
+    public function test_Lesser(): void {
         $where = Where::Lesser(TestSchema::Column('test1'), 2);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -217,7 +217,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_LesserEqual() {
+    public function test_LesserEqual(): void {
         $where = Where::LesserEqual(TestSchema::Column('test1'), 2);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -236,7 +236,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data3));
     }
 
-    public function test_And() {
+    public function test_And(): void {
         $where = Where::_And(Where::Equal(TestSchema::Column('test1'), 'test2'), Where::Equal(TestSchema::Column('test3'), 'test4'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -260,7 +260,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_Or() {
+    public function test_Or(): void {
         $where = Where::_Or(Where::Equal(TestSchema::Column('test1'), 'test2'), Where::Equal(TestSchema::Column('test3'), 'test4'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -290,7 +290,7 @@ class WhereTests extends TestCase {
         $this->assertFalse($clause($data3));
     }
 
-    public function test_AndOr() {
+    public function test_AndOr(): void {
         $where = Where::_And(
             Where::Equal(TestSchema::Column('test1'), 'test2'),
             Where::_Or(Where::Equal(TestSchema::Column('test3'), 'test4'), Where::Equal(TestSchema::Column('test5'), 'test6'))

@@ -51,20 +51,22 @@ class PermPrincipal implements \vhs\security\IPrincipal {
     }
 }
 
-class ServiceTests extends TestCase {
-    public static function setUpBeforeClass() {
+class ServiceTest extends TestCase {
+    public static function setUpBeforeClass(): void {
         $logger = new \vhs\loggers\SilentLogger();
         ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
         ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
+        // Placeholder
     }
 
-    protected function setUp() {
+    protected function setUp(): void {
+        // Placeholder
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         \vhs\security\CurrentUser::setPrincipal(new \vhs\security\AnonPrincipal());
     }
 
@@ -81,11 +83,9 @@ class ServiceTests extends TestCase {
         $this->assertEquals('AnonMethod!', ServiceClient::web_TestService1_AnonMethod());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AuthMethod_asAnon() {
+    public function test_AuthMethod_asAnon(): void {
+        $this->expectExceptionMessage('Access denied');
+
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_AuthMethod();
@@ -105,11 +105,9 @@ class ServiceTests extends TestCase {
         $this->assertEquals('PermMethod!', ServiceClient::web_TestService1_PermMethod());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_PermMethod_asAuth() {
+    public function test_PermMethod_asAuth(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal());
 
         $this->assertFalse(\vhs\security\CurrentUser::getPrincipal()->isAnon());
@@ -117,69 +115,58 @@ class ServiceTests extends TestCase {
         ServiceClient::web_TestService1_PermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_PermMethod_asAnon() {
+    public function test_PermMethod_asAnon(): void {
+        $this->expectExceptionMessage('Access denied');
+
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_PermMethod();
     }
 
-    public function test_ArgMethod_asAnon() {
+    public function test_ArgMethod_asAnon(): void {
         //$data = '{ "a": "hello ", "b": "world" }';
 
         $this->assertEquals('ArgMethod: hello world', ServiceClient::web_TestService1_ArgMethod('hello ', 'world'));
     }
 
-    public function test_native_ArgMethod_asAnon() {
-        $data = [
-            'a' => 'hello ',
-            'b' => 'world'
-        ];
+    public function test_native_ArgMethod_asAnon(): void {
+        // $data = [ 'a' => 'hello ', 'b' => 'world' ];
 
-        $this->assertEquals('ArgMethod: hello world', ServiceClient::native_TestService1_ArgMethod('hello ', 'world'));
         //ServiceRegistry::get("native")->handle("/services/native/TestService1.svc/ArgMethod", $data));
+        $this->assertEquals('ArgMethod: hello world', ServiceClient::native_TestService1_ArgMethod('hello ', 'world'));
     }
 
-    public function test_ObjReturnMethod_asAnon() {
+    public function test_ObjReturnMethod_asAnon(): void {
         $data = '{ "a": "hello " }';
 
         $this->assertEquals('{"retA":"hello "}', ServiceRegistry::get('web')->handle('/services/web/TestService1.svc/ObjReturnMethod', $data));
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Service contract method requires permission context.
-     */
-    public function test_MissingPermMethod_asAnon() {
+    public function test_MissingPermMethod_asAnon(): void {
+        $this->expectExceptionMessage('Service contract method requires permission context.');
+
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_MissingPermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Service contract method requires permission context.
-     */
-    public function test_EmptyPermMethod_asAnon() {
+    public function test_EmptyPermMethod_asAnon(): void {
+        $this->expectExceptionMessage('Service contract method requires permission context.');
+
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_EmptyPermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Service contract method requires permission context.
-     */
-    public function test_NoDocMethod_asAnon() {
+    public function test_NoDocMethod_asAnon(): void {
+        $this->expectExceptionMessage('Service contract method requires permission context.');
+
         $this->assertTrue(\vhs\security\CurrentUser::getPrincipal()->isAnon());
 
         ServiceClient::web_TestService1_NoDocMethod();
     }
 
-    public function test_MultiPermMethod() {
+    public function test_MultiPermMethod(): void {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2'));
         $this->assertEquals('MultiPermMethod!', ServiceClient::web_TestService1_MultiPermMethod());
 
@@ -190,7 +177,7 @@ class ServiceTests extends TestCase {
         $this->assertEquals('MultiPermMethod!', ServiceClient::web_TestService1_MultiPermMethod());
     }
 
-    public function test_AnyPermMethod() {
+    public function test_AnyPermMethod(): void {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1'));
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
 
@@ -210,53 +197,48 @@ class ServiceTests extends TestCase {
         $this->assertEquals('AnyPermMethod!', ServiceClient::web_TestService1_AnyPermMethod());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AnyPermMethod_authedOnly() {
+    public function test_AnyPermMethod_authedOnly(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal());
+
         ServiceClient::web_TestService1_AnyPermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AnyPermMethod_wrongSet() {
+    public function test_AnyPermMethod_wrongSet(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('asdf', 'zxcv'));
+
         ServiceClient::web_TestService1_AnyPermMethod();
     }
 
-    public function test_AllPermMethod() {
+    public function test_AllPermMethod(): void {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));
         $this->assertEquals('AllPermMethod!', ServiceClient::web_TestService1_AllPermMethod());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AllPermMethod_missingPerm3() {
+    public function test_AllPermMethod_missingPerm3(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2'));
+
         ServiceClient::web_TestService1_AllPermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AllPermMethod_missingPerm2() {
+    public function test_AllPermMethod_missingPerm2(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm3'));
+
         ServiceClient::web_TestService1_AllPermMethod();
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Access denied
-     */
-    public function test_AllPermMethod_authedOnly() {
+    public function test_AllPermMethod_authedOnly(): void {
+        $this->expectExceptionMessage('Access denied');
+
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal());
+
         ServiceClient::web_TestService1_AllPermMethod();
     }
 }

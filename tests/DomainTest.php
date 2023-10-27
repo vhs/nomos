@@ -67,7 +67,7 @@ class DomainTest extends TestCase {
     private static $mySqlEngine;
     private static $inMemoryEngine;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$logger = new \vhs\loggers\ConsoleLogger();
         self::$inMemoryEngine = new \vhs\database\engines\memory\InMemoryEngine();
         \vhs\database\Database::setLogger(self::$logger);
@@ -90,16 +90,18 @@ class DomainTest extends TestCase {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         //\vhs\database\Database::setEngine(self::$mySqlEngine);
 
         //\vhs\database\Database::arbitrary("DROP DATABASE " . DB_DATABASE);
     }
 
-    protected function setUp() {
+    protected function setUp(): void {
+        //
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
+        //
     }
 
     //public function test_ObjectCreate() {

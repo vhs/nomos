@@ -16,32 +16,34 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
-class LimitTests extends TestCase {
+class LimitTest extends TestCase {
     /** @var Logger */
     private static $logger;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         Database::setLogger(self::$logger);
         Database::setEngine(new \vhs\database\engines\memory\InMemoryEngine());
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
+        //
     }
 
     private $mySqlGenerator;
     private $inMemoryGenerator;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
+        //
     }
 
-    public function test_HasLimit() {
+    public function test_HasLimit(): void {
         $limit = Limit::Limit(1);
 
         $clause = $limit->generate($this->mySqlGenerator);
@@ -53,7 +55,7 @@ class LimitTests extends TestCase {
         $this->assertEquals('1', $clause);
     }
 
-    public function test_EmptyLimit() {
+    public function test_EmptyLimit(): void {
         $limit = Limit::Limit(null);
 
         $clause = $limit->generate($this->mySqlGenerator);
@@ -65,7 +67,7 @@ class LimitTests extends TestCase {
         $this->assertEquals('', $clause);
     }
 
-    public function test_HasOffset() {
+    public function test_HasOffset(): void {
         $offset = Offset::Offset(10);
 
         $clause = $offset->generate($this->mySqlGenerator);
@@ -77,7 +79,7 @@ class LimitTests extends TestCase {
         $this->assertEquals('10', $clause);
     }
 
-    public function test_EmptyOffset() {
+    public function test_EmptyOffset(): void {
         $offset = Offset::Offset(null);
 
         $clause = $offset->generate($this->mySqlGenerator);

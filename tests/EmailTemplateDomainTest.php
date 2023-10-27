@@ -21,7 +21,7 @@ class EmailTemplateDomainTest extends TestCase {
     /** @var  InMemoryEngine */
     private static $engine;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         self::$engine = new InMemoryEngine();
         self::$engine->setLogger(self::$logger);
@@ -30,13 +30,13 @@ class EmailTemplateDomainTest extends TestCase {
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$engine->disconnect();
     }
 
     private $ids = [];
 
-    public function setUp() {
+    public function setUp(): void {
         $template = new EmailTemplate();
         $template->name = 'This is the most random template, srsly';
         $template->code = 'some_random_name';
@@ -47,7 +47,7 @@ class EmailTemplateDomainTest extends TestCase {
         $template->save();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         self::$engine->disconnect();
     }
 

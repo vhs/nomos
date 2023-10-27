@@ -24,7 +24,7 @@ class KeyDomainTest extends TestCase {
     /** @var  InMemoryEngine */
     private static $engine;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         self::$engine = new InMemoryEngine();
         self::$engine->setLogger(self::$logger);
@@ -33,13 +33,13 @@ class KeyDomainTest extends TestCase {
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$engine->disconnect();
     }
 
     private $ids = [];
 
-    public function setUp() {
+    public function setUp(): void {
         $inherit = new Privilege();
         $inherit->name = 'Inherit Privilege';
         $inherit->code = 'inherit';
@@ -96,7 +96,7 @@ class KeyDomainTest extends TestCase {
         $this->ids['key'] = $key->id;
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         self::$engine->disconnect();
     }
 
@@ -142,7 +142,7 @@ class KeyDomainTest extends TestCase {
         $this->assertTrue($user_privilegeFound);
     }
 
-    public function test_bullshitPhp() {
+    public function test_bullshitPhp(): void {
         $service = new AuthService();
 
         $result = $service->CheckPin('00011234');
