@@ -22,6 +22,6 @@ class JsonEndpoint extends Endpoint {
     }
 
     public function deserializeInput($data) {
-        return json_decode($data);
+        return json_decode($data, true);
     }
 }
