@@ -25,7 +25,7 @@ trait Cloneable {
         }
     }
 
-    final private function __arrayCopy(array $array) {
+    private function __arrayCopy(array $array) {
         $result = [];
         foreach ($array as $key => $val) {
             if (is_array($val)) {

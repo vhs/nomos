@@ -32,7 +32,7 @@ class SplClassLoader {
         return $aoInstance['SplClassLoader'];
     }
 
-    final private function __clone() {
+    private function __clone() {
     }
 
     /**

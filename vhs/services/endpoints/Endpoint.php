@@ -40,14 +40,14 @@ abstract class Endpoint implements IEndpoint {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
+    private function __clone() {
     }
 
     /**
      * @return \ReflectionClass
      * @throws \Exception
      */
-    final private function getContract() {
+    private function getContract() {
         //TODO this would be a good place to implement a memcache registry of permissions & service endpoints
         $serviceClass = new \ReflectionClass($this->internal_service);
 
@@ -77,7 +77,7 @@ abstract class Endpoint implements IEndpoint {
         return $allPermissions;
     }
 
-    final private function getMethodPermissions(\ReflectionMethod $method) {
+    private function getMethodPermissions(\ReflectionMethod $method) {
         $comments = $method->getDocComment();
 
         $permissions = [];

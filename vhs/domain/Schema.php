@@ -30,7 +30,7 @@ abstract class Schema implements ISchema {
     /**
      * @return Schema
      */
-    final private static function getInstance() {
+    private static function getInstance() {
         static $aoInstance = [];
 
         $class = get_called_class();
@@ -42,7 +42,7 @@ abstract class Schema implements ISchema {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
+    private function __clone() {
     }
 
     /**
