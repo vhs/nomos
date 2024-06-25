@@ -1,6 +1,6 @@
 {
 	"require": {
-		"aws/aws-sdk-php": "2.*",
+		"aws/aws-sdk-php": "3.*",
 		"nicmart/string-template": "~0.1",
 		"league/oauth2-client": "0.10.*",
 		"php-amqplib/php-amqplib": "2.5.*",
