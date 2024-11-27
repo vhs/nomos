@@ -8,7 +8,5 @@
 
 namespace vhs\services\exceptions;
 
-
 class InvalidContractException extends \Exception {
-
 }

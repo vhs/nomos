@@ -8,34 +8,33 @@
 
 namespace app\security\oauth\modules;
 
-
 use vhs\web\modules\HttpRequestHandlerModule;
 
-class OAuthHandlerModule extends HttpRequestHandlerModule
-{
-    public static function register(OAuthHandler $handler)
-    {
+class OAuthHandlerModule extends HttpRequestHandlerModule {
+    public static function register(OAuthHandler $handler) {
         $url = $handler->getUrl();
 
-        self::getInstance()->register_internal("GET", $url, $handler);
-        self::getInstance()->register_internal("POST", $url, $handler);
-        self::getInstance()->register_internal("HEAD", $url, $handler);
-        self::getInstance()->register_internal("PUT", $url, $handler);
+        self::getInstance()->register_internal('GET', $url, $handler);
+        self::getInstance()->register_internal('POST', $url, $handler);
+        self::getInstance()->register_internal('HEAD', $url, $handler);
+        self::getInstance()->register_internal('PUT', $url, $handler);
     }
 
     /**
      * @return OAuthHandlerModule
      */
     final public static function getInstance() {
-        static $aoInstance = array();
+        static $aoInstance = [];
 
         $class = get_called_class();
 
-        if (!isset($aoInstance[$class]))
+        if (!isset($aoInstance[$class])) {
             $aoInstance[$class] = new $class();
+        }
 
         return $aoInstance[$class];
     }
 
-    final private function __clone() { }
+    final private function __clone() {
+    }
 }

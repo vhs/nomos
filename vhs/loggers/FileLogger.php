@@ -8,12 +8,10 @@
 
 namespace vhs\loggers;
 
-
 use vhs\Logger;
 use vhs\security\CurrentUser;
 
 class FileLogger extends Logger {
-
     private $filename;
     private $file;
 
@@ -22,13 +20,15 @@ class FileLogger extends Logger {
     }
 
     private function ensureFile() {
-        if(!isset($this->file))
-            $this->file = fopen($this->filename, "a");
+        if (!isset($this->file)) {
+            $this->file = fopen($this->filename, 'a');
+        }
     }
 
     public function log($message) {
         $this->ensureFile();
-        if (is_resource($this->file))
-            fwrite($this->file, "[".date('Y-m-d H:i:s')."] " . INSTANCE_ID . " " . CurrentUser::getPrincipal() . " " . $message . PHP_EOL);
+        if (is_resource($this->file)) {
+            fwrite($this->file, '[' . date('Y-m-d H:i:s') . '] ' . INSTANCE_ID . ' ' . CurrentUser::getPrincipal() . ' ' . $message . PHP_EOL);
+        }
     }
 }

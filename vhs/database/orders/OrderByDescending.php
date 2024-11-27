@@ -9,7 +9,6 @@
 namespace vhs\database\orders;
 
 class OrderByDescending extends OrderBy {
-
     public function generateOrderBy(IOrderByGenerator $generator) {
         return $generator->generateDescending($this);
     }

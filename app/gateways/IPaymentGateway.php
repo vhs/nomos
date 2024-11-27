@@ -8,9 +8,8 @@
 
 namespace app\gateways;
 
-
-interface IPaymentGateway
-{
+interface IPaymentGateway {
     public function Name();
+
     public function Process($data);
 }

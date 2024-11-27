@@ -8,18 +8,18 @@
 
 namespace app\security\credentials;
 
-
 use vhs\security\ICredentials;
 
 abstract class TokenCredentials implements ICredentials {
-
     private $token;
 
     public function __construct($token) {
         $this->token = $token;
     }
 
-    public function getToken() { return $this->token; }
+    public function getToken() {
+        return $this->token;
+    }
 
     abstract public function getType();
 }

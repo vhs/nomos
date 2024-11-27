@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  nomos-frontend:
+    networks:
+      - proxy
+
+  nomos-backend:
+    networks:
+      - proxy
+
+  nomos-webhooker:
+    networks:
+      - proxy
+
+networks:
+  proxy:

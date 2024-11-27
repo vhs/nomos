@@ -8,9 +8,7 @@
 
 namespace vhs\services\endpoints;
 
-
 class JsonEndpoint extends Endpoint {
-
     public function serializeOutput($data) {
         return json_encode($data);
     }

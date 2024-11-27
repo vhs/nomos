@@ -8,7 +8,6 @@
 
 namespace vhs\database\engines\memory;
 
-
 use vhs\database\Column;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\IConstraintGenerator;
@@ -64,100 +63,121 @@ class InMemoryGenerator implements
     ILimitGenerator,
     IOffsetGenerator,
     IOnGenerator {
-
     public function generateAnd(WhereAnd $where) {
-        $wheres = array();
+        $wheres = [];
 
         /** @var Where $w */
-        foreach($where->wheres as $w) {
+        foreach ($where->wheres as $w) {
             array_push($wheres, $w->generate($this));
         }
 
-        return function($row) use ($wheres) {
+        return function ($row) use ($wheres) {
             $b = true;
-            foreach($wheres as $w)
+            foreach ($wheres as $w) {
                 $b = $b && $w($row);
+            }
 
             return $b;
         };
     }
 
     public function generateOr(WhereOr $where) {
-        $wheres = array();
+        $wheres = [];
 
         /** @var Where $w */
-        foreach($where->wheres as $w) {
+        foreach ($where->wheres as $w) {
             array_push($wheres, $w->generate($this));
         }
 
-        return function($row) use ($wheres) {
+        return function ($row) use ($wheres) {
             $b = false;
-            foreach($wheres as $w)
+            foreach ($wheres as $w) {
                 $b = $b || $w($row);
+            }
 
             return $b;
         };
     }
 
-    public function generateComparator(WhereComparator $where)
-    {
-        return function($row) use ($where) {
+    public function generateComparator(WhereComparator $where) {
+        return function ($row) use ($where) {
             $column = $where->column->name;
             $value = $where->value;
 
-            if(!array_key_exists($column, $row))
-                return array();
+            if (!array_key_exists($column, $row)) {
+                return [];
+            }
 
             $item = $row[$column];
 
-            if($where->isArray) {
+            if ($where->isArray) {
                 if (in_array($item, $value)) {
-                    if ($where->equal) return true;
+                    if ($where->equal) {
+                        return true;
+                    }
                 } else {
-                    if (!$where->equal) return true;
+                    if (!$where->equal) {
+                        return true;
+                    }
                 }
 
                 return false;
             }
 
-            if($where->lesser) {
+            if ($where->lesser) {
                 if ($where->equal) {
-                    if ($item <= $value) return true;
+                    if ($item <= $value) {
+                        return true;
+                    }
                 } else {
-                    if ($item < $value) return true;
+                    if ($item < $value) {
+                        return true;
+                    }
                 }
 
                 return false;
             }
 
-            if($where->greater) {
+            if ($where->greater) {
                 if ($where->equal) {
-                    if ($item >= $value) return true;
+                    if ($item >= $value) {
+                        return true;
+                    }
                 } else {
-                    if ($item > $value) return true;
+                    if ($item > $value) {
+                        return true;
+                    }
                 }
 
                 return false;
             }
 
-            if($where->null_compare) {
+            if ($where->null_compare) {
                 if ($where->equal) {
-                    if (is_null($item)) return true;
+                    if (is_null($item)) {
+                        return true;
+                    }
                 } else {
-                    if (!is_null($item)) return true;
+                    if (!is_null($item)) {
+                        return true;
+                    }
                 }
 
                 return false;
             }
 
             if ($where->equal) {
-                if ($item === $value) return true;
+                if ($item === $value) {
+                    return true;
+                }
             } else {
-                if ($item !== $value) return true;
+                if ($item !== $value) {
+                    return true;
+                }
             }
 
             if ($where->like) {
-                return (strpos($item, $value) != false);
+                return strpos($item, $value) != false;
             }
 
             return false;
@@ -166,12 +186,12 @@ class InMemoryGenerator implements
 
     public function generateAscending(OrderByAscending $ascending) {
         // TODO: Implement generateAscending() method.
-        throw new \Exception("TODO: Implement generateAscending() method.");
+        throw new \Exception('TODO: Implement generateAscending() method.');
     }
 
     public function generateDescending(OrderByDescending $descending) {
         // TODO: Implement generateDescending() method.
-        throw new \Exception("Implement generateDescending() method.");
+        throw new \Exception('Implement generateDescending() method.');
     }
 
     public function generateLimit(Limit $limit) {
@@ -182,78 +202,63 @@ class InMemoryGenerator implements
         return $offset->offset;
     }
 
-    public function generatePrimaryKey(PrimaryKey $constraint)
-    {
+    public function generatePrimaryKey(PrimaryKey $constraint) {
         // TODO: Implement generatePrimaryKey() method.
     }
 
-    public function generateForeignKey(ForeignKey $constraint)
-    {
+    public function generateForeignKey(ForeignKey $constraint) {
         // TODO: Implement generateForeignKey() method.
     }
 
-    public function generateLeft(JoinLeft $join)
-    {
+    public function generateLeft(JoinLeft $join) {
         // TODO: Implement generateLeft() method.
     }
 
-    public function generateRight(JoinRight $join)
-    {
+    public function generateRight(JoinRight $join) {
         // TODO: Implement generateRight() method.
     }
 
-    public function generateOuter(JoinOuter $join)
-    {
+    public function generateOuter(JoinOuter $join) {
         // TODO: Implement generateOuter() method.
     }
 
-    public function generateInner(JoinInner $join)
-    {
+    public function generateInner(JoinInner $join) {
         // TODO: Implement generateInner() method.
     }
 
-    public function generateCross(JoinCross $join)
-    {
+    public function generateCross(JoinCross $join) {
         // TODO: Implement generateCross() method.
     }
 
-    public function generateSelect(QuerySelect $query)
-    {
+    public function generateSelect(QuerySelect $query) {
         // TODO: Implement generateSelect() method.
     }
 
-    public function generateSelectCount(QueryCount $query)
-    {
+    public function generateSelectCount(QueryCount $query) {
         // TODO: Implement generateSelect() method.
     }
 
-    public function generateInsert(QueryInsert $query)
-    {
+    public function generateInsert(QueryInsert $query) {
         // TODO: Implement generateInsert() method.
     }
 
-    public function generateUpdate(QueryUpdate $query)
-    {
+    public function generateUpdate(QueryUpdate $query) {
         // TODO: Implement generateUpdate() method.
     }
 
-    public function generateDelete(QueryDelete $query)
-    {
+    public function generateDelete(QueryDelete $query) {
         // TODO: Implement generateDelete() method.
     }
 
-    public function generateColumn(Column $column)
-    {
+    public function generateColumn(Column $column) {
         // TODO: Implement generateColumn() method.
     }
 
-    public function generateTable(Table $ascending)
-    {
+    public function generateTable(Table $ascending) {
         // TODO: Implement generateTable() method.
     }
 
-    public function generateOn(On $on)
-    {
+    public function generateOn(On $on) {
         // TODO: Implement generateOn() method.
     }
 

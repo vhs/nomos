@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\PrivilegeSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -22,32 +21,40 @@ class Privilege extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-
     }
 
     public static function findByCodes(...$code) {
-        if (!self::checkCodeAccess(...$code))
-            throw new UnauthorizedException("Access denied");
+        if (!self::checkCodeAccess(...$code)) {
+            throw new UnauthorizedException('Access denied');
+        }
 
         return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
     }
 
     public static function findByCode($code) {
-        if (!self::checkCodeAccess(...$code))
-            throw new UnauthorizedException("Access denied");
+        if (!self::checkCodeAccess(...$code)) {
+            throw new UnauthorizedException('Access denied');
+        }
 
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
 
-        if(count($privs) > 0)
+        if (count($privs) > 0) {
             return $privs[0];
+        }
 
         return null;
     }
 
     private static function checkCodeAccess(...$codes) {
-        foreach($codes as $code) {
-            if ($code != 'inherit' && !CurrentUser::hasAllPermissions("administrator") && !CurrentUser::hasAllPermissions($code) && !CurrentUser::canGrantAllPermissions($code))
+        foreach ($codes as $code) {
+            if (
+                $code != 'inherit' &&
+                !CurrentUser::hasAllPermissions('administrator') &&
+                !CurrentUser::hasAllPermissions($code) &&
+                !CurrentUser::canGrantAllPermissions($code)
+            ) {
                 return false;
+            }
         }
 
         return true;

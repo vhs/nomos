@@ -8,11 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IApiKeyService1 extends IContract {
-
     /**
      * @permission administrator
      * @return mixed

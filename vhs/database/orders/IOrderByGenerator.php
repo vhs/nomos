@@ -12,5 +12,6 @@ use vhs\database\IGenerator;
 
 interface IOrderByGenerator extends IGenerator {
     public function generateAscending(OrderByAscending $ascending);
+
     public function generateDescending(OrderByDescending $descending);
 }

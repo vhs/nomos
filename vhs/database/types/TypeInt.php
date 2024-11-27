@@ -8,9 +8,7 @@
 
 namespace vhs\database\types;
 
-
 class TypeInt extends Type {
-
     public function generateType(ITypeGenerator $generator, $value = null) {
         return $generator->generateInt($this, $value);
     }

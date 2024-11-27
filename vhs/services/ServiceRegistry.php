@@ -8,13 +8,11 @@
 
 namespace vhs\services;
 
-
 use vhs\Logger;
 use vhs\Singleton;
 
 class ServiceRegistry extends Singleton {
-
-    private $services = array();
+    private $services = [];
 
     /**
      * @param string $key
@@ -31,6 +29,6 @@ class ServiceRegistry extends Singleton {
      * @param string $path
      */
     final public static function register(Logger &$logger, $key, $namespace, $path) {
-        ServiceRegistry::getInstance()->services[$key] = new ServiceHandler($logger, $namespace, $path, $key . "/");
+        ServiceRegistry::getInstance()->services[$key] = new ServiceHandler($logger, $namespace, $path, $key . '/');
     }
 }

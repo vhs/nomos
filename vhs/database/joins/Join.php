@@ -8,14 +8,12 @@
 
 namespace vhs\database\joins;
 
-
 use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\On;
 use vhs\database\Table;
 
 abstract class Join extends Element {
-
     /** @var  Table */
     public $table;
     /** @var  On */
@@ -61,5 +59,5 @@ abstract class Join extends Element {
         return $this->generateJoin($generator);
     }
 
-    abstract function generateJoin(IJoinGenerator $generator);
+    abstract public function generateJoin(IJoinGenerator $generator);
 }

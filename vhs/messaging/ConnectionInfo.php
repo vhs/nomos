@@ -8,7 +8,6 @@
 
 namespace vhs\messaging;
 
-
 abstract class ConnectionInfo {
     abstract public function getDetails();
 

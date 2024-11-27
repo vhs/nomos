@@ -8,7 +8,5 @@
 
 namespace vhs\database;
 
-
 interface IConverter {
-
 }

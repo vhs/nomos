@@ -8,14 +8,13 @@
 
 namespace vhs\messaging;
 
-
 use vhs\messaging\Engine;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\Singleton;
+
 //TODO do this stuff in a thread prob, or at least in a non-blocking way maybe?
-class MessageQueue extends Singleton
-{
+class MessageQueue extends Singleton {
     /** @var bool */
     private $rethrow;
 
@@ -37,14 +36,15 @@ class MessageQueue extends Singleton
     private function handleException($exception) {
         $this->logger->log($exception);
 
-        if($this->rethrow)
+        if ($this->rethrow) {
             throw $exception;
+        }
     }
 
     private function invokeEngine(callable $func) {
         try {
             $this->engine->connect();
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->handleException($ex);
         }
 
@@ -52,7 +52,7 @@ class MessageQueue extends Singleton
 
         try {
             $retval = $func();
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->handleException($ex);
         }
 
@@ -68,8 +68,9 @@ class MessageQueue extends Singleton
     }
 
     private function setEngineInternal(Engine $engine) {
-        if(!is_null($this->engine))
+        if (!is_null($this->engine)) {
             $this->engine->disconnect();
+        }
 
         $this->engine = $engine;
     }
@@ -99,7 +100,7 @@ class MessageQueue extends Singleton
         /** @var MessageQueue $mq */
         $mq = self::getInstance();
 
-        $mq->invokeEngine(function() use ($mq, $channel, $queue) {
+        $mq->invokeEngine(function () use ($mq, $channel, $queue) {
             return $mq->engine->ensure($channel, $queue);
         });
     }
@@ -108,7 +109,7 @@ class MessageQueue extends Singleton
         /** @var MessageQueue $mq */
         $mq = self::getInstance();
 
-        $mq->invokeEngine(function() use ($mq, $channel, $queue, $message) {
+        $mq->invokeEngine(function () use ($mq, $channel, $queue, $message) {
             return $mq->engine->publish($channel, $queue, $message);
         });
     }
@@ -117,7 +118,7 @@ class MessageQueue extends Singleton
         /** @var MessageQueue $mq */
         $mq = self::getInstance();
 
-        $mq->invokeEngine(function() use ($mq, $channel, $queue, $callback) {
+        $mq->invokeEngine(function () use ($mq, $channel, $queue, $callback) {
             return $mq->engine->consume($channel, $queue, $callback);
         });
     }

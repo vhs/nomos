@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\RefreshTokenSchema;
 use vhs\database\orders\OrderBy;
 use vhs\database\wheres\Where;
@@ -18,8 +17,8 @@ use vhs\domain\validations\ValidationResults;
 class RefreshToken extends Domain {
     public static function Define() {
         RefreshToken::Schema(RefreshTokenSchema::Type());
-        RefreshToken::Relationship("user", User::Type());
-        RefreshToken::Relationship("client", AppClient::Type());
+        RefreshToken::Relationship('user', User::Type());
+        RefreshToken::Relationship('client', AppClient::Type());
     }
 
     /**
@@ -37,7 +36,9 @@ class RefreshToken extends Domain {
             1
         );
 
-        if (count($tokens) === 1) return $tokens[0];
+        if (count($tokens) === 1) {
+            return $tokens[0];
+        }
 
         return null;
     }

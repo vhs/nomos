@@ -8,9 +8,10 @@
 
 namespace vhs\web;
 
-
 interface IHttpModule {
     public function handle(HttpServer $server);
+
     public function endResponse(HttpServer $server);
+
     public function handleException(HttpServer $server, \Exception $ex);
 }

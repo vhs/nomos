@@ -1,34 +1,37 @@
 'use strict';
 
-angular
-    .module('mmpApp.user')
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('user.grants', {
-                parent: "user",
-                url: '/grants',
-                data: {
-                    access: "user"
-                },
-                templateUrl: 'user/grants/grants.html',
-                controller: ['$scope', '$modal', '$timeout', 'UserService1', 'PrivilegeService1', function($scope, $modal, $timeout, UserService1, PrivilegeService1) {
-
+angular.module('mmpApp.user').config([
+    '$stateProvider',
+    function ($stateProvider) {
+        $stateProvider.state('user.grants', {
+            parent: 'user',
+            url: '/grants',
+            data: {
+                access: 'user',
+            },
+            templateUrl: 'user/grants/grants.html',
+            controller: [
+                '$scope',
+                '$modal',
+                '$timeout',
+                'UserService1',
+                'PrivilegeService1',
+                function ($scope, $modal, $timeout, UserService1, PrivilegeService1) {
                     $scope.grants = [];
                     $scope.itemCount = 0;
-                    
-                    for(var i in $scope.currentUser.privileges)
-                    {
+
+                    for (var i in $scope.currentUser.privileges) {
                         var priv = $scope.currentUser.privileges[i];
 
-                        if (priv.code == "grant:*") {
-                            PrivilegeService1.GetAllPrivileges().then(function(privileges) {
+                        if (priv.code == 'grant:*') {
+                            PrivilegeService1.GetAllPrivileges().then(function (privileges) {
                                 $scope.grants = privileges;
                             });
                             break;
                         }
 
-                        if (priv.code.indexOf("grant:") != -1) {
-                            priv.code = priv.code.replace("grant:", "");
+                        if (priv.code.indexOf('grant:') != -1) {
+                            priv.code = priv.code.replace('grant:', '');
                             $scope.grants.push(priv);
                         }
                     }
@@ -39,63 +42,61 @@ angular
                         page: 1,
                         pageSize: 10,
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
-                        columns: "id,username,fname,lname,email",
-                        order: "id",
-                        search: null
+                        columns: 'id,username,fname,lname,email',
+                        order: 'id',
+                        search: null,
                     };
 
                     $scope.updating = false;
                     $scope.pendingUpdate = 0;
 
-                    $scope.checkUpdated = function() {
-                        if($scope.pendingUpdate <= 0) {
+                    $scope.checkUpdated = function () {
+                        if ($scope.pendingUpdate <= 0) {
                             $scope.updated();
                         } else {
                             $timeout($scope.checkUpdated, 10);
                         }
                     };
 
-                    $scope.getFilter = function() {
-
+                    $scope.getFilter = function () {
                         var filter = null;
                         var filters = [];
 
-                        if ($scope.listService.search != null && $scope.listService.search != "") {
-                            var val = "%" + $scope.listService.search + "%";
+                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                            var val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
-                                    column: "username",
-                                    operator: "like",
-                                    value: val
+                                    column: 'username',
+                                    operator: 'like',
+                                    value: val,
                                 },
-                                operator: "or",
+                                operator: 'or',
                                 right: {
                                     left: {
-                                        column: "email",
-                                        operator: "like",
-                                        value: val
+                                        column: 'email',
+                                        operator: 'like',
+                                        value: val,
                                     },
-                                    operator: "or",
+                                    operator: 'or',
                                     right: {
                                         left: {
-                                            column: "fname",
-                                            operator: "like",
-                                            value: val
+                                            column: 'fname',
+                                            operator: 'like',
+                                            value: val,
                                         },
-                                        operator: "or",
+                                        operator: 'or',
                                         right: {
-                                            column: "lname",
-                                            operator: "like",
-                                            value: val
-                                        }
-                                    }
-                                }
+                                            column: 'lname',
+                                            operator: 'like',
+                                            value: val,
+                                        },
+                                    },
+                                },
                             });
                         }
 
-                        var addRightmost = function(filter, val) {
-                            if (filter.right != null)
-                                addRightmost(filter.right, val);
+                        var addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
@@ -104,8 +105,8 @@ angular
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     };
                                 } else {
                                     filter = filters[i];
@@ -117,8 +118,8 @@ angular
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
-                                        operator: "and",
-                                        right: null
+                                        operator: 'and',
+                                        right: null,
                                     });
                                 }
                             }
@@ -127,25 +128,30 @@ angular
                         return filter;
                     };
 
-                    
-                    $scope.getUsers = function() {
+                    $scope.getUsers = function () {
                         var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page-1)*$scope.listService.pageSize
+                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
-                        return UserService1.ListUsers(offset, $scope.listService.pageSize, $scope.listService.columns, $scope.listService.order, filter);
+                        return UserService1.ListUsers(
+                            offset,
+                            $scope.listService.pageSize,
+                            $scope.listService.columns,
+                            $scope.listService.order,
+                            filter,
+                        );
                     };
 
-                    $scope.getUsersCount = function() {
+                    $scope.getUsersCount = function () {
                         var filter = $scope.getFilter();
 
                         return UserService1.CountUsers(filter);
                     };
 
-                    $scope.updated = function() {
-                        $scope.getUsersCount().then(function(data) {
+                    $scope.updated = function () {
+                        $scope.getUsersCount().then(function (data) {
                             $scope.itemCount = data;
-                            
-                            $scope.getUsers().then(function(data) {
+
+                            $scope.getUsers().then(function (data) {
                                 $scope.users = data;
                                 //$scope.resetForms();
                                 $scope.updating = false;
@@ -153,19 +159,18 @@ angular
                             });
                         });
                     };
-                    
-                    $scope.refresh = function() {
+
+                    $scope.refresh = function () {
                         $scope.updating = true;
                         $scope.updated();
                     };
 
                     $scope.refresh();
 
-
                     $scope.openGrantUser = function (user, grants) {
                         $modal.open({
                             templateUrl: 'GrantUserModal.html',
-                            size: "md",
+                            size: 'md',
                             controller: function ($scope, $modalInstance) {
                                 $scope.grantee = user;
                                 $scope.grantee.privileges = grants;
@@ -173,43 +178,42 @@ angular
                                 $scope.updating = false;
                                 $scope.pendingUpdate = 0;
 
-                                $scope.checkUpdated = function() {
-                                    if($scope.pendingUpdate <= 0) {
+                                $scope.checkUpdated = function () {
+                                    if ($scope.pendingUpdate <= 0) {
                                         $scope.updated();
                                     } else {
                                         $timeout($scope.checkUpdated, 10);
                                     }
                                 };
 
-                                $scope.updated = function() {
+                                $scope.updated = function () {
                                     $scope.updating = false;
                                     $scope.pendingUpdate = 0;
                                 };
 
-                                for(var i = 0; i < $scope.grantee.privileges.length; i++) {
+                                for (var i = 0; i < $scope.grantee.privileges.length; i++) {
                                     $scope.grantee.privileges[i].selected = false;
                                 }
 
-                                UserService1.GetGrantUserPrivileges($scope.grantee.id).then(function(privileges){
-                                    angular.forEach(privileges, function(priv){
-                                        for(var i = 0; i < $scope.grantee.privileges.length; i++)
-                                            if (priv == $scope.grantee.privileges[i].code)
-                                                $scope.grantee.privileges[i].selected = true;
+                                UserService1.GetGrantUserPrivileges($scope.grantee.id).then(function (privileges) {
+                                    angular.forEach(privileges, function (priv) {
+                                        for (var i = 0; i < $scope.grantee.privileges.length; i++)
+                                            if (priv == $scope.grantee.privileges[i].code) $scope.grantee.privileges[i].selected = true;
                                     });
                                 });
 
-                                $scope.togglePrivilege = function(privilege){
+                                $scope.togglePrivilege = function (privilege) {
                                     $scope.updating = true;
                                     $scope.pendingUpdate = 1;
 
-                                    if(privilege.selected) {
-                                        UserService1.RevokePrivilege($scope.grantee.id, privilege.code).then(function(){
+                                    if (privilege.selected) {
+                                        UserService1.RevokePrivilege($scope.grantee.id, privilege.code).then(function () {
                                             privilege.selected = false;
                                             $scope.pendingUpdate = 0;
                                             $scope.checkUpdated();
                                         });
                                     } else {
-                                        UserService1.GrantPrivilege($scope.grantee.id, privilege.code).then(function(){
+                                        UserService1.GrantPrivilege($scope.grantee.id, privilege.code).then(function () {
                                             privilege.selected = true;
                                             $scope.pendingUpdate = 0;
                                             $scope.checkUpdated();
@@ -221,10 +225,11 @@ angular
                                     $modalInstance.dismiss('cancel');
                                     $scope.grantee = {};
                                 };
-                            }
+                            },
                         });
                     };
-
-                }]
-            });
-    }]);
+                },
+            ],
+        });
+    },
+]);

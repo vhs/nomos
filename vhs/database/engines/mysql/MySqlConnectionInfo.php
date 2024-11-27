@@ -26,16 +26,27 @@ class MySqlConnectionInfo extends ConnectionInfo {
     }
 
     public function getDetails() {
-        return array(
-            "server" => $this->server,
-            "username" => $this->username,
-            "password" => $this->password,
-            "database" => $this->database
-        );
+        return [
+            'server' => $this->server,
+            'username' => $this->username,
+            'password' => $this->password,
+            'database' => $this->database
+        ];
     }
 
-    public function getServer() { return $this->server; }
-    public function getUsername() { return $this->username; }
-    public function getPassword() { return $this->password; }
-    public function getDatabase() { return $this->database; }
+    public function getServer() {
+        return $this->server;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getDatabase() {
+        return $this->database;
+    }
 }

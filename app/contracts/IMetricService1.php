@@ -5,11 +5,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IMetricService1 extends IContract {
-
     /**
      * @permission user
      * @param string $start_range string iso date in UTC, if empty is start of today

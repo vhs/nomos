@@ -8,7 +8,6 @@
 
 namespace app\schema;
 
-
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
@@ -16,13 +15,12 @@ use vhs\domain\Schema;
 
 class UserPrivilegeSchema extends Schema {
     public static function init() {
+        $table = new Table('userprivileges');
 
-        $table = new Table("userprivileges");
-
-        $table->addColumn("userid", Type::Int());
-        $table->addColumn("privilegeid", Type::Int());
-        $table->addColumn("created", Type::DateTime(false, date("Y-m-d H:i:s")));
-        $table->addColumn("notes", Type::Text());
+        $table->addColumn('userid', Type::Int());
+        $table->addColumn('privilegeid', Type::Int());
+        $table->addColumn('created', Type::DateTime(false, date('Y-m-d H:i:s')));
+        $table->addColumn('notes', Type::Text());
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->userid),

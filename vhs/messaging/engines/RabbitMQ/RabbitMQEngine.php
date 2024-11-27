@@ -16,8 +16,7 @@ use vhs\messaging\Engine;
 use vhs\Logger;
 use vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo;
 
-class RabbitMQEngine extends Engine
-{
+class RabbitMQEngine extends Engine {
     private $info;
     /** @var AMQPChannel[] */
     private $channels;
@@ -26,30 +25,26 @@ class RabbitMQEngine extends Engine
     /** @var AMQPStreamConnection */
     private $connection;
 
-
-    public function __construct(RabbitMQConnectionInfo $connectionInfo)
-    {
+    public function __construct(RabbitMQConnectionInfo $connectionInfo) {
         $this->info = $connectionInfo;
 
         $this->logger = new SilentLogger();
-
     }
 
-    public function setLogger(Logger $logger)
-    {
+    public function setLogger(Logger $logger) {
         $this->logger = $logger;
     }
 
-    public function connect()
-    {
+    public function connect() {
         if (!is_null($this->connection)) {
-            if ($this->connection->isConnected())
+            if ($this->connection->isConnected()) {
                 return;
-            else
+            } else {
                 $this->disconnect();
+            }
         }
 
-        $this->channels = array();
+        $this->channels = [];
 
         $this->connection = new AMQPStreamConnection(
             $this->info->getHost(),
@@ -60,56 +55,52 @@ class RabbitMQEngine extends Engine
         );
     }
 
-    public function disconnect()
-    {
+    public function disconnect() {
         if (!is_null($this->channels)) {
             /** @var AMQPChannel $channel */
-            foreach ($this->channels as $channel)
+            foreach ($this->channels as $channel) {
                 $channel->close();
+            }
         }
 
-        if (!is_null($this->connection))
+        if (!is_null($this->connection)) {
             $this->connection->close();
+        }
 
-        unset($this->channels);
-        unset($this->connection);
+        unset($this->channels, $this->connection);
     }
 
     public function ensure($channel, $queue) {
         $ch = $this->getChannel($channel);
 
-        $ch->queue_declare($channel.".".$queue, false, false, false, false);
+        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
     }
 
-    public function publish($channel, $queue, $message)
-    {
+    public function publish($channel, $queue, $message) {
         $ch = $this->getChannel($channel);
 
-        $ch->queue_declare($channel.".".$queue, false, false, false, false);
+        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
 
-        return $ch->basic_publish(new AMQPMessage($message), '', $channel.".".$queue);
+        return $ch->basic_publish(new AMQPMessage($message), '', $channel . '.' . $queue);
     }
 
-    public function consume($channel, $queue, callable $callback)
-    {
+    public function consume($channel, $queue, callable $callback) {
         $ch = $this->getChannel($channel);
 
-        $ch->queue_declare($channel.".".$queue, false, false, false, false);
+        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
 
-        return $ch->basic_consume($channel.".".$queue, function($msg) use ($callback) {
+        return $ch->basic_consume($channel . '.' . $queue, function ($msg) use ($callback) {
             $callback($msg->body);
         });
     }
 
-    public function hasCallbacks($channel)
-    {
+    public function hasCallbacks($channel) {
         $ch = $this->getChannel($channel);
 
         return count($ch->callbacks);
     }
 
-    public function wait($channel)
-    {
+    public function wait($channel) {
         $ch = $this->getChannel($channel);
 
         return $ch->wait();

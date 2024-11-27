@@ -8,7 +8,6 @@
 
 namespace vhs\domain\collections;
 
-
 use vhs\database\Columns;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\Database;
@@ -32,28 +31,28 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->childType = $childType;
         $this->joinTable = $joinTable;
 
-        foreach($this->joinTable->ForeignKeys() as $fk) {
+        foreach ($this->joinTable->ForeignKeys() as $fk) {
             if ($fk->table === $parent::Schema()->Table()) {
                 $this->parentKey = $fk;
             }
 
-            if($fk->table === $childType::Schema()->Table()) {
+            if ($fk->table === $childType::Schema()->Table()) {
                 $this->childKey = $fk;
             }
         }
 
-        if(is_null($this->parentKey))
-            throw new DomainException("Satellite does not contain foreign key relation to parent domain");
+        if (is_null($this->parentKey)) {
+            throw new DomainException('Satellite does not contain foreign key relation to parent domain');
+        }
 
-        if(is_null($this->parentKey))
-            throw new DomainException("Satellite does not contain foreign key relation to child domain");
+        if (is_null($this->parentKey)) {
+            throw new DomainException('Satellite does not contain foreign key relation to child domain');
+        }
 
         $self = $this; //Cannot use $this as lexical variable
-        $parent->onBeforeDelete(function() use ($self) {
+        $parent->onBeforeDelete(function () use ($self) {
             $parentOnCol = $self->parentKey->on->name;
-            Database::delete(Query::Delete($self->joinTable->Table(),
-                Where::Equal($self->parentKey->column, $self->parent->$parentOnCol)
-            ));
+            Database::delete(Query::Delete($self->joinTable->Table(), Where::Equal($self->parentKey->column, $self->parent->$parentOnCol)));
         });
 
         $this->clear();
@@ -62,17 +61,18 @@ class SatelliteDomainCollection extends DomainCollection {
     public function all() {
         $childOnCol = $this->childKey->on->name;
 
-        $all = array();
+        $all = [];
 
-        foreach(array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item)
+        foreach (array_diff(array_merge($this->__existing, $this->__new), $this->__removed) as $item) {
             $all[$item->$childOnCol] = $item;
+        }
 
         return $all;
     }
 
     public function compare(Domain $a, Domain $b) {
         $childOnCol = $this->childKey->on->name;
-        return ($a->$childOnCol === $b->$childOnCol);
+        return $a->$childOnCol === $b->$childOnCol;
     }
 
     public function contains(Domain $item) {
@@ -83,12 +83,14 @@ class SatelliteDomainCollection extends DomainCollection {
     public function add(Domain $item) {
         $this->raiseBeforeAdd();
 
-        if ($this->contains($item))
-            throw new DomainException("Item already exists in collection");
+        if ($this->contains($item)) {
+            throw new DomainException('Item already exists in collection');
+        }
 
         $childOnCol = $this->childKey->on->name;
-        if (array_key_exists($item->$childOnCol, $this->__removed))
+        if (array_key_exists($item->$childOnCol, $this->__removed)) {
             unset($this->__removed[$item->$childOnCol]);
+        }
 
         $this->__new[$item->$childOnCol] = $item;
 
@@ -98,10 +100,10 @@ class SatelliteDomainCollection extends DomainCollection {
     public function remove(Domain $item) {
         $this->raiseBeforeRemove();
         if ($this->contains($item)) {
-
             $childOnCol = $this->childKey->on->name;
-            if (array_key_exists($item->$childOnCol, $this->__new))
+            if (array_key_exists($item->$childOnCol, $this->__new)) {
                 unset($this->__new[$item->$childOnCol]);
+            }
 
             $this->__removed[$item->$childOnCol] = $item;
 
@@ -114,14 +116,20 @@ class SatelliteDomainCollection extends DomainCollection {
 
         $parentOnCol = $this->parentKey->on->name;
 
-        $rows = Database::select(Query::Select($this->joinTable->Table(), new Columns($this->childKey->column),
-            Where::Equal($this->parentKey->column, $this->parent->$parentOnCol)
-        ));
+        $rows = Database::select(
+            Query::Select(
+                $this->joinTable->Table(),
+                new Columns($this->childKey->column),
+                Where::Equal($this->parentKey->column, $this->parent->$parentOnCol)
+            )
+        );
 
-        if(is_null($rows) || count($rows) <= 0) return;
+        if (is_null($rows) || count($rows) <= 0) {
+            return;
+        }
 
-        $childIds = array();
-        foreach($rows as $row) {
+        $childIds = [];
+        foreach ($rows as $row) {
             array_push($childIds, $row[$this->childKey->column->name]);
         }
 
@@ -142,10 +150,9 @@ class SatelliteDomainCollection extends DomainCollection {
         $parentCol = $this->parentKey->column->name;
         $childCol = $this->childKey->column->name;
 
-
-        if(count($actualNew) > 0) {
-            foreach($actualNew as $item) {
-                $data = array();
+        if (count($actualNew) > 0) {
+            foreach ($actualNew as $item) {
+                $data = [];
 
                 $data[$parentCol] = $this->parent->$parentOnCol;
                 $data[$childCol] = $item->$childOnCol;
@@ -154,13 +161,16 @@ class SatelliteDomainCollection extends DomainCollection {
             }
         }
 
-        if(count($actualRemove) > 0) {
-            Database::delete(Query::Delete($this->joinTable->Table(),
-                Where::_And(
-                    Where::Equal($this->parentKey->column, $this->parent->$parentOnCol),
-                    Where::In($this->childKey->column, array_keys($actualRemove))
+        if (count($actualRemove) > 0) {
+            Database::delete(
+                Query::Delete(
+                    $this->joinTable->Table(),
+                    Where::_And(
+                        Where::Equal($this->parentKey->column, $this->parent->$parentOnCol),
+                        Where::In($this->childKey->column, array_keys($actualRemove))
+                    )
                 )
-            ));
+            );
         }
 
         $this->raiseSaved();

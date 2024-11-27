@@ -8,11 +8,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a ui-sref="user.dashboard"><img src="/images/logo.png"/></a>
+            <a ui-sref="user.dashboard"><img src="/images/logo.png" /></a>
         </div>
         <!-- /.navbar-header -->
-
-
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -20,7 +18,8 @@
                     <li>
                         <div class="row gravatar-row">
                             <div class="col-xs-2 col-sm-3 col-sm-offset-2">
-                                <img src="https://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=http%3A%2F%2Florempixel.com%2F64%2F64%2Fpeople%2F" />
+                                <img
+                                    src="https://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=http%3A%2F%2Florempixel.com%2F64%2F64%2Fpeople%2F" />
                             </div>
                             <div class="col-xs-8 col-sm-7">
                                 <div class="row">
@@ -29,9 +28,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-12">
-                                        {{currentUser.membership.title}}
-                                    </div>
+                                    <div class="col-xs-12">{{currentUser.membership.title}}</div>
                                 </div>
                             </div>
                         </div>
@@ -49,14 +46,18 @@
                     </li>
 
                     <li>
-                        <a ui-sref="user.transactions" ng-class="{active: $state.is('user.transactions')}"><i class="fa fa-user fa-fw"></i> Payment History</a>
+                        <a ui-sref="user.transactions" ng-class="{active: $state.is('user.transactions')}"
+                            ><i class="fa fa-user fa-fw"></i> Payment History</a
+                        >
                     </li>
 
                     <li>
                         <a ui-sref="user.dooraccess" ng-class="{active: $state.is('user.dooraccess')}"><i class="fa fa-key fa-fw"></i> Door Access</a>
                     </li>
                     <li>
-                        <a ui-sref="user.accesslogs" ng-class="{active: $state.is('user.accesslogs')}"><i class="fa fa-key fa-fw"></i> Access History</a>
+                        <a ui-sref="user.accesslogs" ng-class="{active: $state.is('user.accesslogs')}"
+                            ><i class="fa fa-key fa-fw"></i> Access History</a
+                        >
                     </li>
                     <li>
                         <a ui-sref="user.apikeys" ng-class="{active: $state.is('user.apikeys')}"><i class="fa fa-cubes fa-fw"></i> Manage API Keys</a>
@@ -65,7 +66,9 @@
                         <a ui-sref="user.webhooks" ng-class="{active: $state.is('user.webhooks')}"><i class="fa fa-cubes fa-fw"></i> Web Hooks</a>
                     </li>
                     <li>
-                        <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"><i class="fa fa-tasks fa-fw"></i> Get Involved!</a>
+                        <a ui-sref="user.getinvolved" ng-class="{active: $state.is('user.getinvolved')}"
+                            ><i class="fa fa-tasks fa-fw"></i> Get Involved!</a
+                        >
                     </li>
                     <li ng-if="currentUser.hasPermission('administrator')">
                         <a ui-sref="admin.home"><i class="fa fa-user fa-fw"></i> Administration</a>
@@ -76,7 +79,6 @@
                     <li>
                         <a ui-sref="public.logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
-
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

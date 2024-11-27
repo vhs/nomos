@@ -8,9 +8,7 @@
 
 namespace vhs\domain;
 
-
-class Filter
-{
+class Filter {
     public $left;
     public $column;
     public $operator;
@@ -26,46 +24,46 @@ class Filter
     }
 
     public static function _And($left, $right) {
-        return new Filter($left, null, "and", $right, null);
+        return new Filter($left, null, 'and', $right, null);
     }
 
     public static function _Or($left, $right) {
-        return new Filter($left, null, "or", $right, null);
+        return new Filter($left, null, 'or', $right, null);
     }
 
     public static function Equal($column, $value) {
-        return new Filter(null, $column, "=", null, $value);
+        return new Filter(null, $column, '=', null, $value);
     }
 
     public static function NotEqual($column, $value) {
-        return new Filter(null, $column, "!=", null, $value);
+        return new Filter(null, $column, '!=', null, $value);
     }
 
     public static function Lesser($column, $value) {
-        return new Filter(null, $column, "<", null, $value);
+        return new Filter(null, $column, '<', null, $value);
     }
 
     public static function LesserEqual($column, $value) {
-        return new Filter(null, $column, "<=", null, $value);
+        return new Filter(null, $column, '<=', null, $value);
     }
 
     public static function Greater($column, $value) {
-        return new Filter(null, $column, ">", null, $value);
+        return new Filter(null, $column, '>', null, $value);
     }
 
     public static function GreaterEqual($column, $value) {
-        return new Filter(null, $column, ">=", null, $value);
+        return new Filter(null, $column, '>=', null, $value);
     }
 
     public static function Like($column, $value) {
-        return new Filter(null, $column, "like", null, $value);
+        return new Filter(null, $column, 'like', null, $value);
     }
 
     public static function IsNull($column) {
-        return new Filter(null, $column, "is null", null, null);
+        return new Filter(null, $column, 'is null', null, null);
     }
 
     public static function IsNotNull($column, $value) {
-        return new Filter(null, $column, "not null", null, null);
+        return new Filter(null, $column, 'not null', null, null);
     }
 }

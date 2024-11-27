@@ -11,17 +11,17 @@ namespace vhs\database\wheres;
 use vhs\database\Table;
 
 class WhereAnd extends Where {
-
     /** @var Where[] */
-    public $wheres = array();
+    public $wheres = [];
 
     public function __construct(Where ...$where) {
         $this->wheres = $where;
     }
 
     public function __updateTable(Table &$table) {
-        foreach($this->wheres as $where)
+        foreach ($this->wheres as $where) {
             $where->__updateTable($table);
+        }
     }
 
     public function generateWhere(IWhereGenerator $generator) {
@@ -29,12 +29,13 @@ class WhereAnd extends Where {
     }
 
     public function __toString() {
-        $s = "WhereAnd(";
+        $s = 'WhereAnd(';
 
-        foreach($this->wheres as $where)
-            $s .= "" . $where;
+        foreach ($this->wheres as $where) {
+            $s .= '' . $where;
+        }
 
-        $s .= ")";
+        $s .= ')';
 
         return $s;
     }

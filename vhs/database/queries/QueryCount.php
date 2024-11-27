@@ -8,7 +8,6 @@
 
 namespace vhs\database\queries;
 
-
 use vhs\database\Columns;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
@@ -17,7 +16,6 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 class QueryCount extends Query {
-
     /** @var Columns  */
     public $columns;
     /** @var OrderBy  */

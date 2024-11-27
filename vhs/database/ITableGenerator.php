@@ -8,7 +8,6 @@
 
 namespace vhs\database;
 
-
 interface ITableGenerator extends IGenerator {
     public function generateTable(Table $ascending);
 }

@@ -8,9 +8,7 @@
 
 namespace vhs\security;
 
-
 class UserPassCredentials implements ICredentials {
-
     private $username;
     private $password;
 
@@ -19,6 +17,11 @@ class UserPassCredentials implements ICredentials {
         $this->password = $password;
     }
 
-    public function getUsername() { return $this->username; }
-    public function getPassword() { return $this->password; }
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
 }

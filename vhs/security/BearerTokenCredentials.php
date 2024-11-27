@@ -8,14 +8,14 @@
 
 namespace vhs\security;
 
-
 class BearerTokenCredentials implements ICredentials {
-
     private $token;
 
     public function __construct($token) {
         $this->token = $token;
     }
 
-    public function getToken() { return $this->token; }
+    public function getToken() {
+        return $this->token;
+    }
 }

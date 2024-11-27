@@ -8,11 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IMemberCardService1 extends IContract {
-
     /**
      * @permission administrator
      * @param $key
@@ -73,5 +71,4 @@ interface IMemberCardService1 extends IContract {
      * @return mixed
      */
     public function UpdateGenuineCardActive($key, $active);
-
 }

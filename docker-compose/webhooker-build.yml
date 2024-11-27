@@ -5,3 +5,5 @@ services:
     build:
       context: ..
       dockerfile: docker-compose/Dockerfile.webhooker
+    env_file:
+      ../docker/nomos.env

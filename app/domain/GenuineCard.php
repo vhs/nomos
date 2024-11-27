@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\GenuineCardSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -20,7 +19,6 @@ class GenuineCard extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-
     }
 
     /**
@@ -28,9 +26,6 @@ class GenuineCard extends Domain {
      * @return GenuineCard[]
      */
     public static function findByKey($key) {
-        return GenuineCard::where(
-            Where::Equal(GenuineCardSchema::Columns()->key, $key)
-        );
+        return GenuineCard::where(Where::Equal(GenuineCardSchema::Columns()->key, $key));
     }
 }
-

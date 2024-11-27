@@ -8,5 +8,5 @@
 
 namespace vhs\messaging\exceptions;
 
-
-class MessageQueueException extends \Exception { }
+class MessageQueueException extends \Exception {
+}

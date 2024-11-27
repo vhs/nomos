@@ -8,7 +8,6 @@
 
 namespace app\services;
 
-
 use app\contracts\IEventService1;
 use app\domain\Event;
 use app\domain\Privilege;
@@ -17,14 +16,12 @@ use vhs\domain\Domain;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
-class EventService extends Service implements IEventService1
-{
+class EventService extends Service implements IEventService1 {
     /**
      * @permission webhook|administrator
      * @return mixed
      */
-    function GetEvents()
-    {
+    public function GetEvents() {
         return Event::findAll();
     }
 
@@ -33,12 +30,12 @@ class EventService extends Service implements IEventService1
      * @param $id
      * @return mixed
      */
-    function GetEvent($id)
-    {
+    public function GetEvent($id) {
         $event = Event::find($id);
 
-        if (is_null($event))
-            throw new Exception("Event does not exist");
+        if (is_null($event)) {
+            throw new Exception('Event does not exist');
+        }
 
         return $event;
     }
@@ -52,10 +49,10 @@ class EventService extends Service implements IEventService1
      * @param $enabled
      * @return mixed
      */
-    function CreateEvent($name, $domain, $event, $description, $enabled)
-    {
-        if (Event::exists($domain, $event))
-            throw new Exception("Event already exists for code and/or domain.event");
+    public function CreateEvent($name, $domain, $event, $description, $enabled) {
+        if (Event::exists($domain, $event)) {
+            throw new Exception('Event already exists for code and/or domain.event');
+        }
 
         $evt = new Event();
 
@@ -74,8 +71,7 @@ class EventService extends Service implements IEventService1
      * @param $enabled
      * @return mixed
      */
-    function EnableEvent($id, $enabled)
-    {
+    public function EnableEvent($id, $enabled) {
         $event = $this->GetEvent($id);
 
         $event->enabled = $enabled;
@@ -89,23 +85,24 @@ class EventService extends Service implements IEventService1
      * @param $privileges
      * @return mixed
      */
-    function PutEventPrivileges($id, $privileges)
-    {
+    public function PutEventPrivileges($id, $privileges) {
         $event = $this->GetEvent($id);
 
         $privArray = $privileges;
 
-        if(!is_array($privArray)) {
-            $privArray = explode(",", $privileges);
+        if (!is_array($privArray)) {
+            $privArray = explode(',', $privileges);
         }
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach($event->privileges->all() as $priv)
+        foreach ($event->privileges->all() as $priv) {
             $event->privileges->remove($priv);
+        }
 
-        foreach($privs as $priv)
+        foreach ($privs as $priv) {
             $event->privileges->add($priv);
+        }
 
         $event->save();
     }
@@ -120,8 +117,7 @@ class EventService extends Service implements IEventService1
      * @param $enabled
      * @return mixed
      */
-    function UpdateEvent($id, $name, $domain, $event, $description, $enabled)
-    {
+    public function UpdateEvent($id, $name, $domain, $event, $description, $enabled) {
         $evt = $this->GetEvent($id);
 
         $evt->name = $name;
@@ -138,8 +134,7 @@ class EventService extends Service implements IEventService1
      * @param $id
      * @return mixed
      */
-    function DeleteEvent($id)
-    {
+    public function DeleteEvent($id) {
         $event = $this->GetEvent($id);
 
         return $event->delete();
@@ -154,8 +149,7 @@ class EventService extends Service implements IEventService1
      * @param $filters
      * @return mixed
      */
-    public function ListEvents($page, $size, $columns, $order, $filters)
-    {
+    public function ListEvents($page, $size, $columns, $order, $filters) {
         return Event::page($page, $size, $columns, $order, $filters);
     }
 
@@ -164,32 +158,32 @@ class EventService extends Service implements IEventService1
      * @param $filters
      * @return int
      */
-    public function CountEvents($filters)
-    {
+    public function CountEvents($filters) {
         return Event::count($filters);
     }
-    
+
     /**
      * @permission user
      * @return mixed
      */
-    function GetAccessibleEvents()
-    {
+    public function GetAccessibleEvents() {
         $events = $this->GetEvents();
 
-        if (CurrentUser::hasAllPermissions("administrator"))
+        if (CurrentUser::hasAllPermissions('administrator')) {
             return $events;
+        }
 
-        $retval = array();
+        $retval = [];
 
-        foreach($events as $event)
-        {
-            $privs = array();
-            foreach($event->privileges->all() as $priv)
+        foreach ($events as $event) {
+            $privs = [];
+            foreach ($event->privileges->all() as $priv) {
                 array_push($privs, $priv->code);
+            }
 
-            if (CurrentUser::hasAllPermissions(...$privs))
+            if (CurrentUser::hasAllPermissions(...$privs)) {
                 array_push($retval, $event);
+            }
         }
 
         return $retval;
@@ -199,19 +193,17 @@ class EventService extends Service implements IEventService1
      * @permission webhook|administrator
      * @return mixed
      */
-    function GetDomainDefinitions()
-    {
-
-        foreach (glob("domain/*.php") as $filename)
+    public function GetDomainDefinitions() {
+        foreach (glob('domain/*.php') as $filename) {
             include_once $filename;
+        }
 
-
-        $domains = array();
-        foreach(get_declared_classes() as $class) {
-            if (is_subclass_of($class, "\\vhs\\domain\\Domain")) {
-                $name = str_replace("app\\domain\\", "", $class);
+        $domains = [];
+        foreach (get_declared_classes() as $class) {
+            if (is_subclass_of($class, '\\vhs\\domain\\Domain')) {
+                $name = str_replace('app\\domain\\', '', $class);
                 $domains[$name] = [
-                    "checks" => $class::Schema()->Table()->checks
+                    'checks' => $class::Schema()->Table()->checks
                 ];
             }
         }
@@ -224,8 +216,7 @@ class EventService extends Service implements IEventService1
      * @param $domain
      * @return mixed
      */
-    function GetDomainDefinition($domain)
-    {
+    public function GetDomainDefinition($domain) {
         // TODO: Implement GetDomainDefinition() method.
     }
 }

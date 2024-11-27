@@ -8,8 +8,5 @@
 
 namespace vhs\database\access;
 
-
-interface IAccessGenerator
-{
-
+interface IAccessGenerator {
 }

@@ -29,13 +29,17 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-5">
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Permissions
-                            </div>
+                            <div class="panel-heading">Permissions</div>
                             <div class="panel-body">
                                 <div class="list-group">
-                                    <a href="" class="list-group-item clearfix" ng-repeat="privilege in privileges" ng-click="togglePrivilege(privilege)">
-                                        <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                                    <a
+                                        href=""
+                                        class="list-group-item clearfix"
+                                        ng-repeat="privilege in privileges"
+                                        ng-click="togglePrivilege(privilege)">
+                                        <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right">
+                                            <i class="fa fa-check"></i>
+                                        </button>
                                         {{privilege.name}}
                                     </a>
                                 </div>
@@ -46,16 +50,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Expiry
-            </div>
+            <div class="panel-heading">Expiry</div>
             <div class="panel-body" ng-if="doesExpire">
                 <div class="row">
                     <div class="col-md-4">
@@ -63,9 +64,20 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input type="text" class="form-control" datepicker-popup="{{datepicker.format}}" ng-model="expirydate" ng-change="datepicker.changed()" is-open="datepicker.opened" min-date="datepicker.today" datepicker-options="datepicker.dateOptions" close-text="Close" />
+                            <input
+                                type="text"
+                                class="form-control"
+                                datepicker-popup="{{datepicker.format}}"
+                                ng-model="expirydate"
+                                ng-change="datepicker.changed()"
+                                is-open="datepicker.opened"
+                                min-date="datepicker.today"
+                                datepicker-options="datepicker.dateOptions"
+                                close-text="Close" />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="datepicker.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="datepicker.open($event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
                             </span>
                         </div>
                     </div>
@@ -76,7 +88,12 @@
                     </div>
                     <div class="col-md-8">
                         <div class="input-group">
-                            <timepicker ng-model="expirytime" ng-change="timepicker.changed()" hour-step="1" minute-step="1" show-meridian="true"></timepicker>
+                            <timepicker
+                                ng-model="expirytime"
+                                ng-change="timepicker.changed()"
+                                hour-step="1"
+                                minute-step="1"
+                                show-meridian="true"></timepicker>
                         </div>
                     </div>
                 </div>

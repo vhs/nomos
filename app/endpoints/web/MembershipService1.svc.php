@@ -2,7 +2,6 @@
 
 namespace app\endpoints\web;
 
-
 use app\services\MembershipService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;

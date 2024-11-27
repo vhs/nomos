@@ -8,7 +8,6 @@
 
 namespace app\schema;
 
-
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
@@ -17,18 +16,18 @@ use vhs\domain\Schema;
 
 class PrivilegeSchema extends Schema {
     public static function init() {
-        $table = new Table("privileges");
+        $table = new Table('privileges');
 
-        $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("name", Type::String(false, "", 255));
-        $table->addColumn("code", Type::String(false, "", 50));
-        $table->addColumn("description", Type::Text());
-        $table->addColumn("icon", Type::String(false, "", 255));
-        $table->addColumn("enabled", Type::Bool(false, false));
+        $table->addColumn('id', Type::Int(false, 0));
+        $table->addColumn('name', Type::String(false, '', 255));
+        $table->addColumn('code', Type::String(false, '', 50));
+        $table->addColumn('description', Type::Text());
+        $table->addColumn('icon', Type::String(false, '', 255));
+        $table->addColumn('enabled', Type::Bool(false, false));
 
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
-        $table->setAccess(PrivilegedAccess::GenerateAccess("privilege", $table));
+        $table->setAccess(PrivilegedAccess::GenerateAccess('privilege', $table));
 
         return $table;
     }

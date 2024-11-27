@@ -18,21 +18,20 @@ class Key extends Domain {
     public static function Define() {
         Key::Schema(KeySchema::Type());
 
-        Key::Relationship("privileges", Privilege::Type(), KeyPrivilegeSchema::Type());
+        Key::Relationship('privileges', Privilege::Type(), KeyPrivilegeSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {
-
     }
 
     public function getAbsolutePrivileges() {
-        $privs = array();
+        $privs = [];
 
-        foreach($this->privileges->all() as $priv) {
-            if($priv->code === "inherit" && $this->userid != null) {
+        foreach ($this->privileges->all() as $priv) {
+            if ($priv->code === 'inherit' && $this->userid != null) {
                 $user = User::find($this->userid);
 
-                if($user != null) {
+                if ($user != null) {
                     foreach ($user->privileges->all() as $userpriv) {
                         array_push($privs, $userpriv);
                     }
@@ -48,10 +47,12 @@ class Key extends Domain {
             array_push($privs, $priv);
         }
 
-        $retval = array();
+        $retval = [];
 
-        foreach(array_unique($privs) as $priv) //hack array_unique may convert to object
+        foreach (array_unique($privs) as $priv) {
+            //hack array_unique may convert to object
             array_push($retval, $priv);
+        }
 
         return $retval;
     }
@@ -61,56 +62,30 @@ class Key extends Domain {
     }
 
     public static function findByRfid($rfid) {
-        return self::where(Where::_And(
-            Where::Equal(KeySchema::Columns()->type, "rfid"),
-            Where::Equal(KeySchema::Columns()->key, $rfid)
-        ));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'rfid'), Where::Equal(KeySchema::Columns()->key, $rfid)));
     }
 
     public static function findByApiKey($key) {
-        return self::where(Where::_And(
-            Where::Equal(KeySchema::Columns()->type, "api"),
-            Where::Equal(KeySchema::Columns()->key, $key)
-        ));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'api'), Where::Equal(KeySchema::Columns()->key, $key)));
     }
 
     public static function findByPin($pin) {
-        return self::where(Where::_And(
-            Where::Equal(KeySchema::Columns()->type, "pin"),
-            Where::Equal(KeySchema::Columns()->key, $pin)
-        ));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'pin'), Where::Equal(KeySchema::Columns()->key, $pin)));
     }
 
     public static function findByService($service, $key) {
-        return self::where(Where::_And(
-            Where::Equal(KeySchema::Columns()->type, $service),
-            Where::Equal(KeySchema::Columns()->key, $key)
-        ));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $service), Where::Equal(KeySchema::Columns()->key, $key)));
     }
 
     public static function getSystemApiKeys() {
-        return self::where(Where::_And(
-            Where::Null(KeySchema::Columns()->userid),
-            Where::Equal(KeySchema::Columns()->type, "api")
-        ));
+        return self::where(Where::_And(Where::Null(KeySchema::Columns()->userid), Where::Equal(KeySchema::Columns()->type, 'api')));
     }
 
     public static function findKeyAndType($key, $type) {
-        return self::where(Where::_And(
-            Where::Equal(KeySchema::Columns()->type, $type),
-            Where::Equal(KeySchema::Columns()->key, $key)
-        ));
+        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $type), Where::Equal(KeySchema::Columns()->key, $key)));
     }
 
     public static function getUserApiKeys($userid) {
-        return self::where(
-            Where::_And(
-                Where::Equal(Key::Schema()->Columns()->type, "api"),
-                Where::Equal(Key::Schema()->Columns()->userid, $userid)
-            )
-        );
+        return self::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'api'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
     }
 }
-
-
-

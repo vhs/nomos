@@ -8,13 +8,11 @@
 
 namespace vhs\web;
 
-
 class HttpUtil {
-
     public static function parseRequestHeaders() {
-        $headers = array();
-        foreach($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) <> 'HTTP_') {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
             $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
@@ -28,7 +26,7 @@ class HttpUtil {
     }
 
     public static function getRequestUrl() {
-        return $_SERVER["SCRIPT_NAME"];
+        return $_SERVER['SCRIPT_NAME'];
     }
 
     /**

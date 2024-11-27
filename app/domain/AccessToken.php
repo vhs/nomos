@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\AccessTokenSchema;
 use vhs\database\orders\OrderBy;
 use vhs\database\wheres\Where;
@@ -18,8 +17,8 @@ use vhs\domain\validations\ValidationResults;
 class AccessToken extends Domain {
     public static function Define() {
         AccessToken::Schema(AccessTokenSchema::Type());
-        AccessToken::Relationship("user", User::Type());
-        AccessToken::Relationship("client", AppClient::Type());
+        AccessToken::Relationship('user', User::Type());
+        AccessToken::Relationship('client', AppClient::Type());
     }
 
     /**
@@ -37,7 +36,9 @@ class AccessToken extends Domain {
             1
         );
 
-        if (count($tokens) === 1) return $tokens[0];
+        if (count($tokens) === 1) {
+            return $tokens[0];
+        }
 
         return null;
     }

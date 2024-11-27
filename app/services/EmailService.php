@@ -7,53 +7,52 @@ use app\domain\EmailTemplate;
 use Aws\Ses\SesClient;
 
 class EmailService implements IEmailService1 {
-
     public function EmailUser($user, $tmpl, $context, $subject = null) {
         $this->Email($user->email, $tmpl, $context, $subject);
     }
 
     public function Email($email, $tmpl, $context, $subject = null) {
-
         $generated = EmailTemplate::generate($tmpl, $context);
 
-        if(is_null($generated)) {
-            throw new \Exception("Unable to load e-mail template");
+        if (is_null($generated)) {
+            throw new \Exception('Unable to load e-mail template');
         }
 
-        if (is_null($subject))
-            $subject = $generated["subject"];
+        if (is_null($subject)) {
+            $subject = $generated['subject'];
+        }
 
-        $client = SesClient::factory(array(
+        $client = SesClient::factory([
             'region' => AWS_SES_REGION,
-            'credentials' => array(
-                'key'      => AWS_SES_CLIENT_ID,
-                'secret'   => AWS_SES_SECRET
-            )
-        ));
+            'credentials' => [
+                'key' => AWS_SES_CLIENT_ID,
+                'secret' => AWS_SES_SECRET
+            ]
+        ]);
 
-        $client->sendEmail(array(
+        $client->sendEmail([
             'Source' => NOMOS_FROM_EMAIL,
-            'Destination' => array(
-                'ToAddresses' => array($email),
-            ),
-            'Message' => array(
-                'Subject' => array(
+            'Destination' => [
+                'ToAddresses' => [$email]
+            ],
+            'Message' => [
+                'Subject' => [
                     // Data is required
                     'Data' => $subject
-                ),
+                ],
                 // Body is required
-                'Body' => array(
-                    'Text' => array(
+                'Body' => [
+                    'Text' => [
                         // Data is required
-                        'Data' => $generated["txt"]
-                    ),
-                    'Html' => array(
+                        'Data' => $generated['txt']
+                    ],
+                    'Html' => [
                         // Data is required
-                        'Data' => $generated["html"]
-                    ),
-                ),
-            ),
-        ));
+                        'Data' => $generated['html']
+                    ]
+                ]
+            ]
+        ]);
 
         return null;
     }
@@ -63,8 +62,7 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @return mixed
      */
-    public function GetTemplate($id)
-    {
+    public function GetTemplate($id) {
         return EmailTemplate::find($id);
     }
 
@@ -74,8 +72,7 @@ class EmailService implements IEmailService1 {
      * @param $name
      * @return mixed
      */
-    public function UpdateTemplateName($id, $name)
-    {
+    public function UpdateTemplateName($id, $name) {
         $template = EmailTemplate::find($id);
         $template->name = $name;
         $template->save();
@@ -87,8 +84,7 @@ class EmailService implements IEmailService1 {
      * @param $code
      * @return mixed
      */
-    public function UpdateTemplateCode($id, $code)
-    {
+    public function UpdateTemplateCode($id, $code) {
         $template = EmailTemplate::find($id);
         $template->code = $code;
         $template->save();
@@ -100,8 +96,7 @@ class EmailService implements IEmailService1 {
      * @param $subject
      * @return mixed
      */
-    public function UpdateTemplateSubject($id, $subject)
-    {
+    public function UpdateTemplateSubject($id, $subject) {
         $template = EmailTemplate::find($id);
         $template->subject = $subject;
         $template->save();
@@ -113,8 +108,7 @@ class EmailService implements IEmailService1 {
      * @param $help
      * @return mixed
      */
-    public function UpdateTemplateHelp($id, $help)
-    {
+    public function UpdateTemplateHelp($id, $help) {
         $template = EmailTemplate::find($id);
         $template->help = $help;
         $template->save();
@@ -126,8 +120,7 @@ class EmailService implements IEmailService1 {
      * @param $body
      * @return mixed
      */
-    public function UpdateTemplateBody($id, $body)
-    {
+    public function UpdateTemplateBody($id, $body) {
         $template = EmailTemplate::find($id);
         $template->body = $body;
         $template->save();
@@ -139,8 +132,7 @@ class EmailService implements IEmailService1 {
      * @param $html
      * @return mixed
      */
-    public function UpdateTemplateHtml($id, $html)
-    {
+    public function UpdateTemplateHtml($id, $html) {
         $template = EmailTemplate::find($id);
         $template->html = $html;
         $template->save();
@@ -156,12 +148,12 @@ class EmailService implements IEmailService1 {
      * @param $html
      * @return mixed
      */
-    public function PutTemplate($name, $code, $subject, $help, $body, $html)
-    {
+    public function PutTemplate($name, $code, $subject, $help, $body, $html) {
         $template = EmailTemplate::findByCode($code);
 
-        if (is_null($template))
+        if (is_null($template)) {
             $template = new EmailTemplate();
+        }
 
         $template->name = $name;
         $template->code = $code;
@@ -178,12 +170,12 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @return mixed
      */
-    public function DeleteTemplate($id)
-    {
+    public function DeleteTemplate($id) {
         $template = EmailTemplate::find($id);
 
-        if (!is_null($template))
+        if (!is_null($template)) {
             $template->delete();
+        }
     }
 
     /**
@@ -195,8 +187,7 @@ class EmailService implements IEmailService1 {
      * @param $filters
      * @return mixed
      */
-    public function ListTemplates($page, $size, $columns, $order, $filters)
-    {
+    public function ListTemplates($page, $size, $columns, $order, $filters) {
         return EmailTemplate::page($page, $size, $columns, $order, $filters);
     }
 
@@ -205,8 +196,7 @@ class EmailService implements IEmailService1 {
      * @param $filters
      * @return int
      */
-    public function CountTemplates($filters)
-    {
+    public function CountTemplates($filters) {
         return EmailTemplate::count($filters);
     }
 }

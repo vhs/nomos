@@ -8,7 +8,6 @@
 
 namespace vhs\database;
 
-
 interface IColumnGenerator extends IGenerator {
     public function generateColumn(Column $column);
 }

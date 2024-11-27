@@ -8,11 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IPinService1 extends IContract {
-
     /**
      * @permission administrator|user
      * @param $userid

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -8,7 +9,6 @@
 
 namespace app\security\oauth;
 
-
 use app\domain\Key;
 use app\domain\Privilege;
 use app\security\Authenticate;
@@ -16,14 +16,13 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use vhs\security\CurrentUser;
 use vhs\web\HttpServer;
 
-class OAuthHelper
-{
+class OAuthHelper {
     private $provider;
     private $userDetails;
     /** @var HttpServer */
     private $server;
 
-    public function __construct(AbstractProvider $provider, HttpServer $server){
+    public function __construct(AbstractProvider $provider, HttpServer $server) {
         $this->provider = $provider;
         $this->userDetails = null;
         $this->server = $server;
@@ -40,8 +39,9 @@ class OAuthHelper
 
     public function processToken() {
         $token = $this->provider->getAccessToken('authorization_code', [
-            'code' => $_GET['code']]);
-        if (!is_null($token)){
+            'code' => $_GET['code']
+        ]);
+        if (!is_null($token)) {
             $this->userDetails = $this->provider->getUserDetails($token);
             return $this->userDetails;
         }
@@ -49,18 +49,20 @@ class OAuthHelper
     }
 
     public function linkAccount($serviceUID, $serviceType, $notes) {
-
         if (!Authenticate::isAuthenticated()) {
-            print("Not logged in");
-            exit;
+            print 'Not logged in';
+            exit();
         }
+
         //Update old keys even if they are assigned to other users
         $keys = Key::findKeyAndType($serviceUID, $serviceType);
-        if (count($keys) > 0){
+
+        if (count($keys) > 0) {
             $key = $keys[0];
         } else {
             $key = new Key();
         }
+
         $key->key = $serviceUID;
         $key->userid = CurrentUser::getIdentity();
         $key->type = $serviceType;
@@ -75,8 +77,8 @@ class OAuthHelper
     }
 
     public static function redirectHost() {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $protocol = defined('NOMOS_FORCE_HTTPS') || ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://'; // NOSONAR
         $domainName = $_SERVER['HTTP_HOST'];
-        return $protocol.$domainName;
+        return $protocol . $domainName;
     }
 }

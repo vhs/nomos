@@ -8,12 +8,11 @@
 
 namespace vhs\database;
 
-
 interface IGeneratable {
     /**
      * @param IGenerator $generator
      * @param mixed $value
      * @return mixed
      */
-    function generate(IGenerator $generator, $value = null);
+    public function generate(IGenerator $generator, $value = null);
 }

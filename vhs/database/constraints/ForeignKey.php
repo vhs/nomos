@@ -8,12 +8,10 @@
 
 namespace vhs\database\constraints;
 
-
 use vhs\database\Column;
 use vhs\database\Table;
 
 class ForeignKey extends Constraint {
-
     /** @var Table */
     public $table;
     /** @var Column */

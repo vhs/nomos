@@ -4,26 +4,43 @@
         <div class="overlay" ng-show="updating">
             <div class="row vertical-align text-center icon-align-center">
                 <div class="col-md-2 col-md-offset-5">
-                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                    <div class="fa fa-spin fa-spinner fa-5x"></div>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-12">
-
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>Columns</label> <input class="form-control" title="Columns" type="text" ng-model="listService.columns" ng-keyup="$event.keyCode == 13 && refresh()" />
+                        <label>Columns</label>
+                        <input
+                            class="form-control"
+                            title="Columns"
+                            type="text"
+                            ng-model="listService.columns"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
                     </div>
                     <div class="col-lg-3">
-                        <label>Order</label> <input class="form-control" title="Order" type="text" ng-model="listService.order" ng-keyup="$event.keyCode == 13 && refresh()" />
+                        <label>Order</label>
+                        <input
+                            class="form-control"
+                            title="Order"
+                            type="text"
+                            ng-model="listService.order"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>Search</label> <input class="form-control" title="Search" type="text" ng-model="listService.search" ng-keyup="$event.keyCode == 13 && refresh()" />
+                        <label>Search</label>
+                        <input
+                            class="form-control"
+                            title="Search"
+                            type="text"
+                            ng-model="listService.search"
+                            ng-keyup="$event.keyCode == 13 && refresh()" />
                     </div>
                     <div class="col-lg-9">
                         <div class="row">
@@ -45,67 +62,75 @@
                         <button class="btn btn-primary" ng-click="refresh()">Search</button>
                     </div>
                 </div>
-                
+
                 <div class="row before-table">
-                  <div class="col-md-7">
-                    <pagination  ng-if="itemCount" items-per-page="listService.pageSize" total-items="itemCount" ng-model="listService.page" ng-change="refresh()" max-size="10" boundary-links="true" rotate="false" ></pagination>
-                  </div>
-                  <div class="col-md-2 inline-control">
-                    <label>{{ itemCount }} entries found</label>
-                  </div>
-                  <div class="col-md-1 inline-control">
-                    Page size: 
-                    <select ng-model="listService.pageSize" ng-options="o for o in listService.allowedPageSizes" ng-change="refresh()"></select>
-                  </div>
+                    <div class="col-md-7">
+                        <pagination
+                            ng-if="itemCount"
+                            items-per-page="listService.pageSize"
+                            total-items="itemCount"
+                            ng-model="listService.page"
+                            ng-change="refresh()"
+                            max-size="10"
+                            boundary-links="true"
+                            rotate="false"></pagination>
+                    </div>
+                    <div class="col-md-2 inline-control">
+                        <label>{{ itemCount }} entries found</label>
+                    </div>
+                    <div class="col-md-1 inline-control">
+                        Page size:
+                        <select ng-model="listService.pageSize" ng-options="o for o in listService.allowedPageSizes" ng-change="refresh()"></select>
+                    </div>
                 </div>
-
-
-                
             </div>
         </div>
 
         <p ng-if="!accesslogs.length">No access logs</p>
         <table ng-if="accesslogs.length" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
-            <tr>
-                <th>Time</th>
-                <th>Key</th>
-                <th>Type</th>
-                <th>User ID</th>
-                <th>Authorized</th>
-                <th>From IP</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Time</th>
+                    <th>Key</th>
+                    <th>Type</th>
+                    <th>User ID</th>
+                    <th>Authorized</th>
+                    <th>From IP</th>
+                    <th></th>
+                </tr>
             </thead>
             <tfoot>
-            <tr>
-                <th>Time</th>
-                <th>Key</th>
-                <th>Type</th>
-                <th>User ID</th>
-                <th>Authorized</th>
-                <th>From IP</th>
+                <tr>
+                    <th>Time</th>
+                    <th>Key</th>
+                    <th>Type</th>
+                    <th>User ID</th>
+                    <th>Authorized</th>
+                    <th>From IP</th>
 
-                <th></th>
-            </tr>
-
+                    <th></th>
+                </tr>
             </tfoot>
 
             <tbody>
-            <tr ng-repeat="entry in accesslogs">
-                <td>{{entry.time}}</td>
-                <td>{{entry.key}}</td>
-                <td>{{entry.type}}</td>
-                <td>{{entry.userid}}</td>
-                <td>
-                    <span ng-show="entry.authorized" class="fa fa-check-circle fa-2x"></span>
-                    <span ng-show="!entry.authorized" class="fa fa-close fa-2x"></span>
-                </td>
-                <td>{{entry.from_ip}}</td>
-                <td></td>
-            </tr>
+                <tr ng-repeat="entry in accesslogs">
+                    <td>{{entry.time}}</td>
+                    <td>{{entry.key}}</td>
+                    <td>{{entry.type}}</td>
+                    <td>{{entry.userid}}</td>
+                    <td>
+                        <span ng-show="entry.authorized" class="fa fa-check-circle fa-2x"></span>
+                        <span ng-show="!entry.authorized" class="fa fa-close fa-2x"></span>
+                    </td>
+                    <td>{{entry.from_ip}}</td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
-        <a href="/services/web/AuthService1.svc/ListUserAccessLog?userid={{currentUser.id}}&page={{listService.page}}&size={{listService.size}}&columns={{listService.columns}}&order={{listService.order}}&filters={{listService.filter}}" download="VHS-{{currentUser.fname}}-{{currentUser.lname}}-accesslogs.json">Download Current View</a>
+        <a
+            href="/services/web/AuthService1.svc/ListUserAccessLog?userid={{currentUser.id}}&page={{listService.page}}&size={{listService.size}}&columns={{listService.columns}}&order={{listService.order}}&filters={{listService.filter}}"
+            download="VHS-{{currentUser.fname}}-{{currentUser.lname}}-accesslogs.json"
+            >Download Current View</a
+        >
     </div>
 </div>

@@ -8,11 +8,9 @@
 
 namespace vhs\security;
 
-
 use vhs\Singleton;
 
 class CurrentUser {
-
     /**
      * @var IPrincipal $currentPrincipal
      */
@@ -23,22 +21,25 @@ class CurrentUser {
     }
 
     final protected static function getInstance() {
-        static $aoInstance = array();
+        static $aoInstance = [];
 
         if (session_status() === PHP_SESSION_ACTIVE) {
-            if(!isset($_SESSION['CurrentUser']))
+            if (!isset($_SESSION['CurrentUser'])) {
                 $_SESSION['CurrentUser'] = new CurrentUser();
+            }
 
             return $_SESSION['CurrentUser'];
         } else {
-            if (!isset($aoInstance['CurrentUser']))
+            if (!isset($aoInstance['CurrentUser'])) {
                 $aoInstance['CurrentUser'] = new CurrentUser();
+            }
 
             return $aoInstance['CurrentUser'];
         }
     }
 
-    final private function __clone() { }
+    final private function __clone() {
+    }
 
     /**
      * @return IPrincipal

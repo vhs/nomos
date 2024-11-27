@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\PasswordResetRequestSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -20,13 +19,9 @@ class PasswordResetRequest extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-
     }
 
     public static function findByToken($token) {
-
-        return PasswordResetRequest::where(
-            Where::Equal(PasswordResetRequestSchema::Columns()->token, $token)
-        );
+        return PasswordResetRequest::where(Where::Equal(PasswordResetRequestSchema::Columns()->token, $token));
     }
 }

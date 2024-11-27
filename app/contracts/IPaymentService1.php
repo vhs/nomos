@@ -11,7 +11,6 @@ namespace app\contracts;
 use vhs\services\IContract;
 
 interface IPaymentService1 extends IContract {
-
     /**
      * @permission administrator|user
      * @param $id
@@ -38,7 +37,7 @@ interface IPaymentService1 extends IContract {
      * @return mixed
      */
     public function CountUserPayments($userid, $filters);
-    
+
     /**
      * @permission administrator
      * @param $page

@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Edit User</h2>
@@ -7,9 +6,7 @@
 
 <div class="col-lg-6 col-sm-12">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            Profile - Userid {{profile.id}}
-        </div>
+        <div class="panel-heading">Profile - Userid {{profile.id}}</div>
         <div class="panel-body">
             <form role="form" name="profileForm" ng-submit="updateProfile(profileForm.$valid)" novalidate>
                 <div class="row">
@@ -17,7 +14,7 @@
                         <div class="overlay" ng-show="updating">
                             <div class="row vertical-align">
                                 <div class="col-md-2 col-md-offset-5">
-                                    <div class="fa fa-spin fa-spinner fa-5x "></div>
+                                    <div class="fa fa-spin fa-spinner fa-5x"></div>
                                 </div>
                             </div>
                         </div>
@@ -25,11 +22,13 @@
                             <div class="col-sm-7">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">@</span>
-                                    <input type="text" class="form-control" placeholder="Username" ng-model="profile.username">
+                                    <input type="text" class="form-control" placeholder="Username" ng-model="profile.username" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-5 pull-right">
-                                <button type="button" class="col-xs-12 btn btn-warning" data-toggle="modal" data-target="#passwordChange">Change Password</button>
+                                <button type="button" class="col-xs-12 btn btn-warning" data-toggle="modal" data-target="#passwordChange">
+                                    Change Password
+                                </button>
                             </div>
                         </div>
 
@@ -37,13 +36,21 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input class="form-control" placeholder="First Name" ng-model="profile.fname" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                                    <input
+                                        class="form-control"
+                                        placeholder="First Name"
+                                        ng-model="profile.fname"
+                                        ng-disabled="!currentUser.hasPrivilege('full-profile')" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input class="form-control" placeholder="Last Name" ng-model="profile.lname" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                                    <input
+                                        class="form-control"
+                                        placeholder="Last Name"
+                                        ng-model="profile.lname"
+                                        ng-disabled="!currentUser.hasPrivilege('full-profile')" />
                                 </div>
                             </div>
                         </div>
@@ -52,20 +59,32 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Email</label>
-                                    <div class="checkbox pull-right" style="margin:0;"><label><input type="checkbox" ng-model="profile.newsletter">Newsletter</label></div>
+                                    <div class="checkbox pull-right" style="margin: 0">
+                                        <label><input type="checkbox" ng-model="profile.newsletter" />Newsletter</label>
+                                    </div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Email" ng-model="profile.email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                            <input
+                                class="form-control"
+                                placeholder="Email"
+                                ng-model="profile.email"
+                                ng-disabled="!currentUser.hasPrivilege('full-profile')" />
                         </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Paypal Email</label>
-                                    <div class="checkbox pull-right" style="margin:0;"><label><input type="checkbox" ng-model="profile.cash">Cash Member</label></div>
+                                    <div class="checkbox pull-right" style="margin: 0">
+                                        <label><input type="checkbox" ng-model="profile.cash" />Cash Member</label>
+                                    </div>
                                 </div>
                             </div>
-                            <input class="form-control" placeholder="Paypal Email" ng-model="profile.payment_email" ng-disabled="!currentUser.hasPrivilege('full-profile')">
+                            <input
+                                class="form-control"
+                                placeholder="Paypal Email"
+                                ng-model="profile.payment_email"
+                                ng-disabled="!currentUser.hasPrivilege('full-profile')" />
                         </div>
 
                         <div class="row">
@@ -73,19 +92,39 @@
                                 <div class="well well-sm">
                                     <h4>User's Access PINs</h4>
 
-                                    <button type="button" class="btn btn-warning" ng-click="generatePin()" ng-if="(profile.keys | filter:{type:'pin'}).length == 0">Generate PIN</button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        ng-click="generatePin()"
+                                        ng-if="(profile.keys | filter:{type:'pin'}).length == 0">
+                                        Generate PIN
+                                    </button>
 
                                     <div ng-repeat="key in profile.keys | filter:{type:'pin'}">
                                         <div class="form-group input-group">
-                                            <span class="input-group-addon" style="padding-right:0;">{{key.pinid}}</span>
-                                            <input type="text" class="form-control" style="padding-left:0; width:4em;" ng-minlength="4" ng-maxlength="4" maxlength="4" ng-model="key.pin">
-                                            <span class="input-group-btn" style="float:left;">
+                                            <span class="input-group-addon" style="padding-right: 0">{{key.pinid}}</span>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                style="padding-left: 0; width: 4em"
+                                                ng-minlength="4"
+                                                ng-maxlength="4"
+                                                maxlength="4"
+                                                ng-model="key.pin" />
+                                            <span class="input-group-btn" style="float: left">
                                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#pin{{key.id}}Modal">
                                                     <i class="fa fa-info"></i>
                                                 </button>
                                             </span>
                                         </div>
-                                        <div class="modal fade" id="pin{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="pin{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                                        <div
+                                            class="modal fade"
+                                            id="pin{{key.id}}Modal"
+                                            tabindex="-1"
+                                            role="dialog"
+                                            aria-labelledby="pin{{key.id}}ModalLabel"
+                                            aria-hidden="true"
+                                            style="display: none">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -96,9 +135,7 @@
                                                         <p>{{key.notes}}</p>
                                                         <p>Created: {{key.created}}</p>
                                                         <p>Special privileges for this key:</p>
-                                                        <div ng-repeat="privilege in key.privileges">
-                                                            {{privilege.code}}
-                                                        </div>
+                                                        <div ng-repeat="privilege in key.privileges">{{privilege.code}}</div>
                                                         <small>Access log to be added</small>
                                                     </div>
                                                     <div class="modal-footer">
@@ -119,17 +156,14 @@
                                 </div>
 
                                 <div class="form-group col-xs-12 col-sm-6 col-lg-6">
-
                                     <label>Last Login</label>
                                     <p class="form-control-static">{{profile.lastlogin}}</p>
-
                                 </div>
 
                                 <div class="form-group col-xs-12 col-sm-6 col-lg-12">
-
                                     <label>Membership Expiry</label>
                                     <p class="form-control-static">{{profile.mem_expire}}</p>
-                                    <input class="form-control" placeholder="Membership Expiry" ng-model="profile.mem_expire">
+                                    <input class="form-control" placeholder="Membership Expiry" ng-model="profile.mem_expire" />
                                 </div>
                             </div>
                         </div>
@@ -137,14 +171,24 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <button ng-click="resetProfileForm()" type="button" class="btn btn-default col-xs-5 col-sm-3">Reset</button>
-                                <button disabled type="button" class="btn btn-success pull-right col-xs-5 col-sm-3" ng-if="!profileForm.$dirty">Saved</button>
-                                <button ng-disabled="profileForm.$invalid" type="submit" class="btn btn-primary pull-right col-xs-5 col-sm-3" ng-if="profileForm.$dirty">Save Profile</button>
+                                <button disabled type="button" class="btn btn-success pull-right col-xs-5 col-sm-3" ng-if="!profileForm.$dirty">
+                                    Saved
+                                </button>
+                                <button
+                                    ng-disabled="profileForm.$invalid"
+                                    type="submit"
+                                    class="btn btn-primary pull-right col-xs-5 col-sm-3"
+                                    ng-if="profileForm.$dirty">
+                                    Save Profile
+                                </button>
                             </div>
                         </div>
 
-                        <div class="row keyholder-apply" ng-if="profile.membership.code != 'vhs_membership_keyholder' && profile.hasPrivilege('vetted')">
+                        <div
+                            class="row keyholder-apply"
+                            ng-if="profile.membership.code != 'vhs_membership_keyholder' && profile.hasPrivilege('vetted')">
                             <div class="col-xs-offset-1 col-xs-10 col-lg-offset-0 col-lg-6">
-                                <button type="button" class="btn btn-danger col-xs-12" >Apply for Key Holder</button>
+                                <button type="button" class="btn btn-danger col-xs-12">Apply for Key Holder</button>
                             </div>
                         </div>
                     </div>
@@ -154,60 +198,58 @@
                 </div>
             </form>
             <!-- /.row (nested) -->
-        <div class="row">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Membership</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a
+                                    href=""
+                                    class="list-group-item clearfix"
+                                    ng-repeat="membership in memberships"
+                                    ng-click="switchMembership(membership)">
+                                    <button ng-show="membership.selected" type="button" class="btn btn-xs btn-success pull-right">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    {{membership.title}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <button class="btn btn-primary pull-right" ng-disabled="!membershipDirty" ng-click="updateMembership()">Save</button>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="col-sm-12 col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Membership
-            </div>
-            <div class="panel-body">
-                <div class="list-group">
-                    <a href="" class="list-group-item clearfix" ng-repeat="membership in memberships" ng-click="switchMembership(membership)">
-                        <button ng-show="membership.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
-                        {{membership.title}}
-                    </a>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Status</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="" class="list-group-item clearfix" ng-repeat="status in statuses" ng-click="switchStatus(status)">
+                                    <button ng-show="status.selected" type="button" class="btn btn-xs btn-success pull-right">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    {{status.title}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <button class="btn btn-primary pull-right" ng-disabled="!statusDirty" ng-click="updateStatus()">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="panel-footer clearfix">
-                <button class="btn btn-primary pull-right" ng-disabled="!membershipDirty" ng-click="updateMembership()">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Status
-            </div>
-            <div class="panel-body">
-                <div class="list-group">
-                    <a href="" class="list-group-item clearfix" ng-repeat="status in statuses" ng-click="switchStatus(status)">
-                        <button ng-show="status.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
-                        {{status.title}}
-                    </a>
-                </div>
-            </div>
-            <div class="panel-footer clearfix">
-                <button class="btn btn-primary pull-right" ng-disabled="!statusDirty" ng-click="updateStatus()">Save</button>
-            </div>
-        </div>
-    </div>
-
-            </div>
-
         </div>
         <!-- /.panel-body -->
     </div>
     <!-- /.panel -->
-
 </div>
 
 <div class="col-lg-6 col-sm-12">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            Access
-        </div>
+        <div class="panel-heading">Access</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-12">
@@ -215,9 +257,9 @@
                         <h4>Linked Accounts</h4>
                         <small>Linked accounts are used to access other service such as the laser cutter</small>
                         <div>
-                                    <span ng-repeat="key in profile.keys | filter:filterLinked">
-                                        <img ng-src="/images/provider/{{key.type}}.png">
-                                    </span>
+                            <span ng-repeat="key in profile.keys | filter:filterLinked">
+                                <img ng-src="/images/provider/{{key.type}}.png" />
+                            </span>
                         </div>
                         <h5>Link New Account</h5>
                         <a href="/oauth/github.php?action=link" class="btn btn-sm btn-info">GitHub</a>
@@ -234,13 +276,20 @@
                         <div ng-repeat="key in profile.keys | filter:{type:'rfid'}">
                             <div class="form-group input-group">
                                 <input class="form-control" type="text" value="{{key.key}}" disabled />
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#rfid{{key.id}}Modal">
-                                                <i class="fa fa-info"></i>
-                                            </button>
-                                        </span>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#rfid{{key.id}}Modal">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </span>
                             </div>
-                            <div class="modal fade" id="rfid{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="rfid{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                            <div
+                                class="modal fade"
+                                id="rfid{{key.id}}Modal"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="rfid{{key.id}}ModalLabel"
+                                aria-hidden="true"
+                                style="display: none">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -251,9 +300,7 @@
                                             <p>{{key.notes}}</p>
                                             <p>Created: {{key.created}}</p>
                                             <p>Special privileges for this key:</p>
-                                            <div ng-repeat="privilege in key.privileges">
-                                                {{privilege.code}}
-                                            </div>
+                                            <div ng-repeat="privilege in key.privileges">{{privilege.code}}</div>
                                             <small>Access log to be added</small>
                                         </div>
                                         <div class="modal-footer">
@@ -276,13 +323,20 @@
                         <div ng-repeat="key in profile.keys | filter:{type:'api'}">
                             <div class="form-group input-group">
                                 <input class="form-control" type="text" value="{{key.key}}" disabled />
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#api{{key.id}}Modal">
-                                                <i class="fa fa-info"></i>
-                                            </button>
-                                        </span>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#api{{key.id}}Modal">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </span>
                             </div>
-                            <div class="modal fade" id="api{{key.id}}Modal" tabindex="-1" role="dialog" aria-labelledby="api{{key.id}}ModalLabel" aria-hidden="true" style="display: none;">
+                            <div
+                                class="modal fade"
+                                id="api{{key.id}}Modal"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="api{{key.id}}ModalLabel"
+                                aria-hidden="true"
+                                style="display: none">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -293,9 +347,7 @@
                                             <p>{{key.notes}}</p>
                                             <p>Created: {{key.created}}</p>
                                             <p>Special privileges for this key:</p>
-                                            <div ng-repeat="privilege in key.privileges">
-                                                {{privilege.code}}
-                                            </div>
+                                            <div ng-repeat="privilege in key.privileges">{{privilege.code}}</div>
                                             <small>Access log to be added</small>
                                         </div>
                                         <div class="modal-footer">
@@ -313,13 +365,13 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Permissions
-                        </div>
+                        <div class="panel-heading">Permissions</div>
                         <div class="panel-body">
                             <div class="list-group">
                                 <a href="" class="list-group-item clearfix" ng-repeat="privilege in privileges" ng-click="togglePrivilege(privilege)">
-                                    <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right"><i class="fa fa-check"></i></button>
+                                    <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right">
+                                        <i class="fa fa-check"></i>
+                                    </button>
                                     {{privilege.name}}
                                 </a>
                             </div>
@@ -385,7 +437,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="passwordChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="passwordChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -394,19 +446,45 @@
             </div>
             <form name="changePasswordForm" ng-submit="changePassword(changePasswordForm.$valid)" novalidate>
                 <div class="modal-body">
-                    <div class="form-group" ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
-                        <input class="form-control" type="password" placeholder="New Password" name="newPassword" ng-model="newPassword" ng-minlength="4" required ng-change="comparePasswords()">
-                        <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">Passwords must be at least 4 characters long</p>
+                    <div
+                        class="form-group"
+                        ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
+                        <input
+                            class="form-control"
+                            type="password"
+                            placeholder="New Password"
+                            name="newPassword"
+                            ng-model="newPassword"
+                            ng-minlength="4"
+                            required
+                            ng-change="comparePasswords()" />
+                        <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">
+                            Passwords must be at least 4 characters long
+                        </p>
                     </div>
-                    <div class="form-group" ng-class="{ 'has-error' : (changePasswordForm.rePassword.$invalid && !changePasswordForm.rePassword.$pristine) || !passwordsMatch }">
-                        <input class="form-control" type="password" placeholder="Confirm Password" name="rePassword" ng-model="rePassword" ng-minlength="4" required ng-change="comparePasswords()">
+                    <div
+                        class="form-group"
+                        ng-class="{ 'has-error' : (changePasswordForm.rePassword.$invalid && !changePasswordForm.rePassword.$pristine) || !passwordsMatch }">
+                        <input
+                            class="form-control"
+                            type="password"
+                            placeholder="Confirm Password"
+                            name="rePassword"
+                            ng-model="rePassword"
+                            ng-minlength="4"
+                            required
+                            ng-change="comparePasswords()" />
                         <p class="help-block" ng-show="!passwordsMatch">Passwords must match</p>
-                        <p class="help-block" ng-show="changePasswordForm.rePassword.$error.minlength">Passwords must be at least 4 characters long</p>
+                        <p class="help-block" ng-show="changePasswordForm.rePassword.$error.minlength">
+                            Passwords must be at least 4 characters long
+                        </p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button ng-click="resetPasswordForm()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid || !passwordsMatch">Change Password</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid || !passwordsMatch">
+                        Change Password
+                    </button>
                 </div>
             </form>
         </div>

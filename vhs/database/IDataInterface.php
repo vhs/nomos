@@ -19,11 +19,18 @@ interface IDataInterface {
     public static function DateFormat();
 
     public function scalar(QuerySelect $query);
+
     public function select(QuerySelect $query);
+
     public function delete(QueryDelete $query);
+
     public function insert(QueryInsert $query);
+
     public function update(QueryUpdate $query);
+
     public function count(QueryCount $query);
+
     public function exists(QuerySelect $query);
+
     public function arbitrary($command);
 }

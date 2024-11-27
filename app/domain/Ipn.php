@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\IpnSchema;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
@@ -20,7 +19,5 @@ class Ipn extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-
     }
 }
-

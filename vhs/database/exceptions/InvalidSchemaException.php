@@ -8,5 +8,5 @@
 
 namespace vhs\database\exceptions;
 
-
-class InvalidSchemaException extends \Exception {}
+class InvalidSchemaException extends \Exception {
+}

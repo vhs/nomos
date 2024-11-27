@@ -6,7 +6,7 @@
  * Time: 1:12 PM
  */
 
-require_once("SplClassLoader.php");
+require_once 'SplClassLoader.php';
 
 define('INSTANCE_ID', uniqid());
 

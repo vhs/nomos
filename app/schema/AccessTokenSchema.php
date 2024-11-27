@@ -8,7 +8,6 @@
 
 namespace app\schema;
 
-
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
@@ -17,13 +16,13 @@ use vhs\domain\Schema;
 
 class AccessTokenSchema extends Schema {
     public static function init() {
-        $table = new Table("accesstoken");
+        $table = new Table('accesstoken');
 
-        $table->addColumn("id", Type::Int(false, 0));
-        $table->addColumn("token", Type::String());
-        $table->addColumn("expires", Type::DateTime(false, date("Y-m-d H:i:s")));
-        $table->addColumn("userid", Type::Int());
-        $table->addColumn("appclientid", Type::Int());
+        $table->addColumn('id', Type::Int(false, 0));
+        $table->addColumn('token', Type::String());
+        $table->addColumn('expires', Type::DateTime(false, date('Y-m-d H:i:s')));
+        $table->addColumn('userid', Type::Int());
+        $table->addColumn('appclientid', Type::Int());
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),
@@ -31,7 +30,7 @@ class AccessTokenSchema extends Schema {
             Constraint::ForeignKey($table->columns->appclientid, AppClientSchema::Table(), AppClientSchema::Columns()->id)
         );
 
-        $table->setAccess(PrivilegedAccess::GenerateAccess("accesstoken", $table));
+        $table->setAccess(PrivilegedAccess::GenerateAccess('accesstoken', $table));
 
         return $table;
     }

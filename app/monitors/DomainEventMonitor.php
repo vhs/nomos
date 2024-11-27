@@ -8,28 +8,25 @@
 
 namespace app\monitors;
 
-
 use app\domain\Event;
 use vhs\domain\Domain;
 use vhs\Logger;
 use vhs\messaging\MessageQueue;
 use vhs\monitors\Monitor;
 
-class DomainEventMonitor extends Monitor
-{
-
-    public function Init(Logger &$logger = null)
-    {
+class DomainEventMonitor extends Monitor {
+    public function Init(Logger &$logger = null) {
         $events = Event::findAll();
 
-        foreach($events as $event) {
-            if (!$event->enabled)
+        foreach ($events as $event) {
+            if (!$event->enabled) {
                 continue;
+            }
 
             /** @var Domain $domainClass */
-            $domainClass = "\\app\\domain\\" . $event->domain;
+            $domainClass = '\\app\\domain\\' . $event->domain;
 
-            switch($event->event) {
+            switch ($event->event) {
                 /* Lets not support changed because it's super noisy. Throws for each field value change
                  * case "changed":
                     $domainClass::onAnyChanged(function(...$args) use ($event) {
@@ -37,27 +34,27 @@ class DomainEventMonitor extends Monitor
                     });
                     break;
                 */
-                case "created":
+                case 'created':
                     MessageQueue::ensure($event->domain, $event->event);
-                    $domainClass::onAnyCreated(function(...$args) use ($event) {
+                    $domainClass::onAnyCreated(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
                     break;
-                case "deleted":
+                case 'deleted':
                     MessageQueue::ensure($event->domain, $event->event);
-                    $domainClass::onAnyDeleted(function(...$args) use ($event) {
+                    $domainClass::onAnyDeleted(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
                     break;
-                case "updated":
+                case 'updated':
                     MessageQueue::ensure($event->domain, $event->event);
-                    $domainClass::onAnyUpdated(function(...$args) use ($event) {
+                    $domainClass::onAnyUpdated(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
                     break;
-                case "saved":
+                case 'saved':
                     MessageQueue::ensure($event->domain, $event->event);
-                    $domainClass::onAnySaved(function(...$args) use ($event) {
+                    $domainClass::onAnySaved(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
                     break;

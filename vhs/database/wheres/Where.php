@@ -14,7 +14,6 @@ use vhs\database\IGenerator;
 use vhs\database\queries\Query;
 
 abstract class Where extends Element {
-
     public static function _And(Where ...$where) {
         return new WhereAnd(...$where);
     }
@@ -47,7 +46,7 @@ abstract class Where extends Element {
         return new WhereComparator($column, $value, false, true, false, true);
     }
 
-    public static function Null(Column $column) {
+    public static function null(Column $column) {
         return new WhereComparator($column, null, true, true, false, false);
     }
 

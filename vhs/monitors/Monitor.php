@@ -11,8 +11,6 @@ namespace vhs\monitors;
 use vhs\Logger;
 use vhs\Singleton;
 
-
 abstract class Monitor extends Singleton {
-
     abstract public function Init(Logger &$logger = null);
 }

@@ -8,7 +8,6 @@
 
 namespace vhs\database;
 
-
 interface IOnGenerator extends IGenerator {
     public function generateOn(On $on);
 }

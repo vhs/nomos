@@ -8,10 +8,8 @@
 
 namespace app\security\credentials;
 
-
 class PinCredentials extends TokenCredentials {
-
     public function getType() {
-        return "pin";
+        return 'pin';
     }
 }

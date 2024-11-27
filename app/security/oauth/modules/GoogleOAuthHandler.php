@@ -8,26 +8,25 @@
 
 namespace app\security\oauth\modules;
 
-
 use app\security\oauth\OAuthHelper;
 use League\OAuth2\Client\Provider\Google;
 use vhs\web\HttpServer;
 
-class GoogleOAuthHandler extends OAuthHandler
-{
-    public function getUrl() { return "/oauth/google.php"; }
+class GoogleOAuthHandler extends OAuthHandler {
+    public function getUrl() {
+        return '/oauth/google.php';
+    }
 
-    public function handle(HttpServer $server)
-    {
+    public function handle(HttpServer $server) {
         $host = OauthHelper::redirectHost();
 
-        $action = $_GET["action"] ?: "link";
+        $action = $_GET['action'] ?: 'link';
 
         $provider = new Google([
-            'clientId'      => OAUTH_GOOGLE_CLIENT,
-            'clientSecret'  => OAUTH_GOOGLE_SECRET,
-            'redirectUri'   => $host.$this->getUrl().'?action='.$action,
-            'scopes'        => [ 'email' ],
+            'clientId' => OAUTH_GOOGLE_CLIENT,
+            'clientSecret' => OAUTH_GOOGLE_SECRET,
+            'redirectUri' => $host . $this->getUrl() . '?action=' . $action,
+            'scopes' => ['email']
         ]);
 
         $oauthHelper = new OauthHelper($provider, $server);
@@ -41,10 +40,10 @@ class GoogleOAuthHandler extends OAuthHandler
         }
 
         if ($_GET['action'] == 'link' && !is_null($userDetails)) {
-            $oauthHelper->linkAccount($userDetails->uid, 'google', "Google Account for " . $userDetails->name);
+            $oauthHelper->linkAccount($userDetails->uid, 'google', 'Google Account for ' . $userDetails->name);
 
             $server->clear();
-            $server->redirect("/index.html#/profile/");
+            $server->redirect('/index.html#/profile/');
             $server->end();
         }
     }

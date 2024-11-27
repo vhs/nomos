@@ -21,39 +21,40 @@ use vhs\domain\validations\ValidationResults;
 class User extends Domain {
     public static function Define() {
         User::Schema(UserSchema::Type());
-        User::Relationship("keys", Key::Type());
-        User::Relationship("membership", Membership::Type());
-        User::Relationship("privileges", Privilege::Type(), UserPrivilegeSchema::Type());
+        User::Relationship('keys', Key::Type());
+        User::Relationship('membership', Membership::Type());
+        User::Relationship('privileges', Privilege::Type(), UserPrivilegeSchema::Type());
     }
 
     public function getPrivilegeCodes() {
-        $codes = array();
+        $codes = [];
 
-        foreach($this->privileges->all() as $priv)
+        foreach ($this->privileges->all() as $priv) {
             array_push($codes, $priv->code);
+        }
 
         return $codes;
     }
 
     public function getGrantCodes() {
-        $grants = array();
-        foreach($this->privileges->all() as $priv) {
-            if (strpos($priv->code, "grant:") === 0)
+        $grants = [];
+        foreach ($this->privileges->all() as $priv) {
+            if (strpos($priv->code, 'grant:') === 0) {
                 array_push($grants, substr($priv->code, 6));
+            }
         }
 
         return $grants;
     }
 
     public function validate(ValidationResults &$results) {
-
         $this->validateEmail($results);
-
     }
 
     private function validateEmail(ValidationResults &$results) {
-        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL))
-            $results->add(new ValidationFailure("Invalid e-mail address"));
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $results->add(new ValidationFailure('Invalid e-mail address'));
+        }
     }
 
     /**
@@ -61,9 +62,7 @@ class User extends Domain {
      * @return User[]
      */
     public static function findByUsername($username) {
-        return User::where(
-            Where::Equal(UserSchema::Columns()->username, $username)
-        );
+        return User::where(Where::Equal(UserSchema::Columns()->username, $username));
     }
 
     /**
@@ -71,9 +70,7 @@ class User extends Domain {
      * @return User[]
      */
     public static function findByEmail($email) {
-        return User::where(
-            Where::Equal(UserSchema::Columns()->email, $email)
-        );
+        return User::where(Where::Equal(UserSchema::Columns()->email, $email));
     }
 
     /**
@@ -81,9 +78,7 @@ class User extends Domain {
      * @return User[]
      */
     public static function findByPaymentEmail($email) {
-        return User::where(
-            Where::Equal(UserSchema::Columns()->payment_email, $email)
-        );
+        return User::where(Where::Equal(UserSchema::Columns()->payment_email, $email));
     }
 
     /**
@@ -96,20 +91,28 @@ class User extends Domain {
         $emailWhere = Where::Equal(UserSchema::Columns()->email, $email);
         $where = null;
 
-        if (!is_null($username) && !is_null($email))
+        if (!is_null($username) && !is_null($email)) {
             $where = Where::_Or($usernameWhere, $emailWhere);
-        else if (!is_null($email))
+        } elseif (!is_null($email)) {
             $where = $emailWhere;
-        else
+        } else {
             $where = $usernameWhere;
+        }
 
         return Database::exists(Query::select(UserSchema::Table(), UserSchema::Columns(), $where));
     }
 
     public static function findByToken($token) {
-        return User::where(
-            Where::Equal(UserSchema::Columns()->token, $token)
-        );
+        return User::where(Where::Equal(UserSchema::Columns()->token, $token));
+    }
+
+    /**
+     * Check if user account has expired
+     *
+     * @return boolean
+     */
+    private function hasExpired() {
+        return new DateTime($this->mem_expire) < new DateTime();
     }
 
     /**
@@ -118,18 +121,20 @@ class User extends Domain {
      */
     public function get_valid() {
         // Check if account is active
-        if( $this->active != 'y')
+        if ($this->active != 'y') {
             return false;
-    
+        }
+
         // Check for administrator privilege
         // We don't want to accidentally lock out administrators
         // TODO: improve this
         $privs = $this->getPrivilegeCodes();
-        if( in_array( "administrator", $privs ) )
+        if (in_array('administrator', $privs)) {
             return true;
-    
+        }
+
         // check if membership has expired
-        return (new DateTime($this->mem_expire) > new DateTime());
+        return !$this->hasExpired();
     }
 
     /**
@@ -137,18 +142,20 @@ class User extends Domain {
      * @return mixed
      */
     public function getInvalidReason() {
-        if( $this->valid )
+        if ($this->valid) {
             return false;
-        
+        }
+
         // Check if account is active
-        if( $this->active != 'y')
-            return "Account is not active";
-    
+        if ($this->active != 'y') {
+            return 'Account is not active';
+        }
+
         // check if membership has expired
-        if( ! ( new DateTime($this->mem_expire) > new DateTime() ) )
-            return "Account expired";
-        
-        return "Unknown error";
+        if ($this->hasExpired()) {
+            return 'Account expired';
+        }
+
+        return 'Unknown error';
     }
 }
-

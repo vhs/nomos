@@ -8,18 +8,16 @@
 
 namespace tests\services;
 
-
 use tests\contracts\ITestService1;
 use vhs\services\Service;
 
 class TestService extends Service implements ITestService1 {
-
     /**
      * @permission anonymous
      * @return mixed
      */
     public function AnonMethod() {
-        return "AnonMethod!";
+        return 'AnonMethod!';
     }
 
     /**
@@ -27,7 +25,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function AuthMethod() {
-        return "AuthMethod!";
+        return 'AuthMethod!';
     }
 
     /**
@@ -35,7 +33,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function PermMethod() {
-        return "PermMethod!";
+        return 'PermMethod!';
     }
 
     /**
@@ -45,7 +43,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function ArgMethod($a, $b) {
-        return "ArgMethod: " . $a . $b;
+        return 'ArgMethod: ' . $a . $b;
     }
 
     /**
@@ -54,7 +52,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function ObjReturnMethod($a) {
-        $data = array();
+        $data = [];
 
         $data['retA'] = $a;
 
@@ -65,7 +63,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function MissingPermMethod() {
-        return "MissingPermMethod!";
+        return 'MissingPermMethod!';
     }
 
     /**
@@ -73,11 +71,11 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function EmptyPermMethod() {
-        return "EmptyPermMethod!";
+        return 'EmptyPermMethod!';
     }
 
     public function NoDocMethod() {
-        return "NoDocMethod!";
+        return 'NoDocMethod!';
     }
 
     /**
@@ -86,7 +84,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function MultiPermMethod() {
-        return "MultiPermMethod!";
+        return 'MultiPermMethod!';
     }
 
     /**
@@ -94,7 +92,7 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function AnyPermMethod() {
-        return "AnyPermMethod!";
+        return 'AnyPermMethod!';
     }
 
     /**
@@ -104,6 +102,6 @@ class TestService extends Service implements ITestService1 {
      * @return mixed
      */
     public function AllPermMethod() {
-        return "AllPermMethod!";
+        return 'AllPermMethod!';
     }
 }

@@ -8,7 +8,6 @@
 
 namespace app\domain;
 
-
 use app\schema\AppClientSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
@@ -16,7 +15,7 @@ use vhs\domain\validations\ValidationResults;
 class AppClient extends Domain {
     public static function Define() {
         AppClient::Schema(AppClientSchema::Type());
-        AppClient::Relationship("owner", User::Type());
+        AppClient::Relationship('owner', User::Type());
     }
 
     /**

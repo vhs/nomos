@@ -8,17 +8,15 @@
 
 namespace tests\domain;
 
-
 use tests\schema\RingSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
 class Ring extends Domain {
-
-    static function Define() {
+    public static function Define() {
         Ring::Schema(RingSchema::Type());
 
-        Ring::Relationship("enchantment", Enchantment::Type()); //parent relationship Many to One
+        Ring::Relationship('enchantment', Enchantment::Type()); //parent relationship Many to One
     }
 
     /**

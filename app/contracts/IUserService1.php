@@ -8,11 +8,9 @@
 
 namespace app\contracts;
 
-
 use vhs\services\IContract;
 
 interface IUserService1 extends IContract {
-
     /**
      * @permission anonymous
      * @param $username

@@ -8,7 +8,6 @@
 
 namespace vhs\services;
 
-
 abstract class Service {
     /** @var ServiceContext $context */
     protected $context;

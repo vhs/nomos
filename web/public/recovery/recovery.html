@@ -9,18 +9,14 @@
                     <form role="form">
                         <fieldset>
                             <div ng-show="success">
-                                <div class="alert alert-success" ng-show="success">
-                                    A password reset e-mail as been sent.
-                                </div>
+                                <div class="alert alert-success" ng-show="success">A password reset e-mail as been sent.</div>
                             </div>
                             <div ng-hide="success">
-                                <div class="alert alert-danger" ng-show="error">
-                                    {{error}}
-                                </div>
+                                <div class="alert alert-danger" ng-show="error">{{error}}</div>
 
                                 <div></div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-Mail" name="email" type="text" autofocus ng-model="email">
+                                    <input class="form-control" placeholder="E-Mail" name="email" type="text" autofocus ng-model="email" />
                                 </div>
 
                                 <div class="form-group">
@@ -30,10 +26,9 @@
                                     </button>
                                 </div>
                             </div>
-                                <div class="row">
-                                    <a class="col-md-6" ui-sref="public.login">Back to Login</a>
-                                </div>
-
+                            <div class="row">
+                                <a class="col-md-6" ui-sref="public.login">Back to Login</a>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
