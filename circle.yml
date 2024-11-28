@@ -1,6 +1,6 @@
 machine:
   php:
-    version: 7.0.0RC7
+    version: 8.2
 
 # apparently 7.0.0RC7 causes seg faults when we try to generate coverage.. disabling until circleCI supports php7+
 #test:
