@@ -12,4 +12,4 @@ fi
 PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g' | (grep -q php || echo ''))
 
 # shellcheck disable=SC2086
-vendor/bin/phpunit && if [ "${PHP_FILES}" != "" ]; then vendor/bin/php-cs-fixer fix ${PHP_FILES}; fi && node_modules/.bin/prettier -w ${FILES} && exit 0
+vendor/bin/phpunit && if [ "${PHP_FILES}" != "" ]; then vendor/bin/php-cs-fixer fix ${PHP_FILES}; fi && node_modules/.bin/prettier -w ${FILES} && git update-index --again && exit 0
