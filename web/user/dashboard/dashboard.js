@@ -146,17 +146,17 @@ angular.module('mmpApp.user').config([
                     $scope.createdDates = createdDates;
                     $scope.createdDatesLast30days = createdDatesLast30days;
 
-                    let series = [];
+                    const series = [];
 
-                    for (let membership in revenue.by_membership) {
+                    for (const membership in revenue.by_membership) {
                         if (!revenue.by_membership.hasOwnProperty(membership)) continue;
 
-                        let data = [];
+                        const data = [];
 
-                        for (let date in revenue.by_membership[membership]) {
+                        for (const date in revenue.by_membership[membership]) {
                             if (!revenue.by_membership[membership].hasOwnProperty(date)) continue;
 
-                            let d = moment.utc(date, 'YYYY-MM-DD');
+                            const d = moment.utc(date, 'YYYY-MM-DD');
 
                             data.push([Date.UTC(d.year(), d.month(), d.date()), revenue.by_membership[membership][date]]);
                         }
@@ -180,17 +180,17 @@ angular.module('mmpApp.user').config([
 
                         series.push({
                             type: 'area',
-                            name: name,
-                            data: data,
+                            name,
+                            data,
                         });
                     }
 
-                    let totals = [];
+                    const totals = [];
 
-                    for (let date in revenue.grouping) {
+                    for (const date in revenue.grouping) {
                         if (!revenue.grouping.hasOwnProperty(date)) continue;
 
-                        let d = moment.utc(date, 'YYYY-MM-DD');
+                        const d = moment.utc(date, 'YYYY-MM-DD');
 
                         totals.push([Date.UTC(d.year(), d.month(), d.date()), revenue.grouping[date]]);
                     }
@@ -234,33 +234,33 @@ angular.module('mmpApp.user').config([
                                 },
                             },
                         },
-                        series: series,
+                        series,
                     };
 
-                    let created = [];
-                    let expired = [];
-                    let total = [];
+                    const created = [];
+                    const expired = [];
+                    const total = [];
 
-                    for (let date in members.created) {
+                    for (const date in members.created) {
                         if (!members.created.hasOwnProperty(date)) continue;
 
-                        let d = moment.utc(date, 'YYYY-MM-DD');
+                        const d = moment.utc(date, 'YYYY-MM-DD');
 
                         created.push([Date.UTC(d.year(), d.month(), d.date()), members.created[date]]);
                     }
 
-                    for (let date in members.expired) {
+                    for (const date in members.expired) {
                         if (!members.expired.hasOwnProperty(date)) continue;
 
-                        let d = moment.utc(date, 'YYYY-MM-DD');
+                        const d = moment.utc(date, 'YYYY-MM-DD');
 
                         expired.push([Date.UTC(d.year(), d.month(), d.date()), members.expired[date]]);
                     }
 
-                    for (let date in members.total) {
+                    for (const date in members.total) {
                         if (!members.total.hasOwnProperty(date)) continue;
 
-                        let d = moment.utc(date, 'YYYY-MM-DD');
+                        const d = moment.utc(date, 'YYYY-MM-DD');
 
                         total.push([Date.UTC(d.year(), d.month(), d.date()), members.total[date]]);
                     }
@@ -314,8 +314,8 @@ angular.module('mmpApp.user').config([
                         ],
                     };
 
-                    let thisMonth = moment();
-                    let lastMonth = moment().subtract(1, 'month');
+                    const thisMonth = moment();
+                    const lastMonth = moment().subtract(1, 'month');
 
                     $scope.revenueGoalChartOptions = {
                         chart: {
@@ -375,10 +375,10 @@ angular.module('mmpApp.user').config([
                         ],
                     };
 
-                    let dowSeries = [];
+                    const dowSeries = [];
 
-                    for (let dow in createdDates.byDowHour) {
-                        for (let hour in createdDates.byDowHour[dow]) {
+                    for (const dow in createdDates.byDowHour) {
+                        for (const hour in createdDates.byDowHour[dow]) {
                             if (hour === 'total') continue;
                             dowSeries.push([parseInt(hour), parseInt(dow), createdDates.byDowHour[dow][hour]]);
                         }
@@ -467,10 +467,10 @@ angular.module('mmpApp.user').config([
                         ],
                     };
 
-                    let dowSeries30days = [];
+                    const dowSeries30days = [];
 
-                    for (let dow in createdDatesLast30days.byDowHour) {
-                        for (let hour in createdDatesLast30days.byDowHour[dow]) {
+                    for (const dow in createdDatesLast30days.byDowHour) {
+                        for (const hour in createdDatesLast30days.byDowHour[dow]) {
                             if (hour === 'total') continue;
                             dowSeries30days.push([parseInt(hour), parseInt(dow), createdDatesLast30days.byDowHour[dow][hour]]);
                         }
@@ -551,10 +551,10 @@ angular.module('mmpApp.user').config([
                         ],
                     };
 
-                    let monthSeries = [];
+                    const monthSeries = [];
 
-                    for (let month in createdDates.byMonthDow) {
-                        for (let dow in createdDates.byMonthDow[month]) {
+                    for (const month in createdDates.byMonthDow) {
+                        for (const dow in createdDates.byMonthDow[month]) {
                             if (dow === 'total') continue;
                             monthSeries.push([parseInt(month) - 1, parseInt(dow), createdDates.byMonthDow[month][dow]]);
                         }

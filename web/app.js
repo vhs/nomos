@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular
+const app = angular
     .module('mmpApp', [
         'ui.router',
         'mmpApp.public',
@@ -27,7 +27,7 @@ app.directive('showDuringResolve', function ($rootScope) {
         link: function (scope, element) {
             element.addClass('ng-hide');
 
-            var unregister = $rootScope.$on('$routeChangeStart', function () {
+            const unregister = $rootScope.$on('$routeChangeStart', function () {
                 element.removeClass('ng-hide');
             });
 

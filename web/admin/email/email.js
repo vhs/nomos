@@ -37,11 +37,11 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'name',
@@ -81,12 +81,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -116,8 +116,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getTemplates = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return EmailService1.ListTemplates(
                             offset,
@@ -129,7 +129,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getTemplatesCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return EmailService1.CountTemplates(filter);
                     };
@@ -155,7 +155,7 @@ angular.module('mmpApp.admin').config([
                     $scope.refresh();
 
                     $scope.openCreateTemplate = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreateTemplateModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -192,7 +192,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEditTemplate = function (template) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EditTemplateModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -209,7 +209,7 @@ angular.module('mmpApp.admin').config([
                         });
 
                         modalInstance.result.then(function (arg) {
-                            var template = arg.template;
+                            const template = arg.template;
 
                             $scope.updating = true;
                             $scope.pendingUpdate = 0;
@@ -232,7 +232,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openDeleteTemplate = function (template) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'DeleteTemplateModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {

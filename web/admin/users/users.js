@@ -31,7 +31,7 @@ angular.module('mmpApp.admin').config([
                     $scope.statuses = statuses;
 
                     $scope.convertStatus = function (code) {
-                        for (var i in $scope.statuses) if ($scope.statuses[i].code == code) return $scope.statuses[i].title;
+                        for (const i in $scope.statuses) if ($scope.statuses[i].code == code) return $scope.statuses[i].title;
                     };
 
                     $scope.showPending = false;
@@ -91,9 +91,9 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
-                        var orFilters = [];
+                        let filter = null;
+                        const filters = [];
+                        const orFilters = [];
 
                         if ($scope.showExpired) {
                             filters.push({
@@ -144,7 +144,7 @@ angular.module('mmpApp.admin').config([
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'username',
@@ -176,7 +176,7 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
@@ -235,8 +235,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getUsers = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return UserService1.ListUsers(
                             offset,
@@ -248,7 +248,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.countUsers = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return UserService1.CountUsers(filter);
                     };
@@ -285,14 +285,14 @@ angular.module('mmpApp.admin').config([
                     $scope.resetForms = function () {};
 
                     $scope.openCreateUser = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreateUserModal.html',
                             size: 'md',
                             controller: function ($scope, $modalInstance) {
                                 $scope.user = {};
-                                var currentMembership = {};
+                                const currentMembership = {};
 
-                                var mpromise = MembershipService1.GetAll();
+                                const mpromise = MembershipService1.GetAll();
                                 mpromise.then(function (memberships) {
                                     $scope.memberships = [];
                                     angular.forEach(memberships, function (membership) {
@@ -326,7 +326,7 @@ angular.module('mmpApp.admin').config([
                             $scope.updating = true;
                             $scope.pendingUpdate = 0;
 
-                            var membership = null;
+                            let membership = null;
                             angular.forEach($scope.memberships, function (mem) {
                                 if (mem.selected) {
                                     membership = mem;

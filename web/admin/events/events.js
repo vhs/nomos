@@ -39,11 +39,11 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'name',
@@ -75,12 +75,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -109,8 +109,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getEvents = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return EventService1.ListEvents(
                             offset,
@@ -122,7 +122,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getEventsCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return EventService1.CountEvents(filter);
                     };
@@ -148,7 +148,7 @@ angular.module('mmpApp.admin').config([
                     $scope.refresh();
 
                     $scope.openCreate = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreateModal.html',
                             size: 'lg',
                             controller: function ($scope, $modalInstance) {
@@ -177,13 +177,13 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEdit = function (object) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EditModal.html',
                             size: 'lg',
                             controller: function ($scope, $modalInstance) {
                                 $scope.object = object;
                                 $scope.privileges = [];
-                                var currentPriv = {};
+                                const currentPriv = {};
 
                                 $scope.ok = function () {
                                     $modalInstance.close({ pref: $scope.object, privs: $scope.privileges });
@@ -193,7 +193,7 @@ angular.module('mmpApp.admin').config([
                                 angular.forEach(object.privileges, function (prefPriv) {
                                     currentPriv[prefPriv.code] = prefPriv;
                                 });
-                                var promise = PrivilegeService1.GetAllPrivileges();
+                                const promise = PrivilegeService1.GetAllPrivileges();
                                 promise.then(function (privileges) {
                                     $scope.privileges = [];
                                     angular.forEach(privileges, function (privilege) {
@@ -214,8 +214,8 @@ angular.module('mmpApp.admin').config([
                         });
 
                         modalInstance.result.then(function (arg) {
-                            var object = arg.pref;
-                            var privileges = arg.privs;
+                            const object = arg.pref;
+                            const privileges = arg.privs;
                             $scope.updating = true;
                             $scope.pendingUpdate = 0;
 
@@ -227,7 +227,7 @@ angular.module('mmpApp.admin').config([
                                 },
                             );
 
-                            var codes = [];
+                            const codes = [];
                             angular.forEach(privileges, function (priv) {
                                 if (priv.selected) {
                                     codes.push(priv.code);
@@ -248,7 +248,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openDelete = function (object) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'DeleteModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -277,7 +277,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEnableDisable = function (object) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EnableDisableModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {

@@ -31,10 +31,10 @@ angular.module('mmpApp.admin').config([
                 function ($scope, $modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1, PinService1) {
                     $scope.currentProfile = profile;
                     $scope.profile = profile;
-                    var currentPriv = {};
-                    var currentMembership = profile.membership;
+                    const currentPriv = {};
+                    let currentMembership = profile.membership;
                     if (currentMembership == null) currentMembership = {};
-                    var currentStatus = {
+                    const currentStatus = {
                         title: '',
                         code: profile.active,
                         selected: true,
@@ -47,7 +47,7 @@ angular.module('mmpApp.admin').config([
 
                     $scope.generatePin = function () {
                         PinService1.GeneratePin($scope.profile.id).then(function (response) {
-                            var split = response.key.split('|');
+                            const split = response.key.split('|');
                             response.pinid = split[0];
                             response.pin = split[1];
                             $scope.profile.keys.push(response);
@@ -154,7 +154,7 @@ angular.module('mmpApp.admin').config([
                     angular.forEach(profile.privileges, function (userPriv) {
                         currentPriv[userPriv.code] = userPriv;
                     });
-                    var promise = PrivilegeService1.GetAllPrivileges();
+                    const promise = PrivilegeService1.GetAllPrivileges();
                     promise.then(function (privileges) {
                         $scope.privileges = [];
                         angular.forEach(privileges, function (privilege) {
@@ -169,7 +169,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.updatePrivileges = function () {
-                        var codes = [];
+                        const codes = [];
                         angular.forEach($scope.privileges, function (priv) {
                             if (priv.selected) {
                                 codes.push(priv.code);
@@ -188,7 +188,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     //Build a map of selected membership
-                    var mpromise = MembershipService1.GetAll();
+                    const mpromise = MembershipService1.GetAll();
                     mpromise.then(function (memberships) {
                         $scope.memberships = [];
                         angular.forEach(memberships, function (membership) {
@@ -208,7 +208,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.updateMembership = function () {
-                        var membership = null;
+                        let membership = null;
                         angular.forEach($scope.memberships, function (mem) {
                             if (mem.selected) {
                                 membership = mem;
@@ -229,7 +229,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     //Build a map of selected statii
-                    var mpromiseUser = UserService1.GetStatuses();
+                    const mpromiseUser = UserService1.GetStatuses();
                     mpromiseUser.then(function (statuses) {
                         $scope.statuses = [];
                         angular.forEach(statuses, function (status) {
@@ -249,7 +249,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.updateStatus = function () {
-                        var status = null;
+                        let status = null;
                         angular.forEach($scope.statuses, function (stat) {
                             if (stat.selected) {
                                 status = stat;

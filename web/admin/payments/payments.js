@@ -55,8 +55,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         if ($scope.showPending) {
                             filters.push({
@@ -83,7 +83,7 @@ angular.module('mmpApp.admin').config([
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'payer_email',
@@ -131,12 +131,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -165,8 +165,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getPayments = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return PaymentService1.ListPayments(
                             offset,
@@ -178,7 +178,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getPaymentsCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return PaymentService1.CountPayments(filter);
                     };

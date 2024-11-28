@@ -38,14 +38,14 @@ angular.module('mmpApp').factory('MetricService1', [
             },
             GetRevenue: function (start, end, group) {
                 return $http
-                    .post('/services/web/MetricService1.svc/GetRevenue', { start_range: start, end_range: end, group: group })
+                    .post('/services/web/MetricService1.svc/GetRevenue', { start_range: start, end_range: end, group })
                     .then(function (response) {
                         return response.data;
                     });
             },
             GetMembers: function (start, end, group) {
                 return $http
-                    .post('/services/web/MetricService1.svc/GetMembers', { start_range: start, end_range: end, group: group })
+                    .post('/services/web/MetricService1.svc/GetMembers', { start_range: start, end_range: end, group })
                     .then(function (response) {
                         return response.data;
                     });

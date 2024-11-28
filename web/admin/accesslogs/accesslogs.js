@@ -47,8 +47,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         if ($scope.showUnauthorized) {
                             filters.push({
@@ -59,7 +59,7 @@ angular.module('mmpApp.admin').config([
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'userid',
@@ -99,12 +99,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -133,8 +133,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getAccessLogs = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return AuthService1.ListAccessLog(
                             offset,
@@ -146,7 +146,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getAccessCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return AuthService1.CountAccessLog(filter);
                     };

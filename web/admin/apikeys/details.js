@@ -42,15 +42,15 @@ angular.module('mmpApp.admin').config([
                         $scope.doesExpire = !$scope.doesExpire;
                     };
 
-                    if ($scope.key.expires != '0000-00-00 00:00:00' && $scope.key.expires != null) {
+                    if ($scope.key.expires !== '0000-00-00 00:00:00' && $scope.key.expires != null) {
                         $scope.expirydate = new Date(Date.parse($scope.key.expires)).format('Y-m-d');
                         $scope.expirytime = $scope.key.expires;
                         $scope.doesExpire = true;
                     }
 
-                    var updateExpiry = function () {
-                        var date = new Date(Date.parse($scope.expirydate));
-                        var time = new Date(Date.parse($scope.expirytime));
+                    const updateExpiry = function () {
+                        const date = new Date(Date.parse($scope.expirydate));
+                        const time = new Date(Date.parse($scope.expirytime));
 
                         $scope.key.expires = new Date(
                             date.getFullYear(),
@@ -82,12 +82,12 @@ angular.module('mmpApp.admin').config([
                         changed: updateExpiry,
                     };
 
-                    var currentPriv = {};
+                    const currentPriv = {};
                     //Build a map of selected privileges
                     angular.forEach(key.privileges, function (keyPriv) {
                         currentPriv[keyPriv.code] = keyPriv;
                     });
-                    var promise = PrivilegeService1.GetAllPrivileges();
+                    const promise = PrivilegeService1.GetAllPrivileges();
                     promise.then(function (privileges) {
                         $scope.privileges = [];
                         angular.forEach(privileges, function (privilege) {
@@ -102,7 +102,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.updatePrivileges = function () {
-                        var codes = [];
+                        const codes = [];
                         angular.forEach($scope.privileges, function (priv) {
                             if (priv.selected) {
                                 codes.push(priv.code);

@@ -11,7 +11,7 @@ angular.module('mmpApp').factory('CurrentUser', [
                         return UserService1.GetUser(principal.id).then(function (user) {
                             user.principal = principal;
                             user.hasPermission = function (perm) {
-                                for (var i = 0; i < this.principal.permissions.length; i++) {
+                                for (let i = 0; i < this.principal.permissions.length; i++) {
                                     if (this.principal.permissions[i] == perm) return true;
                                 }
                             };

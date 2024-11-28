@@ -77,8 +77,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getMemberCards = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         if ($scope.showIssued) {
                             filters.push({
@@ -87,8 +87,8 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        if ($scope.cardList.search != null && $scope.cardList.search != '') {
-                            var val = '%' + $scope.cardList.search + '%';
+                        if ($scope.cardList.search != null && $scope.cardList.search !== '') {
+                            const val = '%' + $scope.cardList.search + '%';
                             filters.push({
                                 left: {
                                     column: 'owneremail',
@@ -104,12 +104,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -122,7 +122,7 @@ angular.module('mmpApp.admin').config([
                                     break;
                                 }
                             } else {
-                                if (i == filters.length - 1) {
+                                if (i === filters.length - 1) {
                                     addRightmost(filter, filters[i]);
                                 } else {
                                     addRightmost(filter, {
@@ -144,8 +144,8 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.getPayments = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
                         filters.push({
                             column: 'item_number',
@@ -177,8 +177,8 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        if ($scope.paymentList.search != null && $scope.paymentList.search != '') {
-                            var val = '%' + $scope.paymentList.search + '%';
+                        if ($scope.paymentList.search != null && $scope.paymentList.search !== '') {
+                            const val = '%' + $scope.paymentList.search + '%';
                             filters.push({
                                 left: {
                                     column: 'payer_email',
@@ -210,12 +210,12 @@ angular.module('mmpApp.admin').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -228,7 +228,7 @@ angular.module('mmpApp.admin').config([
                                     break;
                                 }
                             } else {
-                                if (i == filters.length - 1) {
+                                if (i === filters.length - 1) {
                                     addRightmost(filter, filters[i]);
                                 } else {
                                     addRightmost(filter, {
@@ -276,7 +276,7 @@ angular.module('mmpApp.admin').config([
                     $scope.refresh();
 
                     $scope.openEnableDisableCard = function (card) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EnableDisableCardModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {

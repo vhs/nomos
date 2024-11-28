@@ -10,7 +10,7 @@ angular.module('mmpApp').factory('ApiKeyService1', [
                 });
             },
             GenerateSystemApiKey: function (notes) {
-                return $http.post('/services/web/ApiKeyService1.svc/GenerateSystemApiKey', { notes: notes }).then(function (response) {
+                return $http.post('/services/web/ApiKeyService1.svc/GenerateSystemApiKey', { notes }).then(function (response) {
                     return response.data;
                 });
             },
@@ -25,26 +25,22 @@ angular.module('mmpApp').factory('ApiKeyService1', [
                 });
             },
             GenerateUserApiKey: function (userid, notes) {
-                return $http.post('/services/web/ApiKeyService1.svc/GenerateUserApiKey', { userid: userid, notes: notes }).then(function (response) {
+                return $http.post('/services/web/ApiKeyService1.svc/GenerateUserApiKey', { userid, notes }).then(function (response) {
                     return response.data;
                 });
             },
             UpdateApiKey: function (keyid, notes, expires) {
-                return $http
-                    .post('/services/web/ApiKeyService1.svc/UpdateApiKey', { keyid: keyid, notes: notes, expires: expires })
-                    .then(function (response) {
-                        return response.data;
-                    });
+                return $http.post('/services/web/ApiKeyService1.svc/UpdateApiKey', { keyid, notes, expires }).then(function (response) {
+                    return response.data;
+                });
             },
             PutApiKeyPriviledges: function (keyid, priviledges) {
-                return $http
-                    .post('/services/web/ApiKeyService1.svc/PutApiKeyPriviledges', { keyid: keyid, priviledges: priviledges })
-                    .then(function (response) {
-                        return response.data;
-                    });
+                return $http.post('/services/web/ApiKeyService1.svc/PutApiKeyPriviledges', { keyid, priviledges }).then(function (response) {
+                    return response.data;
+                });
             },
             DeleteApiKey: function (keyid) {
-                return $http.post('/services/web/ApiKeyService1.svc/DeleteApiKey', { keyid: keyid }).then(function (response) {
+                return $http.post('/services/web/ApiKeyService1.svc/DeleteApiKey', { keyid }).then(function (response) {
                     return response.data;
                 });
             },

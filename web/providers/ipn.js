@@ -15,14 +15,12 @@ angular.module('mmpApp').factory('IpnService1', [
                 });
             },
             ListRecords: function (page, size, columns, order, filters) {
-                return $http
-                    .post('/services/web/IpnService1.svc/ListRecords', { page: page, size: size, columns: columns, order: order, filters: filters })
-                    .then(function (response) {
-                        return response.data;
-                    });
+                return $http.post('/services/web/IpnService1.svc/ListRecords', { page, size, columns, order, filters }).then(function (response) {
+                    return response.data;
+                });
             },
             CountRecords: function (filters) {
-                return $http.post('/services/web/IpnService1.svc/CountRecords', { filters: filters }).then(function (response) {
+                return $http.post('/services/web/IpnService1.svc/CountRecords', { filters }).then(function (response) {
                     return response.data;
                 });
             },

@@ -51,7 +51,7 @@ angular.module('mmpApp.admin').config([
                     $scope.resetForms = function () {};
 
                     $scope.openCreatePreference = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreatePreferenceModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -82,13 +82,13 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEditPreference = function (systempreference) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EditPreferenceModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
                                 $scope.systempreference = systempreference;
                                 $scope.privileges = [];
-                                var currentPriv = {};
+                                const currentPriv = {};
 
                                 $scope.ok = function () {
                                     $modalInstance.close({ pref: $scope.systempreference, privs: $scope.privileges });
@@ -98,7 +98,7 @@ angular.module('mmpApp.admin').config([
                                 angular.forEach(systempreference.privileges, function (prefPriv) {
                                     currentPriv[prefPriv.code] = prefPriv;
                                 });
-                                var promise = PrivilegeService1.GetAllPrivileges();
+                                const promise = PrivilegeService1.GetAllPrivileges();
                                 promise.then(function (privileges) {
                                     $scope.privileges = [];
                                     angular.forEach(privileges, function (privilege) {
@@ -119,8 +119,8 @@ angular.module('mmpApp.admin').config([
                         });
 
                         modalInstance.result.then(function (arg) {
-                            var systempreference = arg.pref;
-                            var privileges = arg.privs;
+                            const systempreference = arg.pref;
+                            const privileges = arg.privs;
                             $scope.updating = true;
                             $scope.pendingUpdate = 0;
 
@@ -136,7 +136,7 @@ angular.module('mmpApp.admin').config([
                                 $scope.pendingUpdate -= 1;
                             });
 
-                            var codes = [];
+                            const codes = [];
                             angular.forEach(privileges, function (priv) {
                                 if (priv.selected) {
                                     codes.push(priv.code);
@@ -157,7 +157,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openDeletePreference = function (systempreference) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'DeletePreferenceModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -186,7 +186,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEnableDisablePreference = function (systempreference) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EnableDisablePreferenceModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {

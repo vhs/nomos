@@ -17,11 +17,11 @@ angular.module('mmpApp').factory('EventService1', [
             CreateEvent: function (name, domain, event, description, enabled) {
                 return $http
                     .post('/services/web/EventService1.svc/CreateEvent', {
-                        name: name,
-                        domain: domain,
-                        event: event,
-                        description: description,
-                        enabled: enabled,
+                        name,
+                        domain,
+                        event,
+                        description,
+                        enabled,
                     })
                     .then(function (response) {
                         return response.data;
@@ -30,34 +30,32 @@ angular.module('mmpApp').factory('EventService1', [
             UpdateEvent: function (id, name, domain, event, description, enabled) {
                 return $http
                     .post('/services/web/EventService1.svc/UpdateEvent', {
-                        id: id,
-                        name: name,
-                        domain: domain,
-                        event: event,
-                        description: description,
-                        enabled: enabled,
+                        id,
+                        name,
+                        domain,
+                        event,
+                        description,
+                        enabled,
                     })
                     .then(function (response) {
                         return response.data;
                     });
             },
             EnableEvent: function (id, enabled) {
-                return $http.post('/services/web/EventService1.svc/EnableEvent', { id: id, enabled: enabled }).then(function (response) {
+                return $http.post('/services/web/EventService1.svc/EnableEvent', { id, enabled }).then(function (response) {
                     return response.data;
                 });
             },
             PutEventPrivileges: function (id, codes) {
-                return $http.post('/services/web/EventService1.svc/PutEventPrivileges', { id: id, privileges: codes.join() });
+                return $http.post('/services/web/EventService1.svc/PutEventPrivileges', { id, privileges: codes.join() });
             },
             ListEvents: function (page, size, columns, order, filters) {
-                return $http
-                    .post('/services/web/EventService1.svc/ListEvents', { page: page, size: size, columns: columns, order: order, filters: filters })
-                    .then(function (response) {
-                        return response.data;
-                    });
+                return $http.post('/services/web/EventService1.svc/ListEvents', { page, size, columns, order, filters }).then(function (response) {
+                    return response.data;
+                });
             },
             CountEvents: function (filters) {
-                return $http.post('/services/web/EventService1.svc/CountEvents', { filters: filters }).then(function (response) {
+                return $http.post('/services/web/EventService1.svc/CountEvents', { filters }).then(function (response) {
                     return response.data;
                 });
             },

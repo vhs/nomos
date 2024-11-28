@@ -31,7 +31,7 @@ angular.module('mmpApp.admin').config([
                 function ($scope, membership, allPermissions, MembershipService1, PrivilegeService1) {
                     $scope.membership = membership;
 
-                    var currentPriv = {};
+                    const currentPriv = {};
                     //Build a map of selected privileges
                     angular.forEach(membership.privileges, function (membershipPriv) {
                         currentPriv[membershipPriv.code] = membershipPriv;
@@ -49,7 +49,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.updatePrivileges = function () {
-                        var codes = [];
+                        const codes = [];
                         angular.forEach($scope.privileges, function (priv) {
                             if (priv.selected) {
                                 codes.push(priv.code);

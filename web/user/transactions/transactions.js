@@ -42,8 +42,8 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getFilter = function () {
-                        var result = null;
-                        var filters = [];
+                        let result = null;
+                        const filters = [];
 
                         if ($scope.showPending) {
                             filters.push({
@@ -54,7 +54,7 @@ angular.module('mmpApp.user').config([
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'payer_email',
@@ -102,12 +102,12 @@ angular.module('mmpApp.user').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (result == null) {
                                 if (filters.length > 1) {
                                     result = {
@@ -136,8 +136,8 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getPayments = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return PaymentService1.ListUserPayments(
                             $scope.currentUser.id,
@@ -150,7 +150,7 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getPaymentsCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return PaymentService1.CountUserPayments($scope.currentUser.id, filter);
                     };

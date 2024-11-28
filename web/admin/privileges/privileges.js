@@ -58,7 +58,7 @@ angular.module('mmpApp.admin').config([
                     $scope.resetForms = function () {};
 
                     $scope.openCreatePrivilege = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreatePrivilegeModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -90,7 +90,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEditPrivilege = function (privilege) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EditPrivilegeModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -130,7 +130,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openDeletePrivilege = function (privilege) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'DeletePrivilegeModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -159,7 +159,7 @@ angular.module('mmpApp.admin').config([
                     };
 
                     $scope.openEnableDisablePrivilege = function (privilege) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'EnableDisablePrivilegeModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {

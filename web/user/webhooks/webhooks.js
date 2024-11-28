@@ -36,11 +36,11 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null;
+                        const filters = [];
 
-                        if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                        if ($scope.listService.search != null && $scope.listService.search !== '') {
+                            const val = '%' + $scope.listService.search + '%';
                             filters.push({
                                 left: {
                                     column: 'name',
@@ -88,12 +88,12 @@ angular.module('mmpApp.user').config([
                             });
                         }
 
-                        var addRightmost = function (filter, val) {
+                        const addRightmost = function (filter, val) {
                             if (filter.right != null) addRightmost(filter.right, val);
                             filter.right = val;
                         };
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -106,7 +106,7 @@ angular.module('mmpApp.user').config([
                                     break;
                                 }
                             } else {
-                                if (i == filters.length - 1) {
+                                if (i === filters.length - 1) {
                                     addRightmost(filter, filters[i]);
                                 } else {
                                     addRightmost(filter, {
@@ -122,8 +122,8 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getWebHooks = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter();
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
 
                         return WebHookService1.ListUserHooks(
                             $scope.currentUser.id,
@@ -136,7 +136,7 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.getWebHookCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter();
 
                         return WebHookService1.CountUserHooks($scope.currentUser.id, filter);
                     };

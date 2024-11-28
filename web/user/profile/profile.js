@@ -44,7 +44,7 @@ angular.module('mmpApp.user').config([
 
                     $scope.generatePin = function () {
                         PinService1.GeneratePin($scope.currentUser.id).then(function (response) {
-                            var split = response.key.split('|');
+                            const split = response.key.split('|');
                             response.pinid = split[0];
                             response.pin = split[1];
                             $scope.profile.keys.push(response);

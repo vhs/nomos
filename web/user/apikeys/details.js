@@ -48,9 +48,9 @@ angular.module('mmpApp.user').config([
                         $scope.doesExpire = true;
                     }
 
-                    var updateExpiry = function () {
-                        var date = new Date(Date.parse($scope.expirydate));
-                        var time = new Date(Date.parse($scope.expirytime));
+                    const updateExpiry = function () {
+                        const date = new Date(Date.parse($scope.expirydate));
+                        const time = new Date(Date.parse($scope.expirytime));
 
                         $scope.key.expires = new Date(
                             date.getFullYear(),
@@ -82,12 +82,12 @@ angular.module('mmpApp.user').config([
                         changed: updateExpiry,
                     };
 
-                    var currentPriv = {};
+                    const currentPriv = {};
                     //Build a map of selected privileges
                     angular.forEach(key.privileges, function (keyPriv) {
                         currentPriv[keyPriv.code] = keyPriv;
                     });
-                    var promise = PrivilegeService1.GetUserPrivileges(currentUser.id);
+                    const promise = PrivilegeService1.GetUserPrivileges(currentUser.id);
                     promise.then(function (privileges) {
                         $scope.privileges = [];
                         privileges.push({ code: 'inherit', name: 'Inherit (acts as you)' });
@@ -103,7 +103,7 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.updatePrivileges = function () {
-                        var codes = [];
+                        const codes = [];
                         angular.forEach($scope.privileges, function (priv) {
                             if (priv.selected) {
                                 codes.push(priv.code);

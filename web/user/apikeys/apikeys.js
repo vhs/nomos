@@ -27,7 +27,7 @@ angular.module('mmpApp.user').config([
                     $scope.keys = keys;
 
                     $scope.openGenerateKey = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'GenerateUserApiKeyModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -49,7 +49,7 @@ angular.module('mmpApp.user').config([
                     };
 
                     $scope.openDeleteApiKey = function (key) {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'DeleteUserApiKeyModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
@@ -66,7 +66,7 @@ angular.module('mmpApp.user').config([
 
                         modalInstance.result.then(function (key) {
                             ApiKeyService1.DeleteApiKey(key.id).then(function (data) {
-                                for (var i = 0; i < $scope.keys.length; i++) {
+                                for (let i = 0; i < $scope.keys.length; i++) {
                                     if ($scope.keys[i].id == key.id) $scope.keys.splice(i, 1);
                                 }
                             });

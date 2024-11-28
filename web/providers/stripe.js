@@ -17,18 +17,18 @@ angular.module('mmpApp').factory('StripeEventService1', [
             ListRecords: function (page, size, columns, order, filters) {
                 return $http
                     .post('/services/web/StripeEventService1.svc/ListRecords', {
-                        page: page,
-                        size: size,
-                        columns: columns,
-                        order: order,
-                        filters: filters,
+                        page,
+                        size,
+                        columns,
+                        order,
+                        filters,
                     })
                     .then(function (response) {
                         return response.data;
                     });
             },
             CountRecords: function (filters) {
-                return $http.post('/services/web/StripeEventService1.svc/CountRecords', { filters: filters }).then(function (response) {
+                return $http.post('/services/web/StripeEventService1.svc/CountRecords', { filters }).then(function (response) {
                     return response.data;
                 });
             },

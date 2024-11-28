@@ -15,12 +15,12 @@ angular.module('mmpApp').factory('PinService1', [
                 });
             },
             UpdateUserPin: function (userid, pin) {
-                return $http.post('/services/web/PinService1.svc/UpdateUserPin', { userid: userid, pin: pin }).then(function (response) {
+                return $http.post('/services/web/PinService1.svc/UpdateUserPin', { userid, pin }).then(function (response) {
                     return response.data;
                 });
             },
             UpdatePin: function (keyid, pin) {
-                return $http.post('/services/web/PinService1.svc/UpdatePin', { keyid: keyid, pin: pin }).then(function (response) {
+                return $http.post('/services/web/PinService1.svc/UpdatePin', { keyid, pin }).then(function (response) {
                     return response.data;
                 });
             },
