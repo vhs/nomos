@@ -16,6 +16,7 @@
     "license": "ISC",
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",
+        "@prettier/plugin-xml": "^3.4.1",
         "@tyisi/config-eslint": "^4.0.0",
         "bower": "^1.8.14",
         "eslint": "^9.15.0",
