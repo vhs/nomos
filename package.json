@@ -17,6 +17,7 @@
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",
         "@tyisi/config-eslint": "^4.0.0",
+        "bower": "^1.8.14",
         "eslint": "^9.15.0",
         "husky": "^9.1.7",
         "prettier": "^3.0.3",
