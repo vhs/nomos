@@ -1,24 +1,22 @@
-version: "3.5"
-
 services:
-  # backend needs the db started first
-  nomos-backend:
-    depends_on:
-      nomos-mysql:
-        condition: service_started
-  nomos-mysql:
-    image: mysql:5.7
-    container_name: nomos-mysql
-    environment:
-      - MYSQL_USER=${NOMOS_DB_USER}
-      - MYSQL_PASSWORD=${NOMOS_DB_PASSWORD}
-      - MYSQL_DATABASE=${NOMOS_DB_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - ../data/mysql:/var/lib/mysql
-    # Workaround this bug in the mysql image: https://github.com/docker-library/mysql/issues/579
-    ulimits:
-        nproc: 65535
-        nofile:
-            soft: 20000
-            hard: 40000
+    # backend needs the db started first
+    nomos-backend:
+        depends_on:
+            nomos-mysql:
+                condition: service_started
+    nomos-mysql:
+        image: mysql:5.7
+        container_name: nomos-mysql
+        environment:
+            - MYSQL_USER=${NOMOS_DB_USER}
+            - MYSQL_PASSWORD=${NOMOS_DB_PASSWORD}
+            - MYSQL_DATABASE=${NOMOS_DB_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ../data/mysql:/var/lib/mysql
+        # Workaround this bug in the mysql image: https://github.com/docker-library/mysql/issues/579
+        ulimits:
+            nproc: 65535
+            nofile:
+                soft: 20000
+                hard: 40000

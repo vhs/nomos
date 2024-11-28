@@ -4,7 +4,6 @@ _In greek mythology, Nomos is the personified spirit of law._
 
 This system in a way acts as the rule set for how things are governed, via membership levels and privileges.
 
-
 ## Development
 
 See here for complete setup, API, and philosophy:
@@ -67,4 +66,3 @@ $ docker inspect nomos-frontend | jq -r '.[0].NetworkSettings.Networks | to_entr
 ```
 
 The username is `vhs` and the password is `password`.
-

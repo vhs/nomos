@@ -1,14 +1,12 @@
-version: "3.5"
-
 services:
-  nomos-frontend:
-    networks:
-      - proxy
+    nomos-frontend:
+        networks:
+            - proxy
 
-  nomos-backend:
-    networks:
-      - proxy
+    nomos-backend:
+        networks:
+            - proxy
 
 networks:
-  proxy:
-    external: true
+    proxy:
+        external: true

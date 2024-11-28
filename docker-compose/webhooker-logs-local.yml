@@ -1,6 +1,4 @@
-version: "3.5"
-
 services:
-  nomos-webhooker:
-    volumes:
-      - ../logs:/app/logs
+    nomos-webhooker:
+        volumes:
+            - ../logs:/app/logs

@@ -1,5 +1,3 @@
-version: "3.5"
-
 services:
-  nomos-webhooker:
-    network_mode: bridge
+    nomos-webhooker:
+        network_mode: bridge

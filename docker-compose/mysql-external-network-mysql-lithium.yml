@@ -6,3 +6,4 @@ services:
 networks:
     mysql:
         external: true
+        name: mysql-lithium
