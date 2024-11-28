@@ -3,14 +3,14 @@
  */
 exports.settings = {
     rabbitmq: {
-        host: "localhost",
-        port: "5672",
-        username: "webhooker",
-        password: "password",
-        vhost: "nomos"
+        host: 'localhost',
+        port: '5672',
+        username: 'webhooker',
+        password: 'password',
+        vhost: 'nomos',
     },
     nomos: {
-        host: "localhost",
-        token: ""
-    }
+        host: 'localhost',
+        token: '',
+    },
 };
