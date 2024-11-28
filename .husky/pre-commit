@@ -4,7 +4,7 @@ set -e
 
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
-if [ "${FILES}" = "" ] ; then
+if [ "${FILES}" = "" ]; then
     echo "No files to process"
     exit 255
 fi
