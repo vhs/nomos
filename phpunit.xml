@@ -1,20 +1,24 @@
-<phpunit bootstrap="tests/autoload.php">
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.4/phpunit.xsd"
+    bootstrap="tests/autoload.php">
     <testsuites>
         <testsuite name="nomos">
-            <directory phpVersion="7.0.0">tests/</directory>
+            <directory phpVersion="8.3.6">tests/</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <source>
+        <include>
             <directory suffix=".php">app/</directory>
             <directory suffix=".php">vhs/</directory>
-            <directory suffix=".php">../conf/</directory>
-            <exclude>
-                <file>app/include.php</file>
-                <file>app/app.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+            <directory suffix=".php">conf/</directory>
+        </include>
+        <exclude>
+            <file>app/include.php</file>
+            <file>app/app.php</file>
+        </exclude>
+    </source>
     <php>
         <includePath>.</includePath>
         <includePath>conf/</includePath>
