@@ -1,0 +1,8 @@
+.phpunit.cache/
+data/
+node_modules/
+vendor/
+web/bower_components
+migrations/
+package-lock.json
+composer.lock
