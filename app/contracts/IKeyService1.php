@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,10 +13,21 @@ use vhs\services\IContract;
 
 interface IKeyService1 extends IContract {
     /**
-     * @permission administrator
+     * @permission administrator|user
+     * @param $keyid
      * @return mixed
      */
-    public function GetSystemKeys();
+    public function DeleteKey($keyid);
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $type
+     * @param $value
+     * @param $notes
+     * @return mixed
+     */
+    public function GenerateUserKey($userid, $type, $value, $notes);
 
     /**
      * @permission administrator
@@ -31,31 +43,18 @@ interface IKeyService1 extends IContract {
     public function GetKey($keyid);
 
     /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetSystemKeys();
+
+    /**
      * @permission administrator|user
      * @param $userid
      * @param $types
      * @return mixed
      */
     public function GetUserKeys($userid, $types);
-
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @param $type
-     * @param $value
-     * @param $notes
-     * @return mixed
-     */
-    public function GenerateUserKey($userid, $type, $value, $notes);
-
-    /**
-     * @permission administrator|user
-     * @param $keyid
-     * @param $notes
-     * @param $expires
-     * @return mixed
-     */
-    public function UpdateKey($keyid, $notes, $expires);
 
     /**
      * @permission administrator|user
@@ -68,7 +67,9 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      * @param $keyid
+     * @param $notes
+     * @param $expires
      * @return mixed
      */
-    public function DeleteKey($keyid);
+    public function UpdateKey($keyid, $notes, $expires);
 }

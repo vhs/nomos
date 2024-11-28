@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,36 +13,11 @@ use vhs\services\IContract;
 
 interface IEventService1 extends IContract {
     /**
-     * @permission webhook|administrator
-     * @return mixed
-     */
-    public function GetEvents();
-
-    /**
-     * @permission webhook|administrator
-     * @return mixed
-     */
-    public function GetDomainDefinitions();
-
-    /**
-     * @permission webhook|administrator
-     * @param $domain
-     * @return mixed
-     */
-    public function GetDomainDefinition($domain);
-
-    /**
-     * @permission user
-     * @return mixed
-     */
-    public function GetAccessibleEvents();
-
-    /**
      * @permission administrator
-     * @param $id
-     * @return mixed
+     * @param $filters
+     * @return int
      */
-    public function GetEvent($id);
+    public function CountEvents($filters);
 
     /**
      * @permission administrator
@@ -57,10 +33,60 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      * @param $id
+     * @return mixed
+     */
+    public function DeleteEvent($id);
+
+    /**
+     * @permission administrator
+     * @param $id
      * @param $enabled
      * @return mixed
      */
     public function EnableEvent($id, $enabled);
+
+    /**
+     * @permission user
+     * @return mixed
+     */
+    public function GetAccessibleEvents();
+
+    /**
+     * @permission webhook|administrator
+     * @param $domain
+     * @return mixed
+     */
+    public function GetDomainDefinition($domain);
+
+    /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    public function GetDomainDefinitions();
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @return mixed
+     */
+    public function GetEvent($id);
+
+    /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    public function GetEvents();
+
+    /**
+     * @permission webhook|administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListEvents($page, $size, $columns, $order, $filters);
 
     /**
      * @permission administrator
@@ -81,29 +107,4 @@ interface IEventService1 extends IContract {
      * @return mixed
      */
     public function UpdateEvent($id, $name, $domain, $event, $description, $enabled);
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @return mixed
-     */
-    public function DeleteEvent($id);
-
-    /**
-     * @permission webhook|administrator
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     */
-    public function ListEvents($page, $size, $columns, $order, $filters);
-
-    /**
-     * @permission webhook|administrator
-     * @param $filters
-     * @return mixed
-     */
-    public function CountEvents($filters);
 }

@@ -4,18 +4,36 @@ namespace app\services;
 
 use app\contracts\IPaymentService1;
 use app\domain\Payment;
-use app\endpoints\web\UserService1;
-use app\monitors\PaymentMonitor;
 use app\processors\PaymentProcessor;
-use app\schema\SettingsSchema;
 use Aws\CloudFront\Exception\Exception;
-use vhs\database\Database;
 use vhs\domain\Filter;
 use vhs\loggers\StringLogger;
 use vhs\security\CurrentUser;
+use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class PaymentService extends Service implements IPaymentService1 {
+    /**
+     * @permission administrator|user
+     * @param $filters
+     * @return mixed
+     */
+    public function CountPayments($filters) {
+        return Payment::count($filters);
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return int
+     */
+    public function CountUserPayments($userid, $filters) {
+        $filters = $this->AddUserIDOrEMailToFilters($userid, $filters);
+
+        return Payment::count($filters);
+    }
+
     /**
      * @permission administrator|user
      * @param $id
@@ -35,6 +53,29 @@ class PaymentService extends Service implements IPaymentService1 {
         return null;
     }
 
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListPayments($page, $size, $columns, $order, $filters) {
+        return Payment::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters) {
         $filters = $this->AddUserIDOrEMailToFilters($userid, $filters);
 
@@ -43,29 +84,9 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator
-     * @param $userid
-     * @param $filters
-     * @return int
+     * @param $paymentid
+     * @return mixed
      */
-    public function CountUserPayments($userid, $filters) {
-        $filters = $this->AddUserIDOrEMailToFilters($userid, $filters);
-
-        return Payment::count($filters);
-    }
-
-    public function ListPayments($page, $size, $columns, $order, $filters) {
-        return Payment::page($page, $size, $columns, $order, $filters);
-    }
-
-    /**
-     * @permission administrator
-     * @param $filters
-     * @return int
-     */
-    public function CountPayments($filters) {
-        return Payment::count($filters);
-    }
-
     public function ReplayPaymentProcessing($paymentid) {
         $log = new StringLogger();
 
@@ -95,7 +116,7 @@ class PaymentService extends Service implements IPaymentService1 {
         }
 
         if (is_null($user)) {
-            throw new \Exception('User not found or you do not have access');
+            throw new UnauthorizedException('User not found or you do not have access');
         }
 
         $userFilter = Filter::_Or(Filter::Equal('user_id', $user->id), Filter::Equal('payer_email', $user->email));

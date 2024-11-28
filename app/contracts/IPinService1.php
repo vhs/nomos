@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,11 +13,10 @@ use vhs\services\IContract;
 
 interface IPinService1 extends IContract {
     /**
-     * @permission administrator|user
-     * @param $userid
+     * @permission door
      * @return mixed
      */
-    public function GetUserPin($userid);
+    public function AccessInstructions();
 
     /**
      * Automatically generates a pin for a specified user
@@ -36,12 +36,11 @@ interface IPinService1 extends IContract {
     public function GenerateTemporaryPin($expires, $privileges, $notes);
 
     /**
-     * Change a pin
      * @permission administrator|user
-     * @param $pin
+     * @param $userid
      * @return mixed
      */
-    public function UpdateUserPin($userid, $pin);
+    public function GetUserPin($userid);
 
     /**
      * @permission administrator|user
@@ -52,8 +51,10 @@ interface IPinService1 extends IContract {
     public function UpdatePin($keyid, $pin);
 
     /**
-     * @permission door
+     * Change a pin
+     * @permission administrator|user
+     * @param $pin
      * @return mixed
      */
-    public function AccessInstructions();
+    public function UpdateUserPin($userid, $pin);
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -13,16 +14,16 @@ use vhs\services\IContract;
 interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
-     * @return mixed
-     */
-    public function GetAllSystemPreferences();
-
-    /**
-     * @permission anonymous
      * @param $key
      * @return mixed
      */
-    public function SystemPreference($key);
+    public function DeleteSystemPreference($key);
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetAllSystemPreferences();
 
     /**
      * @permission administrator
@@ -31,7 +32,7 @@ interface IPreferenceService1 extends IContract {
      * @param $columns
      * @param $order
      * @param $filters
-     * @return mixed
+     * @return array
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters);
 
@@ -42,6 +43,21 @@ interface IPreferenceService1 extends IContract {
      * @return mixed
      */
     public function PutSystemPreference($key, $value, $enabled, $notes);
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $privileges
+     * @return mixed
+     */
+    public function PutSystemPreferencePrivileges($id, $privileges);
+
+    /**
+     * @permission anonymous
+     * @param $key
+     * @return mixed
+     */
+    public function SystemPreference($key);
 
     /**
      * @permission administrator
@@ -59,19 +75,4 @@ interface IPreferenceService1 extends IContract {
      * @return mixed
      */
     public function UpdateSystemPreferenceEnabled($key, $enabled);
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $privileges
-     * @return mixed
-     */
-    public function PutSystemPreferencePrivileges($id, $privileges);
-
-    /**
-     * @permission administrator
-     * @param $key
-     * @return mixed
-     */
-    public function DeleteSystemPreference($key);
 }

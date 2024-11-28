@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -20,20 +21,9 @@ class Privilege extends Domain {
         Privilege::Schema(PrivilegeSchema::Type());
     }
 
-    public function validate(ValidationResults &$results) {
-    }
-
-    public static function findByCodes(...$code) {
-        if (!self::checkCodeAccess(...$code)) {
-            throw new UnauthorizedException('Access denied');
-        }
-
-        return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
-    }
-
     public static function findByCode($code) {
         if (!self::checkCodeAccess(...$code)) {
-            throw new UnauthorizedException('Access denied');
+            throw new UnauthorizedException();
         }
 
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
@@ -43,6 +33,14 @@ class Privilege extends Domain {
         }
 
         return null;
+    }
+
+    public static function findByCodes(...$code) {
+        if (!self::checkCodeAccess(...$code)) {
+            throw new UnauthorizedException();
+        }
+
+        return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
     }
 
     private static function checkCodeAccess(...$codes) {
@@ -58,5 +56,8 @@ class Privilege extends Domain {
         }
 
         return true;
+    }
+
+    public function validate(ValidationResults &$results) {
     }
 }

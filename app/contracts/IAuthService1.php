@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,25 +13,18 @@ use vhs\services\IContract;
 
 interface IAuthService1 extends IContract {
     /**
-     * @permission anonymous
-     * @return mixed
-     */
-    public function Logout();
-
-    /**
-     * @permission anonymous
-     * @param $username
-     * @param $password
-     * @return mixed
-     */
-    public function Login($username, $password);
-
-    /**
      * @permission administrator|pin-auth
      * @param $pin
      * @return mixed
      */
     public function CheckPin($pin);
+
+    /**
+     * @permission administrator|rfid-auth
+     * @param $rfid
+     * @return mixed
+     */
+    public function CheckRfid($rfid);
 
     /**
      * @permission administrator|service-auth
@@ -41,11 +35,33 @@ interface IAuthService1 extends IContract {
     public function CheckService($service, $id);
 
     /**
-     * @permission administrator|rfid-auth
-     * @param $rfid
+     * @permission anonymous
+     * @param $username
+     * @return boolean
+     */
+    public function CheckUsername($username);
+
+    /**
+     * @permission administrator
+     * @param $filters
      * @return mixed
      */
-    public function CheckRfid($rfid);
+    public function CountAccessLog($filters);
+
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return mixed
+     */
+    public function CountClients($filters);
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return mixed
+     */
+    public function CountUserAccessLog($userid, $filters);
 
     /**
      * @permission anonymous
@@ -54,11 +70,71 @@ interface IAuthService1 extends IContract {
     public function CurrentUser();
 
     /**
-     * @permission anonymous
-     * @param $username
-     * @return boolean
+     * @permission administrator|user
+     * @param $id
+     * @return mixed
      */
-    public function CheckUsername($username);
+    public function DeleteClient($id);
+
+    /**
+     * @permission administrator|user
+     * @param $id
+     * @param $enabled
+     * @return mixed
+     */
+    public function EnableClient($id, $enabled);
+
+    /**
+     * @permission oauth-provider
+     * @param $bearerToken
+     * @return mixed
+     */
+    public function GetAccessToken($bearerToken);
+
+    /**
+     * @permission oauth-provider
+     * @param $clientId
+     * @param $clientSecret
+     * @return mixed
+     */
+    public function GetClient($clientId, $clientSecret);
+
+    /**
+     * @permission oauth-provider
+     * @param $refreshToken
+     * @return mixed
+     */
+    public function GetRefreshToken($refreshToken);
+
+    /**
+     * @permission oauth-provider
+     * @param $username
+     * @param $password
+     * @return mixed
+     */
+    public function GetUser($username, $password);
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListAccessLog($page, $size, $columns, $order, $filters);
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListClients($page, $size, $columns, $order, $filters);
 
     /**
      * @permission administrator|user
@@ -75,13 +151,6 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      * @param $userid
-     * @param $filters
-     * @return mixed
-     */
-    public function CountUserAccessLog($userid, $filters);
-
-    /**
-     * @permission administrator
      * @param $page
      * @param $size
      * @param $columns
@@ -89,21 +158,38 @@ interface IAuthService1 extends IContract {
      * @param $filters
      * @return mixed
      */
-    public function ListAccessLog($page, $size, $columns, $order, $filters);
+    public function ListUserClients($userid, $page, $size, $columns, $order, $filters);
 
     /**
-     * @permission administrator
-     * @param $filters
+     * @permission anonymous
+     * @param $username
+     * @param $password
      * @return mixed
      */
-    public function CountAccessLog($filters);
+    public function Login($username, $password);
+
+    /**
+     * @permission anonymous
+     * @return mixed
+     */
+    public function Logout();
+
+    /**
+     * @permission administrator|user
+     * @param $name
+     * @param $description
+     * @param $url
+     * @param $redirecturi
+     * @return mixed
+     */
+    public function RegisterClient($name, $description, $url, $redirecturi);
 
     /**
      * @permission oauth-provider
-     * @param $bearerToken
+     * @param $refreshToken
      * @return mixed
      */
-    public function GetAccessToken($bearerToken);
+    public function RevokeRefreshToken($refreshToken);
 
     /**
      * @permission oauth-provider
@@ -117,84 +203,6 @@ interface IAuthService1 extends IContract {
 
     /**
      * @permission oauth-provider
-     * @param $username
-     * @param $password
-     * @return mixed
-     */
-    public function GetUser($username, $password);
-
-    /**
-     * @permission oauth-provider
-     * @param $clientId
-     * @param $clientSecret
-     * @return mixed
-     */
-    public function GetClient($clientId, $clientSecret);
-
-    /**
-     * @permission user
-     * @param $name
-     * @param $description
-     * @param $url
-     * @param $redirecturi
-     * @return mixed
-     */
-    public function RegisterClient($name, $description, $url, $redirecturi);
-
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     */
-    public function ListUserClients($userid, $page, $size, $columns, $order, $filters);
-
-    /**
-     * @permission administrator
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     */
-    public function ListClients($page, $size, $columns, $order, $filters);
-
-    /**
-     * @permission administrator
-     * @param $filters
-     * @return mixed
-     */
-    public function CountClients($filters);
-
-    /**
-     * @permission administrator|user
-     * @param $id
-     * @param $enabled
-     * @return mixed
-     */
-    public function EnableClient($id, $enabled);
-
-    /**
-     * @permission administrator|user
-     * @param $id
-     * @return mixed
-     */
-    public function DeleteClient($id);
-
-    /**
-     * @permission oauth-provider
-     * @param $refreshToken
-     * @return mixed
-     */
-    public function GetRefreshToken($refreshToken);
-
-    /**
-     * @permission oauth-provider
      * @param $userId
      * @param $refreshToken
      * @param $clientId
@@ -202,11 +210,4 @@ interface IAuthService1 extends IContract {
      * @return mixed
      */
     public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires);
-
-    /**
-     * @permission oauth-provider
-     * @param $refreshToken
-     * @return mixed
-     */
-    public function RevokeRefreshToken($refreshToken);
 }

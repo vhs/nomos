@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -14,23 +15,16 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      * @param $key
-     * @param $notes
      * @return mixed
      */
-    public function RegisterGenuineCard($key, $notes);
-
-    /**
-     * @permission authenticated
-     * @param $key
-     * @return mixed
-     */
-    public function ValidateGenuineCard($key);
+    public function GetGenuineCardDetails($key);
 
     /**
      * @permission administrator
      * @param $email
      * @param $key
      * @return mixed
+     * @throws \Exception
      */
     public function IssueCard($email, $key);
 
@@ -54,15 +48,18 @@ interface IMemberCardService1 extends IContract {
      * @param $order
      * @param $filters
      * @return mixed
+     * @throws \Exception
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters);
 
     /**
      * @permission administrator
      * @param $key
-     * @return mixed
+     * @param $notes
+     * @return GenuineCard
+     * @throws \Exception
      */
-    public function GetGenuineCardDetails($key);
+    public function RegisterGenuineCard($key, $notes);
 
     /**
      * @permission administrator
@@ -71,4 +68,11 @@ interface IMemberCardService1 extends IContract {
      * @return mixed
      */
     public function UpdateGenuineCardActive($key, $active);
+
+    /**
+     * @permission authenticated
+     * @param $key
+     * @return bool
+     */
+    public function ValidateGenuineCard($key);
 }

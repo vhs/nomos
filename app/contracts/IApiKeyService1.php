@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,10 +13,11 @@ use vhs\services\IContract;
 
 interface IApiKeyService1 extends IContract {
     /**
-     * @permission administrator
+     * @permission administrator|user
+     * @param $keyid
      * @return mixed
      */
-    public function GetSystemApiKeys();
+    public function DeleteApiKey($keyid);
 
     /**
      * @permission administrator
@@ -23,20 +25,6 @@ interface IApiKeyService1 extends IContract {
      * @return mixed
      */
     public function GenerateSystemApiKey($notes);
-
-    /**
-     * @permission administrator|user
-     * @param $keyid
-     * @return mixed
-     */
-    public function GetApiKey($keyid);
-
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @return mixed
-     */
-    public function GetUserApiKeys($userid);
 
     /**
      * @permission administrator|user
@@ -49,11 +37,22 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      * @param $keyid
-     * @param $notes
-     * @param $expires
      * @return mixed
      */
-    public function UpdateApiKey($keyid, $notes, $expires);
+    public function GetApiKey($keyid);
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetSystemApiKeys();
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @return mixed
+     */
+    public function GetUserApiKeys($userid);
 
     /**
      * @permission administrator|user
@@ -66,7 +65,9 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      * @param $keyid
+     * @param $notes
+     * @param $expires
      * @return mixed
      */
-    public function DeleteApiKey($keyid);
+    public function UpdateApiKey($keyid, $notes, $expires);
 }

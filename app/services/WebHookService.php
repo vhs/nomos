@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,6 +12,7 @@ namespace app\services;
 use app\contracts\IWebHookService1;
 use app\domain\Privilege;
 use app\domain\WebHook;
+use app\exceptions\MemberCardException;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -18,35 +20,24 @@ use vhs\services\Service;
 
 class WebHookService extends Service implements IWebHookService1 {
     /**
-     * @permission webhook|administrator
-     * @return mixed
+     * @permission administrator|webhook
+     * @param $filters
+     * @return int
      */
-    public function GetAllHooks() {
-        return WebHook::findAll();
-    }
-
-    public function GetHook($id) {
-        $hook = WebHook::find($id);
-
-        if (is_null($hook)) {
-            return null;
-        }
-
-        if (CurrentUser::getIdentity() == $hook->userid || CurrentUser::hasAnyPermissions('administrator')) {
-            return $hook;
-        }
-
-        return null;
+    public function CountHooks($filters) {
+        return WebHook::count($filters);
     }
 
     /**
-     * @permission webhook|administrator
-     * @param $domain
-     * @param $event
-     * @return mixed
+     * @permission administrator|user
+     * @param $userid
+     * @param $filters
+     * @return int
      */
-    public function GetHooks($domain, $event) {
-        return WebHook::findByDomainEvent($domain, $event);
+    public function CountUserHooks($userid, $filters) {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        return WebHook::count($filters);
     }
 
     /**
@@ -87,6 +78,112 @@ class WebHookService extends Service implements IWebHookService1 {
         $hook->userid = CurrentUser::getIdentity();
 
         return $hook->save();
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $id
+     * @return mixed
+     */
+    public function DeleteHook($id) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $hook->delete();
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $id
+     * @param $enabled
+     * @return mixed
+     */
+    public function EnableHook($id, $enabled) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $hook->enabled = $enabled;
+
+        $hook->save();
+    }
+
+    /**
+     * @permission webhook|administrator
+     * @return mixed
+     */
+    public function GetAllHooks() {
+        return WebHook::findAll();
+    }
+
+    /**
+     * @permission user|administrator
+     * @param $id
+     * @return mixed
+     */
+    public function GetHook($id) {
+        $hook = WebHook::find($id);
+
+        if (is_null($hook)) {
+            return null;
+        }
+
+        if (CurrentUser::getIdentity() == $hook->userid || CurrentUser::hasAnyPermissions('administrator')) {
+            return $hook;
+        }
+
+        return null;
+    }
+
+    /**
+     * @permission webhook|administrator
+     * @param $domain
+     * @param $event
+     * @return mixed
+     */
+    public function GetHooks($domain, $event) {
+        return WebHook::findByDomainEvent($domain, $event);
+    }
+
+    /**
+     * @permission administrator|webhook
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListHooks($page, $size, $columns, $order, $filters) {
+        return WebHook::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator|user
+     * @param $userid
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     * @throws \Exception
+     */
+    public function ListUserHooks($userid, $page, $size, $columns, $order, $filters) {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        $cols = explode(',', $columns);
+
+        array_push($cols, 'userid');
+
+        $columns = implode(',', array_unique($cols));
+
+        return WebHook::page($page, $size, $columns, $order, $filters);
     }
 
     /**
@@ -157,95 +254,6 @@ class WebHookService extends Service implements IWebHookService1 {
         $hook->save();
     }
 
-    /**
-     * @permission administrator|user
-     * @param $id
-     * @param $enabled
-     * @return mixed
-     */
-    public function EnableHook($id, $enabled) {
-        $hook = $this->GetHook($id);
-
-        if (is_null($hook)) {
-            return;
-        }
-
-        $hook->enabled = $enabled;
-
-        $hook->save();
-    }
-
-    /**
-     * @permission administrator|user
-     * @param $id
-     * @return mixed
-     */
-    public function DeleteHook($id) {
-        $hook = $this->GetHook($id);
-
-        if (is_null($hook)) {
-            return;
-        }
-
-        $hook->delete();
-    }
-
-    /**
-     * @permission administrator|webhook
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     */
-    public function ListHooks($page, $size, $columns, $order, $filters) {
-        return WebHook::page($page, $size, $columns, $order, $filters);
-    }
-
-    /**
-     * @permission administrator|webhook
-     * @param $filters
-     * @return int
-     */
-    public function CountHooks($filters) {
-        return WebHook::count($filters);
-    }
-
-    /**
-     * @permission administrator|user
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return mixed
-     * @throws \Exception
-     */
-    public function ListUserHooks($userid, $page, $size, $columns, $order, $filters) {
-        $filters = $this->AddUserIDToFilters($userid, $filters);
-
-        $cols = explode(',', $columns);
-
-        array_push($cols, 'userid');
-
-        $columns = implode(',', array_unique($cols));
-
-        return WebHook::page($page, $size, $columns, $order, $filters);
-    }
-
-    /**
-     * @permission administrator
-     * @param $filters
-     * @return int
-     */
-    public function CountUserHooks($userid, $filters) {
-        $filters = $this->AddUserIDToFilters($userid, $filters);
-
-        return WebHook::count($filters);
-    }
-
     private function AddUserIDToFilters($userid, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
@@ -256,7 +264,7 @@ class WebHookService extends Service implements IWebHookService1 {
         }
 
         if (is_null($user)) {
-            throw new \Exception('User not found or you do not have access');
+            throw new UnauthorizedException('User not found or you do not have access');
         }
 
         $userFilter = Filter::Equal('userid', $user->id);

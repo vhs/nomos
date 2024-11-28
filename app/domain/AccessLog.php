@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -20,12 +21,12 @@ class AccessLog extends Domain {
         AccessLog::Schema(AccessLogSchema::Type());
     }
 
-    /**
-     * @param ValidationResults $results
-     * @return bool
-     */
-    public function validate(ValidationResults &$results) {
-        return true;
+    public static function findLatest($limit = 5) {
+        return self::where(
+            Where::Equal(AccessLogSchema::Columns()->authorized, false),
+            OrderBy::Descending(AccessLogSchema::Columns()->time),
+            $limit
+        );
     }
 
     public static function log($key, $type, $authorized, $from_ip, $userid = null) {
@@ -41,11 +42,11 @@ class AccessLog extends Domain {
         return $entry;
     }
 
-    public static function findLatest($limit = 5) {
-        return self::where(
-            Where::Equal(AccessLogSchema::Columns()->authorized, false),
-            OrderBy::Descending(AccessLogSchema::Columns()->time),
-            $limit
-        );
+    /**
+     * @param  ValidationResults $results
+     * @return bool
+     */
+    public function validate(ValidationResults &$results) {
+        return true;
     }
 }
