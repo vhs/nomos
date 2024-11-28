@@ -4,8 +4,8 @@ namespace vhs;
 
 class SplClassLoaderItem {
     public $fileExtension;
-    public $namespace;
     public $includePath;
+    public $namespace;
 
     public function __construct($namespace = null, $includePath = null, $fileExtension = '.php') {
         $this->namespace = $namespace;
@@ -15,9 +15,8 @@ class SplClassLoaderItem {
 }
 
 class SplClassLoader {
-    private $_namespaceSeparator = '\\';
-
     private $_items = [];
+    private $_namespaceSeparator = '\\';
 
     protected function __construct() {
     }
@@ -32,16 +31,9 @@ class SplClassLoader {
         return $aoInstance['SplClassLoader'];
     }
 
-    final private function __clone() {
-    }
-
-    /**
-     * Sets the namespace separator used by classes in the namespace of this class loader.
-     *
-     * @param string $sep The separator to use.
-     */
-    public function setNamespaceSeparator($sep) {
-        $this->_namespaceSeparator = $sep;
+    public function add(SplClassLoaderItem $item) {
+        $this->_items[$item->namespace] = $item;
+        $this->register();
     }
 
     /**
@@ -51,31 +43,6 @@ class SplClassLoader {
      */
     public function getNamespaceSeparator() {
         return $this->_namespaceSeparator;
-    }
-
-    public function add(SplClassLoaderItem $item) {
-        $this->_items[$item->namespace] = $item;
-        $this->register();
-    }
-
-    public function remove($namespace) {
-        if (array_key_exists($namespace, $this->_items)) {
-            unset($this->_items[$namespace]);
-        }
-    }
-
-    /**
-     * Installs this class loader on the SPL autoload stack.
-     */
-    public function register() {
-        spl_autoload_register([$this, 'loadClass']);
-    }
-
-    /**
-     * Uninstalls this class loader from the SPL autoloader stack.
-     */
-    public function unregister() {
-        spl_autoload_unregister([$this, 'loadClass']);
     }
 
     /**
@@ -123,5 +90,37 @@ class SplClassLoader {
             //print ($item->includePath !== null ? $item->includePath . DIRECTORY_SEPARATOR : '') . $fileName;
             require ($item->includePath !== null ? $item->includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }
+    }
+
+    /**
+     * Installs this class loader on the SPL autoload stack.
+     */
+    public function register() {
+        spl_autoload_register([$this, 'loadClass']);
+    }
+
+    public function remove($namespace) {
+        if (array_key_exists($namespace, $this->_items)) {
+            unset($this->_items[$namespace]);
+        }
+    }
+
+    /**
+     * Sets the namespace separator used by classes in the namespace of this class loader.
+     *
+     * @param string $sep The separator to use.
+     */
+    public function setNamespaceSeparator($sep) {
+        $this->_namespaceSeparator = $sep;
+    }
+
+    /**
+     * Uninstalls this class loader from the SPL autoloader stack.
+     */
+    public function unregister() {
+        spl_autoload_unregister([$this, 'loadClass']);
+    }
+
+    private function __clone() {
     }
 }

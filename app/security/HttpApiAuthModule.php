@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -21,6 +22,12 @@ class HttpApiAuthModule implements IHttpModule {
         $this->authorizer = $authorizer;
     }
 
+    public function endResponse(HttpServer $server) {
+        if (array_key_exists('X-Api-Key', $server->request->headers) && $this->authorizer->isAuthenticated()) {
+            $this->authorizer->logout();
+        }
+    }
+
     public function handle(HttpServer $server) {
         if (array_key_exists('X-Api-Key', $server->request->headers) && !$this->authorizer->isAuthenticated()) {
             try {
@@ -37,12 +44,6 @@ class HttpApiAuthModule implements IHttpModule {
             $server->header('HTTP/1.0 401 Unauthorized');
             $server->code(401);
             $server->end();
-        }
-    }
-
-    public function endResponse(HttpServer $server) {
-        if (array_key_exists('X-Api-Key', $server->request->headers) && $this->authorizer->isAuthenticated()) {
-            $this->authorizer->logout();
         }
     }
 }

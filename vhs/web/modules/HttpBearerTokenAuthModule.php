@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -21,6 +22,9 @@ class HttpBearerTokenAuthModule implements IHttpModule {
 
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
+    }
+
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -46,8 +50,5 @@ class HttpBearerTokenAuthModule implements IHttpModule {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

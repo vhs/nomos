@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -17,10 +18,20 @@ if (!defined('PASSWORD_DEFAULT')) {
 }
 
 class PasswordUtil {
-    private static function generateRandomString($length = 16) {
-        $randStr = str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', $length));
+    public static function check($password, $hash) {
+        return password_verify(sha1($password), $hash);
+        // return self::password_verify(sha1($password), $hash);
+    }
 
-        return substr($randStr, 0, $length);
+    /**
+     * check if a variable is a valid string
+     *
+     * @param any $testVal
+     *
+     * @return boolean
+     */
+    public static function checkValidString($testVal) {
+        gettype($testVal) === 'string' && $testVal !== '';
     }
 
     public static function generate() {
@@ -32,9 +43,42 @@ class PasswordUtil {
         // return self::password_hash(sha1($password), PASSWORD_BCRYPT);
     }
 
-    public static function check($password, $hash) {
-        return password_verify(sha1($password), $hash);
-        // return self::password_verify(sha1($password), $hash);
+    private static function generateRandomString($length = 16) {
+        $randStr = str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', $length));
+
+        return substr($randStr, 0, $length);
+    }
+
+    /**
+     * Get information about the password hash. Returns an array of the information
+     * that was used to generate the password hash.
+     *
+     * array(
+     *    'algo' => 1,
+     *    'algoName' => 'bcrypt',
+     *    'options' => array(
+     *        'cost' => 10,
+     *    ),
+     * )
+     *
+     * @param string $hash The password hash to extract info from
+     *
+     * @return array The array of information about the hash.
+     */
+    private static function password_get_info($hash) {
+        $return = [
+            'algo' => 0,
+            'algoName' => 'unknown',
+            'options' => []
+        ];
+        if (substr($hash, 0, 4) == '$2y$' && strlen($hash) == 60) {
+            $return['algo'] = PASSWORD_BCRYPT;
+            $return['algoName'] = 'bcrypt';
+            list($cost) = sscanf($hash, '$2y$%d$');
+            $return['options']['cost'] = $cost;
+        }
+
+        return $return;
     }
 
     /**
@@ -49,14 +93,17 @@ class PasswordUtil {
     private static function password_hash($password, $algo, array $options = []) {
         if (!function_exists('crypt')) {
             trigger_error('Crypt must be loaded for password_hash to function', E_USER_WARNING);
+
             return null;
         }
         if (!is_string($password)) {
             trigger_error('password_hash(): Password must be a string', E_USER_WARNING);
+
             return null;
         }
         if (!is_int($algo)) {
             trigger_error('password_hash() expects parameter 2 to be long, ' . gettype($algo) . ' given', E_USER_WARNING);
+
             return null;
         }
         switch ($algo) {
@@ -67,6 +114,7 @@ class PasswordUtil {
                     $cost = $options['cost'];
                     if ($cost < 4 || $cost > 31) {
                         trigger_error(sprintf('password_hash(): Invalid bcrypt cost parameter specified: %d', $cost), E_USER_WARNING);
+
                         return null;
                     }
                 }
@@ -78,6 +126,7 @@ class PasswordUtil {
                 break;
             default:
                 trigger_error(sprintf('password_hash(): Unknown password hashing algorithm: %s', $algo), E_USER_WARNING);
+
                 return null;
         }
         if (isset($options['salt'])) {
@@ -99,6 +148,7 @@ class PasswordUtil {
                 case 'resource':
                 default:
                     trigger_error('password_hash(): Non-string salt parameter supplied', E_USER_WARNING);
+
                     return null;
             }
             if (strlen($salt) < $required_salt_len) {
@@ -106,6 +156,7 @@ class PasswordUtil {
                     sprintf('password_hash(): Provided salt is too short: %d expecting %d', strlen($salt), $required_salt_len),
                     E_USER_WARNING
                 );
+
                 return null;
             } elseif (0 == preg_match('#^[a-zA-Z0-9./]+$#D', $salt)) {
                 $salt = str_replace('+', '.', base64_encode($salt));
@@ -163,37 +214,6 @@ class PasswordUtil {
     }
 
     /**
-     * Get information about the password hash. Returns an array of the information
-     * that was used to generate the password hash.
-     *
-     * array(
-     *    'algo' => 1,
-     *    'algoName' => 'bcrypt',
-     *    'options' => array(
-     *        'cost' => 10,
-     *    ),
-     * )
-     *
-     * @param string $hash The password hash to extract info from
-     *
-     * @return array The array of information about the hash.
-     */
-    private static function password_get_info($hash) {
-        $return = [
-            'algo' => 0,
-            'algoName' => 'unknown',
-            'options' => []
-        ];
-        if (substr($hash, 0, 4) == '$2y$' && strlen($hash) == 60) {
-            $return['algo'] = PASSWORD_BCRYPT;
-            $return['algoName'] = 'bcrypt';
-            list($cost) = sscanf($hash, '$2y$%d$');
-            $return['options']['cost'] = $cost;
-        }
-        return $return;
-    }
-
-    /**
      * Determine if the password hash needs to be rehashed according to the options provided
      *
      * If the answer is true, after validating the password using password_verify, rehash it.
@@ -217,6 +237,7 @@ class PasswordUtil {
                 }
                 break;
         }
+
         return false;
     }
 
@@ -231,6 +252,7 @@ class PasswordUtil {
     private static function password_verify($password, $hash) {
         if (!function_exists('crypt')) {
             trigger_error('Crypt must be loaded for password_verify to function', E_USER_WARNING);
+
             return false;
         }
         $ret = crypt($password, $hash);
@@ -244,16 +266,5 @@ class PasswordUtil {
         }
 
         return $status === 0;
-    }
-
-    /**
-     * check if a variable is a valid string
-     *
-     * @param any $testVal
-     *
-     * @return boolean
-     */
-    public static function checkValidString($testVal) {
-        gettype($testVal) === 'string' && $testVal !== '';
     }
 }

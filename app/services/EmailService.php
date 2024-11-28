@@ -7,8 +7,26 @@ use app\domain\EmailTemplate;
 use Aws\Ses\SesClient;
 
 class EmailService implements IEmailService1 {
-    public function EmailUser($user, $tmpl, $context, $subject = null) {
-        $this->Email($user->email, $tmpl, $context, $subject);
+    /**
+     * @permission administrator
+     * @param $filters
+     * @return int
+     */
+    public function CountTemplates($filters) {
+        return EmailTemplate::count($filters);
+    }
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @return mixed
+     */
+    public function DeleteTemplate($id) {
+        $template = EmailTemplate::find($id);
+
+        if (!is_null($template)) {
+            $template->delete();
+        }
     }
 
     public function Email($email, $tmpl, $context, $subject = null) {
@@ -22,7 +40,7 @@ class EmailService implements IEmailService1 {
             $subject = $generated['subject'];
         }
 
-        $client = SesClient::factory([
+        $client = new SesClient([
             'region' => AWS_SES_REGION,
             'credentials' => [
                 'key' => AWS_SES_CLIENT_ID,
@@ -57,6 +75,10 @@ class EmailService implements IEmailService1 {
         return null;
     }
 
+    public function EmailUser($user, $tmpl, $context, $subject = null) {
+        $this->Email($user->email, $tmpl, $context, $subject);
+    }
+
     /**
      * @permission administrator
      * @param $id
@@ -68,74 +90,15 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
-     * @param $id
-     * @param $name
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
      * @return mixed
      */
-    public function UpdateTemplateName($id, $name) {
-        $template = EmailTemplate::find($id);
-        $template->name = $name;
-        $template->save();
-    }
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $code
-     * @return mixed
-     */
-    public function UpdateTemplateCode($id, $code) {
-        $template = EmailTemplate::find($id);
-        $template->code = $code;
-        $template->save();
-    }
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $subject
-     * @return mixed
-     */
-    public function UpdateTemplateSubject($id, $subject) {
-        $template = EmailTemplate::find($id);
-        $template->subject = $subject;
-        $template->save();
-    }
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $help
-     * @return mixed
-     */
-    public function UpdateTemplateHelp($id, $help) {
-        $template = EmailTemplate::find($id);
-        $template->help = $help;
-        $template->save();
-    }
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $body
-     * @return mixed
-     */
-    public function UpdateTemplateBody($id, $body) {
-        $template = EmailTemplate::find($id);
-        $template->body = $body;
-        $template->save();
-    }
-
-    /**
-     * @permission administrator
-     * @param $id
-     * @param $html
-     * @return mixed
-     */
-    public function UpdateTemplateHtml($id, $html) {
-        $template = EmailTemplate::find($id);
-        $template->html = $html;
-        $template->save();
+    public function ListTemplates($page, $size, $columns, $order, $filters) {
+        return EmailTemplate::page($page, $size, $columns, $order, $filters);
     }
 
     /**
@@ -168,35 +131,72 @@ class EmailService implements IEmailService1 {
     /**
      * @permission administrator
      * @param $id
+     * @param $body
      * @return mixed
      */
-    public function DeleteTemplate($id) {
+    public function UpdateTemplateBody($id, $body) {
         $template = EmailTemplate::find($id);
-
-        if (!is_null($template)) {
-            $template->delete();
-        }
+        $template->body = $body;
+        $template->save();
     }
 
     /**
      * @permission administrator
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param $id
+     * @param $code
      * @return mixed
      */
-    public function ListTemplates($page, $size, $columns, $order, $filters) {
-        return EmailTemplate::page($page, $size, $columns, $order, $filters);
+    public function UpdateTemplateCode($id, $code) {
+        $template = EmailTemplate::find($id);
+        $template->code = $code;
+        $template->save();
     }
 
     /**
      * @permission administrator
-     * @param $filters
-     * @return int
+     * @param $id
+     * @param $help
+     * @return mixed
      */
-    public function CountTemplates($filters) {
-        return EmailTemplate::count($filters);
+    public function UpdateTemplateHelp($id, $help) {
+        $template = EmailTemplate::find($id);
+        $template->help = $help;
+        $template->save();
+    }
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $html
+     * @return mixed
+     */
+    public function UpdateTemplateHtml($id, $html) {
+        $template = EmailTemplate::find($id);
+        $template->html = $html;
+        $template->save();
+    }
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $name
+     * @return mixed
+     */
+    public function UpdateTemplateName($id, $name) {
+        $template = EmailTemplate::find($id);
+        $template->name = $name;
+        $template->save();
+    }
+
+    /**
+     * @permission administrator
+     * @param $id
+     * @param $subject
+     * @return mixed
+     */
+    public function UpdateTemplateSubject($id, $subject) {
+        $template = EmailTemplate::find($id);
+        $template->subject = $subject;
+        $template->save();
     }
 }

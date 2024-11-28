@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,26 +10,6 @@
 namespace vhs\web;
 
 class HttpUtil {
-    public static function parseRequestHeaders() {
-        $headers = [];
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) != 'HTTP_') {
-                continue;
-            }
-            $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
-            $headers[$header] = $value;
-        }
-        return $headers;
-    }
-
-    public static function getRequestMethod() {
-        return $_SERVER['REQUEST_METHOD'];
-    }
-
-    public static function getRequestUrl() {
-        return $_SERVER['SCRIPT_NAME'];
-    }
-
     /**
      * @returns HttpRequest
      */
@@ -40,5 +21,25 @@ class HttpUtil {
         $req->headers = self::parseRequestHeaders();
 
         return $req;
+    }
+
+    public static function getRequestMethod() {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function getRequestUrl() {
+        return $_SERVER['SCRIPT_NAME'];
+    }
+
+    public static function parseRequestHeaders() {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) != 'HTTP_') {
+                continue;
+            }
+            $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+            $headers[$header] = $value;
+        }
+        return $headers;
     }
 }

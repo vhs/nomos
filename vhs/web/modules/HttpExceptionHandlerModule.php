@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -22,10 +23,10 @@ class HttpExceptionHandlerModule implements IHttpModule {
         $this->logger = $logger;
     }
 
-    public function handle(HttpServer $server) {
+    public function endResponse(HttpServer $server) {
     }
 
-    public function endResponse(HttpServer $server) {
+    public function handle(HttpServer $server) {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {

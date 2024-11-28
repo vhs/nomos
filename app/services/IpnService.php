@@ -7,18 +7,6 @@ use app\domain\Ipn;
 use vhs\services\Service;
 
 class IpnService extends Service implements IIpnService1 {
-    public function GetAll() {
-        return Ipn::findAll();
-    }
-
-    public function Get($ipnId) {
-        return Ipn::find($ipnId);
-    }
-
-    public function ListRecords($page, $size, $columns, $order, $filters) {
-        return Ipn::page($page, $size, $columns, $order, $filters);
-    }
-
     /**
      * @permission administrator
      * @param $filters
@@ -27,7 +15,34 @@ class IpnService extends Service implements IIpnService1 {
     public function CountRecords($filters) {
         return Ipn::count($filters);
     }
+
+    /**
+     * @permission administrator
+     * @param $ipnId
+     * @return mixed
+     */
+    public function Get($ipnId) {
+        return Ipn::find($ipnId);
+    }
+
+    /**
+     * @permission administrator
+     * @return mixed
+     */
+    public function GetAll() {
+        return Ipn::findAll();
+    }
+
+    /**
+     * @permission administrator
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     * @return mixed
+     */
+    public function ListRecords($page, $size, $columns, $order, $filters) {
+        return Ipn::page($page, $size, $columns, $order, $filters);
+    }
 }
-?>
-
-

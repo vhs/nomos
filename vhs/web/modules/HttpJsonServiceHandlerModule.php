@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,6 +19,9 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
     public function __construct($registryKey) {
         $this->registryKey = $registryKey;
+    }
+
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -52,8 +56,5 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

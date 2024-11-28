@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -10,7 +11,6 @@ namespace app\security;
 
 use vhs\database\Column;
 use vhs\database\Table;
-use vhs\security\CurrentUser;
 
 class ColumnPrivilegedAccess extends PrivilegedAccess {
     /** @var Column */
@@ -32,7 +32,7 @@ class ColumnPrivilegedAccess extends PrivilegedAccess {
         return $column === $this->column && $this->hasPrivilegedAccess($record, ...$this->privileges);
     }
 
-    public function serialize() {
+    public function jsonSerialize(): mixed {
         return [
             'type' => 'column',
             'column' => [
@@ -45,7 +45,7 @@ class ColumnPrivilegedAccess extends PrivilegedAccess {
         ];
     }
 
-    public function jsonSerialize() {
+    public function serialize(): mixed {
         return [
             'type' => 'column',
             'column' => [
@@ -56,5 +56,13 @@ class ColumnPrivilegedAccess extends PrivilegedAccess {
             'privileges' => $this->privileges,
             'checks' => $this->checks
         ];
+    }
+
+    public function __serialize() {
+        return $this->serialize();
+    }
+
+    public function __unserialize($data): void {
+        // TODO maybe implement?
     }
 }

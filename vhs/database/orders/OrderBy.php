@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -24,14 +25,6 @@ abstract class OrderBy extends Element {
         $this->orderBy = $orderBy;
     }
 
-    public function __updateTable(Table &$table) {
-        $this->column->__updateTable($table);
-
-        foreach ($this->orderBy as $orderBy) {
-            $orderBy->__updateTable($table);
-        }
-    }
-
     public static function Ascending(Column $column, OrderBy ...$orderBy) {
         return new OrderByAscending($column, ...$orderBy);
     }
@@ -40,10 +33,18 @@ abstract class OrderBy extends Element {
         return new OrderByDescending($column, ...$orderBy);
     }
 
+    abstract public function generateOrderBy(IOrderByGenerator $generator);
+
     public function generate(IGenerator $generator, $value = null) {
         /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }
 
-    abstract public function generateOrderBy(IOrderByGenerator $generator);
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+
+        foreach ($this->orderBy as $orderBy) {
+            $orderBy->__updateTable($table);
+        }
+    }
 }

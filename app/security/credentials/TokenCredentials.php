@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -17,9 +18,9 @@ abstract class TokenCredentials implements ICredentials {
         $this->token = $token;
     }
 
+    abstract public function getType();
+
     public function getToken() {
         return $this->token;
     }
-
-    abstract public function getType();
 }

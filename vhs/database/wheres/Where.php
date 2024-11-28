@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -26,16 +27,16 @@ abstract class Where extends Element {
         return new WhereComparator($column, $value, false, true, false, false);
     }
 
-    public static function NotEqual(Column $column, $value) {
-        return new WhereComparator($column, $value, false, false, false, false);
-    }
-
     public static function Greater(Column $column, $value) {
         return new WhereComparator($column, $value, false, false, true, false);
     }
 
     public static function GreaterEqual(Column $column, $value) {
         return new WhereComparator($column, $value, false, true, true, false);
+    }
+
+    public static function In(Column $column, $value) {
+        return self::Equal($column, $value);
     }
 
     public static function Lesser(Column $column, $value) {
@@ -46,25 +47,27 @@ abstract class Where extends Element {
         return new WhereComparator($column, $value, false, true, false, true);
     }
 
-    public static function null(Column $column) {
-        return new WhereComparator($column, null, true, true, false, false);
+    public static function Like(Column $column, $value) {
+        return new WhereComparator($column, $value, false, false, false, false, true);
+    }
+
+    public static function NotEqual(Column $column, $value) {
+        return new WhereComparator($column, $value, false, false, false, false);
+    }
+
+    public static function NotIn(Column $column, $value) {
+        return self::NotEqual($column, $value);
     }
 
     public static function NotNull(Column $column) {
         return new WhereComparator($column, null, true, false, false, false);
     }
 
-    public static function Like(Column $column, $value) {
-        return new WhereComparator($column, $value, false, false, false, false, true);
+    public static function null(Column $column) {
+        return new WhereComparator($column, null, true, true, false, false);
     }
 
-    public static function In(Column $column, $value) {
-        return self::Equal($column, $value);
-    }
-
-    public static function NotIn(Column $column, $value) {
-        return self::NotEqual($column, $value);
-    }
+    abstract public function generateWhere(IWhereGenerator $generator);
 
     /**
      * @param IGenerator $generator
@@ -75,8 +78,6 @@ abstract class Where extends Element {
         /** @var IWhereGenerator $generator */
         return $this->generateWhere($generator);
     }
-
-    abstract public function generateWhere(IWhereGenerator $generator);
 
     abstract public function __toString();
 }

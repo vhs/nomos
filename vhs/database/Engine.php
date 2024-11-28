@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,11 +12,11 @@ namespace vhs\database;
 use vhs\Logger;
 
 abstract class Engine implements IDataInterface {
-    abstract public function setLogger(Logger $logger);
-
     abstract public function connect();
 
     abstract public function disconnect();
+
+    abstract public function setLogger(Logger $logger);
 
     public function __toString() {
         return get_called_class();

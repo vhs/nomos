@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,15 +10,15 @@
 namespace vhs\security;
 
 interface IPrincipal {
-    public function hasAllPermissions(...$permission);
-
-    public function hasAnyPermissions(...$permission);
-
     public function canGrantAllPermissions(...$permission);
 
     public function canGrantAnyPermissions(...$permission);
 
     public function getIdentity();
+
+    public function hasAllPermissions(...$permission);
+
+    public function hasAnyPermissions(...$permission);
 
     public function isAnon();
 

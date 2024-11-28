@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,6 +10,18 @@
 namespace vhs\security;
 
 class AnonPrincipal implements IPrincipal {
+    public function canGrantAllPermissions(...$permission) {
+        return false;
+    }
+
+    public function canGrantAnyPermissions(...$permission) {
+        return false;
+    }
+
+    public function getIdentity() {
+        return null;
+    }
+
     public function hasAllPermissions(...$permission) {
         if (count($permission) == 1) {
             if ($permission[0] == 'anonymous') {
@@ -21,18 +34,6 @@ class AnonPrincipal implements IPrincipal {
 
     public function hasAnyPermissions(...$permission) {
         return in_array('anonymous', $permission);
-    }
-
-    public function canGrantAllPermissions(...$permission) {
-        return false;
-    }
-
-    public function canGrantAnyPermissions(...$permission) {
-        return false;
-    }
-
-    public function getIdentity() {
-        return null;
     }
 
     public function isAnon() {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,7 +10,7 @@
 namespace vhs\services\endpoints;
 
 class NativeEndpoint extends Endpoint {
-    public function serializeOutput($data) {
+    public function deserializeInput($data) {
         return $data;
     }
 
@@ -17,11 +18,11 @@ class NativeEndpoint extends Endpoint {
         return $data;
     }
 
-    public function deserializeInput($data) {
+    public function serializeInput($data) {
         return $data;
     }
 
-    public function serializeInput($data) {
+    public function serializeOutput($data) {
         return $data;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -16,15 +17,15 @@ use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 
 class ChildDomainCollection extends DomainCollection {
-    /** @var Domain $parent */
-    private $parent;
-    private $childType;
-    /** @var Column $parentColumn */
-    private $parentColumn;
     /** @var Column $childColumn */
     private $childColumn;
     /** @var PrimaryKey $childKey */
     private $childKey;
+    private $childType;
+    /** @var Domain $parent */
+    private $parent;
+    /** @var Column $parentColumn */
+    private $parentColumn;
 
     public function __construct(Domain $parent, $childType) {
         $this->parent = $parent;
@@ -59,6 +60,26 @@ class ChildDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    public function add(Domain $item) {
+        $this->raiseBeforeAdd();
+        if ($this->contains($item)) {
+            throw new DomainException('Item already exists in collection');
+        }
+
+        $childPkName = $this->childKey->column->name;
+        $childColName = $this->childColumn->name;
+        $parentColName = $this->parentColumn->name;
+
+        if (array_key_exists($item->$childPkName, $this->__removed)) {
+            unset($this->__removed[$item->$childPkName]);
+        }
+
+        $this->__new[$item->$childPkName] = $item;
+        $item->$childColName = $this->parent->$parentColName;
+
+        $this->raiseAdded();
+    }
+
     public function all() {
         $childPkName = $this->childKey->column->name;
 
@@ -87,24 +108,18 @@ class ChildDomainCollection extends DomainCollection {
         return $this->containsKey($item->$childPkName);
     }
 
-    public function add(Domain $item) {
-        $this->raiseBeforeAdd();
-        if ($this->contains($item)) {
-            throw new DomainException('Item already exists in collection');
-        }
+    public function hydrate() {
+        $this->clear();
 
-        $childPkName = $this->childKey->column->name;
-        $childColName = $this->childColumn->name;
+        $child = $this->childType;
         $parentColName = $this->parentColumn->name;
+        $childPkName = $this->childKey->column->name;
 
-        if (array_key_exists($item->$childPkName, $this->__removed)) {
-            unset($this->__removed[$item->$childPkName]);
+        $items = $child::where(Where::Equal($this->childColumn, $this->parent->$parentColName));
+
+        foreach ($items as $item) {
+            $this->__existing[$item->$childPkName] = $item;
         }
-
-        $this->__new[$item->$childPkName] = $item;
-        $item->$childColName = $this->parent->$parentColName;
-
-        $this->raiseAdded();
     }
 
     public function remove(Domain $item) {
@@ -122,20 +137,6 @@ class ChildDomainCollection extends DomainCollection {
             $item->$childColName = $this->childColumn->type->default;
 
             $this->raiseRemoved();
-        }
-    }
-
-    public function hydrate() {
-        $this->clear();
-
-        $child = $this->childType;
-        $parentColName = $this->parentColumn->name;
-        $childPkName = $this->childKey->column->name;
-
-        $items = $child::where(Where::Equal($this->childColumn, $this->parent->$parentColName));
-
-        foreach ($items as $item) {
-            $this->__existing[$item->$childPkName] = $item;
         }
     }
 

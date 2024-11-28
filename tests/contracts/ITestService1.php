@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,22 +13,24 @@ use vhs\services\IContract;
 
 interface ITestService1 extends IContract {
     /**
+     * @permission perm1
+     * @permission perm2
+     * @permission perm3
+     * @return mixed
+     */
+    public function AllPermMethod();
+
+    /**
      * @permission anonymous
      * @return mixed
      */
     public function AnonMethod();
 
     /**
-     * @permission authenticated
+     * @permission perm1|perm2|perm3
      * @return mixed
      */
-    public function AuthMethod();
-
-    /**
-     * @permission randomPermission
-     * @return mixed
-     */
-    public function PermMethod();
+    public function AnyPermMethod();
 
     /**
      * @permission anonymous
@@ -38,16 +41,10 @@ interface ITestService1 extends IContract {
     public function ArgMethod($a, $b);
 
     /**
-     * @permission anonymous
-     * @param $a
+     * @permission authenticated
      * @return mixed
      */
-    public function ObjReturnMethod($a);
-
-    /**
-     * @return mixed
-     */
-    public function MissingPermMethod();
+    public function AuthMethod();
 
     /**
      * @permission
@@ -55,7 +52,10 @@ interface ITestService1 extends IContract {
      */
     public function EmptyPermMethod();
 
-    public function NoDocMethod();
+    /**
+     * @return mixed
+     */
+    public function MissingPermMethod();
 
     /**
      * @permission perm1|perm3
@@ -64,17 +64,18 @@ interface ITestService1 extends IContract {
      */
     public function MultiPermMethod();
 
-    /**
-     * @permission perm1|perm2|perm3
-     * @return mixed
-     */
-    public function AnyPermMethod();
+    public function NoDocMethod();
 
     /**
-     * @permission perm1
-     * @permission perm2
-     * @permission perm3
+     * @permission anonymous
+     * @param $a
      * @return mixed
      */
-    public function AllPermMethod();
+    public function ObjReturnMethod($a);
+
+    /**
+     * @permission randomPermission
+     * @return mixed
+     */
+    public function PermMethod();
 }

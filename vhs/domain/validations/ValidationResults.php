@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -19,16 +20,16 @@ class ValidationResults {
     }
 
     /**
-     * @return bool
-     */
-    public function isSuccess() {
-        return sizeof($this->failures) == 0;
-    }
-
-    /**
      * @return ValidationFailure[]
      */
     public function getFailures() {
         return $this->failures;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess() {
+        return sizeof($this->failures) == 0;
     }
 }

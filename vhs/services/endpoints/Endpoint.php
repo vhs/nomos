@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -40,59 +41,6 @@ abstract class Endpoint implements IEndpoint {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
-    }
-
-    /**
-     * @return \ReflectionClass
-     * @throws \Exception
-     */
-    final private function getContract() {
-        //TODO this would be a good place to implement a memcache registry of permissions & service endpoints
-        $serviceClass = new \ReflectionClass($this->internal_service);
-
-        $contract = null;
-        foreach ($serviceClass->getInterfaces() as $interface) {
-            if (array_key_exists('vhs\\services\\IContract', $interface->getInterfaces())) {
-                $contract = $interface;
-            }
-        }
-
-        if ($contract == null) {
-            throw new InvalidContractException('Invalid service contract');
-        }
-
-        return $contract;
-    }
-
-    final public function getAllPermissions() {
-        $contract = $this->getContract();
-
-        $allPermissions = [];
-
-        foreach ($contract->getMethods() as $method) {
-            $allPermissions[$method->getName()] = $this->getMethodPermissions($method);
-        }
-
-        return $allPermissions;
-    }
-
-    final private function getMethodPermissions(\ReflectionMethod $method) {
-        $comments = $method->getDocComment();
-
-        $permissions = [];
-
-        if (preg_match_all('%^\s*\*\s*@permission\s+(?P<permission>(?:[a-z0-9-]+\|?)+)\s*$%im', $comments, $result, PREG_PATTERN_ORDER)) {
-            foreach ($result[1] as $perm) {
-                $arr = explode('|', $perm);
-
-                array_push($permissions, $arr);
-            }
-        }
-
-        return $permissions;
-    }
-
     final public function discover() {
         $contract = $this->getContract();
 
@@ -109,6 +57,18 @@ abstract class Endpoint implements IEndpoint {
         $out['methods'] = (object) $methods;
 
         return $this->serializeOutput((object) $out);
+    }
+
+    final public function getAllPermissions() {
+        $contract = $this->getContract();
+
+        $allPermissions = [];
+
+        foreach ($contract->getMethods() as $method) {
+            $allPermissions[$method->getName()] = $this->getMethodPermissions($method);
+        }
+
+        return $allPermissions;
     }
 
     final public function handleRequest($method, $data) {
@@ -164,7 +124,7 @@ abstract class Endpoint implements IEndpoint {
         $argvals = [];
 
         foreach ($paramNames as $name) {
-            if (!array_key_exists($name, $args)) {
+            if ((is_array($args) && !array_key_exists($name, $args)) || (is_object($args) && !property_exists($args, $name))) {
                 throw new InvalidRequestException('Argument mismatch on service call to ' . $method);
             } else {
                 if (is_array($args)) {
@@ -178,5 +138,46 @@ abstract class Endpoint implements IEndpoint {
         $retval = $this->internal_service->$method(...$argvals);
 
         return $this->serializeOutput($retval);
+    }
+
+    /**
+     * @return \ReflectionClass
+     * @throws \Exception
+     */
+    private function getContract() {
+        //TODO this would be a good place to implement a memcache registry of permissions & service endpoints
+        $serviceClass = new \ReflectionClass($this->internal_service);
+
+        $contract = null;
+        foreach ($serviceClass->getInterfaces() as $interface) {
+            if (array_key_exists('vhs\\services\\IContract', $interface->getInterfaces())) {
+                $contract = $interface;
+            }
+        }
+
+        if ($contract == null) {
+            throw new InvalidContractException('Invalid service contract');
+        }
+
+        return $contract;
+    }
+
+    private function getMethodPermissions(\ReflectionMethod $method) {
+        $comments = $method->getDocComment();
+
+        $permissions = [];
+
+        if (preg_match_all('%^\s*\*\s*@permission\s+(?P<permission>(?:[a-z0-9-]+\|?)+)\s*$%im', $comments, $result, PREG_PATTERN_ORDER)) {
+            foreach ($result[1] as $perm) {
+                $arr = explode('|', $perm);
+
+                array_push($permissions, $arr);
+            }
+        }
+
+        return $permissions;
+    }
+
+    private function __clone() {
     }
 }

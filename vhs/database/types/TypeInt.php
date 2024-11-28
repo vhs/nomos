@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,11 +10,11 @@
 namespace vhs\database\types;
 
 class TypeInt extends Type {
-    public function generateType(ITypeGenerator $generator, $value = null) {
-        return $generator->generateInt($this, $value);
-    }
-
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertInt($this, $value);
+    }
+
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateInt($this, $value);
     }
 }

@@ -7,8 +7,8 @@
 
 namespace app\monitors;
 
-use app\domain\StripeEvent;
 use app\domain\Payment;
+use app\domain\StripeEvent;
 use DateTime;
 use vhs\Logger;
 use vhs\monitors\Monitor;
@@ -16,11 +16,6 @@ use vhs\monitors\Monitor;
 class StripeEventMonitor extends Monitor {
     /** @var Logger */
     private $logger;
-
-    public function Init(Logger &$logger = null) {
-        $this->logger = &$logger;
-        StripeEvent::onAnyCreated([$this, 'handleCreated']);
-    }
 
     public function handleCreated($args) {
         $this->logger->log(__METHOD__ + ': ' + json_encode($args, 1));
@@ -37,6 +32,7 @@ class StripeEventMonitor extends Monitor {
 
             if (Payment::exists($txn_id)) {
                 $this->logger->log('Payment record already exists for this Stripe transaction.. odd');
+
                 return;
             }
 
@@ -109,6 +105,11 @@ class StripeEventMonitor extends Monitor {
         }
     }
 
+    public function Init(Logger &$logger = null) {
+        $this->logger = &$logger;
+        StripeEvent::onAnyCreated([$this, 'handleCreated']);
+    }
+
     /**
      * Sourced from: https://stackoverflow.com/a/31330346
      */
@@ -116,6 +117,7 @@ class StripeEventMonitor extends Monitor {
         $name = trim($name);
         $last_name = strpos($name, ' ') === false ? '' : preg_replace('#.*\s([\w-]*)$#', '$1', $name);
         $first_name = trim(preg_replace('#' . preg_quote($last_name, '#') . '#', '', $name));
+
         return [$first_name, $last_name];
     }
 }

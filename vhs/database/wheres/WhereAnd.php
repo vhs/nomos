@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,12 +19,6 @@ class WhereAnd extends Where {
         $this->wheres = $where;
     }
 
-    public function __updateTable(Table &$table) {
-        foreach ($this->wheres as $where) {
-            $where->__updateTable($table);
-        }
-    }
-
     public function generateWhere(IWhereGenerator $generator) {
         return $generator->generateAnd($this);
     }
@@ -38,5 +33,11 @@ class WhereAnd extends Where {
         $s .= ')';
 
         return $s;
+    }
+
+    public function __updateTable(Table &$table) {
+        foreach ($this->wheres as $where) {
+            $where->__updateTable($table);
+        }
     }
 }

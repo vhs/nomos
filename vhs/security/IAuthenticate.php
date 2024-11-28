@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,17 +10,17 @@
 namespace vhs\security;
 
 interface IAuthenticate {
-    public static function login(ICredentials $credentials);
-
-    public static function logout();
+    /**
+     * @return IPrincipal
+     */
+    public static function currentPrincipal();
 
     /**
      * @return bool
      */
     public static function isAuthenticated();
 
-    /**
-     * @return IPrincipal
-     */
-    public static function currentPrincipal();
+    public static function login(ICredentials $credentials);
+
+    public static function logout();
 }

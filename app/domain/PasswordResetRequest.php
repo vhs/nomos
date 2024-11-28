@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,10 +19,10 @@ class PasswordResetRequest extends Domain {
         PasswordResetRequest::Schema(PasswordResetRequestSchema::Type());
     }
 
-    public function validate(ValidationResults &$results) {
-    }
-
     public static function findByToken($token) {
         return PasswordResetRequest::where(Where::Equal(PasswordResetRequestSchema::Columns()->token, $token));
+    }
+
+    public function validate(ValidationResults &$results) {
     }
 }

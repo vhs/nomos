@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,14 +19,14 @@ class GenuineCard extends Domain {
         GenuineCard::Schema(GenuineCardSchema::Type());
     }
 
-    public function validate(ValidationResults &$results) {
-    }
-
     /**
      * @param $key
      * @return GenuineCard[]
      */
     public static function findByKey($key) {
         return GenuineCard::where(Where::Equal(GenuineCardSchema::Columns()->key, $key));
+    }
+
+    public function validate(ValidationResults &$results) {
     }
 }

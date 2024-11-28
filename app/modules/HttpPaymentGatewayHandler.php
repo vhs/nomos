@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,7 +10,6 @@
 namespace app\modules;
 
 use app\gateways\IPaymentGateway;
-use app\gateways\PaymentGatewayException;
 use vhs\web\HttpRequestHandler;
 use vhs\web\HttpServer;
 

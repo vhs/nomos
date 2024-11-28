@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,22 +13,22 @@ use vhs\database\engines\memory\InMemoryEngine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
 use vhs\database\queries\Query;
+use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
-use vhs\database\queries\QueryCount;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\Singleton;
 
 class Database extends Singleton {
-    /** @var bool */
-    private $rethrow;
-    /** @var Logger */
-    private $logger;
     /** @var Engine */
     private $engine;
+    /** @var Logger */
+    private $logger;
+    /** @var bool */
+    private $rethrow;
 
     protected function __construct() {
         $this->setLoggerInternal(new SilentLogger());
@@ -37,6 +38,95 @@ class Database extends Singleton {
 
     public function __destruct() {
         $this->engine->disconnect();
+    }
+
+    public static function arbitrary($command) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $command) {
+            //TODO warn that this is not ideal
+            return $db->engine->arbitrary($command);
+        });
+    }
+
+    public static function count(QueryCount $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->count($query);
+        });
+    }
+
+    public static function DateFormat() {
+        return self::getInstance()->engine->DateFormat();
+    }
+
+    public static function delete(QueryDelete $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->delete($query);
+        });
+    }
+
+    public static function exists(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->exists($query);
+        });
+    }
+
+    public static function insert(QueryInsert $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->insert($query);
+        });
+    }
+
+    public static function scalar(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->scalar($query);
+        });
+    }
+
+    public static function select(QuerySelect $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->select($query);
+        });
+    }
+
+    public static function setEngine(Engine $engine) {
+        /** @var Database $db */
+        $db = self::getInstance();
+
+        $db->setEngineInternal($engine);
+    }
+
+    public static function setLogger(Logger $logger) {
+        $db = self::getInstance();
+
+        $db->setLoggerInternal($logger);
+    }
+
+    public static function setRethrow($rethrow) {
+        /** @var Database $db */
+        $db = self::getInstance();
+
+        $db->setRethrowInternal($rethrow);
+    }
+
+    public static function update(QueryUpdate $query) {
+        /** @var Database $db */
+        $db = self::getInstance();
+        return $db->invokeEngine(function () use ($db, $query) {
+            return $db->engine->update($query);
+        });
     }
 
     private function handleException($exception) {
@@ -65,17 +155,6 @@ class Database extends Singleton {
         return $retval;
     }
 
-    private function setRethrowInternal($rethrow) {
-        $this->rethrow = $rethrow;
-    }
-
-    public static function setRethrow($rethrow) {
-        /** @var Database $db */
-        $db = self::getInstance();
-
-        $db->setRethrowInternal($rethrow);
-    }
-
     private function setEngineInternal(Engine $engine) {
         if (!is_null($this->engine)) {
             $this->engine->disconnect();
@@ -84,89 +163,11 @@ class Database extends Singleton {
         $this->engine = $engine;
     }
 
-    public static function setEngine(Engine $engine) {
-        /** @var Database $db */
-        $db = self::getInstance();
-
-        $db->setEngineInternal($engine);
-    }
-
     private function setLoggerInternal(Logger $logger) {
         $this->logger = $logger;
     }
 
-    public static function setLogger(Logger $logger) {
-        $db = self::getInstance();
-
-        $db->setLoggerInternal($logger);
-    }
-
-    public static function DateFormat() {
-        return self::getInstance()->engine->DateFormat();
-    }
-
-    public static function scalar(QuerySelect $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->scalar($query);
-        });
-    }
-
-    public static function select(QuerySelect $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->select($query);
-        });
-    }
-
-    public static function delete(QueryDelete $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->delete($query);
-        });
-    }
-
-    public static function insert(QueryInsert $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->insert($query);
-        });
-    }
-
-    public static function update(QueryUpdate $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->update($query);
-        });
-    }
-
-    public static function count(QueryCount $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->count($query);
-        });
-    }
-
-    public static function exists(QuerySelect $query) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $query) {
-            return $db->engine->exists($query);
-        });
-    }
-
-    public static function arbitrary($command) {
-        /** @var Database $db */
-        $db = self::getInstance();
-        return $db->invokeEngine(function () use ($db, $command) {
-            //TODO warn that this is not ideal
-            return $db->engine->arbitrary($command);
-        });
+    private function setRethrowInternal($rethrow) {
+        $this->rethrow = $rethrow;
     }
 }

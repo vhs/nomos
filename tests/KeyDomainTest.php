@@ -1,11 +1,11 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use app\domain\Key;
 use app\domain\Membership;
 use app\domain\Privilege;
 use app\domain\User;
 use app\services\AuthService;
+use PHPUnit\Framework\TestCase;
 use vhs\database\Database;
 use vhs\database\engines\memory\InMemoryEngine;
 use vhs\Logger;
@@ -18,13 +18,81 @@ use vhs\loggers\ConsoleLogger;
  * Time: 10:17 AM
  */
 class KeyDomainTest extends TestCase {
+    /** @var  InMemoryEngine */
+    private static $engine;
     /** @var Logger */
     private static $logger;
 
-    /** @var  InMemoryEngine */
-    private static $engine;
+    private $ids = [];
 
-    public static function setUpBeforeClass() {
+    public function test_bullshitPhp() {
+        $service = new AuthService();
+
+        $result = $service->CheckPin('00011234');
+        $obj = json_decode(json_encode($result));
+        $this->assertTrue(is_array($obj->privileges), 'privileges must be an array');
+
+        $user = User::find($this->ids['user']);
+        $membership_privilege = Privilege::find($this->ids['membership_privilege']);
+
+        $user->privileges->add($membership_privilege);
+        $user->save();
+
+        /*
+         * This test is all about the array_unique issue in it converting arrays to
+         * objects when they have conflicts. Consequently it would return an object
+         * instead of an array when we had duplicate privileges on a user (e.g.
+         * privilege on the user and a privilege inheritted from their membership)
+         */
+
+        $result2 = $service->CheckPin('00011234');
+        $obj = json_decode(json_encode($result2));
+        $this->assertTrue(is_array($obj->privileges), 'privileges must be an array');
+    }
+
+    public function test_Privileges() {
+        $inherit = Privilege::find($this->ids['inherit']);
+        $membership_privilege = Privilege::find($this->ids['membership_privilege']);
+        $user_privilege = Privilege::find($this->ids['user_privilege']);
+
+        $service = new AuthService();
+
+        $result = $service->CheckPin('00011234');
+
+        $this->assertArrayHasKey('valid', $result);
+        $this->assertTrue(is_bool($result['valid']));
+        $this->assertEquals(true, $result['valid']);
+
+        $this->assertArrayHasKey('type', $result);
+        $this->assertTrue(is_string($result['type']));
+        $this->assertEquals('membership_code', $result['type']);
+
+        $this->assertArrayHasKey('privileges', $result);
+        $this->assertTrue(is_array($result['privileges']));
+        $this->assertEquals(3, count($result['privileges']));
+
+        $inheritFound = false;
+        $membership_privilegeFound = false;
+        $user_privilegeFound = false;
+
+        foreach ($result['privileges'] as $priv) {
+            if ($priv->code === $inherit->code) {
+                $inheritFound = true;
+            }
+            if ($priv->code === $membership_privilege->code) {
+                $membership_privilegeFound = true;
+            }
+            if ($priv->code === $user_privilege->code) {
+                $user_privilegeFound = true;
+            }
+        }
+
+        $this->assertTrue($inheritFound);
+        $this->assertTrue($membership_privilegeFound);
+        $this->assertTrue($user_privilegeFound);
+    }
+
+    public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         self::$engine = new InMemoryEngine();
         self::$engine->setLogger(self::$logger);
@@ -33,13 +101,11 @@ class KeyDomainTest extends TestCase {
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$engine->disconnect();
     }
 
-    private $ids = [];
-
-    public function setUp() {
+    public function setUp(): void {
         $inherit = new Privilege();
         $inherit->name = 'Inherit Privilege';
         $inherit->code = 'inherit';
@@ -96,74 +162,7 @@ class KeyDomainTest extends TestCase {
         $this->ids['key'] = $key->id;
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         self::$engine->disconnect();
-    }
-
-    public function test_Privileges() {
-        $inherit = Privilege::find($this->ids['inherit']);
-        $membership_privilege = Privilege::find($this->ids['membership_privilege']);
-        $user_privilege = Privilege::find($this->ids['user_privilege']);
-
-        $service = new AuthService();
-
-        $result = $service->CheckPin('00011234');
-
-        $this->assertArrayHasKey('valid', $result);
-        $this->assertTrue(is_bool($result['valid']));
-        $this->assertEquals(true, $result['valid']);
-
-        $this->assertArrayHasKey('type', $result);
-        $this->assertTrue(is_string($result['type']));
-        $this->assertEquals('membership_code', $result['type']);
-
-        $this->assertArrayHasKey('privileges', $result);
-        $this->assertTrue(is_array($result['privileges']));
-        $this->assertEquals(3, count($result['privileges']));
-
-        $inheritFound = false;
-        $membership_privilegeFound = false;
-        $user_privilegeFound = false;
-
-        foreach ($result['privileges'] as $priv) {
-            if ($priv->code === $inherit->code) {
-                $inheritFound = true;
-            }
-            if ($priv->code === $membership_privilege->code) {
-                $membership_privilegeFound = true;
-            }
-            if ($priv->code === $user_privilege->code) {
-                $user_privilegeFound = true;
-            }
-        }
-
-        $this->assertTrue($inheritFound);
-        $this->assertTrue($membership_privilegeFound);
-        $this->assertTrue($user_privilegeFound);
-    }
-
-    public function test_bullshitPhp() {
-        $service = new AuthService();
-
-        $result = $service->CheckPin('00011234');
-        $obj = json_decode(json_encode($result));
-        $this->assertTrue(is_array($obj->privileges), 'privileges must be an array');
-
-        $user = User::find($this->ids['user']);
-        $membership_privilege = Privilege::find($this->ids['membership_privilege']);
-
-        $user->privileges->add($membership_privilege);
-        $user->save();
-
-        /*
-         * This test is all about the array_unique issue in it converting arrays to
-         * objects when they have conflicts. Consequently it would return an object
-         * instead of an array when we had duplicate privileges on a user (e.g.
-         * privilege on the user and a privilege inheritted from their membership)
-         */
-
-        $result2 = $service->CheckPin('00011234');
-        $obj = json_decode(json_encode($result2));
-        $this->assertTrue(is_array($obj->privileges), 'privileges must be an array');
     }
 }

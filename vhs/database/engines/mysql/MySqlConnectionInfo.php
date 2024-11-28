@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,10 +12,10 @@ namespace vhs\database\engines\mysql;
 use vhs\database\ConnectionInfo;
 
 class MySqlConnectionInfo extends ConnectionInfo {
+    private $database;
+    private $password;
     private $server;
     private $username;
-    private $password;
-    private $database;
 
     public function __construct($server, $username, $password, $database = null) {
         $this->server = $server;
@@ -23,6 +24,10 @@ class MySqlConnectionInfo extends ConnectionInfo {
         $this->database = $database;
 
         //TODO throw argument exceptions here if shit is rotten
+    }
+
+    public function getDatabase() {
+        return $this->database;
     }
 
     public function getDetails() {
@@ -34,19 +39,15 @@ class MySqlConnectionInfo extends ConnectionInfo {
         ];
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
+
     public function getServer() {
         return $this->server;
     }
 
     public function getUsername() {
         return $this->username;
-    }
-
-    public function getPassword() {
-        return $this->password;
-    }
-
-    public function getDatabase() {
-        return $this->database;
     }
 }

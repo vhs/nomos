@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,12 +19,12 @@ use vhs\database\wheres\Where;
 class QueryCount extends Query {
     /** @var Columns  */
     public $columns;
-    /** @var OrderBy  */
-    public $orderBy;
     /** @var Limit  */
     public $limit;
     /** @var Offset  */
     public $offset;
+    /** @var OrderBy  */
+    public $orderBy;
 
     public function __construct(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
         parent::__construct($table, $where);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -8,9 +9,9 @@
 
 namespace app\domain;
 
-use DateTime;
 use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
+use DateTime;
 use vhs\database\Database;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
@@ -26,64 +27,9 @@ class User extends Domain {
         User::Relationship('privileges', Privilege::Type(), UserPrivilegeSchema::Type());
     }
 
-    public function getPrivilegeCodes() {
-        $codes = [];
-
-        foreach ($this->privileges->all() as $priv) {
-            array_push($codes, $priv->code);
-        }
-
-        return $codes;
-    }
-
-    public function getGrantCodes() {
-        $grants = [];
-        foreach ($this->privileges->all() as $priv) {
-            if (strpos($priv->code, 'grant:') === 0) {
-                array_push($grants, substr($priv->code, 6));
-            }
-        }
-
-        return $grants;
-    }
-
-    public function validate(ValidationResults &$results) {
-        $this->validateEmail($results);
-    }
-
-    private function validateEmail(ValidationResults &$results) {
-        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $results->add(new ValidationFailure('Invalid e-mail address'));
-        }
-    }
-
     /**
-     * @param $username
-     * @return User[]
-     */
-    public static function findByUsername($username) {
-        return User::where(Where::Equal(UserSchema::Columns()->username, $username));
-    }
-
-    /**
-     * @param $email
-     * @return User[]
-     */
-    public static function findByEmail($email) {
-        return User::where(Where::Equal(UserSchema::Columns()->email, $email));
-    }
-
-    /**
-     * @param $email
-     * @return User[]
-     */
-    public static function findByPaymentEmail($email) {
-        return User::where(Where::Equal(UserSchema::Columns()->payment_email, $email));
-    }
-
-    /**
-     * @param string|null $username
-     * @param string|null $email
+     * @param  string|null $username
+     * @param  string|null $email
      * @return boolean
      */
     public static function exists($username = null, $email = null) {
@@ -102,17 +48,32 @@ class User extends Domain {
         return Database::exists(Query::select(UserSchema::Table(), UserSchema::Columns(), $where));
     }
 
+    /**
+     * @param $email
+     * @return User[]
+     */
+    public static function findByEmail($email) {
+        return User::where(Where::Equal(UserSchema::Columns()->email, $email));
+    }
+
+    /**
+     * @param $email
+     * @return User[]
+     */
+    public static function findByPaymentEmail($email) {
+        return User::where(Where::Equal(UserSchema::Columns()->payment_email, $email));
+    }
+
     public static function findByToken($token) {
         return User::where(Where::Equal(UserSchema::Columns()->token, $token));
     }
 
     /**
-     * Check if user account has expired
-     *
-     * @return boolean
+     * @param $username
+     * @return User[]
      */
-    private function hasExpired() {
-        return new DateTime($this->mem_expire) < new DateTime();
+    public static function findByUsername($username) {
+        return User::where(Where::Equal(UserSchema::Columns()->username, $username));
     }
 
     /**
@@ -137,6 +98,17 @@ class User extends Domain {
         return !$this->hasExpired();
     }
 
+    public function getGrantCodes() {
+        $grants = [];
+        foreach ($this->privileges->all() as $priv) {
+            if (strpos($priv->code, 'grant:') === 0) {
+                array_push($grants, substr($priv->code, 6));
+            }
+        }
+
+        return $grants;
+    }
+
     /**
      * Get a friendly error message for user validity
      * @return mixed
@@ -157,5 +129,34 @@ class User extends Domain {
         }
 
         return 'Unknown error';
+    }
+
+    public function getPrivilegeCodes() {
+        $codes = [];
+
+        foreach ($this->privileges->all() as $priv) {
+            array_push($codes, $priv->code);
+        }
+
+        return $codes;
+    }
+
+    public function validate(ValidationResults &$results) {
+        $this->validateEmail($results);
+    }
+
+    /**
+     * Check if user account has expired
+     *
+     * @return boolean
+     */
+    private function hasExpired() {
+        return new DateTime($this->mem_expire) < new DateTime();
+    }
+
+    private function validateEmail(ValidationResults &$results) {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $results->add(new ValidationFailure('Invalid e-mail address'));
+        }
     }
 }

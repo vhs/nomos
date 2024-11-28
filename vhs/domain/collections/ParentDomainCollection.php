@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,6 +12,12 @@ namespace vhs\domain\collections;
 use vhs\domain\Domain;
 
 class ParentDomainCollection extends DomainCollection {
+    public function add(Domain $item) {
+        // TODO: Implement add() method.
+        $this->raiseBeforeAdd();
+        $this->raiseAdded();
+    }
+
     public function all() {
         // TODO: Implement all() method.
     }
@@ -27,20 +34,14 @@ class ParentDomainCollection extends DomainCollection {
         // TODO: Implement containsKey() method.
     }
 
-    public function add(Domain $item) {
-        // TODO: Implement add() method.
-        $this->raiseBeforeAdd();
-        $this->raiseAdded();
+    public function hydrate() {
+        // TODO: Implement hydrate() method.
     }
 
     public function remove(Domain $item) {
         // TODO: Implement remove() method.
         $this->raiseBeforeRemove();
         $this->raiseRemoved();
-    }
-
-    public function hydrate() {
-        // TODO: Implement hydrate() method.
     }
 
     public function save() {

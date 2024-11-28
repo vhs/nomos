@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,13 +10,13 @@
 namespace vhs\messaging;
 
 interface IMessagingInterface {
-    public function ensure($channel, $queue);
-
-    public function publish($channel, $queue, $message);
-
     public function consume($channel, $queue, callable $callback);
 
+    public function ensure($channel, $queue);
+
     public function hasCallbacks($channel);
+
+    public function publish($channel, $queue, $message);
 
     public function wait($channel);
 }

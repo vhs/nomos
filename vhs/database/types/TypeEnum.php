@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -30,11 +31,11 @@ class TypeEnum extends Type {
         $this->values = $values;
     }
 
-    public function generateType(ITypeGenerator $generator, $value = null) {
-        return $generator->generateEnum($this, $value);
-    }
-
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertEnum($this, $value);
+    }
+
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateEnum($this, $value);
     }
 }

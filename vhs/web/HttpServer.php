@@ -14,16 +14,15 @@ use vhs\loggers\SilentLogger;
 use vhs\web\modules\HttpServerInfoModule;
 
 class HttpServer {
-    private $logger;
-    private $handling = false;
-    private $modules = [];
-    private $headerBuffer = [];
-    private $outputBuffer = [];
-    private $http_response_code;
-    private $endset = false;
-
     /** @var HttpRequest */
     public $request;
+    private $endset = false;
+    private $handling = false;
+    private $headerBuffer = [];
+    private $http_response_code;
+    private $logger;
+    private $modules = [];
+    private $outputBuffer = [];
 
     public function __construct(HttpServerInfoModule $infoModule = null, Logger &$logger = null) {
         if (is_null($logger)) {
@@ -39,17 +38,36 @@ class HttpServer {
         }
     }
 
-    public function log($message) {
-        $this->logger->log($message);
-    }
-
-    public function register(IHttpModule $module) {
-        if ($this->handling) {
-            $this->log('Failed to register module ' . get_class($module));
-            throw new \Exception('Registrations must occur prior to handling a request');
+    public function clear() {
+        if ($this->endset) {
+            return;
         }
 
-        array_push($this->modules, $module);
+        unset($this->headerBuffer);
+        $this->headerBuffer = [];
+        unset($this->outputBuffer);
+        $this->outputBuffer = [];
+        $this->http_response_code = 200;
+    }
+
+    public function code($code) {
+        if ($this->endset) {
+            return;
+        }
+
+        $this->http_response_code = $code;
+    }
+
+    public function end() {
+        if ($this->endset) {
+            return;
+        }
+
+        $this->endset = true;
+        $self = $this;
+        array_push($this->outputBuffer, function () use ($self) {
+            $self->endResponse();
+        });
     }
 
     public function handle() {
@@ -102,6 +120,62 @@ class HttpServer {
         $this->endResponse();
     }
 
+    public function header($string, $replace = true, $http_response_code = null) {
+        if ($this->endset) {
+            return;
+        }
+
+        $self = $this;
+
+        array_push($this->headerBuffer, function () use ($self, $string, $replace, $http_response_code) {
+            if (headers_sent() === false) {
+                header($string, $replace, $http_response_code);
+            }
+        });
+    }
+
+    public function log($message) {
+        $this->logger->log($message);
+    }
+
+    public function output($data) {
+        if ($this->endset) {
+            return;
+        }
+
+        array_push($this->outputBuffer, function () use ($data) {
+            echo $data;
+        });
+    }
+
+    public function redirect($url, $permanent = false) {
+        if ($this->endset) {
+            return;
+        }
+
+        $this->header('Location: ' . $url, true, $permanent ? 301 : 302);
+    }
+
+    public function register(IHttpModule $module) {
+        if ($this->handling) {
+            $this->log('Failed to register module ' . get_class($module));
+            throw new \Exception('Registrations must occur prior to handling a request');
+        }
+
+        array_push($this->modules, $module);
+    }
+
+    public function sendOnlyHeaders() {
+        if ($this->endset) {
+            return;
+        }
+
+        $self = $this;
+        array_push($this->headerBuffer, function () use ($self) {
+            exit();
+        });
+    }
+
     private function endResponse() {
         $exception = null;
         /** @var IHttpModule $module */
@@ -124,80 +198,5 @@ class HttpServer {
         }
 
         exit();
-    }
-
-    public function clear() {
-        if ($this->endset) {
-            return;
-        }
-
-        unset($this->headerBuffer);
-        $this->headerBuffer = [];
-        unset($this->outputBuffer);
-        $this->outputBuffer = [];
-        $this->http_response_code = 200;
-    }
-
-    public function output($data) {
-        if ($this->endset) {
-            return;
-        }
-
-        array_push($this->outputBuffer, function () use ($data) {
-            echo $data;
-        });
-    }
-
-    public function redirect($url, $permanent = false) {
-        if ($this->endset) {
-            return;
-        }
-
-        $this->header('Location: ' . $url, true, $permanent ? 301 : 302);
-    }
-
-    public function header($string, $replace = true, $http_response_code = null) {
-        if ($this->endset) {
-            return;
-        }
-
-        $self = $this;
-
-        array_push($this->headerBuffer, function () use ($self, $string, $replace, $http_response_code) {
-            if (headers_sent() === false) {
-                header($string, $replace, $http_response_code);
-            }
-        });
-    }
-
-    public function code($code) {
-        if ($this->endset) {
-            return;
-        }
-
-        $this->http_response_code = $code;
-    }
-
-    public function sendOnlyHeaders() {
-        if ($this->endset) {
-            return;
-        }
-
-        $self = $this;
-        array_push($this->headerBuffer, function () use ($self) {
-            exit();
-        });
-    }
-
-    public function end() {
-        if ($this->endset) {
-            return;
-        }
-
-        $this->endset = true;
-        $self = $this;
-        array_push($this->outputBuffer, function () use ($self) {
-            $self->endResponse();
-        });
     }
 }

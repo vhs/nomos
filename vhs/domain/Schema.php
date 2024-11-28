@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -28,35 +29,14 @@ abstract class Schema implements ISchema {
     }
 
     /**
-     * @return Schema
-     */
-    final private static function getInstance() {
-        static $aoInstance = [];
-
-        $class = get_called_class();
-
-        if (!isset($aoInstance[$class])) {
-            $aoInstance[$class] = new $class();
-        }
-
-        return $aoInstance[$class];
-    }
-
-    final private function __clone() {
-    }
-
-    /**
-     * @return Schema
-     */
-    final public static function Type() {
-        return self::getInstance();
-    }
-
-    /**
      * @return Table
      */
     public static function &Table() {
         return self::getInstance()->internal_table;
+    }
+
+    public static function Column($name) {
+        return self::Table()->columns->$name;
     }
 
     /**
@@ -68,6 +48,17 @@ abstract class Schema implements ISchema {
 
     public static function Constraints() {
         return self::Table()->constraints;
+    }
+
+    public static function ForeignKeys() {
+        $fks = [];
+        foreach (self::Table()->constraints as $constraint) {
+            if ($constraint instanceof ForeignKey) {
+                array_push($fks, $constraint);
+            }
+        }
+
+        return $fks;
     }
 
     /**
@@ -84,18 +75,28 @@ abstract class Schema implements ISchema {
         return $pks;
     }
 
-    public static function ForeignKeys() {
-        $fks = [];
-        foreach (self::Table()->constraints as $constraint) {
-            if ($constraint instanceof ForeignKey) {
-                array_push($fks, $constraint);
-            }
-        }
-
-        return $fks;
+    /**
+     * @return Schema
+     */
+    final public static function Type() {
+        return self::getInstance();
     }
 
-    public static function Column($name) {
-        return self::Table()->columns->$name;
+    /**
+     * @return Schema
+     */
+    private static function getInstance() {
+        static $aoInstance = [];
+
+        $class = get_called_class();
+
+        if (!isset($aoInstance[$class])) {
+            $aoInstance[$class] = new $class();
+        }
+
+        return $aoInstance[$class];
+    }
+
+    private function __clone() {
     }
 }

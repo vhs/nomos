@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -17,11 +18,11 @@ class TypeString extends Type {
         $this->length = $length;
     }
 
-    public function generateType(ITypeGenerator $generator, $value = null) {
-        return $generator->generateString($this, $value);
-    }
-
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertString($this, $value);
+    }
+
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateString($this, $value);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -24,6 +25,6 @@ abstract class Singleton {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
+    private function __clone() {
     }
 }

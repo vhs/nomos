@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -8,13 +9,13 @@
 
 namespace app\schema;
 
+use app\schema\MembershipSchema;
+use app\schema\UserSchema;
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
-use app\schema\MembershipSchema;
-use app\schema\UserSchema;
 
 class PaymentSchema extends Schema {
     public static function init() {

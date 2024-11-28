@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -17,11 +18,11 @@ class StringLogger extends Logger {
         $this->history = [];
     }
 
-    public function log($message) {
-        array_push($this->history, $message);
-    }
-
     public function fullText() {
         return implode("\n", $this->history);
+    }
+
+    public function log($message) {
+        array_push($this->history, $message);
     }
 }

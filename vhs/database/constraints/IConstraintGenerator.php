@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,7 +12,7 @@ namespace vhs\database\constraints;
 use vhs\database\IGenerator;
 
 interface IConstraintGenerator extends IGenerator {
-    public function generatePrimaryKey(PrimaryKey $constraint);
-
     public function generateForeignKey(ForeignKey $constraint);
+
+    public function generatePrimaryKey(PrimaryKey $constraint);
 }

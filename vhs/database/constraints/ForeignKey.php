@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,16 +13,20 @@ use vhs\database\Column;
 use vhs\database\Table;
 
 class ForeignKey extends Constraint {
-    /** @var Table */
-    public $table;
     /** @var Column */
     public $on;
+    /** @var Table */
+    public $table;
 
     public function __construct(Column $column, Table &$table, Column $on) {
         $this->table = $table;
         $this->on = $on;
 
         parent::__construct($column);
+    }
+
+    public function generateConstraint(IConstraintGenerator $generator) {
+        return $generator->generateForeignKey($this);
     }
 
     public function __clone() {
@@ -31,9 +36,5 @@ class ForeignKey extends Constraint {
     public function __updateTable(Table &$table) {
         $this->table = $table;
         $this->on->__updateTable($table);
-    }
-
-    public function generateConstraint(IConstraintGenerator $generator) {
-        return $generator->generateForeignKey($this);
     }
 }

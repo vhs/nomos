@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -9,8 +10,8 @@
 namespace vhs\services\endpoints;
 
 class JsonEndpoint extends Endpoint {
-    public function serializeOutput($data) {
-        return json_encode($data);
+    public function deserializeInput($data) {
+        return json_decode($data);
     }
 
     public function deserializeOutput($data) {
@@ -21,7 +22,7 @@ class JsonEndpoint extends Endpoint {
         return json_encode($data);
     }
 
-    public function deserializeInput($data) {
-        return json_decode($data);
+    public function serializeOutput($data) {
+        return json_encode($data);
     }
 }

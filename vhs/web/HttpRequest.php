@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -13,10 +14,10 @@ class HttpRequest {
     public $headers;
 
     /** @var string */
-    public $url;
+    public $method;
 
     /** @var string */
-    public $method;
+    public $url;
 
     public function __construct() {
     }

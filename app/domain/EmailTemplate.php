@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,13 +19,10 @@ class EmailTemplate extends Domain {
         EmailTemplate::Schema(EmailSchema::Type());
     }
 
-    public function validate(ValidationResults &$results) {
-    }
-
     public static function findByCode($code) {
         $val = EmailTemplate::where(Where::Equal(EmailSchema::Columns()->code, $code));
 
-        if (count($val) >= 1) {
+        if (!empty($val)) {
             return $val[0];
         }
 
@@ -47,5 +45,9 @@ class EmailTemplate extends Domain {
         $ret['html'] = $engine->render($template->html, $context);
 
         return $ret;
+    }
+
+    public function validate(ValidationResults &$results) {
+        // not required at this time
     }
 }

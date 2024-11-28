@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -23,6 +24,7 @@ class Resource extends Singleton {
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
+
         return 'MissingResource.' . $name;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -20,17 +21,15 @@ abstract class Constraint extends Element {
         $this->column = $column;
     }
 
-    public function __updateTable(Table &$table) {
-        $this->column->__updateTable($table);
+    public static function ForeignKey(Column $column, Table &$foreignTable, Column $on) {
+        return new ForeignKey($column, $foreignTable, $on);
     }
 
     public static function PrimaryKey(Column $column) {
         return new PrimaryKey($column);
     }
 
-    public static function ForeignKey(Column $column, Table &$foreignTable, Column $on) {
-        return new ForeignKey($column, $foreignTable, $on);
-    }
+    abstract public function generateConstraint(IConstraintGenerator $generator);
 
     /**
      * @param IGenerator $generator
@@ -41,5 +40,7 @@ abstract class Constraint extends Element {
         return $this->generateConstraint($generator);
     }
 
-    abstract public function generateConstraint(IConstraintGenerator $generator);
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -18,10 +19,6 @@ class On extends Element {
         $this->where = $where;
     }
 
-    public function __updateTable(Table &$table) {
-        $this->where->__updateTable($table);
-    }
-
     public static function Where(Where $where) {
         return new On($where);
     }
@@ -38,5 +35,9 @@ class On extends Element {
 
     public function generateOn(IOnGenerator $generator) {
         return $generator->generateOn($this);
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->where->__updateTable($table);
     }
 }

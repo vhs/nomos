@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -11,13 +12,13 @@ namespace vhs\database\joins;
 use vhs\database\IGenerator;
 
 interface IJoinGenerator extends IGenerator {
-    public function generateLeft(JoinLeft $join);
-
-    public function generateRight(JoinRight $join);
-
-    public function generateOuter(JoinOuter $join);
+    public function generateCross(JoinCross $join);
 
     public function generateInner(JoinInner $join);
 
-    public function generateCross(JoinCross $join);
+    public function generateLeft(JoinLeft $join);
+
+    public function generateOuter(JoinOuter $join);
+
+    public function generateRight(JoinRight $join);
 }

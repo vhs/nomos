@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -15,17 +16,7 @@ namespace vhs;
  * @package vhs
  */
 trait Cloneable {
-    public function __clone() {
-        foreach ($this as $key => $val) {
-            if (is_object($val)) {
-                $this->{$key} = clone $val;
-            } elseif (is_array($val)) {
-                $this->{$key} = $this->__arrayCopy($val);
-            }
-        }
-    }
-
-    final private function __arrayCopy(array $array) {
+    private function __arrayCopy(array $array) {
         $result = [];
         foreach ($array as $key => $val) {
             if (is_array($val)) {
@@ -38,5 +29,15 @@ trait Cloneable {
         }
 
         return $result;
+    }
+
+    public function __clone() {
+        foreach ($this as $key => $val) {
+            if (is_object($val)) {
+                $this->{$key} = clone $val;
+            } elseif (is_array($val)) {
+                $this->{$key} = $this->__arrayCopy($val);
+            }
+        }
     }
 }

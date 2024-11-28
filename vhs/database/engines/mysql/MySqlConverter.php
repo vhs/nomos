@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -29,54 +30,6 @@ class MySqlConverter implements ITypeConverter {
         }
 
         return boolval($value);
-    }
-
-    public function convertInt(TypeInt $type, $value = null) {
-        if (is_null($value)) {
-            if (!$type->nullable) {
-                return $type->default;
-            } else {
-                return null;
-            }
-        }
-
-        return intval($value);
-    }
-
-    public function convertFloat(TypeFloat $type, $value = null) {
-        if (is_null($value)) {
-            if (!$type->nullable) {
-                return $type->default;
-            } else {
-                return null;
-            }
-        }
-
-        return floatval($value);
-    }
-
-    public function convertString(TypeString $type, $value = null) {
-        if (is_null($value)) {
-            if (!$type->nullable) {
-                return $type->default;
-            } else {
-                return null;
-            }
-        }
-
-        return (string) $value;
-    }
-
-    public function convertText(TypeText $type, $value = null) {
-        if (is_null($value)) {
-            if (!$type->nullable) {
-                return $type->default;
-            } else {
-                return null;
-            }
-        }
-
-        return (string) $value;
     }
 
     public function convertDate(TypeDate $type, $value = null) {
@@ -117,5 +70,53 @@ class MySqlConverter implements ITypeConverter {
         } else {
             throw new \Exception("Invalid enum value {$value} does not exist");
         }
+    }
+
+    public function convertFloat(TypeFloat $type, $value = null) {
+        if (is_null($value)) {
+            if (!$type->nullable) {
+                return $type->default;
+            } else {
+                return null;
+            }
+        }
+
+        return floatval($value);
+    }
+
+    public function convertInt(TypeInt $type, $value = null) {
+        if (is_null($value)) {
+            if (!$type->nullable) {
+                return $type->default;
+            } else {
+                return null;
+            }
+        }
+
+        return intval($value);
+    }
+
+    public function convertString(TypeString $type, $value = null) {
+        if (is_null($value)) {
+            if (!$type->nullable) {
+                return $type->default;
+            } else {
+                return null;
+            }
+        }
+
+        return (string) $value;
+    }
+
+    public function convertText(TypeText $type, $value = null) {
+        if (is_null($value)) {
+            if (!$type->nullable) {
+                return $type->default;
+            } else {
+                return null;
+            }
+        }
+
+        return (string) $value;
     }
 }

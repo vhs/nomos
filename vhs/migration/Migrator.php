@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,11 +13,11 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
 class Migrator {
-    private $server;
-    private $user;
-    private $password;
     private $database;
     private $logger;
+    private $password;
+    private $server;
+    private $user;
 
     public function __construct($server, $user, $password, $database, Logger $logger = null) {
         $this->server = $server;

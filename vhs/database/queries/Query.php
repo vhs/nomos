@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -21,17 +22,28 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 abstract class Query implements IGeneratable {
+    /** @var array */
+    public $joins;
     /** @var Table */
     public $table;
     /** @var Where */
     public $where;
 
-    /** @var array */
-    public $joins;
-
     public function __construct(Table $table, Where $where = null) {
         $this->table = $table;
         $this->where = $where;
+    }
+
+    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+        return new QueryCount($table, $where, $orderBy, $limit, $offset);
+    }
+
+    public static function Delete(Table $table, Where $where = null) {
+        return new QueryDelete($table, $where);
+    }
+
+    public static function Insert(Table $table, Columns $columns, array $values) {
+        return new QueryInsert($table, $columns, $values);
     }
 
     public static function Select(
@@ -45,31 +57,11 @@ abstract class Query implements IGeneratable {
         return new QuerySelect($table, $columns, $where, $orderBy, $limit, $offset);
     }
 
-    public static function Insert(Table $table, Columns $columns, array $values) {
-        return new QueryInsert($table, $columns, $values);
-    }
-
     public static function Update(Table $table, Columns $columns, Where $where = null, array $values) {
         return new QueryUpdate($table, $columns, $where, $values);
     }
 
-    public static function Delete(Table $table, Where $where = null) {
-        return new QueryDelete($table, $where);
-    }
-
-    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
-        return new QueryCount($table, $where, $orderBy, $limit, $offset);
-    }
-
-    public function Join(Join ...$join) {
-        if (is_null($this->joins)) {
-            $this->joins = [];
-        }
-
-        array_push($this->joins, ...$join);
-
-        return $this;
-    }
+    abstract public function generateQuery(IQueryGenerator $generator);
 
     /**
      * @param IGenerator $generator
@@ -81,5 +73,13 @@ abstract class Query implements IGeneratable {
         return $this->generateQuery($generator);
     }
 
-    abstract public function generateQuery(IQueryGenerator $generator);
+    public function Join(Join ...$join) {
+        if (is_null($this->joins)) {
+            $this->joins = [];
+        }
+
+        array_push($this->joins, ...$join);
+
+        return $this;
+    }
 }
