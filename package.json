@@ -18,6 +18,7 @@
         "@prettier/plugin-php": "^0.22.2",
         "@prettier/plugin-xml": "^3.4.1",
         "@tyisi/config-eslint": "^4.0.0",
+        "@tyisi/config-prettier": "^1.0.1",
         "bower": "^1.8.14",
         "eslint": "^9.15.0",
         "husky": "^9.1.7",
