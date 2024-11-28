@@ -1,6 +1,6 @@
 {
   "name": "startbootstrap-sb-admin-2",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "homepage": "http://startbootstrap.com/template-overviews/sb-admin-2/",
   "authors": [
     "David Miller"
@@ -26,7 +26,7 @@
     "dist/js/sb-admin-2.js"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.1",
+    "bootstrap": "~3.3.6",
     "datatables": "~1.10.4",
     "datatables-plugins": "~1.0.1",
     "flot": "~0.8.3",
@@ -38,13 +38,13 @@
     "bootstrap-social": "~4.8.0",
     "flot.tooltip": "~0.8.4"
   },
-  "_release": "1.0.5",
+  "_release": "1.0.8",
   "_resolution": {
     "type": "version",
-    "tag": "v1.0.5",
-    "commit": "bc81e5d7992c01f4b4ea332fcb147d126423b877"
+    "tag": "v1.0.8",
+    "commit": "afb82ee156913a9bc2274e578e94d4998ead5420"
   },
-  "_source": "git://github.com/IronSummitMedia/startbootstrap-sb-admin-2.git",
-  "_target": "*",
-  "_originalSource": "startbootstrap-sb-admin-2"
+  "_source": "https://github.com/IronSummitMedia/startbootstrap-sb-admin-2.git",
+  "_target": "^1.0.5",
+  "_originalSource": "IronSummitMedia/startbootstrap-sb-admin-2"
 }
