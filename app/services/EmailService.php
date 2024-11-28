@@ -9,7 +9,9 @@ use Aws\Ses\SesClient;
 class EmailService implements IEmailService1 {
     /**
      * @permission administrator
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountTemplates($filters) {
@@ -18,7 +20,9 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function DeleteTemplate($id) {
@@ -81,7 +85,9 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function GetTemplate($id) {
@@ -90,11 +96,13 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListTemplates($page, $size, $columns, $order, $filters) {
@@ -103,12 +111,14 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $name
      * @param $code
      * @param $subject
      * @param $help
      * @param $body
      * @param $html
+     *
      * @return mixed
      */
     public function PutTemplate($name, $code, $subject, $help, $body, $html) {
@@ -130,8 +140,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $body
+     *
      * @return mixed
      */
     public function UpdateTemplateBody($id, $body) {
@@ -142,8 +154,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $code
+     *
      * @return mixed
      */
     public function UpdateTemplateCode($id, $code) {
@@ -154,8 +168,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $help
+     *
      * @return mixed
      */
     public function UpdateTemplateHelp($id, $help) {
@@ -166,8 +182,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $html
+     *
      * @return mixed
      */
     public function UpdateTemplateHtml($id, $html) {
@@ -178,8 +196,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $name
+     *
      * @return mixed
      */
     public function UpdateTemplateName($id, $name) {
@@ -190,8 +210,10 @@ class EmailService implements IEmailService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $subject
+     *
      * @return mixed
      */
     public function UpdateTemplateSubject($id, $subject) {

@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 1:45 PM
+ * Time: 1:45 PM.
  */
 
 namespace vhs\database\queries;
@@ -65,7 +65,8 @@ abstract class Query implements IGeneratable {
 
     /**
      * @param IGenerator $generator
-     * @param null $value
+     * @param null       $value
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {

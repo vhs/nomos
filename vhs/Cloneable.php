@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/19/2015
- * Time: 10:20 AM
+ * Time: 10:20 AM.
  */
 
 namespace vhs;
@@ -12,7 +12,8 @@ namespace vhs;
 /**
  * Class Cloneable
  * This will do deep object cloning but will choke on self references
- * you've been warned
+ * you've been warned.
+ *
  * @package vhs
  */
 trait Cloneable {

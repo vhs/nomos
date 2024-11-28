@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 2:58 PM
+ * Time: 2:58 PM.
  */
 
 namespace app\resources;

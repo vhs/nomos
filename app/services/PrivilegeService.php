@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 10/02/2015
- * Time: 2:37 PM
+ * Time: 2:37 PM.
  */
 
 namespace app\services;
@@ -21,11 +21,13 @@ use vhs\services\ServiceRegistry;
 class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator
+     *
      * @param $name
      * @param $code
      * @param $description
      * @param $icon
      * @param $enabled
+     *
      * @return mixed
      */
     public function CreatePrivilege($name, $code, $description, $icon, $enabled) {
@@ -50,7 +52,9 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function DeletePrivilege($id) {
@@ -61,6 +65,7 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator|user|grants
+     *
      * @return mixed
      */
     public function GetAllPrivileges() {
@@ -69,6 +74,7 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAllSystemPermissions() {
@@ -98,7 +104,9 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission user
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function GetPrivilege($id) {
@@ -107,7 +115,9 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetUserPrivileges($userid) {
@@ -131,11 +141,13 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator|user|grants
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListPrivileges($page, $size, $columns, $order, $filters) {
@@ -144,8 +156,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $description
+     *
      * @return mixed
      */
     public function UpdatePrivilegeDescription($id, $description) {
@@ -158,8 +172,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $enabled
+     *
      * @return mixed
      */
     public function UpdatePrivilegeEnabled($id, $enabled) {
@@ -172,8 +188,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $icon
+     *
      * @return mixed
      */
     public function UpdatePrivilegeIcon($id, $icon) {
@@ -186,8 +204,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $name
+     *
      * @return mixed
      */
     public function UpdatePrivilegeName($id, $name) {

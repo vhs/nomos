@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 6:21 PM
+ * Time: 6:21 PM.
  */
 
 namespace app\security;

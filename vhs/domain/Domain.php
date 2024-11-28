@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 1:07 PM
+ * Time: 1:07 PM.
  */
 
 namespace vhs\domain;
@@ -133,6 +133,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     /**
      * @param array $primaryKeyValues
+     *
      * @return object
      */
     public static function find($primaryKeyValues) {
@@ -196,13 +197,15 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * Returns a key value pair of data from this domain
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * Returns a key value pair of data from this domain.
+     *
+     * @param       $page
+     * @param       $size
+     * @param       $columns
+     * @param       $order
+     * @param       $filters
      * @param array $allowed_columns
+     *
      * @return array
      */
     public static function page($page, $size, $columns, $order, $filters, array $allowed_columns = null) {
@@ -272,6 +275,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     /**
      * @param Schema $schema
+     *
      * @return Schema
      */
     public static function Schema(Schema $schema = null) {
@@ -294,10 +298,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param Where $where
+     * @param Where   $where
      * @param OrderBy $orderBy
-     * @param null $limit
-     * @param null $offset
+     * @param null    $limit
+     * @param null    $offset
+     *
      * @return array
      */
     public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
@@ -383,8 +388,10 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *   column: Column,
      *   value: Value
      * }
+     *
      * @param Columns $columns the filters that are allowed to be used in the filter
-     * @param $filter
+     * @param         $filter
+     *
      * @return null|Where
      */
     private static function constructFilter(Columns $columns, $filter) {
@@ -425,9 +432,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * Constructs the WHERE clause for a filter expression
-     * @param $filters
+     * Constructs the WHERE clause for a filter expression.
+     *
+     * @param       $filters
      * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
+     *
      * @return null|Where
      */
     private static function constructFilterWhere($filters, array $allowed_columns = null) {
@@ -461,6 +470,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     /**
      * @param ValidationResults $results
+     *
      * @return bool
      */
     abstract public function validate(ValidationResults &$results);
@@ -552,7 +562,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
     /**
      * @param null $validationResults
+     *
      * @return bool
+     *
      * @throws DomainException
      * @throws ValidationException
      * @throws \Exception

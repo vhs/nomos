@@ -10,6 +10,7 @@ use vhs\services\Service;
 class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
+     *
      * @param $title
      * @param $description
      * @param $price
@@ -17,6 +18,7 @@ class MembershipService extends Service implements IMembershipService1 {
      * @param $private
      * @param $active
      * @param $code
+     *
      * @return mixed
      */
     public function Create($title, $description, $price, $code, $days, $period) {
@@ -25,7 +27,9 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @param $membershipId
+     *
      * @return mixed
      */
     public function Get($membershipId) {
@@ -34,6 +38,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAll() {
@@ -67,6 +72,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function Update($membershipId, $title, $description, $price, $code, $days, $period) {
@@ -86,6 +92,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function UpdateActive($membershipId, $active) {
@@ -98,6 +105,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function UpdatePrivate($membershipId, $private) {
@@ -110,6 +118,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function UpdateRecurring($membershipId, $recurring) {
@@ -122,6 +131,7 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function UpdateTrial($membershipId, $trial) {

@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 29/12/2014
- * Time: 11:22 AM
+ * Time: 11:22 AM.
  */
 
 namespace vhs\services;
@@ -127,7 +127,9 @@ class ServiceHandler {
 
     /**
      * @param $uri
+     *
      * @return Endpoint
+     *
      * @throws InvalidRequestException
      */
     private function getEndpoint($uri) {

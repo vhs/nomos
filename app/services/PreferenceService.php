@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 2/5/2016
- * Time: 12:16 PM
+ * Time: 12:16 PM.
  */
 
 namespace app\services;
@@ -18,7 +18,9 @@ use vhs\services\Service;
 class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
+     *
      * @param $key
+     *
      * @return mixed
      */
     public function DeleteSystemPreference($key) {
@@ -35,6 +37,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAllSystemPreferences() {
@@ -43,11 +46,13 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return array
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters) {
@@ -56,8 +61,10 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function PutSystemPreference($key, $value, $enabled, $notes) {
@@ -83,8 +90,10 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutSystemPreferencePrivileges($id, $privileges) {
@@ -115,7 +124,9 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $key
+     *
      * @return mixed
      */
     public function SystemPreference($key) {
@@ -137,9 +148,11 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes) {
@@ -161,8 +174,10 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $enabled
+     *
      * @return mixed
      */
     public function UpdateSystemPreferenceEnabled($key, $enabled) {

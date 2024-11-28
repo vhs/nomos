@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 3:25 PM
+ * Time: 3:25 PM.
  */
 
 namespace vhs\database\types;
@@ -67,7 +67,8 @@ abstract class Type extends Element implements IConvertible {
 
     /**
      * @param IConverter $converter
-     * @param mixed $value
+     * @param mixed      $value
+     *
      * @return mixed
      */
     public function convert(IConverter $converter, $value = null) {
@@ -77,7 +78,8 @@ abstract class Type extends Element implements IConvertible {
 
     /**
      * @param IGenerator $generator
-     * @param mixed $value
+     * @param mixed      $value
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {

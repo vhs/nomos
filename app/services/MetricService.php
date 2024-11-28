@@ -15,9 +15,11 @@ use vhs\services\Service;
 
 class MetricService extends Service implements IMetricService1 {
     /**
-     * Get the total new members recorded in the date range
+     * Get the total new members recorded in the date range.
+     *
      * @param $start int unixtime
-     * @param $end int unixtime
+     * @param $end   int unixtime
+     *
      * @return int
      */
     protected static function NewMemberCount($start, $end) {
@@ -36,9 +38,11 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * Get the total new memberships of a type recorded in the date range.
+     *
      * @param $membership_id int
-     * @param $start int unixtime
-     * @param $end int unixtime
+     * @param $start         int unixtime
+     * @param $end           int unixtime
+     *
      * @return int
      */
     protected static function NewMembershipByIdCount($membership_id, $start, $end) {
@@ -57,9 +61,11 @@ class MetricService extends Service implements IMetricService1 {
     }
 
     /**
-     * Get the total members
+     * Get the total members.
+     *
      * @param $start int unixtime
-     * @param $end int unixtime
+     * @param $end   int unixtime
+     *
      * @return int
      */
     protected static function TotalMemberCount() {
@@ -89,8 +95,10 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
+     *
      * @param $start_range
      * @param $end_range
+     *
      * @return mixed
      */
     public function GetCreatedDates($start_range, $end_range) {
@@ -149,6 +157,7 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetExceptionPayments() {
@@ -157,9 +166,11 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
+     *
      * @param $start_range
      * @param $end_range
      * @param $group
+     *
      * @return mixed
      */
     public function GetMembers($start_range, $end_range, $group) {
@@ -208,8 +219,10 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
-     * @param  string $start_range string iso date in UTC, if empty is start of today
-     * @param  string $end_range   string iso date in UTC, if empty is end of today
+     *
+     * @param string $start_range string iso date in UTC, if empty is start of today
+     * @param string $end_range   string iso date in UTC, if empty is end of today
+     *
      * @return mixed
      */
     public function GetNewKeyHolders($start_range, $end_range) {
@@ -227,8 +240,10 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
-     * @param  string $start_range string iso date in UTC, if empty is start of today
-     * @param  string $end_range   string iso date in UTC, if empty is end of today
+     *
+     * @param string $start_range string iso date in UTC, if empty is start of today
+     * @param string $end_range   string iso date in UTC, if empty is end of today
+     *
      * @return mixed
      */
     public function GetNewMembers($start_range, $end_range) {
@@ -247,6 +262,7 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetPendingAccounts() {
@@ -255,9 +271,11 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
-     * @param  string $start_range string iso date in UTC, if empty is end of today
-     * @param  string $end_range   string iso date in UTC, if empty is end of today
-     * @param  string $group       group by month, day, year
+     *
+     * @param string $start_range string iso date in UTC, if empty is end of today
+     * @param string $end_range   string iso date in UTC, if empty is end of today
+     * @param string $group       group by month, day, year
+     *
      * @return mixed
      */
     public function GetRevenue($start_range, $end_range, $group) {
@@ -318,6 +336,7 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
+     *
      * @return mixed
      */
     public function GetTotalKeyHolders() {
@@ -331,6 +350,7 @@ class MetricService extends Service implements IMetricService1 {
 
     /**
      * @permission user
+     *
      * @return mixed
      */
     public function GetTotalMembers() {

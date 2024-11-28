@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 10/02/2015
- * Time: 7:51 PM
+ * Time: 7:51 PM.
  */
 
 namespace app\domain;

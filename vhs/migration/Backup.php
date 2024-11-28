@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Jarrett
  * Date: 20/02/2016
- * Time: 3:57 PM
+ * Time: 3:57 PM.
  */
 
 namespace vhs\migration;

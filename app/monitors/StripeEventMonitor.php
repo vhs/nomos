@@ -111,7 +111,7 @@ class StripeEventMonitor extends Monitor {
     }
 
     /**
-     * Sourced from: https://stackoverflow.com/a/31330346
+     * Sourced from: https://stackoverflow.com/a/31330346.
      */
     private function split_name($name) {
         $name = trim($name);

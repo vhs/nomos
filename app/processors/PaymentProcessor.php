@@ -4,10 +4,13 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/27/2015
- * Time: 3:38 PM
+ * Time: 3:38 PM.
  */
 
 namespace app\processors;
+
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
 
 use app\domain\Membership;
 use app\domain\Payment;
@@ -19,9 +22,6 @@ use DateTime;
 use vhs\Logger;
 use vhs\security\CurrentUser;
 use vhs\security\SystemPrincipal;
-
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
 
 class PaymentProcessor {
     private $emailService;

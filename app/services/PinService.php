@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 6:03 PM
+ * Time: 6:03 PM.
  */
 
 namespace app\services;
@@ -24,6 +24,7 @@ use vhs\services\Service;
 class PinService extends Service implements IPinService1 {
     /**
      * @permission door
+     *
      * @return mixed
      */
     public function AccessInstructions() {
@@ -31,9 +32,12 @@ class PinService extends Service implements IPinService1 {
     }
 
     /**
-     * Automatically generates a pin for a specified user
+     * Automatically generates a pin for a specified user.
+     *
      * @permission administrator|user
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GeneratePin($userid) {
@@ -72,9 +76,11 @@ class PinService extends Service implements IPinService1 {
 
     /**
      * @permission gen-temp-pin|administrator
+     *
      * @param $expires
      * @param $privileges
      * @param $notes
+     *
      * @return mixed
      */
     public function GenerateTemporaryPin($expires, $privileges, $notes) {
@@ -112,7 +118,9 @@ class PinService extends Service implements IPinService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetUserPin($userid) {
@@ -131,8 +139,10 @@ class PinService extends Service implements IPinService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
      * @param $pin
+     *
      * @return mixed
      */
     public function UpdatePin($keyid, $pin) {
@@ -150,9 +160,12 @@ class PinService extends Service implements IPinService1 {
     }
 
     /**
-     * Change a pin
+     * Change a pin.
+     *
      * @permission administrator|user
+     *
      * @param $pin
+     *
      * @return mixed
      */
     public function UpdateUserPin($userid, $pin) {

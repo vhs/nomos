@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/01/2015
- * Time: 5:36 PM
+ * Time: 5:36 PM.
  */
 
 namespace app\security;
@@ -24,7 +24,7 @@ class PasswordUtil {
     }
 
     /**
-     * check if a variable is a valid string
+     * check if a variable is a valid string.
      *
      * @param any $testVal
      *
@@ -63,7 +63,7 @@ class PasswordUtil {
      *
      * @param string $hash The password hash to extract info from
      *
-     * @return array The array of information about the hash.
+     * @return array the array of information about the hash
      */
     private static function password_get_info($hash) {
         $return = [
@@ -82,13 +82,13 @@ class PasswordUtil {
     }
 
     /**
-     * Hash the password using the specified algorithm
+     * Hash the password using the specified algorithm.
      *
      * @param string $password The password to hash
      * @param int    $algo     The algorithm to use (Defined by PASSWORD_* constants)
      * @param array  $options  The options for the algorithm to use
      *
-     * @return string|false The hashed password, or false on error.
+     * @return string|false the hashed password, or false on error
      */
     private static function password_hash($password, $algo, array $options = []) {
         if (!function_exists('crypt')) {
@@ -214,7 +214,7 @@ class PasswordUtil {
     }
 
     /**
-     * Determine if the password hash needs to be rehashed according to the options provided
+     * Determine if the password hash needs to be rehashed according to the options provided.
      *
      * If the answer is true, after validating the password using password_verify, rehash it.
      *
@@ -222,7 +222,7 @@ class PasswordUtil {
      * @param int    $algo    The algorithm used for new password hashes
      * @param array  $options The options array passed to password_hash
      *
-     * @return boolean True if the password needs to be rehashed.
+     * @return boolean true if the password needs to be rehashed
      */
     private static function password_needs_rehash($hash, $algo, array $options = []) {
         $info = self::password_get_info($hash);
@@ -242,7 +242,7 @@ class PasswordUtil {
     }
 
     /**
-     * Verify a password against a hash using a timing attack resistant approach
+     * Verify a password against a hash using a timing attack resistant approach.
      *
      * @param string $password The password to verify
      * @param string $hash     The hash to verify against

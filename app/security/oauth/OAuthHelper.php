@@ -4,10 +4,13 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/18/2015
- * Time: 11:59 AM
+ * Time: 11:59 AM.
  */
 
 namespace app\security\oauth;
+
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
 
 use app\domain\Key;
 use app\domain\Privilege;
@@ -15,9 +18,6 @@ use app\security\Authenticate;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use vhs\security\CurrentUser;
 use vhs\web\HttpServer;
-
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
 
 class OAuthHelper {
     private $provider;

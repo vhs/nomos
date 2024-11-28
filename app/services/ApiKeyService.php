@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 08/02/2015
- * Time: 1:50 PM
+ * Time: 1:50 PM.
  */
 
 namespace app\services;
@@ -21,7 +21,9 @@ use vhs\services\Service;
 class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
+     *
      * @param $keyid
+     *
      * @return mixed
      */
     public function DeleteApiKey($keyid) {
@@ -36,7 +38,9 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator
+     *
      * @param $notes
+     *
      * @return mixed
      */
     public function GenerateSystemApiKey($notes) {
@@ -51,8 +55,10 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $notes
+     *
      * @return mixed
      */
     public function GenerateUserApiKey($userid, $notes) {
@@ -79,7 +85,9 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
+     *
      * @return mixed
      */
     public function GetApiKey($keyid) {
@@ -100,6 +108,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetSystemApiKeys() {
@@ -108,7 +117,9 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetUserApiKeys($userid) {
@@ -121,8 +132,10 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutApiKeyPrivileges($keyid, $privileges) {
@@ -149,9 +162,11 @@ class ApiKeyService extends Service implements IApiKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
      * @param $notes
      * @param $expires
+     *
      * @return mixed
      */
     public function UpdateApiKey($keyid, $notes, $expires) {

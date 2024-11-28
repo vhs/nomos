@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:55 PM
+ * Time: 4:55 PM.
  */
 
 namespace vhs\web\modules;

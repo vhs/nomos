@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/20/2015
- * Time: 12:22 PM
+ * Time: 12:22 PM.
  */
 
 namespace app\services;
@@ -24,7 +24,9 @@ use vhs\security\exceptions\UnauthorizedException;
 class MemberCardService implements IMemberCardService1 {
     /**
      * @permission administrator
+     *
      * @param $key
+     *
      * @return mixed
      */
     public function GetGenuineCardDetails($key) {
@@ -33,9 +35,12 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $email
      * @param $key
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function IssueCard($email, $key) {
@@ -89,11 +94,13 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListGenuineCards($page, $size, $columns, $order, $filters) {
@@ -102,13 +109,16 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters) {
@@ -137,9 +147,12 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $notes
+     *
      * @return GenuineCard
+     *
      * @throws \Exception
      */
     public function RegisterGenuineCard($key, $notes) {
@@ -161,9 +174,12 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $active
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function UpdateGenuineCardActive($key, $active) {
@@ -182,7 +198,9 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission user
+     *
      * @param $key
+     *
      * @return bool
      */
     public function ValidateGenuineCard($key) {

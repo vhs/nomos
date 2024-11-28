@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 4:16 PM
+ * Time: 4:16 PM.
  */
 
 namespace vhs\database\constraints;
@@ -33,6 +33,7 @@ abstract class Constraint extends Element {
 
     /**
      * @param IGenerator $generator
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {

@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/27/2015
- * Time: 3:48 PM
+ * Time: 3:48 PM.
  */
 
 namespace vhs\loggers;

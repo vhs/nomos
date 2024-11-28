@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 16/12/2014
- * Time: 12:42 AM
+ * Time: 12:42 AM.
  */
 
 namespace app\schema;

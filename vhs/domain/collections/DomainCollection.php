@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 17/12/2014
- * Time: 10:06 AM
+ * Time: 10:06 AM.
  */
 //TODO support extra properties on satellite table in DomainCollection
 //TODO support other types of collections other than satellite joins

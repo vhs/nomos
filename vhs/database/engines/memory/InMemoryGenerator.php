@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 6:19 PM
+ * Time: 6:19 PM.
  */
 
 namespace vhs\database\engines\memory;

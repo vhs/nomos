@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 3:38 PM
+ * Time: 3:38 PM.
  */
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';

@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/12/2014
- * Time: 10:48 PM
+ * Time: 10:48 PM.
  */
 
 namespace app\domain;
@@ -43,7 +43,8 @@ class AccessLog extends Domain {
     }
 
     /**
-     * @param  ValidationResults $results
+     * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

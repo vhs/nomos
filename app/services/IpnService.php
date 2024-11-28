@@ -9,7 +9,9 @@ use vhs\services\Service;
 class IpnService extends Service implements IIpnService1 {
     /**
      * @permission administrator
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountRecords($filters) {
@@ -18,7 +20,9 @@ class IpnService extends Service implements IIpnService1 {
 
     /**
      * @permission administrator
+     *
      * @param $ipnId
+     *
      * @return mixed
      */
     public function Get($ipnId) {
@@ -27,6 +31,7 @@ class IpnService extends Service implements IIpnService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAll() {
@@ -35,11 +40,13 @@ class IpnService extends Service implements IIpnService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListRecords($page, $size, $columns, $order, $filters) {

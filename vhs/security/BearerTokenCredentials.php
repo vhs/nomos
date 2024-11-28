@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/6/2016
- * Time: 1:31 PM
+ * Time: 1:31 PM.
  */
 
 namespace vhs\security;

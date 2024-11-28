@@ -48,7 +48,8 @@ class SplClassLoader {
     /**
      * Loads the given class or interface.
      *
-     * @param string $className The name of the class to load.
+     * @param string $className the name of the class to load
+     *
      * @return void
      */
     public function loadClass($className) {
@@ -108,7 +109,7 @@ class SplClassLoader {
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
      *
-     * @param string $sep The separator to use.
+     * @param string $sep the separator to use
      */
     public function setNamespaceSeparator($sep) {
         $this->_namespaceSeparator = $sep;

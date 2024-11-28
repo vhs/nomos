@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:49 PM
+ * Time: 4:49 PM.
  */
 
 namespace vhs\database\wheres;
@@ -71,7 +71,8 @@ abstract class Where extends Element {
 
     /**
      * @param IGenerator $generator
-     * @param null $value
+     * @param null       $value
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {

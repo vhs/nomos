@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/7/2016
- * Time: 10:47 AM
+ * Time: 10:47 AM.
  */
 
 namespace app\services;
@@ -21,7 +21,9 @@ use vhs\services\Service;
 class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountEvents($filters) {
@@ -30,11 +32,13 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $name
      * @param $domain
      * @param $event
      * @param $description
      * @param $enabled
+     *
      * @return mixed
      */
     public function CreateEvent($name, $domain, $event, $description, $enabled) {
@@ -55,7 +59,9 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function DeleteEvent($id) {
@@ -66,8 +72,10 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $enabled
+     *
      * @return mixed
      */
     public function EnableEvent($id, $enabled) {
@@ -80,6 +88,7 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission user
+     *
      * @return mixed
      */
     public function GetAccessibleEvents() {
@@ -107,7 +116,9 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @param $domain
+     *
      * @return mixed
      */
     public function GetDomainDefinition($domain) {
@@ -116,6 +127,7 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @return mixed
      */
     public function GetDomainDefinitions() {
@@ -138,7 +150,9 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function GetEvent($id) {
@@ -153,6 +167,7 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @return mixed
      */
     public function GetEvents() {
@@ -161,11 +176,13 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListEvents($page, $size, $columns, $order, $filters) {
@@ -174,8 +191,10 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutEventPrivileges($id, $privileges) {
@@ -202,12 +221,14 @@ class EventService extends Service implements IEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $id
      * @param $name
      * @param $domain
      * @param $event
      * @param $description
      * @param $enabled
+     *
      * @return mixed
      */
     public function UpdateEvent($id, $name, $domain, $event, $description, $enabled) {

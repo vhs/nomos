@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 17/12/2014
- * Time: 7:38 PM
+ * Time: 7:38 PM.
  */
 
 namespace vhs\domain\collections;
@@ -19,12 +19,12 @@ use vhs\domain\exceptions\DomainException;
 use vhs\domain\Schema;
 
 class SatelliteDomainCollection extends DomainCollection {
-    /** @var  ForeignKey */
+    /** @var ForeignKey */
     private $childKey;
     private $childType;
     private $joinTable;
     private $parent;
-    /** @var  ForeignKey */
+    /** @var ForeignKey */
     private $parentKey;
 
     public function __construct(Domain $parent, $childType, Schema $joinTable) {

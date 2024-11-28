@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:16 PM
+ * Time: 4:16 PM.
  */
 
 namespace app\modules;

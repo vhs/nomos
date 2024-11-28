@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/03/2015
- * Time: 6:32 PM
+ * Time: 6:32 PM.
  */
 
 namespace app\services;
@@ -25,7 +25,9 @@ use vhs\services\Service;
 class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
+     *
      * @param $keyid
+     *
      * @return mixed
      */
     public function DeleteKey($keyid) {
@@ -36,10 +38,12 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $type
      * @param $value
      * @param $notes
+     *
      * @return mixed
      */
     public function GenerateUserKey($userid, $type, $value, $notes) {
@@ -80,6 +84,7 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAllKeys() {
@@ -92,7 +97,9 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
+     *
      * @return mixed
      */
     public function GetKey($keyid) {
@@ -113,6 +120,7 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetSystemKeys() {
@@ -125,8 +133,10 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $types
+     *
      * @return mixed
      */
     public function GetUserKeys($userid, $types) {
@@ -149,8 +159,10 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutKeyPrivileges($keyid, $privileges) {
@@ -178,9 +190,11 @@ class KeyService extends Service implements IKeyService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $keyid
      * @param $notes
      * @param $expires
+     *
      * @return mixed
      */
     public function UpdateKey($keyid, $notes, $expires) {

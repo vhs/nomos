@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/3/2016
- * Time: 5:21 PM
+ * Time: 5:21 PM.
  */
 
 namespace vhs\messaging;

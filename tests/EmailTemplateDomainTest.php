@@ -12,10 +12,10 @@ use vhs\loggers\ConsoleLogger;
  * Created by PhpStorm.
  * User: thomas
  * Date: 24/02/16
- * Time: 10:17 AM
+ * Time: 10:17 AM.
  */
 class EmailTemplateDomainTest extends TestCase {
-    /** @var  InMemoryEngine */
+    /** @var InMemoryEngine */
     private static $engine;
     /** @var Logger */
     private static $logger;

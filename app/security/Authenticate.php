@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 6:21 PM
+ * Time: 6:21 PM.
  */
 
 namespace app\security;
@@ -113,6 +113,7 @@ class Authenticate extends Singleton implements IAuthenticate {
 
     /**
      * @param $user
+     *
      * @return UserPrincipal
      */
     private static function buildPrincipal($user) {
@@ -152,7 +153,9 @@ class Authenticate extends Singleton implements IAuthenticate {
 
     /**
      * @param $username
+     *
      * @return User
+     *
      * @throws InvalidCredentials
      */
     private static function findUser($username) {
@@ -263,6 +266,7 @@ class Authenticate extends Singleton implements IAuthenticate {
     /**
      * @param $user
      * @param $ipaddr
+     *
      * @throws \Exception
      */
     private static function recordLogin($user, $ipaddr) {

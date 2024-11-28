@@ -14,7 +14,9 @@ use vhs\services\Service;
 class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountRecords($filters) {
@@ -23,7 +25,9 @@ class StripeEventService extends Service implements IStripeEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $ipnId
+     *
      * @return mixed
      */
     public function Get($eventId) {
@@ -32,6 +36,7 @@ class StripeEventService extends Service implements IStripeEventService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetAll() {
@@ -40,11 +45,13 @@ class StripeEventService extends Service implements IStripeEventService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListRecords($page, $size, $columns, $order, $filters) {

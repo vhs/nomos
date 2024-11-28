@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 4:30 PM
+ * Time: 4:30 PM.
  */
 
 namespace app\services;
@@ -179,7 +179,7 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
-     * Check to see if the user service/id is valid. A service could be github/slack/google
+     * Check to see if the user service/id is valid. A service could be github/slack/google.
      *
      * @permission administrator|service-auth
      *
@@ -266,11 +266,13 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function CountAccessLog($filters) {
@@ -284,7 +286,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountClients($filters) {
@@ -293,8 +297,10 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $filters
+     *
      * @return mixed
      */
     public function CountUserAccessLog($userid, $filters) {
@@ -305,6 +311,7 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
+     *
      * @return mixed
      */
     public function CurrentUser() {
@@ -315,7 +322,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function DeleteClient($id) {
@@ -330,8 +339,10 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
      * @param $enabled
+     *
      * @return mixed
      */
     public function EnableClient($id, $enabled) {
@@ -348,7 +359,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $bearerToken
+     *
      * @return mixed
      */
     public function GetAccessToken($bearerToken) {
@@ -357,8 +370,10 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $clientId
      * @param $clientSecret
+     *
      * @return mixed
      */
     public function GetClient($clientId, $clientSecret) {
@@ -373,7 +388,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $refreshToken
+     *
      * @return mixed
      */
     public function GetRefreshToken($refreshToken) {
@@ -382,8 +399,10 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $username
      * @param $password
+     *
      * @return mixed
      */
     public function GetUser($username, $password) {
@@ -392,11 +411,13 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters) {
@@ -410,11 +431,13 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListClients($page, $size, $columns, $order, $filters) {
@@ -423,13 +446,16 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters) {
@@ -440,13 +466,16 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return array
+     *
      * @throws \Exception
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters) {
@@ -481,8 +510,10 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $username
      * @param $password
+     *
      * @return mixed
      */
     public function Login($username, $password) {
@@ -497,6 +528,7 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission user
+     *
      * @return mixed
      */
     public function Logout() {
@@ -505,7 +537,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $pin
+     *
      * @return mixed
      */
     public function PinLogin($pin) {
@@ -520,10 +554,12 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission user
+     *
      * @param $name
      * @param $description
      * @param $url
      * @param $redirecturi
+     *
      * @return mixed
      */
     public function RegisterClient($name, $description, $url, $redirecturi) {
@@ -544,7 +580,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $refreshToken
+     *
      * @return mixed
      */
     public function RevokeRefreshToken($refreshToken) {
@@ -557,7 +595,9 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $key
+     *
      * @return mixed
      */
     public function RfidLogin($key) {
@@ -572,10 +612,12 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $userId
      * @param $accessToken
      * @param $clientId
      * @param $expires
+     *
      * @return mixed
      */
     public function SaveAccessToken($userId, $accessToken, $clientId, $expires) {
@@ -606,10 +648,12 @@ class AuthService extends Service implements IAuthService1 {
 
     /**
      * @permission oauth-provider
+     *
      * @param $userId
      * @param $refreshToken
      * @param $clientId
      * @param $expires
+     *
      * @return mixed
      */
     public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires) {

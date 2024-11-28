@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/12/2014
- * Time: 5:05 PM
+ * Time: 5:05 PM.
  */
 
 namespace app\domain;
@@ -28,8 +28,9 @@ class User extends Domain {
     }
 
     /**
-     * @param  string|null $username
-     * @param  string|null $email
+     * @param string|null $username
+     * @param string|null $email
+     *
      * @return boolean
      */
     public static function exists($username = null, $email = null) {
@@ -50,6 +51,7 @@ class User extends Domain {
 
     /**
      * @param $email
+     *
      * @return User[]
      */
     public static function findByEmail($email) {
@@ -58,6 +60,7 @@ class User extends Domain {
 
     /**
      * @param $email
+     *
      * @return User[]
      */
     public static function findByPaymentEmail($email) {
@@ -70,6 +73,7 @@ class User extends Domain {
 
     /**
      * @param $username
+     *
      * @return User[]
      */
     public static function findByUsername($username) {
@@ -77,7 +81,8 @@ class User extends Domain {
     }
 
     /**
-     * Magic field interface method for 'valid'
+     * Magic field interface method for 'valid'.
+     *
      * @return boolean
      */
     public function get_valid() {
@@ -110,7 +115,8 @@ class User extends Domain {
     }
 
     /**
-     * Get a friendly error message for user validity
+     * Get a friendly error message for user validity.
+     *
      * @return mixed
      */
     public function getInvalidReason() {
@@ -146,7 +152,7 @@ class User extends Domain {
     }
 
     /**
-     * Check if user account has expired
+     * Check if user account has expired.
      *
      * @return boolean
      */

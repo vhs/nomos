@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 2/05/2016
- * Time: 2:00 PM
+ * Time: 2:00 PM.
  */
 
 namespace app\endpoints\web;

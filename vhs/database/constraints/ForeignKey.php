@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 4:20 PM
+ * Time: 4:20 PM.
  */
 
 namespace vhs\database\constraints;

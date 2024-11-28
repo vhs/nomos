@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/7/2016
- * Time: 12:02 PM
+ * Time: 12:02 PM.
  */
 
 namespace app\services;
@@ -21,7 +21,9 @@ use vhs\services\Service;
 class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|webhook
+     *
      * @param $filters
+     *
      * @return int
      */
     public function CountHooks($filters) {
@@ -30,8 +32,10 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $filters
+     *
      * @return int
      */
     public function CountUserHooks($userid, $filters) {
@@ -42,6 +46,7 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission user
+     *
      * @param $name
      * @param $description
      * @param $enabled
@@ -50,7 +55,9 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $headers
      * @param $method
      * @param $eventid
+     *
      * @return mixed
+     *
      * @throws UnauthorizedException
      */
     public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid) {
@@ -82,7 +89,9 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function DeleteHook($id) {
@@ -97,8 +106,10 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
      * @param $enabled
+     *
      * @return mixed
      */
     public function EnableHook($id, $enabled) {
@@ -115,6 +126,7 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @return mixed
      */
     public function GetAllHooks() {
@@ -123,7 +135,9 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission user|administrator
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function GetHook($id) {
@@ -142,8 +156,10 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission webhook|administrator
+     *
      * @param $domain
      * @param $event
+     *
      * @return mixed
      */
     public function GetHooks($domain, $event) {
@@ -152,11 +168,13 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|webhook
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListHooks($page, $size, $columns, $order, $filters) {
@@ -165,13 +183,16 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters) {
@@ -188,8 +209,10 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutHookPrivileges($id, $privileges) {
@@ -222,6 +245,7 @@ class WebHookService extends Service implements IWebHookService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
      * @param $name
      * @param $description
@@ -231,6 +255,7 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $headers
      * @param $method
      * @param $eventid
+     *
      * @return mixed
      */
     public function UpdateHook($id, $name, $description, $enabled, $url, $translation, $headers, $method, $eventid) {

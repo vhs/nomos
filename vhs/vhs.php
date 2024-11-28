@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 1:12 PM
+ * Time: 1:12 PM.
  */
 
 require_once 'SplClassLoader.php';

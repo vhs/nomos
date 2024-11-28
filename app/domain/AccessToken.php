@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/5/2016
- * Time: 6:30 PM
+ * Time: 6:30 PM.
  */
 
 namespace app\domain;
@@ -37,7 +37,8 @@ class AccessToken extends Domain {
     }
 
     /**
-     * @param  ValidationResults $results
+     * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

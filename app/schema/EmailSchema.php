@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: JARRETT OKAY
  * Date: 22/01/2015
- * Time: like, midnight almost
+ * Time: like, midnight almost.
  */
 
 namespace app\schema;

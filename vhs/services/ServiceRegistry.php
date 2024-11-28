@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 3:40 PM
+ * Time: 3:40 PM.
  */
 
 namespace vhs\services;
@@ -17,6 +17,7 @@ class ServiceRegistry extends Singleton {
 
     /**
      * @param string $key
+     *
      * @return ServiceHandler
      */
     final public static function get($key) {

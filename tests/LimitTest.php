@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:53 PM
+ * Time: 4:53 PM.
  */
 
 use PHPUnit\Framework\TestCase;

@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 2/5/2016
- * Time: 10:46 AM
+ * Time: 10:46 AM.
  */
 
 namespace app\domain;
@@ -23,8 +23,9 @@ class SystemPreference extends Domain {
     }
 
     /**
-     * @param $key
-     * @param  callable|null $accessCheck Privilege[] returns bool
+     * @param               $key
+     * @param callable|null $accessCheck Privilege[] returns bool
+     *
      * @return array
      */
     public static function findByKey($key, callable $accessCheck = null) {
@@ -47,7 +48,8 @@ class SystemPreference extends Domain {
     }
 
     /**
-     * @param  ValidationResults $results
+     * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

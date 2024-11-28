@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 16/08/2015
- * Time: 12:56 AM
+ * Time: 12:56 AM.
  */
 
 namespace app\monitors;

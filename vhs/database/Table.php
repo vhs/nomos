@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 12:21 PM
+ * Time: 12:21 PM.
  */
 
 namespace vhs\database;
@@ -36,8 +36,8 @@ class Table extends Element {
     public $name;
 
     /**
-     * @param string $name
-     * @param string $alias
+     * @param string            $name
+     * @param string            $alias
      * @param Join|joins\Join[] $join
      */
     public function __construct($name, $alias = null, Join ...$join) {
@@ -68,6 +68,7 @@ class Table extends Element {
 
     /**
      * @param IGenerator $generator
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {
@@ -77,6 +78,7 @@ class Table extends Element {
 
     /**
      * @param ITableGenerator $generator
+     *
      * @return mixed
      */
     public function generateTable(ITableGenerator $generator) {

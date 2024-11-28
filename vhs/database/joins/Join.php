@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 12:20 PM
+ * Time: 12:20 PM.
  */
 
 namespace vhs\database\joins;
@@ -15,9 +15,9 @@ use vhs\database\On;
 use vhs\database\Table;
 
 abstract class Join extends Element {
-    /** @var  On */
+    /** @var On */
     public $on;
-    /** @var  Table */
+    /** @var Table */
     public $table;
 
     public function __construct(Table $table, On $on) {

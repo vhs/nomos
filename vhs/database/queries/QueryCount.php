@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 1:49 PM
+ * Time: 1:49 PM.
  */
 
 namespace vhs\database\queries;
@@ -17,13 +17,13 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 class QueryCount extends Query {
-    /** @var Columns  */
+    /** @var Columns */
     public $columns;
-    /** @var Limit  */
+    /** @var Limit */
     public $limit;
-    /** @var Offset  */
+    /** @var Offset */
     public $offset;
-    /** @var OrderBy  */
+    /** @var OrderBy */
     public $orderBy;
 
     public function __construct(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {

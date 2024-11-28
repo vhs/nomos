@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/7/2016
- * Time: 12:02 PM
+ * Time: 12:02 PM.
  */
 
 namespace app\domain;
@@ -30,7 +30,8 @@ class WebHook extends Domain {
     }
 
     /**
-     * @param  ValidationResults $results
+     * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

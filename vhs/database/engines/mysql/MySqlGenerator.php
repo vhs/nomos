@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:51 PM
+ * Time: 4:51 PM.
  */
 
 namespace vhs\database\engines\mysql;
@@ -439,7 +439,8 @@ class MySqlGenerator implements
     /**
      * Dammit we need this because of how real_escape_string works
      *  it requires a connection because it uses whatever the charset
-     *  is on the db to figure escaping
+     *  is on the db to figure escaping.
+     *
      * @param \mysqli $conn
      */
     public function SetMySqli(\mysqli $conn) {

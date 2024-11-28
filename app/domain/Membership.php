@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 3:23 PM
+ * Time: 3:23 PM.
  */
 
 namespace app\domain;
@@ -63,6 +63,7 @@ class Membership extends Domain {
 
     /**
      * @param $code
+     *
      * @return Membership[]
      */
     public static function findByCode($code) {
@@ -71,6 +72,7 @@ class Membership extends Domain {
 
     /**
      * @param $price
+     *
      * @return Membership
      */
     public static function findForPriceLevel($price) {

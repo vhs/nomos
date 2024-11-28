@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/18/2015
- * Time: 5:14 PM
+ * Time: 5:14 PM.
  */
 
 namespace vhs\database\engines\mysql;

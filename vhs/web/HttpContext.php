@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 3:04 PM
+ * Time: 3:04 PM.
  */
 
 namespace vhs\web;
@@ -20,6 +20,7 @@ class HttpContext extends Singleton {
 
     /**
      * @return HttpServer
+     *
      * @throws \Exception
      */
     public static function Server() {

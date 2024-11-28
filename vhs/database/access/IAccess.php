@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/8/2016
- * Time: 12:56 PM
+ * Time: 12:56 PM.
  */
 
 namespace vhs\database\access;

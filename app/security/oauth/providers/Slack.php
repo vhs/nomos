@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/18/2015
- * Time: 12:10 PM
+ * Time: 12:10 PM.
  */
 
 namespace app\security\oauth\providers;

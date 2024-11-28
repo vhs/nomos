@@ -4,10 +4,13 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 27/12/2014
- * Time: 2:51 PM
+ * Time: 2:51 PM.
  */
 
 namespace app\services;
+
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
 
 use app\contracts\IUserService1;
 use app\domain\Membership;
@@ -22,13 +25,12 @@ use DateTime;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
-
 class UserService extends Service implements IUserService1 {
     /**
      * @permission administrator|grants
+     *
      * @param $filters
+     *
      * @return mixed
      */
     public function CountUsers($filters) {
@@ -37,12 +39,14 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $username
      * @param $password
      * @param $email
      * @param $fname
      * @param $lname
      * @param $membershipid
+     *
      * @return mixed
      */
     public function Create($username, $password, $email, $fname, $lname, $membershipid) {
@@ -91,7 +95,9 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission grants
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetGrantUserPrivileges($userid) {
@@ -113,7 +119,9 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission user|administrator
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetStanding($userid) {
@@ -128,6 +136,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetStatuses() {
@@ -141,7 +150,9 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
+     *
      * @return mixed
      */
     public function GetUser($userid) {
@@ -154,6 +165,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @return mixed
      */
     public function GetUsers() {
@@ -162,8 +174,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission grants
+     *
      * @param $userid
      * @param $privilege
+     *
      * @return mixed
      */
     public function GrantPrivilege($userid, $privilege) {
@@ -196,11 +210,13 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|grants
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListUsers($page, $size, $columns, $order, $filters) {
@@ -209,6 +225,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $userid
      * @param $privileges
      */
@@ -236,11 +253,13 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $username
      * @param $password
      * @param $email
      * @param $fname
      * @param $lname
+     *
      * @return mixed
      */
     public function Register($username, $password, $email, $fname, $lname) {
@@ -281,7 +300,9 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $email
+     *
      * @return mixed
      */
     public function RequestPasswordReset($email) {
@@ -311,7 +332,9 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission user
+     *
      * @param $email
+     *
      * @return mixed
      */
     public function RequestSlackInvite($email) {
@@ -343,8 +366,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission anonymous
+     *
      * @param $token
      * @param $password
+     *
      * @return mixed
      */
     public function ResetPassword($token, $password) {
@@ -401,8 +426,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission grants
+     *
      * @param $userid
      * @param $privilege
+     *
      * @return mixed
      */
     public function RevokePrivilege($userid, $privilege) {
@@ -438,8 +465,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $userid
      * @param $cash
+     *
      * @return mixed
      */
     public function UpdateCash($userid, $cash) {
@@ -456,8 +485,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|full-profile
+     *
      * @param $userid
      * @param $email
+     *
      * @return mixed
      */
     public function UpdateEmail($userid, $email) {
@@ -474,8 +505,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $userid
      * @param $date
+     *
      * @return mixed
      */
     public function UpdateExpiry($userid, $date) {
@@ -492,8 +525,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $userid
      * @param $membershipid
+     *
      * @return mixed
      */
     public function UpdateMembership($userid, $membershipid) {
@@ -512,9 +547,11 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|full-profile
+     *
      * @param $userid
      * @param $fname
      * @param $lname
+     *
      * @return mixed
      */
     public function UpdateName($userid, $fname, $lname) {
@@ -532,6 +569,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $subscribe
      */
@@ -549,6 +587,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $password
      */
@@ -572,8 +611,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|full-profile
+     *
      * @param $userid
      * @param $email
+     *
      * @return void
      */
     public function UpdatePaymentEmail($userid, $email) {
@@ -590,8 +631,10 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator
+     *
      * @param $userid
      * @param $status
+     *
      * @return mixed
      */
     public function UpdateStatus($userid, $status) {
@@ -628,8 +671,9 @@ class UserService extends Service implements IUserService1 {
     /**
      * @permission administrator|full-profile
      *
-     * @param  $userid
-     * @param  $email
+     * @param $userid
+     * @param $email
+     *
      * @return void
      */
     public function UpdateStripeEmail($userid, $email) {
@@ -646,6 +690,7 @@ class UserService extends Service implements IUserService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $username
      */

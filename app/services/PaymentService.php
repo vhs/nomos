@@ -15,7 +15,9 @@ use vhs\services\Service;
 class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator|user
+     *
      * @param $filters
+     *
      * @return mixed
      */
     public function CountPayments($filters) {
@@ -24,8 +26,10 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $filters
+     *
      * @return int
      */
     public function CountUserPayments($userid, $filters) {
@@ -36,7 +40,9 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function GetPayment($id) {
@@ -55,11 +61,13 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListPayments($page, $size, $columns, $order, $filters) {
@@ -68,12 +76,14 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters) {
@@ -84,7 +94,9 @@ class PaymentService extends Service implements IPaymentService1 {
 
     /**
      * @permission administrator
+     *
      * @param $paymentid
+     *
      * @return mixed
      */
     public function ReplayPaymentProcessing($paymentid) {

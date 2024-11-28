@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/12/2014
- * Time: 11:23 PM
+ * Time: 11:23 PM.
  */
 
 namespace vhs\database\orders;
@@ -17,7 +17,7 @@ use vhs\database\Table;
 abstract class OrderBy extends Element {
     /** @var Column */
     public $column;
-    /** @var OrderBy[]  */
+    /** @var OrderBy[] */
     public $orderBy = [];
 
     public function __construct(Column $column, OrderBy ...$orderBy) {
