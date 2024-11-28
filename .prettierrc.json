@@ -29,6 +29,12 @@
             "options": {
                 "parser": "xml"
             }
+        },
+        {
+            "files": [".bowerrc"],
+            "options": {
+                "parser": "json"
+            }
         }
     ]
 }
