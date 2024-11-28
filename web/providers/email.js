@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp').factory('EmailService1', [
     '$http',
@@ -6,38 +6,38 @@ angular.module('mmpApp').factory('EmailService1', [
         return {
             GetTemplate: function (id) {
                 return $http.get('/services/web/EmailService1.svc/GetTemplate?id=' + id).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateName: function (id, name) {
                 return $http.post('/services/web/EmailService1.svc/UpdateName', { id, name }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateCode: function (id, code) {
                 return $http.post('/services/web/EmailService1.svc/UpdateCode', { id, code }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateSubject: function (id, subject) {
                 return $http.post('/services/web/EmailService1.svc/UpdateSubject', { id, subject }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateHelp: function (id, help) {
                 return $http.post('/services/web/EmailService1.svc/UpdateHelp', { id, help }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateBody: function (id, body) {
                 return $http.post('/services/web/EmailService1.svc/UpdateBody', { id, body }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             UpdateHtml: function (id, html) {
                 return $http.post('/services/web/EmailService1.svc/UpdateHtml', { id, html }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             PutTemplate: function (name, code, subject, help, body, html) {
                 return $http
@@ -47,16 +47,16 @@ angular.module('mmpApp').factory('EmailService1', [
                         subject,
                         help,
                         body,
-                        html,
+                        html
                     })
                     .then(function (response) {
-                        return response.data;
-                    });
+                        return response.data
+                    })
             },
             DeleteTemplate: function (id) {
                 return $http.get('/services/web/EmailService1.svc/DeleteTemplate?id=' + id).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             ListTemplates: function (page, size, columns, order, filters) {
                 return $http
@@ -65,17 +65,17 @@ angular.module('mmpApp').factory('EmailService1', [
                         size,
                         columns,
                         order,
-                        filters,
+                        filters
                     })
                     .then(function (response) {
-                        return response.data;
-                    });
+                        return response.data
+                    })
             },
             CountTemplates: function (filters) {
                 return $http.post('/services/web/EmailService1.svc/CountTemplates', { filters }).then(function (response) {
-                    return response.data;
-                });
-            },
-        };
-    },
-]);
+                    return response.data
+                })
+            }
+        }
+    }
+])

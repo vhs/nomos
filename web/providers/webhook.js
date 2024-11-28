@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp').factory('WebHookService1', [
     '$http',
@@ -6,8 +6,8 @@ angular.module('mmpApp').factory('WebHookService1', [
         return {
             GetHook: function (id) {
                 return $http.get('/services/web/WebHookService1.svc/GetHook?id=' + id).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             CreateHook: function (name, description, enabled, url, translation, headers, method, eventid) {
                 return $http
@@ -19,11 +19,11 @@ angular.module('mmpApp').factory('WebHookService1', [
                         translation,
                         headers,
                         method,
-                        eventid,
+                        eventid
                     })
                     .then(function (response) {
-                        return response.data;
-                    });
+                        return response.data
+                    })
             },
             UpdateHook: function (id, name, description, enabled, url, translation, headers, method, eventid) {
                 return $http
@@ -36,19 +36,19 @@ angular.module('mmpApp').factory('WebHookService1', [
                         translation,
                         headers,
                         method,
-                        eventid,
+                        eventid
                     })
                     .then(function (response) {
-                        return response.data;
-                    });
+                        return response.data
+                    })
             },
             EnableHook: function (id, enabled) {
                 return $http.post('/services/web/WebHookService1.svc/EnableHook', { id, enabled }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             PutHookPrivileges: function (id, codes) {
-                return $http.post('/services/web/WebHookService1.svc/PutHookPrivileges', { id, privileges: codes.join() });
+                return $http.post('/services/web/WebHookService1.svc/PutHookPrivileges', { id, privileges: codes.join() })
             },
             ListUserHooks: function (userid, page, size, columns, order, filters) {
                 return $http
@@ -58,32 +58,32 @@ angular.module('mmpApp').factory('WebHookService1', [
                         size,
                         columns,
                         order,
-                        filters,
+                        filters
                     })
                     .then(function (response) {
-                        return response.data;
-                    });
+                        return response.data
+                    })
             },
             CountUserHooks: function (userid, filters) {
                 return $http.post('/services/web/WebHookService1.svc/CountUserHooks', { userid, filters }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             ListHooks: function (page, size, columns, order, filters) {
                 return $http.post('/services/web/WebHookService1.svc/ListHooks', { page, size, columns, order, filters }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             CountHooks: function (filters) {
                 return $http.post('/services/web/WebHookService1.svc/CountHooks', { filters }).then(function (response) {
-                    return response.data;
-                });
+                    return response.data
+                })
             },
             DeleteHook: function (id) {
                 return $http.get('/services/web/WebHookService1.svc/DeleteHook?id=' + id).then(function (response) {
-                    return response.data;
-                });
-            },
-        };
-    },
-]);
+                    return response.data
+                })
+            }
+        }
+    }
+])

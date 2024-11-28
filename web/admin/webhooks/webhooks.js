@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.admin').config([
     '$stateProvider',
@@ -15,8 +15,8 @@ angular.module('mmpApp.admin').config([
                 'PrivilegeService1',
                 'EventService1',
                 function ($scope, $modal, $timeout, WebHookService1, PrivilegeService1, EventService1) {
-                    $scope.webhooks = [];
-                    $scope.itemCount = 0;
+                    $scope.webhooks = []
+                    $scope.itemCount = 0
 
                     $scope.listService = {
                         page: 1,
@@ -25,77 +25,77 @@ angular.module('mmpApp.admin').config([
                         columns: 'id,name,description,enabled,userid,url,translation,headers,method,eventid,privileges',
                         order: 'id',
                         search: null,
-                        filter: null,
-                    };
+                        filter: null
+                    }
 
-                    $scope.updating = false;
-                    $scope.pendingUpdate = 0;
+                    $scope.updating = false
+                    $scope.pendingUpdate = 0
 
                     $scope.checkUpdated = function () {
                         if ($scope.pendingUpdate <= 0) {
-                            $scope.updated();
+                            $scope.updated()
                         } else {
-                            $timeout($scope.checkUpdated, 10);
+                            $timeout($scope.checkUpdated, 10)
                         }
-                    };
+                    }
 
                     $scope.getFilter = function () {
-                        let filter = null;
-                        const filters = [];
+                        let filter = null
+                        const filters = []
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            const val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
                                     column: 'name',
                                     operator: 'like',
-                                    value: val,
+                                    value: val
                                 },
                                 operator: 'or',
                                 right: {
                                     left: {
                                         column: 'description',
                                         operator: 'like',
-                                        value: val,
+                                        value: val
                                     },
                                     operator: 'or',
                                     right: {
                                         left: {
                                             column: 'url',
                                             operator: 'like',
-                                            value: val,
+                                            value: val
                                         },
                                         operator: 'or',
                                         right: {
                                             left: {
                                                 column: 'translation',
                                                 operator: 'like',
-                                                value: val,
+                                                value: val
                                             },
                                             operator: 'or',
                                             right: {
                                                 left: {
                                                     column: 'headers',
                                                     operator: 'like',
-                                                    value: val,
+                                                    value: val
                                                 },
                                                 operator: 'or',
                                                 right: {
                                                     column: 'method',
                                                     operator: 'like',
-                                                    value: val,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            });
+                                                    value: val
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            })
                         }
 
                         const addRightmost = function (filter, val) {
-                            if (filter.right != null) addRightmost(filter.right, val);
-                            filter.right = val;
-                        };
+                            if (filter.right != null) addRightmost(filter.right, val)
+                            filter.right = val
+                        }
 
                         for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
@@ -103,116 +103,116 @@ angular.module('mmpApp.admin').config([
                                     filter = {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    };
+                                        right: null
+                                    }
                                 } else {
-                                    filter = filters[i];
-                                    break;
+                                    filter = filters[i]
+                                    break
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i]);
+                                    addRightmost(filter, filters[i])
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    });
+                                        right: null
+                                    })
                                 }
                             }
                         }
-                        return filter;
-                    };
+                        return filter
+                    }
 
                     $scope.getHooks = function () {
-                        const filter = $scope.getFilter();
-                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter()
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize
 
                         return WebHookService1.ListHooks(
                             offset,
                             $scope.listService.pageSize,
                             $scope.listService.columns,
                             $scope.listService.order,
-                            filter,
-                        );
-                    };
+                            filter
+                        )
+                    }
 
                     $scope.getHooksCount = function () {
-                        const filter = $scope.getFilter();
+                        const filter = $scope.getFilter()
 
-                        return WebHookService1.CountHooks(filter);
-                    };
+                        return WebHookService1.CountHooks(filter)
+                    }
 
                     $scope.updated = function () {
                         $scope.getHooksCount().then(function (data) {
-                            $scope.itemCount = data;
+                            $scope.itemCount = data
 
                             $scope.getHooks().then(function (data) {
-                                $scope.webhooks = data;
+                                $scope.webhooks = data
                                 //$scope.resetForms();
-                                $scope.updating = false;
-                                $scope.pendingUpdate = 0;
-                            });
-                        });
-                    };
+                                $scope.updating = false
+                                $scope.pendingUpdate = 0
+                            })
+                        })
+                    }
 
                     $scope.refresh = function () {
-                        $scope.updating = true;
-                        $scope.updated();
-                    };
+                        $scope.updating = true
+                        $scope.updated()
+                    }
 
-                    $scope.refresh();
+                    $scope.refresh()
 
                     $scope.openCreate = function () {
                         const modalInstance = $modal.open({
                             templateUrl: 'CreateModal.html',
                             size: 'lg',
                             controller: function ($scope, $modalInstance) {
-                                $scope.object = {};
-                                $scope.events = [];
-                                const currentEvent = {};
+                                $scope.object = {}
+                                $scope.events = []
+                                const currentEvent = {}
 
                                 $scope.ok = function () {
-                                    $modalInstance.close({ obj: $scope.object, events: $scope.events });
-                                };
+                                    $modalInstance.close({ obj: $scope.object, events: $scope.events })
+                                }
 
                                 //Build a map of selected events
                                 //currentEvent[object.eventid] = object.eventid;
 
-                                const p = EventService1.GetAccessibleEvents();
+                                const p = EventService1.GetAccessibleEvents()
                                 p.then(function (events) {
-                                    $scope.events = [];
+                                    $scope.events = []
                                     angular.forEach(events, function (event) {
-                                        event.selected = angular.isDefined(currentEvent[event.id]);
-                                        $scope.events.push(event);
-                                    });
-                                });
+                                        event.selected = angular.isDefined(currentEvent[event.id])
+                                        $scope.events.push(event)
+                                    })
+                                })
 
                                 $scope.selectEvent = function (event) {
-                                    event.selected = !event.selected;
-                                    $scope.eventDirty = true;
-                                };
+                                    event.selected = !event.selected
+                                    $scope.eventDirty = true
+                                }
 
                                 $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            },
-                        });
+                                    $modalInstance.dismiss('cancel')
+                                }
+                            }
+                        })
 
                         modalInstance.result.then(function (arg) {
-                            const object = arg.obj;
-                            const events = arg.events;
-                            $scope.updating = true;
-                            $scope.pendingUpdate = 0;
+                            const object = arg.obj
+                            const events = arg.events
+                            $scope.updating = true
+                            $scope.pendingUpdate = 0
 
-                            let selectedEventid = null;
+                            let selectedEventid = null
                             angular.forEach(events, function (event) {
                                 if (event.selected) {
-                                    selectedEventid = event.id;
+                                    selectedEventid = event.id
                                 }
-                            });
+                            })
 
-                            $scope.pendingUpdate += 1;
+                            $scope.pendingUpdate += 1
                             WebHookService1.CreateHook(
                                 object.name,
                                 object.description,
@@ -221,89 +221,89 @@ angular.module('mmpApp.admin').config([
                                 object.translation,
                                 object.headers,
                                 object.method,
-                                selectedEventid,
+                                selectedEventid
                             ).then(function () {
-                                $scope.pendingUpdate -= 1;
-                            });
+                                $scope.pendingUpdate -= 1
+                            })
 
-                            $scope.checkUpdated();
-                        });
-                    };
+                            $scope.checkUpdated()
+                        })
+                    }
 
                     $scope.openEdit = function (object) {
                         const modalInstance = $modal.open({
                             templateUrl: 'EditModal.html',
                             size: 'lg',
                             controller: function ($scope, $modalInstance) {
-                                $scope.object = object;
-                                $scope.privileges = [];
-                                $scope.events = [];
-                                const currentPriv = {};
-                                const currentEvent = {};
+                                $scope.object = object
+                                $scope.privileges = []
+                                $scope.events = []
+                                const currentPriv = {}
+                                const currentEvent = {}
 
                                 $scope.ok = function () {
-                                    $modalInstance.close({ obj: $scope.object, privs: $scope.privileges, events: $scope.events });
-                                };
+                                    $modalInstance.close({ obj: $scope.object, privs: $scope.privileges, events: $scope.events })
+                                }
 
                                 //Build a map of selected privileges
                                 angular.forEach(object.privileges, function (prefPriv) {
-                                    currentPriv[prefPriv.code] = prefPriv;
-                                });
-                                const promise = PrivilegeService1.GetAllPrivileges();
+                                    currentPriv[prefPriv.code] = prefPriv
+                                })
+                                const promise = PrivilegeService1.GetAllPrivileges()
                                 promise.then(function (privileges) {
-                                    $scope.privileges = [];
+                                    $scope.privileges = []
                                     angular.forEach(privileges, function (privilege) {
-                                        privilege.selected = angular.isDefined(currentPriv[privilege.code]);
-                                        $scope.privileges.push(privilege);
-                                    });
-                                });
+                                        privilege.selected = angular.isDefined(currentPriv[privilege.code])
+                                        $scope.privileges.push(privilege)
+                                    })
+                                })
 
                                 $scope.togglePrivilege = function (privilege) {
-                                    privilege.selected = !privilege.selected;
-                                    $scope.privilegeDirty = true;
-                                };
+                                    privilege.selected = !privilege.selected
+                                    $scope.privilegeDirty = true
+                                }
 
                                 //Build a map of selected events
-                                currentEvent[object.eventid] = object.eventid;
+                                currentEvent[object.eventid] = object.eventid
 
-                                const p = EventService1.GetAccessibleEvents();
+                                const p = EventService1.GetAccessibleEvents()
                                 p.then(function (events) {
-                                    $scope.events = [];
+                                    $scope.events = []
                                     angular.forEach(events, function (event) {
-                                        event.selected = angular.isDefined(currentEvent[event.id]);
-                                        $scope.events.push(event);
-                                    });
-                                });
+                                        event.selected = angular.isDefined(currentEvent[event.id])
+                                        $scope.events.push(event)
+                                    })
+                                })
 
                                 $scope.selectEvent = function (event) {
                                     angular.forEach($scope.events, function (evt) {
-                                        evt.selected = false;
-                                    });
-                                    event.selected = !event.selected;
-                                    $scope.eventDirty = true;
-                                };
+                                        evt.selected = false
+                                    })
+                                    event.selected = !event.selected
+                                    $scope.eventDirty = true
+                                }
 
                                 $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            },
-                        });
+                                    $modalInstance.dismiss('cancel')
+                                }
+                            }
+                        })
 
                         modalInstance.result.then(function (arg) {
-                            const object = arg.obj;
-                            const privileges = arg.privs;
-                            const events = arg.events;
-                            $scope.updating = true;
-                            $scope.pendingUpdate = 0;
+                            const object = arg.obj
+                            const privileges = arg.privs
+                            const events = arg.events
+                            $scope.updating = true
+                            $scope.pendingUpdate = 0
 
-                            let selectedEventid = null;
+                            let selectedEventid = null
                             angular.forEach(events, function (event) {
                                 if (event.selected) {
-                                    selectedEventid = event.id;
+                                    selectedEventid = event.id
                                 }
-                            });
+                            })
 
-                            $scope.pendingUpdate += 1;
+                            $scope.pendingUpdate += 1
                             WebHookService1.UpdateHook(
                                 object.id,
                                 object.name,
@@ -313,92 +313,92 @@ angular.module('mmpApp.admin').config([
                                 object.translation,
                                 object.headers,
                                 object.method,
-                                selectedEventid,
+                                selectedEventid
                             ).then(function () {
-                                $scope.checkUpdated();
-                                $scope.pendingUpdate -= 1;
-                            });
+                                $scope.checkUpdated()
+                                $scope.pendingUpdate -= 1
+                            })
 
-                            const codes = [];
+                            const codes = []
                             angular.forEach(privileges, function (priv) {
                                 if (priv.selected) {
-                                    codes.push(priv.code);
+                                    codes.push(priv.code)
                                 }
-                            });
+                            })
 
-                            $scope.updating = true;
-                            $scope.pendingUpdate += 1;
+                            $scope.updating = true
+                            $scope.pendingUpdate += 1
                             WebHookService1.PutHookPrivileges(object.id, codes).then(function () {
-                                $scope.privilegeDirty = false;
+                                $scope.privilegeDirty = false
 
-                                $scope.checkUpdated();
-                                $scope.pendingUpdate -= 1;
-                            });
+                                $scope.checkUpdated()
+                                $scope.pendingUpdate -= 1
+                            })
 
-                            $scope.checkUpdated();
-                        });
-                    };
+                            $scope.checkUpdated()
+                        })
+                    }
 
                     $scope.openDelete = function (object) {
                         const modalInstance = $modal.open({
                             templateUrl: 'DeleteModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
-                                $scope.object = object;
+                                $scope.object = object
                                 $scope.ok = function () {
-                                    $modalInstance.close($scope.object);
-                                };
+                                    $modalInstance.close($scope.object)
+                                }
 
                                 $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            },
-                        });
+                                    $modalInstance.dismiss('cancel')
+                                }
+                            }
+                        })
 
                         modalInstance.result.then(function (object) {
-                            $scope.updating = true;
-                            $scope.pendingUpdate = 0;
+                            $scope.updating = true
+                            $scope.pendingUpdate = 0
 
-                            $scope.pendingUpdate += 1;
+                            $scope.pendingUpdate += 1
                             WebHookService1.DeleteHook(object.id).then(function () {
-                                $scope.pendingUpdate -= 1;
-                            });
+                                $scope.pendingUpdate -= 1
+                            })
 
-                            $scope.checkUpdated();
-                        });
-                    };
+                            $scope.checkUpdated()
+                        })
+                    }
 
                     $scope.openEnableDisable = function (object) {
                         const modalInstance = $modal.open({
                             templateUrl: 'EnableDisableModal.html',
                             size: 'sm',
                             controller: function ($scope, $modalInstance) {
-                                $scope.object = object;
-                                $scope.enable = object.enabled ? 'Disable' : 'Enable';
+                                $scope.object = object
+                                $scope.enable = object.enabled ? 'Disable' : 'Enable'
                                 $scope.ok = function () {
-                                    $modalInstance.close($scope.object);
-                                };
+                                    $modalInstance.close($scope.object)
+                                }
 
                                 $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            },
-                        });
+                                    $modalInstance.dismiss('cancel')
+                                }
+                            }
+                        })
 
                         modalInstance.result.then(function (object) {
-                            $scope.updating = true;
-                            $scope.pendingUpdate = 0;
+                            $scope.updating = true
+                            $scope.pendingUpdate = 0
 
-                            $scope.pendingUpdate += 1;
+                            $scope.pendingUpdate += 1
                             WebHookService1.EnableHook(object.id, !object.enabled).then(function () {
-                                $scope.pendingUpdate -= 1;
-                            });
+                                $scope.pendingUpdate -= 1
+                            })
 
-                            $scope.checkUpdated();
-                        });
-                    };
-                },
-            ],
-        });
-    },
-]);
+                            $scope.checkUpdated()
+                        })
+                    }
+                }
+            ]
+        })
+    }
+])

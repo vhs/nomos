@@ -7,10 +7,10 @@ exports.settings = {
         port: '5672',
         username: 'webhooker',
         password: 'password',
-        vhost: 'nomos',
+        vhost: 'nomos'
     },
     nomos: {
         host: 'localhost',
-        token: '',
-    },
-};
+        token: ''
+    }
+}

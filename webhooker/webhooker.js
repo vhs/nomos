@@ -2,34 +2,32 @@
  * Created by Thomas on 3/7/2016.
  */
 
-var program = require('commander');
+const bunyan = require('bunyan')
+const program = require('commander')
 
-program.version('1.0.0').option('-c, --console', 'Run in non-daemon mode and output log to console').parse(process.argv);
+const { settings: config } = require('./config.js')
+
+program.version('1.0.0').option('-c, --console', 'Run in non-daemon mode and output log to console').parse(process.argv)
 
 //if (!program.console)
 //require('daemon')(); // using start-stop-daemon with upstart for now
 
-var http = require('http');
-var config = require('./config.js').settings;
-
-var bunyan = require('bunyan');
-
-var logStreams = [];
+const logStreams = []
 
 if (program.console) {
     logStreams.push({
-        stream: process.stdout,
-    });
+        stream: process.stdout
+    })
 } else {
     logStreams.push({
         type: 'rotating-file',
         path: '../logs/webhooker.log',
         period: '1d',
-        count: 5,
-    });
+        count: 5
+    })
 }
 
-var log = bunyan.createLogger({
+const log = bunyan.createLogger({
     name: 'webhooker',
     streams: logStreams,
     serializers: {
@@ -40,35 +38,35 @@ var log = bunyan.createLogger({
                 id: hook.id,
                 name: hook.name,
                 url: hook.url,
-                userid: hook.userid,
-            };
+                userid: hook.userid
+            }
         },
         event: function (event) {
             return {
                 id: event.id,
                 name: event.name,
                 domain: event.domain,
-                event: event.event,
-            };
-        },
-    },
-});
+                event: event.event
+            }
+        }
+    }
+})
 
-var hooker = {
-    config: config,
-    log: log,
-    nomos: require('./nomos.js')({ config: config, log: log }),
-};
+const hooker = {
+    config,
+    log,
+    nomos: require('./nomos.js')({ config, log })
+}
 
-var webhooks = require('./webhooks.js')(hooker, function () {
-    var events = require('./events.js')(hooker, function (event, data) {
-        if (event.domain == 'WebHook') webhooks.refresh();
+const webhooks = require('./webhooks.js')(hooker, function () {
+    const events = require('./events.js')(hooker, function (event, data) {
+        if (event.domain === 'WebHook') webhooks.refresh()
 
-        if (event.domain == 'Event')
+        if (event.domain === 'Event')
             return events.reload(function () {
-                webhooks.raise(event, data);
-            });
+                webhooks.raise(event, data)
+            })
 
-        webhooks.raise(event, data);
-    });
-});
+        webhooks.raise(event, data)
+    })
+})

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.user').config([
     '$stateProvider',
@@ -14,28 +14,28 @@ angular.module('mmpApp.user').config([
                     'PinService1',
                     function (currentUser, $location, PinService1) {
                         return PinService1.GetUserPin(currentUser.id).then(function (data) {
-                            if (data.key != null) return data.key.replace('|', '');
+                            if (data.key != null) return data.key.replace('|', '')
 
-                            return null;
-                        });
-                    },
+                            return null
+                        })
+                    }
                 ],
                 innerdoor: [
                     'PreferenceService1',
                     function (PreferenceService1) {
-                        return PreferenceService1.SystemPreference('innerdoor');
-                    },
-                ],
+                        return PreferenceService1.SystemPreference('innerdoor')
+                    }
+                ]
             },
             controller: [
                 '$scope',
                 'pin',
                 'innerdoor',
                 function ($scope, pin, innerdoor) {
-                    $scope.pin = pin;
-                    $scope.innerdoor = innerdoor.value;
-                },
-            ],
-        });
-    },
-]);
+                    $scope.pin = pin
+                    $scope.innerdoor = innerdoor.value
+                }
+            ]
+        })
+    }
+])

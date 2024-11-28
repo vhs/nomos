@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.user').config([
     '$stateProvider',
@@ -7,7 +7,7 @@ angular.module('mmpApp.user').config([
             parent: 'user',
             url: '/vhsopen/',
             templateUrl: 'user/vhsopen/vhsopen.html',
-            controller: ['$scope', function ($scope) {}],
-        });
-    },
-]);
+            controller: ['$scope', function ($scope) {}]
+        })
+    }
+])

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.user').config([
     '$stateProvider',
@@ -10,20 +10,20 @@ angular.module('mmpApp.user').config([
             controller: [
                 '$scope',
                 function ($scope) {
-                    $scope.membercard_one = true;
-                    $scope.membercard_two = false;
+                    $scope.membercard_one = true
+                    $scope.membercard_two = false
 
                     $scope.membercard_image = function (index) {
                         if (index == '1') {
-                            $scope.membercard_one = true;
-                            $scope.membercard_two = false;
+                            $scope.membercard_one = true
+                            $scope.membercard_two = false
                         } else {
-                            $scope.membercard_one = false;
-                            $scope.membercard_two = true;
+                            $scope.membercard_one = false
+                            $scope.membercard_two = true
                         }
-                    };
-                },
-            ],
-        });
-    },
-]);
+                    }
+                }
+            ]
+        })
+    }
+])

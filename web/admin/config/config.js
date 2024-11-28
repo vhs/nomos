@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.admin').config([
     '$stateProvider',
@@ -7,7 +7,7 @@ angular.module('mmpApp.admin').config([
             parent: 'admin',
             url: '/config/',
             data: {
-                access: 'admin',
+                access: 'admin'
             },
             templateUrl: 'admin/config/config.html',
 
@@ -16,9 +16,9 @@ angular.module('mmpApp.admin').config([
                 '$modal',
                 'config',
                 function ($scope, $modal, config) {
-                    $scope.config = config;
-                },
-            ],
-        });
-    },
-]);
+                    $scope.config = config
+                }
+            ]
+        })
+    }
+])

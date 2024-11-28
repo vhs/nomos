@@ -2,18 +2,17 @@
  * Created by Thomas on 3/7/2016.
  */
 
-var http = require('http');
-var amqp = require('amqplib');
+const amqp = require('amqplib')
 
 module.exports = function (options, handler) {
-    return new Events(options, handler);
-};
+    return new Events(options, handler)
+}
 
-var Events = function (options, handler) {
-    this.config = options.config;
-    this.nomos = options.nomos;
-    this.log = options.log.child({ component: 'Events' });
-    this.handler = handler;
+const Events = function (options, handler) {
+    this.config = options.config
+    this.nomos = options.nomos
+    this.log = options.log.child({ component: 'Events' })
+    this.handler = handler
 
     this.rabbitmq =
         'amqp://' +
@@ -25,76 +24,81 @@ var Events = function (options, handler) {
         ':' +
         this.config.rabbitmq.port +
         '/' +
-        this.config.rabbitmq.vhost;
+        this.config.rabbitmq.vhost
 
-    this.connection = null;
+    this.connection = null
 
-    this.events = [];
+    this.events = []
 
-    this.init();
-};
+    // @ts-ignore
+    this.init()
+}
 
 Events.prototype.loadEvents = function (callback) {
-    var self = this;
+    const self = this
     self.nomos.getAllEvents(function (data) {
-        self.events = data;
-        if (callback) callback(self.events);
-    });
-};
+        self.events = data
+        if (callback) callback(self.events)
+    })
+}
 
 Events.prototype.init = function () {
-    var self = this;
+    const self = this
 
     amqp.connect(self.rabbitmq)
         .then(function (conn) {
-            self.connection = conn;
-            var ok = conn.createChannel();
+            self.connection = conn
+            let ok = conn.createChannel()
+            // @ts-ignore
             ok = ok.then(function (ch) {
-                self.connected(conn, ch);
-            });
+                self.connected(conn, ch)
+            })
 
-            return ok;
+            return ok
         })
-        .then(null, console.warn);
-};
+        .then(null, console.warn)
+}
 
-Events.prototype.connected = function (conn, channel) {
-    var self = this;
+Events.prototype.connected = function (_conn, channel) {
+    const self = this
     self.loadEvents(function (events) {
-        for (var i = 0; i < events.length; i++) {
-            (function (event) {
+        for (const event of events) {
+            ;(function (event) {
                 channel.consume(
                     event.domain + '.' + event.event,
                     function (msg) {
                         if (msg != null) {
                             //channel.ack(msg);
 
-                            var data = JSON.parse(msg.content.toString())[0][0];
+                            const data = JSON.parse(msg.content.toString())[0][0]
 
-                            self.handleEvent(event, data);
+                            self.handleEvent(event, data)
                         }
                     },
                     { noAck: true },
                     function (err, ok) {
-                        return ok;
-                    },
-                );
-            })(events[i]);
+                        console.error(err)
+                        return ok
+                    }
+                )
+            })(event)
         }
-    });
-};
+    })
+}
 
-Events.prototype.reload = function () {
+Events.prototype.reload = function (cb) {
     if (this.connection != null) {
-        this.connection.close();
+        this.connection.close()
 
-        this.events = [];
+        this.events = []
 
-        this.init();
+        this.init()
+
+        cb()
     }
-};
+}
 
 Events.prototype.handleEvent = function (event, data) {
-    this.log.info({ event: event, data: data }, 'Event triggered ' + event.name);
-    this.handler(event, data);
-};
+    this.log.info({ event, data }, 'Event triggered ' + event.name)
+    this.handler(event, data)
+}

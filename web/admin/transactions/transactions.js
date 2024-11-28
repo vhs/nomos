@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.admin').config([
     '$stateProvider',
@@ -7,16 +7,16 @@ angular.module('mmpApp.admin').config([
             parent: 'admin',
             url: '/admin/transactions/',
             data: {
-                access: 'admin',
+                access: 'admin'
             },
             templateUrl: 'admin/transactions/transactions.html',
             resolve: {
                 transactions: [
                     'IpnService1',
                     function (IpnService1) {
-                        return IpnService1.GetAll();
-                    },
-                ],
+                        return IpnService1.GetAll()
+                    }
+                ]
             },
 
             controller: [
@@ -24,9 +24,9 @@ angular.module('mmpApp.admin').config([
                 '$modal',
                 'transactions',
                 function ($scope, $modal, transactions) {
-                    $scope.transactions = transactions;
-                },
-            ],
-        });
-    },
-]);
+                    $scope.transactions = transactions
+                }
+            ]
+        })
+    }
+])

@@ -7,10 +7,10 @@ exports.settings = {
         port: process.env.NOMOS_RABBITMQ_PORT || '5672',
         username: process.env.NOMOS_RABBITMQ_USER || 'webhooker',
         password: process.env.NOMOS_RABBITMQ_PASSWORD || 'password',
-        vhost: process.env.NOMOS_RABBITMQ_VHOST || 'nomos',
+        vhost: process.env.NOMOS_RABBITMQ_VHOST || 'nomos'
     },
     nomos: {
         host: process.env.NOMOS_RABBITMQ_NOMOS_HOST || 'nomos-frontend',
-        token: process.env.NOMOS_RABBITMQ_NOMOS_TOKEN || '',
-    },
-};
+        token: process.env.NOMOS_RABBITMQ_NOMOS_TOKEN || ''
+    }
+}

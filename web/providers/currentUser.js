@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp').factory('CurrentUser', [
     'AuthService1',
@@ -9,22 +9,22 @@ angular.module('mmpApp').factory('CurrentUser', [
                 return AuthService1.CurrentUser().then(function (principal) {
                     if (principal.id) {
                         return UserService1.GetUser(principal.id).then(function (user) {
-                            user.principal = principal;
+                            user.principal = principal
                             user.hasPermission = function (perm) {
                                 for (let i = 0; i < this.principal.permissions.length; i++) {
-                                    if (this.principal.permissions[i] == perm) return true;
+                                    if (this.principal.permissions[i] == perm) return true
                                 }
-                            };
+                            }
 
-                            user.valid = new Date(user.mem_expire) > new Date();
+                            user.valid = new Date(user.mem_expire) > new Date()
 
-                            return user;
-                        });
+                            return user
+                        })
                     } else {
-                        throw 'login';
+                        throw 'login'
                     }
-                });
-            },
-        };
-    },
-]);
+                })
+            }
+        }
+    }
+])
