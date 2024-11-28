@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+set -e
+
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+
+if [ "${FILES}" = "" ] ; then
+    echo "No files to process"
+    exit 255
+fi
+
+PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g' | (grep -q php || echo ''))
+
+# shellcheck disable=SC2086
+vendor/bin/phpunit && if [ "${PHP_FILES}" != "" ]; then vendor/bin/php-cs-fixer fix ${PHP_FILES}; fi && node_modules/.bin/prettier -w ${FILES} && exit 0
