@@ -25,10 +25,10 @@ function is_webhook_privilege_present() {
 if ! is_webhook_privilege_present; then
     echo 'Creating webhook privilege' >&2
     curl -s "${frontend_base_uri}/PrivilegeService1.svc/CreatePrivilege?name=webhook&code=webhook&description=webhook&icon=webhook&enabled=true" \
-        >/dev/null || echo "Failed to create privilege" >&2
+        > /dev/null || echo "Failed to create privilege" >&2
 fi
 
 curl -s "${frontend_base_uri}/ApiKeyService1.svc/PutApiKeyPrivileges?keyid=${key_id}&privileges=webhook" \
-    >/dev/null || echo "Failed to add API key privilege" >&2
+    > /dev/null || echo "Failed to add API key privilege" >&2
 
 echo -e "Add the following to docker/nomos.env:\n\nNOMOS_RABBITMQ_NOMOS_TOKEN=${key_value}" >&2
