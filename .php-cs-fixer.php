@@ -1,11 +1,14 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+$finder = \PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/app')
     ->in(__DIR__ . '/tests')
-    ->in(__DIR__ . '/vhs');
+    ->in(__DIR__ . '/tools')
+    ->in(__DIR__ . '/vhs')
+    ->exclude(__DIR__ . '/vendor');
 
 return (new PhpCsFixer\Config())
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
         '@PSR12' => true,
         'array_indentation' => true,
@@ -72,7 +75,7 @@ return (new PhpCsFixer\Config())
         'no_whitespace_in_blank_line' => true,
         // 'normalize_index_brace' => true,
         'object_operator_without_whitespace' => true,
-        // 'php_unit_fqcn_annotation' => true,
+        'php_unit_fqcn_annotation' => true,
         // 'phpdoc_align' => true,
         // 'phpdoc_annotation_without_dot' => true,
         // 'phpdoc_indent' => true,
@@ -105,7 +108,65 @@ return (new PhpCsFixer\Config())
         'unary_operator_spaces' => true,
         'whitespace_after_comma_in_array' => true,
         'space_after_semicolon' => true,
-        'single_blank_line_at_eof' => true
+        'single_blank_line_at_eof' => true,
+        'ordered_class_elements' => [
+            'order' => [
+                'constant_public',
+                'constant_protected',
+                'constant_private',
+                'constant',
+
+                'use_trait',
+
+                'property_public_static',
+                'property_protected_static',
+                'property_private_static',
+                'property_static',
+
+                'property_public',
+                'property_protected',
+                'property_private',
+
+                'property',
+
+                'construct',
+                'destruct',
+
+                'method:connect',
+                'method:disconnect',
+
+                'method_public_abstract_static',
+                'method_protected_abstract_static',
+                'method_private_abstract_static',
+
+                'method_public_static',
+                'method_protected_static',
+                'method_private_static',
+                'method_static',
+
+                'method_public_abstract',
+                'method_protected_abstract',
+                'method_private_abstract',
+                'method_abstract',
+
+                'method_public',
+
+                'method_protected',
+
+                'method_private',
+
+                'method',
+
+                'magic',
+                'phpunit',
+
+                'case',
+
+                'private'
+            ],
+            'sort_algorithm' => 'alpha'
+        ],
+        'ordered_imports' => true
     ])
     ->setIndent('    ')
     ->setLineEnding("\n")
