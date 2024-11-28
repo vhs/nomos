@@ -14,12 +14,16 @@ use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
+use app\exceptions\InvalidInputException;
 use app\exceptions\InvalidPasswordHashException;
 use app\exceptions\UserAlreadyExistsException;
 use app\security\PasswordUtil;
 use DateTime;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
+
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
 
 class UserService extends Service implements IUserService1 {
     /**
@@ -69,9 +73,10 @@ class UserService extends Service implements IUserService1 {
         try {
             $this->UpdateMembership($user->id, $membershipid);
         } catch (\Exception $ex) {
+            // Ignore result
         }
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();
@@ -261,7 +266,7 @@ class UserService extends Service implements IUserService1 {
 
         $user->save();
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();
@@ -292,7 +297,7 @@ class UserService extends Service implements IUserService1 {
 
         $request->save();
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();
@@ -458,7 +463,7 @@ class UserService extends Service implements IUserService1 {
     public function UpdateEmail($userid, $email) {
         $user = $this->GetUser($userid);
 
-        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') != true) {
+        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
             return;
         }
 
@@ -497,7 +502,7 @@ class UserService extends Service implements IUserService1 {
         $membership = Membership::find($membershipid);
 
         if (is_null($user) || is_null($membership)) {
-            throw new \Exception('Invalid user or membership type');
+            throw new InvalidInputException('Invalid user or membership type');
         }
 
         $user->membership = $membership;
@@ -515,7 +520,7 @@ class UserService extends Service implements IUserService1 {
     public function UpdateName($userid, $fname, $lname) {
         $user = $this->GetUser($userid);
 
-        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') != true) {
+        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
             return;
         }
 
@@ -574,7 +579,7 @@ class UserService extends Service implements IUserService1 {
     public function UpdatePaymentEmail($userid, $email) {
         $user = $this->GetUser($userid);
 
-        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') != true) {
+        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
             return;
         }
 
@@ -592,7 +597,7 @@ class UserService extends Service implements IUserService1 {
     public function UpdateStatus($userid, $status) {
         $user = $this->GetUser($userid);
 
-        if (is_null($user) || CurrentUser::hasAnyPermissions('administrator') != true) {
+        if (is_null($user) || CurrentUser::hasAnyPermissions('administrator') !== true) {
             return;
         }
 
@@ -630,7 +635,7 @@ class UserService extends Service implements IUserService1 {
     public function UpdateStripeEmail($userid, $email) {
         $user = $this->GetUser($userid);
 
-        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') != true) {
+        if (is_null($user) || CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
             return;
         }
 

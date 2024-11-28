@@ -16,11 +16,14 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use vhs\security\CurrentUser;
 use vhs\web\HttpServer;
 
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
+
 class OAuthHelper {
     private $provider;
-    private $userDetails;
     /** @var HttpServer */
     private $server;
+    private $userDetails;
 
     public function __construct(AbstractProvider $provider, HttpServer $server) {
         $this->provider = $provider;
@@ -28,24 +31,14 @@ class OAuthHelper {
         $this->server = $server;
     }
 
-    public function requestAuth() {
-        // If we don't have an authorization code then get one
-        $authUrl = $this->provider->getAuthorizationUrl();
+    public static function redirectHost() {
+        $protocol =
+            defined('NOMOS_FORCE_HTTPS') || ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+                ? STR_HTTPS_PREFIX
+                : STR_HTTP_PREFIX;
+        $domainName = $_SERVER['HTTP_HOST'];
 
-        $this->server->clear();
-        $this->server->redirect($authUrl);
-        $this->server->end();
-    }
-
-    public function processToken() {
-        $token = $this->provider->getAccessToken('authorization_code', [
-            'code' => $_GET['code']
-        ]);
-        if (!is_null($token)) {
-            $this->userDetails = $this->provider->getUserDetails($token);
-            return $this->userDetails;
-        }
-        return null;
+        return $protocol . $domainName;
     }
 
     public function linkAccount($serviceUID, $serviceType, $notes) {
@@ -57,7 +50,7 @@ class OAuthHelper {
         //Update old keys even if they are assigned to other users
         $keys = Key::findKeyAndType($serviceUID, $serviceType);
 
-        if (count($keys) > 0) {
+        if (!empty($keys)) {
             $key = $keys[0];
         } else {
             $key = new Key();
@@ -76,9 +69,25 @@ class OAuthHelper {
         $key->save();
     }
 
-    public static function redirectHost() {
-        $protocol = defined('NOMOS_FORCE_HTTPS') || ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://'; // NOSONAR
-        $domainName = $_SERVER['HTTP_HOST'];
-        return $protocol . $domainName;
+    public function processToken() {
+        $token = $this->provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+        if (!is_null($token)) {
+            $this->userDetails = $this->provider->getUserDetails($token);
+
+            return $this->userDetails;
+        }
+
+        return null;
+    }
+
+    public function requestAuth() {
+        // If we don't have an authorization code then get one
+        $authUrl = $this->provider->getAuthorizationUrl();
+
+        $this->server->clear();
+        $this->server->redirect($authUrl);
+        $this->server->end();
     }
 }

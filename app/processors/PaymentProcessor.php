@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
@@ -12,35 +13,32 @@ use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
 use app\security\PasswordUtil;
-use vhs\security\CurrentUser;
-use vhs\security\SystemPrincipal;
 use app\services\EmailService;
 use app\services\UserService;
 use DateTime;
 use vhs\Logger;
+use vhs\security\CurrentUser;
+use vhs\security\SystemPrincipal;
+
+use const app\constants\STR_HTTP_PREFIX;
+use const app\constants\STR_HTTPS_PREFIX;
 
 class PaymentProcessor {
-    /** @var Logger */
-    private $logger;
     private $emailService;
     private $host;
+    /** @var Logger */
+    private $logger;
 
     public function __construct(Logger &$logger = null) {
         $this->logger = $logger;
         $this->emailService = new EmailService();
     }
 
-    private function log($message) {
-        if (!is_null($this->logger)) {
-            $this->logger->log("[PaymentMonitor] {$message}");
-        }
-    }
-
     public function paymentCreated($id) {
         $suspended_user = CurrentUser::getPrincipal();
         CurrentUser::setPrincipal(new SystemPrincipal());
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $this->host = $protocol . $domainName;
@@ -58,6 +56,7 @@ class PaymentProcessor {
 
         if (count($users) > 1) {
             $this->log("Found more than one user for email '{$payment->payer_email}' unable to process payment");
+
             return;
         } elseif (count($users) == 1) {
             $user = $users[0];
@@ -76,6 +75,210 @@ class PaymentProcessor {
         }
 
         CurrentUser::setPrincipal($suspended_user);
+    }
+
+    private function log($message) {
+        if (!is_null($this->logger)) {
+            $this->logger->log("[PaymentMonitor] {$message}");
+        }
+    }
+
+    private function processDonationPayment(User $user = null, Payment $payment) {
+        if (is_null($user)) {
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'message' =>
+                    $payment->fname .
+                    ' ' .
+                    $payment->lname .
+                    ' with email ' .
+                    $payment->payer_email .
+                    ' made a donation but we ' .
+                    "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. " .
+                    'item_number = ' .
+                    $payment->item_number .
+                    'item_name = ' .
+                    $payment->item_name .
+                    'rate_amount = ' .
+                    $payment->rate_amount .
+                    'currency = ' .
+                    $payment->currency
+            ]);
+        } else {
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname,
+                'item_number' => $payment->item_number,
+                'item_name' => $payment->item_name,
+                'rate_amount' => $payment->rate_amount,
+                'currency' => $payment->currency
+            ]);
+
+            $this->emailService->EmailUser($user, 'donation_random', [
+                'fname' => $user->fname,
+                'lname' => $user->lname,
+                'rate_amount' => $payment->rate_amount,
+                'currency' => $payment->currency
+            ]);
+
+            $payment->user_id = $user->id;
+        }
+
+        $payment->status = 1;
+
+        $payment->save();
+    }
+
+    private function processMemberPayment(User $user = null, Payment $payment) {
+        /** @var Membership $membership */
+        $membership = null;
+
+        $memberships = Membership::findByCode($payment->item_number);
+
+        if (!is_null($memberships) && count($memberships) == 1) {
+            $membership = $memberships[0];
+        } else {
+            $memberships = Membership::findByCode(Membership::MEMBER);
+
+            if (!is_null($memberships) && count($memberships) == 1) {
+                $membership = $memberships[0];
+            } else {
+                $this->log("Missing membership type '" . Membership::MEMBER . "'. Unable to process payment.");
+
+                return;
+            }
+        }
+
+        $userService = new UserService();
+
+        if (is_null($user)) {
+            //new user
+            try {
+                $user = $userService->Create(
+                    $payment->payer_email,
+                    PasswordUtil::generate(),
+                    $payment->payer_email,
+                    $payment->payer_fname,
+                    $payment->payer_lname,
+                    $membership->id
+                );
+            } catch (\Exception $ex) {
+                //this shouldn't happen... we should've found the user by email otherwise...
+                $this->log($ex->getMessage());
+
+                return;
+            }
+
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname,
+                'host' => $this->host,
+                'id' => $user->id
+            ]);
+        } else {
+            if ($user->membership_id != $membership->id) {
+                $userService->UpdateMembership($user->id, $membership->id);
+            } else {
+                if ($user->active == 'n') {
+                    $userService->UpdateStatus($user->id, 'active');
+                }
+            }
+
+            $user = User::find($user->id);
+
+            if ($user->active != 'y') {
+                $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
+                    'message' =>
+                        $payment->fname .
+                        ' ' .
+                        $payment->lname .
+                        ' with email ' .
+                        $payment->payer_email .
+                        ' made a payment, but ' .
+                        "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n" .
+                        'userid = ' .
+                        $user->id .
+                        "\n" .
+                        'status = ' .
+                        $user->active .
+                        "\n" .
+                        'item_number = ' .
+                        $payment->item_number .
+                        "\n" .
+                        'item_name = ' .
+                        $payment->item_name .
+                        "\n" .
+                        'rate_amount = ' .
+                        $payment->rate_amount .
+                        "\n" .
+                        'currency = ' .
+                        $payment->currency .
+                        "\n"
+                ]);
+            }
+        }
+
+        $expiry = new DateTime($payment->date);
+        $expiry->add(new \DateInterval('P1M1W')); //add 1 month with a 1 week grace period
+
+        $user->mem_expire = $expiry->format('Y-m-d H:i:s');
+
+        $user->save();
+
+        $payment->user_id = $user->id;
+        $payment->membership_id = $membership->id;
+        $payment->status = 1; //processed
+        $payment->save();
+
+        $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
+            'email' => $payment->payer_email,
+            'fname' => $payment->payer_fname,
+            'lname' => $payment->payer_lname,
+            'amount' => $payment->rate_amount,
+            'pp' => $payment->pp
+        ]);
+
+        $this->emailService->EmailUser($user, 'payment', [
+            'host' => $this->host,
+            'fname' => $user->fname
+        ]);
+    }
+
+    private function processMembershipCardPayment(User $user = null, Payment $payment) {
+        if (is_null($user)) {
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'message' =>
+                    $payment->fname .
+                    ' ' .
+                    $payment->lname .
+                    ' with email ' .
+                    $payment->payer_email .
+                    ' purchased a membership card but we ' .
+                    "don't have an account for them... they'll need an account before" .
+                    ' we can issue a member card.'
+            ]);
+        } else {
+            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
+                'email' => $payment->payer_email,
+                'fname' => $payment->payer_fname,
+                'lname' => $payment->payer_lname
+            ]);
+
+            $this->emailService->EmailUser($user, 'membercard_purchased', [
+                'fname' => $user->fname,
+                'lname' => $user->lname
+            ]);
+
+            $payment->user_id = $user->id;
+        }
+
+        $payment->status = 1;
+
+        $payment->save();
     }
 
     private function resolveLegacyPayments(Payment $payment) {
@@ -190,201 +393,5 @@ class PaymentProcessor {
         }
 
         return $payment;
-    }
-
-    private function processMembershipCardPayment(User $user = null, Payment $payment) {
-        if (is_null($user)) {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
-                'message' =>
-                    $payment->fname .
-                    ' ' .
-                    $payment->lname .
-                    ' with email ' .
-                    $payment->payer_email .
-                    ' purchased a membership card but we ' .
-                    "don't have an account for them... they'll need an account before" .
-                    ' we can issue a member card.'
-            ]);
-        } else {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
-                'email' => $payment->payer_email,
-                'fname' => $payment->payer_fname,
-                'lname' => $payment->payer_lname
-            ]);
-
-            $this->emailService->EmailUser($user, 'membercard_purchased', [
-                'fname' => $user->fname,
-                'lname' => $user->lname
-            ]);
-
-            $payment->user_id = $user->id;
-        }
-
-        $payment->status = 1;
-
-        $payment->save();
-    }
-
-    private function processMemberPayment(User $user = null, Payment $payment) {
-        /** @var Membership $membership */
-        $membership = null;
-
-        $memberships = Membership::findByCode($payment->item_number);
-
-        if (!is_null($memberships) && count($memberships) == 1) {
-            $membership = $memberships[0];
-        } else {
-            $memberships = Membership::findByCode(Membership::MEMBER);
-
-            if (!is_null($memberships) && count($memberships) == 1) {
-                $membership = $memberships[0];
-            } else {
-                $this->log("Missing membership type '" . Membership::MEMBER . "'. Unable to process payment.");
-                return;
-            }
-        }
-
-        $userService = new UserService();
-
-        if (is_null($user)) {
-            //new user
-            try {
-                $user = $userService->Create(
-                    $payment->payer_email,
-                    PasswordUtil::generate(),
-                    $payment->payer_email,
-                    $payment->payer_fname,
-                    $payment->payer_lname,
-                    $membership->id
-                );
-            } catch (\Exception $ex) {
-                //this shouldn't happen... we should've found the user by email otherwise...
-                $this->log($ex->getMessage());
-                return;
-            }
-
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
-                'email' => $payment->payer_email,
-                'fname' => $payment->payer_fname,
-                'lname' => $payment->payer_lname,
-                'host' => $this->host,
-                'id' => $user->id
-            ]);
-        } else {
-            if ($user->membership_id != $membership->id) {
-                $userService->UpdateMembership($user->id, $membership->id);
-            } else {
-                if ($user->active == 'n') {
-                    $userService->UpdateStatus($user->id, 'active');
-                }
-            }
-
-            $user = User::find($user->id);
-
-            if ($user->active != 'y') {
-                $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
-                    'message' =>
-                        $payment->fname .
-                        ' ' .
-                        $payment->lname .
-                        ' with email ' .
-                        $payment->payer_email .
-                        ' made a payment, but ' .
-                        "they are not active or couldn't be activated... this could be that they are banned or still pending activation.\n" .
-                        'userid = ' .
-                        $user->id .
-                        "\n" .
-                        'status = ' .
-                        $user->active .
-                        "\n" .
-                        'item_number = ' .
-                        $payment->item_number .
-                        "\n" .
-                        'item_name = ' .
-                        $payment->item_name .
-                        "\n" .
-                        'rate_amount = ' .
-                        $payment->rate_amount .
-                        "\n" .
-                        'currency = ' .
-                        $payment->currency .
-                        "\n"
-                ]);
-            }
-        }
-
-        $expiry = new DateTime($payment->date);
-        $expiry->add(new \DateInterval('P1M1W')); //add 1 month with a 1 week grace period
-
-        $user->mem_expire = $expiry->format('Y-m-d H:i:s');
-
-        $user->save();
-
-        $payment->user_id = $user->id;
-        $payment->membership_id = $membership->id;
-        $payment->status = 1; //processed
-        $payment->save();
-
-        $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
-            'email' => $payment->payer_email,
-            'fname' => $payment->payer_fname,
-            'lname' => $payment->payer_lname,
-            'amount' => $payment->rate_amount,
-            'pp' => $payment->pp
-        ]);
-
-        $this->emailService->EmailUser($user, 'payment', [
-            'host' => $this->host,
-            'fname' => $user->fname
-        ]);
-    }
-
-    private function processDonationPayment(User $user = null, Payment $payment) {
-        if (is_null($user)) {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
-                'message' =>
-                    $payment->fname .
-                    ' ' .
-                    $payment->lname .
-                    ' with email ' .
-                    $payment->payer_email .
-                    ' made a donation but we ' .
-                    "don't have an account for them... this could be a mis-matched/unhandled item_number you should check this. " .
-                    'item_number = ' .
-                    $payment->item_number .
-                    'item_name = ' .
-                    $payment->item_name .
-                    'rate_amount = ' .
-                    $payment->rate_amount .
-                    'currency = ' .
-                    $payment->currency
-            ]);
-        } else {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
-                'email' => $payment->payer_email,
-                'fname' => $payment->payer_fname,
-                'lname' => $payment->payer_lname,
-                'item_number' => $payment->item_number,
-                'item_name' => $payment->item_name,
-                'rate_amount' => $payment->rate_amount,
-                'currency' => $payment->currency
-            ]);
-
-            $this->emailService->EmailUser($user, 'donation_random', [
-                'fname' => $user->fname,
-                'lname' => $user->lname,
-                'rate_amount' => $payment->rate_amount,
-                'currency' => $payment->currency
-            ]);
-
-            $payment->user_id = $user->id;
-        }
-
-        $payment->status = 1;
-
-        $payment->save();
     }
 }
