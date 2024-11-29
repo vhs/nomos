@@ -2,7 +2,13 @@
 data/
 node_modules/
 vendor/
-web/bower_components
+web/bower_components/
 migrations/
 package-lock.json
 composer.lock
+web/badges/cert_cnc_mill_lathe.svg
+web/badges/cert_laser.svg
+web/badges/door_access.svg
+web/badges/key_holder.svg
+web/badges/key_holder_inactive.svg
+web/badges/newsletter.svg
