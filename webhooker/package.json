@@ -16,13 +16,13 @@
         "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan"
     },
     "dependencies": {
-        "amqplib": "^0.10.3",
-        "bunyan": "^1.8.0",
-        "commander": "^7.0.0",
+        "amqplib": "^0.10.5",
+        "bunyan": "^1.8.15",
+        "commander": "^12.1.0",
         "daemon": "^1.1.0"
     },
     "devDependencies": {
-        "chai": "^4.3.0",
-        "mocha": "^10.2.0"
+        "chai": "^4.5.0",
+        "mocha": "^10.8.2"
     }
 }
