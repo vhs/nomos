@@ -12,6 +12,15 @@ https://github.com/vhs/nomos/wiki
 For the old development guide, see:
 https://github.com/vhs/nomos/wiki/Contributing
 
+### Requirements
+
+For development, you'll need the following components/dependencies:
+
+- Docker/Docker Compose
+- NodeJS/NPM
+
+All other development dependencies (such as bower, composer, eslint, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `npm install` after checkout.
+
 ### docker-compose
 
 #### Site configuration files
