@@ -39,6 +39,12 @@ const config = {
             options: {
                 parser: 'json'
             }
+        },
+        {
+            files: ['.shellcheckrc'],
+            options: {
+                parser: 'sh'
+            }
         }
     ]
 }
