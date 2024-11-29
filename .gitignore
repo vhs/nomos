@@ -245,3 +245,4 @@ conf/config.js
 .phpunit.result.cache
 
 tools/composer.phar
+.wireit
