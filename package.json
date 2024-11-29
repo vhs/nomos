@@ -7,7 +7,6 @@
         "test": "tests"
     },
     "scripts": {
-        "phpunit": "wireit",
         "test": "wireit",
         "prepare": "wireit"
     },
@@ -48,9 +47,15 @@
             "command": "just setup webhooker"
         },
         "test": {
-            "command": "just test all"
+            "dependencies": [
+                "test:php",
+                "test:webhooker"
+            ]
         },
-        "phpunit": {
+        "test:php": {
+            "command": "just test php"
+        },
+        "test:webhooker": {
             "command": "just test php"
         }
     }
