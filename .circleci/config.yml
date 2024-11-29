@@ -39,7 +39,7 @@ jobs:
                       - v1-dep-master-
                       - v1-dep-
 
-            - run: composer ci
+            - run: npm ci
 
             - save_cache:
                   key: v1-dep-{{ .Branch }}-{{ epoch }}
