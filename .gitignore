@@ -246,3 +246,4 @@ conf/config.js
 
 tools/composer.phar
 .wireit
+docker-compose.override.yml
