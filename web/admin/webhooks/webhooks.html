@@ -23,7 +23,8 @@
                                             title="Order"
                                             type="text"
                                             ng-model="listService.order"
-                                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                                            ng-keyup="$event.keyCode == 13 && refresh()"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +46,8 @@
                                             title="Search"
                                             type="text"
                                             ng-model="listService.search"
-                                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                                            ng-keyup="$event.keyCode == 13 && refresh()"
+                                        />
                                     </div>
                                     <div class="col-lg-3">
                                         <button class="btn btn-primary" ng-click="refresh()">Search</button>
@@ -67,7 +69,8 @@
                         ng-change="refresh()"
                         max-size="10"
                         boundary-links="true"
-                        rotate="false"></pagination>
+                        rotate="false"
+                    ></pagination>
                 </div>
                 <div class="col-md-2 inline-control">
                     <label>{{ itemCount }} webhooks found</label>

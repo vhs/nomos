@@ -42,7 +42,8 @@
                                             class="form-control"
                                             placeholder="First Name"
                                             ng-model="profile.fname"
-                                            ng-disabled="!currentUser.hasPrivilege('full-profile')" />
+                                            ng-disabled="!currentUser.hasPrivilege('full-profile')"
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -52,7 +53,8 @@
                                             class="form-control"
                                             placeholder="Last Name"
                                             ng-model="profile.lname"
-                                            ng-disabled="!currentUser.hasPrivilege('full-profile')" />
+                                            ng-disabled="!currentUser.hasPrivilege('full-profile')"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +72,8 @@
                                     class="form-control"
                                     placeholder="Email"
                                     ng-model="profile.email"
-                                    ng-disabled="!currentUser.hasPrivilege('full-profile')" />
+                                    ng-disabled="!currentUser.hasPrivilege('full-profile')"
+                                />
                             </div>
 
                             <div class="form-group">
@@ -83,7 +86,8 @@
                                     class="form-control"
                                     placeholder="Paypal Email"
                                     ng-model="profile.payment_email"
-                                    ng-disabled="!currentUser.hasPrivilege('full-profile')" />
+                                    ng-disabled="!currentUser.hasPrivilege('full-profile')"
+                                />
                             </div>
 
                             <div class="form-group">
@@ -96,7 +100,8 @@
                                     class="form-control"
                                     placeholder="Stripe Email"
                                     ng-model="profile.stripe_email"
-                                    ng-disabled="!currentUser.hasPrivilege('full-profile')" />
+                                    ng-disabled="!currentUser.hasPrivilege('full-profile')"
+                                />
                             </div>
 
                             <div class="row">
@@ -109,7 +114,8 @@
                                             type="button"
                                             class="btn btn-warning"
                                             ng-click="generatePin()"
-                                            ng-if="(profile.keys | filter:{type:'pin'}).length == 0">
+                                            ng-if="(profile.keys | filter:{type:'pin'}).length == 0"
+                                        >
                                             Generate PIN
                                         </button>
 
@@ -128,13 +134,15 @@
                                                     ng-minlength="4"
                                                     ng-maxlength="4"
                                                     maxlength="4"
-                                                    ng-model="key.pin" />
+                                                    ng-model="key.pin"
+                                                />
                                                 <span class="input-group-btn" style="float: left">
                                                     <button
                                                         type="button"
                                                         class="btn btn-default"
                                                         data-toggle="modal"
-                                                        data-target="#pin{{key.id}}Modal">
+                                                        data-target="#pin{{key.id}}Modal"
+                                                    >
                                                         <i class="fa fa-info"></i>
                                                     </button>
                                                 </span>
@@ -146,7 +154,8 @@
                                                 role="dialog"
                                                 aria-labelledby="pin{{key.id}}ModalLabel"
                                                 aria-hidden="true"
-                                                style="display: none">
+                                                style="display: none"
+                                            >
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -244,7 +253,8 @@
                                         ng-disabled="profileForm.$invalid"
                                         type="submit"
                                         class="btn btn-primary pull-right col-xs-5 col-sm-3"
-                                        ng-if="profileForm.$dirty">
+                                        ng-if="profileForm.$dirty"
+                                    >
                                         Save Profile
                                     </button>
                                 </div>
@@ -252,7 +262,8 @@
 
                             <div
                                 class="row keyholder-apply"
-                                ng-if="profile.membership.code != 'vhs_membership_keyholder' && profile.hasPrivilege('vetted')">
+                                ng-if="profile.membership.code != 'vhs_membership_keyholder' && profile.hasPrivilege('vetted')"
+                            >
                                 <div class="col-xs-offset-1 col-xs-10 col-lg-offset-0 col-lg-6">
                                     <button type="button" class="btn btn-danger col-xs-12">Apply for Key Holder</button>
                                 </div>
@@ -312,7 +323,8 @@
                                     role="dialog"
                                     aria-labelledby="rfid{{key.id}}ModalLabel"
                                     aria-hidden="true"
-                                    style="display: none">
+                                    style="display: none"
+                                >
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -359,7 +371,8 @@
                                     role="dialog"
                                     aria-labelledby="api{{key.id}}ModalLabel"
                                     aria-hidden="true"
-                                    style="display: none">
+                                    style="display: none"
+                                >
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -454,7 +467,8 @@
                 <div class="modal-body">
                     <div
                         class="form-group"
-                        ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }">
+                        ng-class="{ 'has-error' : changePasswordForm.newPassword.$invalid && !changePasswordForm.newPassword.$pristine }"
+                    >
                         <input
                             class="form-control"
                             type="password"
@@ -463,14 +477,16 @@
                             ng-model="newPassword"
                             ng-minlength="4"
                             required
-                            ng-change="comparePasswords()" />
+                            ng-change="comparePasswords()"
+                        />
                         <p class="help-block" ng-show="changePasswordForm.newPassword.$error.minlength">
                             Passwords must be at least 4 characters long
                         </p>
                     </div>
                     <div
                         class="form-group"
-                        ng-class="{ 'has-error' : (changePasswordForm.rePassword.$invalid && !changePasswordForm.rePassword.$pristine) || !passwordsMatch }">
+                        ng-class="{ 'has-error' : (changePasswordForm.rePassword.$invalid && !changePasswordForm.rePassword.$pristine) || !passwordsMatch }"
+                    >
                         <input
                             class="form-control"
                             type="password"
@@ -479,7 +495,8 @@
                             ng-model="rePassword"
                             ng-minlength="4"
                             required
-                            ng-change="comparePasswords()" />
+                            ng-change="comparePasswords()"
+                        />
                         <p class="help-block" ng-show="!passwordsMatch">Passwords must match</p>
                         <p class="help-block" ng-show="changePasswordForm.rePassword.$error.minlength">
                             Passwords must be at least 4 characters long

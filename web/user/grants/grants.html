@@ -45,7 +45,8 @@
                             title="Search"
                             type="text"
                             ng-model="listService.search"
-                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                            ng-keyup="$event.keyCode == 13 && refresh()"
+                        />
                     </div>
                 </div>
 
@@ -67,7 +68,8 @@
                     ng-change="refresh()"
                     max-size="10"
                     boundary-links="true"
-                    rotate="false"></pagination>
+                    rotate="false"
+                ></pagination>
             </div>
             <div class="col-md-2 inline-control">
                 <label>{{ itemCount }} users found</label>
