@@ -9,7 +9,20 @@ if [ "${FILES}" = "" ]; then
     exit 255
 fi
 
-PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g' | (grep -q php || echo ''))
+PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g' | (grep -q '\.php' || echo ''))
+WEBHOOKER_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g' | (grep -q 'webhooker/' || echo ''))
 
 # shellcheck disable=SC2086
-vendor/bin/phpunit && if [ "${PHP_FILES}" != "" ]; then vendor/bin/php-cs-fixer fix ${PHP_FILES}; fi && node_modules/.bin/prettier -w ${FILES} && git update-index --again && exit 0
+if [ "${PHP_FILES}" != "" ]; then
+    FILES=${PHP_FILES} npm exec just test php
+fi
+
+if [ "${WEBHOOKER_FILES}" != "" ]; then
+    npm exec just test webhooker
+fi
+
+FILES=${FILES} npm exec just format all
+
+git update-index --again
+
+exit 0

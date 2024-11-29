@@ -7,9 +7,9 @@
         "test": "tests"
     },
     "scripts": {
-        "prettier": "prettier",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "prepare": "husky || true"
+        "phpunit": "wireit",
+        "test": "wireit",
+        "prepare": "wireit"
     },
     "keywords": [],
     "author": "",
@@ -25,5 +25,33 @@
         "prettier": "^3.0.3",
         "prettier-plugin-sh": "^0.14.0",
         "prettier-plugin-sql": "^0.18.1"
+    },
+    "dependencies": {
+        "just-install": "^2.0.2",
+        "wireit": "^0.14.9"
+    },
+    "wireit": {
+        "prepare": {
+            "dependencies": [
+                "prepare:husky",
+                "prepare:vendor",
+                "prepare:webhooker"
+            ]
+        },
+        "prepare:husky": {
+            "command": "just setup husky"
+        },
+        "prepare:vendor": {
+            "command": "just setup vendor"
+        },
+        "prepare:webhooker": {
+            "command": "just setup webhooker"
+        },
+        "test": {
+            "command": "just test all"
+        },
+        "phpunit": {
+            "command": "just test php"
+        }
     }
 }

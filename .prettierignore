@@ -12,3 +12,4 @@ web/badges/door_access.svg
 web/badges/key_holder.svg
 web/badges/key_holder_inactive.svg
 web/badges/newsletter.svg
+justfile

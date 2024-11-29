@@ -243,3 +243,5 @@ conf/config.js
 .php-cs-fixer.cache
 .phpunit.cache
 .phpunit.result.cache
+
+tools/composer.phar
