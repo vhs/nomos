@@ -32,10 +32,14 @@
     "wireit": {
         "prepare": {
             "dependencies": [
+                "prepare:bower",
                 "prepare:husky",
                 "prepare:vendor",
                 "prepare:webhooker"
             ]
+        },
+        "prepare:bower": {
+            "command": "just setup bower"
         },
         "prepare:husky": {
             "command": "just setup husky"

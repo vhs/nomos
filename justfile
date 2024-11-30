@@ -49,11 +49,15 @@ install_composer:
 
     ./tools/composer.sh install
 
+run_bower:
+    echo "Running bower"
+    ./tools/bower.sh install
+
 run_composer:
     echo "Running composer"
     ./tools/composer.sh install
 
-setup_vendor: install_composer run_composer
+setup_bower: run_bower
 
 setup_husky:
     #!/usr/bin/env bash
@@ -64,6 +68,8 @@ setup_husky:
     else
         echo "husky has already been set up!"
     fi
+
+setup_vendor: install_composer run_composer
 
 setup_webhooker:
     #!/usr/bin/env bash
