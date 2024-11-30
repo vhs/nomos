@@ -1,25 +1,37 @@
-FROM php:7-fpm
+ARG PHP_VERSION=8.3
+
+FROM cimg/php:${PHP_VERSION}-node AS build
+
+USER 1001:1002
+
+WORKDIR /build/
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+COPY --chown=circleci:circleci ./ ./
+
+RUN npm ci
+
+FROM php:${PHP_VERSION}-fpm AS backend
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /var/www/html
 ENTRYPOINT [ "docker_compose_run.sh" ]
 CMD ["php-fpm"]
 
 RUN apt-get update \
     && apt-get install -y git libzip-dev mariadb-client zip \
-    && docker-php-ext-install -j$(nproc) bcmath mysqli zip
+    && docker-php-ext-install -j$(nproc) bcmath mysqli zip \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-COPY composer.json /var/www/html/
+COPY --from=build /build/app/ app/
+COPY --from=build /build/migrations/ migrations/
+COPY --from=build /build/tools/ tools/
+COPY --from=build /build/vhs/ vhs/
+COPY --from=build /build/vendor/ vendor/
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
-RUN /usr/bin/composer install
-
-COPY app app
-COPY vhs vhs
-COPY migrations migrations
-COPY tools tools
-COPY docker/*.sh /usr/local/bin/
-COPY conf/config.docker.ini.php /var/www/html/conf/config.ini.php
+COPY --from=build /build/docker/*.sh /usr/local/bin/
+COPY --from=build /build/conf/config.docker.ini.php /var/www/html/conf/config.ini.php
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
