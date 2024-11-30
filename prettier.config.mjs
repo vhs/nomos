@@ -45,6 +45,12 @@ const config = {
             options: {
                 parser: 'sh'
             }
+        },
+        {
+            files: ['Dockerfile.*'],
+            options: {
+                parser: 'sh'
+            }
         }
     ]
 }
