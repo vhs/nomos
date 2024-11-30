@@ -1,1 +1,10 @@
-data/**
+.phpunit.cache/
+data/
+logs/
+node_modules/
+tools/composer.phar
+vendor/
+web/bower_components/
+.php*.cache
+.env*
+*.log
