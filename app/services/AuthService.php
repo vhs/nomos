@@ -29,6 +29,9 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
 
+use const app\constants\STR_LITERAL_AUTH_ACCESS_DENIED;
+use const app\constants\STR_LITERAL_AUTH_ACCESS_GRANTED;
+
 class AuthService extends Service implements IAuthService1 {
     /**
      * Check to see if the user pin and account is valid.
@@ -523,7 +526,7 @@ class AuthService extends Service implements IAuthService1 {
             return $ex->getMessage();
         }
 
-        return 'Access Granted';
+        return STR_LITERAL_AUTH_ACCESS_GRANTED;
     }
 
     /**
@@ -546,10 +549,10 @@ class AuthService extends Service implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($pin));
         } catch (\Exception $ex) {
-            return 'Access Denied';
+            return STR_LITERAL_AUTH_ACCESS_DENIED;
         }
 
-        return 'Access Granted';
+        return STR_LITERAL_AUTH_ACCESS_GRANTED;
     }
 
     /**
@@ -604,10 +607,10 @@ class AuthService extends Service implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($key));
         } catch (\Exception $ex) {
-            return 'Access Denied';
+            return STR_LITERAL_AUTH_ACCESS_DENIED;
         }
 
-        return 'Access Granted';
+        return STR_LITERAL_AUTH_ACCESS_GRANTED;
     }
 
     /**

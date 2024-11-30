@@ -9,3 +9,6 @@ const E_INVALID_PASSWORD_HASH = 'Invalid password hash';
 
 const STR_HTTPS_PREFIX = 'https://';
 const STR_HTTP_PREFIX = 'http://';
+
+const STR_LITERAL_AUTH_ACCESS_GRANTED = '"Access Granted"';
+const STR_LITERAL_AUTH_ACCESS_DENIED = '"Access Denied"';
