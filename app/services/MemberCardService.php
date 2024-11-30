@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/20/2015
- * Time: 12:22 PM
+ * Time: 12:22 PM.
  */
 
 namespace app\services;
@@ -12,63 +13,45 @@ use app\contracts\IMemberCardService1;
 use app\domain\GenuineCard;
 use app\domain\Payment;
 use app\domain\User;
+use app\exceptions\InvalidInputException;
+use app\exceptions\MemberCardException;
 use vhs\database\Columns;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\Filter;
+use vhs\security\exceptions\UnauthorizedException;
 
 class MemberCardService implements IMemberCardService1 {
     /**
      * @permission administrator
+     *
      * @param $key
-     * @param $notes
-     * @return GenuineCard
-     * @throws \Exception
+     *
+     * @return mixed
      */
-    public function RegisterGenuineCard($key, $notes) {
-        $keys = GenuineCard::findByKey($key);
-
-        if (!is_null($keys) && count($keys) != 0) {
-            //card already registered
-            throw new \Exception('Failed to register card');
-        }
-
-        $card = new GenuineCard();
-
-        $card->key = $key;
-
-        $card->save();
-
-        return $card;
-    }
-
-    /**
-     * @permission user
-     * @param $key
-     * @return bool
-     */
-    public function ValidateGenuineCard($key) {
-        $keys = GenuineCard::findByKey($key);
-
-        return !is_null($keys) && count($keys) == 1;
+    public function GetGenuineCardDetails($key) {
+        return GenuineCard::findByKey($key)[0];
     }
 
     /**
      * @permission administrator
+     *
      * @param $email
      * @param $key
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function IssueCard($email, $key) {
         $users = User::findByPaymentEmail($email);
 
         if (is_null($users) || count($users) != 1) {
-            throw new \Exception('Invalid email address');
+            throw new InvalidInputException('Invalid email address');
         }
 
         if (!$this->ValidateGenuineCard($key)) {
-            throw new \Exception('Invalid card');
+            throw new InvalidInputException('Invalid card');
         }
 
         $user = $users[0];
@@ -88,7 +71,7 @@ class MemberCardService implements IMemberCardService1 {
         );
 
         if (is_null($payments) || count($payments) < 1) {
-            throw new \Exception('User has not paid for a member card.');
+            throw new MemberCardException('User has not paid for a member card.');
         }
 
         $payment = $payments[0];
@@ -111,11 +94,13 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
      */
     public function ListGenuineCards($page, $size, $columns, $order, $filters) {
@@ -124,13 +109,16 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator|user
+     *
      * @param $userid
      * @param $page
      * @param $size
      * @param $columns
      * @param $order
      * @param $filters
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters) {
@@ -143,7 +131,7 @@ class MemberCardService implements IMemberCardService1 {
         }
 
         if (is_null($user)) {
-            throw new \Exception('User not found or you do not have access');
+            throw new UnauthorizedException('User not found or you do not have access');
         }
 
         $userFilter = Filter::_Or(Filter::Equal('userid', $user->id), Filter::Equal('owneremail', $user->email));
@@ -159,23 +147,44 @@ class MemberCardService implements IMemberCardService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
-     * @return mixed
+     * @param $notes
+     *
+     * @return GenuineCard
+     *
+     * @throws \Exception
      */
-    public function GetGenuineCardDetails($key) {
-        return GenuineCard::findByKey($key)[0];
+    public function RegisterGenuineCard($key, $notes) {
+        $keys = GenuineCard::findByKey($key);
+
+        if (!is_null($keys) && count($keys) != 0) {
+            //card already registered
+            throw new MemberCardException('Failed to register card');
+        }
+
+        $card = new GenuineCard();
+
+        $card->key = $key;
+
+        $card->save();
+
+        return $card;
     }
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $active
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function UpdateGenuineCardActive($key, $active) {
         if (!$this->ValidateGenuineCard($key)) {
-            throw new \Exception('Invalid card');
+            throw new InvalidInputException('Invalid card');
         }
 
         $card = GenuineCard::findByKey($key)[0];
@@ -185,5 +194,18 @@ class MemberCardService implements IMemberCardService1 {
         $card->save();
 
         return $card;
+    }
+
+    /**
+     * @permission user
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    public function ValidateGenuineCard($key) {
+        $keys = GenuineCard::findByKey($key);
+
+        return !is_null($keys) && count($keys) == 1;
     }
 }

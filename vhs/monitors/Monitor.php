@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 16/08/2015
- * Time: 1:02 AM
+ * Time: 1:02 AM.
  */
 
 namespace vhs\monitors;

@@ -15,6 +15,22 @@ class StripeGateway implements IPaymentGateway {
         \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
     }
 
+    public function CreateStripeEventRecord($status, $created, $event_id, $type, $object, $request, $api_version, $raw) {
+        // Create the IPN record in the database
+        $stripe_event = new StripeEvent();
+
+        $stripe_event->status = $status;
+        $stripe_event->created = $created;
+        $stripe_event->event_id = $event_id;
+        $stripe_event->type = $type;
+        $stripe_event->object = $object;
+        $stripe_event->request = $request;
+        $stripe_event->api_version = $api_version;
+        $stripe_event->raw = $raw;
+
+        return $stripe_event;
+    }
+
     public function Name() {
         return 'stripe';
     }
@@ -67,23 +83,8 @@ class StripeGateway implements IPaymentGateway {
             }
 
             http_response_code(200);
+
             return json_encode(['result' => 'OK']);
         }
-    }
-
-    public function CreateStripeEventRecord($status, $created, $event_id, $type, $object, $request, $api_version, $raw) {
-        // Create the IPN record in the database
-        $stripe_event = new StripeEvent();
-
-        $stripe_event->status = $status;
-        $stripe_event->created = $created;
-        $stripe_event->event_id = $event_id;
-        $stripe_event->type = $type;
-        $stripe_event->object = $object;
-        $stripe_event->request = $request;
-        $stripe_event->api_version = $api_version;
-        $stripe_event->raw = $raw;
-
-        return $stripe_event;
     }
 }

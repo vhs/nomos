@@ -1,44 +1,51 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:53 PM
+ * Time: 4:53 PM.
  */
 
 use PHPUnit\Framework\TestCase;
 use vhs\database\Database;
-use vhs\database\Table;
-use vhs\database\types\Type;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
+use vhs\database\Table;
+use vhs\database\types\Type;
 use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
-class LimitTests extends TestCase {
+class LimitTest extends TestCase {
     /** @var Logger */
     private static $logger;
-
-    public static function setUpBeforeClass() {
-        self::$logger = new ConsoleLogger();
-        Database::setLogger(self::$logger);
-        Database::setEngine(new \vhs\database\engines\memory\InMemoryEngine());
-        Database::setRethrow(true);
-    }
-
-    public static function tearDownAfterClass() {
-    }
-
-    private $mySqlGenerator;
     private $inMemoryGenerator;
 
-    public function setUp() {
-        $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
-        $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
+    private $mySqlGenerator;
+
+    public function test_EmptyLimit() {
+        $limit = Limit::Limit(null);
+
+        $clause = $limit->generate($this->mySqlGenerator);
+        $this->assertEquals('', $clause);
+
+        /** @var callable $clause */
+        $clause = $limit->generate($this->inMemoryGenerator);
+
+        $this->assertEquals('', $clause);
     }
 
-    public function tearDown() {
+    public function test_EmptyOffset() {
+        $offset = Offset::Offset(null);
+
+        $clause = $offset->generate($this->mySqlGenerator);
+        $this->assertEquals('', $clause);
+
+        /** @var callable $clause */
+        $clause = $offset->generate($this->inMemoryGenerator);
+
+        $this->assertEquals('', $clause);
     }
 
     public function test_HasLimit() {
@@ -53,18 +60,6 @@ class LimitTests extends TestCase {
         $this->assertEquals('1', $clause);
     }
 
-    public function test_EmptyLimit() {
-        $limit = Limit::Limit(null);
-
-        $clause = $limit->generate($this->mySqlGenerator);
-        $this->assertEquals('', $clause);
-
-        /** @var callable $clause */
-        $clause = $limit->generate($this->inMemoryGenerator);
-
-        $this->assertEquals('', $clause);
-    }
-
     public function test_HasOffset() {
         $offset = Offset::Offset(10);
 
@@ -77,15 +72,21 @@ class LimitTests extends TestCase {
         $this->assertEquals('10', $clause);
     }
 
-    public function test_EmptyOffset() {
-        $offset = Offset::Offset(null);
+    public static function setUpBeforeClass(): void {
+        self::$logger = new ConsoleLogger();
+        Database::setLogger(self::$logger);
+        Database::setEngine(new \vhs\database\engines\memory\InMemoryEngine());
+        Database::setRethrow(true);
+    }
 
-        $clause = $offset->generate($this->mySqlGenerator);
-        $this->assertEquals('', $clause);
+    public static function tearDownAfterClass(): void {
+    }
 
-        /** @var callable $clause */
-        $clause = $offset->generate($this->inMemoryGenerator);
+    public function setUp(): void {
+        $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
+        $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
+    }
 
-        $this->assertEquals('', $clause);
+    public function tearDown(): void {
     }
 }

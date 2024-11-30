@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 10:55 AM
+ * Time: 10:55 AM.
  */
 
 namespace tests\contracts;
@@ -12,37 +13,51 @@ use vhs\services\IContract;
 
 interface ITestService1 extends IContract {
     /**
+     * @permission perm1
+     * @permission perm2
+     * @permission perm3
+     *
+     * @return mixed
+     */
+    public function AllPermMethod();
+
+    /**
      * @permission anonymous
+     *
      * @return mixed
      */
     public function AnonMethod();
 
     /**
-     * @permission authenticated
+     * @permission perm1|perm2|perm3
+     *
      * @return mixed
      */
-    public function AuthMethod();
-
-    /**
-     * @permission randomPermission
-     * @return mixed
-     */
-    public function PermMethod();
+    public function AnyPermMethod();
 
     /**
      * @permission anonymous
+     *
      * @param $a
      * @param $b
+     *
      * @return mixed
      */
     public function ArgMethod($a, $b);
 
     /**
-     * @permission anonymous
-     * @param $a
+     * @permission authenticated
+     *
      * @return mixed
      */
-    public function ObjReturnMethod($a);
+    public function AuthMethod();
+
+    /**
+     * @permission
+     *
+     * @return mixed
+     */
+    public function EmptyPermMethod();
 
     /**
      * @return mixed
@@ -50,31 +65,28 @@ interface ITestService1 extends IContract {
     public function MissingPermMethod();
 
     /**
-     * @permission
-     * @return mixed
-     */
-    public function EmptyPermMethod();
-
-    public function NoDocMethod();
-
-    /**
      * @permission perm1|perm3
      * @permission perm2
+     *
      * @return mixed
      */
     public function MultiPermMethod();
 
-    /**
-     * @permission perm1|perm2|perm3
-     * @return mixed
-     */
-    public function AnyPermMethod();
+    public function NoDocMethod();
 
     /**
-     * @permission perm1
-     * @permission perm2
-     * @permission perm3
+     * @permission anonymous
+     *
+     * @param $a
+     *
      * @return mixed
      */
-    public function AllPermMethod();
+    public function ObjReturnMethod($a);
+
+    /**
+     * @permission randomPermission
+     *
+     * @return mixed
+     */
+    public function PermMethod();
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/18/2015
- * Time: 12:10 PM
+ * Time: 12:10 PM.
  */
 
 namespace app\security\oauth\providers;
@@ -15,21 +16,9 @@ use League\OAuth2\Client\Token\AccessToken;
 class Slack extends AbstractProvider {
     public $authorizationHeader = 'token';
 
-    public $teamId = '';
-
     public $domain = 'https://slack.com';
 
-    public function urlAuthorize() {
-        return $this->domain . '/oauth/authorize';
-    }
-
-    public function urlAccessToken() {
-        return $this->domain . '/api/oauth.access';
-    }
-
-    public function urlUserDetails(AccessToken $token) {
-        return $this->domain . '/api/auth.test?token=' . $token;
-    }
+    public $teamId = '';
 
     public function getAuthorizationUrl($options = []) {
         $this->state = isset($options['state']) ? $options['state'] : md5(uniqid(rand(), true));
@@ -45,6 +34,18 @@ class Slack extends AbstractProvider {
         ];
 
         return $this->urlAuthorize() . '?' . $this->httpBuildQuery($params, '', '&');
+    }
+
+    public function urlAccessToken() {
+        return $this->domain . '/api/oauth.access';
+    }
+
+    public function urlAuthorize() {
+        return $this->domain . '/oauth/authorize';
+    }
+
+    public function urlUserDetails(AccessToken $token) {
+        return $this->domain . '/api/auth.test?token=' . $token;
     }
 
     public function userDetails($response, AccessToken $token) {

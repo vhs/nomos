@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by: Fuck you, I am not giving you my name
  * User: Steven Smethurst
  * Date: 2015Jul25
- * Time: like, midnight almost
+ * Time: like, midnight almost.
  */
 
 namespace app\schema;

@@ -1,28 +1,28 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/3/2016
- * Time: 5:21 PM
+ * Time: 5:21 PM.
  */
 
 namespace vhs\messaging;
 
-use vhs\messaging\Engine;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
+use vhs\messaging\Engine;
 use vhs\Singleton;
 
 //TODO do this stuff in a thread prob, or at least in a non-blocking way maybe?
 class MessageQueue extends Singleton {
-    /** @var bool */
-    private $rethrow;
+    /** @var Engine */
+    private $engine;
 
     /** @var Logger */
     private $logger;
-
-    /** @var Engine */
-    private $engine;
+    /** @var bool */
+    private $rethrow;
 
     protected function __construct() {
         $this->setLoggerInternal(new SilentLogger());
@@ -31,6 +31,54 @@ class MessageQueue extends Singleton {
 
     public function __destruct() {
         $this->engine->disconnect();
+    }
+
+    public static function consume($channel, $queue, callable $callback) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->invokeEngine(function () use ($mq, $channel, $queue, $callback) {
+            return $mq->engine->consume($channel, $queue, $callback);
+        });
+    }
+
+    public static function ensure($channel, $queue) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->invokeEngine(function () use ($mq, $channel, $queue) {
+            return $mq->engine->ensure($channel, $queue);
+        });
+    }
+
+    public static function publish($channel, $queue, $message) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->invokeEngine(function () use ($mq, $channel, $queue, $message) {
+            return $mq->engine->publish($channel, $queue, $message);
+        });
+    }
+
+    public static function setEngine(Engine $engine) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->setEngineInternal($engine);
+    }
+
+    public static function setLogger(Logger $logger) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->setLoggerInternal($logger);
+    }
+
+    public static function setRethrow($rethrow) {
+        /** @var MessageQueue $mq */
+        $mq = self::getInstance();
+
+        $mq->setRethrowInternal($rethrow);
     }
 
     private function handleException($exception) {
@@ -59,14 +107,6 @@ class MessageQueue extends Singleton {
         return $retval;
     }
 
-    private function setRethrowInternal($rethrow) {
-        $this->rethrow = $rethrow;
-    }
-
-    private function setLoggerInternal(Logger $logger) {
-        $this->logger = $logger;
-    }
-
     private function setEngineInternal(Engine $engine) {
         if (!is_null($this->engine)) {
             $this->engine->disconnect();
@@ -75,51 +115,11 @@ class MessageQueue extends Singleton {
         $this->engine = $engine;
     }
 
-    public static function setRethrow($rethrow) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->setRethrowInternal($rethrow);
+    private function setLoggerInternal(Logger $logger) {
+        $this->logger = $logger;
     }
 
-    public static function setLogger(Logger $logger) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->setLoggerInternal($logger);
-    }
-
-    public static function setEngine(Engine $engine) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->setEngineInternal($engine);
-    }
-
-    public static function ensure($channel, $queue) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->invokeEngine(function () use ($mq, $channel, $queue) {
-            return $mq->engine->ensure($channel, $queue);
-        });
-    }
-
-    public static function publish($channel, $queue, $message) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->invokeEngine(function () use ($mq, $channel, $queue, $message) {
-            return $mq->engine->publish($channel, $queue, $message);
-        });
-    }
-
-    public static function consume($channel, $queue, callable $callback) {
-        /** @var MessageQueue $mq */
-        $mq = self::getInstance();
-
-        $mq->invokeEngine(function () use ($mq, $channel, $queue, $callback) {
-            return $mq->engine->consume($channel, $queue, $callback);
-        });
+    private function setRethrowInternal($rethrow) {
+        $this->rethrow = $rethrow;
     }
 }

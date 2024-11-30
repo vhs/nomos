@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 17/12/2014
- * Time: 5:54 PM
+ * Time: 5:54 PM.
  */
 
 namespace tests\domain;
@@ -23,6 +24,7 @@ class Sword extends Domain {
 
     /**
      * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

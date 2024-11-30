@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 3:24 PM
+ * Time: 3:24 PM.
  */
 
 namespace app\security\credentials;
@@ -17,9 +18,9 @@ abstract class TokenCredentials implements ICredentials {
         $this->token = $token;
     }
 
+    abstract public function getType();
+
     public function getToken() {
         return $this->token;
     }
-
-    abstract public function getType();
 }

@@ -6,6 +6,8 @@ use vhs\database\Element;
 use vhs\database\IGenerator;
 
 class Offset extends Element {
+    public $offset;
+
     public function __construct($offset) {
         $this->offset = $offset;
     }

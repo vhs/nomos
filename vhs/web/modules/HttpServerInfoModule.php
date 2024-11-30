@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 12:21 PM
+ * Time: 12:21 PM.
  */
 
 namespace vhs\web\modules;
@@ -18,13 +19,13 @@ class HttpServerInfoModule implements IHttpModule {
         $this->name = $name;
     }
 
+    public function endResponse(HttpServer $server) {
+    }
+
     public function handle(HttpServer $server) {
         $server->header('Server: ' . $this->name);
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

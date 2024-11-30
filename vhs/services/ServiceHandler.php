@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 29/12/2014
- * Time: 11:22 AM
+ * Time: 11:22 AM.
  */
 
 namespace vhs\services;
@@ -15,9 +16,9 @@ use vhs\SplClassLoader;
 use vhs\SplClassLoaderItem;
 
 class ServiceHandler {
+    private $endpointNamespace;
     /** @var Logger */
     private $logger;
-    private $endpointNamespace;
     private $rootNamespacePath;
     private $uriPrefixPath;
 
@@ -28,6 +29,38 @@ class ServiceHandler {
         $this->uriPrefixPath = $uriPrefixPath;
 
         SplClassLoader::getInstance()->add(new SplClassLoaderItem($this->endpointNamespace, $this->rootNamespacePath, '.svc.php'));
+    }
+
+    public function discover($uri, $isNative = false) {
+        /** @var Endpoint $endpoint */
+        $endpoint = $this->getEndpoint($uri);
+
+        $out = $endpoint::getInstance()->discover();
+
+        if ($isNative) {
+            return $endpoint::getInstance()->deserializeOutput($out);
+        } else {
+            return $out;
+        }
+    }
+
+    /**
+     * @return Endpoint[]
+     */
+    public function getAllEndpoints() {
+        $files = scandir($this->rootNamespacePath . '/' . str_replace('\\', '/', $this->endpointNamespace));
+
+        $endpoints = [];
+
+        foreach ($files as $file) {
+            if (preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                /** @var Endpoint $endpoint */
+                $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
+                array_push($endpoints, $endpoint::getInstance());
+            }
+        }
+
+        return $endpoints;
     }
 
     public function handle($uri, $data = null, $isNative = false) {
@@ -94,7 +127,9 @@ class ServiceHandler {
 
     /**
      * @param $uri
+     *
      * @return Endpoint
+     *
      * @throws InvalidRequestException
      */
     private function getEndpoint($uri) {
@@ -105,37 +140,5 @@ class ServiceHandler {
         $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
 
         return $endpoint;
-    }
-
-    public function discover($uri, $isNative = false) {
-        /** @var Endpoint $endpoint */
-        $endpoint = $this->getEndpoint($uri);
-
-        $out = $endpoint::getInstance()->discover();
-
-        if ($isNative) {
-            return $endpoint::getInstance()->deserializeOutput($out);
-        } else {
-            return $out;
-        }
-    }
-
-    /**
-     * @return Endpoint[]
-     */
-    public function getAllEndpoints() {
-        $files = scandir($this->rootNamespacePath . '/' . str_replace('\\', '/', $this->endpointNamespace));
-
-        $endpoints = [];
-
-        foreach ($files as $file) {
-            if (preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
-                /** @var Endpoint $endpoint */
-                $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
-                array_push($endpoints, $endpoint::getInstance());
-            }
-        }
-
-        return $endpoints;
     }
 }

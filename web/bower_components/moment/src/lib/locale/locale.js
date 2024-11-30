@@ -4,7 +4,9 @@ import './prototype';
 import {
     getSetGlobalLocale,
     defineLocale,
-    getLocale
+    updateLocale,
+    getLocale,
+    listLocales,
 } from './locales';
 
 import {
@@ -12,24 +14,32 @@ import {
     listMonthsShort,
     listWeekdays,
     listWeekdaysShort,
-    listWeekdaysMin
+    listWeekdaysMin,
 } from './lists';
 
 export {
     getSetGlobalLocale,
     defineLocale,
+    updateLocale,
     getLocale,
+    listLocales,
     listMonths,
     listMonthsShort,
     listWeekdays,
     listWeekdaysShort,
-    listWeekdaysMin
+    listWeekdaysMin,
 };
 
 import { deprecate } from '../utils/deprecate';
 import { hooks } from '../utils/hooks';
 
-hooks.lang = deprecate('moment.lang is deprecated. Use moment.locale instead.', getSetGlobalLocale);
-hooks.langData = deprecate('moment.langData is deprecated. Use moment.localeData instead.', getLocale);
+hooks.lang = deprecate(
+    'moment.lang is deprecated. Use moment.locale instead.',
+    getSetGlobalLocale
+);
+hooks.langData = deprecate(
+    'moment.langData is deprecated. Use moment.localeData instead.',
+    getLocale
+);
 
 import './en';

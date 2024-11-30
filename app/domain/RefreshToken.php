@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/6/2016
- * Time: 1:11 PM
+ * Time: 1:11 PM.
  */
 
 namespace app\domain;
@@ -21,14 +22,6 @@ class RefreshToken extends Domain {
         RefreshToken::Relationship('client', AppClient::Type());
     }
 
-    /**
-     * @param ValidationResults $results
-     * @return bool
-     */
-    public function validate(ValidationResults &$results) {
-        return true;
-    }
-
     public static function findByToken($token) {
         $tokens = self::where(
             Where::Equal(RefreshTokenSchema::Columns()->token, $token),
@@ -41,5 +34,14 @@ class RefreshToken extends Domain {
         }
 
         return null;
+    }
+
+    /**
+     * @param ValidationResults $results
+     *
+     * @return bool
+     */
+    public function validate(ValidationResults &$results) {
+        return true;
     }
 }

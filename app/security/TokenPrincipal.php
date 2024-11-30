@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 4:50 PM
+ * Time: 4:50 PM.
  */
 
 namespace app\security;
@@ -11,24 +12,16 @@ namespace app\security;
 use vhs\security\IPrincipal;
 
 class TokenPrincipal implements IPrincipal {
-    private $id;
-    private $permissions;
     private $grants;
+    private $id;
     private $name;
+    private $permissions;
 
     public function __construct($id, $permissions, $grants = null, $name = null) {
         $this->id = $id;
         $this->permissions = $permissions;
         $this->grants = $grants;
         $this->name = $name;
-    }
-
-    public function hasAllPermissions(...$permission) {
-        return count(array_diff($permission, $this->permissions)) == 0;
-    }
-
-    public function hasAnyPermissions(...$permission) {
-        return count(array_intersect($permission, $this->permissions)) > 0;
     }
 
     public function canGrantAllPermissions(...$permission) {
@@ -41,6 +34,14 @@ class TokenPrincipal implements IPrincipal {
 
     public function getIdentity() {
         return $this->id;
+    }
+
+    public function hasAllPermissions(...$permission) {
+        return count(array_diff($permission, $this->permissions)) == 0;
+    }
+
+    public function hasAnyPermissions(...$permission) {
+        return count(array_intersect($permission, $this->permissions)) > 0;
     }
 
     public function isAnon() {

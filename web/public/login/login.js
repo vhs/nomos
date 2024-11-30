@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.public').config([
     '$stateProvider',
@@ -13,17 +13,17 @@ angular.module('mmpApp.public').config([
                 '$location',
                 'AuthService1',
                 function ($state, $scope, $location, AuthService1) {
-                    $scope.error = null;
+                    $scope.error = null
 
                     $scope.login = function () {
-                        $scope.error = null;
+                        $scope.error = null
                         AuthService1.Login($scope.username, $scope.password).then(function (response) {
-                            if (response == '"Access Granted"') $state.go('user.home');
-                            else $scope.error = JSON.parse(response);
-                        });
-                    };
-                },
-            ],
-        });
-    },
-]);
+                            if (response == '"Access Granted"') $state.go('user.home')
+                            else $scope.error = JSON.parse(response)
+                        })
+                    }
+                }
+            ]
+        })
+    }
+])

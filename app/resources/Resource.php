@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 2:58 PM
+ * Time: 2:58 PM.
  */
 
 namespace app\resources;
@@ -23,6 +24,7 @@ class Resource extends Singleton {
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
+
         return 'MissingResource.' . $name;
     }
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 16/08/2015
- * Time: 12:56 AM
+ * Time: 12:56 AM.
  */
 
 namespace app\monitors;
@@ -17,11 +18,6 @@ use vhs\monitors\Monitor;
 class PaypalIpnMonitor extends Monitor {
     /** @var Logger */
     private $logger;
-
-    public function Init(Logger &$logger = null) {
-        $this->logger = &$logger;
-        Ipn::onAnyCreated([$this, 'handleCreated']);
-    }
 
     public function handleCreated($args) {
         /** @var Ipn $ipn */
@@ -52,6 +48,7 @@ class PaypalIpnMonitor extends Monitor {
 
             if (Payment::exists($txn_id)) {
                 $this->logger->log('Payment record already exists for this IPN transaction.. odd');
+
                 return;
             }
 
@@ -84,5 +81,10 @@ class PaypalIpnMonitor extends Monitor {
 
             $payment->save();
         }
+    }
+
+    public function Init(Logger &$logger = null) {
+        $this->logger = &$logger;
+        Ipn::onAnyCreated([$this, 'handleCreated']);
     }
 }

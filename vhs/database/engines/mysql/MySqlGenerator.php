@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:51 PM
+ * Time: 4:51 PM.
  */
 
 namespace vhs\database\engines\mysql;
@@ -19,6 +20,10 @@ use vhs\database\joins\JoinInner;
 use vhs\database\joins\JoinLeft;
 use vhs\database\joins\JoinOuter;
 use vhs\database\joins\JoinRight;
+use vhs\database\limits\ILimitGenerator;
+use vhs\database\limits\Limit;
+use vhs\database\offsets\IOffsetGenerator;
+use vhs\database\offsets\Offset;
 use vhs\database\On;
 use vhs\database\orders\IOrderByGenerator;
 use vhs\database\orders\OrderBy;
@@ -26,11 +31,11 @@ use vhs\database\orders\OrderByAscending;
 use vhs\database\orders\OrderByDescending;
 use vhs\database\queries\IQueryGenerator;
 use vhs\database\queries\Query;
+use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
-use vhs\database\queries\QueryCount;
 use vhs\database\types\ITypeGenerator;
 use vhs\database\types\Type;
 use vhs\database\types\TypeBool;
@@ -41,14 +46,10 @@ use vhs\database\types\TypeFloat;
 use vhs\database\types\TypeInt;
 use vhs\database\types\TypeString;
 use vhs\database\types\TypeText;
+use vhs\database\wheres\IWhereGenerator;
 use vhs\database\wheres\Where;
 use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
-use vhs\database\wheres\IWhereGenerator;
-use vhs\database\limits\ILimitGenerator;
-use vhs\database\limits\Limit;
-use vhs\database\offsets\IOffsetGenerator;
-use vhs\database\offsets\Offset;
 use vhs\database\wheres\WhereOr;
 
 class MySqlGenerator implements
@@ -66,16 +67,6 @@ class MySqlGenerator implements
      */
     private $conn = null;
 
-    /**
-     * Dammit we need this because of how real_escape_string works
-     *  it requires a connection because it uses whatever the charset
-     *  is on the db to figure escaping
-     * @param \mysqli $conn
-     */
-    public function SetMySqli(\mysqli $conn) {
-        $this->conn = $conn;
-    }
-
     public function generateAnd(WhereAnd $where) {
         $sql = '(';
 
@@ -91,19 +82,26 @@ class MySqlGenerator implements
         return $sql;
     }
 
-    public function generateOr(WhereOr $where) {
-        $sql = '(';
+    public function generateAscending(OrderByAscending $ascending) {
+        return $this->gen($ascending, 'ASC');
+    }
 
-        foreach ($where->wheres as $w) {
-            /** @var Where $w */
-            $sql .= '(' . $w->generate($this) . ') OR ';
-        }
+    public function generateBool(TypeBool $type, $value = null) {
+        return $this->genVal(
+            function ($val) {
+                if (boolval($val) === true) {
+                    return '1';
+                } else {
+                    return '0';
+                }
+            },
+            $type,
+            $value
+        );
+    }
 
-        $sql = substr($sql, 0, -4);
-
-        $sql .= ')';
-
-        return $sql;
+    public function generateColumn(Column $column) {
+        return "{$column->table->alias}.`{$column->name}`";
     }
 
     public function generateComparator(WhereComparator $where) {
@@ -171,25 +169,106 @@ class MySqlGenerator implements
         }
     }
 
-    public function generateAscending(OrderByAscending $ascending) {
-        return $this->gen($ascending, 'ASC');
+    public function generateCross(JoinCross $join) {
+        return "CROSS JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateDate(TypeDate $type, $value = null) {
+        return $this->genVal(
+            function ($val) {
+                return (string) date('Y-m-d', strtotime(str_replace('-', '/', $val)));
+            },
+            $type,
+            $value
+        );
+    }
+
+    public function generateDateTime(TypeDateTime $type, $value = null) {
+        return $this->genVal(
+            function ($val) {
+                return (string) date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $val)));
+            },
+            $type,
+            $value
+        );
+    }
+
+    public function generateDelete(QueryDelete $query) {
+        $clause = !is_null($query->where) ? $query->where->generate($this) : '';
+
+        $sql = "DELETE {$query->table->alias} FROM `{$query->table->name}` AS {$query->table->alias}";
+
+        if (!empty($clause)) {
+            $sql .= " WHERE {$clause}";
+        }
+
+        return $sql;
     }
 
     public function generateDescending(OrderByDescending $descending) {
         return $this->gen($descending, 'DESC');
     }
 
-    private function gen(OrderBy $orderBy, $type) {
-        $clause = $orderBy->column->generate($this) . " {$type}, ";
+    public function generateEnum(TypeEnum $type, $value = null) {
+        return $this->genVal(
+            function ($val) use ($type) {
+                $v = (string) $val;
 
-        foreach ($orderBy->orderBy as $n) {
-            /** @var OrderBy $n */
-            $clause .= $n->generate($this) . ', ';
+                if (!in_array($v, $type->values)) {
+                    throw new DatabaseException("Enum {$v} does not exist in Type::Enum");
+                }
+
+                return $v;
+            },
+            $type,
+            $value
+        );
+    }
+
+    public function generateFloat(TypeFloat $type, $value = null) {
+        return $this->genVal(
+            function ($val) {
+                return floatval($val);
+            },
+            $type,
+            $value
+        );
+    }
+
+    public function generateInner(JoinInner $join) {
+        return "INNER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateInsert(QueryInsert $query) {
+        $columns = [];
+        $values = [];
+
+        foreach ($query->values as $columnName => $value) {
+            $column = $query->columns->getByName($columnName);
+            array_push($columns, "`{$column->name}`");
+            array_push($values, $column->type->generate($this, $value));
         }
 
-        $clause = substr($clause, 0, -2);
+        $columns = implode(', ', $columns);
+        $values = implode(', ', $values);
 
-        return $clause;
+        $sql = "INSERT INTO `{$query->table->name}` ({$columns}) VALUES ({$values})";
+
+        return $sql;
+    }
+
+    public function generateInt(TypeInt $type, $value = null) {
+        return $this->genVal(
+            function ($val) {
+                return intval($val);
+            },
+            $type,
+            $value
+        );
+    }
+
+    public function generateLeft(JoinLeft $join) {
+        return "LEFT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
     public function generateLimit(Limit $limit) {
@@ -206,6 +285,33 @@ class MySqlGenerator implements
             $clause = sprintf(' OFFSET %s ', intval($offset->offset));
         }
         return $clause;
+    }
+
+    public function generateOn(On $on) {
+        return '(' . $on->where->generate($this) . ')';
+    }
+
+    public function generateOr(WhereOr $where) {
+        $sql = '(';
+
+        foreach ($where->wheres as $w) {
+            /** @var Where $w */
+            $sql .= '(' . $w->generate($this) . ') OR ';
+        }
+
+        $sql = substr($sql, 0, -4);
+
+        $sql .= ')';
+
+        return $sql;
+    }
+
+    public function generateOuter(JoinOuter $join) {
+        return "OUTER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
+    }
+
+    public function generateRight(JoinRight $join) {
+        return "RIGHT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
     public function generateSelect(QuerySelect $query) {
@@ -282,111 +388,6 @@ class MySqlGenerator implements
         return $sql;
     }
 
-    public function generateInsert(QueryInsert $query) {
-        $columns = [];
-        $values = [];
-
-        foreach ($query->values as $columnName => $value) {
-            $column = $query->columns->getByName($columnName);
-            array_push($columns, "`{$column->name}`");
-            array_push($values, $column->type->generate($this, $value));
-        }
-
-        $columns = implode(', ', $columns);
-        $values = implode(', ', $values);
-
-        $sql = "INSERT INTO `{$query->table->name}` ({$columns}) VALUES ({$values})";
-
-        return $sql;
-    }
-
-    public function generateUpdate(QueryUpdate $query) {
-        $clause = !is_null($query->where) ? $query->where->generate($this) : '';
-        $setsql = implode(
-            ', ',
-            array_map(
-                function ($columnName, $value) use ($query) {
-                    $column = $query->columns->getByName($columnName);
-                    return $column->generate($this) . ' = ' . $column->type->generate($this, $value);
-                },
-                array_keys($query->values),
-                array_values($query->values)
-            )
-        );
-
-        $sql = "UPDATE `{$query->table->name}` AS {$query->table->alias} SET {$setsql}";
-
-        if (!empty($clause)) {
-            $sql .= " WHERE {$clause}";
-        }
-
-        return $sql;
-    }
-
-    public function generateDelete(QueryDelete $query) {
-        $clause = !is_null($query->where) ? $query->where->generate($this) : '';
-
-        $sql = "DELETE {$query->table->alias} FROM `{$query->table->name}` AS {$query->table->alias}";
-
-        if (!empty($clause)) {
-            $sql .= " WHERE {$clause}";
-        }
-
-        return $sql;
-    }
-
-    private function genVal(callable $gen, Type $type, $value = null) {
-        if (is_null($value)) {
-            if ($type->nullable) {
-                return 'NULL';
-            } else {
-                return $type->generate($this, $type->default);
-            }
-        }
-
-        $val = $gen($value);
-
-        if (!is_null($this->conn)) {
-            $val = $this->conn->real_escape_string($val);
-        }
-
-        return "'{$val}'";
-    }
-
-    public function generateBool(TypeBool $type, $value = null) {
-        return $this->genVal(
-            function ($val) {
-                if (boolval($val) === true) {
-                    return '1';
-                } else {
-                    return '0';
-                }
-            },
-            $type,
-            $value
-        );
-    }
-
-    public function generateInt(TypeInt $type, $value = null) {
-        return $this->genVal(
-            function ($val) {
-                return intval($val);
-            },
-            $type,
-            $value
-        );
-    }
-
-    public function generateFloat(TypeFloat $type, $value = null) {
-        return $this->genVal(
-            function ($val) {
-                return floatval($val);
-            },
-            $type,
-            $value
-        );
-    }
-
     public function generateString(TypeString $type, $value = null) {
         return $this->genVal(
             function ($val) use ($type) {
@@ -412,67 +413,68 @@ class MySqlGenerator implements
         );
     }
 
-    public function generateDate(TypeDate $type, $value = null) {
-        return $this->genVal(
-            function ($val) {
-                return (string) date('Y-m-d', strtotime(str_replace('-', '/', $val)));
-            },
-            $type,
-            $value
+    public function generateUpdate(QueryUpdate $query) {
+        $clause = !is_null($query->where) ? $query->where->generate($this) : '';
+        $setsql = implode(
+            ', ',
+            array_map(
+                function ($columnName, $value) use ($query) {
+                    $column = $query->columns->getByName($columnName);
+                    return $column->generate($this) . ' = ' . $column->type->generate($this, $value);
+                },
+                array_keys($query->values),
+                array_values($query->values)
+            )
         );
+
+        $sql = "UPDATE `{$query->table->name}` AS {$query->table->alias} SET {$setsql}";
+
+        if (!empty($clause)) {
+            $sql .= " WHERE {$clause}";
+        }
+
+        return $sql;
     }
 
-    public function generateDateTime(TypeDateTime $type, $value = null) {
-        return $this->genVal(
-            function ($val) {
-                return (string) date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $val)));
-            },
-            $type,
-            $value
-        );
+    /**
+     * Dammit we need this because of how real_escape_string works
+     *  it requires a connection because it uses whatever the charset
+     *  is on the db to figure escaping.
+     *
+     * @param \mysqli $conn
+     */
+    public function SetMySqli(\mysqli $conn) {
+        $this->conn = $conn;
     }
 
-    public function generateEnum(TypeEnum $type, $value = null) {
-        return $this->genVal(
-            function ($val) use ($type) {
-                $v = (string) $val;
+    private function gen(OrderBy $orderBy, $type) {
+        $clause = $orderBy->column->generate($this) . " {$type}, ";
 
-                if (!in_array($v, $type->values)) {
-                    throw new DatabaseException("Enum {$v} does not exist in Type::Enum");
-                }
+        foreach ($orderBy->orderBy as $n) {
+            /** @var OrderBy $n */
+            $clause .= $n->generate($this) . ', ';
+        }
 
-                return $v;
-            },
-            $type,
-            $value
-        );
+        $clause = substr($clause, 0, -2);
+
+        return $clause;
     }
 
-    public function generateLeft(JoinLeft $join) {
-        return "LEFT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
-    }
+    private function genVal(callable $gen, Type $type, $value = null) {
+        if (is_null($value)) {
+            if ($type->nullable) {
+                return 'NULL';
+            } else {
+                return $type->generate($this, $type->default);
+            }
+        }
 
-    public function generateRight(JoinRight $join) {
-        return "RIGHT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
-    }
+        $val = $gen($value);
 
-    public function generateOuter(JoinOuter $join) {
-        return "OUTER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
-    }
+        if (!is_null($this->conn)) {
+            $val = $this->conn->real_escape_string($val);
+        }
 
-    public function generateInner(JoinInner $join) {
-        return "INNER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
-    }
-
-    public function generateCross(JoinCross $join) {
-        return "CROSS JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
-    }
-
-    public function generateOn(On $on) {
-        return '(' . $on->where->generate($this) . ')';
-    }
-
-    public function generateColumn(Column $column) {
-        return "{$column->table->alias}.`{$column->name}`";
+        return "'{$val}'";
     }
 }

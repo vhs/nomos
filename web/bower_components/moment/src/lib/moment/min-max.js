@@ -1,22 +1,30 @@
 import { deprecate } from '../utils/deprecate';
 import isArray from '../utils/is-array';
 import { createLocal } from '../create/local';
+import { createInvalid } from '../create/valid';
 
 export var prototypeMin = deprecate(
-     'moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
-     function () {
-         var other = createLocal.apply(null, arguments);
-         return other < this ? this : other;
-     }
- );
-
-export var prototypeMax = deprecate(
-    'moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
-    function () {
-        var other = createLocal.apply(null, arguments);
-        return other > this ? this : other;
-    }
-);
+        'moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/',
+        function () {
+            var other = createLocal.apply(null, arguments);
+            if (this.isValid() && other.isValid()) {
+                return other < this ? this : other;
+            } else {
+                return createInvalid();
+            }
+        }
+    ),
+    prototypeMax = deprecate(
+        'moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/',
+        function () {
+            var other = createLocal.apply(null, arguments);
+            if (this.isValid() && other.isValid()) {
+                return other > this ? this : other;
+            } else {
+                return createInvalid();
+            }
+        }
+    );
 
 // Pick a moment m from moments so that m[fn](other) is true for all
 // other. This relies on the function fn to be transitive.
@@ -41,13 +49,13 @@ function pickBy(fn, moments) {
 }
 
 // TODO: Use [].sort instead?
-export function min () {
+export function min() {
     var args = [].slice.call(arguments, 0);
 
     return pickBy('isBefore', args);
 }
 
-export function max () {
+export function max() {
     var args = [].slice.call(arguments, 0);
 
     return pickBy('isAfter', args);

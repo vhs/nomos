@@ -1,24 +1,28 @@
 import hasOwnProp from '../utils/has-own-prop';
+import isNumber from '../utils/is-number';
 import toInt from '../utils/to-int';
 
 var tokens = {};
 
-export function addParseToken (token, callback) {
-    var i, func = callback;
+export function addParseToken(token, callback) {
+    var i,
+        func = callback,
+        tokenLen;
     if (typeof token === 'string') {
         token = [token];
     }
-    if (typeof callback === 'number') {
+    if (isNumber(callback)) {
         func = function (input, array) {
             array[callback] = toInt(input);
         };
     }
-    for (i = 0; i < token.length; i++) {
+    tokenLen = token.length;
+    for (i = 0; i < tokenLen; i++) {
         tokens[token[i]] = func;
     }
 }
 
-export function addWeekParseToken (token, callback) {
+export function addWeekParseToken(token, callback) {
     addParseToken(token, function (input, array, config, token) {
         config._w = config._w || {};
         callback(input, config._w, config, token);

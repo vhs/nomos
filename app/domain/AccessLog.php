@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/12/2014
- * Time: 10:48 PM
+ * Time: 10:48 PM.
  */
 
 namespace app\domain;
@@ -20,12 +21,12 @@ class AccessLog extends Domain {
         AccessLog::Schema(AccessLogSchema::Type());
     }
 
-    /**
-     * @param ValidationResults $results
-     * @return bool
-     */
-    public function validate(ValidationResults &$results) {
-        return true;
+    public static function findLatest($limit = 5) {
+        return self::where(
+            Where::Equal(AccessLogSchema::Columns()->authorized, false),
+            OrderBy::Descending(AccessLogSchema::Columns()->time),
+            $limit
+        );
     }
 
     public static function log($key, $type, $authorized, $from_ip, $userid = null) {
@@ -41,11 +42,12 @@ class AccessLog extends Domain {
         return $entry;
     }
 
-    public static function findLatest($limit = 5) {
-        return self::where(
-            Where::Equal(AccessLogSchema::Columns()->authorized, false),
-            OrderBy::Descending(AccessLogSchema::Columns()->time),
-            $limit
-        );
+    /**
+     * @param ValidationResults $results
+     *
+     * @return bool
+     */
+    public function validate(ValidationResults &$results) {
+        return true;
     }
 }

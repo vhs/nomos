@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 2:37 PM
+ * Time: 2:37 PM.
  */
 
 namespace tests\endpoints\native;

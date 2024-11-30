@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:55 PM
+ * Time: 4:55 PM.
  */
 
 namespace vhs\web\modules;
@@ -22,10 +23,10 @@ class HttpExceptionHandlerModule implements IHttpModule {
         $this->logger = $logger;
     }
 
-    public function handle(HttpServer $server) {
+    public function endResponse(HttpServer $server) {
     }
 
-    public function endResponse(HttpServer $server) {
+    public function handle(HttpServer $server) {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {

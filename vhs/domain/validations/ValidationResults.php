@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 12:41 PM
+ * Time: 12:41 PM.
  */
 
 namespace vhs\domain\validations;
@@ -19,16 +20,16 @@ class ValidationResults {
     }
 
     /**
-     * @return bool
-     */
-    public function isSuccess() {
-        return sizeof($this->failures) == 0;
-    }
-
-    /**
      * @return ValidationFailure[]
      */
     public function getFailures() {
         return $this->failures;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess() {
+        return sizeof($this->failures) == 0;
     }
 }

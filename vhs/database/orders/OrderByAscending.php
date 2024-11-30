@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/12/2014
- * Time: 11:25 PM
+ * Time: 11:25 PM.
  */
 
 namespace vhs\database\orders;

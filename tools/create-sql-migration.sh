@@ -20,7 +20,7 @@ TS=$(node -e 'console.log(Date.now())')
 
 VERSION="$1"
 
-if [ "${VERSION}" = "new" ] ; then
+if [ "${VERSION}" = "new" ]; then
     VERSION=$(find migrations/ -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n 1 basename | sort -V | tail -1 | awk '{ print $1 + 1 }')
 fi
 
@@ -34,7 +34,7 @@ DESCRIPTION=${ARGS// /_}
 
 SQLFILE="${SQLDIR}/V${VERSION}.${TS}__${DESCRIPTION}.sql"
 
-if [ ! -d "${SQLDIR}" ] ; then
+if [ ! -d "${SQLDIR}" ]; then
     mkdir -p "${SQLDIR}"
 fi
 

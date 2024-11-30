@@ -1,9 +1,6 @@
-version: "3.5"
-
 services:
-  nomos-webhooker:
-    build:
-      context: ..
-      dockerfile: docker-compose/Dockerfile.webhooker
-    env_file:
-      ../docker/nomos.env
+    nomos-webhooker:
+        build:
+            context: ..
+            dockerfile: docker-compose/Dockerfile.webhooker
+        env_file: ../docker/nomos.env

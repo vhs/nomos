@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/6/2016
- * Time: 1:11 PM
+ * Time: 1:11 PM.
  */
 
 namespace app\domain;
@@ -20,6 +21,7 @@ class AppClient extends Domain {
 
     /**
      * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

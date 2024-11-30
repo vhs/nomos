@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 3:09 PM
+ * Time: 3:09 PM.
  */
 
 namespace app\schema;

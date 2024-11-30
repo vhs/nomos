@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 08/02/2015
- * Time: 1:50 PM
+ * Time: 1:50 PM.
  */
 
 namespace app\services;
@@ -12,23 +13,36 @@ use app\contracts\IApiKeyService1;
 use app\domain\Key;
 use app\domain\Privilege;
 use app\domain\User;
+use app\exceptions\InvalidInputException;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class ApiKeyService extends Service implements IApiKeyService1 {
-    public function GetSystemApiKeys() {
-        return Key::getSystemApiKeys();
-    }
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     *
+     * @return mixed
+     */
+    public function DeleteApiKey($keyid) {
+        $key = Key::find($keyid);
 
-    public function GetUserApiKeys($userid) {
-        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
         }
 
-        return Key::getUserApiKeys($userid);
+        $key->delete();
     }
 
+    /**
+     * @permission administrator
+     *
+     * @param $notes
+     *
+     * @return mixed
+     */
     public function GenerateSystemApiKey($notes) {
         $apiKey = new Key();
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
@@ -39,22 +53,14 @@ class ApiKeyService extends Service implements IApiKeyService1 {
         return $apiKey;
     }
 
-    public function GetApiKey($keyid) {
-        $key = Key::find($keyid);
-
-        if (is_null($key)) {
-            throw new \Exception('Invalid keyid');
-        }
-
-        if (!CurrentUser::hasAnyPermissions('administrator')) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
-                throw new UnauthorizedException();
-            }
-        }
-
-        return $key;
-    }
-
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $notes
+     *
+     * @return mixed
+     */
     public function GenerateUserApiKey($userid, $notes) {
         if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
@@ -63,7 +69,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
         $user = User::find($userid);
 
         if (is_null($user)) {
-            throw new \Exception('Invalid userid');
+            throw new InvalidInputException('Invalid userid');
         }
 
         $apiKey = new Key();
@@ -77,14 +83,61 @@ class ApiKeyService extends Service implements IApiKeyService1 {
         return $apiKey;
     }
 
-    public function UpdateApiKey($keyid, $notes, $expires) {
-        $key = $this->GetApiKey($keyid);
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     *
+     * @return mixed
+     */
+    public function GetApiKey($keyid) {
+        $key = Key::find($keyid);
 
-        $key->notes = $notes;
-        $key->expires = $expires;
-        $key->save();
+        if (is_null($key)) {
+            throw new InvalidInputException('Invalid keyid');
+        }
+
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
+                throw new UnauthorizedException();
+            }
+        }
+
+        return $key;
     }
 
+    /**
+     * @permission administrator
+     *
+     * @return mixed
+     */
+    public function GetSystemApiKeys() {
+        return Key::getSystemApiKeys();
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     *
+     * @return mixed
+     */
+    public function GetUserApiKeys($userid) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
+
+        return Key::getUserApiKeys($userid);
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     * @param $privileges
+     *
+     * @return mixed
+     */
     public function PutApiKeyPrivileges($keyid, $privileges) {
         $key = $this->GetApiKey($keyid);
 
@@ -107,13 +160,20 @@ class ApiKeyService extends Service implements IApiKeyService1 {
         $key->save();
     }
 
-    public function DeleteApiKey($keyid) {
-        $key = Key::find($keyid);
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     * @param $notes
+     * @param $expires
+     *
+     * @return mixed
+     */
+    public function UpdateApiKey($keyid, $notes, $expires) {
+        $key = $this->GetApiKey($keyid);
 
-        if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
-            throw new UnauthorizedException();
-        }
-
-        $key->delete();
+        $key->notes = $notes;
+        $key->expires = $expires;
+        $key->save();
     }
 }

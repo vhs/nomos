@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 10:58 AM
+ * Time: 10:58 AM.
  */
 
 namespace tests\services;
@@ -13,7 +14,19 @@ use vhs\services\Service;
 
 class TestService extends Service implements ITestService1 {
     /**
+     * @permission perm1
+     * @permission perm2
+     * @permission perm3
+     *
+     * @return mixed
+     */
+    public function AllPermMethod() {
+        return 'AllPermMethod!';
+    }
+
+    /**
      * @permission anonymous
+     *
      * @return mixed
      */
     public function AnonMethod() {
@@ -21,25 +34,20 @@ class TestService extends Service implements ITestService1 {
     }
 
     /**
-     * @permission authenticated
+     * @permission perm1|perm2|perm3
+     *
      * @return mixed
      */
-    public function AuthMethod() {
-        return 'AuthMethod!';
-    }
-
-    /**
-     * @permission randomPermission
-     * @return mixed
-     */
-    public function PermMethod() {
-        return 'PermMethod!';
+    public function AnyPermMethod() {
+        return 'AnyPermMethod!';
     }
 
     /**
      * @permission anonymous
+     *
      * @param $a
      * @param $b
+     *
      * @return mixed
      */
     public function ArgMethod($a, $b) {
@@ -47,8 +55,49 @@ class TestService extends Service implements ITestService1 {
     }
 
     /**
+     * @permission user
+     *
+     * @return mixed
+     */
+    public function AuthMethod() {
+        return 'AuthMethod!';
+    }
+
+    /**
+     * @permission
+     *
+     * @return mixed
+     */
+    public function EmptyPermMethod() {
+        return 'EmptyPermMethod!';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function MissingPermMethod() {
+        return 'MissingPermMethod!';
+    }
+
+    /**
+     * @permission perm1
+     * @permission perm2
+     *
+     * @return mixed
+     */
+    public function MultiPermMethod() {
+        return 'MultiPermMethod!';
+    }
+
+    public function NoDocMethod() {
+        return 'NoDocMethod!';
+    }
+
+    /**
      * @permission anonymous
+     *
      * @param $a
+     *
      * @return mixed
      */
     public function ObjReturnMethod($a) {
@@ -60,48 +109,11 @@ class TestService extends Service implements ITestService1 {
     }
 
     /**
+     * @permission randomPermission
+     *
      * @return mixed
      */
-    public function MissingPermMethod() {
-        return 'MissingPermMethod!';
-    }
-
-    /**
-     * @permission
-     * @return mixed
-     */
-    public function EmptyPermMethod() {
-        return 'EmptyPermMethod!';
-    }
-
-    public function NoDocMethod() {
-        return 'NoDocMethod!';
-    }
-
-    /**
-     * @permission perm1
-     * @permission perm2
-     * @return mixed
-     */
-    public function MultiPermMethod() {
-        return 'MultiPermMethod!';
-    }
-
-    /**
-     * @permission perm1|perm2|perm3
-     * @return mixed
-     */
-    public function AnyPermMethod() {
-        return 'AnyPermMethod!';
-    }
-
-    /**
-     * @permission perm1
-     * @permission perm2
-     * @permission perm3
-     * @return mixed
-     */
-    public function AllPermMethod() {
-        return 'AllPermMethod!';
+    public function PermMethod() {
+        return 'PermMethod!';
     }
 }

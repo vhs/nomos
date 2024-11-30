@@ -1,21 +1,29 @@
-export function valueOf () {
-    return +this._d - ((this._offset || 0) * 60000);
+export function valueOf() {
+    return this._d.valueOf() - (this._offset || 0) * 60000;
 }
 
-export function unix () {
-    return Math.floor(+this / 1000);
+export function unix() {
+    return Math.floor(this.valueOf() / 1000);
 }
 
-export function toDate () {
-    return this._offset ? new Date(+this) : this._d;
+export function toDate() {
+    return new Date(this.valueOf());
 }
 
-export function toArray () {
+export function toArray() {
     var m = this;
-    return [m.year(), m.month(), m.date(), m.hour(), m.minute(), m.second(), m.millisecond()];
+    return [
+        m.year(),
+        m.month(),
+        m.date(),
+        m.hour(),
+        m.minute(),
+        m.second(),
+        m.millisecond(),
+    ];
 }
 
-export function toObject () {
+export function toObject() {
     var m = this;
     return {
         years: m.year(),
@@ -24,6 +32,11 @@ export function toObject () {
         hours: m.hours(),
         minutes: m.minutes(),
         seconds: m.seconds(),
-        milliseconds: m.milliseconds()
+        milliseconds: m.milliseconds(),
     };
+}
+
+export function toJSON() {
+    // new Date(NaN).toJSON() === null
+    return this.isValid() ? this.toISOString() : null;
 }

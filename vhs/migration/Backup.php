@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Jarrett
  * Date: 20/02/2016
- * Time: 3:57 PM
+ * Time: 3:57 PM.
  */
 
 namespace vhs\migration;
@@ -12,11 +13,11 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
 class Backup {
-    private $server;
-    private $user;
-    private $password;
     private $database;
     private $logger;
+    private $password;
+    private $server;
+    private $user;
 
     public function __construct($server, $user, $password, $database, Logger $logger = null) {
         $this->server = $server;
@@ -28,27 +29,6 @@ class Backup {
             $this->logger = new SilentLogger();
         } else {
             $this->logger = $logger;
-        }
-    }
-
-    private function is_mysql_num($type) {
-        //http://php.net/manual/en/mysqli-result.fetch-field.php
-
-        switch ($type) {
-            case 1: //TINYINT / BOOL
-            case 2: //SMALLINT
-            case 3: //INTEGER
-            case 4: //FLOAT
-            case 5: //DOUBLE
-            //case 7:     //TIMESTAMP - not an int, but treated similar here
-            case 8: //BIGINT / SERIAL
-            case 9: //MEDIUMINT
-            case 16: //BIT
-            case 246: //DECIMAL / NUMERIC / FIXED
-                return true;
-                break;
-            default:
-                return false;
         }
     }
 
@@ -167,5 +147,26 @@ class Backup {
         fclose($handle);
 
         return true;
+    }
+
+    private function is_mysql_num($type) {
+        //http://php.net/manual/en/mysqli-result.fetch-field.php
+
+        switch ($type) {
+            case 1: //TINYINT / BOOL
+            case 2: //SMALLINT
+            case 3: //INTEGER
+            case 4: //FLOAT
+            case 5: //DOUBLE
+            //case 7:     //TIMESTAMP - not an int, but treated similar here
+            case 8: //BIGINT / SERIAL
+            case 9: //MEDIUMINT
+            case 16: //BIT
+            case 246: //DECIMAL / NUMERIC / FIXED
+                return true;
+                break;
+            default:
+                return false;
+        }
     }
 }

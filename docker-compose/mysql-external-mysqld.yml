@@ -1,6 +1,4 @@
-version: "3.5"
-
 services:
-  nomos-backend:
-    external_links:
-      - mysqld:mysqld
+    nomos-backend:
+        external_links:
+            - mysqld:mysqld

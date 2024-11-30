@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 10/02/2015
- * Time: 7:51 PM
+ * Time: 7:51 PM.
  */
 
 namespace app\domain;
@@ -18,10 +19,10 @@ class PasswordResetRequest extends Domain {
         PasswordResetRequest::Schema(PasswordResetRequestSchema::Type());
     }
 
-    public function validate(ValidationResults &$results) {
-    }
-
     public static function findByToken($token) {
         return PasswordResetRequest::where(Where::Equal(PasswordResetRequestSchema::Columns()->token, $token));
+    }
+
+    public function validate(ValidationResults &$results) {
     }
 }

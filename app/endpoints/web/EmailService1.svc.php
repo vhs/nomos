@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: thomas
  * Date: 25/02/16
- * Time: 6:01 PM
+ * Time: 6:01 PM.
  */
 
 namespace app\endpoints\web;

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:12 PM
+ * Time: 4:12 PM.
  */
 
 namespace app\gateways;

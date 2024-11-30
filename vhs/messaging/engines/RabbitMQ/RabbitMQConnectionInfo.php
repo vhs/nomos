@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/3/2016
- * Time: 5:36 PM
+ * Time: 5:36 PM.
  */
 
 namespace vhs\messaging\engines\RabbitMQ;
@@ -12,9 +13,9 @@ use vhs\messaging\ConnectionInfo;
 
 class RabbitMQConnectionInfo extends ConnectionInfo {
     private $host;
+    private $password;
     private $port;
     private $username;
-    private $password;
     private $vhost;
 
     public function __construct($host, $port, $username, $password, $vhost = null) {
@@ -41,16 +42,16 @@ class RabbitMQConnectionInfo extends ConnectionInfo {
         return $this->host;
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
+
     public function getPort() {
         return $this->port;
     }
 
     public function getUsername() {
         return $this->username;
-    }
-
-    public function getPassword() {
-        return $this->password;
     }
 
     public function getVHost() {

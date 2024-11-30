@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/18/2015
- * Time: 11:07 AM
+ * Time: 11:07 AM.
  */
 
 namespace app\security\oauth\modules;
@@ -11,15 +12,6 @@ namespace app\security\oauth\modules;
 use vhs\web\modules\HttpRequestHandlerModule;
 
 class OAuthHandlerModule extends HttpRequestHandlerModule {
-    public static function register(OAuthHandler $handler) {
-        $url = $handler->getUrl();
-
-        self::getInstance()->register_internal('GET', $url, $handler);
-        self::getInstance()->register_internal('POST', $url, $handler);
-        self::getInstance()->register_internal('HEAD', $url, $handler);
-        self::getInstance()->register_internal('PUT', $url, $handler);
-    }
-
     /**
      * @return OAuthHandlerModule
      */
@@ -35,6 +27,15 @@ class OAuthHandlerModule extends HttpRequestHandlerModule {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
+    public static function register(OAuthHandler $handler) {
+        $url = $handler->getUrl();
+
+        self::getInstance()->register_internal('GET', $url, $handler);
+        self::getInstance()->register_internal('POST', $url, $handler);
+        self::getInstance()->register_internal('HEAD', $url, $handler);
+        self::getInstance()->register_internal('PUT', $url, $handler);
+    }
+
+    private function __clone() {
     }
 }

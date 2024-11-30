@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 12:32 PM
+ * Time: 12:32 PM.
  */
 
 namespace vhs\database\engines\mysql;
@@ -17,11 +18,11 @@ use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
 use vhs\database\queries\Query;
+use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
-use vhs\database\queries\QueryCount;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\database\wheres\Where;
@@ -30,19 +31,15 @@ use vhs\loggers\SilentLogger;
 
 class MySqlEngine extends Engine {
     private $autoCreateDatabase;
-    private $generator;
-    private $converter;
-    private $logger;
-    private $info;
 
     /**
      * @var \mysqli
      */
     private $conn;
-
-    public static function DateFormat() {
-        return 'Y-m-d H:i:s';
-    }
+    private $converter;
+    private $generator;
+    private $info;
+    private $logger;
 
     public function __construct(MySqlConnectionInfo $connectionInfo, $autoCreateDatabase = false) {
         $this->info = $connectionInfo;
@@ -52,10 +49,6 @@ class MySqlEngine extends Engine {
 
         $this->generator = new MySqlGenerator();
         $this->converter = new MySqlConverter();
-    }
-
-    public function setLogger(Logger $logger) {
-        $this->logger = $logger;
     }
 
     public function connect() {
@@ -91,14 +84,22 @@ class MySqlEngine extends Engine {
         unset($this->conn);
     }
 
-    public function scalar(QuerySelect $query) {
-        $row = $this->select($query);
+    public static function DateFormat() {
+        return 'Y-m-d H:i:s';
+    }
 
-        if (sizeof($row) != 1) {
-            return null;
+    public function arbitrary($command) {
+        $this->logger->log('[ARBITRARY] ' . $command);
+
+        $rows = [];
+        if ($q = $this->conn->query($command)) {
+            $rows = $q->fetch_all();
+            $q->close();
+
+            return $rows;
         }
 
-        return $row[0][$query->columns->all()[0]->name];
+        throw new DatabaseException($this->conn->error);
     }
 
     public function count(QueryCount $query) {
@@ -121,22 +122,42 @@ class MySqlEngine extends Engine {
         }
     }
 
+    public function delete(QueryDelete $query) {
+        $sql = $query->generate($this->generator);
+
+        $this->logger->log($sql);
+
+        if ($q = $this->conn->query($sql)) {
+            return true;
+        }
+
+        throw new DatabaseException($this->conn->error);
+    }
+
     public function exists(QuerySelect $query) {
         return $this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0;
     }
 
-    public function arbitrary($command) {
-        $this->logger->log('[ARBITRARY] ' . $command);
+    public function insert(QueryInsert $query) {
+        $sql = $query->generate($this->generator);
 
-        $rows = [];
-        if ($q = $this->conn->query($command)) {
-            $rows = $q->fetch_all();
-            $q->close();
+        $this->logger->log($sql);
 
-            return $rows;
+        if ($q = $this->conn->query($sql)) {
+            return $this->conn->insert_id;
         }
 
         throw new DatabaseException($this->conn->error);
+    }
+
+    public function scalar(QuerySelect $query) {
+        $row = $this->select($query);
+
+        if (sizeof($row) != 1) {
+            return null;
+        }
+
+        return $row[0][$query->columns->all()[0]->name];
     }
 
     public function select(QuerySelect $query) {
@@ -174,16 +195,8 @@ class MySqlEngine extends Engine {
         return $records;
     }
 
-    public function delete(QueryDelete $query) {
-        $sql = $query->generate($this->generator);
-
-        $this->logger->log($sql);
-
-        if ($q = $this->conn->query($sql)) {
-            return true;
-        }
-
-        throw new DatabaseException($this->conn->error);
+    public function setLogger(Logger $logger) {
+        $this->logger = $logger;
     }
 
     public function update(QueryUpdate $query) {
@@ -193,18 +206,6 @@ class MySqlEngine extends Engine {
 
         if ($q = $this->conn->query($sql)) {
             return true;
-        }
-
-        throw new DatabaseException($this->conn->error);
-    }
-
-    public function insert(QueryInsert $query) {
-        $sql = $query->generate($this->generator);
-
-        $this->logger->log($sql);
-
-        if ($q = $this->conn->query($sql)) {
-            return $this->conn->insert_id;
         }
 
         throw new DatabaseException($this->conn->error);

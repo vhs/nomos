@@ -1,20 +1,21 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 16/12/2014
- * Time: 12:43 AM
+ * Time: 12:43 AM.
  */
 
 namespace app\schema;
 
+use app\schema\MembershipSchema;
+use app\schema\UserSchema;
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
-use app\schema\MembershipSchema;
-use app\schema\UserSchema;
 
 class PaymentSchema extends Schema {
     public static function init() {

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 3:32 PM
+ * Time: 3:32 PM.
  */
 
 namespace vhs\web\modules;
@@ -15,15 +16,10 @@ use vhs\web\IHttpModule;
 abstract class HttpRequestHandlerModule implements IHttpModule {
     private $registry = [];
 
-    protected function register_internal($method, $url, HttpRequestHandler $handler) {
-        if (!array_key_exists($method, $this->registry)) {
-            $this->registry[$method] = [];
-        }
-
-        $this->registry[$method][$url] = $handler;
+    public function __construct() {
     }
 
-    public function __construct() {
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -37,6 +33,11 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
     public function handleException(HttpServer $server, \Exception $ex) {
     }
 
-    public function endResponse(HttpServer $server) {
+    protected function register_internal($method, $url, HttpRequestHandler $handler) {
+        if (!array_key_exists($method, $this->registry)) {
+            $this->registry[$method] = [];
+        }
+
+        $this->registry[$method][$url] = $handler;
     }
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 1:07 PM
+ * Time: 1:07 PM.
  */
 
 namespace vhs\domain;
@@ -31,76 +32,11 @@ interface IDomain {
 
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
     private static $__definition = [];
-    private $__dirtyChildren = false;
     private $__cache;
     private $__collections;
+    private $__dirtyChildren = false;
     private $__parentRelationships;
     private $__parentRelationshipsColumnMap;
-
-    /**
-     * @return string - Class name of type
-     */
-    public static function Type() {
-        return get_called_class();
-    }
-
-    private static function ensureDefined() {
-        $class = get_called_class();
-
-        if (!array_key_exists($class, self::$__definition)) {
-            self::$__definition[$class] = [];
-            self::$__definition[$class]['Schema'] = null;
-            self::$__definition[$class]['Relationships'] = [];
-            $class::Define();
-        }
-    }
-
-    public static function AccessDefinition() {
-        $checks = self::Schema()->Table()->checks;
-
-        foreach ($checks as $check) {
-            $check->serialize();
-        }
-    }
-
-    /**
-     * @param string $domain
-     * @param Schema $joinTable
-     * @param string $as
-     */
-    protected static function Relationship($as, $domain, Schema $joinTable = null) {
-        self::ensureDefined();
-
-        $class = get_called_class();
-
-        self::$__definition[$class]['Relationships'][$as] = [];
-        self::$__definition[$class]['Relationships'][$as]['Domain'] = $domain;
-        self::$__definition[$class]['Relationships'][$as]['JoinTable'] = $joinTable;
-    }
-
-    protected static function Relationships() {
-        self::ensureDefined();
-
-        $class = get_called_class();
-
-        return self::$__definition[$class]['Relationships'];
-    }
-
-    /**
-     * @param Schema $schema
-     * @return Schema
-     */
-    public static function Schema(Schema $schema = null) {
-        self::ensureDefined();
-
-        $class = get_called_class();
-
-        if (!is_null($schema)) {
-            self::$__definition[$class]['Schema'] = $schema;
-        }
-
-        return self::$__definition[$class]['Schema'];
-    }
 
     public function __construct() {
         $schema = self::Schema();
@@ -173,316 +109,18 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
-    public function __get($name) {
-        $internal = 0 === strpos($name, 'internal_');
-        if ($internal) {
-            $name = substr($name, strlen('internal_'));
-        }
+    public static function AccessDefinition() {
+        $checks = self::Schema()->Table()->checks;
 
-        if (!$internal && method_exists($this, $method = 'get_' . $name)) {
-            return $this->$method();
-        } elseif (
-            self::Schema()
-                ->Columns()
-                ->contains($name)
-        ) {
-            $col = self::Schema()
-                ->Columns()
-                ->getByName($name);
-            return $this->__cache->getValue($col->getAbsoluteName());
-        } elseif (array_key_exists($name, $this->__collections)) {
-            return $this->__collections[$name];
-        } elseif (array_key_exists($name, $this->__parentRelationships)) {
-            return $this->__parentRelationships[$name]['Object'];
-        }
-
-        return null;
-    }
-
-    public function __set($name, $value) {
-        $internal = 0 === strpos($name, 'internal_');
-        if ($internal) {
-            $name = substr($name, strlen('internal_'));
-        }
-
-        if (!$internal && method_exists($this, $method = 'set_' . $name)) {
-            $this->$method($value);
-        } elseif (
-            self::Schema()
-                ->Columns()
-                ->contains($name)
-        ) {
-            $col = self::Schema()
-                ->Columns()
-                ->getByName($name);
-            $this->raiseBeforeChange($col);
-            $this->__cache->setValue($col->getAbsoluteName(), $value);
-            $this->raiseChanged($col);
-        } elseif (array_key_exists($name, $this->__collections)) {
-            throw new DomainException('Cannot directly set domain collection [' . get_called_class() . "->{$name}]");
-        } elseif (array_key_exists($name, $this->__parentRelationships)) {
-            $childOnCol = $this->__parentRelationships[$name]['On']->name;
-            $this->__set($this->__parentRelationships[$name]['Column']->name, $value->$childOnCol);
-            $this->__parentRelationships[$name]['Object'] = $value;
+        foreach ($checks as $check) {
+            $check->serialize();
         }
     }
 
-    public function getInternalData() {
-        $cols = self::Schema()
-            ->Columns()
-            ->all();
-        $data = [];
-        foreach ($cols as $col) {
-            if ($col->serializable) {
-                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
-            }
-        }
+    public static function count($filters, array $allowed_columns = null) {
+        $where = self::constructFilterWhere($filters, $allowed_columns);
 
-        foreach ($this->__collections as $relationship => $collection) {
-            $data[$relationship] = [];
-
-            foreach ($collection->all() as $item) {
-                array_push($data[$relationship], $item->getInternalData());
-            }
-        }
-
-        foreach ($this->__parentRelationships as $relationship => $value) {
-            if (!is_null($value['Object'])) {
-                $data[$relationship] = $value['Object']->getInternalData();
-            } else {
-                $data[$relationship] = null;
-            }
-        }
-
-        return $data;
-    }
-
-    public function serialize() {
-        return serialize($this->getInternalData());
-    }
-
-    public function jsonSerialize() {
-        return $this->getInternalData();
-    }
-
-    public function unserialize($data) {
-        //TODO implement
-    }
-
-    public function __toString() {
-        //TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
-        $cols = self::Schema()
-            ->Columns()
-            ->all();
-        $data = [];
-        foreach ($cols as $col) {
-            if ($col->serializable) {
-                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
-            }
-        }
-
-        return json_encode($data);
-    }
-
-    protected function getValues($excludePrimaryKeys = false) {
-        $data = [];
-
-        $pkcols = [];
-        $pks = self::Schema()->PrimaryKeys();
-        foreach ($pks as $pk) {
-            array_push($pkcols, $pk->column->name);
-        }
-
-        $isPkCol = function ($name) use ($pkcols) {
-            foreach ($pkcols as $pkcol) {
-                if ($name === $pkcol) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        foreach (
-            self::Schema()
-                ->Columns()
-                ->all()
-            as $col
-        ) {
-            if ($excludePrimaryKeys && $isPkCol($col->name)) {
-                continue;
-            }
-
-            $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
-        }
-
-        return $data;
-    }
-
-    protected function getValue($name) {
-        if (
-            self::Schema()
-                ->Columns()
-                ->contains($name)
-        ) {
-            return $this->$name;
-        }
-
-        return null;
-    }
-
-    protected function setValues($data) {
-        $cols = [];
-        foreach (
-            self::Schema()
-                ->Columns()
-                ->all()
-            as $col
-        ) {
-            if (array_key_exists($col->name, $data)) {
-                array_push($cols, $col);
-            }
-        }
-
-        $this->raiseBeforeChange(...$cols);
-
-        foreach ($cols as $col) {
-            $this->__cache->setValue($col->getAbsoluteName(), $data[$col->name], true);
-        }
-
-        $this->raiseChanged(...$cols);
-    }
-
-    private function checkIsDirty() {
-        return $this->__cache->hasChanged() || $this->__dirtyChildren;
-    }
-
-    private function checkIsNew() {
-        $pks = self::Schema()->PrimaryKeys();
-
-        $isNew = false;
-        foreach ($pks as $pk) {
-            $isNew = $isNew || is_null($this->__get($pk->column->name));
-        }
-
-        return $isNew;
-    }
-
-    private function pkWhere($primaryKeyValues = null) {
-        $values = $this->extractPkValues($primaryKeyValues);
-
-        $wheres = [];
-
-        if (count($values) > 0) {
-            foreach ($values as $key => $value) {
-                array_push($wheres, Where::Equal(self::Schema()->Column($key), $value));
-            }
-        }
-
-        if (count($wheres) > 1) {
-            return Where::_And(...$wheres);
-        } elseif (count($wheres) == 1) {
-            return $wheres[0];
-        }
-
-        return null;
-    }
-
-    private function extractPkValues($primaryKeyValues = null) {
-        $pks = self::Schema()->PrimaryKeys();
-
-        if (count($pks) <= 0) {
-            throw new DomainException('Schema on domain must have Primary Keys');
-        }
-
-        $values = [];
-
-        foreach ($pks as $pk) {
-            $value = $this->__get($pk->column->name);
-
-            if (!is_null($primaryKeyValues)) {
-                if (is_array($primaryKeyValues)) {
-                    $value = $primaryKeyValues[$pk->column->name];
-                } else {
-                    $value = $primaryKeyValues;
-                }
-            }
-
-            $values[$pk->column->name] = $value;
-        }
-
-        return $values;
-    }
-
-    private function hydrateRelationships() {
-        /** @var DomainCollection $collection */
-        foreach ($this->__collections as $collection) {
-            $collection->hydrate();
-        }
-
-        foreach ($this->__parentRelationships as $as => $relationship) {
-            $on = $relationship['On'];
-            $domain = $relationship['Domain'];
-            $column = $relationship['Column']->name;
-
-            $obj = $domain::where(Where::Equal($on, $this->$column));
-
-            if (count($obj) == 1) {
-                $this->__parentRelationships[$as]['Object'] = $obj[0];
-                $self = $this;
-                $this->__parentRelationships[$as]['Object']->onChanged(function () use ($self) {
-                    $self->__dirtyChildren = true;
-                });
-            } elseif (count($obj) > 1) {
-                throw new DomainException("Parent relationship [{$as}] found more than one record");
-            } else {
-                $this->__parentRelationships[$as]['Object'] = null;
-            }
-        }
-    }
-
-    protected function hydrate($pk = null) {
-        $record = Database::select(Query::Select(self::Schema()->Table(), self::Schema()->Columns(), $this->pkWhere($pk)));
-
-        if (sizeof($record) != 1) {
-            if (sizeof($record) == 0) {
-                return false;
-            } else {
-                throw new DomainException('Primary Key based hydrate on {' . get_called_class() . '} returns more than one record.');
-            }
-        }
-
-        $this->setValues($record[0]);
-
-        $this->hydrateRelationships();
-
-        return true;
-    }
-
-    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
-        $class = get_called_class();
-
-        $records = Database::select(
-            Query::Select(
-                self::Schema()->Table(),
-                self::Schema()->Columns(),
-                $where,
-                $orderBy,
-                !is_null($limit) ? Limit::Limit($limit) : null,
-                !is_null($offset) ? Offset::Offset($offset) : null
-            )
-        );
-
-        $items = [];
-        foreach ($records as $row) {
-            /** @var Domain $obj */
-            $obj = new $class();
-            $obj->setValues($row);
-            $obj->hydrateRelationships();
-            array_push($items, $obj);
-        }
-
-        return $items;
+        return self::doCount($where);
     }
 
     public static function doCount(Where $where = null) {
@@ -493,25 +131,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return (int) $records;
     }
 
-    private static function arbitraryHydrate($sql) {
-        $class = get_called_class();
-
-        $records = Database::arbitrary($sql);
-
-        $items = [];
-        foreach ($records as $row) {
-            /** @var Domain $obj */
-            $obj = new $class();
-            $obj->setValues($row);
-            $obj->hydrateRelationships();
-            array_push($items, $obj);
-        }
-
-        return $items;
-    }
-
     /**
      * @param array $primaryKeyValues
+     *
      * @return object
      */
     public static function find($primaryKeyValues) {
@@ -534,38 +156,63 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return self::hydrateMany();
     }
 
-    /**
-     * @param Where $where
-     * @param OrderBy $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return array
-     */
-    public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
-        return self::hydrateMany($where, $orderBy, $limit, $offset);
+    public static function onAnyBeforeChange(callable $listener) {
+        self::staticOn('BeforeChange', $listener);
     }
 
-    public static function count($filters, array $allowed_columns = null) {
-        $where = self::constructFilterWhere($filters, $allowed_columns);
+    public static function onAnyBeforeCreate(callable $listener) {
+        self::staticOn('BeforeCreate', $listener);
+    }
 
-        return self::doCount($where);
+    public static function onAnyBeforeDelete(callable $listener) {
+        self::staticOn('BeforeDelete', $listener);
+    }
+
+    public static function onAnyBeforeSave(callable $listener) {
+        self::staticOn('BeforeSave', $listener);
+    }
+
+    public static function onAnyBeforeUpdate(callable $listener) {
+        self::staticOn('BeforeUpdate', $listener);
+    }
+
+    public static function onAnyChanged(callable $listener) {
+        self::staticOn('Changed', $listener);
+    }
+
+    public static function onAnyCreated(callable $listener) {
+        self::staticOn('Created', $listener);
+    }
+
+    public static function onAnyDeleted(callable $listener) {
+        self::staticOn('Deleted', $listener);
+    }
+
+    public static function onAnySaved(callable $listener) {
+        self::staticOn('Saved', $listener);
+    }
+
+    public static function onAnyUpdated(callable $listener) {
+        self::staticOn('Updated', $listener);
     }
 
     /**
-     * Returns a key value pair of data from this domain
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * Returns a key value pair of data from this domain.
+     *
+     * @param       $page
+     * @param       $size
+     * @param       $columns
+     * @param       $order
+     * @param       $filters
      * @param array $allowed_columns
+     *
      * @return array
      */
     public static function page($page, $size, $columns, $order, $filters, array $allowed_columns = null) {
         $columnNames = explode(',', $columns);
         $orders = explode(',', $order);
 
-        if (count($allowed_columns ?? []) > 0)
+        if ($allowed_columns != null && !empty($allowed_columns)) {
             $columnNames = array_intersect($allowed_columns, $columnNames);
         }
 
@@ -579,24 +226,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 $col = str_replace(' desc', '', $col);
             }
 
-            if (
-                self::Schema()
-                    ->Columns()
-                    ->contains($col)
-            ) {
+            if (self::Schema()->Columns()->contains($col)) {
                 array_push(
                     $orderBys,
                     $isDesc
-                        ? OrderBy::Descending(
-                            self::Schema()
-                                ->Columns()
-                                ->getByName($col)
-                        )
-                        : OrderBy::Ascending(
-                            self::Schema()
-                                ->Columns()
-                                ->getByName($col)
-                        )
+                        ? OrderBy::Descending(self::Schema()->Columns()->getByName($col))
+                        : OrderBy::Ascending(self::Schema()->Columns()->getByName($col))
                 );
             }
         }
@@ -606,11 +241,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $orderBy->orderBy = $orderBys;
 
         foreach ($columnNames as $col) {
-            if (
-                self::Schema()
-                    ->Columns()
-                    ->contains($col)
-            ) {
+            if (self::Schema()->Columns()->contains($col)) {
                 array_push($cols, $col);
             }
 
@@ -643,35 +274,109 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * Constructs the WHERE clause for a filter expression
-     * @param $filters
-     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
-     * @return array
+     * @param Schema $schema
+     *
+     * @return Schema
      */
-    private static function constructFilterWhere($filters, array $allowed_columns = null) {
-        $actualColumns = new Columns();
+    public static function Schema(Schema $schema = null) {
+        self::ensureDefined();
 
-        if ($allowed_columns == null) {
-            // all table columns are allowed
-            $actualColumns = self::Schema()->Columns();
-        } else {
-            // only some columns are allowed
-            foreach ($allowed_columns as $col) {
-                if (
-                    self::Schema()
-                        ->Columns()
-                        ->contains($col)
-                ) {
-                    $actualColumns->add(
-                        self::Schema()
-                            ->Columns()
-                            ->getByName($col)
-                    );
-                }
-            }
+        $class = get_called_class();
+
+        if (!is_null($schema)) {
+            self::$__definition[$class]['Schema'] = $schema;
         }
 
-        return self::constructFilter($actualColumns, $filters);
+        return self::$__definition[$class]['Schema'];
+    }
+
+    /**
+     * @return string - Class name of type
+     */
+    public static function Type() {
+        return get_called_class();
+    }
+
+    /**
+     * @param Where   $where
+     * @param OrderBy $orderBy
+     * @param null    $limit
+     * @param null    $offset
+     *
+     * @return array
+     */
+    public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
+        return self::hydrateMany($where, $orderBy, $limit, $offset);
+    }
+
+    protected static function arbitraryFind($sql) {
+        return self::arbitraryHydrate($sql);
+    }
+
+    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
+        $class = get_called_class();
+
+        $records = Database::select(
+            Query::Select(
+                self::Schema()->Table(),
+                self::Schema()->Columns(),
+                $where,
+                $orderBy,
+                !is_null($limit) ? Limit::Limit($limit) : null,
+                !is_null($offset) ? Offset::Offset($offset) : null
+            )
+        );
+
+        $items = [];
+        foreach ($records as $row) {
+            /** @var Domain $obj */
+            $obj = new $class();
+            $obj->setValues($row);
+            $obj->hydrateRelationships();
+            array_push($items, $obj);
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param string $domain
+     * @param Schema $joinTable
+     * @param string $as
+     */
+    protected static function Relationship($as, $domain, Schema $joinTable = null) {
+        self::ensureDefined();
+
+        $class = get_called_class();
+
+        self::$__definition[$class]['Relationships'][$as] = [];
+        self::$__definition[$class]['Relationships'][$as]['Domain'] = $domain;
+        self::$__definition[$class]['Relationships'][$as]['JoinTable'] = $joinTable;
+    }
+
+    protected static function Relationships() {
+        self::ensureDefined();
+
+        $class = get_called_class();
+
+        return self::$__definition[$class]['Relationships'];
+    }
+
+    private static function arbitraryHydrate($sql) {
+        $class = get_called_class();
+
+        $records = Database::arbitrary($sql);
+
+        $items = [];
+        foreach ($records as $row) {
+            /** @var Domain $obj */
+            $obj = new $class();
+            $obj->setValues($row);
+            $obj->hydrateRelationships();
+            array_push($items, $obj);
+        }
+
+        return $items;
     }
 
     /**
@@ -683,8 +388,10 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *   column: Column,
      *   value: Value
      * }
+     *
      * @param Columns $columns the filters that are allowed to be used in the filter
-     * @param $filter
+     * @param         $filter
+     *
      * @return null|Where
      */
     private static function constructFilter(Columns $columns, $filter) {
@@ -724,19 +431,140 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
-    protected static function arbitraryFind($sql) {
-        return self::arbitraryHydrate($sql);
+    /**
+     * Constructs the WHERE clause for a filter expression.
+     *
+     * @param       $filters
+     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
+     *
+     * @return null|Where
+     */
+    private static function constructFilterWhere($filters, array $allowed_columns = null) {
+        $actualColumns = new Columns();
+
+        if ($allowed_columns == null) {
+            // all table columns are allowed
+            $actualColumns = self::Schema()->Columns();
+        } else {
+            // only some columns are allowed
+            foreach ($allowed_columns as $col) {
+                if (self::Schema()->Columns()->contains($col)) {
+                    $actualColumns->add(self::Schema()->Columns()->getByName($col));
+                }
+            }
+        }
+
+        return self::constructFilter($actualColumns, $filters);
+    }
+
+    private static function ensureDefined() {
+        $class = get_called_class();
+
+        if (!array_key_exists($class, self::$__definition)) {
+            self::$__definition[$class] = [];
+            self::$__definition[$class]['Schema'] = null;
+            self::$__definition[$class]['Relationships'] = [];
+            $class::Define();
+        }
     }
 
     /**
      * @param ValidationResults $results
+     *
      * @return bool
      */
     abstract public function validate(ValidationResults &$results);
 
+    public function delete() {
+        $this->raiseBeforeDelete();
+
+        Database::delete(Query::Delete(self::Schema()->Table(), $this->pkWhere()));
+
+        $pks = self::Schema()->PrimaryKeys();
+        foreach ($pks as $pk) {
+            $this->__set($pk->column->name, null);
+        }
+
+        $this->raiseDeleted();
+    }
+
+    public function getInternalData() {
+        $cols = self::Schema()->Columns()->all();
+        $data = [];
+        foreach ($cols as $col) {
+            if ($col->serializable) {
+                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+            }
+        }
+
+        foreach ($this->__collections as $relationship => $collection) {
+            $data[$relationship] = [];
+
+            foreach ($collection->all() as $item) {
+                array_push($data[$relationship], $item->getInternalData());
+            }
+        }
+
+        foreach ($this->__parentRelationships as $relationship => $value) {
+            if (!is_null($value['Object'])) {
+                $data[$relationship] = $value['Object']->getInternalData();
+            } else {
+                $data[$relationship] = null;
+            }
+        }
+
+        return $data;
+    }
+
+    public function jsonSerialize(): mixed {
+        return $this->getInternalData();
+    }
+
+    public function onBeforeChange(callable $listener) {
+        $this->on('BeforeChange', $listener);
+    }
+
+    public function onBeforeCreate(callable $listener) {
+        $this->on('BeforeCreate', $listener);
+    }
+
+    public function onBeforeDelete(callable $listener) {
+        $this->on('BeforeDelete', $listener);
+    }
+
+    public function onBeforeSave(callable $listener) {
+        $this->on('BeforeSave', $listener);
+    }
+
+    public function onBeforeUpdate(callable $listener) {
+        $this->on('BeforeUpdate', $listener);
+    }
+
+    public function onChanged(callable $listener) {
+        $this->on('Changed', $listener);
+    }
+
+    public function onCreated(callable $listener) {
+        $this->on('Created', $listener);
+    }
+
+    public function onDeleted(callable $listener) {
+        $this->on('Deleted', $listener);
+    }
+
+    public function onSaved(callable $listener) {
+        $this->on('Saved', $listener);
+    }
+
+    public function onUpdated(callable $listener) {
+        $this->on('Updated', $listener);
+    }
+
     /**
      * @param null $validationResults
+     *
      * @return bool
+     *
      * @throws DomainException
      * @throws ValidationException
      * @throws \Exception
@@ -805,25 +633,68 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return true;
     }
 
-    public function delete() {
-        $this->raiseBeforeDelete();
+    public function serialize() {
+        return serialize($this->getInternalData());
+    }
 
-        Database::delete(Query::Delete(self::Schema()->Table(), $this->pkWhere()));
+    public function unserialize($data) {
+        //TODO implement
+    }
 
-        $pks = self::Schema()->PrimaryKeys();
-        foreach ($pks as $pk) {
-            $this->__set($pk->column->name, null);
+    protected function getValue($name) {
+        if (self::Schema()->Columns()->contains($name)) {
+            return $this->$name;
         }
 
-        $this->raiseDeleted();
+        return null;
     }
 
-    public function onBeforeChange(callable $listener) {
-        $this->on('BeforeChange', $listener);
+    protected function getValues($excludePrimaryKeys = false) {
+        $data = [];
+
+        $pkcols = [];
+        $pks = self::Schema()->PrimaryKeys();
+        foreach ($pks as $pk) {
+            array_push($pkcols, $pk->column->name);
+        }
+
+        $isPkCol = function ($name) use ($pkcols) {
+            foreach ($pkcols as $pkcol) {
+                if ($name === $pkcol) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        foreach (self::Schema()->Columns()->all() as $col) {
+            if ($excludePrimaryKeys && $isPkCol($col->name)) {
+                continue;
+            }
+
+            $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+        }
+
+        return $data;
     }
 
-    public static function onAnyBeforeChange(callable $listener) {
-        self::staticOn('BeforeChange', $listener);
+    protected function hydrate($pk = null) {
+        $record = Database::select(Query::Select(self::Schema()->Table(), self::Schema()->Columns(), $this->pkWhere($pk)));
+
+        if (sizeof($record) != 1) {
+            if (empty($record)) {
+                return false;
+            } else {
+                throw new DomainException('Primary Key based hydrate on {' . get_called_class() . '} returns more than one record.');
+            }
+        }
+
+        $this->setValues($record[0]);
+
+        $this->hydrateRelationships();
+
+        return true;
     }
 
     protected function raiseBeforeChange(Column ...$columns) {
@@ -831,25 +702,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         self::staticRaise('BeforeChange', $this, ...$columns);
     }
 
-    public function onChanged(callable $listener) {
-        $this->on('Changed', $listener);
-    }
-
-    public static function onAnyChanged(callable $listener) {
-        self::staticOn('Changed', $listener);
-    }
-
-    protected function raiseChanged(Column ...$columns) {
-        $this->raise('Changed', ...$columns);
-        self::staticRaise('Changed', $this, ...$columns);
-    }
-
-    public function onBeforeDelete(callable $listener) {
-        $this->on('BeforeDelete', $listener);
-    }
-
-    public static function onAnyBeforeDelete(callable $listener) {
-        self::staticOn('BeforeDelete', $listener);
+    protected function raiseBeforeCreate() {
+        $this->raise('BeforeCreate');
+        self::staticRaise('BeforeCreate', $this);
     }
 
     protected function raiseBeforeDelete() {
@@ -857,77 +712,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         self::staticRaise('BeforeDelete', $this);
     }
 
-    public function onDeleted(callable $listener) {
-        $this->on('Deleted', $listener);
-    }
-
-    public static function onAnyDeleted(callable $listener) {
-        self::staticOn('Deleted', $listener);
-    }
-
-    protected function raiseDeleted() {
-        $this->raise('Deleted');
-        self::staticRaise('Deleted', $this);
-    }
-
-    public function onBeforeSave(callable $listener) {
-        $this->on('BeforeSave', $listener);
-    }
-
-    public static function onAnyBeforeSave(callable $listener) {
-        self::staticOn('BeforeSave', $listener);
-    }
-
     protected function raiseBeforeSave() {
         $this->raise('BeforeSave');
         self::staticRaise('BeforeSave', $this);
-    }
-
-    public function onSaved(callable $listener) {
-        $this->on('Saved', $listener);
-    }
-
-    public static function onAnySaved(callable $listener) {
-        self::staticOn('Saved', $listener);
-    }
-
-    protected function raiseSaved() {
-        $this->raise('Saved');
-        self::staticRaise('Saved', $this);
-    }
-
-    public function onBeforeCreate(callable $listener) {
-        $this->on('BeforeCreate', $listener);
-    }
-
-    public static function onAnyBeforeCreate(callable $listener) {
-        self::staticOn('BeforeCreate', $listener);
-    }
-
-    protected function raiseBeforeCreate() {
-        $this->raise('BeforeCreate');
-        self::staticRaise('BeforeCreate', $this);
-    }
-
-    public function onCreated(callable $listener) {
-        $this->on('Created', $listener);
-    }
-
-    public static function onAnyCreated(callable $listener) {
-        self::staticOn('Created', $listener);
-    }
-
-    protected function raiseCreated() {
-        $this->raise('Created');
-        self::staticRaise('Created', $this);
-    }
-
-    public function onBeforeUpdate(callable $listener) {
-        $this->on('BeforeUpdate', $listener);
-    }
-
-    public static function onAnyBeforeUpdate(callable $listener) {
-        self::staticOn('BeforeUpdate', $listener);
     }
 
     protected function raiseBeforeUpdate() {
@@ -935,16 +722,196 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         self::staticRaise('BeforeUpdate', $this);
     }
 
-    public function onUpdated(callable $listener) {
-        $this->on('Updated', $listener);
+    protected function raiseChanged(Column ...$columns) {
+        $this->raise('Changed', ...$columns);
+        self::staticRaise('Changed', $this, ...$columns);
     }
 
-    public static function onAnyUpdated(callable $listener) {
-        self::staticOn('Updated', $listener);
+    protected function raiseCreated() {
+        $this->raise('Created');
+        self::staticRaise('Created', $this);
+    }
+
+    protected function raiseDeleted() {
+        $this->raise('Deleted');
+        self::staticRaise('Deleted', $this);
+    }
+
+    protected function raiseSaved() {
+        $this->raise('Saved');
+        self::staticRaise('Saved', $this);
     }
 
     protected function raiseUpdated() {
         $this->raise('Updated');
         self::staticRaise('Updated', $this);
+    }
+
+    protected function setValues($data) {
+        $cols = [];
+        foreach (self::Schema()->Columns()->all() as $col) {
+            if (array_key_exists($col->name, $data)) {
+                array_push($cols, $col);
+            }
+        }
+
+        $this->raiseBeforeChange(...$cols);
+
+        foreach ($cols as $col) {
+            $this->__cache->setValue($col->getAbsoluteName(), $data[$col->name], true);
+        }
+
+        $this->raiseChanged(...$cols);
+    }
+
+    private function checkIsDirty() {
+        return $this->__cache->hasChanged() || $this->__dirtyChildren;
+    }
+
+    private function checkIsNew() {
+        $pks = self::Schema()->PrimaryKeys();
+
+        $isNew = false;
+        foreach ($pks as $pk) {
+            $isNew = $isNew || is_null($this->__get($pk->column->name));
+        }
+
+        return $isNew;
+    }
+
+    private function extractPkValues($primaryKeyValues = null) {
+        $pks = self::Schema()->PrimaryKeys();
+
+        if (count($pks) <= 0) {
+            throw new DomainException('Schema on domain must have Primary Keys');
+        }
+
+        $values = [];
+
+        foreach ($pks as $pk) {
+            $value = $this->__get($pk->column->name);
+
+            if (!is_null($primaryKeyValues)) {
+                if (is_array($primaryKeyValues)) {
+                    $value = $primaryKeyValues[$pk->column->name];
+                } else {
+                    $value = $primaryKeyValues;
+                }
+            }
+
+            $values[$pk->column->name] = $value;
+        }
+
+        return $values;
+    }
+
+    private function hydrateRelationships() {
+        /** @var DomainCollection $collection */
+        foreach ($this->__collections as $collection) {
+            $collection->hydrate();
+        }
+
+        foreach ($this->__parentRelationships as $as => $relationship) {
+            $on = $relationship['On'];
+            $domain = $relationship['Domain'];
+            $column = $relationship['Column']->name;
+
+            $obj = $domain::where(Where::Equal($on, $this->$column));
+
+            if (count($obj) == 1) {
+                $this->__parentRelationships[$as]['Object'] = $obj[0];
+                $self = $this;
+                $this->__parentRelationships[$as]['Object']->onChanged(function () use ($self) {
+                    $self->__dirtyChildren = true;
+                });
+            } elseif (count($obj) > 1) {
+                throw new DomainException("Parent relationship [{$as}] found more than one record");
+            } else {
+                $this->__parentRelationships[$as]['Object'] = null;
+            }
+        }
+    }
+
+    private function pkWhere($primaryKeyValues = null) {
+        $values = $this->extractPkValues($primaryKeyValues);
+
+        $wheres = [];
+
+        if (count($values) > 0) {
+            foreach ($values as $key => $value) {
+                array_push($wheres, Where::Equal(self::Schema()->Column($key), $value));
+            }
+        }
+
+        if (count($wheres) > 1) {
+            return Where::_And(...$wheres);
+        } elseif (count($wheres) == 1) {
+            return $wheres[0];
+        }
+
+        return null;
+    }
+
+    public function __get($name) {
+        $internal = 0 === strpos($name, 'internal_');
+        if ($internal) {
+            $name = substr($name, strlen('internal_'));
+        }
+
+        if (!$internal && method_exists($this, $method = 'get_' . $name)) {
+            return $this->$method();
+        } elseif (self::Schema()->Columns()->contains($name)) {
+            $col = self::Schema()->Columns()->getByName($name);
+            return $this->__cache->getValue($col->getAbsoluteName());
+        } elseif (array_key_exists($name, $this->__collections)) {
+            return $this->__collections[$name];
+        } elseif (array_key_exists($name, $this->__parentRelationships)) {
+            return $this->__parentRelationships[$name]['Object'];
+        }
+
+        return null;
+    }
+
+    public function __serialize() {
+        return serialize($this->getInternalData());
+    }
+
+    public function __set($name, $value) {
+        $internal = 0 === strpos($name, 'internal_');
+        if ($internal) {
+            $name = substr($name, strlen('internal_'));
+        }
+
+        if (!$internal && method_exists($this, $method = 'set_' . $name)) {
+            $this->$method($value);
+        } elseif (self::Schema()->Columns()->contains($name)) {
+            $col = self::Schema()->Columns()->getByName($name);
+            $this->raiseBeforeChange($col);
+            $this->__cache->setValue($col->getAbsoluteName(), $value);
+            $this->raiseChanged($col);
+        } elseif (array_key_exists($name, $this->__collections)) {
+            throw new DomainException('Cannot directly set domain collection [' . get_called_class() . "->{$name}]");
+        } elseif (array_key_exists($name, $this->__parentRelationships)) {
+            $childOnCol = $this->__parentRelationships[$name]['On']->name;
+            $this->__set($this->__parentRelationships[$name]['Column']->name, $value->$childOnCol);
+            $this->__parentRelationships[$name]['Object'] = $value;
+        }
+    }
+
+    public function __toString() {
+        //TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
+        $cols = self::Schema()->Columns()->all();
+        $data = [];
+        foreach ($cols as $col) {
+            if ($col->serializable) {
+                $data[$col->name] = $this->__cache->getValue($col->getAbsoluteName());
+            }
+        }
+
+        return json_encode($data);
+    }
+
+    public function __unserialize($data) {
+        //TODO implement
     }
 }

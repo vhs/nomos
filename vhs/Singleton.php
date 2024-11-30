@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 1:02 PM
+ * Time: 1:02 PM.
  */
 
 namespace vhs;
@@ -24,6 +25,6 @@ abstract class Singleton {
         return $aoInstance[$class];
     }
 
-    final private function __clone() {
+    private function __clone() {
     }
 }

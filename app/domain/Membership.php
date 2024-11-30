@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 3:23 PM
+ * Time: 3:23 PM.
  */
 
 namespace app\domain;
@@ -19,6 +20,7 @@ use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
 class Membership extends Domain {
+    public const FRIEND = 'vhs_membership_friend';
     /* TODO HACK we should instead add privileges to the membership types and check those instead when checking types
      * however currently the metric service is also using these to determine new member types, etc so we need to figure
      * out how to do metrics a bit more dynamically. Prob by querying and looping through all the membership types instead
@@ -26,41 +28,19 @@ class Membership extends Domain {
      */
     public const KEYHOLDER = 'vhs_membership_keyholder';
     public const MEMBER = 'vhs_membership_member';
-    public const FRIEND = 'vhs_membership_friend';
 
-    public static function Define() {
-        Membership::Schema(MembershipSchema::Type());
-
-        Membership::Relationship('privileges', Privilege::Type(), MembershipPrivilegeSchema::Type());
-    }
-
-    public function validate(ValidationResults &$results) {
-    }
-
-    /**
-     * @param $code
-     * @return Membership[]
-     */
-    public static function findByCode($code) {
-        return Membership::where(Where::Equal(MembershipSchema::Columns()->code, $code));
-    }
-
-    /**
-     * @param $price
-     * @return Membership
-     */
-    public static function findForPriceLevel($price) {
-        $memberships = Membership::where(
-            Where::_And(Where::LesserEqual(MembershipSchema::Columns()->price, $price), Where::Equal(MembershipSchema::Columns()->active, true)),
-            OrderBy::Descending(MembershipSchema::Columns()->price),
-            1
+    public static function allCodeIdMap() {
+        $rows = Database::select(
+            Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column('id'), MembershipSchema::Column('code')))
         );
 
-        if (!is_null($memberships) && count($memberships) > 0) {
-            return $memberships[0];
+        $values = [];
+
+        foreach ($rows as $row) {
+            $values['id' . $row['id']] = $row['code'];
         }
 
-        return null;
+        return $values;
     }
 
     public static function allCodes() {
@@ -75,17 +55,41 @@ class Membership extends Domain {
         return $values;
     }
 
-    public static function allCodeIdMap() {
-        $rows = Database::select(
-            Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column('id'), MembershipSchema::Column('code')))
+    public static function Define() {
+        Membership::Schema(MembershipSchema::Type());
+
+        Membership::Relationship('privileges', Privilege::Type(), MembershipPrivilegeSchema::Type());
+    }
+
+    /**
+     * @param $code
+     *
+     * @return Membership[]
+     */
+    public static function findByCode($code) {
+        return Membership::where(Where::Equal(MembershipSchema::Columns()->code, $code));
+    }
+
+    /**
+     * @param $price
+     *
+     * @return Membership
+     */
+    public static function findForPriceLevel($price) {
+        $memberships = Membership::where(
+            Where::_And(Where::LesserEqual(MembershipSchema::Columns()->price, $price), Where::Equal(MembershipSchema::Columns()->active, true)),
+            OrderBy::Descending(MembershipSchema::Columns()->price),
+            1
         );
 
-        $values = [];
-
-        foreach ($rows as $row) {
-            $values['id' . $row['id']] = $row['code'];
+        if (!is_null($memberships) && !empty($memberships)) {
+            return $memberships[0];
         }
 
-        return $values;
+        return null;
+    }
+
+    public function validate(ValidationResults &$results) {
+        // not required at this time
     }
 }

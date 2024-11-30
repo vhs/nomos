@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 1:11 PM
+ * Time: 1:11 PM.
  */
 
 namespace vhs\database;
@@ -18,17 +19,14 @@ class On extends Element {
         $this->where = $where;
     }
 
-    public function __updateTable(Table &$table) {
-        $this->where->__updateTable($table);
-    }
-
     public static function Where(Where $where) {
         return new On($where);
     }
 
     /**
      * @param IGenerator $generator
-     * @param null $value
+     * @param null       $value
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {
@@ -38,5 +36,9 @@ class On extends Element {
 
     public function generateOn(IOnGenerator $generator) {
         return $generator->generateOn($this);
+    }
+
+    public function __updateTable(Table &$table) {
+        $this->where->__updateTable($table);
     }
 }

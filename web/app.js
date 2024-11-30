@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-var app = angular
+const app = angular
     .module('mmpApp', [
         'ui.router',
         'mmpApp.public',
         'mmpApp.user',
-        'mmpApp.admin',
+        'mmpApp.admin'
 
         //'mmpApp.version'
     ])
@@ -13,28 +13,28 @@ var app = angular
         '$stateProvider',
         '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise('/');
-        },
-    ]);
+            $urlRouterProvider.otherwise('/')
+        }
+    ])
 
 app.run(function ($rootScope, $state, $stateParams) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-});
+    $rootScope.$state = $state
+    $rootScope.$stateParams = $stateParams
+})
 
 app.directive('showDuringResolve', function ($rootScope) {
     return {
         link: function (scope, element) {
-            element.addClass('ng-hide');
+            element.addClass('ng-hide')
 
-            var unregister = $rootScope.$on('$routeChangeStart', function () {
-                element.removeClass('ng-hide');
-            });
+            const unregister = $rootScope.$on('$routeChangeStart', function () {
+                element.removeClass('ng-hide')
+            })
 
-            scope.$on('$destroy', unregister);
-        },
-    };
-});
+            scope.$on('$destroy', unregister)
+        }
+    }
+})
 
 app.directive('resolveLoader', function ($rootScope, $timeout) {
     return {
@@ -43,35 +43,35 @@ app.directive('resolveLoader', function ($rootScope, $timeout) {
         template: '<div class="alert alert-success ng-hide"><strong>Welcome!</strong> Content is loading, please hold.</div>',
         link: function (scope, element) {
             $rootScope.$on('$routeChangeStart', function (event, currentRoute, previousRoute) {
-                if (previousRoute) return;
+                if (previousRoute) return
 
                 $timeout(function () {
-                    element.removeClass('ng-hide');
-                });
-            });
+                    element.removeClass('ng-hide')
+                })
+            })
 
             $rootScope.$on('$routeChangeSuccess', function () {
-                element.addClass('ng-hide');
-            });
+                element.addClass('ng-hide')
+            })
 
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
                 if (error === 'login') {
-                    $rootScope.$state.go('public.login');
+                    $rootScope.$state.go('public.login')
                 }
-            });
-        },
-    };
-});
+            })
+        }
+    }
+})
 
 app.directive('hcChart', function () {
     return {
         restrict: 'E',
         template: '<div></div>',
         scope: {
-            options: '=',
+            options: '='
         },
         link: function (scope, element) {
-            Highcharts.chart(element[0], scope.options);
-        },
-    };
-});
+            Highcharts.chart(element[0], scope.options)
+        }
+    }
+})

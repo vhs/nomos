@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/3/2016
- * Time: 5:27 PM
+ * Time: 5:27 PM.
  */
 
 namespace vhs\messaging\engines\RabbitMQ;
@@ -11,28 +12,24 @@ namespace vhs\messaging\engines\RabbitMQ;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\messaging\Engine;
-use vhs\Logger;
 use vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo;
 
 class RabbitMQEngine extends Engine {
-    private $info;
     /** @var AMQPChannel[] */
     private $channels;
-    private $logger;
 
     /** @var AMQPStreamConnection */
     private $connection;
+    private $info;
+    private $logger;
 
     public function __construct(RabbitMQConnectionInfo $connectionInfo) {
         $this->info = $connectionInfo;
 
         $this->logger = new SilentLogger();
-    }
-
-    public function setLogger(Logger $logger) {
-        $this->logger = $logger;
     }
 
     public function connect() {
@@ -70,20 +67,6 @@ class RabbitMQEngine extends Engine {
         unset($this->channels, $this->connection);
     }
 
-    public function ensure($channel, $queue) {
-        $ch = $this->getChannel($channel);
-
-        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
-    }
-
-    public function publish($channel, $queue, $message) {
-        $ch = $this->getChannel($channel);
-
-        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
-
-        return $ch->basic_publish(new AMQPMessage($message), '', $channel . '.' . $queue);
-    }
-
     public function consume($channel, $queue, callable $callback) {
         $ch = $this->getChannel($channel);
 
@@ -94,10 +77,28 @@ class RabbitMQEngine extends Engine {
         });
     }
 
+    public function ensure($channel, $queue) {
+        $ch = $this->getChannel($channel);
+
+        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
+    }
+
     public function hasCallbacks($channel) {
         $ch = $this->getChannel($channel);
 
         return count($ch->callbacks);
+    }
+
+    public function publish($channel, $queue, $message) {
+        $ch = $this->getChannel($channel);
+
+        $ch->queue_declare($channel . '.' . $queue, false, false, false, false);
+
+        return $ch->basic_publish(new AMQPMessage($message), '', $channel . '.' . $queue);
+    }
+
+    public function setLogger(Logger $logger) {
+        $this->logger = $logger;
     }
 
     public function wait($channel) {
@@ -108,6 +109,7 @@ class RabbitMQEngine extends Engine {
 
     /**
      * @param $channel string
+     *
      * @return AMQPChannel
      */
     private function getChannel($channel) {

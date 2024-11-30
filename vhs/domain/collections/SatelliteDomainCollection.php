@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 17/12/2014
- * Time: 7:38 PM
+ * Time: 7:38 PM.
  */
 
 namespace vhs\domain\collections;
@@ -18,13 +19,13 @@ use vhs\domain\exceptions\DomainException;
 use vhs\domain\Schema;
 
 class SatelliteDomainCollection extends DomainCollection {
-    private $parent;
+    /** @var ForeignKey */
+    private $childKey;
     private $childType;
     private $joinTable;
-    /** @var  ForeignKey */
+    private $parent;
+    /** @var ForeignKey */
     private $parentKey;
-    /** @var  ForeignKey */
-    private $childKey;
 
     public function __construct(Domain $parent, $childType, Schema $joinTable) {
         $this->parent = $parent;
@@ -58,6 +59,23 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    public function add(Domain $item) {
+        $this->raiseBeforeAdd();
+
+        if ($this->contains($item)) {
+            throw new DomainException('Item already exists in collection');
+        }
+
+        $childOnCol = $this->childKey->on->name;
+        if (array_key_exists($item->$childOnCol, $this->__removed)) {
+            unset($this->__removed[$item->$childOnCol]);
+        }
+
+        $this->__new[$item->$childOnCol] = $item;
+
+        $this->raiseAdded();
+    }
+
     public function all() {
         $childOnCol = $this->childKey->on->name;
 
@@ -78,37 +96,6 @@ class SatelliteDomainCollection extends DomainCollection {
     public function contains(Domain $item) {
         $childOnCol = $this->childKey->on->name;
         return $this->containsKey($item->$childOnCol);
-    }
-
-    public function add(Domain $item) {
-        $this->raiseBeforeAdd();
-
-        if ($this->contains($item)) {
-            throw new DomainException('Item already exists in collection');
-        }
-
-        $childOnCol = $this->childKey->on->name;
-        if (array_key_exists($item->$childOnCol, $this->__removed)) {
-            unset($this->__removed[$item->$childOnCol]);
-        }
-
-        $this->__new[$item->$childOnCol] = $item;
-
-        $this->raiseAdded();
-    }
-
-    public function remove(Domain $item) {
-        $this->raiseBeforeRemove();
-        if ($this->contains($item)) {
-            $childOnCol = $this->childKey->on->name;
-            if (array_key_exists($item->$childOnCol, $this->__new)) {
-                unset($this->__new[$item->$childOnCol]);
-            }
-
-            $this->__removed[$item->$childOnCol] = $item;
-
-            $this->raiseRemoved();
-        }
     }
 
     public function hydrate() {
@@ -137,6 +124,20 @@ class SatelliteDomainCollection extends DomainCollection {
 
         /** @var Domain $childType */
         $this->__existing = $childType::where(Where::In($this->childKey->on, $childIds));
+    }
+
+    public function remove(Domain $item) {
+        $this->raiseBeforeRemove();
+        if ($this->contains($item)) {
+            $childOnCol = $this->childKey->on->name;
+            if (array_key_exists($item->$childOnCol, $this->__new)) {
+                unset($this->__new[$item->$childOnCol]);
+            }
+
+            $this->__removed[$item->$childOnCol] = $item;
+
+            $this->raiseRemoved();
+        }
     }
 
     public function save() {

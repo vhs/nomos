@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/18/2015
- * Time: 11:05 AM
+ * Time: 11:05 AM.
  */
 
 namespace app\security\oauth\modules;

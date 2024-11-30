@@ -19,7 +19,8 @@
                             title="Columns"
                             type="text"
                             ng-model="listService.columns"
-                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                            ng-keyup="$event.keyCode == 13 && refresh()"
+                        />
                     </div>
                     <div class="col-lg-3">
                         <label>Order</label>
@@ -28,7 +29,8 @@
                             title="Order"
                             type="text"
                             ng-model="listService.order"
-                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                            ng-keyup="$event.keyCode == 13 && refresh()"
+                        />
                     </div>
                 </div>
 
@@ -40,7 +42,8 @@
                             title="Search"
                             type="text"
                             ng-model="listService.search"
-                            ng-keyup="$event.keyCode == 13 && refresh()" />
+                            ng-keyup="$event.keyCode == 13 && refresh()"
+                        />
                     </div>
                     <div class="col-lg-9">
                         <div class="row">
@@ -78,7 +81,8 @@
                         ng-change="refresh()"
                         max-size="10"
                         boundary-links="true"
-                        rotate="false"></pagination>
+                        rotate="false"
+                    ></pagination>
                 </div>
                 <div class="col-md-2 inline-control">
                     <label>{{ itemCount }} payments found</label>

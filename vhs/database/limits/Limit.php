@@ -7,6 +7,8 @@ use vhs\database\IGeneratable;
 use vhs\database\IGenerator;
 
 class Limit extends Element implements IGeneratable {
+    public $limit;
+
     public function __construct($limit) {
         $this->limit = $limit;
     }

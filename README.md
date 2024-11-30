@@ -4,7 +4,6 @@ _In greek mythology, Nomos is the personified spirit of law._
 
 This system in a way acts as the rule set for how things are governed, via membership levels and privileges.
 
-
 ## Development
 
 See here for complete setup, API, and philosophy:
@@ -12,6 +11,15 @@ https://github.com/vhs/nomos/wiki
 
 For the old development guide, see:
 https://github.com/vhs/nomos/wiki/Contributing
+
+### Requirements
+
+For development, you'll need the following components/dependencies:
+
+- Docker/Docker Compose
+- NodeJS/NPM
+
+All other development dependencies (such as bower, composer, eslint, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `npm install` after checkout.
 
 ### docker-compose
 
@@ -67,4 +75,3 @@ $ docker inspect nomos-frontend | jq -r '.[0].NetworkSettings.Networks | to_entr
 ```
 
 The username is `vhs` and the password is `password`.
-

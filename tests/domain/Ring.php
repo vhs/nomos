@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 18/12/2014
- * Time: 6:04 PM
+ * Time: 6:04 PM.
  */
 
 namespace tests\domain;
@@ -21,6 +22,7 @@ class Ring extends Domain {
 
     /**
      * @param ValidationResults $results
+     *
      * @return bool
      */
     public function validate(ValidationResults &$results) {

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 3:17 PM
+ * Time: 3:17 PM.
  */
 
 namespace app\security;
@@ -19,6 +20,12 @@ class HttpApiAuthModule implements IHttpModule {
 
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
+    }
+
+    public function endResponse(HttpServer $server) {
+        if (array_key_exists('X-Api-Key', $server->request->headers) && $this->authorizer->isAuthenticated()) {
+            $this->authorizer->logout();
+        }
     }
 
     public function handle(HttpServer $server) {
@@ -37,12 +44,6 @@ class HttpApiAuthModule implements IHttpModule {
             $server->header('HTTP/1.0 401 Unauthorized');
             $server->code(401);
             $server->end();
-        }
-    }
-
-    public function endResponse(HttpServer $server) {
-        if (array_key_exists('X-Api-Key', $server->request->headers) && $this->authorizer->isAuthenticated()) {
-            $this->authorizer->logout();
         }
     }
 }

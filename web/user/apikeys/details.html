@@ -36,7 +36,8 @@
                                         href=""
                                         class="list-group-item clearfix"
                                         ng-repeat="privilege in privileges"
-                                        ng-click="togglePrivilege(privilege)">
+                                        ng-click="togglePrivilege(privilege)"
+                                    >
                                         <button ng-show="privilege.selected" type="button" class="btn btn-xs btn-success pull-right">
                                             <i class="fa fa-check"></i>
                                         </button>
@@ -73,7 +74,8 @@
                                 is-open="datepicker.opened"
                                 min-date="datepicker.today"
                                 datepicker-options="datepicker.dateOptions"
-                                close-text="Close" />
+                                close-text="Close"
+                            />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="datepicker.open($event)">
                                     <i class="glyphicon glyphicon-calendar"></i>
@@ -93,7 +95,8 @@
                                 ng-change="timepicker.changed()"
                                 hour-step="1"
                                 minute-step="1"
-                                show-meridian="true"></timepicker>
+                                show-meridian="true"
+                            ></timepicker>
                         </div>
                     </div>
                 </div>

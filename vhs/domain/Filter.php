@@ -1,16 +1,17 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/11/2015
- * Time: 9:27 PM
+ * Time: 9:27 PM.
  */
 
 namespace vhs\domain;
 
 class Filter {
-    public $left;
     public $column;
+    public $left;
     public $operator;
     public $right;
     public $value;
@@ -35,8 +36,20 @@ class Filter {
         return new Filter(null, $column, '=', null, $value);
     }
 
-    public static function NotEqual($column, $value) {
-        return new Filter(null, $column, '!=', null, $value);
+    public static function Greater($column, $value) {
+        return new Filter(null, $column, '>', null, $value);
+    }
+
+    public static function GreaterEqual($column, $value) {
+        return new Filter(null, $column, '>=', null, $value);
+    }
+
+    public static function IsNotNull($column, $value) {
+        return new Filter(null, $column, 'not null', null, null);
+    }
+
+    public static function IsNull($column) {
+        return new Filter(null, $column, 'is null', null, null);
     }
 
     public static function Lesser($column, $value) {
@@ -47,23 +60,11 @@ class Filter {
         return new Filter(null, $column, '<=', null, $value);
     }
 
-    public static function Greater($column, $value) {
-        return new Filter(null, $column, '>', null, $value);
-    }
-
-    public static function GreaterEqual($column, $value) {
-        return new Filter(null, $column, '>=', null, $value);
-    }
-
     public static function Like($column, $value) {
         return new Filter(null, $column, 'like', null, $value);
     }
 
-    public static function IsNull($column) {
-        return new Filter(null, $column, 'is null', null, null);
-    }
-
-    public static function IsNotNull($column, $value) {
-        return new Filter(null, $column, 'not null', null, null);
+    public static function NotEqual($column, $value) {
+        return new Filter(null, $column, '!=', null, $value);
     }
 }

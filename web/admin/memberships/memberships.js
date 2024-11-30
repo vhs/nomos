@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.admin').config([
     '$stateProvider',
@@ -11,17 +11,17 @@ angular.module('mmpApp.admin').config([
                 memberships: [
                     'MembershipService1',
                     function (MembershipService1) {
-                        return MembershipService1.GetAll();
-                    },
-                ],
+                        return MembershipService1.GetAll()
+                    }
+                ]
             },
             controller: [
                 '$scope',
                 'memberships',
                 function ($scope, memberships) {
-                    $scope.memberships = memberships;
-                },
-            ],
-        });
-    },
-]);
+                    $scope.memberships = memberships
+                }
+            ]
+        })
+    }
+])

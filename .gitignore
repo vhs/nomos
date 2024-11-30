@@ -223,7 +223,6 @@ pip-log.txt
 .vagrant
 
 #Composer
-composer.lock
 composer.phar
 vendor
 
@@ -240,3 +239,11 @@ docker-compose.conf
 
 .vscode
 conf/config.js
+
+.php-cs-fixer.cache
+.phpunit.cache
+.phpunit.result.cache
+
+tools/composer.phar
+.wireit
+docker-compose.override.yml

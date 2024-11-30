@@ -1,0 +1,9 @@
+services:
+    nomos-backend:
+        networks:
+            - mysql
+
+networks:
+    mysql:
+        external: true
+        name: mysql-lithium

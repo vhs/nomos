@@ -1,6 +1,4 @@
-version: "3.5"
-
 services:
-  nomos-rabbitmq:
-    ports:
-      - 15672:15672
+    nomos-rabbitmq:
+        ports:
+            - 15672:15672

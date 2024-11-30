@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.public', ['ui.router']).config([
     '$stateProvider',
@@ -8,8 +8,8 @@ angular.module('mmpApp.public', ['ui.router']).config([
                 abstract: true,
                 template: '<ui-view/>',
                 data: {
-                    access: 'public',
-                },
+                    access: 'public'
+                }
             })
             .state('public.logout', {
                 url: '/logout/',
@@ -20,10 +20,10 @@ angular.module('mmpApp.public', ['ui.router']).config([
                     'AuthService1',
                     function ($scope, $location, AuthService1) {
                         AuthService1.Logout().then(function () {
-                            $location.path('/login/');
-                        });
-                    },
-                ],
-            });
-    },
-]);
+                            $location.path('/login/')
+                        })
+                    }
+                ]
+            })
+    }
+])

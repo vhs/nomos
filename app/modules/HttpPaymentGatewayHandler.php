@@ -1,15 +1,15 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:16 PM
+ * Time: 4:16 PM.
  */
 
 namespace app\modules;
 
 use app\gateways\IPaymentGateway;
-use app\gateways\PaymentGatewayException;
 use vhs\web\HttpRequestHandler;
 use vhs\web\HttpServer;
 

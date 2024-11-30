@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 1:52 PM
+ * Time: 1:52 PM.
  */
 
 namespace vhs\database;
@@ -19,25 +20,12 @@ class Columns {
         $this->__columns = $columns;
     }
 
-    public function __get($name) {
-        return $this->getByName($name);
+    public static function Equals(Column $a, Column $b) {
+        return $a->name === $b->name && $a->table === $b->table && $a->type === $b->type;
     }
 
-    /**
-     * @return Column[]
-     */
-    public function all() {
-        return $this->__columns;
-    }
-
-    public function names() {
-        $names = [];
-
-        foreach ($this->all() as $col) {
-            array_push($names, $col->name);
-        }
-
-        return $names;
+    public static function EqualsByName(Column $a, $name) {
+        return $a->name === $name;
     }
 
     public function add(Column $column) {
@@ -50,24 +38,11 @@ class Columns {
         return null;
     }
 
-    public function remove(Column $column) {
-        if (!$this->contains($column->name)) {
-            return;
-        }
-
-        foreach ($this->__columns as $key => $col) {
-            if (self::Equals($col, $column)) {
-                unset($this->__columns[$key]);
-            }
-        }
-    }
-
-    public static function Equals(Column $a, Column $b) {
-        return $a->name === $b->name && $a->table === $b->table && $a->type === $b->type;
-    }
-
-    public static function EqualsByName(Column $a, $name) {
-        return $a->name === $name;
+    /**
+     * @return Column[]
+     */
+    public function all() {
+        return $this->__columns;
     }
 
     public function contains($column) {
@@ -88,5 +63,31 @@ class Columns {
         }
 
         return null;
+    }
+
+    public function names() {
+        $names = [];
+
+        foreach ($this->all() as $col) {
+            array_push($names, $col->name);
+        }
+
+        return $names;
+    }
+
+    public function remove(Column $column) {
+        if (!$this->contains($column->name)) {
+            return;
+        }
+
+        foreach ($this->__columns as $key => $col) {
+            if (self::Equals($col, $column)) {
+                unset($this->__columns[$key]);
+            }
+        }
+    }
+
+    public function __get($name) {
+        return $this->getByName($name);
     }
 }

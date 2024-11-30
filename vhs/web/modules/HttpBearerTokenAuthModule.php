@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/6/2016
- * Time: 1:29 PM
+ * Time: 1:29 PM.
  */
 
 namespace vhs\web\modules;
@@ -21,6 +22,9 @@ class HttpBearerTokenAuthModule implements IHttpModule {
 
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
+    }
+
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -46,8 +50,5 @@ class HttpBearerTokenAuthModule implements IHttpModule {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

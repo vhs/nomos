@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 3:40 PM
+ * Time: 3:40 PM.
  */
 
 namespace vhs\database\types;
@@ -18,6 +19,7 @@ class TypeEnum extends Type {
 
     /**
      * @param \string[] ...$values
+     *
      * @throws InvalidSchemaException
      */
     public function __construct(...$values) {
@@ -30,11 +32,11 @@ class TypeEnum extends Type {
         $this->values = $values;
     }
 
-    public function generateType(ITypeGenerator $generator, $value = null) {
-        return $generator->generateEnum($this, $value);
-    }
-
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertEnum($this, $value);
+    }
+
+    public function generateType(ITypeGenerator $generator, $value = null) {
+        return $generator->generateEnum($this, $value);
     }
 }

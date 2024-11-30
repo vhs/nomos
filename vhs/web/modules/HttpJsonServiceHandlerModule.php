@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 12:25 PM
+ * Time: 12:25 PM.
  */
 
 namespace vhs\web\modules;
@@ -18,6 +19,9 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
     public function __construct($registryKey) {
         $this->registryKey = $registryKey;
+    }
+
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -52,8 +56,5 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
     }
 
     public function handleException(HttpServer $server, \Exception $ex) {
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

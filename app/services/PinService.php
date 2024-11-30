@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 07/01/2015
- * Time: 6:03 PM
+ * Time: 6:03 PM.
  */
 
 namespace app\services;
@@ -21,20 +22,24 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class PinService extends Service implements IPinService1 {
-    public function GetUserPin($userid) {
-        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
-            throw new UnauthorizedException();
-        }
-
-        $keys = Key::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'pin'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
-
-        if (count($keys) >= 1) {
-            return $keys[0];
-        }
-
-        return null;
+    /**
+     * @permission door
+     *
+     * @return mixed
+     */
+    public function AccessInstructions() {
+        return 'asdf';
     }
 
+    /**
+     * Automatically generates a pin for a specified user.
+     *
+     * @permission administrator|user
+     *
+     * @param $userid
+     *
+     * @return mixed
+     */
     public function GeneratePin($userid) {
         if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
@@ -69,6 +74,15 @@ class PinService extends Service implements IPinService1 {
         return $pin;
     }
 
+    /**
+     * @permission gen-temp-pin|administrator
+     *
+     * @param $expires
+     * @param $privileges
+     * @param $notes
+     *
+     * @return mixed
+     */
     public function GenerateTemporaryPin($expires, $privileges, $notes) {
         $userid = CurrentUser::getIdentity();
 
@@ -102,6 +116,58 @@ class PinService extends Service implements IPinService1 {
         return $pin;
     }
 
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     *
+     * @return mixed
+     */
+    public function GetUserPin($userid) {
+        if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
+
+        $keys = Key::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'pin'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
+
+        if (count($keys) >= 1) {
+            return $keys[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     * @param $pin
+     *
+     * @return mixed
+     */
+    public function UpdatePin($keyid, $pin) {
+        $key = Key::find($keyid);
+
+        if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
+            throw new UnauthorizedException();
+        }
+
+        $pinid = explode('|', $key->key)[0];
+
+        $key->key = $pinid . '|' . sprintf('%04s', intval($pin));
+
+        $key->save();
+    }
+
+    /**
+     * Change a pin.
+     *
+     * @permission administrator|user
+     *
+     * @param $pin
+     *
+     * @return mixed
+     */
     public function UpdateUserPin($userid, $pin) {
         if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
@@ -120,23 +186,5 @@ class PinService extends Service implements IPinService1 {
         $pinObj->save();
 
         return $pinObj;
-    }
-
-    public function UpdatePin($keyid, $pin) {
-        $key = Key::find($keyid);
-
-        if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
-            throw new UnauthorizedException();
-        }
-
-        $pinid = explode('|', $key->key)[0];
-
-        $key->key = $pinid . '|' . sprintf('%04s', intval($pin));
-
-        $key->save();
-    }
-
-    public function AccessInstructions() {
-        return 'asdf';
     }
 }

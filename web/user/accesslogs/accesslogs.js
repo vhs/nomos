@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.user').config([
     '$stateProvider',
@@ -11,20 +11,20 @@ angular.module('mmpApp.user').config([
                 '$scope',
                 'AuthService1',
                 function ($scope, AuthService1) {
-                    $scope.accesslogs = [];
-                    $scope.itemCount = 0;
+                    $scope.accesslogs = []
+                    $scope.itemCount = 0
 
-                    $scope.showUnauthorized = false;
+                    $scope.showUnauthorized = false
                     $scope.toggleUnauthorized = function (val) {
-                        $scope.showUnauthorized = val;
-                        $scope.refresh();
-                    };
+                        $scope.showUnauthorized = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showOrphaned = false;
+                    $scope.showOrphaned = false
                     $scope.toggleOrphaned = function (val) {
-                        $scope.showOrphaned = val;
-                        $scope.refresh();
-                    };
+                        $scope.showOrphaned = val
+                        $scope.refresh()
+                    }
 
                     $scope.listService = {
                         page: 1,
@@ -32,101 +32,101 @@ angular.module('mmpApp.user').config([
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: 'id,key,type,authorized,from_ip,time,userid',
                         order: 'time desc',
-                        search: null,
-                    };
+                        search: null
+                    }
 
-                    $scope.updating = false;
-                    $scope.pendingUpdate = 0;
+                    $scope.updating = false
+                    $scope.pendingUpdate = 0
 
                     $scope.checkUpdated = function () {
                         if ($scope.pendingUpdate <= 0) {
-                            $scope.updated();
+                            $scope.updated()
                         } else {
-                            $timeout($scope.checkUpdated, 10);
+                            $timeout($scope.checkUpdated, 10)
                         }
-                    };
+                    }
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null
+                        const filters = []
 
                         if ($scope.showUnauthorized) {
                             filters.push({
                                 column: 'authorized',
                                 operator: '=',
-                                value: '0',
-                            });
+                                value: '0'
+                            })
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
                                     column: 'key',
                                     operator: 'like',
-                                    value: val,
+                                    value: val
                                 },
                                 operator: 'or',
                                 right: {
                                     left: {
                                         column: 'type',
                                         operator: 'like',
-                                        value: val,
+                                        value: val
                                     },
                                     operator: 'or',
                                     right: {
                                         left: {
                                             column: 'from_ip',
                                             operator: 'like',
-                                            value: val,
+                                            value: val
                                         },
                                         operator: 'or',
                                         right: {
                                             column: 'time',
                                             operator: 'like',
-                                            value: val,
-                                        },
-                                    },
-                                },
-                            });
+                                            value: val
+                                        }
+                                    }
+                                }
+                            })
                         }
 
-                        var addRightmost = function (filter, val) {
-                            if (filter.right != null) addRightmost(filter.right, val);
-                            filter.right = val;
-                        };
+                        const addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val)
+                            filter.right = val
+                        }
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    };
+                                        right: null
+                                    }
                                 } else {
-                                    filter = filters[i];
-                                    break;
+                                    filter = filters[i]
+                                    break
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i]);
+                                    addRightmost(filter, filters[i])
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    });
+                                        right: null
+                                    })
                                 }
                             }
                         }
 
-                        return filter;
-                    };
+                        return filter
+                    }
 
                     $scope.getUserAccessLog = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter()
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize
 
                         return AuthService1.ListUserAccessLog(
                             $scope.currentUser.id,
@@ -134,37 +134,37 @@ angular.module('mmpApp.user').config([
                             $scope.listService.pageSize,
                             $scope.listService.columns,
                             $scope.listService.order,
-                            filter,
-                        );
-                    };
+                            filter
+                        )
+                    }
 
                     $scope.getUserAccessLogCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter()
 
-                        return AuthService1.CountUserAccessLog($scope.currentUser.id, filter);
-                    };
+                        return AuthService1.CountUserAccessLog($scope.currentUser.id, filter)
+                    }
 
                     $scope.updated = function () {
                         $scope.getUserAccessLogCount().then(function (data) {
-                            $scope.itemCount = data;
+                            $scope.itemCount = data
 
                             $scope.getUserAccessLog().then(function (data) {
-                                $scope.accesslogs = data;
+                                $scope.accesslogs = data
                                 //$scope.resetForms();
-                                $scope.updating = false;
-                                $scope.pendingUpdate = 0;
-                            });
-                        });
-                    };
+                                $scope.updating = false
+                                $scope.pendingUpdate = 0
+                            })
+                        })
+                    }
 
                     $scope.refresh = function () {
-                        $scope.updating = true;
-                        $scope.updated();
-                    };
+                        $scope.updating = true
+                        $scope.updated()
+                    }
 
-                    $scope.refresh();
-                },
-            ],
-        });
-    },
-]);
+                    $scope.refresh()
+                }
+            ]
+        })
+    }
+])

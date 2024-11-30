@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 4:51 PM
+ * Time: 4:51 PM.
  */
 
 namespace vhs\database\wheres;
@@ -16,12 +17,6 @@ class WhereAnd extends Where {
 
     public function __construct(Where ...$where) {
         $this->wheres = $where;
-    }
-
-    public function __updateTable(Table &$table) {
-        foreach ($this->wheres as $where) {
-            $where->__updateTable($table);
-        }
     }
 
     public function generateWhere(IWhereGenerator $generator) {
@@ -38,5 +33,11 @@ class WhereAnd extends Where {
         $s .= ')';
 
         return $s;
+    }
+
+    public function __updateTable(Table &$table) {
+        foreach ($this->wheres as $where) {
+            $where->__updateTable($table);
+        }
     }
 }

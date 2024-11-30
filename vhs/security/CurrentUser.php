@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 04/01/2015
- * Time: 10:42 AM
+ * Time: 10:42 AM.
  */
 
 namespace vhs\security;
@@ -18,6 +19,44 @@ class CurrentUser {
 
     protected function __construct() {
         $this->currentPrincipal = new AnonPrincipal();
+    }
+
+    final public static function canGrantAllPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->canGrantAllPermissions(...$permission);
+    }
+
+    final public static function canGrantAnyPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->canGrantAnyPermissions(...$permission);
+    }
+
+    final public static function getIdentity() {
+        return CurrentUser::getPrincipal()->getIdentity();
+    }
+
+    /**
+     * @return IPrincipal
+     */
+    final public static function getPrincipal() {
+        return CurrentUser::getInstance()->currentPrincipal;
+    }
+
+    final public static function hasAllPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->hasAllPermissions(...$permission);
+    }
+
+    final public static function hasAnyPermissions(...$permission) {
+        return CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
+    }
+
+    final public static function isAnon() {
+        return CurrentUser::getPrincipal()->isAnon();
+    }
+
+    /**
+     * @param IPrincipal $principal
+     */
+    final public static function setPrincipal($principal) {
+        CurrentUser::getInstance()->currentPrincipal = $principal;
     }
 
     final protected static function getInstance() {
@@ -38,44 +77,6 @@ class CurrentUser {
         }
     }
 
-    final private function __clone() {
-    }
-
-    /**
-     * @return IPrincipal
-     */
-    final public static function getPrincipal() {
-        return CurrentUser::getInstance()->currentPrincipal;
-    }
-
-    /**
-     * @param IPrincipal $principal
-     */
-    final public static function setPrincipal($principal) {
-        CurrentUser::getInstance()->currentPrincipal = $principal;
-    }
-
-    final public static function hasAllPermissions(...$permission) {
-        return CurrentUser::getPrincipal()->hasAllPermissions(...$permission);
-    }
-
-    final public static function hasAnyPermissions(...$permission) {
-        return CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
-    }
-
-    final public static function canGrantAllPermissions(...$permission) {
-        return CurrentUser::getPrincipal()->canGrantAllPermissions(...$permission);
-    }
-
-    final public static function canGrantAnyPermissions(...$permission) {
-        return CurrentUser::getPrincipal()->canGrantAnyPermissions(...$permission);
-    }
-
-    final public static function getIdentity() {
-        return CurrentUser::getPrincipal()->getIdentity();
-    }
-
-    final public static function isAnon() {
-        return CurrentUser::getPrincipal()->isAnon();
+    private function __clone() {
     }
 }

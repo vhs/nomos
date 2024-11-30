@@ -1,22 +1,22 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/8/2016
- * Time: 12:39 PM
+ * Time: 12:39 PM.
  */
 
 namespace app\security;
 
 use vhs\database\Column;
 use vhs\database\Table;
-use vhs\security\CurrentUser;
 
 class TablePrivilegedAccess extends PrivilegedAccess {
-    /** @var Table */
-    private $table;
     /** @var string[] */
     private $privileges;
+    /** @var Table */
+    private $table;
 
     public function __construct(Column $ownerColumn = null, Table $table, ...$privileges) {
         parent::__construct($ownerColumn);
@@ -32,7 +32,7 @@ class TablePrivilegedAccess extends PrivilegedAccess {
         return $table === $this->table && $this->hasPrivilegedAccess($record, ...$this->privileges);
     }
 
-    public function serialize() {
+    public function jsonSerialize(): mixed {
         return [
             'type' => 'table',
             'table' => $this->table->name,
@@ -41,12 +41,20 @@ class TablePrivilegedAccess extends PrivilegedAccess {
         ];
     }
 
-    public function jsonSerialize() {
+    public function serialize(): mixed {
         return [
             'type' => 'table',
             'table' => $this->table->name,
             'privileges' => $this->privileges,
             'checks' => $this->checks
         ];
+    }
+
+    public function __serialize() {
+        return $this->serialize();
+    }
+
+    public function __unserialize($data): void {
+        // TODO maybe implement?
     }
 }

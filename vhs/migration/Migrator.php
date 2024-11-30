@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 12/12/2014
- * Time: 12:57 PM
+ * Time: 12:57 PM.
  */
 
 namespace vhs\migration;
@@ -12,11 +13,11 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
 class Migrator {
-    private $server;
-    private $user;
-    private $password;
     private $database;
     private $logger;
+    private $password;
+    private $server;
+    private $user;
 
     public function __construct($server, $user, $password, $database, Logger $logger = null) {
         $this->server = $server;

@@ -1,0 +1,66 @@
+{
+    "name": "@vhs/nomos",
+    "private": true,
+    "version": "1.0.0",
+    "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "wireit",
+        "prepare": "wireit"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.22.2",
+        "@prettier/plugin-xml": "^3.4.1",
+        "@tyisi/config-eslint": "^4.0.0",
+        "@tyisi/config-prettier": "^1.0.1",
+        "bower": "^1.8.14",
+        "eslint": "^9.15.0",
+        "husky": "^9.1.7",
+        "prettier": "^3.0.3",
+        "prettier-plugin-sh": "^0.14.0",
+        "prettier-plugin-sql": "^0.18.1"
+    },
+    "dependencies": {
+        "just-install": "^2.0.2",
+        "wireit": "^0.14.9"
+    },
+    "wireit": {
+        "prepare": {
+            "dependencies": [
+                "prepare:bower",
+                "prepare:husky",
+                "prepare:vendor",
+                "prepare:webhooker"
+            ]
+        },
+        "prepare:bower": {
+            "command": "just setup bower"
+        },
+        "prepare:husky": {
+            "command": "just setup husky"
+        },
+        "prepare:vendor": {
+            "command": "just setup vendor"
+        },
+        "prepare:webhooker": {
+            "command": "just setup webhooker"
+        },
+        "test": {
+            "dependencies": [
+                "test:php",
+                "test:webhooker"
+            ]
+        },
+        "test:php": {
+            "command": "just test php"
+        },
+        "test:webhooker": {
+            "command": "just test php"
+        }
+    }
+}

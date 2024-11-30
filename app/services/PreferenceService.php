@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 2/5/2016
- * Time: 12:16 PM
+ * Time: 12:16 PM.
  */
 
 namespace app\services;
@@ -17,6 +18,26 @@ use vhs\services\Service;
 class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
+     *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function DeleteSystemPreference($key) {
+        $prefs = SystemPreference::findByKey($key);
+
+        if (is_null($prefs) || count($prefs) <= 0) {
+            return;
+        }
+
+        foreach ($prefs as $pref) {
+            $pref->delete();
+        }
+    }
+
+    /**
+     * @permission administrator
+     *
      * @return mixed
      */
     public function GetAllSystemPreferences() {
@@ -24,31 +45,26 @@ class PreferenceService extends Service implements IPreferenceService1 {
     }
 
     /**
-     * @permission anonymous
-     * @param $key
-     * @return mixed
+     * @permission administrator
+     *
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     *
+     * @return array
      */
-    public function SystemPreference($key) {
-        $prefs = SystemPreference::findByKey($key, function ($privileges) {
-            $codes = [];
-            foreach ($privileges->all() as $priv) {
-                array_push($codes, $priv->code);
-            }
-
-            return CurrentUser::hasAllPermissions(...$codes);
-        });
-
-        if (count($prefs) != 1) {
-            return null;
-        }
-
-        return $prefs[0];
+    public function ListSystemPreferences($page, $size, $columns, $order, $filters) {
+        return SystemPreference::page($page, $size, $columns, $order, $filters);
     }
 
     /**
      * @permission administrator
+     *
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function PutSystemPreference($key, $value, $enabled, $notes) {
@@ -74,31 +90,10 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
-     * @param $key
-     * @param $enabled
-     * @return mixed
-     */
-    public function UpdateSystemPreferenceEnabled($key, $enabled) {
-        $prefs = SystemPreference::findByKey($key);
-
-        $pref = null;
-
-        if (count($prefs) != 1) {
-            return;
-        }
-
-        $pref = $prefs[0];
-
-        $pref->key = $key;
-        $pref->enabled = $enabled;
-
-        $pref->save();
-    }
-
-    /**
-     * @permission administrator
+     *
      * @param $id
      * @param $privileges
+     *
      * @return mixed
      */
     public function PutSystemPreferencePrivileges($id, $privileges) {
@@ -128,10 +123,36 @@ class PreferenceService extends Service implements IPreferenceService1 {
     }
 
     /**
+     * @permission anonymous
+     *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function SystemPreference($key) {
+        $prefs = SystemPreference::findByKey($key, function ($privileges) {
+            $codes = [];
+            foreach ($privileges->all() as $priv) {
+                array_push($codes, $priv->code);
+            }
+
+            return CurrentUser::hasAllPermissions(...$codes);
+        });
+
+        if (count($prefs) != 1) {
+            return null;
+        }
+
+        return $prefs[0];
+    }
+
+    /**
      * @permission administrator
+     *
      * @param $id
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes) {
@@ -153,31 +174,26 @@ class PreferenceService extends Service implements IPreferenceService1 {
 
     /**
      * @permission administrator
+     *
      * @param $key
+     * @param $enabled
+     *
      * @return mixed
      */
-    public function DeleteSystemPreference($key) {
+    public function UpdateSystemPreferenceEnabled($key, $enabled) {
         $prefs = SystemPreference::findByKey($key);
 
-        if (is_null($prefs) || count($prefs) <= 0) {
+        $pref = null;
+
+        if (count($prefs) != 1) {
             return;
         }
 
-        foreach ($prefs as $pref) {
-            $pref->delete();
-        }
-    }
+        $pref = $prefs[0];
 
-    /**
-     * @permission administrator
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     * @return array
-     */
-    public function ListSystemPreferences($page, $size, $columns, $order, $filters) {
-        return SystemPreference::page($page, $size, $columns, $order, $filters);
+        $pref->key = $key;
+        $pref->enabled = $enabled;
+
+        $pref->save();
     }
 }

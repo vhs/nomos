@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 8/17/2015
- * Time: 4:12 PM
+ * Time: 4:12 PM.
  */
 
 namespace app\gateways;
@@ -11,6 +12,33 @@ namespace app\gateways;
 use app\domain\Ipn;
 
 class PaypalGateway implements IPaymentGateway {
+    public function CreateInvalidIPNRecord($raw) {
+        // Create the IPN record in the database
+        $ipn = new Ipn();
+        $ipn->validation = 'INVALID';
+        $ipn->raw = $raw;
+        $ipn->save();
+
+        return 'INVALID';
+    }
+
+    public function CreateIPNRecord($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw) {
+        // Create the IPN record in the database
+        $ipn = new Ipn();
+
+        $ipn->validation = 'VERIFIED';
+        $ipn->payment_status = $payment_status;
+        $ipn->payment_amount = $mc_gross;
+        $ipn->payment_currency = $mc_currency;
+        $ipn->payer_email = $payer_email;
+        $ipn->item_name = $item_name;
+        $ipn->item_number = $item_number;
+        $ipn->raw = $raw;
+        $ipn->save();
+
+        return $ipn->validation;
+    }
+
     public function Name() {
         return 'paypal';
     }
@@ -80,32 +108,5 @@ class PaypalGateway implements IPaymentGateway {
 
         $this->CreateInvalidIPNRecord($req);
         throw new PaymentGatewayException('Error: Unknown Paypal IPN Error ' . $req);
-    }
-
-    public function CreateInvalidIPNRecord($raw) {
-        // Create the IPN record in the database
-        $ipn = new Ipn();
-        $ipn->validation = 'INVALID';
-        $ipn->raw = $raw;
-        $ipn->save();
-
-        return 'INVALID';
-    }
-
-    public function CreateIPNRecord($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw) {
-        // Create the IPN record in the database
-        $ipn = new Ipn();
-
-        $ipn->validation = 'VERIFIED';
-        $ipn->payment_status = $payment_status;
-        $ipn->payment_amount = $mc_gross;
-        $ipn->payment_currency = $mc_currency;
-        $ipn->payer_email = $payer_email;
-        $ipn->item_name = $item_name;
-        $ipn->item_number = $item_number;
-        $ipn->raw = $raw;
-        $ipn->save();
-
-        return $ipn->validation;
     }
 }

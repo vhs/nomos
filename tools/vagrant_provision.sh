@@ -9,18 +9,17 @@ sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf
 sudo dpkg-reconfigure debconf -f noninteractive -p critical
 
 sudo apt-get update
-T=`which add-apt-repository`
-if [ -z "`which add-apt-repository`" ]; then
-  sudo apt-get install --yes software-properties-common
+if [ -z "$(which add-apt-repository)" ]; then
+    sudo apt-get install --yes software-properties-common
 fi
 sudo add-apt-repository --yes ppa:ondrej/php
 sudo apt-get update
 
 # install mysql
-if [ -z "`which mysqld`" ]; then
-  echo "mysql-server-5.7 mysql-server/root_password password password" | sudo debconf-set-selections
-  echo "mysql-server-5.7 mysql-server/root_password_again password password" | sudo debconf-set-selections
-  sudo apt-get install --yes -q mysql-server mysql-client
+if [ -z "$(which mysqld)" ]; then
+    echo "mysql-server-5.7 mysql-server/root_password password password" | sudo debconf-set-selections
+    echo "mysql-server-5.7 mysql-server/root_password_again password password" | sudo debconf-set-selections
+    sudo apt-get install --yes -q mysql-server mysql-client
 fi
 
 # install php
@@ -32,7 +31,7 @@ sudo apt-get install --yes -q nginx
 
 # configure nginx
 if [ -e "/etc/nginx/sites-enabled/default" ]; then
-  sudo rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/sites-enabled/default
 fi
 sudo rm -f /etc/nginx/sites-enabled/nomos
 sudo cp -f /vagrant/conf/nginx-vhost-vagrant.conf /etc/nginx/sites-enabled/nomos
@@ -44,38 +43,38 @@ sudo sed -i 's/;error_log = php_errors.log/error_log = \/var\/log\/php7.0-cli.lo
 
 # configure app
 if [ ! -e "/vagrant/conf/config.ini.php" ]; then
-  cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
+    cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
 fi
 
 # add composer
 if [ ! -e "/vagrant/composer.phar" ]; then
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant/
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant/
 fi
 
 # run composer
-cd /vagrant/
+cd /vagrant/ || exit
 php composer.phar install
 
 # configure database
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
-if [ -z `mysql --host=localhost --user=root --password=password -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='nomos';"` ]; then
-  mysql --host=localhost --user=root --password=password -e 'CREATE DATABASE nomos;'
-  mysql --host=localhost --user=root --password=password -e "CREATE USER 'vhs'@'%' IDENTIFIED BY 'password';"
-  mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON nomos.* TO 'vhs'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+if [ -z "$(mysql --host=localhost --user=root --password=password -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='nomos';")" ]; then
+    mysql --host=localhost --user=root --password=password -e 'CREATE DATABASE nomos;'
+    mysql --host=localhost --user=root --password=password -e "CREATE USER 'vhs'@'%' IDENTIFIED BY 'password';"
+    mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+    mysql --host=localhost --user=root --password=password -e "GRANT ALL PRIVILEGES ON nomos.* TO 'vhs'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 fi
 
 touch /vagrant/app/sql.log
 touch /vagrant/app/server.log
 chmod 777 /vagrant/app/sql.log
 chmod 777 /vagrant/app/server.log
-      
+
 touch /vagrant/logs/sql.log
 touch /vagrant/logs/server.log
 chmod -R a+w /vagrant/logs
 
 # migrate database
-cd /vagrant/tools
+cd /vagrant/tools || exit
 php migrate.php -m
 
 # rabbitmq
@@ -106,7 +105,7 @@ sudo apt-get install -y nodejs npm
 sudo npm install -g npm
 
 # install webhooker modules
-cd /vagrant/webhooker/
+cd /vagrant/webhooker/ || exit
 npm install
 
 sudo apt-get install --yes -q jq
@@ -114,18 +113,18 @@ sudo apt-get install --yes -q jq
 # webhooker nomos permissions
 APIKEY=$(curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/GenerateSystemApiKey?notes=webhooker)
 
-if [ ! `curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/GetAllPrivileges | jq -r .[] | jq -r .code | grep webhook` ]; then
-  curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/CreatePrivilege?name=webhook\&code=webhook\&description=webhook\&icon=webhook\&enabled=true
+if ! curl -s http://vhs:password@localhost/services/web/PrivilegeService1.svc/GetAllPrivileges | jq -r .[] | jq -r .code | grep webhook > /dev/null; then
+    curl -s 'http://vhs:password@localhost/services/web/PrivilegeService1.svc/CreatePrivilege?name=webhook\&code=webhook\&description=webhook\&icon=webhook\&enabled=true'
 fi
 
-curl -s http://vhs:password@localhost/services/web/ApiKeyService1.svc/PutApiKeyPrivileges?keyid=$(echo $APIKEY | jq -r .id)\&privileges=webhook
+curl -s "http://vhs:password@localhost/services/web/ApiKeyService1.svc/PutApiKeyPrivileges?keyid=$(echo "${APIKEY}" | jq -r .id)\&privileges=webhook"
 
-APIKEY=$(echo $APIKEY | jq .key)
+APIKEY=$(echo "${APIKEY}" | jq .key)
 
 # configure webhooker
 if [ ! -e "/vagrant/webhooker/config.js" ]; then
-  cp /vagrant/webhooker/config.js.template.js /vagrant/conf/config.js
-  sed -i -e 's/token: ""/token: '$APIKEY'/g' /vagrant/webhooker/config.js
+    cp /vagrant/webhooker/config.js.template.js /vagrant/conf/config.js
+    sed -i -e "s/token: \"\"/token: '${APIKEY}'/g" /vagrant/webhooker/config.js
 fi
 
 chmod 777 /vagrant/webhooker/webhooker.sbin
@@ -135,4 +134,3 @@ sudo cp /vagrant/webhooker/webhooker.service /lib/systemd/system/webhooker.servi
 
 sudo systemctl enable webhooker.service
 sudo systemctl start webhooker.service
-

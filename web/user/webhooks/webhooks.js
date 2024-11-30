@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.user').config([
     '$stateProvider',
@@ -11,8 +11,8 @@ angular.module('mmpApp.user').config([
                 '$scope',
                 'WebHookService1',
                 function ($scope, WebHookService1) {
-                    $scope.webhooks = [];
-                    $scope.itemCount = 0;
+                    $scope.webhooks = []
+                    $scope.itemCount = 0
 
                     $scope.listService = {
                         page: 1,
@@ -21,109 +21,109 @@ angular.module('mmpApp.user').config([
                         columns: 'id,name,description,enabled,userid,url,translation,headers,method,eventid',
                         order: 'id',
                         search: null,
-                        filter: null,
-                    };
+                        filter: null
+                    }
 
-                    $scope.updating = false;
-                    $scope.pendingUpdate = 0;
+                    $scope.updating = false
+                    $scope.pendingUpdate = 0
 
                     $scope.checkUpdated = function () {
                         if ($scope.pendingUpdate <= 0) {
-                            $scope.updated();
+                            $scope.updated()
                         } else {
-                            $timeout($scope.checkUpdated, 10);
+                            $timeout($scope.checkUpdated, 10)
                         }
-                    };
+                    }
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
+                        let filter = null
+                        const filters = []
 
-                        if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                        if ($scope.listService.search != null && $scope.listService.search !== '') {
+                            const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
                                     column: 'name',
                                     operator: 'like',
-                                    value: val,
+                                    value: val
                                 },
                                 operator: 'or',
                                 right: {
                                     left: {
                                         column: 'description',
                                         operator: 'like',
-                                        value: val,
+                                        value: val
                                     },
                                     operator: 'or',
                                     right: {
                                         left: {
                                             column: 'url',
                                             operator: 'like',
-                                            value: val,
+                                            value: val
                                         },
                                         operator: 'or',
                                         right: {
                                             left: {
                                                 column: 'translation',
                                                 operator: 'like',
-                                                value: val,
+                                                value: val
                                             },
                                             operator: 'or',
                                             right: {
                                                 left: {
                                                     column: 'headers',
                                                     operator: 'like',
-                                                    value: val,
+                                                    value: val
                                                 },
                                                 operator: 'or',
                                                 right: {
                                                     column: 'method',
                                                     operator: 'like',
-                                                    value: val,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            });
+                                                    value: val
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            })
                         }
 
-                        var addRightmost = function (filter, val) {
-                            if (filter.right != null) addRightmost(filter.right, val);
-                            filter.right = val;
-                        };
+                        const addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val)
+                            filter.right = val
+                        }
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    };
+                                        right: null
+                                    }
                                 } else {
-                                    filter = filters[i];
-                                    break;
+                                    filter = filters[i]
+                                    break
                                 }
                             } else {
-                                if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i]);
+                                if (i === filters.length - 1) {
+                                    addRightmost(filter, filters[i])
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    });
+                                        right: null
+                                    })
                                 }
                             }
                         }
 
-                        return filter;
-                    };
+                        return filter
+                    }
 
                     $scope.getWebHooks = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter()
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize
 
                         return WebHookService1.ListUserHooks(
                             $scope.currentUser.id,
@@ -131,37 +131,37 @@ angular.module('mmpApp.user').config([
                             $scope.listService.pageSize,
                             $scope.listService.columns,
                             $scope.listService.order,
-                            filter,
-                        );
-                    };
+                            filter
+                        )
+                    }
 
                     $scope.getWebHookCount = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter()
 
-                        return WebHookService1.CountUserHooks($scope.currentUser.id, filter);
-                    };
+                        return WebHookService1.CountUserHooks($scope.currentUser.id, filter)
+                    }
 
                     $scope.updated = function () {
                         $scope.getWebHookCount().then(function (data) {
-                            $scope.itemCount = data;
+                            $scope.itemCount = data
 
                             $scope.getWebHooks().then(function (data) {
-                                $scope.webhooks = data;
+                                $scope.webhooks = data
                                 //$scope.resetForms();
-                                $scope.updating = false;
-                                $scope.pendingUpdate = 0;
-                            });
-                        });
-                    };
+                                $scope.updating = false
+                                $scope.pendingUpdate = 0
+                            })
+                        })
+                    }
 
                     $scope.refresh = function () {
-                        $scope.updating = true;
-                        $scope.updated();
-                    };
+                        $scope.updating = true
+                        $scope.updated()
+                    }
 
-                    $scope.refresh();
-                },
-            ],
-        });
-    },
-]);
+                    $scope.refresh()
+                }
+            ]
+        })
+    }
+])

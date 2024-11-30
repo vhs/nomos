@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 3/7/2016
- * Time: 12:24 PM
+ * Time: 12:24 PM.
  */
 
 namespace app\monitors;
@@ -15,6 +16,10 @@ use vhs\messaging\MessageQueue;
 use vhs\monitors\Monitor;
 
 class DomainEventMonitor extends Monitor {
+    public function fireEvent($event, $data) {
+        MessageQueue::publish($event->domain, $event->event, json_encode($data));
+    }
+
     public function Init(Logger &$logger = null) {
         $events = Event::findAll();
 
@@ -60,9 +65,5 @@ class DomainEventMonitor extends Monitor {
                     break;
             }
         }
-    }
-
-    public function fireEvent($event, $data) {
-        MessageQueue::publish($event->domain, $event->event, json_encode($data));
     }
 }

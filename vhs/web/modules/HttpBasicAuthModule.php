@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 06/01/2015
- * Time: 11:56 AM
+ * Time: 11:56 AM.
  */
 
 namespace vhs\web\modules;
@@ -15,12 +16,15 @@ use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
 class HttpBasicAuthModule implements IHttpModule {
-    private $realm;
     private $authorizer;
+    private $realm;
 
     public function __construct($realm, IAuthenticate $authorizer) {
         $this->realm = $realm;
         $this->authorizer = $authorizer;
+    }
+
+    public function endResponse(HttpServer $server) {
     }
 
     public function handle(HttpServer $server) {
@@ -52,8 +56,5 @@ class HttpBasicAuthModule implements IHttpModule {
         $server->code(401);
         $server->output($message);
         $server->end();
-    }
-
-    public function endResponse(HttpServer $server) {
     }
 }

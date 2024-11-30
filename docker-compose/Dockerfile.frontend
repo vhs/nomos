@@ -1,5 +1,19 @@
+ARG PHP_VERSION=8.3
+
+FROM cimg/php:${PHP_VERSION}-node AS build
+
+USER 1001:1002
+
+WORKDIR /build/
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+COPY --chown=circleci:circleci ./ ./
+
+RUN npm ci
+
 FROM nginx:stable-alpine
 
 COPY conf/nginx-vhost-docker-compose.conf /etc/nginx/conf.d/default.conf
 
-COPY web/ /var/www/html/
+COPY --from=build web/ /var/www/html/

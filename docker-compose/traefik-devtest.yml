@@ -1,12 +1,10 @@
-version: "3.5"
-
 services:
-  nomos-frontend:
-    labels:
-    - "traefik.enable=true"
-    - "traefik.http.routers.nomos-devtest.rule=Host(`membership.test.vanhack.ca`) || Host(`membership.devtest.vanhack.ca`)"
-    - "traefik.http.routers.nomos-devtest.entryPoints=websecure"
-    - "traefik.http.routers.nomos-devtest.tls=true"
-    - "traefik.http.routers.nomos-devtest.tls.certresolver=lets-encrypt"
-    - "traefik.port=80"
-    - "traefik.docker.network=proxy"
+    nomos-frontend:
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.http.routers.nomos-devtest.rule=Host(`membership.test.vanhack.ca`) || Host(`membership.devtest.vanhack.ca`)'
+            - 'traefik.http.routers.nomos-devtest.entryPoints=websecure'
+            - 'traefik.http.routers.nomos-devtest.tls=true'
+            - 'traefik.http.routers.nomos-devtest.tls.certresolver=lets-encrypt'
+            - 'traefik.port=80'
+            - 'traefik.docker.network=proxy'

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 13/12/2014
- * Time: 11:23 PM
+ * Time: 11:23 PM.
  */
 
 namespace vhs\database\orders;
@@ -16,20 +17,12 @@ use vhs\database\Table;
 abstract class OrderBy extends Element {
     /** @var Column */
     public $column;
-    /** @var OrderBy[]  */
+    /** @var OrderBy[] */
     public $orderBy = [];
 
     public function __construct(Column $column, OrderBy ...$orderBy) {
         $this->column = $column;
         $this->orderBy = $orderBy;
-    }
-
-    public function __updateTable(Table &$table) {
-        $this->column->__updateTable($table);
-
-        foreach ($this->orderBy as $orderBy) {
-            $orderBy->__updateTable($table);
-        }
     }
 
     public static function Ascending(Column $column, OrderBy ...$orderBy) {
@@ -40,10 +33,18 @@ abstract class OrderBy extends Element {
         return new OrderByDescending($column, ...$orderBy);
     }
 
+    abstract public function generateOrderBy(IOrderByGenerator $generator);
+
     public function generate(IGenerator $generator, $value = null) {
         /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }
 
-    abstract public function generateOrderBy(IOrderByGenerator $generator);
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+
+        foreach ($this->orderBy as $orderBy) {
+            $orderBy->__updateTable($table);
+        }
+    }
 }

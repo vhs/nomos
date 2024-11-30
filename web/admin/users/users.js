@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('mmpApp.admin').config([
     '$stateProvider',
@@ -7,16 +7,16 @@ angular.module('mmpApp.admin').config([
             parent: 'admin',
             url: '/users/',
             data: {
-                access: 'admin',
+                access: 'admin'
             },
             templateUrl: 'admin/users/users.html',
             resolve: {
                 statuses: [
                     'UserService1',
                     function (UserService1) {
-                        return UserService1.GetStatuses();
-                    },
-                ],
+                        return UserService1.GetStatuses()
+                    }
+                ]
             },
             controller: [
                 '$scope',
@@ -26,49 +26,49 @@ angular.module('mmpApp.admin').config([
                 'MembershipService1',
                 'statuses',
                 function ($scope, $modal, $timeout, UserService1, MembershipService1, statuses) {
-                    $scope.users = [];
-                    $scope.userCount = 0;
-                    $scope.statuses = statuses;
+                    $scope.users = []
+                    $scope.userCount = 0
+                    $scope.statuses = statuses
 
                     $scope.convertStatus = function (code) {
-                        for (var i in $scope.statuses) if ($scope.statuses[i].code == code) return $scope.statuses[i].title;
-                    };
+                        for (const i in $scope.statuses) if ($scope.statuses[i].code == code) return $scope.statuses[i].title
+                    }
 
-                    $scope.showPending = false;
+                    $scope.showPending = false
                     $scope.togglePending = function (val) {
-                        $scope.showPending = val;
-                        $scope.refresh();
-                    };
+                        $scope.showPending = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showCash = false;
+                    $scope.showCash = false
                     $scope.toggleCash = function (val) {
-                        $scope.showCash = val;
-                        $scope.refresh();
-                    };
+                        $scope.showCash = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showExpired = false;
+                    $scope.showExpired = false
                     $scope.toggleExpired = function (val) {
-                        $scope.showExpired = val;
-                        $scope.refresh();
-                    };
+                        $scope.showExpired = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showActive = false;
+                    $scope.showActive = false
                     $scope.toggleActive = function (val) {
-                        $scope.showActive = val;
-                        $scope.refresh();
-                    };
+                        $scope.showActive = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showInactive = false;
+                    $scope.showInactive = false
                     $scope.toggleInactive = function (val) {
-                        $scope.showInactive = val;
-                        $scope.refresh();
-                    };
+                        $scope.showInactive = val
+                        $scope.refresh()
+                    }
 
-                    $scope.showBanned = false;
+                    $scope.showBanned = false
                     $scope.toggleBanned = function (val) {
-                        $scope.showBanned = val;
-                        $scope.refresh();
-                    };
+                        $scope.showBanned = val
+                        $scope.refresh()
+                    }
 
                     $scope.listService = {
                         page: 1,
@@ -76,110 +76,110 @@ angular.module('mmpApp.admin').config([
                         allowedPageSizes: [10, 20, 50, 100, 1000, 10000],
                         columns: 'id,username,fname,lname,email,privileges,created,mem_expire,active,cash,lastlogin',
                         order: 'created desc',
-                        search: null,
-                    };
+                        search: null
+                    }
 
-                    $scope.updating = false;
-                    $scope.pendingUpdate = 0;
+                    $scope.updating = false
+                    $scope.pendingUpdate = 0
 
                     $scope.checkUpdated = function () {
                         if ($scope.pendingUpdate <= 0) {
-                            $scope.updated();
+                            $scope.updated()
                         } else {
-                            $timeout($scope.checkUpdated, 10);
+                            $timeout($scope.checkUpdated, 10)
                         }
-                    };
+                    }
 
                     $scope.getFilter = function () {
-                        var filter = null;
-                        var filters = [];
-                        var orFilters = [];
+                        let filter = null
+                        const filters = []
+                        const orFilters = []
 
                         if ($scope.showExpired) {
                             filters.push({
                                 column: 'mem_expire',
                                 operator: '<=',
-                                value: moment().format('YYYY-MM-DD hh:mm:ss'),
-                            });
+                                value: moment().format('YYYY-MM-DD hh:mm:ss')
+                            })
                         }
 
                         if ($scope.showCash) {
                             filters.push({
                                 column: 'cash',
                                 operator: '=',
-                                value: '1',
-                            });
+                                value: '1'
+                            })
                         }
 
                         if ($scope.showActive) {
                             orFilters.push({
                                 column: 'active',
                                 operator: '=',
-                                value: 'y',
-                            });
+                                value: 'y'
+                            })
                         }
 
                         if ($scope.showPending) {
                             orFilters.push({
                                 column: 'active',
                                 operator: '=',
-                                value: 't',
-                            });
+                                value: 't'
+                            })
                         }
 
                         if ($scope.showInactive) {
                             orFilters.push({
                                 column: 'active',
                                 operator: '=',
-                                value: 'n',
-                            });
+                                value: 'n'
+                            })
                         }
 
                         if ($scope.showBanned) {
                             orFilters.push({
                                 column: 'active',
                                 operator: '=',
-                                value: 'b',
-                            });
+                                value: 'b'
+                            })
                         }
 
                         if ($scope.listService.search != null && $scope.listService.search != '') {
-                            var val = '%' + $scope.listService.search + '%';
+                            const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
                                     column: 'username',
                                     operator: 'like',
-                                    value: val,
+                                    value: val
                                 },
                                 operator: 'or',
                                 right: {
                                     left: {
                                         column: 'email',
                                         operator: 'like',
-                                        value: val,
+                                        value: val
                                     },
                                     operator: 'or',
                                     right: {
                                         left: {
                                             column: 'fname',
                                             operator: 'like',
-                                            value: val,
+                                            value: val
                                         },
                                         operator: 'or',
                                         right: {
                                             column: 'lname',
                                             operator: 'like',
-                                            value: val,
-                                        },
-                                    },
-                                },
-                            });
+                                            value: val
+                                        }
+                                    }
+                                }
+                            })
                         }
 
-                        var addRightmost = function (filter, val) {
-                            if (filter.right != null) addRightmost(filter.right, val);
-                            filter.right = val;
-                        };
+                        const addRightmost = function (filter, val) {
+                            if (filter.right != null) addRightmost(filter.right, val)
+                            filter.right = val
+                        }
 
                         for (var i = 0; i < filters.length; i++) {
                             if (filter == null) {
@@ -187,21 +187,21 @@ angular.module('mmpApp.admin').config([
                                     filter = {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    };
+                                        right: null
+                                    }
                                 } else {
-                                    filter = filters[i];
-                                    break;
+                                    filter = filters[i]
+                                    break
                                 }
                             } else {
                                 if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i]);
+                                    addRightmost(filter, filters[i])
                                 } else {
                                     addRightmost(filter, {
                                         left: filters[i],
                                         operator: 'and',
-                                        right: null,
-                                    });
+                                        right: null
+                                    })
                                 }
                             }
                         }
@@ -212,139 +212,139 @@ angular.module('mmpApp.admin').config([
                                     filter = {
                                         left: orFilters[i],
                                         operator: 'or',
-                                        right: null,
-                                    };
+                                        right: null
+                                    }
                                 } else {
-                                    filter = orFilters[i];
-                                    break;
+                                    filter = orFilters[i]
+                                    break
                                 }
                             } else {
                                 if (i == orFilters.length - 1) {
-                                    addRightmost(filter, orFilters[i]);
+                                    addRightmost(filter, orFilters[i])
                                 } else {
                                     addRightmost(filter, {
                                         left: orFilters[i],
                                         operator: 'or',
-                                        right: null,
-                                    });
+                                        right: null
+                                    })
                                 }
                             }
                         }
 
-                        return filter;
-                    };
+                        return filter
+                    }
 
                     $scope.getUsers = function () {
-                        var filter = $scope.getFilter();
-                        var offset = ($scope.listService.page - 1) * $scope.listService.pageSize;
+                        const filter = $scope.getFilter()
+                        const offset = ($scope.listService.page - 1) * $scope.listService.pageSize
 
                         return UserService1.ListUsers(
                             offset,
                             $scope.listService.pageSize,
                             $scope.listService.columns,
                             $scope.listService.order,
-                            filter,
-                        );
-                    };
+                            filter
+                        )
+                    }
 
                     $scope.countUsers = function () {
-                        var filter = $scope.getFilter();
+                        const filter = $scope.getFilter()
 
-                        return UserService1.CountUsers(filter);
-                    };
+                        return UserService1.CountUsers(filter)
+                    }
 
                     $scope.updated = function () {
                         $scope.countUsers().then(function (data) {
-                            $scope.userCount = data;
+                            $scope.userCount = data
 
                             $scope.getUsers().then(function (data) {
-                                $scope.users = data;
+                                $scope.users = data
 
                                 $scope.users.forEach(function (user) {
-                                    user.member_since = moment(user.created).format('MMMM Do, YYYY');
-                                    user.member_for = moment(user.created).fromNow(true);
-                                    user.last_login = moment(user.lastlogin).format('MMM DD, YYYY, h:mm:ss a');
-                                    user.expiry = moment(user.mem_expire).fromNow();
-                                    user.expiry_date = moment(user.mem_expire).format('MMMM Do YYYY');
-                                });
+                                    user.member_since = moment(user.created).format('MMMM Do, YYYY')
+                                    user.member_for = moment(user.created).fromNow(true)
+                                    user.last_login = moment(user.lastlogin).format('MMM DD, YYYY, h:mm:ss a')
+                                    user.expiry = moment(user.mem_expire).fromNow()
+                                    user.expiry_date = moment(user.mem_expire).format('MMMM Do YYYY')
+                                })
 
-                                $scope.resetForms();
-                                $scope.updating = false;
-                                $scope.pendingUpdate = 0;
-                            });
-                        });
-                    };
+                                $scope.resetForms()
+                                $scope.updating = false
+                                $scope.pendingUpdate = 0
+                            })
+                        })
+                    }
 
                     $scope.refresh = function () {
-                        $scope.updating = true;
-                        $scope.updated();
-                    };
+                        $scope.updating = true
+                        $scope.updated()
+                    }
 
-                    $scope.refresh();
+                    $scope.refresh()
 
-                    $scope.resetForms = function () {};
+                    $scope.resetForms = function () {}
 
                     $scope.openCreateUser = function () {
-                        var modalInstance = $modal.open({
+                        const modalInstance = $modal.open({
                             templateUrl: 'CreateUserModal.html',
                             size: 'md',
                             controller: function ($scope, $modalInstance) {
-                                $scope.user = {};
-                                var currentMembership = {};
+                                $scope.user = {}
+                                const currentMembership = {}
 
-                                var mpromise = MembershipService1.GetAll();
+                                const mpromise = MembershipService1.GetAll()
                                 mpromise.then(function (memberships) {
-                                    $scope.memberships = [];
+                                    $scope.memberships = []
                                     angular.forEach(memberships, function (membership) {
-                                        membership.selected = membership.code == currentMembership.code;
-                                        $scope.memberships.push(membership);
-                                    });
-                                });
+                                        membership.selected = membership.code == currentMembership.code
+                                        $scope.memberships.push(membership)
+                                    })
+                                })
 
                                 $scope.switchMembership = function (membership) {
                                     angular.forEach($scope.memberships, function (mem) {
-                                        if (membership.code != mem.code) mem.selected = false;
-                                    });
+                                        if (membership.code != mem.code) mem.selected = false
+                                    })
 
-                                    membership.selected = !membership.selected;
-                                    $scope.user.membership = membership;
+                                    membership.selected = !membership.selected
+                                    $scope.user.membership = membership
 
                                     //$scope.membershipDirty = true;
-                                };
+                                }
 
                                 $scope.ok = function () {
-                                    $modalInstance.close($scope.user);
-                                };
+                                    $modalInstance.close($scope.user)
+                                }
 
                                 $scope.cancel = function () {
-                                    $modalInstance.dismiss('cancel');
-                                };
-                            },
-                        });
+                                    $modalInstance.dismiss('cancel')
+                                }
+                            }
+                        })
 
                         modalInstance.result.then(function (user) {
-                            $scope.updating = true;
-                            $scope.pendingUpdate = 0;
+                            $scope.updating = true
+                            $scope.pendingUpdate = 0
 
-                            var membership = null;
+                            let membership = null
                             angular.forEach($scope.memberships, function (mem) {
                                 if (mem.selected) {
-                                    membership = mem;
+                                    membership = mem
                                 }
-                            });
+                            })
 
-                            $scope.pendingUpdate += 1;
+                            $scope.pendingUpdate += 1
                             UserService1.Create(user.username, user.password, user.email, user.fname, user.lname, user.membership.id).then(
                                 function () {
-                                    $scope.pendingUpdate -= 1;
-                                },
-                            );
+                                    $scope.pendingUpdate -= 1
+                                }
+                            )
 
-                            $scope.checkUpdated();
-                        });
-                    };
-                },
-            ],
-        });
-    },
-]);
+                            $scope.checkUpdated()
+                        })
+                    }
+                }
+            ]
+        })
+    }
+])

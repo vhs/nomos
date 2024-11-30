@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 11/03/2015
- * Time: 6:32 PM
+ * Time: 6:32 PM.
  */
 
 namespace app\services;
@@ -12,6 +13,7 @@ use app\contracts\IKeyService1;
 use app\domain\Key;
 use app\domain\Privilege;
 use app\domain\User;
+use app\exceptions\InvalidInputException;
 use app\schema\SettingsSchema;
 use vhs\database\Database;
 use vhs\database\queries\Query;
@@ -21,56 +23,29 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 class KeyService extends Service implements IKeyService1 {
-    public function GetSystemKeys() {
-        if (!CurrentUser::hasAnyPermissions('administrator')) {
-            throw new UnauthorizedException();
-        }
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     *
+     * @return mixed
+     */
+    public function DeleteKey($keyid) {
+        $key = $this->GetKey($keyid);
 
-        return Key::where(Where::Null(Key::Schema()->Columns()->userid));
+        $key->delete();
     }
 
-    public function GetAllKeys() {
-        if (!CurrentUser::hasAnyPermissions('administrator')) {
-            throw new UnauthorizedException();
-        }
-
-        return Key::findAll();
-    }
-
-    public function GetKey($keyid) {
-        $key = Key::find($keyid);
-
-        if (is_null($key)) {
-            throw new \Exception('Invalid keyid');
-        }
-
-        if (!CurrentUser::hasAnyPermissions('administrator')) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
-                throw new UnauthorizedException();
-            }
-        }
-
-        return $key;
-    }
-
-    public function GetUserKeys($userid, $types) {
-        if (CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions('administrator')) {
-            $user = User::find($userid);
-            if ($user != null) {
-                $keys = [];
-                foreach ($user->keys->all() as $key) {
-                    if (in_array($key->type, $types)) {
-                        array_push($keys, $key);
-                    }
-                }
-
-                return $keys;
-            }
-        }
-
-        return [];
-    }
-
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $type
+     * @param $value
+     * @param $notes
+     *
+     * @return mixed
+     */
     public function GenerateUserKey($userid, $type, $value, $notes) {
         if (CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions('administrator')) {
             $user = User::find($userid);
@@ -91,7 +66,7 @@ class KeyService extends Service implements IKeyService1 {
                         $key->key = bin2hex(openssl_random_pseudo_bytes(32));
                         break;
                     default:
-                        throw new \Exception('Unsupported key type');
+                        throw new InvalidInputException('Unsupported key type');
                 }
 
                 $key->notes = $notes;
@@ -107,16 +82,89 @@ class KeyService extends Service implements IKeyService1 {
         return null;
     }
 
-    public function UpdateKey($keyid, $notes, $expires) {
-        $key = $this->GetKey($keyid);
+    /**
+     * @permission administrator
+     *
+     * @return mixed
+     */
+    public function GetAllKeys() {
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            throw new UnauthorizedException();
+        }
 
-        $key->notes = $notes;
-        $key->expires = $expires;
-        $key->save();
+        return Key::findAll();
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     *
+     * @return mixed
+     */
+    public function GetKey($keyid) {
+        $key = Key::find($keyid);
+
+        if (is_null($key)) {
+            throw new InvalidInputException('Invalid keyid');
+        }
+
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
+                throw new UnauthorizedException();
+            }
+        }
 
         return $key;
     }
 
+    /**
+     * @permission administrator
+     *
+     * @return mixed
+     */
+    public function GetSystemKeys() {
+        if (!CurrentUser::hasAnyPermissions('administrator')) {
+            throw new UnauthorizedException();
+        }
+
+        return Key::where(Where::Null(Key::Schema()->Columns()->userid));
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $types
+     *
+     * @return mixed
+     */
+    public function GetUserKeys($userid, $types) {
+        if (CurrentUser::getIdentity() == $userid || CurrentUser::hasAnyPermissions('administrator')) {
+            $user = User::find($userid);
+            if ($user != null) {
+                $keys = [];
+                foreach ($user->keys->all() as $key) {
+                    if (in_array($key->type, $types)) {
+                        array_push($keys, $key);
+                    }
+                }
+
+                return $keys;
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     * @param $privileges
+     *
+     * @return mixed
+     */
     public function PutKeyPrivileges($keyid, $privileges) {
         $key = $this->GetKey($keyid);
 
@@ -140,9 +188,22 @@ class KeyService extends Service implements IKeyService1 {
         $key->save();
     }
 
-    public function DeleteKey($keyid) {
+    /**
+     * @permission administrator|user
+     *
+     * @param $keyid
+     * @param $notes
+     * @param $expires
+     *
+     * @return mixed
+     */
+    public function UpdateKey($keyid, $notes, $expires) {
         $key = $this->GetKey($keyid);
 
-        $key->delete();
+        $key->notes = $notes;
+        $key->expires = $expires;
+        $key->save();
+
+        return $key;
     }
 }

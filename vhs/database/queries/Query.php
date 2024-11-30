@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 1:45 PM
+ * Time: 1:45 PM.
  */
 
 namespace vhs\database\queries;
@@ -21,17 +22,28 @@ use vhs\database\Table;
 use vhs\database\wheres\Where;
 
 abstract class Query implements IGeneratable {
+    /** @var array */
+    public $joins;
     /** @var Table */
     public $table;
     /** @var Where */
     public $where;
 
-    /** @var array */
-    public $joins;
-
     public function __construct(Table $table, Where $where = null) {
         $this->table = $table;
         $this->where = $where;
+    }
+
+    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+        return new QueryCount($table, $where, $orderBy, $limit, $offset);
+    }
+
+    public static function Delete(Table $table, Where $where = null) {
+        return new QueryDelete($table, $where);
+    }
+
+    public static function Insert(Table $table, Columns $columns, array $values) {
+        return new QueryInsert($table, $columns, $values);
     }
 
     public static function Select(
@@ -45,20 +57,21 @@ abstract class Query implements IGeneratable {
         return new QuerySelect($table, $columns, $where, $orderBy, $limit, $offset);
     }
 
-    public static function Insert(Table $table, Columns $columns, array $values) {
-        return new QueryInsert($table, $columns, $values);
-    }
-
     public static function Update(Table $table, Columns $columns, Where $where = null, array $values) {
         return new QueryUpdate($table, $columns, $where, $values);
     }
 
-    public static function Delete(Table $table, Where $where = null) {
-        return new QueryDelete($table, $where);
-    }
+    abstract public function generateQuery(IQueryGenerator $generator);
 
-    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
-        return new QueryCount($table, $where, $orderBy, $limit, $offset);
+    /**
+     * @param IGenerator $generator
+     * @param null       $value
+     *
+     * @return mixed
+     */
+    public function generate(IGenerator $generator, $value = null) {
+        /** @var IQueryGenerator $generator */
+        return $this->generateQuery($generator);
     }
 
     public function Join(Join ...$join) {
@@ -70,16 +83,4 @@ abstract class Query implements IGeneratable {
 
         return $this;
     }
-
-    /**
-     * @param IGenerator $generator
-     * @param null $value
-     * @return mixed
-     */
-    public function generate(IGenerator $generator, $value = null) {
-        /** @var IQueryGenerator $generator */
-        return $this->generateQuery($generator);
-    }
-
-    abstract public function generateQuery(IQueryGenerator $generator);
 }

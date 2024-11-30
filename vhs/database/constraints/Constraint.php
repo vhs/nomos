@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Thomas
  * Date: 14/12/2014
- * Time: 4:16 PM
+ * Time: 4:16 PM.
  */
 
 namespace vhs\database\constraints;
@@ -20,20 +21,19 @@ abstract class Constraint extends Element {
         $this->column = $column;
     }
 
-    public function __updateTable(Table &$table) {
-        $this->column->__updateTable($table);
+    public static function ForeignKey(Column $column, Table &$foreignTable, Column $on) {
+        return new ForeignKey($column, $foreignTable, $on);
     }
 
     public static function PrimaryKey(Column $column) {
         return new PrimaryKey($column);
     }
 
-    public static function ForeignKey(Column $column, Table &$foreignTable, Column $on) {
-        return new ForeignKey($column, $foreignTable, $on);
-    }
+    abstract public function generateConstraint(IConstraintGenerator $generator);
 
     /**
      * @param IGenerator $generator
+     *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {
@@ -41,5 +41,7 @@ abstract class Constraint extends Element {
         return $this->generateConstraint($generator);
     }
 
-    abstract public function generateConstraint(IConstraintGenerator $generator);
+    public function __updateTable(Table &$table) {
+        $this->column->__updateTable($table);
+    }
 }
