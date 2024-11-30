@@ -1,11 +1,12 @@
 FROM node:lts AS build
 
-COPY webhooker /build
+WORKDIR /build
 
-RUN cd /build \
-    && chmod 755 webhooker.sbin webhooker.console \
+COPY webhooker/ ./
+
+RUN chmod 755 webhooker.sbin webhooker.console \
     && mv config.docker.js config.js \
-    && npm install --production
+    && npm ci
 
 FROM node:lts
 
