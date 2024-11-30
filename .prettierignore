@@ -2,7 +2,7 @@
 data/
 node_modules/
 vendor/
-web/bower_components/
+web/components/
 package-lock.json
 composer.lock
 web/badges/cert_cnc_mill_lathe.svg
@@ -38,3 +38,6 @@ migrations/23/
 migrations/24/
 migrations/25/
 migrations/26/
+web/components/bower/datatables/media/images/Sorting icons.psd
+web/components/bower/datatables/media/images/Sorting
+icons.psd

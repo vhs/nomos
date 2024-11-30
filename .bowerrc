@@ -1,5 +1,5 @@
 {
-    "directory": "./web/bower_components/",
+    "directory": "./web/components/bower/",
     "save": true,
     "save-exact": true
 }

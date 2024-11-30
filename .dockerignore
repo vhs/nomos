@@ -4,7 +4,7 @@ logs/
 node_modules/
 tools/composer.phar
 vendor/
-web/bower_components/
+web/components/
 .php*.cache
 .env*
 *.log

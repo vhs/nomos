@@ -18,7 +18,7 @@ format_php:
     #!/usr/bin/env bash
     set -eo pipefail
 
-    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
+    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php "${FILES:-app/ tests/ tools/ vhs/}"
 
 setup target:
     @echo 'Setting up {{target}}…'
@@ -49,6 +49,21 @@ install_composer:
 
     ./tools/composer.sh install
 
+install_angular_ui_bootstrap:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    mkdir -p web/components/custom/angular-ui/ \
+    && cd web/components/custom/angular-ui/ \
+    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.js \
+    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.min.js
+
+install_webcomponents: install_angular_ui_bootstrap
+
+make_webcomponents_directories:
+    mkdir -p web/components/bower
+    mkdir -p web/components/custom
+
 run_bower:
     echo "Running bower"
     ./tools/bower.sh install
@@ -57,7 +72,7 @@ run_composer:
     echo "Running composer"
     ./tools/composer.sh install
 
-setup_bower: run_bower
+setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower
 
 setup_husky:
     #!/usr/bin/env bash

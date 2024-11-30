@@ -4,7 +4,7 @@
     "authors": ["Thomas LaFreniere <thomas@lafreniere.co>", "Ty Eggen <tycho.eggen@gmail.com>"],
     "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "homepage": "https://github.com/vhs/nomos",
-    "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
+    "ignore": ["**/.*", "node_modules", "web/components/bower/", "test", "tests"],
     "license": "ISC",
     "dependencies": {
         "Flot": "flot/flot#^0.8.3",
@@ -12,7 +12,6 @@
         "angular-loader": "angular/bower-angular-loader#^1.2.28",
         "angular-mocks": "angular/bower-angular-mocks#^1.2.28",
         "angular-route": "angular/bower-angular-route#^1.2.28",
-        "angular-ui": "angular-ui/bootstrap#^2.5.6",
         "bootstrap": "twbs/bootstrap#^3.3.2",
         "bootstrap-social": "lipis/bootstrap-social#^4.8.0",
         "datatables": "DataTables/DataTables#^1.10.4",
