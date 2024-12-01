@@ -9,8 +9,7 @@
 
 namespace app\processors;
 
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
+use app\constants\StringLiterals;
 
 use app\domain\Membership;
 use app\domain\Payment;
@@ -38,7 +37,10 @@ class PaymentProcessor {
         $suspended_user = CurrentUser::getPrincipal();
         CurrentUser::setPrincipal(new SystemPrincipal());
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
+        $protocol =
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443
+                ? StringLiterals::HTTPS_PREFIX
+                : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $this->host = $protocol . $domainName;

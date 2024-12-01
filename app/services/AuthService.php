@@ -9,6 +9,7 @@
 
 namespace app\services;
 
+use app\constants\StringLiterals;
 use app\contracts\IAuthService1;
 use app\domain\AccessLog;
 use app\domain\AccessToken;
@@ -28,9 +29,6 @@ use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
-
-use const app\constants\STR_LITERAL_AUTH_ACCESS_DENIED;
-use const app\constants\STR_LITERAL_AUTH_ACCESS_GRANTED;
 
 class AuthService extends Service implements IAuthService1 {
     /**
@@ -526,7 +524,7 @@ class AuthService extends Service implements IAuthService1 {
             return $ex->getMessage();
         }
 
-        return STR_LITERAL_AUTH_ACCESS_GRANTED;
+        return StringLiterals::AUTH_ACCESS_GRANTED;
     }
 
     /**
@@ -549,10 +547,10 @@ class AuthService extends Service implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($pin));
         } catch (\Exception $ex) {
-            return STR_LITERAL_AUTH_ACCESS_DENIED;
+            return StringLiterals::AUTH_ACCESS_DENIED;
         }
 
-        return STR_LITERAL_AUTH_ACCESS_GRANTED;
+        return StringLiterals::AUTH_ACCESS_GRANTED;
     }
 
     /**
@@ -607,10 +605,10 @@ class AuthService extends Service implements IAuthService1 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($key));
         } catch (\Exception $ex) {
-            return STR_LITERAL_AUTH_ACCESS_DENIED;
+            return StringLiterals::AUTH_ACCESS_DENIED;
         }
 
-        return STR_LITERAL_AUTH_ACCESS_GRANTED;
+        return StringLiterals::AUTH_ACCESS_GRANTED;
     }
 
     /**

@@ -9,8 +9,7 @@
 
 namespace app\services;
 
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
+use app\constants\StringLiterals;
 
 use app\contracts\IUserService1;
 use app\domain\Membership;
@@ -80,7 +79,10 @@ class UserService extends Service implements IUserService1 {
             // Ignore result
         }
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
+        $protocol =
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443
+                ? StringLiterals::HTTPS_PREFIX
+                : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();
@@ -285,7 +287,10 @@ class UserService extends Service implements IUserService1 {
 
         $user->save();
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
+        $protocol =
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443
+                ? StringLiterals::HTTPS_PREFIX
+                : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();
@@ -318,7 +323,10 @@ class UserService extends Service implements IUserService1 {
 
         $request->save();
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? STR_HTTPS_PREFIX : STR_HTTP_PREFIX;
+        $protocol =
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443
+                ? StringLiterals::HTTPS_PREFIX
+                : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
         $emailService = new EmailService();

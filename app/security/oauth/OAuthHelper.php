@@ -9,9 +9,7 @@
 
 namespace app\security\oauth;
 
-use const app\constants\STR_HTTP_PREFIX;
-use const app\constants\STR_HTTPS_PREFIX;
-
+use app\constants\StringLiterals;
 use app\domain\Key;
 use app\domain\Privilege;
 use app\security\Authenticate;
@@ -34,8 +32,8 @@ class OAuthHelper {
     public static function redirectHost() {
         $protocol =
             defined('NOMOS_FORCE_HTTPS') || ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
-                ? STR_HTTPS_PREFIX
-                : STR_HTTP_PREFIX;
+                ? StringLiterals::HTTPS_PREFIX
+                : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'];
 
         return $protocol . $domainName;
