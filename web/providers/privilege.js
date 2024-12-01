@@ -6,15 +6,17 @@ angular.module('mmpApp').factory('PrivilegeService1', [
     function ($http, $q) {
         return {
             GetAllPrivileges: function () {
+                const self = this
+
                 // Use cached result if present
-                if (this._privileges != null) {
+                if (self._privileges != null) {
                     const deferred = $q.defer()
-                    console.log(this._privileges)
-                    deferred.resolve(this._privileges)
+                    console.log(self._privileges)
+                    deferred.resolve(self._privileges)
                     return deferred.promise
                 }
                 return $http.get('/services/web/PrivilegeService1.svc/GetAllPrivileges').then(function (response) {
-                    this._privileges = response.data
+                    self._privileges = response.data
                     return response.data
                 })
             },
