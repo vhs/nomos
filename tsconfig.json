@@ -1,0 +1,42 @@
+{
+    "compilerOptions": {
+        "target": "es2016",
+        "lib": ["es2015", "es2022", "DOM"],
+        "moduleDetection": "auto",
+        "module": "commonjs",
+        // "rootDir": "./",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": ["angular", "bootstrap", "jquery", "lodash"],
+
+        "strict": false,
+        "noImplicitAny": false,
+        // "strictNullChecks": true,
+        // "strictFunctionTypes": true,
+        // "strictBindCallApply": true,
+        // "strictPropertyInitialization": true,
+        // "strictBuiltinIteratorReturn": true,
+        // "noImplicitThis": true,
+        // "useUnknownInCatchVariables": true,
+        // "alwaysStrict": true,
+        // "noUnusedLocals": true,
+        // "noUnusedParameters": true,
+        // "exactOptionalPropertyTypes": true,
+        // "noImplicitReturns": true,
+        // "noFallthroughCasesInSwitch": true,
+        // "noUncheckedIndexedAccess": true,
+        // "noImplicitOverride": true,
+        // "noPropertyAccessFromIndexSignature": true,
+        // "allowUnusedLabels": true,
+        // "allowUnreachableCode": true,
+
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
+    },
+    "include": ["./nomos.d.ts", "./web/", "./web/**/*.d.ts"],
+    "exclude": ["./web/components/"]
+}

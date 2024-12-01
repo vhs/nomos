@@ -18,14 +18,19 @@
         "@prettier/plugin-xml": "^3.4.1",
         "@tyisi/config-eslint": "^4.0.0",
         "@tyisi/config-prettier": "^1.0.1",
+        "@types/angular": "^1.8.9",
+        "@types/bootstrap": "^5.2.10",
+        "@types/jquery": "^3.5.32",
         "bower": "^1.8.14",
         "eslint": "^9.15.0",
         "husky": "^9.1.7",
         "prettier": "^3.0.3",
         "prettier-plugin-sh": "^0.14.0",
-        "prettier-plugin-sql": "^0.18.1"
+        "prettier-plugin-sql": "^0.18.1",
+        "typescript": "^5.7.2"
     },
     "dependencies": {
+        "@types/lodash": "^4.17.13",
         "just-install": "^2.0.2",
         "wireit": "^0.14.9"
     },
