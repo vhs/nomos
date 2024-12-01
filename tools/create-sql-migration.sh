@@ -20,6 +20,14 @@ TS=$(node -e 'console.log(Date.now())')
 
 VERSION="$1"
 
+if [ "${VERSION}" != "new" ] && [ "$(echo "${VERSION}" | grep -E '[0-9]+')" = "" ]; then
+    echo "ERROR: specified version is not a valid migration id"
+    echo ""
+    echo "$(basename "$0") <migration id | 'new'> <description>"
+
+    exit 254
+fi
+
 if [ "${VERSION}" = "new" ]; then
     VERSION=$(find migrations/ -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n 1 basename | sort -V | tail -1 | awk '{ print $1 + 1 }')
 fi
