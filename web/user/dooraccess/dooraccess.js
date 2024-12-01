@@ -12,7 +12,7 @@ angular.module('mmpApp.user').config([
                     'currentUser',
                     '$location',
                     'PinService1',
-                    function (currentUser, $location, PinService1) {
+                    function (currentUser, _$location, PinService1) {
                         return PinService1.GetUserPin(currentUser.id).then(function (data) {
                             if (data.key != null) return data.key.replace('|', '')
 

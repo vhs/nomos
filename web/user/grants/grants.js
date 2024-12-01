@@ -23,14 +23,14 @@ angular.module('mmpApp.user').config([
                     for (const i in $scope.currentUser.privileges) {
                         const priv = $scope.currentUser.privileges[i]
 
-                        if (priv.code == 'grant:*') {
+                        if (priv.code === 'grant:*') {
                             PrivilegeService1.GetAllPrivileges().then(function (privileges) {
                                 $scope.grants = privileges
                             })
                             break
                         }
 
-                        if (priv.code.indexOf('grant:') != -1) {
+                        if (priv.code.indexOf('grant:') !== -1) {
                             priv.code = priv.code.replace('grant:', '')
                             $scope.grants.push(priv)
                         }
@@ -62,7 +62,7 @@ angular.module('mmpApp.user').config([
                         let filter = null
                         const filters = []
 
-                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                        if ($scope.listService.search != null && $scope.listService.search !== '') {
                             const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
@@ -112,16 +112,14 @@ angular.module('mmpApp.user').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
 
@@ -191,14 +189,13 @@ angular.module('mmpApp.user').config([
                                     $scope.pendingUpdate = 0
                                 }
 
-                                for (let i = 0; i < $scope.grantee.privileges.length; i++) {
-                                    $scope.grantee.privileges[i].selected = false
+                                for (const privilege of $scope.grantee.privileges) {
+                                    privilege.selected = false
                                 }
 
                                 UserService1.GetGrantUserPrivileges($scope.grantee.id).then(function (privileges) {
                                     angular.forEach(privileges, function (priv) {
-                                        for (let i = 0; i < $scope.grantee.privileges.length; i++)
-                                            if (priv == $scope.grantee.privileges[i].code) $scope.grantee.privileges[i].selected = true
+                                        for (const privilege of $scope.grantee.privileges) if (priv === privilege.code) privilege.selected = true
                                     })
                                 })
 

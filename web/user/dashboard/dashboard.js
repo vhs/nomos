@@ -12,7 +12,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetNewMembers(
                             moment().utc().subtract(30, 'days').startOf('month').toISOString(),
@@ -24,7 +24,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetTotalMembers()
                     }
@@ -32,7 +32,7 @@ angular.module('mmpApp.user').config([
                 allPermissions: [
                     '$rootScope',
                     'PrivilegeService1',
-                    function ($rootScope, PrivilegeService1) {
+                    function (_$rootScope, PrivilegeService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return PrivilegeService1.GetAllPrivileges()
                     }
@@ -41,7 +41,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetRevenue(
                             moment().utc().subtract(18, 'months').startOf('month').toISOString(),
@@ -54,7 +54,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetMembers(
                             moment().utc().subtract(18, 'months').startOf('month').toISOString(),
@@ -67,7 +67,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetRevenue(
                             moment().utc().subtract(1, 'months').startOf('month').toISOString(),
@@ -80,7 +80,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetRevenue(
                             moment().utc().startOf('month').toISOString(),
@@ -93,7 +93,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetCreatedDates(
                             moment().utc().subtract(18, 'months').startOf('month').toISOString(),
@@ -105,7 +105,7 @@ angular.module('mmpApp.user').config([
                     '$rootScope',
                     '$stateParams',
                     'MetricService1',
-                    function ($rootScope, $stateParams, MetricService1) {
+                    function (_$rootScope, _$stateParams, MetricService1) {
                         //if (!$rootScope.authenticated) throw "login";
                         return MetricService1.GetCreatedDates(
                             moment().utc().subtract(3, 'months').startOf('month').toISOString(),
@@ -149,12 +149,12 @@ angular.module('mmpApp.user').config([
                     const series = []
 
                     for (const membership in revenue.by_membership) {
-                        if (!revenue.by_membership.hasOwnProperty(membership)) continue
+                        if (!Object.hasOwn(revenue.by_membership, membership)) continue
 
                         const data = []
 
                         for (const date in revenue.by_membership[membership]) {
-                            if (!revenue.by_membership[membership].hasOwnProperty(date)) continue
+                            if (!Object.hasOwn(revenue.by_membership[membership], date)) continue
 
                             const d = moment.utc(date, 'YYYY-MM-DD')
 
@@ -188,7 +188,7 @@ angular.module('mmpApp.user').config([
                     const totals = []
 
                     for (const date in revenue.grouping) {
-                        if (!revenue.grouping.hasOwnProperty(date)) continue
+                        if (!Object.hasOwn(revenue.grouping, date)) continue
 
                         const d = moment.utc(date, 'YYYY-MM-DD')
 
@@ -242,7 +242,7 @@ angular.module('mmpApp.user').config([
                     const total = []
 
                     for (const date in members.created) {
-                        if (!members.created.hasOwnProperty(date)) continue
+                        if (!Object.hasOwn(members.created, date)) continue
 
                         const d = moment.utc(date, 'YYYY-MM-DD')
 
@@ -250,7 +250,7 @@ angular.module('mmpApp.user').config([
                     }
 
                     for (const date in members.expired) {
-                        if (!members.expired.hasOwnProperty(date)) continue
+                        if (!Object.hasOwn(members.expired, date)) continue
 
                         const d = moment.utc(date, 'YYYY-MM-DD')
 
@@ -258,7 +258,7 @@ angular.module('mmpApp.user').config([
                     }
 
                     for (const date in members.total) {
-                        if (!members.total.hasOwnProperty(date)) continue
+                        if (!Object.hasOwn(members.total, date)) continue
 
                         const d = moment.utc(date, 'YYYY-MM-DD')
 
@@ -314,8 +314,8 @@ angular.module('mmpApp.user').config([
                         ]
                     }
 
-                    const thisMonth = moment()
-                    const lastMonth = moment().subtract(1, 'month')
+                    // const thisMonth = moment()
+                    // const lastMonth = moment().subtract(1, 'month')
 
                     $scope.revenueGoalChartOptions = {
                         chart: {
@@ -345,6 +345,7 @@ angular.module('mmpApp.user').config([
                                     enabled: true,
                                     color: 'rgba(124, 181, 236, 0.74902)',
                                     align: 'center',
+                                    // eslint-disable-next-line no-template-curly-in-string
                                     format: '${point.y:.2f}', // one decimal
                                     style: {
                                         fontSize: '20px',
@@ -362,6 +363,7 @@ angular.module('mmpApp.user').config([
                                     enabled: true,
                                     color: '#5cb85c',
                                     align: 'center',
+                                    // eslint-disable-next-line no-template-curly-in-string
                                     format: '${point.y:.2f}', // one decimal
                                     y: -50,
                                     style: {

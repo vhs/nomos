@@ -23,7 +23,7 @@ angular.module('mmpApp.admin').config([
                 '$scope',
                 '$modal',
                 'transactions',
-                function ($scope, $modal, transactions) {
+                function ($scope, _$modal, transactions) {
                     $scope.transactions = transactions
                 }
             ]

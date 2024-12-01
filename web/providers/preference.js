@@ -3,11 +3,10 @@
 angular.module('mmpApp').factory('PreferenceService1', [
     '$http',
     '$q',
-    function ($http, $q) {
+    function ($http, _$q) {
         return {
             GetAllSystemPreferences: function () {
                 return $http.get('/services/web/PreferenceService1.svc/GetAllSystemPreferences').then(function (response) {
-                    parent._privileges = response.data
                     return response.data
                 })
             },

@@ -18,7 +18,7 @@ angular.module('mmpApp.public', ['ui.router']).config([
                     '$scope',
                     '$location',
                     'AuthService1',
-                    function ($scope, $location, AuthService1) {
+                    function (_$scope, $location, AuthService1) {
                         AuthService1.Logout().then(function () {
                             $location.path('/login/')
                         })

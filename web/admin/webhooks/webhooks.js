@@ -43,7 +43,7 @@ angular.module('mmpApp.admin').config([
                         let filter = null
                         const filters = []
 
-                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                        if ($scope.listService.search != null && $scope.listService.search !== '') {
                             const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
@@ -109,16 +109,14 @@ angular.module('mmpApp.admin').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
                         return filter

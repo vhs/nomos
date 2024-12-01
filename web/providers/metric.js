@@ -9,7 +9,7 @@ angular.module('mmpApp').factory('MetricService1', [
                     return response.data
                 })
             },
-            GetTotalMembers: function (start, end) {
+            GetTotalMembers: function (_start, _end) {
                 return $http.get('/services/web/MetricService1.svc/GetTotalMembers').then(function (response) {
                     return response.data
                 })
@@ -21,7 +21,7 @@ angular.module('mmpApp').factory('MetricService1', [
                         return response.data
                     })
             },
-            GetTotalKeyHolders: function (start, end) {
+            GetTotalKeyHolders: function (_start, _end) {
                 return $http.get('/services/web/MetricService1.svc/GetTotalKeyHolders').then(function (response) {
                     return response.data
                 })

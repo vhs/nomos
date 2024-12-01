@@ -12,7 +12,7 @@ angular.module('mmpApp.user').config([
                 '$scope',
                 '$state',
                 function ($scope, $state) {
-                    if ($scope.currentUser != null && $scope.currentUser.id != null) $state.go('public.login')
+                    if ($scope.currentUser?.id != null) $state.go('public.login')
 
                     $state.go('user.dashboard')
                 }

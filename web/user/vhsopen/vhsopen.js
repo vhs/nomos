@@ -7,7 +7,7 @@ angular.module('mmpApp.user').config([
             parent: 'user',
             url: '/vhsopen/',
             templateUrl: 'user/vhsopen/vhsopen.html',
-            controller: ['$scope', function ($scope) {}]
+            controller: ['$scope', function (_$scope) {}]
         })
     }
 ])

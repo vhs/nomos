@@ -11,14 +11,14 @@ angular.module('mmpApp.admin').config([
                 pendingAccounts: [
                     '$stateParams',
                     'MetricService1',
-                    function ($stateParams, MetricService1) {
+                    function (_$stateParams, MetricService1) {
                         return MetricService1.GetPendingAccounts()
                     }
                 ],
                 paymentExceptions: [
                     '$stateParams',
                     'MetricService1',
-                    function ($stateParams, MetricService1) {
+                    function (_$stateParams, MetricService1) {
                         return MetricService1.GetExceptionPayments()
                     }
                 ]

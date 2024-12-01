@@ -24,7 +24,7 @@ angular.module('mmpApp.user').config([
                     $scope.goodStanding = false
 
                     UserService1.GetStanding($scope.profile.id).then(function (data) {
-                        $scope.goodStanding = data == 'true'
+                        $scope.goodStanding = Boolean(data) === true
                     })
 
                     $scope.member_since = moment($scope.profile.created).format('MMMM Do, YYYY')
@@ -51,21 +51,22 @@ angular.module('mmpApp.user').config([
                         })
                     }
 
-                    $scope.changePassword = function (isValid) {
+                    $scope.changePassword = function (_isValid) {
                         UserService1.UpdatePassword($scope.currentUser.id, $scope.newPassword).then(
-                            function (response) {
+                            function (_response) {
                                 alert('Password was changed successfully.')
                                 $('#passwordChange').modal('hide') // forgive me spaghetti monster, for I have sinned. I have done view logic in my controller.
                                 $scope.resetPasswordForm()
                             },
                             function (err) {
+                                console.error(err)
                                 alert('We encountered an error trying to update your password.')
                             }
                         )
                     }
 
                     $scope.comparePasswords = function () {
-                        $scope.passwordsMatch = $scope.newPassword == $scope.rePassword
+                        $scope.passwordsMatch = $scope.newPassword === $scope.rePassword
                     }
 
                     $scope.resetPasswordForm = function () {
@@ -112,7 +113,7 @@ angular.module('mmpApp.user').config([
                             })
 
                             $scope.profile.keys.forEach(function (key) {
-                                if (key.type == 'pin' && key.pin) {
+                                if (key.type === 'pin' && key.pin) {
                                     $scope.pendingUpdate += 1
                                     $scope.PinService1.UpdatePin(key.id, key.pin).then(function () {
                                         $scope.pendingUpdate -= 1

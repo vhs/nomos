@@ -11,7 +11,7 @@ angular.module('mmpApp.public').config([
                 '$scope',
                 '$state',
                 'UserService1',
-                function ($scope, $state, UserService1) {
+                function ($scope, _$state, UserService1) {
                     $scope.reset = function () {
                         $scope.sending = true
                         $scope.error = ''

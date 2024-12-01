@@ -65,9 +65,9 @@ angular.module('mmpApp.user').config([
                         })
 
                         modalInstance.result.then(function (key) {
-                            ApiKeyService1.DeleteApiKey(key.id).then(function (data) {
+                            ApiKeyService1.DeleteApiKey(key.id).then(function (_data) {
                                 for (let i = 0; i < $scope.keys.length; i++) {
-                                    if ($scope.keys[i].id == key.id) $scope.keys.splice(i, 1)
+                                    if ($scope.keys[i].id === key.id) $scope.keys.splice(i, 1)
                                 }
                             })
                         })

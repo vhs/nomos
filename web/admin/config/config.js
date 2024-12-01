@@ -15,7 +15,7 @@ angular.module('mmpApp.admin').config([
                 '$scope',
                 '$modal',
                 'config',
-                function ($scope, $modal, config) {
+                function ($scope, _$modal, config) {
                     $scope.config = config
                 }
             ]

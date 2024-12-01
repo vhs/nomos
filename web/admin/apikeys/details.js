@@ -26,7 +26,7 @@ angular.module('mmpApp.admin').config([
                 'key',
                 'ApiKeyService1',
                 'PrivilegeService1',
-                function ($state, $scope, $modal, currentUser, key, ApiKeyService1, PrivilegeService1) {
+                function ($state, $scope, _$modal, _currentUser, key, ApiKeyService1, PrivilegeService1) {
                     $scope.key = key
                     $scope.doesExpire = false
 
@@ -87,8 +87,8 @@ angular.module('mmpApp.admin').config([
                     angular.forEach(key.privileges, function (keyPriv) {
                         currentPriv[keyPriv.code] = keyPriv
                     })
-                    const promise = PrivilegeService1.GetAllPrivileges()
-                    promise.then(function (privileges) {
+
+                    PrivilegeService1.GetAllPrivileges().then(function (privileges) {
                         $scope.privileges = []
                         angular.forEach(privileges, function (privilege) {
                             privilege.selected = angular.isDefined(currentPriv[privilege.code])

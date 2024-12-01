@@ -13,7 +13,7 @@ angular.module('mmpApp.user', ['ui.router', 'angular-md5', 'ui.bootstrap']).conf
                 currentUser: [
                     '$q',
                     'CurrentUser',
-                    function ($q, CurrentUser) {
+                    function (_$q, CurrentUser) {
                         return CurrentUser.getCurrentUser()
                     }
                 ]
@@ -22,7 +22,7 @@ angular.module('mmpApp.user', ['ui.router', 'angular-md5', 'ui.bootstrap']).conf
                 '$scope',
                 '$location',
                 'currentUser',
-                function ($scope, $location, currentUser) {
+                function ($scope, _$location, currentUser) {
                     $scope.loading = true
                     $scope.currentUser = currentUser
                 }

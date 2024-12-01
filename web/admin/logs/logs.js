@@ -15,7 +15,7 @@ angular.module('mmpApp.admin').config([
                 '$scope',
                 '$modal',
                 'logs',
-                function ($scope, $modal, logs) {
+                function ($scope, _$modal, logs) {
                     $scope.logs = logs
                 }
             ]

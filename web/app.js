@@ -12,7 +12,7 @@ const app = angular
     .config([
         '$stateProvider',
         '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
+        function (_$stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/')
         }
     ])
@@ -41,8 +41,8 @@ app.directive('resolveLoader', function ($rootScope, $timeout) {
         restrict: 'E',
         replace: true,
         template: '<div class="alert alert-success ng-hide"><strong>Welcome!</strong> Content is loading, please hold.</div>',
-        link: function (scope, element) {
-            $rootScope.$on('$routeChangeStart', function (event, currentRoute, previousRoute) {
+        link: function (_scope, element) {
+            $rootScope.$on('$routeChangeStart', function (_event, _currentRoute, previousRoute) {
                 if (previousRoute) return
 
                 $timeout(function () {
@@ -54,7 +54,7 @@ app.directive('resolveLoader', function ($rootScope, $timeout) {
                 element.addClass('ng-hide')
             })
 
-            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            $rootScope.$on('$stateChangeError', function (_event, _toState, _toParams, _fromState, _fromParams, error) {
                 if (error === 'login') {
                     $rootScope.$state.go('public.login')
                 }

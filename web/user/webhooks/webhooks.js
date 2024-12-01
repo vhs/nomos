@@ -105,16 +105,14 @@ angular.module('mmpApp.user').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i === filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
 

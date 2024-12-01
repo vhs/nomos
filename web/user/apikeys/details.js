@@ -26,7 +26,7 @@ angular.module('mmpApp.user').config([
                 'key',
                 'ApiKeyService1',
                 'PrivilegeService1',
-                function ($state, $scope, $modal, currentUser, key, ApiKeyService1, PrivilegeService1) {
+                function ($state, $scope, _$modal, currentUser, key, ApiKeyService1, PrivilegeService1) {
                     $scope.key = key
                     $scope.doesExpire = false
 
@@ -42,7 +42,7 @@ angular.module('mmpApp.user').config([
                         $scope.doesExpire = !$scope.doesExpire
                     }
 
-                    if ($scope.key.expires != '0000-00-00 00:00:00') {
+                    if ($scope.key.expires !== '0000-00-00 00:00:00') {
                         $scope.expirydate = new Date(Date.parse($scope.key.expires)).format('Y-m-d')
                         $scope.expirytime = $scope.key.expires
                         $scope.doesExpire = true

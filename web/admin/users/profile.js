@@ -28,7 +28,7 @@ angular.module('mmpApp.admin').config([
                 'UserService1',
                 'MembershipService1',
                 'PinService1',
-                function ($scope, $modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1, PinService1) {
+                function ($scope, _$modal, $timeout, profile, PrivilegeService1, UserService1, MembershipService1, PinService1) {
                     $scope.currentProfile = profile
                     $scope.profile = profile
                     const currentPriv = {}
@@ -54,21 +54,22 @@ angular.module('mmpApp.admin').config([
                         })
                     }
 
-                    $scope.changePassword = function (isValid) {
+                    $scope.changePassword = function (_isValid) {
                         UserService1.UpdatePassword($scope.profile.id, $scope.newPassword).then(
-                            function (response) {
+                            function (_response) {
                                 alert('Password was changed successfully.')
                                 $('#passwordChange').modal('hide') // forgive me spaghetti monster, for I have sinned. I have done view logic in my controller.
                                 $scope.resetPasswordForm()
                             },
                             function (err) {
+                                console.error(err)
                                 alert('We encountered an error trying to update your password.')
                             }
                         )
                     }
 
                     $scope.comparePasswords = function () {
-                        $scope.passwordsMatch = $scope.newPassword == $scope.rePassword
+                        $scope.passwordsMatch = $scope.newPassword === $scope.rePassword
                     }
 
                     $scope.resetPasswordForm = function () {
@@ -115,7 +116,7 @@ angular.module('mmpApp.admin').config([
                             })
 
                             $scope.profile.keys.forEach(function (key) {
-                                if (key.type == 'pin' && key.pin) {
+                                if (key.type === 'pin' && key.pin) {
                                     $scope.pendingUpdate += 1
                                     PinService1.UpdatePin(key.id, key.pin).then(function () {
                                         $scope.pendingUpdate -= 1
@@ -144,7 +145,7 @@ angular.module('mmpApp.admin').config([
                     $scope.profileUpdated = function () {
                         UserService1.GetUser($scope.profile.id).then(function (data) {
                             $scope.currentProfile = data
-                            if ($scope.profile.id == $scope.$parent.currentUser.id) $scope.$parent.currentUser = data
+                            if ($scope.profile.id === $scope.$parent.currentUser.id) $scope.$parent.currentUser = data
                             $scope.resetProfileForm()
                             $scope.updating = false
                         })
@@ -192,14 +193,14 @@ angular.module('mmpApp.admin').config([
                     mpromise.then(function (memberships) {
                         $scope.memberships = []
                         angular.forEach(memberships, function (membership) {
-                            membership.selected = membership.code == currentMembership.code
+                            membership.selected = membership.code === currentMembership.code
                             $scope.memberships.push(membership)
                         })
                     })
 
                     $scope.switchMembership = function (membership) {
                         angular.forEach($scope.memberships, function (mem) {
-                            if (membership.code != mem.code) mem.selected = false
+                            if (membership.code !== mem.code) mem.selected = false
                         })
 
                         membership.selected = !membership.selected
@@ -220,6 +221,7 @@ angular.module('mmpApp.admin').config([
                         $scope.updating = true
                         $scope.pendingUpdate = 1
 
+                        // @ts-ignore
                         UserService1.UpdateMembership(profile.id, membership.id).then(function () {
                             $scope.membershipDirty = false
 
@@ -233,14 +235,14 @@ angular.module('mmpApp.admin').config([
                     mpromiseUser.then(function (statuses) {
                         $scope.statuses = []
                         angular.forEach(statuses, function (status) {
-                            status.selected = status.code == currentStatus.code
+                            status.selected = status.code === currentStatus.code
                             $scope.statuses.push(status)
                         })
                     })
 
                     $scope.switchStatus = function (status) {
                         angular.forEach($scope.statuses, function (stat) {
-                            if (status.code != stat.code) stat.selected = false
+                            if (status.code !== stat.code) stat.selected = false
                         })
 
                         status.selected = !status.selected
@@ -261,6 +263,7 @@ angular.module('mmpApp.admin').config([
                         $scope.updating = true
                         $scope.pendingUpdate = 1
 
+                        // @ts-ignore
                         UserService1.UpdateStatus(profile.id, status.code).then(function () {
                             $scope.statusDirty = false
 

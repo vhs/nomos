@@ -7,7 +7,7 @@ angular.module('mmpApp.user').config([
             parent: 'user',
             url: '/settings/',
             templateUrl: 'user/settings/settings.html',
-            controller: ['$scope', function ($scope) {}]
+            controller: ['$scope', function (_$scope) {}]
         })
     }
 ])

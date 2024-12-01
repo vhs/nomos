@@ -31,7 +31,7 @@ angular.module('mmpApp.admin').config([
                     $scope.statuses = statuses
 
                     $scope.convertStatus = function (code) {
-                        for (const i in $scope.statuses) if ($scope.statuses[i].code == code) return $scope.statuses[i].title
+                        for (const i in $scope.statuses) if ($scope.statuses[i].code === code) return $scope.statuses[i].title
                     }
 
                     $scope.showPending = false
@@ -143,7 +143,7 @@ angular.module('mmpApp.admin').config([
                             })
                         }
 
-                        if ($scope.listService.search != null && $scope.listService.search != '') {
+                        if ($scope.listService.search != null && $scope.listService.search !== '') {
                             const val = '%' + $scope.listService.search + '%'
                             filters.push({
                                 left: {
@@ -181,7 +181,7 @@ angular.module('mmpApp.admin').config([
                             filter.right = val
                         }
 
-                        for (var i = 0; i < filters.length; i++) {
+                        for (let i = 0; i < filters.length; i++) {
                             if (filter == null) {
                                 if (filters.length > 1) {
                                     filter = {
@@ -193,20 +193,18 @@ angular.module('mmpApp.admin').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i == filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
 
-                        for (var i = 0; i < orFilters.length; i++) {
+                        for (let i = 0; i < orFilters.length; i++) {
                             if (filter == null) {
                                 if (orFilters.length > 1) {
                                     filter = {
@@ -218,16 +216,14 @@ angular.module('mmpApp.admin').config([
                                     filter = orFilters[i]
                                     break
                                 }
+                            } else if (i === orFilters.length - 1) {
+                                addRightmost(filter, orFilters[i])
                             } else {
-                                if (i == orFilters.length - 1) {
-                                    addRightmost(filter, orFilters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: orFilters[i],
-                                        operator: 'or',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: orFilters[i],
+                                    operator: 'or',
+                                    right: null
+                                })
                             }
                         }
 
@@ -296,14 +292,14 @@ angular.module('mmpApp.admin').config([
                                 mpromise.then(function (memberships) {
                                     $scope.memberships = []
                                     angular.forEach(memberships, function (membership) {
-                                        membership.selected = membership.code == currentMembership.code
+                                        membership.selected = membership.code === currentMembership.code
                                         $scope.memberships.push(membership)
                                     })
                                 })
 
                                 $scope.switchMembership = function (membership) {
                                     angular.forEach($scope.memberships, function (mem) {
-                                        if (membership.code != mem.code) mem.selected = false
+                                        if (membership.code !== mem.code) mem.selected = false
                                     })
 
                                     membership.selected = !membership.selected

@@ -14,7 +14,7 @@ angular.module('mmpApp.user').config([
                     $scope.membercard_two = false
 
                     $scope.membercard_image = function (index) {
-                        if (index == '1') {
+                        if (index === '1') {
                             $scope.membercard_one = true
                             $scope.membercard_two = false
                         } else {

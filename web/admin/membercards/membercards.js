@@ -18,7 +18,7 @@ angular.module('mmpApp.admin').config([
 
                     $scope.registerCard = function () {
                         MemberCardService1.RegisterGenuineCard($scope.registerkey, 'blah').then(function (data) {
-                            if (data && data.key) {
+                            if (data?.key) {
                                 alert('Card registered successfully!\n\n' + data.key)
                             } else {
                                 alert(data)
@@ -30,7 +30,7 @@ angular.module('mmpApp.admin').config([
 
                     $scope.issueCard = function () {
                         MemberCardService1.IssueCard($scope.issueemail, $scope.issuekey).then(function (data) {
-                            if (data && data.owneremail) {
+                            if (data?.owneremail != null) {
                                 alert('Card successfully issued to ' + data.owneremail)
                             } else {
                                 alert(data)
@@ -121,16 +121,14 @@ angular.module('mmpApp.admin').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i === filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
 
@@ -227,16 +225,14 @@ angular.module('mmpApp.admin').config([
                                     filter = filters[i]
                                     break
                                 }
+                            } else if (i === filters.length - 1) {
+                                addRightmost(filter, filters[i])
                             } else {
-                                if (i === filters.length - 1) {
-                                    addRightmost(filter, filters[i])
-                                } else {
-                                    addRightmost(filter, {
-                                        left: filters[i],
-                                        operator: 'and',
-                                        right: null
-                                    })
-                                }
+                                addRightmost(filter, {
+                                    left: filters[i],
+                                    operator: 'and',
+                                    right: null
+                                })
                             }
                         }
 
