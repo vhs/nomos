@@ -125,6 +125,16 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
+     * @param $clientId
+     * @param $clientSecret
+     *
+     * @return mixed
+     */
+    public function GetClientInfo($clientId);
+
+    /**
+     * @permission oauth-provider
+     *
      * @param $refreshToken
      *
      * @return mixed

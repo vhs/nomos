@@ -370,7 +370,7 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
-     * @permission oauth-provider
+     * @permission anonymous
      *
      * @param $clientId
      * @param $clientSecret
@@ -382,6 +382,24 @@ class AuthService extends Service implements IAuthService1 {
 
         if (!is_null($client) && $client->secret == $clientSecret) {
             return $this->trimClient($client);
+        }
+
+        return null;
+    }
+
+    /**
+     * @permission oauth-provider
+     * @permission authenticated
+     *
+     * @param $clientId
+     *
+     * @return mixed
+     */
+    public function GetClientInfo($clientId) {
+        $client = AppClient::find($clientId);
+
+        if (!is_null($client)) {
+            return $this->trimClientInfo($client);
         }
 
         return null;
@@ -735,6 +753,19 @@ class AuthService extends Service implements IAuthService1 {
             'url' => $client->url,
             'redirecturi' => $client->redirecturi,
             'enabled' => $client->enabled
+        ];
+    }
+
+    private function trimClientInfo($client) {
+        if (is_null($client)) {
+            return null;
+        }
+
+        return [
+            'name' => $client->name,
+            'description' => $client->description,
+            'url' => $client->url,
+            'redirecturi' => $client->redirecturi
         ];
     }
 
