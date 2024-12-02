@@ -34,8 +34,8 @@ angular.module('mmpApp').factory('ApiKeyService1', [
                     return response.data
                 })
             },
-            PutApiKeyPriviledges: function (keyid, priviledges) {
-                return $http.post('/services/web/ApiKeyService1.svc/PutApiKeyPriviledges', { keyid, priviledges }).then(function (response) {
+            PutApiKeyPrivileges: function (keyid, privileges) {
+                return $http.post('/services/web/ApiKeyService1.svc/PutApiKeyPrivileges', { keyid, privileges }).then(function (response) {
                     return response.data
                 })
             },
