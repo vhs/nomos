@@ -15,6 +15,15 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return array
+     */
+    public function CountSystemPreferences($filters);
+
+    /**
+     * @permission administrator
+     *
      * @param $key
      *
      * @return mixed

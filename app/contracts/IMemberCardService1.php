@@ -15,6 +15,27 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountGenuineCards($filters);
+
+    /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $filters
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    public function CountGenuineUserCards($userid, $filters);
+
+    /**
+     * @permission administrator
+     *
      * @param $key
      *
      * @return mixed

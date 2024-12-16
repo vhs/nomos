@@ -20,6 +20,17 @@ use vhs\services\ServiceRegistry;
 
 class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
+     * @permission administrator|user|grants
+     *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountPrivileges($filters) {
+        return Privilege::count($filters);
+    }
+
+    /**
      * @permission administrator
      *
      * @param $name

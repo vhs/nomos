@@ -25,6 +25,31 @@ class MemberCardService implements IMemberCardService1 {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountGenuineCards($filters) {
+        return GenuineCard::count($filters);
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param $userid
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountGenuineUserCards($userid, $filters) {
+        $filters = $this->addUserIDToFilters($userid, $filters);
+
+        return GenuineCard::count($filters);
+    }
+
+    /**
+     * @permission administrator
+     *
      * @param $key
      *
      * @return mixed
@@ -207,5 +232,29 @@ class MemberCardService implements IMemberCardService1 {
         $keys = GenuineCard::findByKey($key);
 
         return !is_null($keys) && count($keys) == 1;
+    }
+
+    private function addUserIDToFilters($userid, $filters) {
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
+
+        if (is_string($filters)) {
+            //todo total hack.. this is to support GET params for downloading payments
+            $filters = json_decode($filters);
+        }
+
+        if (is_null($user)) {
+            throw new UnauthorizedException('User not found or you do not have access');
+        }
+
+        $userFilter = Filter::Equal('userid', $user->id);
+
+        if (is_null($filters) || $filters == '') {
+            $filters = $userFilter;
+        } else {
+            $filters = Filter::_And($userFilter, $filters);
+        }
+
+        return $filters;
     }
 }

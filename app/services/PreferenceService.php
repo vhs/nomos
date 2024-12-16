@@ -19,6 +19,17 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return array
+     */
+    public function CountSystemPreferences($filters) {
+        return SystemPreference::count($filters);
+    }
+
+    /**
+     * @permission administrator
+     *
      * @param $key
      *
      * @return mixed

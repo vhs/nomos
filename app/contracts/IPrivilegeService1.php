@@ -13,6 +13,15 @@ use vhs\services\IContract;
 
 interface IPrivilegeService1 extends IContract {
     /**
+     * @permission administrator|user|grants
+     *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountPrivileges($filters);
+
+    /**
      * @permission administrator
      *
      * @param $name
