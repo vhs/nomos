@@ -1,22 +1,21 @@
 #!/usr/bin/env sh
 
-set -e
-
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
 if [ "${FILES}" != "" ]; then
-    PHP_FILES=$(echo "${FILES}" | (grep -q '\.php' || echo ''))
-    WEBHOOKER_FILES=$(echo "${FILES}" | (grep -q 'webhooker/' || echo ''))
+    PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
+    WEBHOOKER_FILES=$(echo "${FILES}" | grep 'webhooker/' | xargs)
 
     if [ "${PHP_FILES}" != "" ]; then
-        FILES="${PHP_FILES}" npm exec just test php
+        FILES=$(echo "${PHP_FILES}" | xargs) npm exec just format php
+        FILES=$(echo "${PHP_FILES}" | grep -vw contracts | xargs) npm exec just test php
     fi
 
     if [ "${WEBHOOKER_FILES}" != "" ]; then
         npm exec just test webhooker
     fi
 
-    FILES=${FILES} npm exec just format all
+    FILES=$(echo "${FILES}" | xargs) npm exec just format all
 
     git update-index --again
 
