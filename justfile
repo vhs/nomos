@@ -18,7 +18,7 @@ format_php:
     #!/usr/bin/env bash
     set -eo pipefail
 
-    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php "${FILES:-app/ tests/ tools/ vhs/}"
+    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
 
 setup target:
     @echo 'Setting up {{target}}…'
