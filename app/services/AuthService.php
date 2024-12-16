@@ -311,6 +311,20 @@ class AuthService extends Service implements IAuthService1 {
     }
 
     /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountUserClients($userid, $filters) {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        return AppClient::count($filters);
+    }
+
+    /**
      * @permission anonymous
      *
      * @return mixed

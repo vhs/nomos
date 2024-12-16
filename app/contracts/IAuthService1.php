@@ -78,6 +78,16 @@ interface IAuthService1 extends IContract {
     public function CountUserAccessLog($userid, $filters);
 
     /**
+     * @permission administrator|user
+     *
+     * @param $userid
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountUserClients($userid, $filters);
+
+    /**
      * @permission anonymous
      *
      * @return mixed
