@@ -8,7 +8,7 @@ if [ "${FILES}" != "" ]; then
 
     if [ "${PHP_FILES}" != "" ]; then
         FILES=$(echo "${PHP_FILES}" | xargs) npm exec just format php
-        FILES=$(echo "${PHP_FILES}" | grep -vw contracts | xargs) npm exec just test php
+        npm exec just test php
     fi
 
     if [ "${WEBHOOKER_FILES}" != "" ]; then
