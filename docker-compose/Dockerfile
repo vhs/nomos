@@ -16,7 +16,7 @@ FROM php:${PHP_VERSION}-fpm AS backend
 
 VOLUME ["/sessions"]
 
-RUN chown www-data:www-data /sessions
+RUN mkdir /sessions && chown www-data:www-data /sessions
 
 ENV DEBIAN_FRONTEND=noninteractive
 
