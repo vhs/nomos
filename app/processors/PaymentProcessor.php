@@ -10,7 +10,6 @@
 namespace app\processors;
 
 use app\constants\StringLiterals;
-
 use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
