@@ -4,7 +4,7 @@
         "nicmart/string-template": "~0.1",
         "league/oauth2-client": "0.10.*",
         "php-amqplib/php-amqplib": "2.5.*",
-        "stripe/stripe-php": "^7.63"
+        "stripe/stripe-php": "7.128.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^11",
