@@ -18,7 +18,7 @@ class StripeEventMonitor extends Monitor {
     private $logger;
 
     public function handleCreated($args) {
-        $this->logger->log(__METHOD__ + ': ' + json_encode($args, 1));
+        $this->logger->log(__METHOD__ . ': ' . json_encode($args, 1));
 
         /** @var StripeEvent $stripe_event */
         $stripe_event = $args[0];
