@@ -75,6 +75,11 @@ angular.module('mmpApp').factory('UserService1', [
                     return response.data
                 })
             },
+            UpdateStripeEmail: function (userid, email) {
+                return $http.post('/services/web/UserService1.svc/UpdateStripeEmail', { userid, email }).then(function (response) {
+                    return response.data
+                })
+            },
             UpdateCash: function (userid, cash) {
                 return $http.post('/services/web/UserService1.svc/UpdateCash', { userid, cash }).then(function (response) {
                     return response.data

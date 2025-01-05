@@ -103,6 +103,11 @@ angular.module('mmpApp.admin').config([
                                 UserService1.UpdatePaymentEmail($scope.profile.id, $scope.profile.payment_email).then(function () {
                                     $scope.pendingUpdate -= 1
                                 })
+
+                                $scope.pendingUpdate += 1
+                                UserService1.UpdateStripeEmail($scope.profile.id, $scope.profile.stripe_email).then(function () {
+                                    $scope.pendingUpdate -= 1
+                                })
                             }
 
                             $scope.pendingUpdate += 1
