@@ -1,18 +1,11 @@
 {
-    "name": "@vhs/nomos",
-    "private": true,
-    "version": "1.0.0",
-    "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
-    "directories": {
-        "test": "tests"
-    },
-    "scripts": {
-        "test": "wireit",
-        "prepare": "wireit"
-    },
-    "keywords": [],
     "author": "",
-    "license": "ISC",
+    "dependencies": {
+        "@types/lodash": "^4.17.13",
+        "just-install": "^2.0.2",
+        "wireit": "^0.14.9"
+    },
+    "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",
         "@prettier/plugin-xml": "^3.4.1",
@@ -29,11 +22,19 @@
         "prettier-plugin-sql": "^0.18.1",
         "typescript": "^5.7.2"
     },
-    "dependencies": {
-        "@types/lodash": "^4.17.13",
-        "just-install": "^2.0.2",
-        "wireit": "^0.14.9"
+    "directories": {
+        "test": "tests"
     },
+    "keywords": [],
+    "license": "ISC",
+    "name": "@vhs/nomos",
+    "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+    "private": true,
+    "scripts": {
+        "prepare": "wireit",
+        "test": "wireit"
+    },
+    "version": "1.0.0",
     "wireit": {
         "prepare": {
             "dependencies": [
@@ -43,14 +44,14 @@
                 "prepare:webhooker"
             ]
         },
-        "prepare:webcomponents": {
-            "command": "just setup webcomponents"
-        },
         "prepare:husky": {
             "command": "just setup husky"
         },
         "prepare:vendor": {
             "command": "just setup vendor"
+        },
+        "prepare:webcomponents": {
+            "command": "just setup webcomponents"
         },
         "prepare:webhooker": {
             "command": "just setup webhooker"
