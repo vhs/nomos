@@ -20,10 +20,6 @@ format_php:
 
     vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
 
-setup target:
-    @echo 'Setting up {{target}}…'
-    just "setup_{{target}}"
-
 install_composer:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -71,6 +67,10 @@ run_bower:
 run_composer:
     echo "Running composer"
     ./tools/composer.sh install
+
+setup target:
+    @echo 'Setting up {{target}}…'
+    just "setup_{{target}}"
 
 setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower
 
