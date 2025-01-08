@@ -71,7 +71,7 @@ class Authenticate extends Singleton implements IAuthenticate {
                 self::bearerLogin($credentials);
                 break;
             default:
-                throw new InvalidCredentials('Unsupported authentication type.');
+                throw new InvalidCredentials('"Unsupported authentication type."');
         }
     }
 
@@ -92,7 +92,7 @@ class Authenticate extends Singleton implements IAuthenticate {
 
         if (is_null($token) || is_null($token->user)) {
             AccessLog::log($credentials->getToken(), 'bearer', false, $ipaddr);
-            throw new InvalidCredentials('Invalid access token');
+            throw new InvalidCredentials(message: '"Invalid access token"');
         }
 
         if (
@@ -107,7 +107,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             AccessLog::log($credentials->getToken(), 'bearer', true, $ipaddr, $token->user->id);
         } else {
             AccessLog::log($credentials->getToken(), 'bearer', false, $ipaddr, $token->user->id);
-            throw new InvalidCredentials('Invalid access token');
+            throw new InvalidCredentials('"Invalid access token"');
         }
     }
 
@@ -167,7 +167,7 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
 
         if (count($users) != 1) {
-            throw new InvalidCredentials('Incorrect username or password');
+            throw new InvalidCredentials('"Incorrect username or password"');
         }
 
         return $users[0];
@@ -185,16 +185,16 @@ class Authenticate extends Singleton implements IAuthenticate {
     private static function isUserValid($user) {
         switch ($user->active) {
             case 'n': //not active
-                throw new InvalidCredentials('Your account is not activated');
+                throw new InvalidCredentials('"Your account is not activated"');
                 break;
             case 'y': //yes they are active
                 return true;
                 break;
             case 't': //pending email verification
-                throw new InvalidCredentials('You need to verify your email address');
+                throw new InvalidCredentials('"You need to verify your email address"');
                 break;
             case 'b': //banned
-                throw new InvalidCredentials('Your account has been banned');
+                throw new InvalidCredentials('"Your account has been banned"');
                 break;
         }
 
@@ -206,7 +206,7 @@ class Authenticate extends Singleton implements IAuthenticate {
 
         if (count($keys) != 1) {
             AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
-            throw new InvalidCredentials('Invalid key');
+            throw new InvalidCredentials('"Invalid key"');
         }
 
         $key = $keys[0];
@@ -222,7 +222,7 @@ class Authenticate extends Singleton implements IAuthenticate {
                 $user = User::find($key->userid);
             } catch (\Exception $ex) {
                 AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr, $key->userid);
-                throw new InvalidCredentials('Invalid key');
+                throw new InvalidCredentials('"Invalid key"');
             }
 
             if (!is_null($user) && self::isUserValid($user)) {
@@ -243,7 +243,7 @@ class Authenticate extends Singleton implements IAuthenticate {
                 }
             } else {
                 AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
-                throw new InvalidCredentials('Invalid key');
+                throw new InvalidCredentials('"Invalid key"');
             }
         }
 
@@ -304,7 +304,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             return $user;
         } else {
             AccessLog::log($username, 'userpass', false, $ipaddr, $user->id);
-            throw new InvalidCredentials('Incorrect username or password');
+            throw new InvalidCredentials('"Incorrect username or password"');
         }
     }
 }
