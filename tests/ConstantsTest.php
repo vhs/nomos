@@ -26,11 +26,11 @@ class ConstantsTest extends TestCase {
     }
 
     public function test_StringLiterals_AuthAccessDenied() {
-        $this->assertEquals('"Access Denied"', StringLiterals::AUTH_ACCESS_DENIED);
+        $this->assertEquals('Access Denied', StringLiterals::AUTH_ACCESS_DENIED);
     }
 
     public function test_StringLiterals_AuthAccessGranted() {
-        $this->assertEquals('"Access Granted"', StringLiterals::AUTH_ACCESS_GRANTED);
+        $this->assertEquals('Access Granted', StringLiterals::AUTH_ACCESS_GRANTED);
     }
 
     public function test_StringLiterals_HTTP_PREFIX() {
