@@ -44,7 +44,7 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     public function CreatePrivilege($name, $code, $description, $icon, $enabled) {
         $privs = Privilege::findByCode($code);
 
-        if (count($privs) != 0) {
+        if (!empty($privs)) {
             throw new InvalidInputException('Privilege already exists with that code');
         }
 

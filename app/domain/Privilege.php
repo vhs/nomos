@@ -22,25 +22,25 @@ class Privilege extends Domain {
     }
 
     public static function findByCode($code) {
-        if (!self::checkCodeAccess(...$code)) {
+        if (!self::checkCodeAccess($code)) {
             throw new UnauthorizedException();
         }
 
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
 
-        if (count($privs) > 0) {
+        if (!empty($privs)) {
             return $privs[0];
         }
 
         return null;
     }
 
-    public static function findByCodes(...$code) {
-        if (!self::checkCodeAccess(...$code)) {
+    public static function findByCodes(...$codes) {
+        if (!self::checkCodeAccess(...$codes)) {
             throw new UnauthorizedException();
         }
 
-        return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $code));
+        return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $codes));
     }
 
     private static function checkCodeAccess(...$codes) {
@@ -59,5 +59,6 @@ class Privilege extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
+        // Do nothing
     }
 }
