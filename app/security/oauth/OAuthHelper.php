@@ -81,9 +81,9 @@ class OAuthHelper {
         return null;
     }
 
-    public function requestAuth() {
+    public function requestAuth(array $options = []) {
         // If we don't have an authorization code then get one
-        $authUrl = $this->provider->getAuthorizationUrl();
+        $authUrl = $this->provider->getAuthorizationUrl($options);
 
         $this->server->clear();
         $this->server->redirect($authUrl);

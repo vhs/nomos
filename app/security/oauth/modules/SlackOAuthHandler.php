@@ -10,7 +10,7 @@
 namespace app\security\oauth\modules;
 
 use app\security\oauth\OAuthHelper;
-use app\security\oauth\providers\Slack;
+use app\security\oauth\providers\slack\Slack;
 use vhs\web\HttpServer;
 
 class SlackOAuthHandler extends OAuthHandler {
@@ -23,26 +23,31 @@ class SlackOAuthHandler extends OAuthHandler {
 
         $action = $_GET['action'] ?: 'link';
 
-        $provider = new Slack([
+        $baseOptions = [
             'clientId' => OAUTH_SLACK_CLIENT,
             'clientSecret' => OAUTH_SLACK_SECRET,
-            'teamId' => OAUTH_SLACK_TEAM,
             'redirectUri' => $host . $this->getUrl() . '?action=' . $action,
-            'scopes' => ['identify']
-        ]);
+            'team' => OAUTH_SLACK_TEAM,
+            'user_scope' => ['identify']
+        ];
+
+        $options = [...$baseOptions];
+
+        $provider = new Slack($options);
 
         $oauthHelper = new OauthHelper($provider, $server);
 
         $userDetails = null;
 
         if (!isset($_GET['code'])) {
-            $oauthHelper->requestAuth();
+            $oauthHelper->requestAuth(['team' => OAUTH_SLACK_TEAM, 'user_scope' => 'identify']);
         } else {
+            /** @var SlackResourceOwner | null */
             $userDetails = $oauthHelper->processToken();
         }
 
         if ($_GET['action'] == 'link' && !is_null($userDetails)) {
-            $oauthHelper->linkAccount($userDetails->uid, 'slack', 'Slack Account for ' . $userDetails->nickname);
+            $oauthHelper->linkAccount($userDetails->getId(), 'slack', 'Slack Account for ' . $userDetails->getName());
 
             $server->clear();
             $server->redirect('/index.html#/profile/');
