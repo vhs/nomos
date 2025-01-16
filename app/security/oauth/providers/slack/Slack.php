@@ -48,6 +48,10 @@ class Slack extends AbstractProvider {
     }
 
     protected function createAccessToken(array $response, AbstractGrant $grant) {
+        if (isset($response['authed_user'])) {
+            return new AccessToken($response['authed_user']);
+        }
+
         return new AccessToken($response['authed_user']);
     }
 
