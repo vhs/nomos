@@ -18,6 +18,7 @@ use vhs\security\CurrentUser;
 use vhs\web\HttpServer;
 
 class OAuthHelper {
+    /** @var AbstractProvider */
     private $provider;
     /** @var HttpServer */
     private $server;
@@ -72,7 +73,7 @@ class OAuthHelper {
             'code' => $_GET['code']
         ]);
         if (!is_null($token)) {
-            $this->userDetails = $this->provider->getUserDetails($token);
+            $this->userDetails = $this->provider->getResourceOwner($token);
 
             return $this->userDetails;
         }

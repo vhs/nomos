@@ -37,11 +37,12 @@ class GoogleOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
+            /** @var GoogleUser | null */
             $userDetails = $oauthHelper->processToken();
         }
 
         if ($_GET['action'] == 'link' && !is_null($userDetails)) {
-            $oauthHelper->linkAccount($userDetails->uid, 'google', 'Google Account for ' . $userDetails->name);
+            $oauthHelper->linkAccount($userDetails->getId(), 'google', 'Google Account for ' . $userDetails->getName());
 
             $server->clear();
             $server->redirect('/index.html#/profile/');

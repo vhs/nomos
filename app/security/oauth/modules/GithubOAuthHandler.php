@@ -21,7 +21,7 @@ class GithubOAuthHandler extends OAuthHandler {
     public function handle(HttpServer $server) {
         $host = OauthHelper::redirectHost();
 
-        $action = $_GET['action'] ?: 'link';
+        $action = isset($_GET['action']) ? $_GET['action'] : 'link';
 
         $provider = new Github([
             'clientId' => OAUTH_GITHUB_CLIENT,
@@ -37,11 +37,12 @@ class GithubOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
+            /** @var GithubResourceOwner | null */
             $userDetails = $oauthHelper->processToken();
         }
 
         if ($_GET['action'] == 'link' && !is_null($userDetails)) {
-            $oauthHelper->linkAccount($userDetails->uid, 'github', 'GitHub Account for ' . $userDetails->nickname);
+            $oauthHelper->linkAccount($userDetails->getId(), 'github', 'GitHub Account for ' . $userDetails->getNickname());
 
             $server->clear();
             $server->redirect('/index.html#/profile/');
