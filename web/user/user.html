@@ -18,13 +18,11 @@
                     <li>
                         <div class="row gravatar-row">
                             <div class="col-xs-2 col-sm-3 col-sm-offset-2">
-                                <img
-                                    src="https://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=http%3A%2F%2Florempixel.com%2F64%2F64%2Fpeople%2F"
-                                />
+                                <img src="https://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=identicon" />
                             </div>
                             <div class="col-xs-8 col-sm-7">
                                 <div class="row">
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12 user-profile">
                                         <a ui-sref="user.profile">@{{currentUser.username}}</a>
                                     </div>
                                 </div>
@@ -113,7 +111,7 @@
                     <li>
                         <div class="row">
                             <div class="col-md-4">
-                            <img style="margin-left:15px;margin-bottom:15px;" src="http://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64&d=http%3A%2F%2Florempixel.com%2F64%2F64%2Fpeople%2F" />
+                            <img style="margin-left:15px;margin-bottom:15px;" src="http://www.gravatar.com/avatar/{{ currentUser.email | gravatar }}?s=64" />
                             </div>
                             <div class="col-md-8">
                                 <div class="row">

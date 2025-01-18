@@ -29,6 +29,11 @@
     padding: 0;
 }
 
+.user-profile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .overlay {
     position: absolute;
     top: 0;
