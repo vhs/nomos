@@ -12,6 +12,15 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountMemberships($filters);
+
+    /**
+     * @permission administrator
+     *
      * @param $title
      * @param $description
      * @param $price
@@ -39,6 +48,19 @@ interface IMembershipService1 extends IContract {
      * @return mixed
      */
     public function GetAll();
+
+    /**
+     * @permission administrator
+     *
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function ListMemberships($page, $size, $columns, $order, $filters);
 
     /**
      * @permission administrator

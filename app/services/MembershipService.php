@@ -11,6 +11,17 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function CountMemberships($filters) {
+        return Membership::count($filters);
+    }
+
+    /**
+     * @permission administrator
+     *
      * @param $title
      * @param $description
      * @param $price
@@ -43,6 +54,21 @@ class MembershipService extends Service implements IMembershipService1 {
      */
     public function GetAll() {
         return Membership::findAll();
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param $page
+     * @param $size
+     * @param $columns
+     * @param $order
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function ListMemberships($page, $size, $columns, $order, $filters) {
+        return Membership::page($page, $size, $columns, $order, $filters);
     }
 
     /**
