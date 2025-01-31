@@ -58,6 +58,17 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function GetSystemPreference($id) {
+        return SystemPreference::find($id);
+    }
+
+    /**
+     * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns

@@ -40,6 +40,15 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function GetSystemPreference($id);
+
+    /**
+     * @permission administrator
+     *
      * @param $page
      * @param $size
      * @param $columns
