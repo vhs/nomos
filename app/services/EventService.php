@@ -175,6 +175,21 @@ class EventService extends Service implements IEventService1 {
     }
 
     /**
+     * @permission administrator
+     *
+     * @return mixed
+     */
+    public function GetEventTypes() {
+        $updateKeys = array_filter(get_class_methods('vhs\domain\Domain'), function ($k) {
+            return preg_match('/^onAny/', $k);
+        });
+
+        sort($updateKeys);
+
+        return array_map(fn($method): string => str_replace('before', 'before:', strtolower(str_replace('onAny', '', $method))), $updateKeys);
+    }
+
+    /**
      * @permission webhook|administrator
      *
      * @param $page

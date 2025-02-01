@@ -93,6 +93,13 @@ interface IEventService1 extends IContract {
     public function GetEvents();
 
     /**
+     * @permission administrator
+     *
+     * @return mixed
+     */
+    public function GetEventTypes();
+
+    /**
      * @permission webhook|administrator
      *
      * @param $page
