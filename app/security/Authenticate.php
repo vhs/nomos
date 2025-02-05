@@ -13,6 +13,8 @@ use app\domain\AccessLog;
 use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
+use app\exceptions\InvalidAccessTokenCredentialsException;
+use app\exceptions\InvalidKeyCredentialsException;
 use app\security\credentials\ApiCredentials;
 use app\security\credentials\PinCredentials;
 use app\security\credentials\RfidCredentials;
@@ -29,6 +31,7 @@ use vhs\security\IPrincipal;
 use vhs\security\UserPassCredentials;
 use vhs\Singleton;
 
+/** @typescript */
 class Authenticate extends Singleton implements IAuthenticate {
     public static function authenticateOnly($username, $password) {
         return self::userLogin($username, $password, true);
@@ -53,22 +56,27 @@ class Authenticate extends Singleton implements IAuthenticate {
             case 'vhs\\security\\UserPassCredentials':
                 /** @var UserPassCredentials $credentials */
                 self::userLogin($credentials->getUsername(), $credentials->getPassword());
+
                 break;
             case 'app\\security\\credentials\\ApiCredentials':
                 /** @var ApiCredentials $credentials */
                 self::keyLogin(Key::findByApiKey($credentials->getToken()), $credentials);
+
                 break;
             case 'app\\security\\credentials\\RfidCredentials':
                 /** @var RfidCredentials $credentials */
                 self::keyLogin(Key::findByRfid($credentials->getToken()), $credentials);
+
                 break;
             case 'app\\security\\credentials\\PinCredentials':
                 /** @var PinCredentials $credentials */
                 self::keyLogin(Key::findByPin($credentials->getToken()), $credentials);
+
                 break;
             case 'vhs\\security\\BearerTokenCredentials':
                 /** @var BearerTokenCredentials $credentials */
                 self::bearerLogin($credentials);
+
                 break;
             default:
                 throw new InvalidCredentials('"Unsupported authentication type."');
@@ -92,7 +100,8 @@ class Authenticate extends Singleton implements IAuthenticate {
 
         if (is_null($token) || is_null($token->user)) {
             AccessLog::log($credentials->getToken(), 'bearer', false, $ipaddr);
-            throw new InvalidCredentials(message: '"Invalid access token"');
+
+            throw new InvalidAccessTokenCredentialsException();
         }
 
         if (
@@ -107,7 +116,8 @@ class Authenticate extends Singleton implements IAuthenticate {
             AccessLog::log($credentials->getToken(), 'bearer', true, $ipaddr, $token->user->id);
         } else {
             AccessLog::log($credentials->getToken(), 'bearer', false, $ipaddr, $token->user->id);
-            throw new InvalidCredentials('"Invalid access token"');
+
+            throw new InvalidAccessTokenCredentialsException();
         }
     }
 
@@ -154,9 +164,9 @@ class Authenticate extends Singleton implements IAuthenticate {
     /**
      * @param $username
      *
-     * @return User
-     *
      * @throws InvalidCredentials
+     *
+     * @return User
      */
     private static function findUser($username) {
         $users = User::findByUsername($username);
@@ -182,23 +192,19 @@ class Authenticate extends Singleton implements IAuthenticate {
         return $ipaddr;
     }
 
-    private static function isUserValid($user) {
+    private static function isUserValid(User $user) {
         switch ($user->active) {
             case 'n': //not active
                 throw new InvalidCredentials('"Your account is not activated"');
-                break;
             case 'y': //yes they are active
                 return true;
-                break;
             case 't': //pending email verification
                 throw new InvalidCredentials('"You need to verify your email address"');
-                break;
             case 'b': //banned
                 throw new InvalidCredentials('"Your account has been banned"');
-                break;
+            default:
+                return false;
         }
-
-        return false;
     }
 
     private static function keyLogin($keys, TokenCredentials $credentials) {
@@ -206,7 +212,8 @@ class Authenticate extends Singleton implements IAuthenticate {
 
         if (count($keys) != 1) {
             AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
-            throw new InvalidCredentials('"Invalid key"');
+
+            throw new InvalidKeyCredentialsException();
         }
 
         $key = $keys[0];
@@ -222,7 +229,8 @@ class Authenticate extends Singleton implements IAuthenticate {
                 $user = User::find($key->userid);
             } catch (\Exception $ex) {
                 AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr, $key->userid);
-                throw new InvalidCredentials('"Invalid key"');
+
+                throw new InvalidKeyCredentialsException();
             }
 
             if (!is_null($user) && self::isUserValid($user)) {
@@ -243,7 +251,8 @@ class Authenticate extends Singleton implements IAuthenticate {
                 }
             } else {
                 AccessLog::log($credentials->getToken(), $credentials->getType(), false, $ipaddr);
-                throw new InvalidCredentials('"Invalid key"');
+
+                throw new InvalidKeyCredentialsException();
             }
         }
 
@@ -258,7 +267,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             array_push($privileges, 'grants');
         }
 
-        CurrentUser::setPrincipal(new TokenPrincipal($identity, $privileges, $grants, $name));
+        CurrentUser::setPrincipal(new TokenPrincipal(id: $identity, permissions: $privileges, grants: $grants, name: $name));
 
         AccessLog::log($credentials->getToken(), $credentials->getType(), true, $ipaddr, $key->userid);
     }
@@ -289,6 +298,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             $user = self::findUser($username);
         } catch (\Exception $ex) {
             AccessLog::log($username, 'userpass', false, $ipaddr);
+
             throw $ex;
         }
 
@@ -304,6 +314,7 @@ class Authenticate extends Singleton implements IAuthenticate {
             return $user;
         } else {
             AccessLog::log($username, 'userpass', false, $ipaddr, $user->id);
+
             throw new InvalidCredentials('"Incorrect username or password"');
         }
     }
