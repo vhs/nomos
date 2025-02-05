@@ -11,6 +11,7 @@ namespace vhs\loggers;
 
 use vhs\Logger;
 
+/** @typescript */
 class ConsoleLogger extends Logger {
     public function log($message) {
         print '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;

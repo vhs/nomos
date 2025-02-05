@@ -11,6 +11,7 @@ namespace vhs\loggers;
 
 use vhs\Logger;
 
+/** @typescript */
 class StringLogger extends Logger {
     public $history;
 

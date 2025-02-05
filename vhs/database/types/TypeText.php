@@ -9,6 +9,7 @@
 
 namespace vhs\database\types;
 
+/** @typescript */
 class TypeText extends Type {
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertText($this, $value);

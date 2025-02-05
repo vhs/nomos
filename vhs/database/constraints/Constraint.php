@@ -14,6 +14,7 @@ use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\Table;
 
+/** @typescript */
 abstract class Constraint extends Element {
     public $column;
 
@@ -33,6 +34,7 @@ abstract class Constraint extends Element {
 
     /**
      * @param IGenerator $generator
+     * @param mixed|null $value
      *
      * @return mixed
      */

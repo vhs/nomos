@@ -13,6 +13,7 @@ use tests\schema\KnightSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Knight extends Domain {
     public static function Define() {
         Knight::Schema(KnightSchema::Type());

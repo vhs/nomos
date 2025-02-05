@@ -13,6 +13,7 @@ use app\services\MemberCardService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class MemberCardService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new MemberCardService(new ServiceContext($this)));

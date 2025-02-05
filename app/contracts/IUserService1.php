@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IUserService1 extends IContract {
     /**
      * @permission administrator|grants

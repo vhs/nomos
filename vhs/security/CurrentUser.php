@@ -11,10 +11,9 @@ namespace vhs\security;
 
 use vhs\Singleton;
 
+/** @typescript */
 class CurrentUser {
-    /**
-     * @var IPrincipal $currentPrincipal
-     */
+    /** @var IPrincipal $currentPrincipal */
     private $currentPrincipal;
 
     protected function __construct() {

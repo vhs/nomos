@@ -14,6 +14,7 @@ use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\Table;
 
+/** @typescript */
 abstract class OrderBy extends Element {
     /** @var Column */
     public $column;

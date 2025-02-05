@@ -16,6 +16,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Payment extends Domain {
     public static function Define() {
         Payment::Schema(PaymentSchema::Type());
@@ -28,5 +29,6 @@ class Payment extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
+        // TODO: Implement validate() method.
     }
 }

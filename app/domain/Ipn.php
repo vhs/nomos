@@ -13,11 +13,13 @@ use app\schema\IpnSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Ipn extends Domain {
     public static function Define() {
         Ipn::Schema(IpnSchema::Type());
     }
 
     public function validate(ValidationResults &$results) {
+        // TODO: Implement validate() method.
     }
 }

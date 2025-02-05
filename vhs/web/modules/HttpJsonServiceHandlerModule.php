@@ -14,6 +14,7 @@ use vhs\services\ServiceRegistry;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpJsonServiceHandlerModule implements IHttpModule {
     private $registryKey;
 
@@ -34,6 +35,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         switch ($server->request->method) {
             case 'HEAD':
                 $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
+
                 break;
             case 'GET':
                 if (isset($_GET['json'])) {
@@ -43,14 +45,17 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
                 }
 
                 $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
+
                 break;
             case 'POST':
                 $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
+
                 break;
             //case 'PUT':
             //case 'DELETE':
             default:
                 throw new InvalidRequestException();
+
                 break;
         }
     }

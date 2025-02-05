@@ -18,6 +18,7 @@ use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 use vhs\domain\Schema;
 
+/** @typescript */
 class SatelliteDomainCollection extends DomainCollection {
     /** @var ForeignKey */
     private $childKey;
@@ -90,11 +91,13 @@ class SatelliteDomainCollection extends DomainCollection {
 
     public function compare(Domain $a, Domain $b) {
         $childOnCol = $this->childKey->on->name;
+
         return $a->$childOnCol === $b->$childOnCol;
     }
 
     public function contains(Domain $item) {
         $childOnCol = $this->childKey->on->name;
+
         return $this->containsKey($item->$childOnCol);
     }
 

@@ -6,6 +6,7 @@ use vhs\database\Element;
 use vhs\database\IGeneratable;
 use vhs\database\IGenerator;
 
+/** @typescript */
 class Limit extends Element implements IGeneratable {
     public $limit;
 

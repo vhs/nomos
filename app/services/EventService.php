@@ -18,6 +18,7 @@ use vhs\domain\Domain;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
+/** @typescript */
 class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator

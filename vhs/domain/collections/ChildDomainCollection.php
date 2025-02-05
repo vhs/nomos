@@ -16,6 +16,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 
+/** @typescript */
 class ChildDomainCollection extends DomainCollection {
     /** @var Column $childColumn */
     private $childColumn;
@@ -100,11 +101,13 @@ class ChildDomainCollection extends DomainCollection {
 
     public function compare(Domain $a, Domain $b) {
         $childPkName = $this->childKey->column->name;
+
         return $a->$childPkName === $b->$childPkName;
     }
 
     public function contains(Domain $item) {
         $childPkName = $this->childKey->column->name;
+
         return $this->containsKey($item->$childPkName);
     }
 

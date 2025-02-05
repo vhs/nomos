@@ -9,6 +9,7 @@
 
 namespace vhs\services\endpoints;
 
+/** @typescript */
 interface IEndpoint {
     public function deserializeInput($data);
 

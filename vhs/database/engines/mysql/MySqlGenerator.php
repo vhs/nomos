@@ -52,6 +52,7 @@ use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
 use vhs\database\wheres\WhereOr;
 
+/** @typescript */
 class MySqlGenerator implements
     IWhereGenerator,
     IOrderByGenerator,
@@ -62,9 +63,7 @@ class MySqlGenerator implements
     IJoinGenerator,
     IOnGenerator,
     IColumnGenerator {
-    /**
-     * @var \mysqli
-     */
+    /** @var \mysqli */
     private $conn = null;
 
     public function generateAnd(WhereAnd $where) {
@@ -276,6 +275,7 @@ class MySqlGenerator implements
         if (isset($limit->limit) && is_numeric($limit->limit)) {
             $clause = sprintf(' LIMIT %s ', intval($limit->limit));
         }
+
         return $clause;
     }
 
@@ -284,6 +284,7 @@ class MySqlGenerator implements
         if (isset($offset->offset) && is_numeric($offset->offset)) {
             $clause = sprintf(' OFFSET %s ', intval($offset->offset));
         }
+
         return $clause;
     }
 
@@ -420,6 +421,7 @@ class MySqlGenerator implements
             array_map(
                 function ($columnName, $value) use ($query) {
                     $column = $query->columns->getByName($columnName);
+
                     return $column->generate($this) . ' = ' . $column->type->generate($this, $value);
                 },
                 array_keys($query->values),

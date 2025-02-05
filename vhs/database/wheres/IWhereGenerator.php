@@ -11,6 +11,7 @@ namespace vhs\database\wheres;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface IWhereGenerator extends IGenerator {
     public function generateAnd(WhereAnd $where);
 

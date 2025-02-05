@@ -9,6 +9,7 @@
 
 namespace vhs\web;
 
+/** @typescript */
 class HttpUtil {
     /**
      * @returns HttpRequest
@@ -40,6 +41,7 @@ class HttpUtil {
             $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
             $headers[$header] = $value;
         }
+
         return $headers;
     }
 }

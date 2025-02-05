@@ -15,6 +15,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class RefreshToken extends Domain {
     public static function Define() {
         RefreshToken::Schema(RefreshTokenSchema::Type());

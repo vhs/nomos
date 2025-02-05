@@ -11,6 +11,7 @@ namespace vhs\database\types;
 
 use vhs\database\IConverter;
 
+/** @typescript */
 interface ITypeConverter extends IConverter {
     public function convertBool(TypeBool $type, $value = null);
 

@@ -11,6 +11,7 @@ namespace app\gateways;
 
 use app\domain\Ipn;
 
+/** @typescript */
 class PaypalGateway implements IPaymentGateway {
     public function CreateInvalidIPNRecord($raw) {
         // Create the IPN record in the database
@@ -103,10 +104,12 @@ class PaypalGateway implements IPaymentGateway {
         } elseif (strcmp($response, 'INVALID') == 0) {
             // IPN invalid, log for manual investigation
             $result = $this->CreateInvalidIPNRecord($req);
+
             throw new PaymentGatewayException('Error: Could not validate paypal IPN ' . $req);
         }
 
         $this->CreateInvalidIPNRecord($req);
+
         throw new PaymentGatewayException('Error: Unknown Paypal IPN Error ' . $req);
     }
 }

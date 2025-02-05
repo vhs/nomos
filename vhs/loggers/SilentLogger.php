@@ -11,6 +11,7 @@ namespace vhs\loggers;
 
 use vhs\Logger;
 
+/** @typescript */
 class SilentLogger extends Logger {
     public function log($message) {
         //stfu

@@ -17,6 +17,7 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use vhs\security\CurrentUser;
 use vhs\web\HttpServer;
 
+/** @typescript */
 class OAuthHelper {
     /** @var AbstractProvider */
     private $provider;

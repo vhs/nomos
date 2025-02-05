@@ -12,6 +12,7 @@ namespace vhs\migration;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
+/** @typescript */
 class Migrator {
     private $database;
     private $logger;
@@ -39,6 +40,7 @@ class Migrator {
 
         if ($conn->connect_error) {
             $this->logger->log('Connection failed: ' . $conn->connect_error);
+
             return false;
         }
 
@@ -47,6 +49,7 @@ class Migrator {
             $this->logger->log('Database created successfully');
         } else {
             $this->logger->log('Error creating database: ' . $conn->error);
+
             return false;
         }
 
@@ -73,17 +76,20 @@ class Migrator {
 
             if ($toVersion > $versions[sizeof($versions) - 1]) {
                 $this->logger->log('Cannot target a version higher than latest.');
+
                 return false;
             }
 
             if ($toVersion <= $currentversion) {
                 $this->logger->log('Target must be higher than current.');
+
                 return false;
             }
         }
 
         if ($currentversion == $versions[sizeof($versions) - 1]) {
             $this->logger->log('Already up to date.');
+
             return true;
         }
 
@@ -114,6 +120,7 @@ class Migrator {
                     $output = shell_exec($command . $script);
                 } catch (\Exception $e) {
                     $this->logger->log('Caught exception: ' . $e->getMessage() . "\n");
+
                     return false;
                 }
 

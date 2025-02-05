@@ -15,6 +15,7 @@ use vhs\web\HttpBasicCredentials;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpBasicAuthModule implements IHttpModule {
     private $authorizer;
     private $realm;

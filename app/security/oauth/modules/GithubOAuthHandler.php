@@ -13,6 +13,7 @@ use app\security\oauth\OAuthHelper;
 use League\OAuth2\Client\Provider\Github;
 use vhs\web\HttpServer;
 
+/** @typescript */
 class GithubOAuthHandler extends OAuthHandler {
     public function getUrl() {
         return '/oauth/github.php';
@@ -37,7 +38,7 @@ class GithubOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
-            /** @var GithubResourceOwner | null */
+            /** @var GithubResourceOwner|null */
             $userDetails = $oauthHelper->processToken();
         }
 

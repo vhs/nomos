@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|webhook
@@ -43,9 +44,9 @@ interface IWebHookService1 extends IContract {
      * @param $method
      * @param $eventid
      *
-     * @return mixed
-     *
      * @throws UnauthorizedException
+     *
+     * @return mixed
      */
     public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid);
 
@@ -117,9 +118,9 @@ interface IWebHookService1 extends IContract {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters);
 

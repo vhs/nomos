@@ -11,6 +11,7 @@ namespace app\security\oauth\modules;
 
 use vhs\web\modules\HttpRequestHandlerModule;
 
+/** @typescript */
 class OAuthHandlerModule extends HttpRequestHandlerModule {
     /**
      * @return OAuthHandlerModule

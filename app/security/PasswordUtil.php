@@ -17,6 +17,7 @@ if (!defined('PASSWORD_DEFAULT')) {
     define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
 }
 
+/** @typescript */
 class PasswordUtil {
     public static function check($password, $hash) {
         return password_verify(sha1($password), $hash);
@@ -28,7 +29,7 @@ class PasswordUtil {
      *
      * @param any $testVal
      *
-     * @return boolean
+     * @return bool
      */
     public static function checkValidString($testVal) {
         gettype($testVal) === 'string' && $testVal !== '';

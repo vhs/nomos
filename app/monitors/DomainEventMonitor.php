@@ -15,6 +15,7 @@ use vhs\Logger;
 use vhs\messaging\MessageQueue;
 use vhs\monitors\Monitor;
 
+/** @typescript */
 class DomainEventMonitor extends Monitor {
     public function fireEvent($event, $data) {
         MessageQueue::publish($event->domain, $event->event, json_encode($data));
@@ -50,6 +51,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyBeforeCreate(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'before:deleted':
@@ -57,6 +59,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyBeforeDelete(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'before:updated':
@@ -64,6 +67,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyBeforeUpdate(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'before:saved':
@@ -71,6 +75,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyBeforeSave(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'changed':
@@ -88,6 +93,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyCreated(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'deleted':
@@ -95,6 +101,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyDeleted(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'updated':
@@ -102,6 +109,7 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnyUpdated(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 case 'saved':
@@ -109,10 +117,12 @@ class DomainEventMonitor extends Monitor {
                     $domainClass::onAnySaved(function (...$args) use ($event) {
                         $this->fireEvent($event, $args);
                     });
+
                     break;
 
                 default:
                     $logger->log(sprintf('Invalid domain event [%s] for domain [%s]', $event->event, $event->domain));
+
                     break;
             }
         }

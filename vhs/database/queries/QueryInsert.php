@@ -13,6 +13,7 @@ use vhs\database\Columns;
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 
+/** @typescript */
 class QueryInsert extends Query {
     public $columns;
     public $values;

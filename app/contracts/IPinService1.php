@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IPinService1 extends IContract {
     /**
      * @permission door
@@ -65,6 +66,7 @@ interface IPinService1 extends IContract {
      *
      * @permission administrator|user
      *
+     * @param $userid
      * @param $pin
      *
      * @return mixed

@@ -13,6 +13,7 @@ use app\gateways\IPaymentGateway;
 use vhs\web\HttpRequestHandler;
 use vhs\web\HttpServer;
 
+/** @typescript */
 class HttpPaymentGatewayHandler extends HttpRequestHandler {
     /** @var IPaymentGateway */
     private $gateway;

@@ -12,6 +12,7 @@ namespace vhs\loggers;
 use vhs\Logger;
 use vhs\security\CurrentUser;
 
+/** @typescript */
 class FileLogger extends Logger {
     private $file;
     private $filename;

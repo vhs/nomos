@@ -11,6 +11,7 @@ namespace app\security;
 
 use vhs\security\IPrincipal;
 
+/** @typescript */
 class TokenPrincipal implements IPrincipal {
     private $grants;
     private $id;

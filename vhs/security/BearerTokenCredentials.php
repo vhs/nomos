@@ -9,6 +9,7 @@
 
 namespace vhs\security;
 
+/** @typescript */
 class BearerTokenCredentials implements ICredentials {
     private $token;
 

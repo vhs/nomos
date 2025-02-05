@@ -16,6 +16,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class AccessLog extends Domain {
     public static function Define() {
         AccessLog::Schema(AccessLogSchema::Type());
@@ -31,6 +32,7 @@ class AccessLog extends Domain {
 
     public static function log($key, $type, $authorized, $from_ip, $userid = null) {
         $entry = new AccessLog();
+
         $entry->key = $key;
         $entry->type = $type;
         $entry->authorized = $authorized;

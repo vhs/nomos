@@ -14,6 +14,7 @@ use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\PrimaryKey;
 use vhs\database\Table;
 
+/** @typescript */
 interface ISchema {
     /**
      * @return Table
@@ -21,6 +22,7 @@ interface ISchema {
     public static function init();
 }
 
+/** @typescript */
 abstract class Schema implements ISchema {
     private $internal_table;
 
