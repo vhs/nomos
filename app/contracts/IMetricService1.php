@@ -8,6 +8,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IMetricService1 extends IContract {
     /**
      * @permission user

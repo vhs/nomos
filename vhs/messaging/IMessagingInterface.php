@@ -9,6 +9,7 @@
 
 namespace vhs\messaging;
 
+/** @typescript */
 interface IMessagingInterface {
     public function consume($channel, $queue, callable $callback);
 

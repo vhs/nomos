@@ -13,6 +13,7 @@ use app\services\PinService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class PinService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new PinService(new ServiceContext($this)));

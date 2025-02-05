@@ -14,6 +14,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class GenuineCard extends Domain {
     public static function Define() {
         GenuineCard::Schema(GenuineCardSchema::Type());
@@ -29,5 +30,6 @@ class GenuineCard extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
+        // TODO: Implement validate() method.
     }
 }

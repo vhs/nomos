@@ -14,6 +14,7 @@ use vhs\database\IGenerator;
 use vhs\database\On;
 use vhs\database\Table;
 
+/** @typescript */
 abstract class Join extends Element {
     /** @var On */
     public $on;

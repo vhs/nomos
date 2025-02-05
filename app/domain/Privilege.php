@@ -16,6 +16,7 @@ use vhs\domain\validations\ValidationResults;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 
+/** @typescript */
 class Privilege extends Domain {
     public static function Define() {
         Privilege::Schema(PrivilegeSchema::Type());
@@ -59,6 +60,6 @@ class Privilege extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-        // Do nothing
+        // TODO: Implement validate() method.
     }
 }

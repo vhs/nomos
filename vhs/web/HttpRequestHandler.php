@@ -9,6 +9,7 @@
 
 namespace vhs\web;
 
+/** @typescript */
 abstract class HttpRequestHandler {
     abstract public function handle(HttpServer $server);
 }

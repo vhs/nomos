@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user

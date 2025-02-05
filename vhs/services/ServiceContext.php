@@ -11,6 +11,7 @@ namespace vhs\services;
 
 use vhs\services\endpoints\Endpoint;
 
+/** @typescript */
 class ServiceContext {
     /** @var Endpoint $endpoint */
     public $endpoint;

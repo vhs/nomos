@@ -11,6 +11,7 @@ namespace app\security\oauth\modules;
 
 use vhs\web\HttpRequestHandler;
 
+/** @typescript */
 abstract class OAuthHandler extends HttpRequestHandler {
     abstract public function getUrl();
 }

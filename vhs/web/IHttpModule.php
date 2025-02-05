@@ -9,6 +9,7 @@
 
 namespace vhs\web;
 
+/** @typescript */
 interface IHttpModule {
     public function endResponse(HttpServer $server);
 

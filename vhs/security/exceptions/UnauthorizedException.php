@@ -9,6 +9,7 @@
 
 namespace vhs\security\exceptions;
 
+/** @typescript */
 class UnauthorizedException extends \Exception {
     public function __construct($message = 'Access denied') {
         parent::__construct($message);

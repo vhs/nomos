@@ -13,6 +13,7 @@ use app\services\WebHookService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class WebHookService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new WebHookService(new ServiceContext($this)));

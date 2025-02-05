@@ -12,6 +12,7 @@ namespace vhs\web\modules;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpServerInfoModule implements IHttpModule {
     private $name;
 

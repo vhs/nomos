@@ -17,6 +17,7 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
+/** @typescript */
 class LimitTest extends TestCase {
     /** @var Logger */
     private static $logger;

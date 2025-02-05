@@ -13,6 +13,7 @@ use app\security\oauth\OAuthHelper;
 use League\OAuth2\Client\Provider\Google;
 use vhs\web\HttpServer;
 
+/** @typescript */
 class GoogleOAuthHandler extends OAuthHandler {
     public function getUrl() {
         return '/oauth/google.php';
@@ -37,7 +38,7 @@ class GoogleOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
-            /** @var GoogleUser | null */
+            /** @var GoogleUser|null */
             $userDetails = $oauthHelper->processToken();
         }
 

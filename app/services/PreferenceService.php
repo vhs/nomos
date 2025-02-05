@@ -15,6 +15,7 @@ use app\domain\SystemPreference;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
+/** @typescript */
 class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
@@ -58,7 +59,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param $id
      *
      * @return mixed
      */
@@ -86,6 +87,8 @@ class PreferenceService extends Service implements IPreferenceService1 {
      *
      * @param $key
      * @param $value
+     * @param $enabled
+     * @param $notes
      *
      * @return mixed
      */
@@ -174,6 +177,8 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @param $id
      * @param $key
      * @param $value
+     * @param $enabled
+     * @param $notes
      *
      * @return mixed
      */

@@ -9,6 +9,7 @@
 
 namespace vhs\security;
 
+/** @typescript */
 class UserPassCredentials implements ICredentials {
     private $password;
     private $username;

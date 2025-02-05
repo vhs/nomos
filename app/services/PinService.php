@@ -21,6 +21,7 @@ use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
+/** @typescript */
 class PinService extends Service implements IPinService1 {
     /**
      * @permission door
@@ -164,6 +165,7 @@ class PinService extends Service implements IPinService1 {
      *
      * @permission administrator|user
      *
+     * @param $userid
      * @param $pin
      *
      * @return mixed

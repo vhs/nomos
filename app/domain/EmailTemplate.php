@@ -14,6 +14,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class EmailTemplate extends Domain {
     public static function Define() {
         EmailTemplate::Schema(EmailSchema::Type());
@@ -48,6 +49,6 @@ class EmailTemplate extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-        // not required at this time
+        // TODO: Implement validate() method.
     }
 }

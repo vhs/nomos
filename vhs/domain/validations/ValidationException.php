@@ -9,6 +9,7 @@
 
 namespace vhs\domain\validations;
 
+/** @typescript */
 class ValidationException extends \Exception {
     private $results;
 

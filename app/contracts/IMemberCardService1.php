@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
@@ -27,9 +28,10 @@ interface IMemberCardService1 extends IContract {
      * @param $userid
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
+     * @return mixed
      */
     public function CountGenuineUserCards($userid, $filters);
 
@@ -48,9 +50,9 @@ interface IMemberCardService1 extends IContract {
      * @param $email
      * @param $key
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function IssueCard($email, $key);
 
@@ -77,9 +79,9 @@ interface IMemberCardService1 extends IContract {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters);
 
@@ -89,9 +91,9 @@ interface IMemberCardService1 extends IContract {
      * @param $key
      * @param $notes
      *
-     * @return GenuineCard
-     *
      * @throws \Exception
+     *
+     * @return GenuineCard
      */
     public function RegisterGenuineCard($key, $notes);
 

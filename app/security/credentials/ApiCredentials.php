@@ -9,6 +9,7 @@
 
 namespace app\security\credentials;
 
+/** @typescript */
 class ApiCredentials extends TokenCredentials {
     public function getType() {
         return 'api';

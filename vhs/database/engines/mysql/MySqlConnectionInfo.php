@@ -11,6 +11,7 @@ namespace vhs\database\engines\mysql;
 
 use vhs\database\ConnectionInfo;
 
+/** @typescript */
 class MySqlConnectionInfo extends ConnectionInfo {
     private $database;
     private $password;

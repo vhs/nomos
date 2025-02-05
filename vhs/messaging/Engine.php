@@ -11,6 +11,7 @@ namespace vhs\messaging;
 
 use vhs\Logger;
 
+/** @typescript */
 abstract class Engine implements IMessagingInterface {
     abstract public function connect();
 

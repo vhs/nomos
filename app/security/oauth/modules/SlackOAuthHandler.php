@@ -13,6 +13,7 @@ use app\security\oauth\OAuthHelper;
 use app\security\oauth\providers\slack\Slack;
 use vhs\web\HttpServer;
 
+/** @typescript */
 class SlackOAuthHandler extends OAuthHandler {
     public function getUrl() {
         return '/oauth/slack.php';
@@ -42,7 +43,7 @@ class SlackOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth(['team' => OAUTH_SLACK_TEAM, 'user_scope' => 'identify']);
         } else {
-            /** @var SlackResourceOwner | null */
+            /** @var SlackResourceOwner|null */
             $userDetails = $oauthHelper->processToken();
         }
 

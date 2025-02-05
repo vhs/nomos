@@ -21,6 +21,7 @@ use vhs\database\orders\OrderBy;
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 
+/** @typescript */
 abstract class Query implements IGeneratable {
     /** @var array */
     public $joins;

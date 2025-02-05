@@ -9,6 +9,7 @@
 
 namespace vhs\domain;
 
+/** @typescript */
 class DomainValueCache {
     private $cache;
     private $changed = false;

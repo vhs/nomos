@@ -12,6 +12,7 @@ use vhs\services\ServiceClient;
 use vhs\services\ServiceHandler;
 use vhs\services\ServiceRegistry;
 
+/** @typescript */
 class PermPrincipal implements \vhs\security\IPrincipal {
     private $perms;
 
@@ -52,6 +53,7 @@ class PermPrincipal implements \vhs\security\IPrincipal {
     }
 }
 
+/** @typescript */
 class ServiceTest extends TestCase {
     public function test_AllPermMethod() {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));

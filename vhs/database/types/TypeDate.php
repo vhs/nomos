@@ -9,6 +9,7 @@
 
 namespace vhs\database\types;
 
+/** @typescript */
 class TypeDate extends Type {
     public function covertType(ITypeConverter $converter, $value = null) {
         return $converter->convertDate($this, $value);

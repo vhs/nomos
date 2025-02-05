@@ -9,6 +9,7 @@
 
 namespace app\security\credentials;
 
+/** @typescript */
 class RfidCredentials extends TokenCredentials {
     public function getType() {
         return 'rfid';

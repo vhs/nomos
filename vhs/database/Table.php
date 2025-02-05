@@ -15,10 +15,11 @@ use vhs\database\constraints\PrimaryKey;
 use vhs\database\joins\Join;
 use vhs\database\types\Type;
 
+/** @typescript */
 class Table extends Element {
     /** @var int */
     private static $cloneIndex = 0;
-    /** @var null|string */
+    /** @var string|null */
     public $alias;
 
     /** @var string */
@@ -68,6 +69,7 @@ class Table extends Element {
 
     /**
      * @param IGenerator $generator
+     * @param mixed|null $value
      *
      * @return mixed
      */
