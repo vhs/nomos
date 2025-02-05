@@ -18,6 +18,7 @@ use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
+/** @typescript */
 class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|webhook
@@ -56,9 +57,9 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $method
      * @param $eventid
      *
-     * @return mixed
-     *
      * @throws UnauthorizedException
+     *
+     * @return mixed
      */
     public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid) {
         $event = (new EventService($this->context))->GetEvent($eventid);
@@ -191,9 +192,9 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters) {
         $filters = $this->AddUserIDToFilters($userid, $filters);

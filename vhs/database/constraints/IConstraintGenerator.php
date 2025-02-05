@@ -11,6 +11,7 @@ namespace vhs\database\constraints;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface IConstraintGenerator extends IGenerator {
     public function generateForeignKey(ForeignKey $constraint);
 

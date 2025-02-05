@@ -19,6 +19,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Membership extends Domain {
     public const FRIEND = 'vhs_membership_friend';
     /* TODO HACK we should instead add privileges to the membership types and check those instead when checking types
@@ -73,7 +74,7 @@ class Membership extends Domain {
     /**
      * @param $price
      *
-     * @return Membership
+     * @return Membership|null
      */
     public static function findForPriceLevel($price) {
         $memberships = Membership::where(
@@ -90,6 +91,6 @@ class Membership extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-        // not required at this time
+        // TODO: Implement validate() method.
     }
 }

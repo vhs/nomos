@@ -29,12 +29,11 @@ use vhs\database\wheres\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
+/** @typescript */
 class MySqlEngine extends Engine {
     private $autoCreateDatabase;
 
-    /**
-     * @var \mysqli
-     */
+    /** @var \mysqli */
     private $conn;
     private $converter;
     private $generator;

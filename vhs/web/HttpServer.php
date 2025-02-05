@@ -13,6 +13,7 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\web\modules\HttpServerInfoModule;
 
+/** @typescript */
 class HttpServer {
     /** @var HttpRequest */
     public $request;
@@ -91,6 +92,7 @@ class HttpServer {
                 $module->handle($this);
             } catch (\Exception $ex) {
                 $exception = $ex;
+
                 break;
             }
             $index += 1;
@@ -159,6 +161,7 @@ class HttpServer {
     public function register(IHttpModule $module) {
         if ($this->handling) {
             $this->log('Failed to register module ' . get_class($module));
+
             throw new \Exception('Registrations must occur prior to handling a request');
         }
 
@@ -185,6 +188,7 @@ class HttpServer {
                 $module->endResponse($this);
             } catch (\Exception $ex) {
                 $exception = $ex;
+
                 break;
             }
             $index += 1;

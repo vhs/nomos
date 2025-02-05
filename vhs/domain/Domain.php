@@ -26,10 +26,12 @@ use vhs\domain\exceptions\DomainException;
 use vhs\domain\validations\ValidationException;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 interface IDomain {
     public static function Define();
 }
 
+/** @typescript */
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
     private static $__definition = [];
     private $__cache;
@@ -88,6 +90,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
                 foreach ($myFks as $fk) {
                     if ($fk->table === $domain::Schema()->Table()) {
                         $parentFk = $fk;
+
                         break;
                     }
                 }
@@ -124,8 +127,6 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     public static function doCount(Where $where = null) {
-        $class = get_called_class();
-
         $records = Database::count(Query::Count(self::Schema()->Table(), $where));
 
         return (int) $records;
@@ -328,6 +329,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         );
 
         $items = [];
+
         foreach ($records as $row) {
             /** @var Domain $obj */
             $obj = new $class();
@@ -340,9 +342,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
+     * @param string $as
      * @param string $domain
      * @param Schema $joinTable
-     * @param string $as
      */
     protected static function Relationship($as, $domain, Schema $joinTable = null) {
         self::ensureDefined();
@@ -392,7 +394,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param Columns $columns the filters that are allowed to be used in the filter
      * @param         $filter
      *
-     * @return null|Where
+     * @return Where|null
      */
     private static function constructFilter(Columns $columns, $filter) {
         if (is_object($filter)) {
@@ -437,7 +439,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param       $filters
      * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
      *
-     * @return null|Where
+     * @return Where|null
      */
     private static function constructFilterWhere($filters, array $allowed_columns = null) {
         $actualColumns = new Columns();
@@ -561,13 +563,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param null $validationResults
-     *
-     * @return bool
+     * @param ValidationResults|null $validationResults
      *
      * @throws DomainException
      * @throws ValidationException
      * @throws \Exception
+     *
+     * @return bool
      */
     public function save(&$validationResults = null) {
         if (is_null($validationResults)) {
@@ -581,6 +583,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         if (!$vr->isSuccess()) {
             if (isset($validationResults)) {
                 $validationResults = $vr;
+
                 return false;
             } else {
                 throw new ValidationException($vr);
@@ -862,6 +865,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
             return $this->$method();
         } elseif (self::Schema()->Columns()->contains($name)) {
             $col = self::Schema()->Columns()->getByName($name);
+
             return $this->__cache->getValue($col->getAbsoluteName());
         } elseif (array_key_exists($name, $this->__collections)) {
             return $this->__collections[$name];

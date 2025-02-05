@@ -24,6 +24,7 @@ use vhs\database\wheres\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
+/** @typescript */
 class InMemoryEngine extends Engine {
     private $datastore = [];
     private $generator;
@@ -44,6 +45,7 @@ class InMemoryEngine extends Engine {
         $this->keyIncrementors = [];
         $this->datastore = [];
         $this->logger->log('disconnected');
+
         return true; // ha
     }
 
@@ -105,6 +107,7 @@ class InMemoryEngine extends Engine {
 
     public function exists(QuerySelect $query) {
         $this->logger->log('exists: ');
+
         return $this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0;
     }
 

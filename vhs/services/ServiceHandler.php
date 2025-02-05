@@ -15,6 +15,7 @@ use vhs\services\exceptions\InvalidRequestException;
 use vhs\SplClassLoader;
 use vhs\SplClassLoaderItem;
 
+/** @typescript */
 class ServiceHandler {
     private $endpointNamespace;
     /** @var Logger */
@@ -128,9 +129,9 @@ class ServiceHandler {
     /**
      * @param $uri
      *
-     * @return Endpoint
-     *
      * @throws InvalidRequestException
+     *
+     * @return Endpoint
      */
     private function getEndpoint($uri) {
         if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {

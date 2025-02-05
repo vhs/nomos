@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
@@ -40,7 +41,7 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param $id
      *
      * @return mixed
      */
@@ -64,6 +65,8 @@ interface IPreferenceService1 extends IContract {
      *
      * @param $key
      * @param $value
+     * @param $enabled
+     * @param $notes
      *
      * @return mixed
      */
@@ -94,6 +97,8 @@ interface IPreferenceService1 extends IContract {
      * @param $id
      * @param $key
      * @param $value
+     * @param $enabled
+     * @param $notes
      *
      * @return mixed
      */

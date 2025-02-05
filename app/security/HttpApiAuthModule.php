@@ -15,6 +15,7 @@ use vhs\security\IAuthenticate;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpApiAuthModule implements IHttpModule {
     private $authorizer;
 

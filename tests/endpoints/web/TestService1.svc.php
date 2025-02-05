@@ -13,6 +13,7 @@ use tests\services\TestService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class TestService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new TestService(new ServiceContext($this)));

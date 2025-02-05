@@ -16,6 +16,7 @@ use vhs\web\HttpBasicCredentials;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpBearerTokenAuthModule implements IHttpModule {
     private $authorizer;
     private $headerKey = 'HTTP_AUTHORIZATION';

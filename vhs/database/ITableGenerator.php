@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 interface ITableGenerator extends IGenerator {
     public function generateTable(Table $ascending);
 }

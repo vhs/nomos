@@ -16,6 +16,7 @@ use vhs\database\orders\OrderBy;
 use vhs\database\Table;
 use vhs\database\wheres\Where;
 
+/** @typescript */
 class QueryCount extends Query {
     /** @var Columns */
     public $columns;

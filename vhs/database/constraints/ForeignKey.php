@@ -12,6 +12,7 @@ namespace vhs\database\constraints;
 use vhs\database\Column;
 use vhs\database\Table;
 
+/** @typescript */
 class ForeignKey extends Constraint {
     /** @var Column */
     public $on;

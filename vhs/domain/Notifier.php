@@ -9,6 +9,7 @@
 
 namespace vhs\domain;
 
+/** @typescript */
 class Notifier {
     private static $__staticListeners;
     private $__listeners;

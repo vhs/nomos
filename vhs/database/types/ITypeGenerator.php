@@ -11,6 +11,7 @@ namespace vhs\database\types;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface ITypeGenerator extends IGenerator {
     public function generateBool(TypeBool $type, $value = null);
 

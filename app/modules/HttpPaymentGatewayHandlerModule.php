@@ -12,6 +12,7 @@ namespace app\modules;
 use app\gateways\IPaymentGateway;
 use vhs\web\modules\HttpRequestHandlerModule;
 
+/** @typescript */
 class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule {
     /**
      * @return HttpPaymentGatewayHandlerModule

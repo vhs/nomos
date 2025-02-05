@@ -9,6 +9,7 @@
 
 namespace vhs;
 
+/** @typescript */
 abstract class Logger {
     abstract public function log($message);
 

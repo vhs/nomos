@@ -21,6 +21,7 @@ use vhs\Logger;
 use vhs\security\CurrentUser;
 use vhs\security\SystemPrincipal;
 
+/** @typescript */
 class PaymentProcessor {
     private $emailService;
     private $host;

@@ -30,6 +30,7 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
 
+/** @typescript */
 class AuthService extends Service implements IAuthService1 {
     /**
      * Check to see if the user pin and account is valid.
@@ -257,7 +258,7 @@ class AuthService extends Service implements IAuthService1 {
      *
      * @param $username
      *
-     * @return boolean
+     * @return bool
      */
     public function CheckUsername($username) {
         return Database::exists(
@@ -268,10 +269,6 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
      * @param $filters
      *
      * @return mixed
@@ -487,9 +484,9 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters) {
         $filters = $this->AddUserIDToFilters($userid, $filters);
@@ -507,9 +504,9 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @return array
-     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters) {
         $userService = new UserService();

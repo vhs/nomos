@@ -13,6 +13,7 @@ use app\schema\AppClientSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class AppClient extends Domain {
     public static function Define() {
         AppClient::Schema(AppClientSchema::Type());

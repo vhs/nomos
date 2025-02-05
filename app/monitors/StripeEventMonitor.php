@@ -13,6 +13,7 @@ use DateTime;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 
+/** @typescript */
 class StripeEventMonitor extends Monitor {
     /** @var Logger */
     private $logger;
@@ -112,6 +113,8 @@ class StripeEventMonitor extends Monitor {
 
     /**
      * Sourced from: https://stackoverflow.com/a/31330346.
+     *
+     * @param mixed $name
      */
     private function split_name($name) {
         $name = trim($name);

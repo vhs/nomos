@@ -13,6 +13,7 @@ use vhs\Logger;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpExceptionHandlerModule implements IHttpModule {
     //todo do something about the levels here
     private $level;

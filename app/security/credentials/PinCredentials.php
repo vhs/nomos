@@ -9,6 +9,7 @@
 
 namespace app\security\credentials;
 
+/** @typescript */
 class PinCredentials extends TokenCredentials {
     public function getType() {
         return 'pin';

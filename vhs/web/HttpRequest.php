@@ -9,6 +9,7 @@
 
 namespace vhs\web;
 
+/** @typescript */
 class HttpRequest {
     /** @var array */
     public $headers;

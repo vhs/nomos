@@ -11,6 +11,7 @@ namespace vhs\database;
 
 use vhs\Cloneable;
 
+/** @typescript */
 class Columns {
     use Cloneable;
     /** @var Column[] */

@@ -14,6 +14,7 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
+/** @typescript */
 class EventPrivilegeSchema extends Schema {
     public static function init() {
         $table = new Table('eventprivileges');

@@ -9,6 +9,7 @@
 
 namespace vhs\database\joins;
 
+/** @typescript */
 class JoinInner extends Join {
     public function generateJoin(IJoinGenerator $generator) {
         return $generator->generateInner($this);

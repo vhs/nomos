@@ -11,6 +11,7 @@ namespace vhs\database\queries;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface IQueryGenerator extends IGenerator {
     public function generateDelete(QueryDelete $query);
 

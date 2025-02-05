@@ -9,6 +9,7 @@
 
 namespace vhs\services\endpoints;
 
+/** @typescript */
 class NativeEndpoint extends Endpoint {
     public function deserializeInput($data) {
         return $data;

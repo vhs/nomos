@@ -17,6 +17,7 @@ use vhs\loggers\SilentLogger;
 use vhs\messaging\Engine;
 use vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo;
 
+/** @typescript */
 class RabbitMQEngine extends Engine {
     /** @var AMQPChannel[] */
     private $channels;

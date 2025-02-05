@@ -13,6 +13,7 @@ use vhs\web\HttpRequestHandler;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 abstract class HttpRequestHandlerModule implements IHttpModule {
     private $registry = [];
 

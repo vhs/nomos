@@ -9,6 +9,7 @@
 
 namespace vhs\domain;
 
+/** @typescript */
 class Filter {
     public $column;
     public $left;

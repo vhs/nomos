@@ -19,6 +19,7 @@ use vhs\database\types\TypeInt;
 use vhs\database\types\TypeString;
 use vhs\database\types\TypeText;
 
+/** @typescript */
 class MySqlConverter implements ITypeConverter {
     public function convertBool(TypeBool $type, $value = null) {
         if (is_null($value)) {

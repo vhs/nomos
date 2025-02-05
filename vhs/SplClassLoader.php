@@ -2,6 +2,7 @@
 
 namespace vhs;
 
+/** @typescript */
 class SplClassLoaderItem {
     public $fileExtension;
     public $includePath;
@@ -14,6 +15,7 @@ class SplClassLoaderItem {
     }
 }
 
+/** @typescript */
 class SplClassLoader {
     private $_items = [];
     private $_namespaceSeparator = '\\';

@@ -9,6 +9,7 @@
 
 namespace vhs\security;
 
+/** @typescript */
 interface IAuthenticate {
     /**
      * @return IPrincipal

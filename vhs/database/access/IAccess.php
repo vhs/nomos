@@ -12,6 +12,7 @@ namespace vhs\database\access;
 use vhs\database\Column;
 use vhs\database\Table;
 
+/** @typescript */
 interface IAccess extends \Serializable, \JsonSerializable {
     public function CanRead($record, Table $table, Column $column);
 

@@ -11,6 +11,7 @@ namespace app\resources;
 
 use vhs\Singleton;
 
+/** @typescript */
 class Resource extends Singleton {
     private $data;
 

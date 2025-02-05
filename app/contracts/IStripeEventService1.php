@@ -9,6 +9,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IStripeEventService1 extends IContract {
     /**
      * @permission administrator
@@ -22,7 +23,7 @@ interface IStripeEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $ipnId
+     * @param $eventId
      *
      * @return mixed
      */

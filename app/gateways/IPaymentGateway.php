@@ -9,6 +9,7 @@
 
 namespace app\gateways;
 
+/** @typescript */
 interface IPaymentGateway {
     public function Name();
 

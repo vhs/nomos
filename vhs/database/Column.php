@@ -11,6 +11,7 @@ namespace vhs\database;
 
 use vhs\database\types\Type;
 
+/** @typescript */
 class Column extends Element implements \Serializable, \JsonSerializable {
     public $name;
     public $serializable;
@@ -26,6 +27,7 @@ class Column extends Element implements \Serializable, \JsonSerializable {
 
     /**
      * @param IGenerator $generator
+     * @param mixed|null $value
      *
      * @return mixed
      */

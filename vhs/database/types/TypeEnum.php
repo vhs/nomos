@@ -11,10 +11,9 @@ namespace vhs\database\types;
 
 use vhs\database\exceptions\InvalidSchemaException;
 
+/** @typescript */
 class TypeEnum extends Type {
-    /**
-     * @var \string[]
-     */
+    /** @var \string[] */
     public $values;
 
     /**

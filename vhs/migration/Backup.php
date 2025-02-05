@@ -12,6 +12,7 @@ namespace vhs\migration;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
+/** @typescript */
 class Backup {
     private $database;
     private $logger;
@@ -66,6 +67,7 @@ class Backup {
 
         if ($conn->connect_error) {
             $this->logger->log('Connection failed: ' . $conn->connect_error);
+
             return false;
         }
 
@@ -166,6 +168,7 @@ class Backup {
             case 16: //BIT
             case 246: //DECIMAL / NUMERIC / FIXED
                 return true;
+
                 break;
             default:
                 return false;

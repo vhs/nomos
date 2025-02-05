@@ -9,6 +9,7 @@
 
 namespace vhs\database\types;
 
+/** @typescript */
 class TypeString extends Type {
     public $length;
 

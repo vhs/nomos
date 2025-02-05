@@ -16,6 +16,7 @@ use Aws\CloudFront\Exception\Exception;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 
+/** @typescript */
 class PaymentMonitor extends Monitor {
     /** @var Logger */
     private $logger;

@@ -11,6 +11,7 @@ namespace vhs\database\joins;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface IJoinGenerator extends IGenerator {
     public function generateCross(JoinCross $join);
 

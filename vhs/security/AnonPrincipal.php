@@ -9,6 +9,7 @@
 
 namespace vhs\security;
 
+/** @typescript */
 class AnonPrincipal implements IPrincipal {
     public function canGrantAllPermissions(...$permission) {
         return false;

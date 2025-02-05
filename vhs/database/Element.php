@@ -11,6 +11,7 @@ namespace vhs\database;
 
 use vhs\Cloneable;
 
+/** @typescript */
 abstract class Element implements IGeneratable {
     use Cloneable;
 

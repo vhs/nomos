@@ -16,6 +16,7 @@ use vhs\services\exceptions\InvalidContractException;
 use vhs\services\exceptions\InvalidRequestException;
 use vhs\services\IContract;
 
+/** @typescript */
 abstract class Endpoint implements IEndpoint {
     /** @var Logger $logger */
     public $logger;
@@ -141,9 +142,9 @@ abstract class Endpoint implements IEndpoint {
     }
 
     /**
-     * @return \ReflectionClass
-     *
      * @throws \Exception
+     *
+     * @return \ReflectionClass
      */
     private function getContract() {
         //TODO this would be a good place to implement a memcache registry of permissions & service endpoints

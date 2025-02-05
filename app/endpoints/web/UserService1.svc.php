@@ -13,6 +13,7 @@ use app\services\UserService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class UserService1 extends JsonEndpoint {
     protected function __construct() {
         parent::__construct(new UserService(new ServiceContext($this)));

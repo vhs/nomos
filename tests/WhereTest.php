@@ -16,6 +16,7 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
+/** @typescript */
 class TestSchema extends Schema {
     /**
      * @return Table
@@ -30,6 +31,7 @@ class TestSchema extends Schema {
     }
 }
 
+/** @typescript */
 class WhereTest extends TestCase {
     /** @var Logger */
     private static $logger;

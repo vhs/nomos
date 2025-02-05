@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 interface IGeneratable {
     /**
      * @param IGenerator $generator

@@ -9,5 +9,6 @@
 
 namespace vhs\database\exceptions;
 
+/** @typescript */
 class DatabaseConnectionException extends DatabaseException {
 }

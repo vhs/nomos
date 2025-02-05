@@ -14,6 +14,7 @@ use tests\schema\SwordSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Sword extends Domain {
     public static function Define() {
         Sword::Schema(SwordSchema::Type());

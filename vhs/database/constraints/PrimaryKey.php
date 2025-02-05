@@ -9,6 +9,7 @@
 
 namespace vhs\database\constraints;
 
+/** @typescript */
 class PrimaryKey extends Constraint {
     public function generateConstraint(IConstraintGenerator $generator) {
         return $generator->generatePrimaryKey($this);
