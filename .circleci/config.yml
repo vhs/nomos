@@ -39,7 +39,7 @@ jobs:
                       - v1-dep-master-
                       - v1-dep-
 
-            - run: npm ci
+            - run: corepack enable && pnpm ci
 
             - save_cache:
                   key: v1-dep-{{ .Branch }}-{{ epoch }}
@@ -55,7 +55,7 @@ jobs:
                       - ~/.gradle
                       - ~/.cache/bower
 
-            - run: npm run test
+            - run: pnpm run test
 
             - store_test_results:
                   path: /tmp/circleci-test-results
