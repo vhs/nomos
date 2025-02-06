@@ -62,7 +62,7 @@ COPY --from=build /build/vendor/ vendor/
 
 COPY --from=build /build/docker/*.sh /usr/local/bin/
 COPY --from=build /build/conf/config.docker.ini.php /var/www/html/conf/config.ini.php
-COPY --from=build /build/conf/php-fpm.conf /etc/php83/php-fpm.d/docker.conf
+COPY --from=build /build/conf/php-fpm/*.conf /etc/php83/php-fpm.d/
 
 FROM nginx:stable-alpine AS frontend
 
