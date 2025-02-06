@@ -10,5 +10,4 @@
 namespace vhs\database;
 
 /** @typescript */
-interface IGenerator {
-}
+interface IGenerator {}

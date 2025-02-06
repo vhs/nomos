@@ -10,5 +10,4 @@
 namespace vhs\messaging\exceptions;
 
 /** @typescript */
-class MessageQueueException extends \Exception {
-}
+class MessageQueueException extends \Exception {}

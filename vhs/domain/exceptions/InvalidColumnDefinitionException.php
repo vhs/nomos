@@ -10,5 +10,4 @@
 namespace vhs\domain\exceptions;
 
 /** @typescript */
-class InvalidColumnDefinitionException extends DomainException {
-}
+class InvalidColumnDefinitionException extends DomainException {}

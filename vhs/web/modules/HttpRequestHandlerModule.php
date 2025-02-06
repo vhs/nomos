@@ -17,11 +17,9 @@ use vhs\web\IHttpModule;
 abstract class HttpRequestHandlerModule implements IHttpModule {
     private $registry = [];
 
-    public function __construct() {
-    }
+    public function __construct() {}
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         if (array_key_exists($server->request->method, $this->registry)) {
@@ -31,8 +29,7 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
         }
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 
     protected function register_internal($method, $url, HttpRequestHandler $handler) {
         if (!array_key_exists($method, $this->registry)) {

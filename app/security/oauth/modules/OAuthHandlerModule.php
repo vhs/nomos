@@ -37,6 +37,5 @@ class OAuthHandlerModule extends HttpRequestHandlerModule {
         self::getInstance()->register_internal('PUT', $url, $handler);
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

@@ -20,13 +20,11 @@ class HttpServerInfoModule implements IHttpModule {
         $this->name = $name;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         $server->header('Server: ' . $this->name);
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }

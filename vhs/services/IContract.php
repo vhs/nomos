@@ -10,5 +10,4 @@
 namespace vhs\services;
 
 /** @typescript */
-interface IContract {
-}
+interface IContract {}

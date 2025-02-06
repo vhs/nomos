@@ -20,8 +20,7 @@ class SplClassLoader {
     private $_items = [];
     private $_namespaceSeparator = '\\';
 
-    protected function __construct() {
-    }
+    protected function __construct() {}
 
     final public static function getInstance() {
         static $aoInstance = [];
@@ -123,6 +122,5 @@ class SplClassLoader {
         spl_autoload_unregister([$this, 'loadClass']);
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

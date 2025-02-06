@@ -24,11 +24,9 @@ class HttpExceptionHandlerModule implements IHttpModule {
         $this->logger = $logger;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
-    public function handle(HttpServer $server) {
-    }
+    public function handle(HttpServer $server) {}
 
     public function handleException(HttpServer $server, \Exception $ex) {
         $this->logger->log($ex->getMessage());

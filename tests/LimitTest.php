@@ -80,14 +80,12 @@ class LimitTest extends TestCase {
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass(): void {
-    }
+    public static function tearDownAfterClass(): void {}
 
     public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
-    public function tearDown(): void {
-    }
+    public function tearDown(): void {}
 }

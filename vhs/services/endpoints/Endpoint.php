@@ -180,6 +180,5 @@ abstract class Endpoint implements IEndpoint {
         return $permissions;
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

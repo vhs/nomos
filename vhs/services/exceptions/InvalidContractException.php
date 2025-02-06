@@ -10,5 +10,4 @@
 namespace vhs\services\exceptions;
 
 /** @typescript */
-class InvalidContractException extends \Exception {
-}
+class InvalidContractException extends \Exception {}

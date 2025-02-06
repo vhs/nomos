@@ -10,5 +10,4 @@
 namespace vhs\database;
 
 /** @typescript */
-interface IConverter {
-}
+interface IConverter {}

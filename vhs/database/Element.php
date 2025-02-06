@@ -15,6 +15,5 @@ use vhs\Cloneable;
 abstract class Element implements IGeneratable {
     use Cloneable;
 
-    protected function __updateTable(Table &$table) {
-    }
+    protected function __updateTable(Table &$table) {}
 }
