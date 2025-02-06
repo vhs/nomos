@@ -66,6 +66,7 @@ COPY --from=build /build/vendor/ vendor/
 
 COPY --from=build /build/docker/*.sh /usr/local/bin/
 COPY --from=build /build/conf/config.docker.ini.php /var/www/html/conf/config.ini.php
+COPY --from=build /build/conf/php-fpm.conf /etc/php83/php-fpm.d/docker.conf
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && echo "session.save_path = \"/sessions\"" >> "$PHP_INI_DIR/php.ini"
