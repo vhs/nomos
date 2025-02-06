@@ -37,6 +37,8 @@ FROM alpine:3 AS backend-base
 
 RUN apk --no-cache add just mariadb-client php83 php83-bcmath php83-common php83-fpm php83-mysqli php83-mysqlnd php83-openssl php83-zip python3 wget
 
+RUN sed -i 's/^listen/;listen/g' /etc/php83/php-fpm.d/www.conf
+
 VOLUME ["/sessions"]
 
 RUN mkdir -p /sessions && chown nobody:nobody /sessions
