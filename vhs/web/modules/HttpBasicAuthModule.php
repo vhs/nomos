@@ -25,8 +25,7 @@ class HttpBasicAuthModule implements IHttpModule {
         $this->authorizer = $authorizer;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         if (array_key_exists('PHP_AUTH_USER', $_SERVER) && $_SERVER['PHP_AUTH_USER'] && !$this->authorizer->isAuthenticated()) {

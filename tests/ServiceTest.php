@@ -241,11 +241,9 @@ class ServiceTest extends TestCase {
         ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
     }
 
-    public static function tearDownAfterClass(): void {
-    }
+    public static function tearDownAfterClass(): void {}
 
-    protected function setUp(): void {
-    }
+    protected function setUp(): void {}
 
     protected function tearDown(): void {
         \vhs\security\CurrentUser::setPrincipal(new \vhs\security\AnonPrincipal());

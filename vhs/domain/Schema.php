@@ -99,6 +99,5 @@ abstract class Schema implements ISchema {
         return $aoInstance[$class];
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

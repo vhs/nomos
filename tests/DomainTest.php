@@ -257,9 +257,7 @@ class DomainTest extends TestCase {
         //\vhs\database\Database::arbitrary("DROP DATABASE " . DB_DATABASE);
     }
 
-    protected function setUp(): void {
-    }
+    protected function setUp(): void {}
 
-    protected function tearDown(): void {
-    }
+    protected function tearDown(): void {}
 }

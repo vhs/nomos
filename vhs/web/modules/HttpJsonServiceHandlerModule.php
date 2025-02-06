@@ -22,8 +22,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         $this->registryKey = $registryKey;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         $input = null;
@@ -60,6 +59,5 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         }
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }

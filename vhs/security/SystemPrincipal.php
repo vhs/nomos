@@ -6,8 +6,7 @@ use vhs\security\IPrincipal;
 
 /** @typescript */
 class SystemPrincipal implements IPrincipal, \JsonSerializable {
-    public function __construct() {
-    }
+    public function __construct() {}
 
     public function canGrantAllPermissions(...$permission) {
         return true;
