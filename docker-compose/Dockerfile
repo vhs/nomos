@@ -43,6 +43,8 @@ RUN mkdir -p /sessions && chown nobody:nobody /sessions
 
 FROM backend-base AS backend
 
+EXPOSE 9000
+
 WORKDIR /var/www/html
 
 VOLUME ["/var/www/html/backup"]
