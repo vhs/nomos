@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-docker_env_config.sh > /var/www/html/conf/env.php
+/usr/local/bin/docker_env_config.sh
 
 (cd /var/www/html/tools && php migrate.php -b -m -t)
 
