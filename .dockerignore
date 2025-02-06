@@ -1,10 +1,11 @@
-.phpunit.cache/
-data/
-logs/
-node_modules/
+.phpunit.cache
+data
+logs
+node_modules
 tools/composer.phar
-vendor/
-web/components/
+vendor
+web/components
 .php*.cache
 .env*
 *.log
+.git

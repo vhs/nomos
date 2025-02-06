@@ -28,7 +28,7 @@
     "keywords": [],
     "license": "ISC",
     "name": "@vhs/nomos",
-    "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+    "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001",
     "private": true,
     "scripts": {
         "prepare": "wireit",
@@ -38,10 +38,9 @@
     "wireit": {
         "prepare": {
             "dependencies": [
-                "prepare:webcomponents",
                 "prepare:husky",
                 "prepare:vendor",
-                "prepare:webhooker"
+                "prepare:webcomponents"
             ]
         },
         "prepare:husky": {
@@ -52,9 +51,6 @@
         },
         "prepare:webcomponents": {
             "command": "just setup webcomponents"
-        },
-        "prepare:webhooker": {
-            "command": "just setup webhooker"
         },
         "test": {
             "dependencies": [
@@ -68,5 +64,11 @@
         "test:webhooker": {
             "command": "just test php"
         }
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "dtrace-provider",
+            "just-install"
+        ]
     }
 }

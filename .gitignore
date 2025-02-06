@@ -249,3 +249,4 @@ tools/composer.phar
 docker-compose.override.yml
 
 web/components/
+deploy/
