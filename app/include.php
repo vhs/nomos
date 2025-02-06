@@ -43,5 +43,6 @@ $rabbitMQ->setLogger($rabbitLog);
 
 $serviceLog = DEBUG ? new \vhs\loggers\FileLogger(dirname(__FILE__) . '/service.log') : new \vhs\loggers\SilentLogger();
 
+\vhs\services\ServiceRegistry::register($serviceLog, 'v2', 'app\\endpoints\\v2', ROOT_NAMESPACE_PATH);
 \vhs\services\ServiceRegistry::register($serviceLog, 'web', 'app\\endpoints\\web', ROOT_NAMESPACE_PATH);
 \vhs\services\ServiceRegistry::register($serviceLog, 'native', 'app\\endpoints\\native', ROOT_NAMESPACE_PATH);
