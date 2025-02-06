@@ -49,6 +49,14 @@ jobs:
                       sudo corepack prepare pnpm@latest-10 --activate
                       pnpm config set store-dir .pnpm-store
 
+            - run:
+                  name: Install dependencies
+                  command: pnpm install
+
+            - run:
+                  name: Run tests
+                  command: pnpm run test
+
             - save_cache:
                   key: v1-dep-{{ .Branch }}-{{ epoch }}
                   paths:
@@ -61,8 +69,6 @@ jobs:
                       - ~/.gradle
                       - ~/.cache/bower
                       - .pnpm-store
-
-            - run: pnpm run test
 
             - store_test_results:
                   path: /tmp/circleci-test-results
