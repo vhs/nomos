@@ -11,4 +11,4 @@ if [ "${CMD:0:1}" = "-" ]; then
     CMD="php-fpm ${CMD}"
 fi
 
-echo exec "${CMD}"
+exec "${CMD}"
