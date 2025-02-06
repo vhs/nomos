@@ -47,6 +47,10 @@ FROM backend-base AS backend
 
 WORKDIR /var/www/html
 
+VOLUME ["/var/www/html/backup"]
+
+RUN mkdir -p /var/www/html/backup && chown nobody:nobody /var/www/html/backup
+
 ENTRYPOINT [ "docker_compose_run.sh" ]
 CMD ["php-fpm83"]
 
