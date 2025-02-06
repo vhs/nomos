@@ -1,5 +1,4 @@
-set export
-
+set export := true
 
 help:
     just -l
@@ -19,6 +18,10 @@ format_php:
     set -eo pipefail
 
     vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
+
+install target:
+    @echo 'Installing {{target}}…'
+    just "install_{{target}}"
 
 install_composer:
     #!/usr/bin/env bash
@@ -43,7 +46,7 @@ install_composer:
         echo "composer has already been set up!"
     fi
 
-    ./tools/composer.sh install
+    ./tools/composer.sh install "${COMPOSER_INSTALL_OPT}"
 
 install_angular_ui_bootstrap:
     #!/usr/bin/env bash
@@ -86,12 +89,6 @@ setup_husky:
 
 setup_vendor: install_composer run_composer
 
-setup_webhooker:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    cd webhooker/ && npm install
-
 test target:
     @echo 'Testing {{target}}…'
     just "test_{{target}}"
@@ -107,5 +104,5 @@ test_webhooker:
     set -eo pipefail
 
     if [ "${FILES}" != "" ] ; then
-        cd webhooker && npm run test
+       pnpm --filter="@vhs/webhooker" run test
     fi

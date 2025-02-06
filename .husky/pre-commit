@@ -4,7 +4,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
 if [ "${FILES}" != "" ]; then
     PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
-    WEBHOOKER_FILES=$(echo "${FILES}" | grep 'webhooker/' | xargs)
+    WEBHOOKER_FILES=$(echo "${FILES}" | grep 'packages/webhooker/' | xargs)
 
     if [ "${PHP_FILES}" != "" ]; then
         FILES=$(echo "${PHP_FILES}" | xargs) npm exec just format php

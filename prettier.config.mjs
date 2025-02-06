@@ -17,7 +17,7 @@ const config = {
             }
         },
         {
-            files: ['*.sh'],
+            files: ['*.sh', 'packages/webhooker/webhooker.console', 'packages/webhooker/webhooker.sbin', '.npmrc'],
             options: {
                 parser: 'sh'
             }
