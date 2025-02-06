@@ -8,7 +8,7 @@
 CMD="$*"
 
 if [ "${CMD:0:1}" = "-" ]; then
-    CMD="php-fpm ${CMD}"
+    CMD="php-fpm83 ${CMD}"
 fi
 
 exec "${CMD}"
