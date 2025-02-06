@@ -12,3 +12,5 @@ services:
         image: vanhack/nomos-backend
         container_name: nomos-backend
         restart: always
+        volumes:
+            - ../data/backup:/var/www/html/backup

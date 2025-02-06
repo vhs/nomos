@@ -4,11 +4,11 @@ use vhs\loggers\ConsoleLogger;
 use vhs\migration\Backup;
 use vhs\migration\Migrator;
 
-require_once dirname(__FILE__) . '/../vhs/vhs.php';
+require_once __DIR__ . '/../vhs/vhs.php';
 
 define('_VALID_PHP', true);
 
-require_once '../conf/config.ini.php';
+require_once __DIR__ . '/../conf/config.ini.php';
 
 $target_version = null;
 $do_migrate = null;
@@ -44,7 +44,7 @@ if ($do_backup) {
 }
 if ($do_migrate) {
     $migrator = new Migrator(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE, new ConsoleLogger());
-    if ($migrator->migrate($target_version, '../migrations')) {
+    if ($migrator->migrate($target_version, __DIR__ . '/../migrations')) {
         print "Migration succeeded\n";
     } else {
         print "Migration failed\n";

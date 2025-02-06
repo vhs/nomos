@@ -36,28 +36,26 @@ class Backup {
     public function external_backup($do_host = false, $fileName = null, $backupPath = 'backup/') {
         $this->logger->log('Starting backup');
 
-        $fileName = !is_null($fileName) ? $fileName : 'db-backup-' . time() . '.sql';
+        $fileName = !is_null($fileName) ? $fileName : sprintf('db-backup-%s.sql', time());
 
         $command = [];
         $command[] = 'mysqldump';
-        $command[] = "-u '" . $this->user . "'";
-        $command[] = '-p' . $this->password;
         $command[] = '--ssl=0';
         $command[] = '--no-tablespaces'; // workaround for breaking change introduced in minor mysql version - see https://dba.stackexchange.com/questions/271981/access-denied-you-need-at-least-one-of-the-process-privileges-for-this-ope
+        $command[] = sprintf("-u '%s'", $this->user);
+        $command[] = sprintf("-p'%s'", $this->password);
         if ($do_host == true) {
-            $command[] = '--host ' . $this->server;
+            $command[] = '--host';
+            $command[] = $this->server;
+            $command[] = '--skip-ssl-verify-server-cert';
         }
-        $command[] = "'" . $this->database . "'";
+        $command[] = sprintf("'%s'", $this->database);
         $command[] = '>';
-        $command[] = "'" . $backupPath . $fileName . "'";
+        $command[] = sprintf("'%s%s'", $backupPath, $fileName);
 
         exec(implode(' ', $command), $output, $return);
 
-        if (!$return) {
-            return true;
-        } else {
-            return false;
-        }
+        return !$return;
     }
 
     public function internal_backup($fileName = null, $backupPath = 'backup/') {
