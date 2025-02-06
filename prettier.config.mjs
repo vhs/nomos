@@ -17,7 +17,7 @@ const config = {
             }
         },
         {
-            files: ['*.sh', 'packages/webhooker/webhooker.console', 'packages/webhooker/webhooker.sbin', '.npmrc', 'conf/php-fpm.conf'],
+            files: ['*.sh', 'packages/webhooker/webhooker.console', 'packages/webhooker/webhooker.sbin', '.npmrc', 'conf/php-fpm/*.conf'],
             options: {
                 parser: 'sh'
             }
