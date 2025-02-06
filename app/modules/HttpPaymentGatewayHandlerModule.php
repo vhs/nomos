@@ -43,6 +43,5 @@ class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule {
         self::getInstance()->register_internal('PUT', $path, $handler);
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

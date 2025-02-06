@@ -25,8 +25,7 @@ class HttpBearerTokenAuthModule implements IHttpModule {
         $this->authorizer = $authorizer;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         $bearerToken = null;
@@ -50,6 +49,5 @@ class HttpBearerTokenAuthModule implements IHttpModule {
         }
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }

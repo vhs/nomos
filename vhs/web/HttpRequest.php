@@ -20,6 +20,5 @@ class HttpRequest {
     /** @var string */
     public $url;
 
-    public function __construct() {
-    }
+    public function __construct() {}
 }
