@@ -42,7 +42,7 @@ VOLUME ["/sessions"]
 
 RUN mkdir /sessions && chown www-data:www-data /sessions
 
-ENV DEBIAN_FRONTEND=noninteractive
+FROM backend-base AS backend
 
 WORKDIR /var/www/html
 
@@ -66,6 +66,7 @@ COPY --from=build /build/vendor/ vendor/
 
 COPY --from=build /build/docker/*.sh /usr/local/bin/
 COPY --from=build /build/conf/config.docker.ini.php /var/www/html/conf/config.ini.php
+COPY --from=build /build/conf/php/*.ini /etc/php83/conf.d/
 COPY --from=build /build/conf/php-fpm/*.conf /etc/php83/php-fpm.d/
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
