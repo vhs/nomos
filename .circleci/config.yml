@@ -38,14 +38,18 @@ jobs:
                       - v1-dep-{{ .Branch }}-
                       - v1-dep-master-
                       - v1-dep-
+                      - pnpm-packages-{{ checksum "pnpm-lock.yaml" }}
 
-            - run: corepack enable && pnpm ci
+            - run:
+                  name: Install pnpm package manager
+                  command: |
+                      sudo corepack enable
+                      sudo corepack prepare pnpm@latest-10 --activate
+                      pnpm config set store-dir .pnpm-store
 
             - save_cache:
                   key: v1-dep-{{ .Branch }}-{{ epoch }}
                   paths:
-                      # This is a broad list of cache paths to include many possible development environments
-                      # You can probably delete some of these entries
                       - vendor/
                       - ~/virtualenvs
                       - ~/.m2
@@ -54,6 +58,7 @@ jobs:
                       - ~/.go_workspace
                       - ~/.gradle
                       - ~/.cache/bower
+                      - .pnpm-store
 
             - run: pnpm run test
 
