@@ -47,7 +47,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /var/www/html
 
 ENTRYPOINT [ "docker_compose_run.sh" ]
-CMD ["php-fpm"]
+CMD ["php-fpm83"]
 
 RUN apt-get update \
     && apt-get install -y git libzip-dev mariadb-client zip \
