@@ -39,11 +39,9 @@ RUN apk --no-cache add just mariadb-client php83 php83-bcmath php83-common php83
 
 RUN sed -i 's/^listen/;listen/g' /etc/php83/php-fpm.d/www.conf
 
-RUN mkdir -p /sessions && chown nobody:nobody /sessions
+FROM backend-base AS backend
 
 VOLUME ["/sessions"]
-
-FROM backend-base AS backend
 
 EXPOSE 9000
 
