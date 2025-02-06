@@ -44,6 +44,8 @@ RUN mkdir /sessions && chown www-data:www-data /sessions
 
 FROM backend-base AS backend
 
+EXPOSE 9000
+
 WORKDIR /var/www/html
 
 VOLUME ["/var/www/html/backup"]
