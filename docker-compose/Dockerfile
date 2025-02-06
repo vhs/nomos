@@ -48,7 +48,7 @@ FROM backend-base AS backend
 WORKDIR /var/www/html
 
 ENTRYPOINT [ "docker_compose_run.sh" ]
-CMD ["php-fpm"]
+CMD ["php-fpm83"]
 
 COPY --from=build /build/app/ app/
 COPY --from=build /build/migrations/ migrations/
