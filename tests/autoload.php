@@ -10,5 +10,7 @@
 require_once 'vendor/autoload.php';
 require_once 'vhs/vhs.php';
 
-\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', dirname(__FILE__) . '/..'));
-\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', dirname(__FILE__) . '/..'));
+define('DEBUG', false);
+
+\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', \vhs\BasePath::getBasePath(false)));
+\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', \vhs\BasePath::getBasePath(false)));
