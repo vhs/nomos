@@ -68,6 +68,8 @@ class ServiceHandler {
         /** @var Endpoint[] $endpoints */
         $endpoints = [];
 
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('handling: %s with prefixpath %s', $uri, $this->uriPrefixPath));
+
         if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc/(?P<method>.*)%im', $uri, $regs)) {
             if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
                 if (preg_match('%.*/' . $this->uriPrefixPath . 'help%im', $uri, $regs)) {
@@ -79,10 +81,14 @@ class ServiceHandler {
                         }
                     }
                 } else {
-                    throw new InvalidRequestException('Invalid service request');
+                    $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('did not find match for: %s', $uri));
+
+                    throw new InvalidRequestException('Invalid service request', 409);
                 }
             }
         }
+
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('$endpoints => %s', json_encode($endpoints)));
 
         if (count($endpoints) > 0) {
             $discovery = [];
@@ -131,15 +137,13 @@ class ServiceHandler {
      *
      * @throws InvalidRequestException
      *
-     * @return Endpoint
+     * @return string
      */
     private function getEndpoint($uri) {
         if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-            throw new InvalidRequestException('Invalid service request');
+            throw new InvalidRequestException('Invalid endpoint request', 418);
         }
 
-        $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
-
-        return $endpoint;
+        return $this->endpointNamespace . '\\' . $regs['endpoint'];
     }
 }
