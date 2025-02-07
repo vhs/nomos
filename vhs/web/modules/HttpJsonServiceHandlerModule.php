@@ -31,31 +31,51 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
         $uri = $server->request->url;
 
-        switch ($server->request->method) {
-            case 'HEAD':
-                $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
+        try {
+            switch ($server->request->method) {
+                case 'HEAD':
+                    $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
 
-                break;
-            case 'GET':
-                if (isset($_GET['json'])) {
-                    $input = $_GET['json'];
-                } else {
-                    $input = json_encode($_GET);
-                }
+                    $server->end();
 
-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
+                    break;
+                case 'GET':
+                    if (isset($_GET['json'])) {
+                        $input = $_GET['json'];
+                    } else {
+                        $input = json_encode($_GET);
+                    }
 
-                break;
-            case 'POST':
-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
+                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
 
-                break;
-            //case 'PUT':
-            //case 'DELETE':
-            default:
-                throw new InvalidRequestException();
+                    break;
+                case 'POST':
+                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
 
-                break;
+                    $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
+
+                    break;
+                //case 'PUT':
+                //case 'DELETE':
+                default:
+                    throw new InvalidRequestException();
+
+                    break;
+            }
+
+            $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
+            $server->end();
+        } catch (\Exception $exception) {
+            $server->logger->debug(
+                __FILE__,
+                __LINE__,
+                __METHOD__,
+                sprintf('caught exception: %s(%s)', $exception->getMessage(), $exception->getCode())
+            );
+
+            if ($exception->getCode() !== 409 && $exception->getCode() !== 418) {
+                throw $exception;
+            }
         }
     }
 
