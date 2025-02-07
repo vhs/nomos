@@ -237,8 +237,8 @@ class ServiceTest extends TestCase {
 
     public static function setUpBeforeClass(): void {
         $logger = new \vhs\loggers\SilentLogger();
-        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
-        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
+        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', \vhs\BasePath::getBasePath(false));
+        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', \vhs\BasePath::getBasePath(false));
     }
 
     public static function tearDownAfterClass(): void {}
