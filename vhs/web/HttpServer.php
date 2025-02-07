@@ -93,6 +93,8 @@ class HttpServer {
             } catch (\Exception $ex) {
                 $exception = $ex;
 
+                $this->code($ex->getCode() !== 0 ? $ex->getCode() : 500);
+
                 break;
             }
             $index += 1;
