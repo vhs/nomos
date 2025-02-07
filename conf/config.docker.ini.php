@@ -50,4 +50,4 @@ define('SLACK_URL', NOMOS_SLACK_URL);
  * Show MySql Errors.
  * Not recomended for live site. true/false.
  */
-define('DEBUG', false);
+define('DEBUG', defined('NOMOS_DEBUG'));
