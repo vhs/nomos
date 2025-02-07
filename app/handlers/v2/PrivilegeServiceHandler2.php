@@ -98,7 +98,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @return string[]
      */
     public function GetAllSystemPermissions(): array {
-        $endpoints = ServiceRegistry::get('web')->getAllEndpoints();
+        $endpoints = ServiceRegistry::get('v2')->getAllEndpoints();
 
         $flatPerms = [];
 
