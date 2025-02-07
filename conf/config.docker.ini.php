@@ -45,6 +45,6 @@ define('STRIPE_PRODUCTS', json_decode(NOMOS_STRIPE_PRODUCTS, true));
 
 /**
  * Show MySql Errors.
- * Not recomended for live site. true/false
+ * Not recomended for live site. true/false.
  */
-define('DEBUG', false);
+define('DEBUG', defined('NOMOS_DEBUG'));
