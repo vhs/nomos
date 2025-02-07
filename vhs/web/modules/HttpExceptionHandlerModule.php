@@ -32,6 +32,8 @@ class HttpExceptionHandlerModule implements IHttpModule {
         $this->logger->log($ex->getMessage());
         $this->logger->log($ex->getTraceAsString());
 
+        $server->code($ex->getCode() !== 0 ? $ex->getCode() : 500);
+
         if (DEBUG) {
             $server->output($ex->getMessage());
             $server->output($ex->getTraceAsString());
