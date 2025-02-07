@@ -17,6 +17,7 @@ use app\dto\TrimmedAppClient;
 use app\dto\TrimmedUser;
 use app\security\UserPrincipal;
 use app\utils\AuthCheckResult;
+use vhs\security\AnonPrincipal;
 use vhs\services\IContract;
 
 /** @typescript */
@@ -119,9 +120,9 @@ interface IAuthService2 extends IContract {
      *
      * @throws string
      *
-     * @return \app\security\UserPrincipal
+     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal
      */
-    public function CurrentUser(): UserPrincipal;
+    public function CurrentUser(): UserPrincipal|AnonPrincipal;
 
     /**
      * @permission administrator|user
