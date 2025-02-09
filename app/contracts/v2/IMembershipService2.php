@@ -41,7 +41,7 @@ interface IMembershipService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int $membershipId
+     * @param array $membershipId
      *
      * @throws string
      *
@@ -76,8 +76,8 @@ interface IMembershipService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $membershipId
-     * @param string $privileges
+     * @param int             $membershipId
+     * @param string|string[] $privileges
      *
      * @throws string
      *
@@ -93,7 +93,7 @@ interface IMembershipService2 extends IContract {
      * @param string $description
      * @param int    $price
      * @param string $code
-     * @param string $days
+     * @param int    $days
      * @param string $period
      *
      * @throws string

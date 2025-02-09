@@ -124,8 +124,8 @@ interface IUserService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $userid
-     * @param string $privileges
+     * @param int             $userid
+     * @param string|string[] $privileges
      *
      * @throws string
      *
@@ -258,8 +258,8 @@ interface IUserService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param string $subscribe
+     * @param int  $userid
+     * @param bool $subscribe
      *
      * @throws string
      *

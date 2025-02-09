@@ -106,9 +106,9 @@ interface IEmailService2 extends IContract {
      *
      * @throws string
      *
-     * @return bool
+     * @return \app\domain\EmailTemplate
      */
-    public function PutTemplate($name, $code, $subject, $help, $body, $html): bool;
+    public function PutTemplate($name, $code, $subject, $help, $body, $html): EmailTemplate;
 
     /**
      * @permission administrator

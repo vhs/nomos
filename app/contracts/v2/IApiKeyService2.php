@@ -82,14 +82,14 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $privileges
+     * @param int|int[]       $key
+     * @param string|string[] $privileges
      *
      * @throws string
      *
      * @return bool
      */
-    public function PutApiKeyPrivileges($keyid, $privileges): bool;
+    public function PutApiKeyPrivileges($key, $privileges): bool;
 
     /**
      * @permission administrator|user

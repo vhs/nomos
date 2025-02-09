@@ -36,9 +36,9 @@ interface IEventService2 extends IContract {
      *
      * @throws string
      *
-     * @return bool
+     * @return \app\domain\Event
      */
-    public function CreateEvent($name, $domain, $event, $description, $enabled): bool;
+    public function CreateEvent($name, $domain, $event, $description, $enabled): Event;
 
     /**
      * @permission administrator
@@ -139,8 +139,8 @@ interface IEventService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int             $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *

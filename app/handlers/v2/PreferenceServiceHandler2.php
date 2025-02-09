@@ -100,9 +100,9 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      *
      * @throws string
      *
-     * @return bool
+     * @return SystemPreference
      */
-    public function PutSystemPreference($key, $value, $enabled, $notes): bool {
+    public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference {
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
@@ -118,7 +118,9 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
         $pref->enabled = $enabled;
         $pref->notes = $notes;
 
-        return $pref->save();
+        $pref->save();
+
+        return $pref;
     }
 
     /**
