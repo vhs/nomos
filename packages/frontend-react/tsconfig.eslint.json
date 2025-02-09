@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/", ".storybook/*.ts", ".storybook/*.tsx", "fafo*.ts"],
+    "exclude": ["**/*.js"],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+import { lazy, Suspense, type JSX } from 'react'
+
+import type { UserProfileCardProps } from './UserProfileCard.types'
+
+import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+
+const LazyUserProfileCard = lazy(async () => await import('./UserProfileCard'))
+
+const UserProfileCard = (props: JSX.IntrinsicAttributes & UserProfileCardProps): JSX.Element => (
+    <Suspense fallback={<LoadingOverlay show={true} />}>
+        <LazyUserProfileCard {...props} />
+    </Suspense>
+)
+
+export default UserProfileCard
