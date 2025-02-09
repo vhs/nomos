@@ -101,9 +101,9 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @throws string
      *
-     * @return bool
+     * @return SystemPreference
      */
-    public function PutSystemPreference($key, $value, $enabled, $notes): bool {
+    public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference {
         $pref = $this->getSystemPreferencesByKey($key, true);
 
         if (is_null($pref)) {
@@ -115,7 +115,9 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
         $pref->enabled = $enabled;
         $pref->notes = $notes;
 
-        return $pref->save();
+        $pref->save();
+
+        return $pref;
     }
 
     /**
