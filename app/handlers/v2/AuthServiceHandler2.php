@@ -30,6 +30,7 @@ use vhs\database\Database;
 use vhs\database\queries\QuerySelect;
 use vhs\database\wheres\Where;
 use vhs\domain\Filter;
+use vhs\security\AnonPrincipal;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\UserPassCredentials;
@@ -338,9 +339,9 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @throws string
      *
-     * @return \app\security\UserPrincipal
+     * @return \app\security\AnonPrincipal|\app\security\UserPrincipal
      */
-    public function CurrentUser(): UserPrincipal {
+    public function CurrentUser(): UserPrincipal|AnonPrincipal {
         return CurrentUser::getPrincipal();
     }
 

@@ -53,9 +53,9 @@ interface IWebHookService2 extends IContract {
      * @throws string
      * @throws UnauthorizedException
      *
-     * @return bool
+     * @return \app\domain\WebHook
      */
-    public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid): bool;
+    public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid): WebHook;
 
     /**
      * @permission administrator|user
@@ -147,8 +147,8 @@ interface IWebHookService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int             $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *

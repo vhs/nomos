@@ -45,9 +45,9 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @throws string
      *
-     * @return bool
+     * @return \app\domain\Event
      */
-    public function CreateEvent($name, $domain, $event, $description, $enabled): bool {
+    public function CreateEvent($name, $domain, $event, $description, $enabled): Event {
         if (Event::exists($domain, $event)) {
             throw new InvalidInputException('Event already exists for code and/or domain.event');
         }
@@ -60,7 +60,9 @@ class EventServiceHandler2 extends Service implements IEventService2 {
         $evt->description = $description;
         $evt->enabled = $enabled;
 
-        return $evt->save();
+        $evt->save();
+
+        return $evt;
     }
 
     /**

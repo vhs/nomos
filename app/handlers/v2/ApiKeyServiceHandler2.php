@@ -146,22 +146,22 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $privileges
+     * @param int|int[]       $keyid
+     * @param string|string[] $privileges
      *
      * @throws string
      *
      * @return bool
      */
     public function PutApiKeyPrivileges($keyid, $privileges): bool {
-        $key = Key::find($keyid);
+        $keyid = Key::find($keyid);
 
-        if (is_null($key)) {
+        if (is_null($keyid)) {
             throw new InvalidInputException(\app\constants\Errors::E_INVALID_KEY_INPUT);
         }
 
         if (!CurrentUser::hasAnyPermissions('administrator')) {
-            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
+            if (is_null($keyid->userid) || $keyid->userid != CurrentUser::getIdentity()) {
                 throw new UnauthorizedException();
             }
         }
@@ -174,15 +174,15 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach ($key->privileges->all() as $priv) {
-            $key->privileges->remove($priv);
+        foreach ($keyid->privileges->all() as $priv) {
+            $keyid->privileges->remove($priv);
         }
 
         foreach ($privs as $priv) {
-            $key->privileges->add($priv);
+            $keyid->privileges->add($priv);
         }
 
-        return $key->save();
+        return $keyid->save();
     }
 
     /**

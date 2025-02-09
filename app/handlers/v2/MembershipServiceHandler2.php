@@ -41,7 +41,7 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param int $membershipId
+     * @param array $membershipId
      *
      * @throws string
      *
@@ -119,7 +119,7 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
      * @param string $description
      * @param int    $price
      * @param string $code
-     * @param string $days
+     * @param int    $days
      * @param string $period
      *
      * @throws string

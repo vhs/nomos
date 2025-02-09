@@ -83,8 +83,8 @@ interface IKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $privileges
+     * @param int             $keyid
+     * @param string|string[] $privileges
      *
      * @throws string
      *

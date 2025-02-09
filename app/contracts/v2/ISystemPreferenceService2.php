@@ -81,15 +81,15 @@ interface ISystemPreferenceService2 extends IContract {
      *
      * @throws string
      *
-     * @return bool
+     * @return \app\domain\SystemPreference
      */
-    public function PutSystemPreference($key, $value, $enabled, $notes): bool;
+    public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference;
 
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int             $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *

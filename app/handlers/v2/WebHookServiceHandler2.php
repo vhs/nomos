@@ -64,9 +64,9 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @throws string
      * @throws UnauthorizedException
      *
-     * @return bool
+     * @return \app\domain\WebHook
      */
-    public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid): bool {
+    public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid): WebHook {
         $event = (new EventServiceHandler2($this->context))->GetEvent($eventid);
 
         $codes = [];
@@ -90,7 +90,9 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
         $hook->event = $event;
         $hook->userid = CurrentUser::getIdentity();
 
-        return $hook->save();
+        $hook->save();
+
+        return $hook;
     }
 
     /**
