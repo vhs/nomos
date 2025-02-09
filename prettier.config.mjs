@@ -6,7 +6,15 @@ delete basePrettierConfig['tailwindFunctions']
 const config = {
     ...basePrettierConfig,
     printWidth: 150,
-    plugins: ['@prettier/plugin-php', 'prettier-plugin-sh', 'prettier-plugin-sql', '@prettier/plugin-xml'],
+    plugins: [
+        ...basePrettierConfig.plugins,
+        'prettier-plugin-ini',
+        '@prettier/plugin-php',
+        'prettier-plugin-sh',
+        'prettier-plugin-sql',
+        'prettier-plugin-tailwindcss',
+        '@prettier/plugin-xml'
+    ],
     overrides: [
         {
             files: ['*.php'],
@@ -51,6 +59,15 @@ const config = {
             options: {
                 parser: 'sh'
             }
+<<<<<<< HEAD
+=======
+        },
+        {
+            files: ['conf/php/*.ini', 'conf/php-fpm/*.conf', '.editorconfig'],
+            options: {
+                parser: 'ini'
+            }
+>>>>>>> 96e30229 (dev: improved prettier config with missing plugin and .editorconfig support)
         }
     ]
 }
