@@ -1,7 +1,3 @@
-import type { IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
+import type { MenuItem } from '@/types/ui'
 
-export interface MenuItemProps {
-    path: string
-    icon: IconProp
-    name: string
-}
+export interface MenuItemProps extends MenuItem {}
