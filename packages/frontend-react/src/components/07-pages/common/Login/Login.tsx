@@ -57,7 +57,7 @@ const Login: FC<LoginProps> = () => {
                                     placeholder='Username or E-Mail Address'
                                     value={username}
                                     onChange={(e) => {
-                                        setUsername(e.target.value)
+                                        setUsername(e.target.value.toLowerCase())
                                     }}
                                 />
                             </Col>
