@@ -15,7 +15,7 @@ use vhs\services\IContract;
 /** @typescript */
 interface IMemberCardService2 extends IContract {
     /**
-     * @permission administrator
+     * @permission administrator|user
      *
      * @param string $filters
      *
@@ -26,7 +26,7 @@ interface IMemberCardService2 extends IContract {
     public function CountGenuineCards($filters): int;
 
     /**
-     * @permission administrator|user
+     * @permission administrator
      *
      * @param int    $userid
      * @param string $filters

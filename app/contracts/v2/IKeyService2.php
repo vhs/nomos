@@ -28,10 +28,10 @@ interface IKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param string $type
-     * @param string $value
-     * @param string $notes
+     * @param int|int[] $userid
+     * @param string    $type
+     * @param string    $value
+     * @param string    $notes
      *
      * @throws string
      *
@@ -71,8 +71,8 @@ interface IKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int      $userid
-     * @param string[] $types
+     * @param int|int[] $userid
+     * @param string[]  $types
      *
      * @throws string
      *

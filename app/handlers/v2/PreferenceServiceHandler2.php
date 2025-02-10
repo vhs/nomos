@@ -36,6 +36,8 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param string $key
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeleteSystemPreference($key): void {
         $prefs = SystemPreference::findByKey($key);
@@ -63,7 +65,7 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param string $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -100,7 +102,7 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      *
      * @throws string
      *
-     * @return SystemPreference
+     * @return \app\domain\SystemPreference
      */
     public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference {
         $prefs = SystemPreference::findByKey($key);
@@ -126,8 +128,8 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int|int[]       $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *
@@ -188,11 +190,11 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $key
-     * @param string $value
-     * @param bool   $enabled
-     * @param string $notes
+     * @param int|int[] $id
+     * @param string    $key
+     * @param string    $value
+     * @param bool      $enabled
+     * @param string    $notes
      *
      * @throws string
      *

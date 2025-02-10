@@ -71,6 +71,8 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param int $id
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeleteEvent($id): void {
         $event = $this->getEventById($id);
@@ -132,6 +134,8 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param string $domain
      *
      * @throws string
+     *
+     * @return void
      */
     public function GetDomainDefinition($domain): void {
         // TODO: Implement GetDomainDefinition() method.
@@ -224,8 +228,8 @@ class EventServiceHandler2 extends Service implements IEventService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int             $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *
@@ -282,7 +286,7 @@ class EventServiceHandler2 extends Service implements IEventService2 {
     /**
      * Summary of getEventById.
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws string

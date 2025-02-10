@@ -27,7 +27,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      *
      * @throws string
      *
-     * @return number
+     * @return int
      */
     public function CountPrivileges($filters): int {
         return Privilege::count($filters);
@@ -69,9 +69,11 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeletePrivilege($id): void {
         $priv = Privilege::find($id);
@@ -125,7 +127,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission user
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -183,8 +185,8 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $description
+     * @param int|int[] $id
+     * @param string    $description
      *
      * @throws string
      *
@@ -201,8 +203,8 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param int  $id
-     * @param bool $enabled
+     * @param int|int[] $id
+     * @param bool      $enabled
      *
      * @throws string
      *
@@ -219,8 +221,8 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $icon
+     * @param int|int[] $id
+     * @param string    $icon
      *
      * @throws string
      *
@@ -237,8 +239,8 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $name
+     * @param int|int[] $id
+     * @param string    $name
      *
      * @throws string
      *

@@ -47,6 +47,8 @@ interface IAuthService2 extends IContract {
     public function CheckRfid($rfid): AuthCheckResult;
 
     /**
+     * Check to see if the user service/id is valid. A service could be github/slack/google.
+     *
      * @permission administrator|service-auth
      *
      * @param string $service
@@ -159,10 +161,10 @@ interface IAuthService2 extends IContract {
     public function GetAccessToken($bearerToken): AccessToken;
 
     /**
-     * @permission oauth-provider
+     * @permission anonymous
      *
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param string|string[] $clientId
+     * @param string          $clientSecret
      *
      * @throws string
      *
@@ -174,7 +176,7 @@ interface IAuthService2 extends IContract {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string $clientId
+     * @param string|string[] $clientId
      *
      * @throws string
      *
@@ -246,6 +248,7 @@ interface IAuthService2 extends IContract {
      * @param \vhs\domain\Filter $filters
      *
      * @throws string
+     * @throws \Exception
      *
      * @return \app\domain\AccessLog[]
      */
@@ -328,10 +331,10 @@ interface IAuthService2 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param int    $userId
-     * @param string $accessToken
-     * @param int    $clientId
-     * @param string $expires
+     * @param int       $userId
+     * @param string    $accessToken
+     * @param int|int[] $clientId
+     * @param string    $expires
      *
      * @throws string
      *
@@ -342,14 +345,14 @@ interface IAuthService2 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param int    $userId
-     * @param string $refreshToken
-     * @param int    $clientId
-     * @param string $expires
+     * @param int|int[] $userId
+     * @param string    $refreshToken
+     * @param int|int[] $clientId
+     * @param string    $expires
      *
      * @throws string
      *
-     * @return \app\domain\RefreshToken|false|null
+     * @return \app\dto\RefreshToken|false|null
      */
     public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): array|bool|null;
 }

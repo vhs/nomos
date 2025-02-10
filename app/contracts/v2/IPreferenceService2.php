@@ -48,7 +48,7 @@ interface IPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param string $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -88,7 +88,7 @@ interface IPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int             $id
+     * @param int|int[]       $id
      * @param string|string[] $privileges
      *
      * @throws string
@@ -111,11 +111,11 @@ interface IPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $key
-     * @param string $value
-     * @param bool   $enabled
-     * @param string $notes
+     * @param int|int[] $id
+     * @param string    $key
+     * @param string    $value
+     * @param bool      $enabled
+     * @param string    $notes
      *
      * @throws string
      *

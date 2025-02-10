@@ -139,8 +139,8 @@ class PinServiceHandler2 extends Service implements IPinService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $pin
+     * @param int|int[] $keyid
+     * @param string    $pin
      *
      * @throws string
      *

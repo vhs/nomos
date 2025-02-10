@@ -21,7 +21,7 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      *
      * @throws string
      *
-     * @return number
+     * @return int
      */
     public function CountPayments($filters): int {
         return Payment::count($filters);
@@ -46,7 +46,7 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
     /**
      * @permission administrator|user
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *
