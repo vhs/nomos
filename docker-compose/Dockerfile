@@ -31,6 +31,17 @@ COPY --from=source --chown=node:node /build/ /build/
 WORKDIR /build/
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store,uid=1000,gid=1000 pnpm install --frozen-lockfile
+
+FROM build AS build-frontend
+
+WORKDIR /build/
+
+RUN pnpm --filter="@vhs/nomos-frontend-react" build
+
+FROM build AS build-webhooker
+
+WORKDIR /build/
+
 RUN pnpm deploy --filter="@vhs/webhooker" --prod /app/webhooker/
 
 FROM alpine:3 AS backend-base
@@ -67,9 +78,9 @@ COPY --from=build /build/conf/php-fpm/*.conf /etc/php83/php-fpm.d/
 
 FROM nginx:stable-alpine AS frontend
 
-COPY conf/nginx-vhost-docker-compose.conf /etc/nginx/conf.d/default.conf
+COPY conf/nginx-react-docker-compose.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /build/web/ /var/www/html/
+COPY --from=build-frontend /build/packages/frontend-react/dist/ /var/www/html/
 
 FROM base AS webhooker-base
 
@@ -81,7 +92,7 @@ USER node:node
 
 WORKDIR /app/webhooker
 
-COPY --from=build /app/webhooker/ /app/webhooker/
+COPY --from=build-webhooker /app/webhooker/ /app/webhooker/
 
 RUN mkdir -p /app/logs /app/webhooker
 
