@@ -2,7 +2,7 @@ import moment from 'moment'
 
 import type { BubbleDataPoint } from 'chart.js'
 
-import { isStringArray } from './validators/guards'
+import { isString, isStringArray } from './validators/guards'
 
 export const coerceStringArray = (inp: unknown): string[] => {
     if (typeof inp !== 'string' && Array.isArray(inp) && inp.length > 0 && inp.every((e) => typeof e !== 'string'))
@@ -92,3 +92,11 @@ export const generateRowColBubbleDataset = (rows: number, cols: number, defaultV
 export const convertDayofWeekByNumber = (dayNumber: string | number): string => moment().day(dayNumber).format('dddd')
 export const convertMonthNumberByNumber = (monthNumber: string | number): string =>
     moment().month(monthNumber).format('MMMM')
+
+export const stripResultMessageQuotes = (inp: string): string => {
+    if (!isString(inp)) throw new Error('Not a string')
+
+    if (!/^".+"$/.test(inp)) return inp
+
+    return inp.substring(1, inp.length - 1)
+}
