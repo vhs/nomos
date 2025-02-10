@@ -32,6 +32,17 @@ COPY --from=source --chown=node:node /build/ /build/
 WORKDIR /build/
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store,uid=1000,gid=1000 pnpm install --frozen-lockfile
+
+FROM build AS build-frontend
+
+WORKDIR /build/
+
+RUN pnpm --filter="@vhs/nomos-frontend-react" build
+
+FROM build AS build-webhooker
+
+WORKDIR /build/
+
 RUN pnpm deploy --filter="@vhs/webhooker" --prod /app/webhooker/
 
 FROM alpine:3 AS backend-base
@@ -76,9 +87,9 @@ RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
 
 FROM nginx:stable-alpine AS frontend
 
-COPY conf/nginx-vhost-docker-compose.conf /etc/nginx/conf.d/default.conf
+COPY conf/nginx-react-docker-compose.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /build/web/ /var/www/html/
+COPY --from=build-frontend /build/packages/frontend-react/dist/ /var/www/html/
 
 FROM build AS webhooker-build
 
@@ -87,7 +98,11 @@ WORKDIR /build/webhooker
 RUN chmod 755 webhooker.sbin webhooker.console \
     && cp config.docker.js config.js
 
-FROM node:lts AS webhooker
+USER node:node
+
+WORKDIR /app/webhooker
+
+COPY --from=build-webhooker /app/webhooker/ /app/webhooker/
 
 RUN mkdir -p /app/logs /app/webhooker
 
