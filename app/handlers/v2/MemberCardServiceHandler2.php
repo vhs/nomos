@@ -25,7 +25,7 @@ use vhs\services\Service;
 /** @typescript */
 class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
     /**
-     * @permission administrator
+     * @permission administrator|user
      *
      * @param string $filters
      *
@@ -43,6 +43,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @param int    $userid
      * @param string $filters
      *
+     * @throws \Exception
      * @throws string
      *
      * @return int

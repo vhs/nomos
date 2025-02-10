@@ -25,7 +25,7 @@ interface IIpnService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int $ipnId
+     * @param int|int[] $ipnId
      *
      * @throws string
      *

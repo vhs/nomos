@@ -339,7 +339,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @throws string
      *
-     * @return \app\security\AnonPrincipal|\app\security\UserPrincipal
+     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal
      */
     public function CurrentUser(): UserPrincipal|AnonPrincipal {
         return CurrentUser::getPrincipal();
@@ -351,6 +351,8 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param int $id
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeleteClient($id): void {
         $client = $this->getMyClient($id);
@@ -392,8 +394,8 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param string|string[] $clientId
+     * @param string          $clientSecret
      *
      * @throws string
      *
@@ -413,7 +415,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string $clientId
+     * @param string|string[] $clientId
      *
      * @throws string
      *
@@ -585,6 +587,8 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission user
      *
      * @throws string
+     *
+     * @return void
      */
     public function Logout(): void {
         Authenticate::getInstance()->logout();
@@ -678,10 +682,10 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param int    $userId
-     * @param string $accessToken
-     * @param int    $clientId
-     * @param string $expires
+     * @param int       $userId
+     * @param string    $accessToken
+     * @param int|int[] $clientId
+     * @param string    $expires
      *
      * @throws string
      *
@@ -716,10 +720,10 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param int    $userId
-     * @param string $refreshToken
-     * @param int    $clientId
-     * @param string $expires
+     * @param int|int[] $userId
+     * @param string    $refreshToken
+     * @param int|int[] $clientId
+     * @param string    $expires
      *
      * @throws string
      *
@@ -789,7 +793,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * Summary of getMyClient.
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *

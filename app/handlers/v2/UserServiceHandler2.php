@@ -561,8 +561,9 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     /**
      * @permission administrator
      *
-     * @param int $userid
-     * @param int $membershipid
+     * @param int   $userid
+     * @param mixed $membershipid
+     * @param int   $int|int[]
      *
      * @throws string
      *

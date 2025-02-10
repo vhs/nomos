@@ -27,9 +27,11 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeleteTemplate($id): void {
         $template = EmailTemplate::find($id);
@@ -52,6 +54,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param string|null          $subject
      *
      * @throws string
+     *
+     * @return void
      */
     public function Email($email, $tmpl, $context, $subject = null): void {
         $generated = EmailTemplate::generate($tmpl, $context);
@@ -108,6 +112,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param string|null          $subject
      *
      * @throws string
+     *
+     * @return void
      */
     public function EmailUser($user, $tmpl, $context, $subject = null): void {
         $this->Email($user->email, $tmpl, $context, $subject);
@@ -116,7 +122,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -155,9 +161,9 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      *
      * @throws string
      *
-     * @return bool
+     * @return \app\domain\EmailTemplate
      */
-    public function PutTemplate($name, $code, $subject, $help, $body, $html): bool {
+    public function PutTemplate($name, $code, $subject, $help, $body, $html): EmailTemplate {
         $template = EmailTemplate::findByCode($code);
 
         if (is_null($template)) {
@@ -177,8 +183,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $body
+     * @param int|int[] $id
+     * @param string    $body
      *
      * @throws string
      *
@@ -195,8 +201,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $code
+     * @param int|int[] $id
+     * @param string    $code
      *
      * @throws string
      *
@@ -213,8 +219,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $help
+     * @param int|int[] $id
+     * @param string    $help
      *
      * @throws string
      *
@@ -231,8 +237,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $html
+     * @param int|int[] $id
+     * @param string    $html
      *
      * @throws string
      *
@@ -249,8 +255,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $name
+     * @param int|int[] $id
+     * @param string    $name
      *
      * @throws string
      *
@@ -267,8 +273,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $subject
+     * @param int|int[] $id
+     * @param string    $subject
      *
      * @throws string
      *

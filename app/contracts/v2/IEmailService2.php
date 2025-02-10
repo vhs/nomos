@@ -28,7 +28,7 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -71,7 +71,7 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int $id
+     * @param int|int[] $id
      *
      * @throws string
      *
@@ -113,8 +113,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $body
+     * @param int|int[] $id
+     * @param string    $body
      *
      * @throws string
      *
@@ -125,8 +125,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $code
+     * @param int|int[] $id
+     * @param string    $code
      *
      * @throws string
      *
@@ -137,8 +137,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $help
+     * @param int|int[] $id
+     * @param string    $help
      *
      * @throws string
      *
@@ -149,8 +149,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $html
+     * @param int|int[] $id
+     * @param string    $html
      *
      * @throws string
      *
@@ -161,8 +161,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $name
+     * @param int|int[] $id
+     * @param string    $name
      *
      * @throws string
      *
@@ -173,8 +173,8 @@ interface IEmailService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $subject
+     * @param int|int[] $id
+     * @param string    $subject
      *
      * @throws string
      *

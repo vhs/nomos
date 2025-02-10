@@ -33,6 +33,8 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
      * @param string $period
      *
      * @throws string
+     *
+     * @return void
      */
     public function Create($title, $description, $price, $code, $days, $period): void {
         // void
@@ -41,7 +43,7 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param array $membershipId
+     * @param int|int[] $membershipId
      *
      * @throws string
      *
@@ -82,8 +84,8 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param int    $membershipId
-     * @param string $privileges
+     * @param int             $membershipId
+     * @param string|string[] $privileges
      *
      * @throws string
      *
