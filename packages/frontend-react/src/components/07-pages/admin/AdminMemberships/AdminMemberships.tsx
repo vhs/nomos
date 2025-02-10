@@ -21,8 +21,9 @@ const AdminMemberships: FC<AdminMembershipsProps> = () => (
             order={'title'}
             // @ts-expect-error This is fucky. Technical term.
             component={AdminMembershipsItem}
-        />
-        <Outlet />
+        >
+            <Outlet />
+        </TablePage>
     </>
 )
 
