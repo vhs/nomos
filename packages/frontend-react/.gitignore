@@ -25,6 +25,9 @@ src/routes/test.tsx
 src/types/fontawesome/generated.ts
 src/types/nomos.d.ts
 
+!tools/
+!tools/*
+
 !.bowerrc
 !.editorconfig
 !.prettierignore
