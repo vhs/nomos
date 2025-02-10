@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs'
 
 import { mergeConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'

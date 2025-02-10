@@ -1,8 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react'
 
-import type {  Point } from 'chart.js'
+import type { Point } from 'chart.js'
 import type { ChartProps } from 'react-chartjs-2'
-
 
 export type BackendResult<T> = Promise<T | string | null>
 export type BubbleChartProps = ChartProps<'bubble'> & { labels: string[] }
