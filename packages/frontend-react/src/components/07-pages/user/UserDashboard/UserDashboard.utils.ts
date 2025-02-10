@@ -27,8 +27,6 @@ import type { ArrayElement } from '@/types/utils'
 
 export const initialDataState: UserDashboardDataState = {}
 
-
-
 const defaultLineOptions: Omit<ArrayElement<ChartData<'line', LinePoint[]>['datasets']>, 'data'> = {
     fill: true,
     tension: 0.1
@@ -206,8 +204,6 @@ export const generateRevenueGoalDoughnutChartOptions = (
             labels: [`Current: $${revenueThisMonth.grouping.all}`, `Expected: $${revenueLastMonth.grouping.all}`],
             datasets: [
                 {
-
-
                     data: [
                         // @ts-expect-error missing
                         Number(revenueThisMonth.grouping.all),
