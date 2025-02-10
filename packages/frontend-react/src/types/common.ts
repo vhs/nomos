@@ -39,7 +39,7 @@ import type {
 } from '@/lib/validators/common.ts'
 
 export type Boolean = z.infer<typeof zBoolean>
-export type Booleans = Array<z.infer<typeof zBoolean>>
+export type Booleans = Boolean[]
 export type DateTime = z.infer<typeof zDateTime>
 export type DateTimes = DateTime[]
 export type EmailAddress = z.infer<typeof zEmailAddress>
@@ -55,7 +55,7 @@ export type IpnValidationStatess = IpnValidationStates[]
 export type KeyTypes = z.infer<typeof zKeyTypes>
 export type KeyTypess = KeyTypes[]
 export type Number = z.infer<typeof zNumber>
-export type Numbers = Array<z.infer<typeof zNumber>>
+export type Numbers = Number[]
 export type NumberArray = z.infer<typeof zNumberArray>
 export type NumberArrays = NumberArray[]
 export type PasswordInput = z.infer<typeof zPasswordInput>
@@ -65,7 +65,7 @@ export type PaymentProviderss = PaymentProviders[]
 export type PositiveNumber = z.infer<typeof zPositiveNumber>
 export type PositiveNumbers = PositiveNumber[]
 export type String = z.infer<typeof zString>
-export type Strings = Array<z.infer<typeof zString>>
+export type Strings = String[]
 export type StringArray = z.infer<typeof zStringArray>
 export type StringArrays = StringArray[]
 export type StripePaymentStates = z.infer<typeof zStripePaymentStates>
