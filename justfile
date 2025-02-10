@@ -109,3 +109,11 @@ test_webhooker:
     if [ "${FILES}" != "" ] ; then
         cd webhooker && npm run test
     fi
+
+update target:
+    @echo 'Updating {{target}}…'
+    just "update_{{target}}"
+
+update_validators:
+    ./packages/frontend-react/tools/generate-validator-guards.sh
+    ./packages/frontend-react/tools/generate-validator-types.sh
