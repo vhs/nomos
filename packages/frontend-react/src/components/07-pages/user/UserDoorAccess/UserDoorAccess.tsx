@@ -84,10 +84,9 @@ const UserDoorAccess: FC<UserDoorAccessProps> = () => {
                         </p>
 
                         <iframe
-                            className='border-0 bg-transparent'
+                            className='w-full max-w-[768px] border-0 bg-transparent'
                             src='https://booking.vanhack.ca/index.php/appointments'
                             title='VHS Booking System'
-                            width='760px'
                             height='760px'
                         ></iframe>
 
