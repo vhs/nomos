@@ -37,7 +37,8 @@ const TablePage: FC<TablePageProps> = ({
     filters,
     secondaryFilters,
     actions,
-    unsafeSearchColumns
+    unsafeSearchColumns,
+    children
 }) => {
     user ??= false
     order ??= []
@@ -518,6 +519,7 @@ const TablePage: FC<TablePageProps> = ({
                             </Row>
                         </Conditional>
                     </Conditional>
+                    {children}
                 </BasePage>
             </TablePageContext.Provider>
         </div>
