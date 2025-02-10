@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
+import "vite/client"
+
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
@@ -28,11 +30,13 @@ export default defineConfig({
         }
     },
     server: {
-        https: {
-            ca: fs.readFileSync(path.resolve(__dirname, 'certs/ca.crt')),
-            key: fs.readFileSync(path.resolve(__dirname, 'certs/localhost.key')),
-            cert: fs.readFileSync(path.resolve(__dirname, 'certs/localhost.crt'))
-        },
+        https: import.meta.env?.DEV
+            ? {
+                  ca: fs.readFileSync(path.resolve(__dirname, 'certs/ca.crt')),
+                  key: fs.readFileSync(path.resolve(__dirname, 'certs/localhost.key')),
+                  cert: fs.readFileSync(path.resolve(__dirname, 'certs/localhost.crt'))
+              }
+            : {},
 
         proxy: {
             '/services': {
