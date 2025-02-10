@@ -23,7 +23,7 @@ import BasePage from '../BasePage/BasePage'
 import OverlayCard from '../OverlayCard/OverlayCard'
 
 import { TablePageContext } from './TablePage.context'
-import { getFilterId, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
+import { getEnabledFieldsLabels, getFilterId, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
 
 const TablePage: FC<TablePageProps> = ({
     title,
@@ -471,7 +471,7 @@ const TablePage: FC<TablePageProps> = ({
                                     <table className='w-full table-auto rounded-lg'>
                                         <thead>
                                             <tr>
-                                                {fieldLabels.map((fieldLabel) => (
+                                                {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
                                                     <th key={fieldLabel} className='px-1'>
                                                         <Popover
                                                             className='tablepage-header'
@@ -485,7 +485,7 @@ const TablePage: FC<TablePageProps> = ({
 
                                         <tfoot>
                                             <tr>
-                                                {fieldLabels.map((fieldLabel) => (
+                                                {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
                                                     <th key={fieldLabel} className='px-1'>
                                                         <Popover
                                                             className='tablepage-header'
