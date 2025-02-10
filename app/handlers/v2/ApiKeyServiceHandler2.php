@@ -23,9 +23,11 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int $keyid
+     * @param int|int[] $keyid
      *
      * @throws string
+     *
+     * @return void
      */
     public function DeleteApiKey($keyid): void {
         $key = Key::find($keyid);
@@ -59,8 +61,8 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param string $notes
+     * @param int|int[] $userid
+     * @param string    $notes
      *
      * @throws string
      *
@@ -93,7 +95,7 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int $keyid
+     * @param int|int[] $keyid
      *
      * @throws string
      *

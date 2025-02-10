@@ -26,7 +26,7 @@ interface IStripeEventService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int $eventId
+     * @param int|int[] $eventId
      *
      * @throws string
      *

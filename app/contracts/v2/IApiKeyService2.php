@@ -17,7 +17,7 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int $keyid
+     * @param int|int[] $keyid
      *
      * @throws string
      *
@@ -39,8 +39,8 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param string $notes
+     * @param int|int[] $userid
+     * @param string    $notes
      *
      * @throws string
      *
@@ -51,7 +51,7 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int $keyid
+     * @param int|int[] $keyid
      *
      * @throws string
      *
@@ -82,14 +82,14 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[]       $key
+     * @param int|int[]       $keyid
      * @param string|string[] $privileges
      *
      * @throws string
      *
      * @return bool
      */
-    public function PutApiKeyPrivileges($key, $privileges): bool;
+    public function PutApiKeyPrivileges($keyid, $privileges): bool;
 
     /**
      * @permission administrator|user

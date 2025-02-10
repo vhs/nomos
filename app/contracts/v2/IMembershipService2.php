@@ -41,7 +41,7 @@ interface IMembershipService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param array $membershipId
+     * @param int|int[] $membershipId
      *
      * @throws string
      *

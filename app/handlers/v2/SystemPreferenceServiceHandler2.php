@@ -63,7 +63,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @param mixed $id
+     * @param string $id
      * @param SystemPreference['key'] $key
      *
      * @throws string
@@ -101,7 +101,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @throws string
      *
-     * @return SystemPreference
+     * @return \app\domain\SystemPreference
      */
     public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference {
         $pref = $this->getSystemPreferencesByKey($key, true);
@@ -123,8 +123,8 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @param int    $id
-     * @param string $privileges
+     * @param int             $id
+     * @param string|string[] $privileges
      *
      * @throws string
      *
@@ -224,7 +224,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * getSystemPreferenceById.
      *
-     * @param mixed $id
+     * @param int|int[] $id
      *
      * @throws string
      *
