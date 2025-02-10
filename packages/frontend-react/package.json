@@ -1,8 +1,4 @@
 {
-    "name": "@vhs/nomos-frontend-react",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
     "dependencies": {
         "@heroicons/react": "2.2.0",
         "@tanstack/react-router": "1.100.0",
@@ -76,13 +72,16 @@
         "vite": "6.1.0",
         "vite-tsconfig-paths": "5.1.4"
     },
+    "msw": {
+        "workerDirectory": [
+            "public"
+        ]
+    },
+    "name": "@vhs/nomos-frontend-react",
+    "private": true,
     "scripts": {
-        "dev": "vite",
-        "dev:lan": "vite --host",
         "build": "wireit",
         "build:storybook": "wireit",
-        "lint": "wireit",
-        "preview": "vite preview",
         "create:atom": "generate-react c --type=atom",
         "create:composite": "generate-react c --type=composite",
         "create:layout": "generate-react c --type=layout",
@@ -96,24 +95,69 @@
         "create:page:user": "generate-react c --type=page:user",
         "create:particle": "generate-react c --type=particle",
         "create:provider": "generate-react c --type=provider",
+        "dev": "vite",
+        "dev:lan": "vite --host",
+        "generate:fontawesome": "wireit",
+        "generate:fontawesome:names": "wireit",
+        "generate:fontawesome:types": "wireit",
+        "lint": "wireit",
+        "prepare": "wireit",
+        "preview": "vite preview",
         "storybook": "wireit",
         "type-check": "wireit"
     },
+    "type": "module",
+    "version": "0.0.0",
     "wireit": {
+        "bower:install": {
+            "command": "bower install"
+        },
         "build": {
+            "command": "vite build",
             "dependencies": [
-                "compile"
-            ],
-            "command": "vite build"
+                "compile",
+                "generate:fontawesome"
+            ]
+        },
+        "build:storybook": {
+            "command": "storybook build"
         },
         "compile": {
-            "command": "tsc"
+            "command": "tsc",
+            "dependencies": [
+                "generate:fontawesome"
+            ]
+        },
+        "generate:fontawesome": {
+            "dependencies": [
+                "generate:fontawesome:names",
+                "generate:fontawesome:types"
+            ]
+        },
+        "generate:fontawesome:names": {
+            "command": "./tools/generate-fa-names.sh",
+            "dependencies": [
+                "bower:install"
+            ]
+        },
+        "generate:fontawesome:types": {
+            "command": "./tools/generate-fa-types.sh",
+            "dependencies": [
+                "bower:install"
+            ]
+        },
+        "install:dependencies": {
+            "dependencies": [
+                "bower:install"
+            ]
         },
         "lint": {
             "command": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
         },
-        "build:storybook": {
-            "command": "storybook build"
+        "prepare": {
+            "dependencies": [
+                "install:dependencies"
+            ]
         },
         "storybook": {
             "command": "storybook dev -p 6006 --https --ssl-ca ./certs/ca.crt --ssl-key ./certs/localhost.key --ssl-cert ./certs/localhost.crt",
@@ -122,10 +166,5 @@
         "type-check": {
             "command": "tsc --noEmit"
         }
-    },
-    "msw": {
-        "workerDirectory": [
-            "public"
-        ]
     }
 }
