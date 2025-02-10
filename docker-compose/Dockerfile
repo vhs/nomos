@@ -80,7 +80,11 @@ FROM nginx:stable-alpine AS frontend
 
 COPY conf/nginx-react-docker-compose.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build-frontend /build/packages/frontend-react/dist/ /var/www/html/
+COPY --from=build-frontend /build/packages/frontend-react/dist/assets/ /var/www/html/assets/
+COPY --from=build-frontend /build/packages/frontend-react/dist/badges/ /var/www/html/badges/
+COPY --from=build-frontend /build/packages/frontend-react/dist/images/ /var/www/html/images/
+COPY --from=build-frontend /build/packages/frontend-react/dist/favicon.ico /var/www/html/
+COPY --from=build-frontend /build/packages/frontend-react/dist/index.html /var/www/html/
 
 FROM base AS webhooker-base
 
