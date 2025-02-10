@@ -26,8 +26,9 @@ const AdminUsers: FC<AdminUsersProps> = () => {
                 secondaryFilters={SecondaryAdminUserFilters}
                 actions={[<CreateUserButton key='CreateUserButton' />]}
                 unsafeSearchColumns={['active', 'cash']}
-            />
-            <Outlet />
+            >
+                <Outlet />
+            </TablePage>
         </>
     )
 }
