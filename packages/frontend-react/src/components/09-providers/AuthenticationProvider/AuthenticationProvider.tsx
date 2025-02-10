@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState, type FC } from 'react'
 
+import { toast } from 'react-toastify'
 import useSWR from 'swr'
 
 import type { AuthenticationProviderProps, AuthenticationStates } from './AuthenticationProvider.types'
 
 import AuthService2 from '@/lib/providers/AuthService2'
+import { stripResultMessageQuotes } from '@/lib/util'
 
 import { AuthenticationContext } from './AuthenticationProvider.context'
 import { backendCurrentUserUrl, currentUserFetchConfig, currentUserFetcher } from './AuthenticationProvider.utils'
@@ -24,6 +26,10 @@ const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) =
         const loginResult = await AuthService2.getInstance().Login(username, password)
 
         const loggedIn = loginResult != null && /"?Access Granted"?/.test(loginResult) ? 1 : 0
+
+        toast(stripResultMessageQuotes(loginResult ?? 'An unknown error occured.'), {
+            type: loggedIn === 1 ? 'success' : 'warning'
+        })
 
         setAuthenticationState(loggedIn)
         setIsAuthenticated(Boolean(loggedIn))
