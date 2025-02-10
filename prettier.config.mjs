@@ -9,6 +9,7 @@ const config = {
     plugins: [
         ...basePrettierConfig.plugins,
         'prettier-plugin-ini',
+        'prettier-plugin-nginx',
         '@prettier/plugin-php',
         'prettier-plugin-sh',
         'prettier-plugin-sql',
@@ -64,6 +65,12 @@ const config = {
             files: ['conf/php/*.ini', 'conf/php-fpm/*.conf', '.editorconfig'],
             options: {
                 parser: 'ini'
+            }
+        },
+        {
+            files: ['conf/nginx-*.conf'],
+            options: {
+                parser: 'nginx'
             }
         }
     ]
