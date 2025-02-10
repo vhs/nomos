@@ -1,4 +1,4 @@
-export type FontAwesomeCategoryOption = 'brand' | 'solid'
+export type FontAwesomeCategoryOption = 'brand' | 'regular' | 'solid'
 
 export type FontAwesomeEffectOption =
     | 'beat'
