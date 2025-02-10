@@ -18,3 +18,8 @@ export const getMergedFieldNames = (fields: FieldDefinitions, excludeColumns?: s
         }, [])
         .filter((e) => e !== 'id')
         .filter((e) => !(excludeColumns ?? []).includes(e))
+
+export const getEnabledFieldsLabels = (fieldStates: Record<string, boolean>): string[] =>
+    Object.entries(fieldStates)
+        .filter(([_, v]) => v)
+        .map(([k]) => k)
