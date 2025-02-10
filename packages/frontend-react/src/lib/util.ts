@@ -14,7 +14,6 @@ export const coerceStringArray = (inp: unknown): string[] => {
         throw new Error(`Not all entries are string`)
     }
 
-     
     return arrayStrings
 }
 
