@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+cd "$(dirname "$(realpath "$0")")/../" || exit 255
+
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
 if [ "${FILES}" != "" ]; then
