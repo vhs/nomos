@@ -45,10 +45,10 @@ import {
 import type { UserActiveStateCodes } from '@/types/common'
 import type { User } from '@/types/records'
 
-import APIKeysCard from '../../user/UserProfile/APIKeysCard'
-import LinkedAccountsCard from '../../user/UserProfile/LinkedAccountsCard'
-import PrivilegesCard from '../../user/UserProfile/PrivilegesCard'
-import RFIDKeysCard from '../../user/UserProfile/RFIDKeysCard'
+import APIKeysCard from '../../../user/UserProfile/APIKeysCard'
+import LinkedAccountsCard from '../../../user/UserProfile/LinkedAccountsCard'
+import PrivilegesCard from '../../../user/UserProfile/PrivilegesCard'
+import RFIDKeysCard from '../../../user/UserProfile/RFIDKeysCard'
 
 const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const { mutate } = useTablePageContext()
@@ -380,7 +380,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     : undefined
                                             }
                                         >
-                                            <label htmlFor='userEmail' className=''>
+                                            <label htmlFor='userEmail'>
                                                 <b>Email</b>
                                             </label>
                                             <span className='float-right m-0 inline'>

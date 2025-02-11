@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import AdminUserProfile from './AdminUserProfile'
+import AdminUserItem from './AdminUserItem'
 
-type StoryType = StoryObj<typeof AdminUserProfile>
+type StoryType = StoryObj<typeof AdminUserItem>
 
-const meta: Meta<typeof AdminUserProfile> = {
-    component: AdminUserProfile,
-    title: '01-Atoms/AdminUserProfile',
+const meta: Meta<typeof AdminUserItem> = {
+    component: AdminUserItem,
+    title: '01-Atoms/AdminUserItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -22,6 +22,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'AdminUserProfile'
+        children: 'AdminUserItem'
     }
 }
