@@ -1,4 +1,6 @@
-import type { MouseEventHandler, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+
+import type { CastReactElement } from '@/types/utils'
 
 export type ButtonVariantTypes =
     | 'primary'
@@ -11,10 +13,7 @@ export type ButtonVariantTypes =
     | 'dark'
     | 'link'
 
-export interface ButtonProps {
+export interface ButtonProps extends CastReactElement<'button'> {
     children?: ReactNode
-    className?: string
     variant?: ButtonVariantTypes
-    disabled?: boolean
-    onClick?: MouseEventHandler<HTMLButtonElement>
 }
