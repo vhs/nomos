@@ -51,6 +51,7 @@ const Login: FC<LoginProps> = () => {
                         <Row className='spacious'>
                             <Col className='w-full'>
                                 <input
+                                    id='login-username'
                                     className='w-full rounded-sm border border-gray-700/25 p-1.5'
                                     type='text'
                                     name='username'
@@ -59,6 +60,9 @@ const Login: FC<LoginProps> = () => {
                                     onChange={(e) => {
                                         setUsername(e.target.value.toLowerCase())
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') document.getElementById('login-password')?.focus()
+                                    }}
                                 />
                             </Col>
                         </Row>
@@ -66,6 +70,7 @@ const Login: FC<LoginProps> = () => {
                         <Row className='spacious'>
                             <Col className='w-full'>
                                 <input
+                                    id='login-password'
                                     className='w-full rounded-sm border border-gray-700/25 p-1.5'
                                     type='password'
                                     name='password'
@@ -74,6 +79,12 @@ const Login: FC<LoginProps> = () => {
                                     onChange={(e) => {
                                         setPassword(e.target.value)
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            if (username === '') document.getElementById('login-username')?.focus()
+                                            else document.getElementById('login-button')?.focus()
+                                        }
+                                    }}
                                 />
                             </Col>
                         </Row>
@@ -81,6 +92,7 @@ const Login: FC<LoginProps> = () => {
                         <Row className='spacious'>
                             <Col className='w-full'>
                                 <Button
+                                    id='login-button'
                                     variant='success'
                                     className={clsx('btn-block', 'w-full')}
                                     disabled={!loginEnabled}
