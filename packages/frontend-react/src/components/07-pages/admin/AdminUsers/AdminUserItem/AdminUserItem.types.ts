@@ -4,12 +4,12 @@ import type { ReactNode } from 'react'
 
 import type { User } from '@/types/records'
 
-export interface AdminUserProfileProps {
+export interface AdminUserItemProps {
     children?: ReactNode
     data: User
 }
 
-export interface AdminUserProfileData extends User {
+export interface AdminUserItemData extends User {
     member_since_month: string
     member_since_rest: string
     member_for: string
