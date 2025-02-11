@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import moment from 'moment'
 import useSWR from 'swr'
 
-import type { AdminUserProfileData, AdminUserProfileProps } from './AdminUserProfile.types'
+import type { AdminUserItemData, AdminUserItemProps } from './AdminUserItem.types'
 
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import Loading from '@/components/02-molecules/Loading/Loading'
@@ -17,20 +17,20 @@ import { convertUserStatus } from '@/lib/nomos'
 
 import type { UserActiveStates } from '@/types/common'
 
-import AccountStatusBadge from '../AccountStatusBadge/AccountStatusBadge'
-import Button from '../Button/Button'
-import FontAwesomeIcon from '../FontAwesomeIcon/FontAwesomeIcon'
-import Popover from '../Popover/Popover'
-import TablePageRow from '../TablePageRow/TablePageRow'
+import AccountStatusBadge from '../../../../01-atoms/AccountStatusBadge/AccountStatusBadge'
+import Button from '../../../../01-atoms/Button/Button'
+import FontAwesomeIcon from '../../../../01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import Popover from '../../../../01-atoms/Popover/Popover'
+import TablePageRow from '../../../../01-atoms/TablePageRow/TablePageRow'
 
-const AdminUserProfile: FC<AdminUserProfileProps> = ({ data }) => {
+const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
     const router = useRouter()
 
     const { data: statuses, isLoading: isStatusesLoading } = useSWR<UserActiveStates>(
         '/services/v2/UserService2.svc/GetStatuses'
     )
 
-    const user: AdminUserProfileData = {
+    const user: AdminUserItemData = {
         ...data,
 
         member_since_month: moment(data.created).format('MMMM'),
@@ -54,7 +54,7 @@ const AdminUserProfile: FC<AdminUserProfileProps> = ({ data }) => {
     const userStatus = user.active != null ? convertUserStatus(statuses, user.active) : null
 
     return (
-        <TablePageRow data-testid='AdminUserProfile'>
+        <TablePageRow data-testid='AdminUserItem'>
             <ConditionalTableCell className='text-center' condition={'username' in data}>
                 <Popover className='shortened' content={user.username} popover={user.username} />
             </ConditionalTableCell>
@@ -110,4 +110,4 @@ const AdminUserProfile: FC<AdminUserProfileProps> = ({ data }) => {
     )
 }
 
-export default AdminUserProfile
+export default AdminUserItem
