@@ -6,8 +6,10 @@ import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card'
 
+import styles from './BasePage.module.css'
+
 const BasePage: FC<BasePageProps> = ({ title, actions, children }) => (
-    <div className='w-full' id='BasePage' data-testid='BasePage'>
+    <div id='BasePage' data-testid='BasePage'>
         <Row>
             <Col className='basis-full'>
                 <Card>
@@ -23,7 +25,7 @@ const BasePage: FC<BasePageProps> = ({ title, actions, children }) => (
                 ) : null}
 
                 <Card>
-                    <Card.Body>{children}</Card.Body>
+                    <Card.Body className={styles.BasePageContainer}>{children}</Card.Body>
                 </Card>
             </Col>
         </Row>
