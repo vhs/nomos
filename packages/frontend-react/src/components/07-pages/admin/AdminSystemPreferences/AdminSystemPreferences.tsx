@@ -2,8 +2,8 @@ import type { FC } from 'react'
 
 import type { AdminSystemPreferencesProps } from './AdminSystemPreferences.types'
 
-import CreateSystemPreference from '@/components/04-composites/CreateSystemPreference/CreateSystemPreference'
 import TablePage from '@/components/05-materials/TablePage/TablePage'
+import CreateSystemPreference from '@/components/07-pages/admin/AdminSystemPreferences/CreateSystemPreference/CreateSystemPreference'
 
 import { AdminSystemPreferencesFields, AdminSystemPreferencesFilters } from './AdminSystemPreferences.utils'
 import AdminSystemPreferencesItem from './AdminSystemPreferencesItem/AdminSystemPreferencesItem'
