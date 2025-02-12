@@ -6,14 +6,14 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
-import ApiKey from '@/components/02-molecules/ApiKey/ApiKey'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 import NewApiKeyForm from '@/components/02-molecules/NewApiKeyForm/NewApiKeyForm'
 import PathTab from '@/components/04-composites/PathTabs/PathTab/PathTab'
 import PathTabs from '@/components/04-composites/PathTabs/PathTabs'
-import ApiKeyHelp from '@/components/05-materials/ApiKeyHelp/ApiKeyHelp'
-import ApiKeyUsage from '@/components/05-materials/ApiKeyUsage/ApiKeyUsage'
+import ApiKey from '@/components/05-materials/ApiKeysPage/ApiKey/ApiKey'
+import ApiKeyHelp from '@/components/05-materials/ApiKeysPage/ApiKeyHelp/ApiKeyHelp'
+import ApiKeyUsage from '@/components/05-materials/ApiKeysPage/ApiKeyUsage/ApiKeyUsage'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
 import { getApiKeyTermByScope } from './ApiKeysPage.utils'
@@ -79,40 +79,46 @@ const ApiKeysPage: FC<ApiKeysPageProps> = ({ scope, basePath, onCreate, availabl
                     </Conditional>
 
                     <Conditional condition={!loading && keys.length > 0}>
-                        <table className='w-full'>
-                            <thead>
-                                <tr>
-                                    <th className='text-center'>API Key</th>
-                                    <th className='text-center'>Notes</th>
-                                    <th className='text-center'>Created</th>
-                                    <th className='text-center'>Expires</th>
-                                    <th className='text-center'>Actions</th>
-                                </tr>
-                            </thead>
+                        <Row>
+                            <Col>
+                                <div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th className='text-center'>API Key</th>
+                                                <th className='text-center'>Notes</th>
+                                                <th className='text-center'>Created</th>
+                                                <th className='text-center'>Expires</th>
+                                                <th className='text-center'>Actions</th>
+                                            </tr>
+                                        </thead>
 
-                            <tbody>
-                                {keys.map((key) => {
-                                    return (
-                                        <ApiKey
-                                            key={key.key}
-                                            apiKey={key}
-                                            availablePrivileges={availablePrivileges}
-                                            scope={scope ?? 'user'}
-                                        />
-                                    )
-                                })}
-                            </tbody>
+                                        <tbody>
+                                            {keys.map((key) => {
+                                                return (
+                                                    <ApiKey
+                                                        key={key.key}
+                                                        apiKey={key}
+                                                        availablePrivileges={availablePrivileges}
+                                                        scope={scope ?? 'user'}
+                                                    />
+                                                )
+                                            })}
+                                        </tbody>
 
-                            <tfoot>
-                                <tr>
-                                    <th className='text-center'>API Key</th>
-                                    <th className='text-center'>Notes</th>
-                                    <th className='text-center'>Created</th>
-                                    <th className='text-center'>Expires</th>
-                                    <th className='text-center'>Actions</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                        <tfoot>
+                                            <tr>
+                                                <th className='text-center'>API Key</th>
+                                                <th className='text-center'>Notes</th>
+                                                <th className='text-center'>Created</th>
+                                                <th className='text-center'>Expires</th>
+                                                <th className='text-center'>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </Col>
+                        </Row>
                     </Conditional>
                 </PathTab>
 

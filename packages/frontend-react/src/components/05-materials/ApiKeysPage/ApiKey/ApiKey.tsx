@@ -1,6 +1,7 @@
 import { useEffect, useState, type FC, type MouseEvent } from 'react'
 
 import { PencilSquareIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { clsx } from 'clsx'
 import { toast } from 'react-toastify'
 import { mutate } from 'swr'
 
@@ -10,7 +11,9 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
+import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
+import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import Card from '@/components/04-composites/Card'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
@@ -19,6 +22,8 @@ import { backendCurrentUserUrl } from '@/components/09-providers/AuthenticationP
 import useAuth from '@/lib/hooks/useAuth'
 import { usePrivilegeCodesReducer, type PrivilegeCodesMutationArg } from '@/lib/hooks/usePrivilegeCodesReducer'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
+
+import styles from './ApiKey.module.css'
 
 const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
     const { currentUser } = useAuth()
@@ -112,16 +117,25 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
 
     return (
         <>
-            <tr>
-                <td className='shortened text-center' onClick={openEditModal} onKeyUp={openEditModal}>
-                    {apiKey.key}
-                </td>
-                <td className='text-center'>{apiKey.notes ?? ''}</td>
-                <td className='text-center'>{apiKey.created.toLocaleString()}</td>
-                <td className='text-nowrap text-center'>
-                    {apiKey.expires != null ? apiKey.expires.toLocaleString() : ''}
-                </td>
-                <td className='text-center'>
+            <tr className='data-row'>
+                <ConditionalTableCell
+                    condition={'key' in apiKey}
+                    className={clsx(['max-w-[6rem] md:w-auto', styles.DataField])}
+                    onClick={openEditModal}
+                    onKeyUp={openEditModal}
+                >
+                    <Popover content={apiKey.key} popover={apiKey.key} />
+                </ConditionalTableCell>
+                <ConditionalTableCell className={styles.DataField} condition={'notes' in apiKey}>
+                    {apiKey.notes}
+                </ConditionalTableCell>
+                <ConditionalTableCell className={styles.DataField} condition={'created' in apiKey}>
+                    {apiKey.created.toLocaleString()}
+                </ConditionalTableCell>
+                <ConditionalTableCell className={styles.DataField} condition={'expires' in apiKey}>
+                    {apiKey.expires?.toLocaleString()}
+                </ConditionalTableCell>
+                <td className={styles.DataField}>
                     <Button variant='primary' className='btn-circle h-10 w-10 text-white' onClick={openEditModal}>
                         <PencilSquareIcon className='h-4 w-4' />
                     </Button>
