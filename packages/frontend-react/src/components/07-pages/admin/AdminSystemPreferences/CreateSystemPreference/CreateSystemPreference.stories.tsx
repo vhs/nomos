@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof CreateSystemPreference>
 
 const meta: Meta<typeof CreateSystemPreference> = {
     component: CreateSystemPreference,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminSystemPreferences/CreateSystemPreference',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

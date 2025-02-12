@@ -10,7 +10,7 @@ type StoryType = StoryObj<typeof ApiKeyUsage>
 
 const meta: Meta<typeof ApiKeyUsage> = {
     component: ApiKeyUsage,
-    title: '05-Materials/ApiKeyUsage',
+    title: '05-Materials/ApiKeysPage/ApiKeyUsage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

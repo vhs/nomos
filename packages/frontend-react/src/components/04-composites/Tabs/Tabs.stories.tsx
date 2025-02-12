@@ -9,7 +9,7 @@ type StoryType = StoryObj<typeof Tabs>
 
 const meta: Meta<typeof Tabs> = {
     component: Tabs,
-    title: '99-Templates/default',
+    title: '04-Composites/Tabs',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

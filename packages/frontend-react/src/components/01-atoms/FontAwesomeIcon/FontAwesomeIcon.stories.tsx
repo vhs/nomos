@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FontAwesomeIcon>
 
 const meta: Meta<typeof FontAwesomeIcon> = {
     component: FontAwesomeIcon,
-    title: '99-Templates/default',
+    title: '01-Atoms/FontAwesomeIcon',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

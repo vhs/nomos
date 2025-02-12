@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminPayPalPaymentItem>
 
 const meta: Meta<typeof AdminPayPalPaymentItem> = {
     component: AdminPayPalPaymentItem,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminPayments/AdminPayPalPaymentItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

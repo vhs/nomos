@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof UnderConstructionBanner>
 
 const meta: Meta<typeof UnderConstructionBanner> = {
     component: UnderConstructionBanner,
-    title: '99-Templates/default',
+    title: '01-Atoms/UnderConstructionBanner',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
