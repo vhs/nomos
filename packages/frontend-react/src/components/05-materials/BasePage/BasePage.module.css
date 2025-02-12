@@ -1,0 +1,11 @@
+.BasePageContainer {
+    @apply max-w-[28rem];
+    overflow-x: auto;
+    width: auto;
+}
+
+@media (min-width: 512px) {
+    .BasePageContainer {
+        max-width: 72vw;
+    }
+}
