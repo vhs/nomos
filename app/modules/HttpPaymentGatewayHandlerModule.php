@@ -12,6 +12,7 @@ namespace app\modules;
 use app\gateways\IPaymentGateway;
 use vhs\web\modules\HttpRequestHandlerModule;
 
+/** @typescript */
 class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule {
     /**
      * @return HttpPaymentGatewayHandlerModule
@@ -42,6 +43,5 @@ class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule {
         self::getInstance()->register_internal('PUT', $path, $handler);
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

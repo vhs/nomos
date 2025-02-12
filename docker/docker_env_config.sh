@@ -1,9 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-echo "<?php "
+{
+    echo "<?php "
 
-env | grep "NOMOS_" | while read envline; do
-    key=${envline%=*}
-    value=$(printenv $key)
-    echo "define('$key', '$value');"
-done
+    env | grep "NOMOS_" | while read -r ENV_LINE; do
+        KEY="${ENV_LINE%=*}"
+        VALUE=$(printenv "${KEY}")
+
+        echo "define('$KEY', '$VALUE');"
+    done
+} > /var/www/html/conf/env.php

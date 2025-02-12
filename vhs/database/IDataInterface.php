@@ -16,6 +16,7 @@ use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
 
+/** @typescript */
 interface IDataInterface {
     public static function DateFormat();
 

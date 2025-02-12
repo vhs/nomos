@@ -9,5 +9,5 @@
 
 namespace vhs\database\exceptions;
 
-class InvalidSchemaException extends \Exception {
-}
+/** @typescript */
+class InvalidSchemaException extends \Exception {}

@@ -9,5 +9,5 @@
 
 namespace vhs\services\exceptions;
 
-class InvalidRequestException extends \Exception {
-}
+/** @typescript */
+class InvalidRequestException extends \Exception {}

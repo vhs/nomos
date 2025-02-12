@@ -13,6 +13,7 @@ use tests\schema\RingSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class Ring extends Domain {
     public static function Define() {
         Ring::Schema(RingSchema::Type());

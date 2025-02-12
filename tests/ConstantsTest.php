@@ -12,6 +12,7 @@ use app\constants\Errors;
 use app\constants\StringLiterals;
 use PHPUnit\Framework\TestCase;
 
+/** @typescript */
 class ConstantsTest extends TestCase {
     public function test_DateTime_DATE_TIME_MIDNIGHT() {
         $this->assertEquals('Y-m-d 00:00:00', DateTime::DATE_TIME_MIDNIGHT);
@@ -41,9 +42,7 @@ class ConstantsTest extends TestCase {
         $this->assertEquals('https://', StringLiterals::HTTPS_PREFIX);
     }
 
-    protected function setUp(): void {
-    }
+    protected function setUp(): void {}
 
-    protected function tearDown(): void {
-    }
+    protected function tearDown(): void {}
 }

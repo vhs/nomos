@@ -15,6 +15,7 @@ use vhs\database\IConverter;
 use vhs\database\IConvertible;
 use vhs\database\IGenerator;
 
+/** @typescript */
 abstract class Type extends Element implements IConvertible {
     public $default;
     public $nullable;

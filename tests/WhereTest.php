@@ -16,6 +16,7 @@ use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
+/** @typescript */
 class TestSchema extends Schema {
     /**
      * @return Table
@@ -30,6 +31,7 @@ class TestSchema extends Schema {
     }
 }
 
+/** @typescript */
 class WhereTest extends TestCase {
     /** @var Logger */
     private static $logger;
@@ -330,14 +332,12 @@ class WhereTest extends TestCase {
         Database::setRethrow(true);
     }
 
-    public static function tearDownAfterClass(): void {
-    }
+    public static function tearDownAfterClass(): void {}
 
     public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
-    public function tearDown(): void {
-    }
+    public function tearDown(): void {}
 }

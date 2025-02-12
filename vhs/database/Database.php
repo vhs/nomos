@@ -22,6 +22,7 @@ use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\Singleton;
 
+/** @typescript */
 class Database extends Singleton {
     /** @var Engine */
     private $engine;
@@ -43,6 +44,7 @@ class Database extends Singleton {
     public static function arbitrary($command) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $command) {
             //TODO warn that this is not ideal
             return $db->engine->arbitrary($command);
@@ -52,6 +54,7 @@ class Database extends Singleton {
     public static function count(QueryCount $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->count($query);
         });
@@ -64,6 +67,7 @@ class Database extends Singleton {
     public static function delete(QueryDelete $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->delete($query);
         });
@@ -72,6 +76,7 @@ class Database extends Singleton {
     public static function exists(QuerySelect $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->exists($query);
         });
@@ -80,6 +85,7 @@ class Database extends Singleton {
     public static function insert(QueryInsert $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->insert($query);
         });
@@ -88,6 +94,7 @@ class Database extends Singleton {
     public static function scalar(QuerySelect $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->scalar($query);
         });
@@ -96,6 +103,7 @@ class Database extends Singleton {
     public static function select(QuerySelect $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->select($query);
         });
@@ -124,6 +132,7 @@ class Database extends Singleton {
     public static function update(QueryUpdate $query) {
         /** @var Database $db */
         $db = self::getInstance();
+
         return $db->invokeEngine(function () use ($db, $query) {
             return $db->engine->update($query);
         });

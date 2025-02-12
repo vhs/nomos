@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "skipLibCheck": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": true
+    },
+    "include": ["vite.config.ts", "test.js", "fafo*.ts"],
+    "exclude": ["src/components/99-templates/", "node_modules"]
+}

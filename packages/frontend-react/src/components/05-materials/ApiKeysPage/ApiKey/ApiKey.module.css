@@ -1,0 +1,3 @@
+.DataField {
+    @apply text-wrap text-center md:text-nowrap;
+}

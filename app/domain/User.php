@@ -19,6 +19,7 @@ use vhs\domain\Domain;
 use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class User extends Domain {
     public static function Define() {
         User::Schema(UserSchema::Type());
@@ -31,7 +32,7 @@ class User extends Domain {
      * @param string|null $username
      * @param string|null $email
      *
-     * @return boolean
+     * @return bool
      */
     public static function exists($username = null, $email = null) {
         $usernameWhere = Where::Equal(UserSchema::Columns()->username, $username);
@@ -83,7 +84,7 @@ class User extends Domain {
     /**
      * Magic field interface method for 'valid'.
      *
-     * @return boolean
+     * @return bool
      */
     public function get_valid() {
         // Check if account is active
@@ -105,6 +106,7 @@ class User extends Domain {
 
     public function getGrantCodes() {
         $grants = [];
+
         foreach ($this->privileges->all() as $priv) {
             if (strpos($priv->code, 'grant:') === 0) {
                 array_push($grants, substr($priv->code, 6));
@@ -117,7 +119,7 @@ class User extends Domain {
     /**
      * Get a friendly error message for user validity.
      *
-     * @return mixed
+     * @return 'Account expired'|'Account is not active'|'Unknown error'|false
      */
     public function getInvalidReason() {
         if ($this->valid) {
@@ -148,13 +150,13 @@ class User extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
-        $this->validateEmail($results);
+        // TODO: Implement validate() method.
     }
 
     /**
      * Check if user account has expired.
      *
-     * @return boolean
+     * @return bool
      */
     private function hasExpired() {
         return new DateTime($this->mem_expire) < new DateTime();

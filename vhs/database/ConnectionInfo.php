@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 abstract class ConnectionInfo {
     abstract public function getDetails();
 

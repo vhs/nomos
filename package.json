@@ -18,8 +18,11 @@
         "eslint": "^9.15.0",
         "husky": "^9.1.7",
         "prettier": "^3.0.3",
+        "prettier-plugin-ini": "^1.3.0",
+        "prettier-plugin-nginx": "^1.0.3",
         "prettier-plugin-sh": "^0.14.0",
         "prettier-plugin-sql": "^0.18.1",
+        "prettier-plugin-tailwindcss": "^0.6.11",
         "typescript": "^5.7.2"
     },
     "directories": {
@@ -28,7 +31,7 @@
     "keywords": [],
     "license": "ISC",
     "name": "@vhs/nomos",
-    "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+    "packageManager": "pnpm@10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92",
     "private": true,
     "scripts": {
         "prepare": "wireit",
@@ -38,10 +41,9 @@
     "wireit": {
         "prepare": {
             "dependencies": [
-                "prepare:webcomponents",
                 "prepare:husky",
                 "prepare:vendor",
-                "prepare:webhooker"
+                "prepare:webcomponents"
             ]
         },
         "prepare:husky": {
@@ -52,9 +54,6 @@
         },
         "prepare:webcomponents": {
             "command": "just setup webcomponents"
-        },
-        "prepare:webhooker": {
-            "command": "just setup webhooker"
         },
         "test": {
             "dependencies": [
@@ -68,5 +67,15 @@
         "test:webhooker": {
             "command": "just test php"
         }
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "dtrace-provider",
+            "just-install",
+            "@parcel/watcher",
+            "@swc/core",
+            "esbuild",
+            "msw"
+        ]
     }
 }

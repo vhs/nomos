@@ -11,6 +11,7 @@ namespace vhs\database\wheres;
 
 use vhs\database\Table;
 
+/** @typescript */
 class WhereOr extends Where {
     /** @var Where[] */
     public $wheres = [];

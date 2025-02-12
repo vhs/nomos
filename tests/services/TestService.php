@@ -12,6 +12,7 @@ namespace tests\services;
 use tests\contracts\ITestService1;
 use vhs\services\Service;
 
+/** @typescript */
 class TestService extends Service implements ITestService1 {
     /**
      * @permission perm1

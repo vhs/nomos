@@ -11,6 +11,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IAuthService1 extends IContract {
     /**
      * @permission administrator|pin-auth
@@ -45,7 +46,7 @@ interface IAuthService1 extends IContract {
      *
      * @param $username
      *
-     * @return boolean
+     * @return bool
      */
     public function CheckUsername($username);
 
@@ -136,7 +137,6 @@ interface IAuthService1 extends IContract {
      * @permission oauth-provider
      *
      * @param $clientId
-     * @param $clientSecret
      *
      * @return mixed
      */

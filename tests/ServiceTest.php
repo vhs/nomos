@@ -12,6 +12,7 @@ use vhs\services\ServiceClient;
 use vhs\services\ServiceHandler;
 use vhs\services\ServiceRegistry;
 
+/** @typescript */
 class PermPrincipal implements \vhs\security\IPrincipal {
     private $perms;
 
@@ -52,6 +53,7 @@ class PermPrincipal implements \vhs\security\IPrincipal {
     }
 }
 
+/** @typescript */
 class ServiceTest extends TestCase {
     public function test_AllPermMethod() {
         \vhs\security\CurrentUser::setPrincipal(new PermPrincipal('perm1', 'perm2', 'perm3'));
@@ -235,15 +237,13 @@ class ServiceTest extends TestCase {
 
     public static function setUpBeforeClass(): void {
         $logger = new \vhs\loggers\SilentLogger();
-        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
-        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
+        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', \vhs\BasePath::getBasePath(false));
+        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', \vhs\BasePath::getBasePath(false));
     }
 
-    public static function tearDownAfterClass(): void {
-    }
+    public static function tearDownAfterClass(): void {}
 
-    protected function setUp(): void {
-    }
+    protected function setUp(): void {}
 
     protected function tearDown(): void {
         \vhs\security\CurrentUser::setPrincipal(new \vhs\security\AnonPrincipal());

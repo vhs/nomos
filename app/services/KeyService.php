@@ -22,6 +22,7 @@ use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
+/** @typescript */
 class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
@@ -56,14 +57,17 @@ class KeyService extends Service implements IKeyService1 {
                 switch ($type) {
                     case 'rfid':
                         $key->key = $value;
+
                         break;
                     case 'pin':
                         $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
                         $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
                         $key->privileges->add(Privilege::findByCode('inherit'));
+
                         break;
                     case 'api':
                         $key->key = bin2hex(openssl_random_pseudo_bytes(32));
+
                         break;
                     default:
                         throw new InvalidInputException('Unsupported key type');

@@ -17,6 +17,7 @@ use vhs\domain\Schema;
 use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class ExampleSchema extends Schema {
     /**
      * @return Table
@@ -35,6 +36,7 @@ class ExampleSchema extends Schema {
     }
 }
 
+/** @typescript */
 class ExampleDomain extends Domain {
     public static function Define() {
         ExampleDomain::Schema(ExampleSchema::Type());
@@ -63,6 +65,7 @@ class ExampleDomain extends Domain {
     }
 }
 
+/** @typescript */
 class DomainTest extends TestCase {
     private static $inMemoryEngine;
     private static $logger;
@@ -254,9 +257,7 @@ class DomainTest extends TestCase {
         //\vhs\database\Database::arbitrary("DROP DATABASE " . DB_DATABASE);
     }
 
-    protected function setUp(): void {
-    }
+    protected function setUp(): void {}
 
-    protected function tearDown(): void {
-    }
+    protected function tearDown(): void {}
 }

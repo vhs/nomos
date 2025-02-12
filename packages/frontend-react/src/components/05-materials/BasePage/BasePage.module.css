@@ -1,0 +1,9 @@
+.BasePageContainer {
+    @apply w-auto max-w-[29rem];
+}
+
+@media (min-width: 512px) {
+    .BasePageContainer {
+        max-width: unset;
+    }
+}

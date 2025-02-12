@@ -13,6 +13,7 @@ use vhs\Logger;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpExceptionHandlerModule implements IHttpModule {
     //todo do something about the levels here
     private $level;
@@ -23,15 +24,15 @@ class HttpExceptionHandlerModule implements IHttpModule {
         $this->logger = $logger;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
-    public function handle(HttpServer $server) {
-    }
+    public function handle(HttpServer $server) {}
 
     public function handleException(HttpServer $server, \Exception $ex) {
         $this->logger->log($ex->getMessage());
         $this->logger->log($ex->getTraceAsString());
+
+        $server->code($ex->getCode() !== 0 ? $ex->getCode() : 500);
 
         if (DEBUG) {
             $server->output($ex->getMessage());

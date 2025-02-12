@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 interface IColumnGenerator extends IGenerator {
     public function generateColumn(Column $column);
 }
