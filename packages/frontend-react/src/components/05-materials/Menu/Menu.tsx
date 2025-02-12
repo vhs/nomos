@@ -12,11 +12,11 @@ const Menu: FC<UserMenuProps> = ({ className, menuItems }) => {
     return (
         <div className={className} data-testid='Menu'>
             {menuItems.map((item) => {
-                const { path, icon, name, condition } = item
+                const { id, path, icon, name, condition } = item
 
                 if (condition != null && !condition(currentUser)) return null
 
-                return <MenuItem key={path} path={path} icon={icon} name={name} />
+                return <MenuItem key={path} path={path} icon={icon} name={name} id={id} />
             })}
         </div>
     )
