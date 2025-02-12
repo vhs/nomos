@@ -7,7 +7,7 @@ import Row from '@/components/01-atoms/Row/Row'
 
 const ApiKeyUsage: FC<ApiKeyUsageProps> = () => {
     return (
-        <div className='max-w-[25rem] text-wrap md:max-w-[72vw]'>
+        <div>
             <Row>
                 <Col>
                     <h4>Usage</h4>

@@ -542,7 +542,7 @@
     }
 
     TR.data-row > TD {
-        @apply w-5 max-w-5 overflow-hidden overflow-ellipsis;
+        @apply overflow-hidden overflow-ellipsis;
     }
 
     .popover {

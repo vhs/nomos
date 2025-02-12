@@ -120,7 +120,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
             <tr className='data-row'>
                 <ConditionalTableCell
                     condition={'key' in apiKey}
-                    className={clsx(['max-w-[6rem] md:w-auto', styles.DataField])}
+                    className={clsx(['max-w-[6rem] md:max-w-[unset]', styles.DataField])}
                     onClick={openEditModal}
                     onKeyUp={openEditModal}
                 >
