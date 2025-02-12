@@ -2,6 +2,8 @@ import type { FC } from 'react'
 
 import type { UserTransactionItemsProps } from './UserTransactionItems.types'
 
+import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+
 const UserTransactionItems: FC<UserTransactionItemsProps> = ({ data }) => {
     let status = `Unknown (${data.status})`
 
@@ -10,19 +12,19 @@ const UserTransactionItems: FC<UserTransactionItemsProps> = ({ data }) => {
 
     return (
         <tr key={data.id}>
-            <td>{data.date.toLocaleString()}</td>
-            <td>{data.txn_id}</td>
-            <td>
+            <ConditionalTableCell condition={'date' in data}>{data.date.toLocaleString()}</ConditionalTableCell>
+            <ConditionalTableCell condition={'txn_id' in data}>{data.txn_id}</ConditionalTableCell>
+            <ConditionalTableCell condition={'payer_fname' in data && 'payer_lname' in data}>
                 {data.payer_fname} {data.payer_lname}
-            </td>
-            <td>{data.payer_email}</td>
-            <td>{data.pp}</td>
-            <td>
+            </ConditionalTableCell>
+            <ConditionalTableCell condition={'payer_email' in data}>{data.payer_email}</ConditionalTableCell>
+            <ConditionalTableCell condition={'pp' in data}>{data.pp}</ConditionalTableCell>
+            <ConditionalTableCell condition={'rate_amount' in data && 'currency' in data}>
                 ${data.rate_amount} {data.currency}
-            </td>
-            <td>
+            </ConditionalTableCell>
+            <ConditionalTableCell condition={'status' in data}>
                 <span>{status} </span>
-            </td>
+            </ConditionalTableCell>
         </tr>
     )
 }
