@@ -22,5 +22,5 @@ export const AdminMenuItems: MenuItems = [
     { path: '/admin/siteconfiguration', icon: 'gears', name: 'Site Configuration' },
     { path: '/admin/databasebackup', icon: 'database', name: 'Database Backup' },
     { path: '/admin/logs', icon: { category: 'regular', icon: 'rectangle-list' }, name: 'Logs' },
-    { path: '/', icon: 'circle-arrow-left', name: 'Back to User' }
+    { path: '/', icon: 'circle-arrow-left', name: 'Back to User', id: 'user-dashboard-link' }
 ]

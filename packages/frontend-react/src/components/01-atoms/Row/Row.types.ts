@@ -1,7 +1,7 @@
-import type { MouseEventHandler, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-export interface RowProps {
+import type { CastReactElement } from '@/types/utils'
+
+export interface RowProps extends CastReactElement<'div'> {
     children?: ReactNode
-    className?: string
-    onClick?: MouseEventHandler<HTMLDivElement>
 }
