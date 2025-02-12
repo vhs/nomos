@@ -9,7 +9,7 @@ type StoryType = StoryObj<typeof AdminAccessLogsItem>
 
 const meta: Meta<typeof AdminAccessLogsItem> = {
     component: AdminAccessLogsItem,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminAccessLogs/AdminAccessLogsItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

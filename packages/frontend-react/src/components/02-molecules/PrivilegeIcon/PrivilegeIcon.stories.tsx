@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof PrivilegeIcon>
 
 const meta: Meta<typeof PrivilegeIcon> = {
     component: PrivilegeIcon,
-    title: '99-Templates/default',
+    title: '02-Molecules/PrivilegeIcon',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

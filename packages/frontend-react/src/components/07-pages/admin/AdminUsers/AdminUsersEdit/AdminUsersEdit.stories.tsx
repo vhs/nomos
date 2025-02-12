@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminUsersEdit>
 
 const meta: Meta<typeof AdminUsersEdit> = {
     component: AdminUsersEdit,
-    title: '07-Pages/Admin/AdminUsersEdit',
+    title: '07-Pages/Admin/AdminUsers/AdminUsersEdit',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

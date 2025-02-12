@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminTemplateNameItem>
 
 const meta: Meta<typeof AdminTemplateNameItem> = {
     component: AdminTemplateNameItem,
-    title: '99-Templates/default',
+    title: '99-Templates/Admin-page/item',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof StatusSelectorCard>
 
 const meta: Meta<typeof StatusSelectorCard> = {
     component: StatusSelectorCard,
-    title: '99-Templates/default',
+    title: '04-Composites/StatusSelectorCard',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
