@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminMembershipsItem>
 
 const meta: Meta<typeof AdminMembershipsItem> = {
     component: AdminMembershipsItem,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminMemberships/AdminMembershipsItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

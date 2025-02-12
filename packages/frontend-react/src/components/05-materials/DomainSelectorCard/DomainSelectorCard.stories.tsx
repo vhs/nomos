@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof DomainSelectorCard>
 
 const meta: Meta<typeof DomainSelectorCard> = {
     component: DomainSelectorCard,
-    title: '99-Templates/default',
+    title: '05-Materials/DomainSelectorCard',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

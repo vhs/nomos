@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof LandingPage>
 
 const meta: Meta<typeof LandingPage> = {
     component: LandingPage,
-    title: '07-Pages/LandingPage',
+    title: '07-Pages/common/LandingPage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

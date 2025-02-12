@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof TableActionsCell>
 
 const meta: Meta<typeof TableActionsCell> = {
     component: TableActionsCell,
-    title: '99-Templates/default',
+    title: '01-Atoms/TableActionsCell',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

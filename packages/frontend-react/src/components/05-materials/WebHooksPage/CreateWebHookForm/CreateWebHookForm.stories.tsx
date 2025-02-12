@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof CreateWebHookForm>
 
 const meta: Meta<typeof CreateWebHookForm> = {
     component: CreateWebHookForm,
-    title: '99-Templates/default',
+    title: '05-Materials/WebHooksPage/CreateWebHookForm',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

@@ -3,7 +3,7 @@ import type { JSX } from 'react'
 import PrivilegesList from './PrivilegesList'
 
 export default {
-    title: '02-Molecules/ApiKey/PrivilegesList'
+    title: '05-Materials/ApiKeysPage/ApiKey/PrivilegesList'
 }
 
 export const Default = (): JSX.Element => (
