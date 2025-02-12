@@ -13,7 +13,7 @@ import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
-import { AdminSystemPreferencesItemFields } from '@/components/07-pages/admin/AdminSystemPreferences/item/AdminSystemPreferencesItem.utils'
+import { AdminSystemPreferencesItemFields } from '@/components/07-pages/admin/AdminSystemPreferences/AdminSystemPreferencesItem/AdminSystemPreferencesItem.utils'
 
 import { useGetAllPrivileges } from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useFormDirty from '@/lib/hooks/useFormDirty'
@@ -23,7 +23,7 @@ import PreferenceService2 from '@/lib/providers/PreferenceService2'
 
 import type { BasePrivileges } from '@/types/records'
 
-import Card from '../Card'
+import Card from '../../../../04-composites/Card'
 
 const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
     const { mutate } = useTablePageContext()
@@ -126,7 +126,7 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
     })
 
     return (
-        <div className='' data-testid='CreateSystemPreference'>
+        <div data-testid='CreateSystemPreference'>
             <Button
                 variant='warning'
                 onClick={() => {
