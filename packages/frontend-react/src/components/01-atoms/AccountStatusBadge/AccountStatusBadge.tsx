@@ -35,7 +35,7 @@ const getStatusIcon = (status: string | null): JSX.Element => {
 
 const AccountStatusBadge: FC<AccountStatusBadgeProps> = ({ status }) => {
     return (
-        <div className='' data-testid='AccountStatusBadge'>
+        <div data-testid='AccountStatusBadge'>
             <div className={styles.Icon}>{getStatusIcon(status)}</div>
             <div className='hidden md:inline'>&nbsp;{status}</div>
         </div>
