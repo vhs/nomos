@@ -14,7 +14,7 @@ const Tabs: FC<TabsProps> = ({ children, defaultTab }) => {
     const [activeTab, setActiveTab] = useState<string>(defaultTab)
 
     return (
-        <div className='' data-testid='Tabs'>
+        <div data-testid='Tabs'>
             <div className='tab-titles grid-flow-row justify-evenly px-2'>
                 {childTabs?.map((e) => {
                     return (
@@ -31,7 +31,7 @@ const Tabs: FC<TabsProps> = ({ children, defaultTab }) => {
                     )
                 })}
             </div>
-            <div className='tab-container min-w-fit'>{children?.filter((c) => c.props.tabKey === activeTab)}</div>
+            <div className='tab-container'>{children?.filter((c) => c.props.tabKey === activeTab)}</div>
         </div>
     )
 }

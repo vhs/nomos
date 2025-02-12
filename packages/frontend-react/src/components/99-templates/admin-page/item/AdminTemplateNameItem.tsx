@@ -2,14 +2,16 @@ import type { FC } from 'react'
 
 import type { AdminTemplateNameItemProps } from './AdminTemplateNameItem.types'
 
+import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+
 const AdminTemplateNameItem: FC<AdminTemplateNameItemProps> = ({ data }) => (
-    <tr className='' data-testid='AdminTemplateNameItem'>
+    <tr data-testid='AdminTemplateNameItem'>
         {Object.entries(data)
             .filter(([k, _v]) => k !== 'id')
             .map(([k, v]) => (
-                <td key={k}>
-                    <pre>{JSON.stringify(v, null, '\t')}</pre>
-                </td>
+                <ConditionalTableCell condition={k in data} key={k}>
+                    {v != null && typeof v === 'object' ? <pre>{JSON.stringify(v)}</pre> : String(v)}
+                </ConditionalTableCell>
             ))}
     </tr>
 )
