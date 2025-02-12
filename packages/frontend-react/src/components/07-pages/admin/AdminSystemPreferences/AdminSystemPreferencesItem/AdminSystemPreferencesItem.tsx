@@ -165,7 +165,7 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ data 
     }, [enabled, key, notes, resetFields, data, value])
 
     return (
-        <tr className='' data-testid='AdminSystemPreferencesItem'>
+        <tr data-testid='AdminSystemPreferencesItem'>
             <ConditionalTableCell key={'key'} condition={'key' in data}>
                 {String(data.key)}
             </ConditionalTableCell>

@@ -6,7 +6,7 @@ import CreateSystemPreference from '@/components/04-composites/CreateSystemPrefe
 import TablePage from '@/components/05-materials/TablePage/TablePage'
 
 import { AdminSystemPreferencesFields, AdminSystemPreferencesFilters } from './AdminSystemPreferences.utils'
-import AdminSystemPreferencesItem from './item/AdminSystemPreferencesItem'
+import AdminSystemPreferencesItem from './AdminSystemPreferencesItem/AdminSystemPreferencesItem'
 
 const AdminSystemPreferences: FC<AdminSystemPreferencesProps> = () => {
     return (
