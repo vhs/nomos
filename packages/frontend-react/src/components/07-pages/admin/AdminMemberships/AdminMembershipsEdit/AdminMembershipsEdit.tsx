@@ -250,7 +250,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
     if (isLoading || membership == null) return <LoadingOverlay />
 
     return (
-        <div className='' data-testid='AdminMembershipsEdit'>
+        <div data-testid='AdminMembershipsEdit'>
             <OverlayCard
                 title={`Edit Membership - ${membership.title}`}
                 actions={[
