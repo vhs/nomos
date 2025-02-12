@@ -6,7 +6,7 @@ import Col from '../Col/Col'
 import Row from '../Row/Row'
 
 const UnderConstructionBanner: FC<UnderConstructionBannerProps> = () => (
-    <div className='' data-testid='UnderConstructionBanner'>
+    <div data-testid='UnderConstructionBanner'>
         <Row>
             <Col></Col>
             <Col>

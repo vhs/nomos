@@ -159,7 +159,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
     }, [])
 
     return (
-        <div className='' data-testid='CreateWebHookForm'>
+        <div data-testid='CreateWebHookForm'>
             <Button
                 variant='warning'
                 onClick={() => {
