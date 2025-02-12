@@ -294,7 +294,7 @@ const TablePage: FC<TablePageProps> = ({
         )
 
     return (
-        <div className='' data-testid='TablePage'>
+        <div data-testid='TablePage'>
             <TablePageContext.Provider value={contextValue}>
                 <BasePage title={title} actions={actions}>
                     <Row className='flex-wrap'>
@@ -468,11 +468,11 @@ const TablePage: FC<TablePageProps> = ({
                         <Conditional condition={(data?.length ?? 0) > 0}>
                             <Row className='spacious'>
                                 <Col className='w-full'>
-                                    <table className='w-full table-auto rounded-lg'>
+                                    <table className='w-full table-auto overflow-x-scroll rounded-lg'>
                                         <thead>
                                             <tr>
                                                 {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
-                                                    <th key={fieldLabel} className='px-1'>
+                                                    <th key={fieldLabel} className='tablepage-header-field px-1'>
                                                         <Popover
                                                             className='tablepage-header'
                                                             content={fieldLabel}
@@ -486,7 +486,7 @@ const TablePage: FC<TablePageProps> = ({
                                         <tfoot>
                                             <tr>
                                                 {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
-                                                    <th key={fieldLabel} className='px-1'>
+                                                    <th key={fieldLabel} className='tablepage-header-field px-1'>
                                                         <Popover
                                                             className='tablepage-header'
                                                             content={fieldLabel}
