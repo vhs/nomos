@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 import type { PathTabsProps } from './PathTabs.types'
 
-const PathTabs: FC<PathTabsProps> = ({ children, id }) => {
+const PathTabs: FC<PathTabsProps> = ({ children, id, ...restProps }) => {
     const { pathname } = useLocation()
 
     if (!Array.isArray(children)) throw new Error('Children PathTabs are not iterable')
@@ -13,7 +13,7 @@ const PathTabs: FC<PathTabsProps> = ({ children, id }) => {
     const childTabs = children.map((e) => e.props)
 
     return (
-        <div className='w-full' data-testid='PathTabs' id={id}>
+        <div data-testid='PathTabs' id={id} {...restProps}>
             <div className='grid-flow-row px-2'>
                 {childTabs.map((e) => {
                     return (
@@ -27,7 +27,7 @@ const PathTabs: FC<PathTabsProps> = ({ children, id }) => {
                     )
                 })}
             </div>
-            <div className='path-tab-container min-w-fit'>{children}</div>
+            <div className='path-tab-container'>{children}</div>
         </div>
     )
 }
