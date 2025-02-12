@@ -5,11 +5,15 @@ import clsx from 'clsx'
 
 import type { PathTabProps } from './PathTab.types'
 
-const PathTab: FC<PathTabProps> = ({ children, path }) => {
+const PathTab: FC<PathTabProps> = ({ children, path, className, ...restProps }) => {
     const { pathname } = useLocation()
 
     return (
-        <div className={clsx([path === pathname ? '' : 'hidden', 'w-full p-2'])} data-testid='Tab'>
+        <div
+            className={clsx([className, path === pathname ? '' : 'hidden', 'max-w[50%] p-2'])}
+            data-testid='Tab'
+            {...restProps}
+        >
             {children}
         </div>
     )
