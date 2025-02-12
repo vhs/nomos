@@ -7,7 +7,7 @@ import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell
 
 const AdminPayPalPaymentItem: FC<AdminPayPalPaymentItemProps> = ({ data }) => {
     return (
-        <div className='' data-testid='AdminPayPalPaymentItem'>
+        <div data-testid='AdminPayPalPaymentItem'>
             <TablePageRow>
                 <ConditionalTableCell condition={'txn_id' in data}>{data.txn_id}</ConditionalTableCell>
             </TablePageRow>

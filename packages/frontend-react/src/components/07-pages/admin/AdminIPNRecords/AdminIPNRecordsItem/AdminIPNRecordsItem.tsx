@@ -2,12 +2,16 @@ import type { FC } from 'react'
 
 import type { AdminIPNRecordsItemProps } from './AdminIPNRecordsItem.types'
 
+import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+
 const AdminIPNRecordsItem: FC<AdminIPNRecordsItemProps> = ({ data }) => (
-    <tr className='' data-testid='AdminIPNRecordsItem'>
+    <tr data-testid='AdminIPNRecordsItem'>
         {Object.entries(data)
             .filter(([k, _v]) => k !== 'id')
             .map(([k, v]) => (
-                <td key={k}>{v.toString()}</td>
+                <ConditionalTableCell condition={k in data} key={k}>
+                    {v.toString()}
+                </ConditionalTableCell>
             ))}
     </tr>
 )
