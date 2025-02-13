@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof NewApiKeyForm>
 
 const meta: Meta<typeof NewApiKeyForm> = {
     component: NewApiKeyForm,
-    title: '02-Molecules/NewApiKeyForm',
+    title: '05-Materials/ApiKeysPage/NewApiKeyForm',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
