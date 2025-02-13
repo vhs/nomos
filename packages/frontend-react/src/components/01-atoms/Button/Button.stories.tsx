@@ -1,7 +1,10 @@
+import type { ButtonProps } from './Button.types'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
+
+import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook/common'
 
 import Button from './Button'
 
@@ -10,15 +13,7 @@ type StoryType = StoryObj<typeof Button>
 const meta: Meta<typeof Button> = {
     title: '01-Atoms/Button',
     component: Button,
-    decorators: [
-        (Story) => (
-            <Row className='spacious'>
-                <Col>
-                    <Story />
-                </Col>
-            </Row>
-        )
-    ]
+    decorators: [CenteredContentStorybookDecorator<ButtonProps>]
 }
 
 export default meta

@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
-
 import Tab from './Tab/Tab'
 import Tabs from './Tabs'
 
@@ -9,20 +7,14 @@ type StoryType = StoryObj<typeof Tabs>
 
 const meta: Meta<typeof Tabs> = {
     component: Tabs,
-    title: '04-Composites/Tabs',
-    decorators: [
-        (Story) => (
-            <AuthenticationProvider>
-                <Story />
-            </AuthenticationProvider>
-        )
-    ]
+    title: '04-Composites/Tabs'
 }
 
 export default meta
 
 export const Default: StoryType = {
     args: {
+        defaultTab: 'tab1',
         children: [
             <Tab key='tab1' tabKey={'tab1'} title={'tab1'}>
                 tab1

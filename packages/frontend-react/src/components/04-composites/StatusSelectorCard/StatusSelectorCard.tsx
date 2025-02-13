@@ -36,6 +36,8 @@ const StatusSelectorCard: FC<StatusSelectorCardProps> = ({ className, onUpdate, 
                                     variant='light'
                                     className='list-group-item text-left font-normal'
                                     onClick={() => {
+                                        if (typeof onUpdate !== 'function')
+                                            throw new Error('onUpdate is not a function')
                                         onUpdate(code as UserActiveStateCodes)
                                     }}
                                 >

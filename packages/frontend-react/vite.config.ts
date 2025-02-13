@@ -54,7 +54,8 @@ export default defineConfig(({ mode }) => {
                     ws: true,
                     xfwd: true
                 }
-            }
+            },
+            watch: { usePolling: true }
         }
     }
 })
