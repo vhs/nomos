@@ -6,7 +6,6 @@ import type { CreateSystemPreferenceProps } from './CreateSystemPreference.types
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
@@ -135,141 +134,140 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
             >
                 Create System Preference
             </Button>
-            <Conditional condition={showModal}>
-                <OverlayCard
-                    title='Create System Preference'
-                    actions={[
-                        <Button
-                            key='Save & Close'
-                            variant='success'
-                            disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
-                            onClick={(event) => {
-                                void submitHandler(event)
-                            }}
-                        >
-                            Save & Close
-                        </Button>,
-                        <Button
-                            key='Reset'
-                            className='btn-default'
-                            disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
-                            onClick={() => {
-                                resetFields()
-                            }}
-                        >
-                            Reset
-                        </Button>
-                    ]}
-                    onClose={() => {
-                        closeModal()
-                        resetFields()
-                        clearDirty()
+            <OverlayCard
+                show={showModal}
+                title='Create System Preference'
+                actions={[
+                    <Button
+                        key='Save & Close'
+                        variant='success'
+                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        onClick={(event) => {
+                            void submitHandler(event)
+                        }}
+                    >
+                        Save & Close
+                    </Button>,
+                    <Button
+                        key='Reset'
+                        className='btn-default'
+                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        onClick={() => {
+                            resetFields()
+                        }}
+                    >
+                        Reset
+                    </Button>
+                ]}
+                onClose={() => {
+                    closeModal()
+                    resetFields()
+                    clearDirty()
 
-                        return false
-                    }}
-                >
-                    <Row className='spacious'>
-                        <Col>
-                            <Card>
-                                <Card.Header>Key</Card.Header>
-                                <Card.Body>
-                                    <FormControl
-                                        formType='text'
-                                        aria-placeholder='Key'
-                                        placeholder='Key'
-                                        error={errorStates.key}
-                                        value={key}
-                                        onChange={(value) => {
-                                            setKey(value)
-                                            handleDirty('key', true)
-                                            catchError('key', typeof value === 'string')
-                                        }}
-                                    />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                    return false
+                }}
+            >
+                <Row className='spacious'>
+                    <Col>
+                        <Card>
+                            <Card.Header>Key</Card.Header>
+                            <Card.Body>
+                                <FormControl
+                                    formType='text'
+                                    aria-placeholder='Key'
+                                    placeholder='Key'
+                                    error={errorStates.key}
+                                    value={key}
+                                    onChange={(value) => {
+                                        setKey(value)
+                                        handleDirty('key', true)
+                                        catchError('key', typeof value === 'string')
+                                    }}
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
 
-                    <Row className='spacious'>
-                        <Col className='basis-full md:basis-1/2'>
-                            <Row className='spacious'>
-                                <Col>
-                                    <Card>
-                                        <Card.Header>Value</Card.Header>
-                                        <Card.Body>
-                                            <FormControl
-                                                formType='text'
-                                                aria-placeholder='Value'
-                                                placeholder='Value'
-                                                error={errorStates.value}
-                                                value={value ?? ''}
-                                                onChange={(value) => {
-                                                    setValue(value)
-                                                    handleDirty('value', true)
-                                                    catchError('value', typeof value === 'string')
-                                                }}
-                                            />
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
-                            <Row className='spacious'>
-                                <Col>
-                                    <Card>
-                                        <Card.Header>Enabled</Card.Header>
-                                        <Card.Body>
-                                            <Toggle
-                                                checked={enabled}
-                                                onChange={(checked) => {
-                                                    setEnabled(checked)
-                                                    handleDirty('enabled', true)
-                                                }}
-                                            >
-                                                Enabled
-                                            </Toggle>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
-                            <Row className='spacious'>
-                                <Col>
-                                    <Card>
-                                        <Card.Header>Notes</Card.Header>
-                                        <Card.Body>
-                                            <FormControl
-                                                formType='textarea'
-                                                aria-placeholder='Notes'
-                                                placeholder='Notes'
-                                                error={errorStates.notes}
-                                                value={notes ?? ''}
-                                                onChange={(value) => {
-                                                    setNotes(value)
-                                                    handleDirty('notes', true)
-                                                    catchError('notes', typeof value === 'string')
-                                                }}
-                                            />
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col className='basis-full md:basis-1/2'>
-                            <Row className='spacious'>
-                                <Col>
-                                    <PrivilegesSelectorCard
-                                        availablePrivileges={availablePrivileges}
-                                        onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                                            dispatchSettingAccessPrivileges(mutation)
-                                            setDirtyPrivileges(true)
-                                        }}
-                                        value={settingAccessPrivileges}
-                                    />
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </OverlayCard>
-            </Conditional>
+                <Row className='spacious'>
+                    <Col className='basis-full md:basis-1/2'>
+                        <Row className='spacious'>
+                            <Col>
+                                <Card>
+                                    <Card.Header>Value</Card.Header>
+                                    <Card.Body>
+                                        <FormControl
+                                            formType='text'
+                                            aria-placeholder='Value'
+                                            placeholder='Value'
+                                            error={errorStates.value}
+                                            value={value ?? ''}
+                                            onChange={(value) => {
+                                                setValue(value)
+                                                handleDirty('value', true)
+                                                catchError('value', typeof value === 'string')
+                                            }}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row className='spacious'>
+                            <Col>
+                                <Card>
+                                    <Card.Header>Enabled</Card.Header>
+                                    <Card.Body>
+                                        <Toggle
+                                            checked={enabled}
+                                            onChange={(checked) => {
+                                                setEnabled(checked)
+                                                handleDirty('enabled', true)
+                                            }}
+                                        >
+                                            Enabled
+                                        </Toggle>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row className='spacious'>
+                            <Col>
+                                <Card>
+                                    <Card.Header>Notes</Card.Header>
+                                    <Card.Body>
+                                        <FormControl
+                                            formType='textarea'
+                                            aria-placeholder='Notes'
+                                            placeholder='Notes'
+                                            error={errorStates.notes}
+                                            value={notes ?? ''}
+                                            onChange={(value) => {
+                                                setNotes(value)
+                                                handleDirty('notes', true)
+                                                catchError('notes', typeof value === 'string')
+                                            }}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col className='basis-full md:basis-1/2'>
+                        <Row className='spacious'>
+                            <Col>
+                                <PrivilegesSelectorCard
+                                    availablePrivileges={availablePrivileges}
+                                    onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
+                                        dispatchSettingAccessPrivileges(mutation)
+                                        setDirtyPrivileges(true)
+                                    }}
+                                    value={settingAccessPrivileges}
+                                />
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </OverlayCard>
         </div>
     )
 }

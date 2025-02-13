@@ -6,7 +6,6 @@ import type { CreateWebHookFormProps } from './CreateWebHookForm.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
@@ -168,195 +167,194 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
             >
                 Create Web Hook
             </Button>
-            <Conditional condition={showModal}>
-                <OverlayCard
-                    title='Create Web Hook'
-                    actions={[
-                        <Button
-                            key='Create & Close'
-                            variant='success'
-                            disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
-                            onClick={(event) => {
-                                void submitHandler(event)
-                            }}
-                        >
-                            Create & Close
-                        </Button>,
-                        <Button
-                            key='Reset'
-                            className='btn-default'
-                            disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
-                            onClick={() => {
-                                resetFields()
-                            }}
-                        >
-                            Reset
-                        </Button>
-                    ]}
-                    onClose={() => {
-                        closeModal()
-                        resetFields()
-                        clearDirty()
+            <OverlayCard
+                show={showModal}
+                title='Create Web Hook'
+                actions={[
+                    <Button
+                        key='Create & Close'
+                        variant='success'
+                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        onClick={(event) => {
+                            void submitHandler(event)
+                        }}
+                    >
+                        Create & Close
+                    </Button>,
+                    <Button
+                        key='Reset'
+                        className='btn-default'
+                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        onClick={() => {
+                            resetFields()
+                        }}
+                    >
+                        Reset
+                    </Button>
+                ]}
+                onClose={() => {
+                    closeModal()
+                    resetFields()
+                    clearDirty()
 
-                        return false
-                    }}
-                >
-                    <Row className='spacious'>
-                        <Col>
-                            <label htmlFor='name'>
-                                <strong>Name</strong>
-                                <FormControl
-                                    formType='text'
-                                    id='name'
-                                    ariaPlaceholder='Name'
-                                    placeholder='Name'
-                                    error={errorStates.name}
-                                    value={name}
-                                    onChange={(value) => {
-                                        setName(value)
-                                        handleDirty('name', true)
-                                        catchError('name', typeof value === 'string')
-                                    }}
-                                />
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious flex-wrap'>
-                        <Col className='basis-full lg:basis-1/6'>
-                            <label htmlFor='method'>
-                                <strong>Method</strong>
-                                <FormControl
-                                    id='method'
-                                    ariaPlaceholder='Method'
-                                    formType='dropdown'
-                                    options={zHTTPMethods.options.map((m) => m.value)}
-                                    error={errorStates.method}
-                                    value={method}
-                                    onChange={(value) => {
-                                        setMethod(value.toUpperCase())
-                                        handleDirty('method', true)
-                                        catchError('method', zHTTPMethods.safeParse(value.toUpperCase()).success)
-                                    }}
-                                />
-                            </label>
-                        </Col>
-
-                        <Col className='basis-full lg:basis-5/6'>
-                            <label htmlFor='url'>
-                                <strong>URL</strong>
-                                <FormControl
-                                    id='url'
-                                    formType='url'
-                                    ariaPlaceholder='URL'
-                                    placeholder='URL'
-                                    error={errorStates.url}
-                                    value={url}
-                                    onChange={(value) => {
-                                        setName(value)
-                                        handleDirty('url', true)
-                                        catchError('url', zUrl.safeParse(value).success)
-                                    }}
-                                />
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col>
-                            <label htmlFor='description'>
-                                <strong>Description</strong>
-                                <FormControl
-                                    id='description'
-                                    formType='text'
-                                    ariaPlaceholder='Description'
-                                    placeholder='Description'
-                                    error={errorStates.description}
-                                    value={description}
-                                    onChange={(value) => {
-                                        setDescription(value)
-                                        handleDirty('description', true)
-                                        catchError('description', typeof value === 'string')
-                                    }}
-                                />
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col>
-                            <label htmlFor='translation'>
-                                <strong>Translation</strong>
-                                <FormControl
-                                    id='translation'
-                                    formType='text'
-                                    ariaPlaceholder='Translation'
-                                    placeholder='Translation'
-                                    error={errorStates.translation}
-                                    value={translation}
-                                    onChange={(value) => {
-                                        setTranslation(value)
-                                        handleDirty('translation', true)
-                                        catchError('translation', typeof value === 'string')
-                                    }}
-                                />
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col>
-                            <label htmlFor='headers'>
-                                <strong>Headers</strong>
-                                <FormControl
-                                    id='headers'
-                                    formType='textarea'
-                                    ariaPlaceholder='Headers'
-                                    placeholder='Headers'
-                                    error={errorStates.headers}
-                                    value={headers}
-                                    onChange={(value) => {
-                                        setHeaders(value)
-                                        handleDirty('headers', true)
-                                        catchError('headers', typeof value === 'string')
-                                    }}
-                                    rows={5}
-                                />
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col>
-                            <label htmlFor='enabled'>
-                                <strong>Enabled</strong>
-                                <Toggle
-                                    id='enabled'
-                                    checked={enabled}
-                                    onChange={(checked) => {
-                                        setEnabled(checked)
-                                    }}
-                                >
-                                    Enabled
-                                </Toggle>
-                            </label>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col>
-                            <PrivilegesSelectorCard
-                                availablePrivileges={availablePrivileges}
-                                onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                                    dispatchSettingAccessPrivileges(mutation)
-                                    setDirtyPrivileges(true)
+                    return false
+                }}
+            >
+                <Row className='spacious'>
+                    <Col>
+                        <label htmlFor='name'>
+                            <strong>Name</strong>
+                            <FormControl
+                                formType='text'
+                                id='name'
+                                ariaPlaceholder='Name'
+                                placeholder='Name'
+                                error={errorStates.name}
+                                value={name}
+                                onChange={(value) => {
+                                    setName(value)
+                                    handleDirty('name', true)
+                                    catchError('name', typeof value === 'string')
                                 }}
-                                value={settingAccessPrivileges}
                             />
-                        </Col>
-                    </Row>
-                </OverlayCard>
-            </Conditional>
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious flex-wrap'>
+                    <Col className='basis-full lg:basis-1/6'>
+                        <label htmlFor='method'>
+                            <strong>Method</strong>
+                            <FormControl
+                                id='method'
+                                ariaPlaceholder='Method'
+                                formType='dropdown'
+                                options={zHTTPMethods.options.map((m) => m.value)}
+                                error={errorStates.method}
+                                value={method}
+                                onChange={(value) => {
+                                    setMethod(value.toUpperCase())
+                                    handleDirty('method', true)
+                                    catchError('method', zHTTPMethods.safeParse(value.toUpperCase()).success)
+                                }}
+                            />
+                        </label>
+                    </Col>
+
+                    <Col className='basis-full lg:basis-5/6'>
+                        <label htmlFor='url'>
+                            <strong>URL</strong>
+                            <FormControl
+                                id='url'
+                                formType='url'
+                                ariaPlaceholder='URL'
+                                placeholder='URL'
+                                error={errorStates.url}
+                                value={url}
+                                onChange={(value) => {
+                                    setName(value)
+                                    handleDirty('url', true)
+                                    catchError('url', zUrl.safeParse(value).success)
+                                }}
+                            />
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <label htmlFor='description'>
+                            <strong>Description</strong>
+                            <FormControl
+                                id='description'
+                                formType='text'
+                                ariaPlaceholder='Description'
+                                placeholder='Description'
+                                error={errorStates.description}
+                                value={description}
+                                onChange={(value) => {
+                                    setDescription(value)
+                                    handleDirty('description', true)
+                                    catchError('description', typeof value === 'string')
+                                }}
+                            />
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <label htmlFor='translation'>
+                            <strong>Translation</strong>
+                            <FormControl
+                                id='translation'
+                                formType='text'
+                                ariaPlaceholder='Translation'
+                                placeholder='Translation'
+                                error={errorStates.translation}
+                                value={translation}
+                                onChange={(value) => {
+                                    setTranslation(value)
+                                    handleDirty('translation', true)
+                                    catchError('translation', typeof value === 'string')
+                                }}
+                            />
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <label htmlFor='headers'>
+                            <strong>Headers</strong>
+                            <FormControl
+                                id='headers'
+                                formType='textarea'
+                                ariaPlaceholder='Headers'
+                                placeholder='Headers'
+                                error={errorStates.headers}
+                                value={headers}
+                                onChange={(value) => {
+                                    setHeaders(value)
+                                    handleDirty('headers', true)
+                                    catchError('headers', typeof value === 'string')
+                                }}
+                                rows={5}
+                            />
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <label htmlFor='enabled'>
+                            <strong>Enabled</strong>
+                            <Toggle
+                                id='enabled'
+                                checked={enabled}
+                                onChange={(checked) => {
+                                    setEnabled(checked)
+                                }}
+                            >
+                                Enabled
+                            </Toggle>
+                        </label>
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <PrivilegesSelectorCard
+                            availablePrivileges={availablePrivileges}
+                            onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
+                                dispatchSettingAccessPrivileges(mutation)
+                                setDirtyPrivileges(true)
+                            }}
+                            value={settingAccessPrivileges}
+                        />
+                    </Col>
+                </Row>
+            </OverlayCard>
         </div>
     )
 }

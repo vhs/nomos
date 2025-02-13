@@ -9,7 +9,6 @@ import type { ApiKeyProps } from './ApiKey.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
@@ -142,120 +141,118 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
                     <Button variant='danger' className='btn-circle mx-auto' onClick={openDeleteModal}>
                         <XMarkIcon className='h-4 w-4 font-bold' />
                     </Button>
-                    <Conditional condition={showDeleteModal}>
-                        <OverlayCard
-                            title='Confirm Delete'
-                            actions={[
-                                <Button
-                                    key='Delete'
-                                    variant='primary'
-                                    onClick={() => {
-                                        void deleteAPIKey()
-                                    }}
-                                >
-                                    Delete
-                                </Button>
-                            ]}
-                            onClose={() => {
-                                closeDeleteModal()
-                                return false
-                            }}
-                        >
-                            Are you sure you want to delete this API Key?
-                        </OverlayCard>
-                    </Conditional>
+                    <OverlayCard
+                        show={showDeleteModal}
+                        title='Confirm Delete'
+                        actions={[
+                            <Button
+                                key='Delete'
+                                variant='primary'
+                                onClick={() => {
+                                    void deleteAPIKey()
+                                }}
+                            >
+                                Delete
+                            </Button>
+                        ]}
+                        onClose={() => {
+                            closeDeleteModal()
+                            return false
+                        }}
+                    >
+                        Are you sure you want to delete this API Key?
+                    </OverlayCard>
 
-                    <Conditional condition={showEditModal}>
-                        <OverlayCard
-                            title='Edit API Key'
-                            actions={[
-                                <Button
-                                    key='Save & Close'
-                                    variant='success'
-                                    disabled={!(dirty || dirtyPrivileges)}
-                                    onClick={(event) => {
-                                        void submitHandler(event)
-                                    }}
-                                >
-                                    Save & Close
-                                </Button>,
-                                <Button
-                                    key='Reset'
-                                    className='btn-default'
-                                    onClick={() => {
-                                        hydrateDefaults()
-                                        setDirty(false)
-                                    }}
-                                >
-                                    Reset
-                                </Button>
-                            ]}
-                            onClose={() => {
-                                closeEditModal()
-                                return false
-                            }}
-                        >
-                            <Row className='spacious'>
-                                <Col>
-                                    <FormControl formType='text' readOnly value={apiKey.key} disabled />
-                                </Col>
-                            </Row>
+                    <OverlayCard
+                        show={showEditModal}
+                        title='Edit API Key'
+                        actions={[
+                            <Button
+                                key='Save & Close'
+                                variant='success'
+                                disabled={!(dirty || dirtyPrivileges)}
+                                onClick={(event) => {
+                                    void submitHandler(event)
+                                }}
+                            >
+                                Save & Close
+                            </Button>,
+                            <Button
+                                key='Reset'
+                                className='btn-default'
+                                onClick={() => {
+                                    hydrateDefaults()
+                                    setDirty(false)
+                                }}
+                            >
+                                Reset
+                            </Button>
+                        ]}
+                        onClose={() => {
+                            closeEditModal()
+                            return false
+                        }}
+                    >
+                        <Row className='spacious'>
+                            <Col>
+                                <FormControl formType='text' readOnly value={apiKey.key} disabled />
+                            </Col>
+                        </Row>
 
-                            <Row className='spacious'>
-                                <Col className='basis-full md:basis-1/2'>
-                                    <Row className='spacious'>
-                                        <Col>
-                                            <Card>
-                                                <Card.Header>Notes</Card.Header>
-                                                <Card.Body>
-                                                    <FormControl
-                                                        formType='text'
-                                                        value={keyNotes}
-                                                        onChange={(value) => {
-                                                            setKeyNotes(value)
-                                                            setDirty(true)
-                                                        }}
-                                                    />
-                                                </Card.Body>
-                                            </Card>
-                                        </Col>
-                                    </Row>
-                                    <Row className='spacious'>
-                                        <Col>
-                                            <Card>
-                                                <Card.Header>Expiry</Card.Header>
-                                                <Card.Body>
-                                                    <FormControl
-                                                        aria-label='Date and time'
-                                                        formType='datetime-local'
-                                                        value={keyExpiry}
-                                                        onChange={(value) => {
-                                                            setKeyExpiry(value)
-                                                            setDirty(true)
-                                                        }}
-                                                    />
-                                                </Card.Body>
-                                            </Card>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col className='basis-full md:basis-1/2'>
-                                    <Row className='spacious'>
-                                        <Col>
-                                            <PrivilegesSelectorCard
-                                                availablePrivileges={availablePrivileges}
-                                                onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                                                    dispatchKeyPrivileges(mutation)
-                                                    setDirtyPrivileges(true)
-                                                }}
-                                                value={keyPrivileges}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </OverlayCard>
-                    </Conditional>
+                        <Row className='spacious'>
+                            <Col className='basis-full md:basis-1/2'>
+                                <Row className='spacious'>
+                                    <Col>
+                                        <Card>
+                                            <Card.Header>Notes</Card.Header>
+                                            <Card.Body>
+                                                <FormControl
+                                                    formType='text'
+                                                    value={keyNotes}
+                                                    onChange={(value) => {
+                                                        setKeyNotes(value)
+                                                        setDirty(true)
+                                                    }}
+                                                />
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                <Row className='spacious'>
+                                    <Col>
+                                        <Card>
+                                            <Card.Header>Expiry</Card.Header>
+                                            <Card.Body>
+                                                <FormControl
+                                                    aria-label='Date and time'
+                                                    formType='datetime-local'
+                                                    value={keyExpiry}
+                                                    onChange={(value) => {
+                                                        setKeyExpiry(value)
+                                                        setDirty(true)
+                                                    }}
+                                                />
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col className='basis-full md:basis-1/2'>
+                                <Row className='spacious'>
+                                    <Col>
+                                        <PrivilegesSelectorCard
+                                            availablePrivileges={availablePrivileges}
+                                            onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
+                                                dispatchKeyPrivileges(mutation)
+                                                setDirtyPrivileges(true)
+                                            }}
+                                            value={keyPrivileges}
+                                        />
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </OverlayCard>
                 </td>
             </tr>
         </>
