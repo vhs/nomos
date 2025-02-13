@@ -1,4 +1,8 @@
+import type { ReactNode } from 'react'
+
 import { z } from 'zod'
+
+import type { InfoButtonProps } from '@/components/02-molecules/InfoButton/InfoButton.types'
 
 export const zFormControlSelectOption = z.object({ name: z.string(), value: z.string() })
 export const zFormControlSelectOptions = zFormControlSelectOption.array()
@@ -53,22 +57,25 @@ type HTMLInputTypes =
     | 'url'
     | 'week'
 
-interface FormControlDefaultProps extends TypedFormControlProps<HTMLInputElement, InputElementFields> {
-    formType?: HTMLInputTypes
+type BaseInputElementProps = TypedFormControlProps<HTMLInputElement, InputElementFields> & {
     options?: never
-    preContent?: string | number
+    preContent?: ReactNode
+    infoButton?: InfoButtonProps
 }
 
-interface FormControlPinProps extends TypedFormControlProps<HTMLInputElement, InputElementFields> {
+interface FormControlDefaultProps extends BaseInputElementProps {
+    formType?: HTMLInputTypes
+}
+
+interface FormControlPinProps extends BaseInputElementProps {
     formType: 'pin'
-    options?: never
-    preContent?: string | number
 }
 
 interface FormControlSelectProps extends TypedFormControlProps<HTMLSelectElement, SelectElementFields> {
     formType: 'dropdown'
     options: string[] | FormControlSelectOptions
     preContent?: never
+    infoButton?: never
 }
 
 interface FormControlTextAreaProps extends TypedFormControlProps<HTMLTextAreaElement, TextAreaElementFields> {
@@ -76,6 +83,7 @@ interface FormControlTextAreaProps extends TypedFormControlProps<HTMLTextAreaEle
     rows?: HTMLTextAreaElement['rows']
     options?: never
     preContent?: never
+    infoButton?: never
 }
 
 type FormControlVariants =
