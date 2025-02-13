@@ -12,11 +12,10 @@ const Overlay: FC<OverlayProps> = ({ children, handler }) => {
     const ref = useOutsideClick<HTMLDivElement>(clickHandler)
 
     useEffect(() => {
-        ;(document.getElementsByTagName('BODY')[0] as HTMLElement).style.overflow = 'hidden'
-        document.getElementsByTagName('HTML')[0].scrollTo(0, 0)
+        ;(document.getElementsByTagName('HTML')[0] as HTMLElement).style.overflow = 'hidden'
 
         return () => {
-            ;(document.getElementsByTagName('BODY')[0] as HTMLElement).style.overflow = 'auto'
+            ;(document.getElementsByTagName('HTML')[0] as HTMLElement).style.overflow = 'auto'
         }
     }, [])
 

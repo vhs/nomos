@@ -380,7 +380,7 @@
     }
 
     .modal {
-        @apply absolute bottom-0 left-0 right-0 top-0 z-above-and-beyond bg-black/10 pt-[15vh];
+        @apply fixed bottom-0 left-0 right-0 top-0 z-above-and-beyond bg-black/10 pt-[15vh];
     }
 
     .modal-container {
