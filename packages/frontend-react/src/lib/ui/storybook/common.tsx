@@ -11,11 +11,11 @@ export const CenteredContentStorybookDecorator = <T = Record<string, unknown>,>(
 ): JSX.Element => {
     return (
         <Row className='spacious'>
-            <Col></Col>
-            <Col className='text-center'>
+            <Col className='hidden lg:block lg:basis-1/4'></Col>
+            <Col className='basis-full text-center lg:basis-2/4'>
                 <Story />
             </Col>
-            <Col></Col>
+            <Col className='hidden lg:block lg:basis-1/4'></Col>
         </Row>
     )
 }
