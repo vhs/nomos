@@ -14,9 +14,9 @@ export const isFormControlSelectOptions = (inp: unknown): inp is FormControlSele
 
 interface FormControlBaseProps {
     error?: boolean
+    onChange?: (change: string) => void
     reset?: () => void
     value: string
-    onChange?: (change: string) => void
 }
 
 type SharedElementFields = 'ariaPlaceholder' | 'className' | 'disabled' | 'id' | 'name'
@@ -54,7 +54,13 @@ type HTMLInputTypes =
     | 'week'
 
 interface FormControlDefaultProps extends TypedFormControlProps<HTMLInputElement, InputElementFields> {
-    formType: HTMLInputTypes
+    formType?: HTMLInputTypes
+    options?: never
+    preContent?: string | number
+}
+
+interface FormControlPinProps extends TypedFormControlProps<HTMLInputElement, InputElementFields> {
+    formType: 'pin'
     options?: never
     preContent?: string | number
 }
@@ -72,6 +78,10 @@ interface FormControlTextAreaProps extends TypedFormControlProps<HTMLTextAreaEle
     preContent?: never
 }
 
-type FormControlVariants = FormControlTextAreaProps | FormControlSelectProps | FormControlDefaultProps
+type FormControlVariants =
+    | FormControlTextAreaProps
+    | FormControlPinProps
+    | FormControlSelectProps
+    | FormControlDefaultProps
 
 export type FormControlProps = FormControlBaseProps & FormControlVariants
