@@ -470,15 +470,11 @@ const UserProfile: FC<UserProfileProps> = () => {
                             </Card.Body>
                         </Card>
 
-                        <Row className='spacious'>
-                            <Col>
-                                <StandingCard standing={standing} />
-                            </Col>
-                        </Row>
+                        <Row className='spacious'></Row>
 
-                        <Conditional condition={standing ?? false}>
-                            <Row className='spacious'>
-                                <Col className='w-full'>
+                        <Row className='spacious flex-wrap'>
+                            <Conditional condition={standing ?? false}>
+                                <Col className='basis-full lg:basis-1/2'>
                                     <Card className='w-full'>
                                         <Card.Header>PIN</Card.Header>
                                         <Card.Body>
@@ -490,8 +486,11 @@ const UserProfile: FC<UserProfileProps> = () => {
                                         </Card.Body>
                                     </Card>
                                 </Col>
-                            </Row>
-                        </Conditional>
+                            </Conditional>
+                            <Col className='basis-full lg:basis-1/2'>
+                                <StandingCard standing={standing} />
+                            </Col>
+                        </Row>
                     </Col>
 
                     <Col className='d-xl-none'>
