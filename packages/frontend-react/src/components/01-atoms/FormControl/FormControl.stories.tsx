@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 
 import Col from '../Col/Col'
+import FontAwesomeIcon from '../FontAwesomeIcon/FontAwesomeIcon'
 import Row from '../Row/Row'
 
 import FormControl from './FormControl'
@@ -46,6 +47,17 @@ export const Default: StoryType = {
                             placeholder='field1'
                             value={field1}
                         />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Disabled</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl disabled value={'disabled'} />
                     </Col>
                 </Row>
 
@@ -114,12 +126,35 @@ export const Default: StoryType = {
                     <Col>
                         <FormControl
                             formType='email'
-                            preContent='@'
+                            preContent={<FontAwesomeIcon icon='at' />}
                             onChange={(change) => {
                                 setField4(change)
                             }}
                             placeholder='user@example.com'
                             value={field4}
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Email with Info Button</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl
+                            formType='email'
+                            preContent={<FontAwesomeIcon icon='at' />}
+                            onChange={(change) => {
+                                setField4(change)
+                            }}
+                            placeholder='user@example.com'
+                            value={field4}
+                            infoButton={{
+                                title: 'Info Title',
+                                children: 'Info Content'
+                            }}
                         />
                     </Col>
                 </Row>
@@ -161,6 +196,28 @@ export const Default: StoryType = {
                             }}
                             placeholder='0000'
                             value={field6}
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Pin with Info Button</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl
+                            formType='pin'
+                            preContent='0000'
+                            maxLength={4}
+                            size={4}
+                            onChange={(change) => {
+                                if (/\d{1,4}/.test(change)) setField6(change)
+                            }}
+                            placeholder='0000'
+                            value={field6}
+                            infoButton={{ title: 'Info Title', children: 'Info Content' }}
                         />
                     </Col>
                 </Row>
@@ -210,10 +267,35 @@ export const Normal: StoryType = {
     args: { formType: 'text' }
 }
 
+export const PinWithInfoButton: StoryType = {
+    render: () => {
+        const [field6, setField6] = useState('1234')
+
+        return (
+            <Row>
+                <Col className='find-me text-center'>
+                    <FormControl
+                        formType='pin'
+                        preContent='0000'
+                        maxLength={4}
+                        size={4}
+                        onChange={(change) => {
+                            if (/\d{1,4}/.test(change)) setField6(change)
+                        }}
+                        placeholder='0000'
+                        value={field6}
+                        infoButton={{ title: 'Info Title', children: 'Info Content' }}
+                    />
+                </Col>
+            </Row>
+        )
+    }
+}
+
 export const PreContent: StoryType = {
     args: {
         formType: 'email',
-        preContent: '@'
+        preContent: <FontAwesomeIcon icon='at' />
     }
 }
 

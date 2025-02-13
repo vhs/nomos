@@ -3,8 +3,11 @@ import { useMemo, useState, type FC } from 'react'
 import { XMarkIcon } from '@heroicons/react/16/solid'
 import clsx from 'clsx'
 
+import InfoButton from '@/components/02-molecules/InfoButton/InfoButton'
+
 import Conditional from '../Conditional/Conditional'
 
+import styles from './FormControl.module.css'
 import { isFormControlSelectOption, type FormControlProps } from './FormControl.types'
 
 const FormControl: FC<FormControlProps> = ({
@@ -13,6 +16,7 @@ const FormControl: FC<FormControlProps> = ({
     formType,
     onChange,
     reset,
+    infoButton,
     preContent,
     options,
     value,
@@ -23,21 +27,23 @@ const FormControl: FC<FormControlProps> = ({
     formType ??= 'text'
 
     const hasPreContent = useMemo(() => preContent != null, [preContent])
+    const hasPostContent = useMemo(() => infoButton != null, [infoButton])
 
     const [hasFocus, setHasFocus] = useState(false)
 
     if (formType === 'dropdown')
         return (
             <div
-                className={clsx(['form-control', className, error ? 'shadow-formcontrol' : null])}
+                className={clsx([
+                    styles.Container,
+                    className,
+                    error ? styles.Shadow : null,
+                    hasFocus ? styles.Focus : null
+                ])}
                 data-testid='FormControl'
             >
                 <select
-                    className={clsx([
-                        'main w-full text-gray-800',
-                        hasPreContent ? 'with-pre-content' : null,
-                        hasFocus ? 'focus' : null
-                    ])}
+                    className={clsx([styles.Main, 'w-full'])}
                     data-testid='FormControl'
                     onChange={(event) => {
                         if (onChange != null) onChange(event.target.value)
@@ -68,15 +74,16 @@ const FormControl: FC<FormControlProps> = ({
     if (formType === 'textarea')
         return (
             <div
-                className={clsx(['form-control', className, error ? 'shadow-formcontrol' : null])}
+                className={clsx([
+                    styles.Container,
+                    className,
+                    error ? styles.Shadow : null,
+                    hasFocus ? styles.Focus : null
+                ])}
                 data-testid='FormControl'
             >
                 <textarea
-                    className={clsx([
-                        'main w-full text-gray-800',
-                        hasPreContent ? 'with-pre-content' : null,
-                        hasFocus ? 'focus' : null
-                    ])}
+                    className={clsx([styles.Main, 'w-full'])}
                     data-testid='FormControl'
                     onChange={(event) => {
                         if (onChange != null) onChange(event.target.value)
@@ -99,26 +106,20 @@ const FormControl: FC<FormControlProps> = ({
         return (
             <div
                 className={clsx([
-                    'form-control',
+                    styles.Container,
                     className,
-                    hasPreContent ? 'with-pre-content' : null,
-                    error ? 'shadow-formcontrol' : null
+                    hasPreContent ? styles.WithPreContent : null,
+                    hasPostContent ? styles.WithPostContent : null,
+                    error ? styles.Shadow : null,
+                    hasFocus ? styles.Focus : null
                 ])}
                 data-testid='FormControl'
             >
                 <Conditional condition={hasPreContent}>
-                    <span
-                        className={clsx(['with-pre-content pre-content', hasPreContent && hasFocus ? 'focus' : null])}
-                    >
-                        {preContent ?? ''}
-                    </span>
+                    <span className={styles.PreContent}>{preContent ?? ''}</span>
                 </Conditional>
                 <input
-                    className={clsx([
-                        'main w-14 text-gray-800',
-                        hasPreContent ? 'with-pre-content' : null,
-                        hasFocus ? 'focus' : null
-                    ])}
+                    className={clsx([styles.Main, 'w-14'])}
                     type='number'
                     onChange={(event) => {
                         const t = `0000${event.target.value}`
@@ -139,30 +140,31 @@ const FormControl: FC<FormControlProps> = ({
                     maxLength={4}
                     {...restProps}
                 />
+                <Conditional condition={hasPostContent}>
+                    <span className={styles.PostContent}>
+                        <InfoButton {...infoButton} />
+                    </span>
+                </Conditional>
             </div>
         )
 
     return (
         <div
             className={clsx([
-                'form-control',
+                styles.Container,
                 className,
-                hasPreContent ? 'with-pre-content' : null,
-                error ? 'shadow-formcontrol' : null
+                hasPreContent ? styles.WithPreContent : null,
+                hasPostContent ? styles.WithPostContent : null,
+                error ? styles.Shadow : null,
+                hasFocus ? styles.Focus : null
             ])}
             data-testid='FormControl'
         >
             <Conditional condition={hasPreContent}>
-                <span className={clsx(['with-pre-content pre-content', hasPreContent && hasFocus ? 'focus' : null])}>
-                    {preContent ?? ''}
-                </span>
+                <span className={styles.PreContent}>{preContent ?? ''}</span>
             </Conditional>
             <input
-                className={clsx([
-                    'main w-full text-gray-800',
-                    hasPreContent ? 'with-pre-content' : null,
-                    hasFocus ? 'focus' : null
-                ])}
+                className={clsx([styles.Main, 'w-full'])}
                 type={formType}
                 onChange={(event) => {
                     if (onChange != null) onChange(event.target.value)
@@ -178,7 +180,7 @@ const FormControl: FC<FormControlProps> = ({
             />
 
             {formType !== 'password' && reset != null && (
-                <span className='-ml-6 mt-1.5 h-6 w-6 text-gray-500/50'>
+                <span className={styles.ResetInset}>
                     <XMarkIcon
                         onClick={() => {
                             if (reset != null) reset()
@@ -186,6 +188,12 @@ const FormControl: FC<FormControlProps> = ({
                     />
                 </span>
             )}
+
+            <Conditional condition={hasPostContent}>
+                <span className={styles.PostContent}>
+                    <InfoButton {...infoButton} />
+                </span>
+            </Conditional>
         </div>
     )
 }
