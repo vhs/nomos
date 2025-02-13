@@ -49,6 +49,7 @@ const FormControl: FC<FormControlProps> = ({
                         setHasFocus(false)
                     }}
                     value={value}
+                    {...restProps}
                 >
                     {value == null || value === '' ? <option>----</option> : null}
                     {Object.values(options ?? []).map((o) => {
@@ -89,6 +90,52 @@ const FormControl: FC<FormControlProps> = ({
                     rows={5}
                     aria-multiline
                     value={value}
+                    {...restProps}
+                />
+            </div>
+        )
+
+    if (formType === 'pin')
+        return (
+            <div
+                className={clsx([
+                    'form-control',
+                    className,
+                    hasPreContent ? 'with-pre-content' : null,
+                    error ? 'shadow-formcontrol' : null
+                ])}
+                data-testid='FormControl'
+            >
+                <Conditional condition={hasPreContent}>
+                    <span
+                        className={clsx(['with-pre-content pre-content', hasPreContent && hasFocus ? 'focus' : null])}
+                    >
+                        {preContent ?? ''}
+                    </span>
+                </Conditional>
+                <input
+                    className={clsx([
+                        'main w-full text-gray-800',
+                        hasPreContent ? 'with-pre-content' : null,
+                        hasFocus ? 'focus' : null
+                    ])}
+                    type='number'
+                    onChange={(event) => {
+                        const t = `0000${event.target.value}`
+
+                        console.debug({ onChange: t.slice(-4, t.length) })
+                        if (onChange != null) onChange(t.slice(-4, t.length))
+                    }}
+                    onFocus={() => {
+                        setHasFocus(true)
+                    }}
+                    onBlur={() => {
+                        if (value.length < 4 && onChange != null) onChange(value.padStart(4, '0'))
+                        setHasFocus(false)
+                    }}
+                    value={value}
+                    max={9999}
+                    {...restProps}
                 />
             </div>
         )
@@ -128,7 +175,7 @@ const FormControl: FC<FormControlProps> = ({
                 {...restProps}
             />
 
-            {formType === 'text' && (
+            {formType !== 'password' && reset != null && (
                 <span className='-ml-6 mt-1.5 h-6 w-6 text-gray-500/50'>
                     <XMarkIcon
                         onClick={() => {
