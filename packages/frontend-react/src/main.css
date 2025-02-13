@@ -204,34 +204,6 @@
         }
     }
 
-    .item {
-        &.menu > * > a {
-            @apply text-[#337ab7];
-        }
-
-        &.menu.active {
-            @apply border-b border-gray-500/25 bg-[#eee] font-bold text-black;
-        }
-
-        &.menu:hover {
-            @apply bg-gray-400;
-        }
-
-        .admin > &.menu > * > a {
-            @apply text-red-600;
-        }
-    }
-
-    .active {
-        &.menu.item {
-            @apply border-b border-gray-500/25 bg-[#eee] font-bold text-black;
-        }
-
-        &.paginator-page {
-            @apply bg-blue-600 text-white;
-        }
-    }
-
     .card {
         @apply mb-5 rounded-lg border border-gray-200 bg-white shadow-lg;
 
@@ -300,147 +272,6 @@
         @apply border border-red-card bg-red-card text-white;
     }
 
-    .form-control {
-        @apply flex min-h-8 w-full animate-btn flex-row flex-nowrap bg-white leading-6 text-gray-500 outline-none;
-
-        & > INPUT:disabled {
-            @apply bg-slate-100 text-black;
-        }
-        & > INPUT {
-            @apply h-8 animate-btn rounded-lg border-2 border-gray-200 bg-white outline-none;
-        }
-
-        & > INPUT.main {
-            @apply px-1 py-0.5;
-        }
-
-        & > INPUT.main.focus {
-            @apply border-black;
-        }
-
-        & > SPAN.with-pre-content.pre-content {
-            @apply h-8 max-w-12 rounded-l rounded-r-none border-y-2 border-l-2 border-r border-gray-200 border-r-slate-200 bg-slate-100 px-2 py-0.5 outline-none;
-        }
-
-        & > INPUT.with-pre-content.main {
-            @apply h-8 rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-gray-200 align-middle outline-none;
-        }
-
-        & > INPUT.with-pre-content.main.focus {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-
-        &.with-pre-content > SPAN.with-pre-content.pre-content.focus {
-            @apply border-black;
-        }
-
-        & > SELECT:disabled {
-            @apply bg-slate-100 text-black;
-        }
-        & > SELECT {
-            @apply h-8 animate-btn rounded-lg border-2 border-gray-200 bg-white outline-none;
-        }
-
-        & > SELECT.main {
-            @apply px-1 py-0.5;
-        }
-
-        & > SELECT.main.focus {
-            @apply border-black;
-        }
-
-        & > SELECT.with-pre-content.main {
-            @apply h-8 rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-gray-200 align-middle outline-none;
-        }
-
-        & > SELECT.with-pre-content.main.focus {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-
-        & > TEXTAREA:disabled {
-            @apply bg-slate-100 text-black;
-        }
-        & > TEXTAREA {
-            @apply animate-btn rounded-lg border-2 border-gray-200 bg-white outline-none;
-        }
-
-        & > TEXTAREA.main {
-            @apply px-1 py-0.5;
-        }
-
-        & > TEXTAREA.main.focus {
-            @apply border-black;
-        }
-
-        & > TEXTAREA.with-pre-content.main {
-            @apply h-8 rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-gray-200 align-middle outline-none;
-        }
-
-        & > TEXTAREA.with-pre-content.main.focus {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-    }
-
-    .main {
-        .form-control > &INPUT {
-            @apply px-1;
-        }
-
-        .form-control > &INPUT.focus {
-            @apply border-black;
-        }
-
-        .form-control > &INPUT.with-pre-content {
-            @apply h-8 rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-gray-200 align-middle outline-none;
-        }
-
-        .form-control > &INPUT.with-pre-content.focus {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-    }
-
-    .focus {
-        .form-control > &INPUT.main {
-            @apply border-black;
-        }
-
-        .form-control > &INPUT.with-pre-content.main {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-
-        .form-control.with-pre-content > &INPUT.with-pre-content.pre-content {
-            @apply border-black;
-        }
-    }
-
-    .with-pre-content {
-        .form-control > &INPUT.pre-content {
-            @apply h-8 max-w-12 rounded-l rounded-r-none border-y-2 border-l-2 border-r-2 border-gray-200 border-r-black/50 p-0 px-1 align-middle outline-none;
-        }
-
-        .form-control > &INPUT.main {
-            @apply h-8 rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-gray-200 align-middle outline-none;
-        }
-
-        .form-control > &INPUT.main.focus {
-            @apply rounded-l-none rounded-r border-y-2 border-l-0 border-r-2 border-black;
-        }
-
-        &.form-control > &INPUT.pre-content.focus {
-            @apply border-black;
-        }
-    }
-
-    .pre-content {
-        .form-control > &INPUT.with-pre-content {
-            @apply h-8 max-w-12 rounded-l rounded-r-none border-y-2 border-l-2 border-r-2 border-gray-200 border-r-black/50 p-0 px-1 align-middle outline-none;
-        }
-
-        .form-control.with-pre-content > &INPUT.with-pre-content.focus {
-            @apply border-black;
-        }
-    }
-
     .overlay-container {
         @apply rounded-t-lg;
 
@@ -459,16 +290,10 @@
 
     .path-tab-title {
         @apply -bottom-2 z-auto mx-2 rounded-t-md border-l-2 border-r-2 border-t-2 border-gray-500/25 border-b-transparent px-2;
-
-        &.path-tab-active {
-            @apply border-gray-500/50 bg-header;
-        }
     }
 
-    .path-tab-active {
-        &.path-tab-title {
-            @apply border-gray-500/50 bg-header;
-        }
+    .path-tab-title .path-tab-active {
+        @apply border-gray-500/50 bg-header;
     }
 
     .paginator-page {
@@ -481,18 +306,6 @@
         }
 
         &.disabled {
-            @apply cursor-not-allowed italic text-gray-700/25;
-        }
-    }
-
-    .default {
-        &.paginator-page {
-            @apply hover:bg-gray-300;
-        }
-    }
-
-    .disabled {
-        &.paginator-page {
             @apply cursor-not-allowed italic text-gray-700/25;
         }
     }
@@ -582,14 +395,8 @@
         }
     }
 
-    .tab-active {
-        &.tab-title {
-            @apply border-b-anchor;
-        }
-    }
-
     .chart-container {
-        @apply relative min-h-[25vmin] min-w-[50vmin] max-w-[100%];
+        @apply min-h-[25vmin];
     }
 }
 
