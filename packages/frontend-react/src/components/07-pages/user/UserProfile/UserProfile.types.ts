@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 
 import type UserObject from '@/lib/db/User'
 
+import type { CastReactElement } from '@/types/utils'
+
 export interface UserProfileProps {
     children?: ReactNode
 }
@@ -29,11 +31,11 @@ export interface StandingCardProps {
     standing: boolean | undefined
 }
 
-export interface PrivilegesListProps {
+export interface PrivilegesListProps extends CastReactElement<'div'> {
     privileges: UserObject['privileges'] | UserObject['membership']['privileges']
 }
 
-export interface PrivilegesCardProps {
+export interface PrivilegesCardProps extends CastReactElement<'div'> {
     children?: ReactNode
     currentUser: UserObject
 }

@@ -630,7 +630,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                     <Tab tabKey={'privileges'} title={'Permissions'}>
                         <Row className='spacious'>
                             <Col className='w-full p-1 lg:basis-1/2'>
-                                <PrivilegesCard currentUser={userObj} />
+                                <PrivilegesCard className='lg:basis-full' currentUser={userObj} />
                             </Col>
 
                             <Col
