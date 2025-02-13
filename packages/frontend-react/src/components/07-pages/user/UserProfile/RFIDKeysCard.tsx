@@ -5,13 +5,25 @@ import type { RFIDKeysProps, RFIDKeysCardProps } from './UserProfile.types'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Card from '@/components/04-composites/Card'
 
+import { KeyInfo } from './UserProfile.ui'
+
 const RFIDKeys: FC<RFIDKeysProps> = ({ currentUser }) => {
     const keys = currentUser.keys.filter((key) => key.type === 'rfid')
 
     return (
         <>
             {keys.map((key) => {
-                return <FormControl formType='text' className='w-full' key={key.id} value={key.key} readOnly disabled />
+                return (
+                    <FormControl
+                        formType='text'
+                        className='w-full'
+                        key={key.id}
+                        value={key.key}
+                        readOnly
+                        disabled
+                        infoButton={{ title: `RFID Key Info`, children: <KeyInfo key={key.key} keyInfo={key} /> }}
+                    />
+                )
             })}
         </>
     )

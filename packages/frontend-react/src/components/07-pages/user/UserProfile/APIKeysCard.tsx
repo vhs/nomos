@@ -7,6 +7,8 @@ import type { APIKeysCardProps, APIKeysProps } from './UserProfile.types'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Card from '@/components/04-composites/Card'
 
+import { KeyInfo } from './UserProfile.ui'
+
 const APIKeys: FC<APIKeysProps> = ({ currentUser }) => {
     const keys = currentUser.keys.filter((key) => key.type === 'api')
 
@@ -17,7 +19,18 @@ const APIKeys: FC<APIKeysProps> = ({ currentUser }) => {
     return (
         <>
             {keys.map((key) => {
-                return <FormControl formType='text' className='w-full' key={key.id} value={key.key} readOnly disabled />
+                console.debug({ key })
+                return (
+                    <FormControl
+                        formType='text'
+                        className='w-full'
+                        key={key.id}
+                        value={key.key}
+                        readOnly
+                        disabled
+                        infoButton={{ title: `API Key Info`, children: <KeyInfo key={key.key} keyInfo={key} /> }}
+                    />
+                )
             })}
         </>
     )
