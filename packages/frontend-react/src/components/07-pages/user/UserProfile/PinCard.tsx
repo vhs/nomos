@@ -5,7 +5,6 @@ import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Pill from '@/components/01-atoms/Pill/Pill'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import type PrincipalUserObject from '@/lib/db/PrincipalUser'
@@ -49,37 +48,29 @@ const PinCard: FC<{ currentUser: PrincipalUserObject | UserObject }> = ({ curren
 
     if (pinInfo == null || keyInfo == null) {
         return (
-            <Card>
-                <Card.Body>
-                    <Button
-                        onClick={() => {
-                            void generatePin()
-                        }}
-                    >
-                        Generate Pin
-                    </Button>
-                </Card.Body>
-            </Card>
+            <Button
+                onClick={() => {
+                    void generatePin()
+                }}
+            >
+                Generate Pin
+            </Button>
         )
     }
 
     return (
         <div>
-            <Card>
-                <Card.Body>
-                    <Row>
-                        <Col>
-                            <Button
-                                onClick={() => {
-                                    toggleModal()
-                                }}
-                            >
-                                Show Pin
-                            </Button>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
+            <Row>
+                <Col>
+                    <Button
+                        onClick={() => {
+                            toggleModal()
+                        }}
+                    >
+                        Show Pin
+                    </Button>
+                </Col>
+            </Row>
 
             <OverlayCard
                 title='PIN'

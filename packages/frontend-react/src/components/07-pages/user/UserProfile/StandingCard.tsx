@@ -14,6 +14,9 @@ const StandingCard: FC<StandingCardProps> = ({ standing }) => {
                     <span className='huge'>Current!</span>
                     <p>Your account is in good standing! Thank you!</p>
                 </Card.Body>
+                <Card.Footer className='green-card-footer text-left'>
+                    <a href='http://vanhack.ca/wp/membership/'>http://vanhack.ca/wp/membership/</a>
+                </Card.Footer>
             </Card>
         )
 
