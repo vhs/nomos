@@ -7,7 +7,9 @@ import type { Preview } from '@storybook/react'
 
 import '../src/main.css'
 
-initialize()
+initialize({
+    serviceWorker: { url: '/apiMockServiceWorker.js' }
+})
 
 const preview: Preview = {
     loaders: [mswLoader],

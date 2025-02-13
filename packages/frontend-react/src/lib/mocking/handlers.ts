@@ -1,5 +1,5 @@
 // import { QueryFilter } from '@/types/query-filters'
-import { http, HttpResponse, passthrough } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import type { Filter } from '@/types/query-filters'
 
@@ -65,15 +65,5 @@ export const mockHandlers = [
         return formData?.filters != null
             ? HttpResponse.json(filterMockData(mockServiceData, formData?.filters as Filter))
             : HttpResponse.json(mockServiceData)
-    }),
-
-    http.all('/src/*', () => {
-        console.debug(`mockHandlers['/src']:`)
-        return passthrough()
-    }),
-
-    http.all('https://booking.vanhack.ca/*', () => {
-        console.debug(`mockHandlers['https://booking.vanhack.ca/*']:`)
-        return passthrough()
     })
 ]
