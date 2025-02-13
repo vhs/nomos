@@ -158,6 +158,14 @@
         @apply shadow-link;
     }
 
+    .btn-none {
+        @apply border-0 bg-transparent text-[unset];
+    }
+
+    .btn-none:hover {
+        @apply shadow-link;
+    }
+
     .btn-disabled {
         @apply cursor-not-allowed border-disabled bg-disabled text-white;
     }
