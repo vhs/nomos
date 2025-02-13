@@ -6,11 +6,13 @@ import { clsx } from 'clsx'
 import type { OverlayCardProps } from './OverlayCard.types'
 
 import Button from '@/components/01-atoms/Button/Button'
+import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Overlay from '@/components/01-atoms/Overlay/Overlay'
 import Card from '@/components/04-composites/Card'
 
-const OverlayCard: FC<OverlayCardProps> = ({ title, children, className, actions, closeLabel, onClose }) => {
+const OverlayCard: FC<OverlayCardProps> = ({ show, title, children, className, actions, closeLabel, onClose }) => {
     closeLabel ??= 'Cancel'
+    show ??= true
 
     const router = useRouter()
 
@@ -21,24 +23,26 @@ const OverlayCard: FC<OverlayCardProps> = ({ title, children, className, actions
 
     return (
         <div data-testid='OverlayCard'>
-            <Overlay handler={closeHandler}>
-                <div className={clsx(['m-auto', className])}>
-                    <Card>
-                        <Card.Header>
-                            <h1>{title}</h1>
-                        </Card.Header>
+            <Conditional condition={show}>
+                <Overlay handler={closeHandler}>
+                    <div className={clsx(['m-auto', className])}>
+                        <Card>
+                            <Card.Header>
+                                <h1>{title}</h1>
+                            </Card.Header>
 
-                        <Card.Body className='max-h-[60vh] overflow-y-scroll'>{children}</Card.Body>
+                            <Card.Body className='max-h-[60vh] overflow-y-scroll'>{children}</Card.Body>
 
-                        <Card.Footer>
-                            {actions}
-                            <Button variant='warning' onClick={closeHandler}>
-                                {closeLabel}
-                            </Button>
-                        </Card.Footer>
-                    </Card>
-                </div>
-            </Overlay>
+                            <Card.Footer>
+                                {actions}
+                                <Button variant='warning' onClick={closeHandler}>
+                                    {closeLabel}
+                                </Button>
+                            </Card.Footer>
+                        </Card>
+                    </div>
+                </Overlay>
+            </Conditional>
         </div>
     )
 }
