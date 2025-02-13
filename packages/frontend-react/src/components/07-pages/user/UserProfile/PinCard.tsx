@@ -6,7 +6,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Pill from '@/components/01-atoms/Pill/Pill'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card'
-import Modal from '@/components/04-composites/Modal'
+import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import type PrincipalUserObject from '@/lib/db/PrincipalUser'
 import type UserObject from '@/lib/db/User'
@@ -81,54 +81,50 @@ const PinCard: FC<{ currentUser: PrincipalUserObject | UserObject }> = ({ curren
                 </Card.Body>
             </Card>
 
-            <Modal show={showModal}>
-                <Modal.Header closeButton={hideModal}>PIN</Modal.Header>
-
-                <Modal.Body>
-                    <Row>
-                        <Col className='basis-1/2'>PIN</Col>
-                        <Col className='basis-1/2'>
-                            <div className='flex flex-row justify-start text-lg'>
-                                <span className='rounded-l-md border-y-2 border-l-2 bg-gray-200 px-2'>
-                                    {keyInfo.pinid}
-                                </span>
-                                <span className='rounded-r-md border-2 border-l-black px-2'>{keyInfo.pin}</span>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row className='spacious'>
-                        <Col className='basis-1/2'>Notes</Col>
-                        <Col className='basis-1/2'>{keyInfo.notes}</Col>
-                    </Row>
-                    <Row className='spacious'>
-                        <Col className='basis-1/2'>Created:</Col>
-                        <Col className='basis-1/2'>{keyInfo.created.toLocaleString()}</Col>
-                    </Row>
-                    <Row className='spacious'>
-                        <Col>Special privileges for this key:</Col>
-                    </Row>
-                    <Row className='spacious'>
-                        <Conditional condition={'privileges' in pinInfo}>
-                            {pinInfo.privileges?.map((privilege) => (
-                                <Col key={privilege.code}>
-                                    <Pill>{privilege.code}</Pill>
-                                </Col>
-                            ))}
-                        </Conditional>
-                    </Row>
-                    <Row className='spacious'>
-                        <Col>
-                            <small>Access log to be added</small>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant='secondary' onClick={hideModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <OverlayCard
+                title='PIN'
+                closeLabel='Close'
+                onClose={() => {
+                    hideModal()
+                    return false
+                }}
+                show={showModal}
+            >
+                <Row>
+                    <Col className='basis-1/2'>PIN</Col>
+                    <Col className='basis-1/2'>
+                        <div className='flex flex-row justify-start text-lg'>
+                            <span className='rounded-l-md border-y-2 border-l-2 bg-gray-200 px-2'>{keyInfo.pinid}</span>
+                            <span className='rounded-r-md border-2 border-l-black px-2'>{keyInfo.pin}</span>
+                        </div>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col className='basis-1/2'>Notes</Col>
+                    <Col className='basis-1/2'>{keyInfo.notes}</Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col className='basis-1/2'>Created:</Col>
+                    <Col className='basis-1/2'>{keyInfo.created.toLocaleString()}</Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>Special privileges for this key:</Col>
+                </Row>
+                <Row className='spacious'>
+                    <Conditional condition={'privileges' in pinInfo}>
+                        {pinInfo.privileges?.map((privilege) => (
+                            <Col key={privilege.code}>
+                                <Pill>{privilege.code}</Pill>
+                            </Col>
+                        ))}
+                    </Conditional>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <small>Access log to be added</small>
+                    </Col>
+                </Row>
+            </OverlayCard>
         </div>
     )
 }
