@@ -11,20 +11,22 @@ const PrivilegesList: FC<PrivilegesListProps> = ({ privileges }) => {
     if (!Array.isArray(privileges) || privileges.length === 0) return <>No privileges found</>
 
     return (
-        <>
+        <Row className='flex-wrap'>
             {privileges.map((privilege) => {
                 return (
-                    <Row key={privilege.id} className='green-card privilege-card spacious shadow-xs'>
-                        <Col xs={3}>
-                            <PrivilegeIcon icon={privilege.icon} />
-                        </Col>
-                        <Col xs={9} className='basis-full px-2 text-right'>
-                            <div className='my-auto'>{privilege.name}</div>
-                        </Col>
-                    </Row>
+                    <Col key={privilege.id} className='basis-full lg:basis-1/3'>
+                        <Row className='green-card privilege-card spacious shadow-xs'>
+                            <Col xs={3}>
+                                <PrivilegeIcon icon={privilege.icon} />
+                            </Col>
+                            <Col xs={9} className='px-2 text-right'>
+                                <div className='my-auto'>{privilege.name}</div>
+                            </Col>
+                        </Row>
+                    </Col>
                 )
             })}
-        </>
+        </Row>
     )
 }
 
