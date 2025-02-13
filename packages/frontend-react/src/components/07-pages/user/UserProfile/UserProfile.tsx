@@ -9,6 +9,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Container from '@/components/01-atoms/Container/Container'
+import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
@@ -173,7 +174,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             <FormControl
                                                 formType='text'
                                                 className='w-full'
-                                                preContent={'@'}
+                                                preContent={<FontAwesomeIcon icon='at' />}
                                                 placeholder='Username'
                                                 aria-label='Username'
                                                 aria-describedby='basic-addon1'
