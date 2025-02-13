@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Col from '../Col/Col'
-import Row from '../Row/Row'
+import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 
 import FormControl from './FormControl'
 
@@ -10,17 +9,7 @@ type StoryType = StoryObj<typeof FormControl>
 const meta: Meta<typeof FormControl> = {
     component: FormControl,
     title: '01-Atoms/FormControl',
-    decorators: [
-        (Story) => (
-            <Row>
-                <Col></Col>
-                <Col className='basis-1/5'>
-                    <Story />
-                </Col>
-                <Col></Col>
-            </Row>
-        )
-    ]
+    decorators: [CenteredContentStorybookDecorator]
 }
 
 export default meta

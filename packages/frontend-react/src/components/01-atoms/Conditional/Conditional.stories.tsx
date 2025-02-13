@@ -1,9 +1,12 @@
 import type { JSX } from 'react'
 
+import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook/common'
+
 import Conditional from './Conditional'
 
 export default {
-    title: '01-Atoms/Conditional'
+    title: '01-Atoms/Conditional',
+    decorators: [CenteredContentStorybookDecorator]
 }
 
 export const Disabled = (): JSX.Element => <Conditional condition={false}>Disabled</Conditional>
