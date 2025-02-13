@@ -9,7 +9,7 @@ export default {
                 btn: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s'
             },
             boxShadow: {
-                formcontrol: '0px 0px 12px -4px #ff0000ff',
+                formcontrol: 'inset 0px 0px 4px 4px aliceblue',
                 primary: '0px 0px 8px -2px #0d6efdff',
                 secondary: '0px 0px 8px -2px #6c757dff',
                 success: '0px 0px 8px -2px #51ab51ff',
