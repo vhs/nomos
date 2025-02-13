@@ -115,7 +115,7 @@ const FormControl: FC<FormControlProps> = ({
                 </Conditional>
                 <input
                     className={clsx([
-                        'main w-full text-gray-800',
+                        'main w-14 text-gray-800',
                         hasPreContent ? 'with-pre-content' : null,
                         hasFocus ? 'focus' : null
                     ])}
@@ -135,6 +135,8 @@ const FormControl: FC<FormControlProps> = ({
                     }}
                     value={value}
                     max={9999}
+                    size={4}
+                    maxLength={4}
                     {...restProps}
                 />
             </div>
