@@ -13,7 +13,8 @@ const styles: Record<ButtonVariantTypes, string> = {
     info: 'btn-info',
     light: 'btn-light',
     dark: 'btn-dark',
-    link: 'btn-link'
+    link: 'btn-link',
+    none: 'btn-none'
 }
 
 const Button: FC<ButtonProps> = ({ children, className, variant, ...restProps }) => {

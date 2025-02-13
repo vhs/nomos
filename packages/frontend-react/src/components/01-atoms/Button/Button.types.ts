@@ -12,6 +12,7 @@ export type ButtonVariantTypes =
     | 'light'
     | 'dark'
     | 'link'
+    | 'none'
 
 export interface ButtonProps extends CastReactElement<'button'> {
     children?: ReactNode

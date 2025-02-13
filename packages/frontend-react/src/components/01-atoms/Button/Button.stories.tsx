@@ -66,6 +66,11 @@ export const Default: StoryType = {
                     <Button variant='link'>Link</Button>
                 </Col>
             </Row>
+            <Row className='spacious'>
+                <Col>
+                    <Button variant='none'>None</Button>
+                </Col>
+            </Row>
         </>
     )
 }
