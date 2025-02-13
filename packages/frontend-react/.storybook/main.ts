@@ -1,4 +1,3 @@
-
 import { mergeConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -13,13 +12,7 @@ const includeDirs = [
     '06-layouts',
     '07-pages',
     '08-app',
-    '09-providers',
-    '10-styles',
-    '20-buttons',
-    '20-lib',
-    '20-services',
-    '20-shared',
-    '20-types'
+    '09-providers'
 ]
 
 const stories = [
