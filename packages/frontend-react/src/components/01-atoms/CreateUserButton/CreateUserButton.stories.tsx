@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
+import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 
 import CreateUserButton from './CreateUserButton'
 
@@ -9,13 +9,7 @@ type StoryType = StoryObj<typeof CreateUserButton>
 const meta: Meta<typeof CreateUserButton> = {
     component: CreateUserButton,
     title: '01-Atoms/CreateUserButton',
-    decorators: [
-        (Story) => (
-            <AuthenticationProvider>
-                <Story />
-            </AuthenticationProvider>
-        )
-    ]
+    decorators: [CenteredContentStorybookDecorator]
 }
 
 export default meta

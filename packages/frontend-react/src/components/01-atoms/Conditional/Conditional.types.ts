@@ -1,7 +1,7 @@
-import type { JSX, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export interface ConditionalProps {
     condition: boolean
-    fallback?: JSX.Element
+    fallback?: ReactNode
     children?: ReactNode
 }
