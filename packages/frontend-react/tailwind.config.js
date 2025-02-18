@@ -9,17 +9,18 @@ export default {
                 btn: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s'
             },
             boxShadow: {
-                formcontrol: 'inset 0px 0px 4px 4px aliceblue',
-                primary: '0px 0px 8px -2px #0d6efdff',
-                secondary: '0px 0px 8px -2px #6c757dff',
-                success: '0px 0px 8px -2px #51ab51ff',
-                warning: '0px 0px 8px -2px #ffac36ff',
-                danger: '0px 0px 8px -2px #dc3545ff',
-                info: '0px 0px 8px -2px #0dcaf0ff',
-                light: '0px 0px 8px -2px #f8f9faff',
-                dark: '0px 0px 8px -2px #212529ff',
-                link: '0px 0px 8px -2px #0000ff',
-                disabled: '0px 0px 8px -2px #6c757dff'
+                'form-control': 'inset 0px 0px 4px 4px aliceblue',
+                'form-error': '0px 0px 4px 2px #dc354580',
+                'primary': '0px 0px 8px -2px #0d6efdff',
+                'secondary': '0px 0px 8px -2px #6c757dff',
+                'success': '0px 0px 8px -2px #51ab51ff',
+                'warning': '0px 0px 8px -2px #ffac36ff',
+                'danger': '0px 0px 8px -2px #dc3545ff',
+                'info': '0px 0px 8px -2px #0dcaf0ff',
+                'light': '0px 0px 8px -2px #f8f9faff',
+                'dark': '0px 0px 8px -2px #212529ff',
+                'link': '0px 0px 8px -2px #0000ff',
+                'disabled': '0px 0px 8px -2px #6c757dff'
             },
             colors: {
                 'header': '#f5f5f5',
