@@ -11,13 +11,20 @@ import {
     zHumanName,
     zIpnValidationStates,
     zKeyTypes,
+    zMoneyBookers,
+    zNonEmptyStringArray,
+    zNonNegativeNumber,
     zNumber,
     zNumberArray,
+    zPasswordField,
     zPasswordInput,
+    zPayPal,
     zPaymentProviders,
     zPositiveNumber,
+    zStateRecord,
     zString,
     zStringArray,
+    zStripe,
     zStripePaymentStates,
     zUrl,
     zUserActiveStateCodes,
@@ -47,6 +54,7 @@ import {
     zBasePrivilege,
     zCommon,
     zCurrentUser,
+    zDataRecord,
     zDomain,
     zEmail,
     zEmailTemplate,
@@ -102,13 +110,20 @@ import type {
     HumanName,
     IpnValidationStates,
     KeyTypes,
+    MoneyBookers,
+    NonEmptyStringArray,
+    NonNegativeNumber,
     Number,
     NumberArray,
+    PasswordField,
     PasswordInput,
+    PayPal,
     PaymentProviders,
     PositiveNumber,
+    StateRecord,
     String,
     StringArray,
+    Stripe,
     StripePaymentStates,
     Url,
     UserActiveStateCodes,
@@ -138,6 +153,7 @@ import type {
     BasePrivilege,
     Common,
     CurrentUser,
+    DataRecord,
     Domain,
     Email,
     EmailTemplate,
@@ -192,6 +208,7 @@ export const isBasePrivilege = (inp: unknown): inp is BasePrivilege => zBasePriv
 export const isBoolean = (inp: unknown): inp is Boolean => zBoolean.safeParse(inp).success
 export const isCommon = (inp: unknown): inp is Common => zCommon.safeParse(inp).success
 export const isCurrentUser = (inp: unknown): inp is CurrentUser => zCurrentUser.safeParse(inp).success
+export const isDataRecord = (inp: unknown): inp is DataRecord => zDataRecord.safeParse(inp).success
 export const isDateTime = (inp: unknown): inp is DateTime => zDateTime.safeParse(inp).success
 export const isDomain = (inp: unknown): inp is Domain => zDomain.safeParse(inp).success
 export const isEmail = (inp: unknown): inp is Email => zEmail.safeParse(inp).success
@@ -235,12 +252,18 @@ export const isMetricsBaseRangeResult = (inp: unknown): inp is MetricsBaseRangeR
 export const isMetricsResult = (inp: unknown): inp is MetricsResult => zMetricsResult.safeParse(inp).success
 export const isMetricsValueResult = (inp: unknown): inp is MetricsValueResult =>
     zMetricsValueResult.safeParse(inp).success
+export const isMoneyBookers = (inp: unknown): inp is MoneyBookers => zMoneyBookers.safeParse(inp).success
 export const isNewKeyholdersResult = (inp: unknown): inp is NewKeyholdersResult =>
     zNewKeyholdersResult.safeParse(inp).success
 export const isNewMembersResult = (inp: unknown): inp is NewMembersResult => zNewMembersResult.safeParse(inp).success
+export const isNonEmptyStringArray = (inp: unknown): inp is NonEmptyStringArray =>
+    zNonEmptyStringArray.safeParse(inp).success
+export const isNonNegativeNumber = (inp: unknown): inp is NonNegativeNumber => zNonNegativeNumber.safeParse(inp).success
 export const isNumber = (inp: unknown): inp is Number => zNumber.safeParse(inp).success
 export const isNumberArray = (inp: unknown): inp is NumberArray => zNumberArray.safeParse(inp).success
+export const isPasswordField = (inp: unknown): inp is PasswordField => zPasswordField.safeParse(inp).success
 export const isPasswordInput = (inp: unknown): inp is PasswordInput => zPasswordInput.safeParse(inp).success
+export const isPayPal = (inp: unknown): inp is PayPal => zPayPal.safeParse(inp).success
 export const isPayment = (inp: unknown): inp is Payment => zPayment.safeParse(inp).success
 export const isPaymentProviders = (inp: unknown): inp is PaymentProviders => zPaymentProviders.safeParse(inp).success
 export const isPositiveNumber = (inp: unknown): inp is PositiveNumber => zPositiveNumber.safeParse(inp).success
@@ -254,8 +277,10 @@ export const isRevenueByMembersTypes = (inp: unknown): inp is RevenueByMembersTy
 export const isRevenueByMembership = (inp: unknown): inp is RevenueByMembership =>
     zRevenueByMembership.safeParse(inp).success
 export const isRevenueResultSet = (inp: unknown): inp is RevenueResultSet => zRevenueResultSet.safeParse(inp).success
+export const isStateRecord = (inp: unknown): inp is StateRecord => zStateRecord.safeParse(inp).success
 export const isString = (inp: unknown): inp is String => zString.safeParse(inp).success
 export const isStringArray = (inp: unknown): inp is StringArray => zStringArray.safeParse(inp).success
+export const isStripe = (inp: unknown): inp is Stripe => zStripe.safeParse(inp).success
 export const isStripeEvent = (inp: unknown): inp is StripeEvent => zStripeEvent.safeParse(inp).success
 export const isStripePaymentStates = (inp: unknown): inp is StripePaymentStates =>
     zStripePaymentStates.safeParse(inp).success

@@ -8,6 +8,7 @@ import type {
     zBasePrivilege,
     zCommon,
     zCurrentUser,
+    zDataRecord,
     zDomain,
     zEmail,
     zEmailTemplate,
@@ -68,6 +69,8 @@ export type Common = z.infer<typeof zCommon>
 export type Commons = Common[]
 export type CurrentUser = z.infer<typeof zCurrentUser>
 export type CurrentUsers = CurrentUser[]
+export type DataRecord = z.infer<typeof zDataRecord>
+export type DataRecords = DataRecord[]
 export type Domain = z.infer<typeof zDomain>
 export type Domains = Domain[]
 export type Email = z.infer<typeof zEmail>
