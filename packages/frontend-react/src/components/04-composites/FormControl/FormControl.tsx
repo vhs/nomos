@@ -15,10 +15,6 @@ const FormControl: FC<FormControlProps> = (props) => {
     if (props.id == null)
         throw new Error('FormControl requires an id to work with react-hook-form: ' + JSON.stringify(props, null, ''))
 
-    if (props.id === 'user.stripeEmail') {
-        console.debug(`FormControl[${props.id}] - props:`, props)
-    }
-
     if (isFormControlDropdownProps(props)) {
         return (
             <div data-testid='FormControl' className='w-full'>
