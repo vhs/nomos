@@ -1,39 +1,50 @@
-export type QueryFilterLogicalOperators = 'and' | 'or'
+import { z } from 'zod'
 
-export type QueryFilterValueOperators = '=' | '!=' | '>' | '<' | '>=' | '<=' | 'like' | 'is null' | 'is not null'
+import { zString } from '@/lib/validators/common'
 
-export interface QueryFilterObject {
-    column: string
-    operator: string
-    value: unknown
-}
+export const zQueryFilterLogicalOperators = z.union([z.literal('and'), z.literal('or')])
 
-export interface QueryFilterComp {
+export type QueryFilterLogicalOperators = z.infer<typeof zQueryFilterLogicalOperators>
+
+export const zQueryFilterValueOperators = z.union([
+    z.literal('='),
+    z.literal('!='),
+    z.literal('>'),
+    z.literal('<'),
+    z.literal('>='),
+    z.literal('<='),
+    z.literal('like'),
+    z.literal('is null'),
+    z.literal('is not null')
+])
+
+export type QueryFilterValueOperators = z.infer<typeof zQueryFilterValueOperators>
+
+export const zQueryFilterObject = z.object({
+    column: zString,
+    operator: zQueryFilterValueOperators,
+    value: z.unknown()
+})
+
+export type QueryFilterObject = z.infer<typeof zQueryFilterObject>
+
+export const zBaseQueryFilterComp = z.object({
+    operator: zQueryFilterLogicalOperators
+})
+
+export type QueryFilterComp = z.infer<typeof zBaseQueryFilterComp> & {
     left: QueryFilterObject | QueryFilterComp
-    operator: QueryFilterLogicalOperators
     right: QueryFilterObject | QueryFilterComp | null
 }
 
-export type Filter = QueryFilterObject | QueryFilterComp
+export const zQueryFilterComp: z.ZodType<QueryFilterComp> = zBaseQueryFilterComp.extend({
+    left: z.lazy(() => z.union([zQueryFilterObject, zQueryFilterComp])),
+    operator: zQueryFilterLogicalOperators,
+    right: z.lazy(() => z.union([zQueryFilterObject, zQueryFilterComp, z.null()]))
+})
 
-export const isQueryFilterComp = (inp?: unknown): inp is QueryFilterComp => {
-    return (
-        inp != null &&
-        typeof inp === 'object' &&
-        !Array.isArray(inp) &&
-        Object.keys(inp).includes('left') &&
-        Object.keys(inp).includes('operator') &&
-        Object.keys(inp).includes('right')
-    )
-}
+export const zFilter = z.union([zQueryFilterObject, zQueryFilterComp])
 
-export const isQueryFilterObject = (inp?: unknown): inp is QueryFilterObject => {
-    return (
-        inp != null &&
-        typeof inp === 'object' &&
-        !Array.isArray(inp) &&
-        Object.keys(inp).includes('column') &&
-        Object.keys(inp).includes('operator') &&
-        Object.keys(inp).includes('value')
-    )
-}
+export type Filter = z.infer<typeof zFilter>
+
+export const isFilter = (inp: unknown): inp is Filter => zFilter.safeParse(inp).success
