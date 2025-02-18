@@ -3,24 +3,26 @@ import { z } from 'zod'
 
 import {
     zBoolean,
-    zDateTime,
-    zEmailAddress,
-    zFunctionBoolResultFromStringArraySpread,
-    zHTTPMethods,
-    zHumanName,
-    zIpnValidationStates,
-    zKeyTypes,
-    zNumber,
-    zPaymentProviders,
     zString,
     zStringArray,
-    zStripePaymentStates,
-    zUrl,
+    zIpnValidationStates,
+    zFunctionBoolResultFromStringArraySpread,
+    zKeyTypes,
+    zPaymentProviders,
+    zUsername,
+    zEmailAddress,
+    zHumanName,
     zUserActiveStateCodes,
-    zUsername
+    zStripePaymentStates,
+    zNumber,
+    zUrl,
+    zHTTPMethods,
+    zDateTime
 } from './common'
 
 export const zCommon = z.object({ id: z.number() })
+
+export const zDataRecord = zCommon.catchall(z.unknown())
 
 export const UserTrimValues = [
     'id',
@@ -33,6 +35,7 @@ export const UserTrimValues = [
     'active',
     'privileges'
 ]
+
 export const zAccessLog = zCommon.extend({
     key: z.string(),
     type: z.string(),
