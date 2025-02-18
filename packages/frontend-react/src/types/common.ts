@@ -9,13 +9,20 @@ import type {
     zHumanName,
     zIpnValidationStates,
     zKeyTypes,
+    zMoneyBookers,
+    zNonEmptyStringArray,
+    zNonNegativeNumber,
     zNumber,
     zNumberArray,
+    zPasswordField,
     zPasswordInput,
+    zPayPal,
     zPaymentProviders,
     zPositiveNumber,
+    zStateRecord,
     zString,
     zStringArray,
+    zStripe,
     zStripePaymentStates,
     zUrl,
     zUserActiveStateCodes,
@@ -54,20 +61,34 @@ export type IpnValidationStates = z.infer<typeof zIpnValidationStates>
 export type IpnValidationStatess = IpnValidationStates[]
 export type KeyTypes = z.infer<typeof zKeyTypes>
 export type KeyTypess = KeyTypes[]
+export type MoneyBookers = z.infer<typeof zMoneyBookers>
+export type MoneyBookerss = MoneyBookers[]
+export type NonEmptyStringArray = z.infer<typeof zNonEmptyStringArray>
+export type NonEmptyStringArrays = NonEmptyStringArray[]
+export type NonNegativeNumber = z.infer<typeof zNonNegativeNumber>
+export type NonNegativeNumbers = NonNegativeNumber[]
 export type Number = z.infer<typeof zNumber>
 export type Numbers = Number[]
 export type NumberArray = z.infer<typeof zNumberArray>
 export type NumberArrays = NumberArray[]
+export type PasswordField = z.infer<typeof zPasswordField>
+export type PasswordFields = PasswordField[]
 export type PasswordInput = z.infer<typeof zPasswordInput>
 export type PasswordInputs = PasswordInput[]
+export type PayPal = z.infer<typeof zPayPal>
+export type PayPals = PayPal[]
 export type PaymentProviders = z.infer<typeof zPaymentProviders>
 export type PaymentProviderss = PaymentProviders[]
 export type PositiveNumber = z.infer<typeof zPositiveNumber>
 export type PositiveNumbers = PositiveNumber[]
+export type StateRecord = z.infer<typeof zStateRecord>
+export type StateRecords = StateRecord[]
 export type String = z.infer<typeof zString>
 export type Strings = String[]
 export type StringArray = z.infer<typeof zStringArray>
 export type StringArrays = StringArray[]
+export type Stripe = z.infer<typeof zStripe>
+export type Stripes = Stripe[]
 export type StripePaymentStates = z.infer<typeof zStripePaymentStates>
 export type StripePaymentStatess = StripePaymentStates[]
 export type Url = z.infer<typeof zUrl>
