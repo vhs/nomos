@@ -4,9 +4,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 
-import Col from '../Col/Col'
-import FontAwesomeIcon from '../FontAwesomeIcon/FontAwesomeIcon'
-import Row from '../Row/Row'
+import Col from '../../01-atoms/Col/Col'
+import FontAwesomeIcon from '../../01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import Row from '../../01-atoms/Row/Row'
 
 import FormControl from './FormControl'
 
@@ -249,7 +249,7 @@ export const Default: StoryType = {
                     <Col>
                         <FormControl
                             formType='textarea'
-                            ariaPlaceholder='text area'
+                            aria-placeholder='text area'
                             placeholder='text area'
                             onChange={(change) => {
                                 setField8(change)

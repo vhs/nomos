@@ -1,0 +1,15 @@
+import { lazy, Suspense, type JSX } from 'react'
+
+import type { FormControlTextAreaProps } from './FormControlTextArea.types'
+
+import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+
+const LazyFormControlTextArea = lazy(async () => await import('./FormControlTextArea'))
+
+const FormControlTextArea = (props: JSX.IntrinsicAttributes & FormControlTextAreaProps): JSX.Element => (
+    <Suspense fallback={<LoadingOverlay show={true} />}>
+        <LazyFormControlTextArea {...props} />
+    </Suspense>
+)
+
+export default FormControlTextArea

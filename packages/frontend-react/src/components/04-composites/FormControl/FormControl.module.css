@@ -29,11 +29,11 @@
 .Focus > .Main,
 .Focus > .PreContent,
 .Focus > .PostContent {
-    @apply shadow-formcontrol;
+    @apply shadow-form-control;
 }
 
-.Shadow {
-    @apply shadow-lg;
+.Shadow > * {
+    @apply text-red-700;
 }
 
 .ResetInset {
