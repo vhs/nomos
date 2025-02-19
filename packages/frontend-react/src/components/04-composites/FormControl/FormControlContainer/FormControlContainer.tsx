@@ -26,7 +26,7 @@ const FormControlContainer: FC<FormControlContainerProps> = ({
                 className,
                 hasPreContent ? styles.WithPreContent : null,
                 hasPostContent ? styles.WithPostContent : null,
-                error ? styles.Shadow : null,
+                error ? styles.Error : null,
                 hasFocus ? styles.Focus : null
             ])}
             data-testid='FormControlContainer'
