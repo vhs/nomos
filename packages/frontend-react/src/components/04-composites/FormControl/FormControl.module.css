@@ -32,8 +32,8 @@
     @apply shadow-form-control;
 }
 
-.Shadow > * {
-    @apply text-red-700;
+.Error > * {
+    @apply text-danger;
 }
 
 .ResetInset {
