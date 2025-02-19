@@ -25,11 +25,7 @@ import Row from '@/components/01-atoms/Row/Row'
 
 import { generateRangeArray } from '@/lib/util'
 
-const commonStyles = {
-    height: 'h-8',
-    width: 'w-8',
-    icons: 'm-auto h-7 w-7'
-}
+import styles from './Paginator.module.css'
 
 const PaginationItem: FC<PaginatorItemProps> = ({ variant, active, children, disabled, onClick }) => {
     active ??= false
@@ -40,27 +36,27 @@ const PaginationItem: FC<PaginatorItemProps> = ({ variant, active, children, dis
 
     switch (variant) {
         case 'first':
-            itemContent = <ChevronDoubleLeftIcon className={clsx([commonStyles.icons])} />
+            itemContent = <ChevronDoubleLeftIcon className={clsx([styles.Icon])} />
             itemStyle = 'border-r'
             break
         case 'prev':
-            itemContent = <ChevronLeftIcon className={clsx([commonStyles.icons])} />
+            itemContent = <ChevronLeftIcon className={clsx([styles.Icon])} />
             itemStyle = 'border-r'
             break
         case 'backward':
-            itemContent = <ArrowUturnLeftIcon className={clsx([commonStyles.icons])} />
+            itemContent = <ArrowUturnLeftIcon className={clsx([styles.Icon])} />
             itemStyle = 'border-r'
             break
         case 'forward':
-            itemContent = <ArrowUturnRightIcon className={clsx([commonStyles.icons])} />
-            itemStyle = 'border-r'
+            itemContent = <ArrowUturnRightIcon className={clsx([styles.Icon])} />
+            itemStyle = 'border-l'
             break
         case 'next':
-            itemContent = <ChevronRightIcon className={clsx([commonStyles.icons])} />
+            itemContent = <ChevronRightIcon className={clsx([styles.Icon])} />
             itemStyle = 'border-l'
             break
         case 'last':
-            itemContent = <ChevronDoubleRightIcon className={clsx([commonStyles.icons])} />
+            itemContent = <ChevronDoubleRightIcon className={clsx([styles.Icon])} />
             itemStyle = 'border-l'
             break
     }
@@ -72,13 +68,11 @@ const PaginationItem: FC<PaginatorItemProps> = ({ variant, active, children, dis
     return (
         <button
             className={clsx([
-                commonStyles.height,
-                commonStyles.width,
-                'paginator-page',
+                styles.Common,
                 'cursor-pointer text-center align-middle',
-                !active && !disabled ? 'default' : '',
-                active ? 'active' : '',
-                disabled ? 'disabled' : '',
+                !active && !disabled ? styles.Default : '',
+                active ? styles.Active : '',
+                disabled ? styles.Disabled : '',
                 itemStyle
             ])}
             onClick={onClickHandler}
@@ -164,7 +158,7 @@ const Paginator: FC<PaginatorProps> = ({ currentPage, size, count, pageSelectFn 
     )
 
     return (
-        <Row className={clsx([commonStyles.height, 'w-fit rounded-md border-2 border-gray-400/50 text-lg'])}>
+        <Row className={clsx([styles.Container])}>
             <PaginationItem variant='first' disabled={disabledFeatures.first} onClick={handleFirstPage} />
             <PaginationItem variant='prev' disabled={disabledFeatures.previous} onClick={handlePreviousPage} />
             <PaginationItem variant='backward' disabled={disabledFeatures.backward} onClick={handleBackwardPages} />
@@ -182,7 +176,7 @@ const Paginator: FC<PaginatorProps> = ({ currentPage, size, count, pageSelectFn 
                 <span className='italic'>No records</span>
             </Conditional>
             <Conditional condition={count == null}>
-                <ClipLoader className={clsx([commonStyles.height, commonStyles.width])} />
+                <ClipLoader className={clsx([styles.Common])} />
             </Conditional>
 
             <PaginationItem variant='forward' disabled={disabledFeatures.forward} onClick={handleForwardPages} />
