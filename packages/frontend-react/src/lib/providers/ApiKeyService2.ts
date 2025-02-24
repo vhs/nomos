@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IApiKeyService2 } from '@/types/providers/IApiKeyService2'
 import type { Key } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class ApiKeyService2 implements IApiKeyService2 {
     /**

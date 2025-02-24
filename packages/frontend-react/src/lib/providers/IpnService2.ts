@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IIpnService2 } from '@/types/providers/IIpnService2'
 import type { Ipn } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class IpnService2 implements IIpnService2 {
     /**

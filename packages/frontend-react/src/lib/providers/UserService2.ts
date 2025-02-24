@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type User from '../db/User'
+import { backendCall } from '@/lib/backend'
+import type User from '@/lib/db/User'
 
 import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/custom'
 import type { IUserService2 } from '@/types/providers/IUserService2'
-
-import { backendCall } from '../backend'
 
 export default class UserService2 implements IUserService2 {
     /**

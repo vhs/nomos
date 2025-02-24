@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IWebHookService2 } from '@/types/providers/IWebHookService2'
 import type { WebHook } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class WebHookService2 implements IWebHookService2 {
     /**

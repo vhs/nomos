@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IEventService2 } from '@/types/providers/IEventService2'
-
-import { backendCall } from '../backend'
 
 export default class EventService2 implements IEventService2 {
     /**
