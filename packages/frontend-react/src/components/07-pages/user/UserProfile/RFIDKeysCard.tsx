@@ -2,8 +2,8 @@ import type { FC } from 'react'
 
 import type { RFIDKeysProps, RFIDKeysCardProps } from './UserProfile.types'
 
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 
 import { KeyInfo } from './UserProfile.ui'
 
@@ -15,6 +15,7 @@ const RFIDKeys: FC<RFIDKeysProps> = ({ currentUser }) => {
             {keys.map((key) => {
                 return (
                     <FormControl
+                        id={`keys.rfid.${key.key}`}
                         formType='text'
                         className='w-full'
                         key={key.id}
