@@ -10,6 +10,7 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import type { FontAwesomeIconProps } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
 import Row from '@/components/01-atoms/Row/Row'
 
+import './MenuItem.css'
 import styles from './MenuItem.module.css'
 import { marginLinks } from './MenuItem.utils'
 
@@ -22,11 +23,8 @@ const MenuItem: FC<MenuItemProps> = ({ id, path, icon, name }) => {
         location.pathname === path || (path !== '/' && location.pathname.startsWith(path)) ? 'active' : null
 
     return (
-        <Row
-            id={id}
-            className={clsx('menu item my-2 w-full', activeLink, marginLinks.includes(path) ? styles.MarginLink : null)}
-        >
-            <Col className='basis-full text-nowrap'>
+        <Row id={id} className={clsx('menu item', activeLink, marginLinks.includes(path) ? styles.MarginLink : null)}>
+            <Col>
                 <Link to={path}>
                     <FontAwesomeIcon {...iconProps} />
                     &nbsp;{name}

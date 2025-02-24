@@ -7,8 +7,7 @@ import type { MobileMenuProps } from './MobileMenu.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
-
-import Menu from '../Menu/Menu'
+import Menu from '@/components/05-materials/Menu/Menu'
 
 const MobileMenu: FC<MobileMenuProps> = ({ admin, menuItems }) => {
     admin ??= false
@@ -44,7 +43,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ admin, menuItems }) => {
             <Menu
                 className={clsx([
                     showMenu ? 'display' : 'hidden',
-                    'fixed bottom-12 right-2 overflow-y-auto rounded-sm border border-black/50 bg-white p-2',
+                    'fixed bottom-14 right-3 overflow-y-auto rounded-lg border border-black/50 bg-white p-2',
                     admin ? 'admin' : ''
                 ])}
                 menuItems={menuItems}

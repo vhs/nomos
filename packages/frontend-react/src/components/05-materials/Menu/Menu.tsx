@@ -1,16 +1,20 @@
 import type { FC } from 'react'
 
-import type { UserMenuProps } from './Menu.types'
+import { clsx } from 'clsx'
+
+import type { MenuProps } from './Menu.types'
 
 import MenuItem from '@/components/05-materials/Menu/MenuItem/MenuItem'
 
 import useAuth from '@/lib/hooks/useAuth'
 
-const Menu: FC<UserMenuProps> = ({ className, menuItems }) => {
+const Menu: FC<MenuProps> = ({ admin, className, menuItems }) => {
+    admin ??= false
+
     const { currentUser } = useAuth()
 
     return (
-        <div className={className} data-testid='Menu'>
+        <div className={clsx([className, admin ? 'admin' : null])} data-testid='Menu'>
             {menuItems.map((item) => {
                 const { id, path, icon, name, condition } = item
 
