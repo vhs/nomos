@@ -1,49 +1,64 @@
-import { useEffect, useMemo, useState, type FC } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FC } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm } from 'react-hook-form'
 import useSWR from 'swr'
 
-import type { FiltersState, TablePageContextDefinition, TablePageProps } from './TablePage.types'
+import type { TablePageContextDefinition, TablePageProps } from './TablePage.types'
+import type { z } from 'zod'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import Loading from '@/components/02-molecules/Loading/Loading'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 import Paginator from '@/components/04-composites/Paginator/Paginator'
+import BasePage from '@/components/05-materials/BasePage/BasePage'
+import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import { postWithParams } from '@/lib/fetcher'
 import useAuth from '@/lib/hooks/useAuth'
+import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import { compileFilter } from '@/lib/nomos'
-import { coerceStringArray, coerceStringObject } from '@/lib/util'
+import {
+    coerceStringArray,
+    coerceStringObject,
+    convertFilterArrayToBooleanRecord,
+    convertStringArrayToBooleanRecord
+} from '@/lib/utils'
 
-import BasePage from '../BasePage/BasePage'
-import OverlayCard from '../OverlayCard/OverlayCard'
+import type { Filter, Filters } from '@/types/query-filters'
+import type { DataRecord } from '@/types/records'
 
 import { TablePageContext } from './TablePage.context'
-import { getEnabledFieldsLabels, getFilterId, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
+import { TablePageSchema, isTablePageSchemaType, type AllowedPageSizes } from './TablePage.schema'
+import { compileActiveFilters, getEnabledFieldsLabels, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
 
 const TablePage: FC<TablePageProps> = ({
-    title,
-    label,
-    serviceEndpoint,
-    baseServiceMethod,
-    user,
-    fields,
-    order,
-    component,
-    filters,
-    secondaryFilters,
     actions,
+    baseServiceMethod,
+    children,
+    component,
+    fields,
+    label,
+    order,
+    primaryFilters,
+    schema,
+    secondaryFilters,
+    serviceEndpoint,
+    title,
     unsafeSearchColumns,
-    children
+    user
 }) => {
     user ??= false
     order ??= []
-    filters ??= []
     unsafeSearchColumns ??= []
+    schema ??= TablePageSchema
+
+    if (!isTablePageSchemaType(schema)) throw new Error('Invalid schema')
 
     const userPrefix = (user ?? false) ? 'User' : ''
 
@@ -53,83 +68,121 @@ const TablePage: FC<TablePageProps> = ({
 
     const Component = useMemo(() => component, [component])
 
-    const [searchPage, setPage] = useState(tablePageDefaults.searchPage)
-    const [searchPageSize, setPageSize] = useState(tablePageDefaults.searchPageSize)
-    const [searchOrder, setSearchOrder] = useState(coerceStringArray(order).join(', '))
-    const [searchOrderInput, setSearchOrderInput] = useState(coerceStringArray(order).join(', '))
-    const [searchColumns, setSearchColumns] = useState(
-        fields.map((f) => (Array.isArray(f.field) ? f.field.join(',') : f.field)).join(',')
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
+        mode: 'onChange',
+        defaultValues: {
+            search: {
+                columns: fields.map((f) => (Array.isArray(f.field) ? f.field.join(',') : f.field)).join(','),
+                order: coerceStringArray(order).join(', '),
+                orderInput: coerceStringArray(order).join(', '),
+                page: tablePageDefaults.searchPage,
+                pageSize: tablePageDefaults.searchPageSize,
+                query: '',
+                queryInput: ''
+            }
+        }
+    })
+
+    const [fieldStates, dispatchFieldState] = useToggleReducer(convertStringArrayToBooleanRecord(fieldLabels, true))
+    const [primaryFilterStates, dispatchPrimaryFilterState] = useToggleReducer(
+        convertFilterArrayToBooleanRecord(primaryFilters, false)
     )
-    const [searchQuery, setSearchQuery] = useState('')
-    const [searchQueryInput, setSearchQueryInput] = useState('')
-    const [primaryFilterStates, dispatchPrimaryFilter] = useState(
-        (filters ?? []).reduce<FiltersState>((c, filter) => ({ ...c, [getFilterId(filter)]: false }), {})
+    const [secondaryFilterStates, dispatchSecondaryFilterState] = useToggleReducer(
+        convertFilterArrayToBooleanRecord(secondaryFilters, false)
     )
-    const [secondaryFilterStates, dispatchSecondaryFilter] = useState(
-        (secondaryFilters ?? []).reduce<FiltersState>((c, filter) => ({ ...c, [getFilterId(filter)]: false }), {})
-    )
-    const [fieldStates, dispatchField] = useState(
-        fields
-            .filter((f) => !(f.hidden ?? false))
-            .map((f) => f.title)
-            .reduce<Record<string, boolean>>((c, field) => ({ ...c, [field]: true }), {})
-    )
+
+    const searchColumns = form.watch('search.columns')
+    const searchOrder = form.watch('search.order')
+    const searchOrderInput = form.watch('search.orderInput')
+    const searchPage = form.watch('search.page')
+    const searchPageSize = form.watch('search.pageSize')
+    const searchQuery = form.watch('search.query')
+    const searchQueryInput = form.watch('search.queryInput')
 
     useEffect(() => {
-        setSearchColumns(
-            fields
-                .map((f) => {
-                    const fieldTitle = f.title
+        const searchColumnsUpdate = fields
+            .map((f) => {
+                const fieldTitle = f.title
 
-                    if (fieldStates[fieldTitle]) {
-                        const field = fields.find((f) => f.title === fieldTitle)
+                if (fieldStates[fieldTitle]) {
+                    const field = fields.find((f) => f.title === fieldTitle)
 
-                        if (field != null) return Array.isArray(field.field) ? field.field.join(',') : field.field
-                    }
+                    if (field != null) return Array.isArray(field.field) ? field.field.join(',') : field.field
+                }
 
-                    return null
-                })
-                .filter((f) => f != null)
-                .join(',')
-        )
-    }, [fieldLabels, fieldStates, fields])
+                return null
+            })
+            .filter((f) => f != null)
+            .join(',')
 
-    const compiledSearchFilters = useMemo(() => {
-        const secondarySearchFilters = (secondaryFilters ?? [])
-            .filter((filter) => secondaryFilterStates[getFilterId(filter)])
-            .map((filter) => filter.filter)
+        form.setValue('search.columns', searchColumnsUpdate)
+    }, [fieldStates, fields, form])
 
-        const compiledSecondarySearchFilter = compileFilter({
-            filters: secondarySearchFilters,
-            fields: getMergedFieldNames(fields, unsafeSearchColumns),
-            defaultOperator: 'or'
-        })
+    const mergedFieldNames = useMemo(() => {
+        return getMergedFieldNames(fields, unsafeSearchColumns)
+    }, [fields, unsafeSearchColumns])
 
-        const searchFilters = (filters ?? [])
-            .filter((filter) => primaryFilterStates[getFilterId(filter)])
-            .map((filter) => filter.filter)
-            .filter((e) => Object.keys(e).length > 0)
+    const getActiveSecondarySearchFilters = useCallback(() => {
+        return compileActiveFilters(secondaryFilters ?? [], secondaryFilterStates)
+    }, [secondaryFilterStates, secondaryFilters])
+
+    const getCompiledSecondarySearchFilter = useCallback(
+        (secondarySearchFilters: Filters) => {
+            return compileFilter({
+                filters: secondarySearchFilters,
+                fields: mergedFieldNames,
+                defaultOperator: 'or'
+            })
+        },
+        [mergedFieldNames]
+    )
+
+    const getActivePrimarySearchFilters = useCallback(() => {
+        return compileActiveFilters(primaryFilters ?? [], primaryFilterStates)
+    }, [primaryFilterStates, primaryFilters])
+
+    const getCompiledSearchFilter = useCallback(
+        (searchFilters: Filters) => {
+            return compileFilter({
+                filters: searchFilters,
+                fields: mergedFieldNames,
+                search: form.getValues('search.query')
+            })
+        },
+        [form, mergedFieldNames]
+    )
+
+    const [compiledSearchFilters, setCompiledSearchFilters] = useState<Filter | null>(null)
+
+    useEffect(() => {
+        const secondarySearchFilters = getActiveSecondarySearchFilters()
+
+        const compiledSecondarySearchFilter = getCompiledSecondarySearchFilter(secondarySearchFilters)
+
+        const primarySearchFilters = getActivePrimarySearchFilters()
+
+        const searchFilters = [...primarySearchFilters]
 
         if (compiledSecondarySearchFilter != null && Object.keys(compiledSecondarySearchFilter).length > 0)
             searchFilters.push(compiledSecondarySearchFilter)
 
-        if (searchFilters.length === 0 && searchQuery === '') return null
+        const formSearchQuery = form.getValues('search.query')
 
-        const compiledFilter = compileFilter({
-            filters: searchFilters,
-            fields: getMergedFieldNames(fields, unsafeSearchColumns),
-            search: searchQuery
-        })
+        if (searchFilters.length === 0 && formSearchQuery === '') {
+            setCompiledSearchFilters(null)
+        } else {
+            const compiledFilter = getCompiledSearchFilter(searchFilters)
 
-        return compiledFilter
+            setCompiledSearchFilters(compiledFilter)
+        }
     }, [
-        fields,
-        filters,
-        primaryFilterStates,
-        searchQuery,
-        secondaryFilterStates,
-        secondaryFilters,
-        unsafeSearchColumns
+        form,
+        getActivePrimarySearchFilters,
+        getActiveSecondarySearchFilters,
+        getCompiledSearchFilter,
+        getCompiledSecondarySearchFilter,
+        searchQuery
     ])
 
     const [countUrl, countUrlReal, countUrlParams] = useMemo<[string, string, Record<string, unknown>] | []>(() => {
@@ -190,7 +243,7 @@ const TablePage: FC<TablePageProps> = ({
                     filters: compiledSearchFilters ?? null
                 })
             ).toString(),
-        [currentUser, searchPage, searchPageSize, searchColumns, searchOrder, compiledSearchFilters]
+        [currentUser?.id, searchPage, searchPageSize, searchColumns, searchOrder, compiledSearchFilters]
     )
 
     const { data: itemCount, isLoading: isCountLoading } = useSWR<number>(
@@ -207,17 +260,12 @@ const TablePage: FC<TablePageProps> = ({
         data,
         isLoading: isListLoading,
         mutate
-    } = useSWR<Array<Parameters<typeof Component>[0]['data']>>(
+    } = useSWR<DataRecord[]>(
         listUrl != null && listUrlReal != null && listUrlParams != null ? listUrl : null,
         async (_url: string) => {
             if (listUrl == null || listUrlReal == null || listUrlParams == null) throw new Error('Missing args')
 
-            const result = await postWithParams<Array<Parameters<typeof Component>[0]['data']>>(
-                listUrlReal,
-                listUrlParams
-            )
-
-            return result
+            return await postWithParams<DataRecord[]>(listUrlReal, listUrlParams)
         },
         {
             revalidateIfStale: true,
@@ -243,41 +291,24 @@ const TablePage: FC<TablePageProps> = ({
     }, [itemCount, searchPageSize])
 
     const resetSearch = (): void => {
-        setSearchQuery('')
-        setSearchQueryInput('')
-        setSearchOrder(coerceStringArray(order).join(', '))
-        setSearchOrderInput(coerceStringArray(order).join(', '))
-        dispatchPrimaryFilter((prevState) => {
-            const updateState = structuredClone(prevState)
-
-            Object.keys(updateState).forEach((k) => (updateState[k] = false))
-
-            return updateState
-        })
-        dispatchSecondaryFilter((prevState) => {
-            const updateState = structuredClone(prevState)
-
-            Object.keys(updateState).forEach((k) => (updateState[k] = false))
-
-            return updateState
-        })
-        setPage(tablePageDefaults.searchPage)
-        setPageSize(tablePageDefaults.searchPageSize)
+        form.reset()
+        dispatchFieldState({ action: 'set-all' })
+        dispatchPrimaryFilterState({ action: 'unset-all' })
+        dispatchSecondaryFilterState({ action: 'unset-all' })
     }
 
     const updateSearch = (): void => {
-        if (searchOrder !== searchOrderInput) setSearchOrder(searchOrderInput.replace(/,$/, ''))
-        if (searchQuery !== searchQueryInput) setSearchQuery(searchQueryInput)
+        if (searchOrder !== searchOrderInput) form.setValue('search.order', searchOrderInput.replace(/,$/, ''))
+
+        if (searchQuery !== searchQueryInput) form.setValue('search.query', searchQueryInput)
     }
 
     const toggleField = (fieldName: string): void => {
-        dispatchField((prevState) => {
-            const updateState = structuredClone(prevState)
+        const fieldValue = fieldStates[fieldName]
 
-            updateState[fieldName] = !updateState[fieldName]
+        if (typeof fieldValue !== 'boolean') throw new Error(`Invalid field: ${fieldName}`)
 
-            return updateState
-        })
+        dispatchFieldState({ action: 'toggle', value: fieldName })
     }
 
     const contextValue: TablePageContextDefinition = useMemo(() => ({ mutate }), [mutate])
@@ -297,162 +328,141 @@ const TablePage: FC<TablePageProps> = ({
         <div data-testid='TablePage'>
             <TablePageContext.Provider value={contextValue}>
                 <BasePage title={title} actions={actions}>
-                    <Row className='flex-wrap'>
-                        <Col className='basis-full lg:basis-1/2'>
-                            <strong>Colums</strong>
-                            <br />
-                            {Object.entries(fieldStates).map(([fieldName, fieldChecked]) => {
-                                return (
-                                    <Button
-                                        key={fieldName}
-                                        className='btn-sm m-1'
-                                        variant={fieldChecked ? 'success' : 'secondary'}
-                                        onClick={() => {
-                                            toggleField(fieldName)
-                                        }}
-                                    >
-                                        {fieldName}
-                                    </Button>
-                                )
-                            })}
-                        </Col>
-
-                        <Col className='basis-full lg:basis-1/2'>
-                            <strong>Order</strong>
-                            <br />
-                            <FormControl
-                                formType='text'
-                                value={searchOrderInput}
-                                onChange={(value) => {
-                                    setSearchOrderInput(value)
-                                }}
-                            />
-                        </Col>
-
-                        <Col className='basis-full lg:basis-1/2'>
-                            <strong>Search</strong>
-                            <br />
-                            <FormControl
-                                formType='text'
-                                value={searchQueryInput}
-                                onChange={(value) => {
-                                    setSearchQueryInput(value)
-                                }}
-                                reset={resetSearch}
-                            />
-                        </Col>
-
-                        <Conditional condition={Array.isArray(filters)}>
+                    <FormProvider {...form}>
+                        <Row>
                             <Col className='basis-full lg:basis-1/2'>
-                                <strong>Quick Filters</strong>
+                                <strong>Colums</strong>
                                 <br />
-                                <Row className='flex-wrap'>
-                                    {filters?.map((filter) => {
-                                        const filterId = getFilterId(filter)
-
-                                        return (
-                                            <Col key={filterId} className='basis-1/4'>
-                                                <Toggle
-                                                    checked={primaryFilterStates[filterId]}
-                                                    onChange={(val) => {
-                                                        dispatchPrimaryFilter((prevState) => {
-                                                            const updateState = structuredClone(prevState)
-
-                                                            updateState[filterId] = val
-
-                                                            return updateState
-                                                        })
-                                                    }}
-                                                >
-                                                    {filter.label}
-                                                </Toggle>
-                                            </Col>
-                                        )
-                                    })}
-                                    {secondaryFilters?.map((filter) => {
-                                        const filterId = getFilterId(filter)
-
-                                        return (
-                                            <Col key={filterId} className='basis-1/4'>
-                                                <Toggle
-                                                    checked={secondaryFilterStates[filterId]}
-                                                    onChange={(val) => {
-                                                        dispatchSecondaryFilter((prevState) => {
-                                                            const updateState = structuredClone(prevState)
-
-                                                            updateState[filterId] = val
-
-                                                            return updateState
-                                                        })
-                                                    }}
-                                                >
-                                                    {filter.label}
-                                                </Toggle>
-                                            </Col>
-                                        )
-                                    })}
-                                </Row>
-                            </Col>
-                        </Conditional>
-                    </Row>
-
-                    <Row>
-                        <Col className='basis-full'>
-                            <div className='grid w-full grid-flow-row justify-items-end'>
-                                <div className='flex flex-row'>
-                                    <Button className='mx-2' onClick={updateSearch}>
-                                        Search
-                                    </Button>
-                                    <Button className='mx-2' variant='danger' onClick={resetSearch}>
-                                        Reset
-                                    </Button>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-
-                    <Row className='spacious'>
-                        <Col className='basis-9/12'>
-                            <Paginator
-                                count={itemCount}
-                                currentPage={searchPage}
-                                size={searchPageSize}
-                                pageSelectFn={(newPage) => {
-                                    setPage(newPage)
-                                }}
-                            />
-                        </Col>
-
-                        <Col className='basis-2/12'>
-                            <div className='text-center'>
-                                {itemCount} {label}s found
-                            </div>
-                        </Col>
-
-                        <Col className='basis-1/12'>
-                            <select
-                                id='allow-page-sizes-select'
-                                className='rounded-sm border-2 border-black'
-                                onChange={(event) => {
-                                    const requestedPageSize = Number(event.target.value)
-
-                                    const newPage = Math.ceil(
-                                        (searchPage / totalPages) * Math.ceil((itemCount ?? 1) / requestedPageSize)
+                                {Object.keys(fieldStates).map((fieldName) => {
+                                    return (
+                                        <Button
+                                            key={fieldName}
+                                            className='btn-sm m-1'
+                                            variant={fieldStates[fieldName] ? 'success' : 'secondary'}
+                                            onClick={() => {
+                                                toggleField(fieldName)
+                                            }}
+                                        >
+                                            {fieldName}
+                                        </Button>
                                     )
+                                })}
+                            </Col>
 
-                                    setPage(newPage)
-                                    setPageSize(requestedPageSize)
-                                }}
-                                value={searchPageSize}
-                            >
-                                {tablePageDefaults.allowedPageSizes.map((e) => (
-                                    <option key={e.toLocaleString()} value={e}>
-                                        {e}
-                                    </option>
-                                ))}
-                            </select>
-                        </Col>
-                    </Row>
+                            <Col className='basis-full lg:basis-1/2'>
+                                <strong>Order</strong>
+                                <br />
+                                <FormControl id='search.orderInput' formType='text' />
+                            </Col>
+
+                            <Col className='basis-full lg:basis-1/2'>
+                                <strong>Search</strong>
+                                <br />
+                                <FormControl id='search.queryInput' formType='text' reset={resetSearch} />
+                            </Col>
+
+                            <Conditional condition={Array.isArray(primaryFilters)}>
+                                <Col className='basis-full lg:basis-1/2'>
+                                    <strong>Quick Filters</strong>
+                                    <br />
+                                    <Row>
+                                        {primaryFilters?.map((filter) => {
+                                            return (
+                                                <Col key={filter.id} className='basis-1/4'>
+                                                    <Toggle
+                                                        checked={primaryFilterStates[filter.id]}
+                                                        onChange={(val) => {
+                                                            dispatchPrimaryFilterState({
+                                                                action: val ? 'set' : 'unset',
+                                                                value: filter.id
+                                                            })
+                                                        }}
+                                                    >
+                                                        {filter.label}
+                                                    </Toggle>
+                                                </Col>
+                                            )
+                                        })}
+                                        {secondaryFilters?.map((filter) => {
+                                            return (
+                                                <Col key={filter.id} className='basis-1/4'>
+                                                    <Toggle
+                                                        checked={secondaryFilterStates[filter.id]}
+                                                        onChange={(val) => {
+                                                            dispatchSecondaryFilterState({
+                                                                action: val ? 'set' : 'unset',
+                                                                value: filter.id
+                                                            })
+                                                        }}
+                                                    >
+                                                        {filter.label}
+                                                    </Toggle>
+                                                </Col>
+                                            )
+                                        })}
+                                    </Row>
+                                </Col>
+                            </Conditional>
+                        </Row>
+
+                        <Row>
+                            <Col className='basis-full'>
+                                <div className='grid w-full grid-flow-row justify-items-end'>
+                                    <div className='flex flex-row'>
+                                        <Button className='mx-2' onClick={updateSearch}>
+                                            Search
+                                        </Button>
+                                        <Button className='mx-2' variant='danger' onClick={resetSearch}>
+                                            Reset
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+
+                        <Row className='spacious'>
+                            <Col className='basis-9/12'>
+                                <Paginator
+                                    count={itemCount}
+                                    currentPage={searchPage}
+                                    size={searchPageSize}
+                                    pageSelectFn={(newPage) => {
+                                        form.setValue('search.page', newPage)
+                                    }}
+                                />
+                            </Col>
+
+                            <Col className='basis-2/12'>
+                                <div className='text-center'>
+                                    {itemCount} {label}s found
+                                </div>
+                            </Col>
+
+                            <Col className='basis-1/12'>
+                                <select
+                                    id='allow-page-sizes-select'
+                                    className='rounded-sm border-2 border-black'
+                                    onChange={(event) => {
+                                        const requestedPageSize = Number(event.target.value) as AllowedPageSizes
+
+                                        const newPage = Math.ceil(
+                                            (searchPage / totalPages) * Math.ceil((itemCount ?? 1) / requestedPageSize)
+                                        )
+
+                                        form.setValue('search.page', newPage)
+                                        form.setValue('search.pageSize', requestedPageSize)
+                                    }}
+                                    value={searchPageSize}
+                                >
+                                    {tablePageDefaults.allowedPageSizes.map((e) => (
+                                        <option key={e.toLocaleString()} value={e}>
+                                            {e}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Col>
+                        </Row>
+                    </FormProvider>
 
                     <Conditional condition={updating}>
                         <Loading />
@@ -466,9 +476,9 @@ const TablePage: FC<TablePageProps> = ({
                         </Conditional>
 
                         <Conditional condition={(data?.length ?? 0) > 0}>
-                            <Row className='spacious'>
-                                <Col className='w-full'>
-                                    <table className='w-full table-auto overflow-x-scroll rounded-lg'>
+                            <Row className='spacious w-full overflow-x-scroll'>
+                                <Col>
+                                    <table className='w-full table-auto rounded-lg'>
                                         <thead>
                                             <tr>
                                                 {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
@@ -499,8 +509,6 @@ const TablePage: FC<TablePageProps> = ({
 
                                         <tbody>
                                             {(data ?? []).map((d) => {
-                                                // @ts-expect-error missing
-                                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                                                 return <Component key={d.id} data={d} mutate={mutate} />
                                             })}
                                         </tbody>
@@ -519,8 +527,8 @@ const TablePage: FC<TablePageProps> = ({
                             </Row>
                         </Conditional>
                     </Conditional>
-                    {children}
                 </BasePage>
+                {children}
             </TablePageContext.Provider>
         </div>
     )

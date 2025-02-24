@@ -1,8 +1,10 @@
-import type { FC, ReactNode } from 'react'
+import type { ReactNode, FC } from 'react'
 
+import type { TablePageForm, AllowedPageSizes, TablePageSchemaType } from './TablePage.schema'
 import type { KeyedMutator } from 'swr'
 
-import type { Filter } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { DataRecord } from '@/types/records'
 
 export type ValidServiceEndpoints =
     | 'ApiKeyService2'
@@ -34,19 +36,15 @@ export interface MockServiceData extends IdentifiableRecord {
     color: string
 }
 
-export interface FilterDefinition {
-    id?: string
-    label: string
-    filter: Filter
+export interface TablePageContextDefinition<T = DataRecord> {
+    mutate: KeyedMutator<T[]>
 }
 
-export interface FieldDefinition {
-    title: string
-    field: string | string[]
-    hidden?: boolean
+export interface TablePageDefaults {
+    searchPage: TablePageForm['search']['page']
+    searchPageSize: TablePageForm['search']['pageSize']
+    allowedPageSizes: AllowedPageSizes[]
 }
-
-export type FieldDefinitions = FieldDefinition[]
 
 export interface TablePageProps {
     children?: ReactNode
@@ -55,18 +53,14 @@ export interface TablePageProps {
     serviceEndpoint: ValidServiceEndpoints
     baseServiceMethod: string
     user?: boolean
-    fields: FieldDefinition[]
+    fields: FieldDefinitions
     order: string | string[]
 
-    component: FC<{ data: object; mutate: KeyedMutator<object[]> }>
-    filters?: FilterDefinition[]
-    secondaryFilters?: FilterDefinition[]
+    component: FC<{ data: DataRecord; mutate: KeyedMutator<DataRecord[]> }>
+    primaryFilters?: FilterDefinitions
+    secondaryFilters?: FilterDefinitions
     actions?: ReactNode[]
     unsafeSearchColumns?: string[]
-}
 
-export type FiltersState = Record<string, boolean>
-
-export interface TablePageContextDefinition<T = object> {
-    mutate: KeyedMutator<T[]>
+    schema?: TablePageSchemaType
 }
