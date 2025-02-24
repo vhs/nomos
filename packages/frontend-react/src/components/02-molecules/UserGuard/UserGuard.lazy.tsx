@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { UserGuardProps } from './UserGuard.types'
 
-import LoadingOverlay from '../LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
 const LazyUserGuard = lazy(async () => await import('./UserGuard'))
 
