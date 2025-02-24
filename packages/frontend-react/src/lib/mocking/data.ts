@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { User } from '@/types/records'
+import PrincipalUserObject from '@/lib/db/PrincipalUser'
 
-import PrincipalUserObject from '../db/PrincipalUser'
+import type { User } from '@/types/records'
 
 export const mockCurrentUser = { id: 1, permissions: ['door', 'vetted', 'door', 'administrator', 'user'] }
 
