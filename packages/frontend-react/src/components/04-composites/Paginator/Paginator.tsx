@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FC, type ReactNode } from 'react'
 
-// import Conditional from '../Conditional'
 
 import {
     ArrowUturnLeftIcon,
@@ -23,7 +22,7 @@ import type {
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 
-import { generateRangeArray } from '@/lib/util'
+import { generateRangeArray } from '@/lib/utils'
 
 import styles from './Paginator.module.css'
 

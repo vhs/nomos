@@ -5,12 +5,12 @@ import type { AdminMemberCardsProps } from './AdminMemberCards.types'
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
 const AdminMemberCards: FC<AdminMemberCardsProps> = () => (
     <BasePage data-testid='AdminMemberCards' title='Member Card Management'>
-        <Row className='flex-wrap'>
+        <Row>
             <Col className='basis-full lg:basis-1/2'>
                 <Card>
                     <Card.Header>Register Card as Genuine Card</Card.Header>

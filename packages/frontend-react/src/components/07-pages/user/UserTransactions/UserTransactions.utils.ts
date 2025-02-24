@@ -1,4 +1,6 @@
-export const UserTransactionFields = [
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+
+export const UserTransactionFields: FieldDefinitions = [
     { title: 'Date', field: 'date' },
     { title: 'Transaction ID', field: 'txn_id' },
     { title: 'Payer Name', field: 'payer_fname,payer_lname' },
@@ -7,7 +9,7 @@ export const UserTransactionFields = [
     { title: 'Amount', field: 'amount' }
 ]
 
-export const UserTransactionFilters = [
+export const UserTransactionFilters: FilterDefinitions = [
     {
         id: 'pending_payments',
         label: 'Pending Payments',
