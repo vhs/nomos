@@ -1,47 +1,69 @@
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 
 import type { StandingCardProps } from './UserProfile.types'
 
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
-import Card from '@/components/04-composites/Card'
+import type { IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
+import Card from '@/components/04-composites/Card/Card'
+
+type StyleKeys = 'default' | 'expired' | 'valid'
+interface StyleItem {
+    card: string
+    footer: string
+    icon: IconProp
+    text: ReactNode
+}
+
+type Styles = Record<StyleKeys, StyleItem>
+
+const styles: Styles = {
+    default: {
+        card: 'gray-card',
+        footer: 'gray-card-footer justify-start',
+        icon: 'truck-loading',
+        text: 'Loading'
+    },
+    expired: {
+        card: 'red-card',
+        footer: 'red-card-footer justify-start',
+        icon: 'thumbs-down',
+        text: (
+            <>
+                <span className='huge'>Expired!</span>
+                <p>Please visit the membership page to update your subscription!</p>
+            </>
+        )
+    },
+    valid: {
+        card: 'green-card',
+        footer: 'green-card-footer justify-start',
+        icon: 'thumbs-up',
+        text: (
+            <>
+                <span className='huge'>Current!</span>
+                <p>Your account is in good standing! Thank you!</p>
+            </>
+        )
+    }
+}
 
 const StandingCard: FC<StandingCardProps> = ({ standing }) => {
-    if (standing === true)
-        return (
-            <Card className='green-card'>
-                <Card.Body>
-                    <FontAwesomeIcon icon={'thumbs-up'} size='5x' />
-                    <span className='huge'>Current!</span>
-                    <p>Your account is in good standing! Thank you!</p>
-                </Card.Body>
-                <Card.Footer className='green-card-footer text-left'>
-                    <a href='http://vanhack.ca/wp/membership/'>http://vanhack.ca/wp/membership/</a>
-                </Card.Footer>
-            </Card>
-        )
+    let styleName: StyleKeys = 'default'
+    if (standing != null) styleName = standing ? 'valid' : 'expired'
 
-    if (standing === false)
-        return (
-            <Card className='red-card'>
-                <Card.Body>
-                    <FontAwesomeIcon icon={'thumbs-down'} size='5x' />
-                    <span className='huge'>Expired!</span>
-                    <p>Please visit the membership page to update your subscription!</p>
-                </Card.Body>
-                <Card.Footer className='red-card-footer'>
-                    <a href='http://vanhack.ca/wp/membership/'>http://vanhack.ca/wp/membership/</a>
-                </Card.Footer>
-            </Card>
-        )
+    const cardStyle = styles[styleName].card
+    const footerStyle = styles[styleName].footer
+    const icon = styles[styleName].icon
+    const text = styles[styleName].text
 
     return (
-        <Card className='gray-card'>
+        <Card className={cardStyle}>
             <Card.Body>
-                <FontAwesomeIcon icon={'truck-loading'} size='5x' />
-                <span className='huge'>Loading</span>
-                <p>Loading!</p>
+                <FontAwesomeIcon icon={icon} size='5x' />
+                &nbsp;
+                {text}
             </Card.Body>
-            <Card.Footer className='gray-card-footer'>
+            <Card.Footer className={footerStyle}>
                 <a href='http://vanhack.ca/wp/membership/'>http://vanhack.ca/wp/membership/</a>
             </Card.Footer>
         </Card>

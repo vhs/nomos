@@ -7,13 +7,13 @@ import type { PrivilegesCardProps, PrivilegesListProps } from './UserProfile.typ
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 const PrivilegesList: FC<PrivilegesListProps> = ({ className, privileges }) => {
     if (!Array.isArray(privileges) || privileges.length === 0) return <>No privileges found</>
 
     return (
-        <Row className='flex-wrap'>
+        <Row>
             {privileges.map((privilege) => {
                 return (
                     <Col key={privilege.id} className={clsx(['basis-full', className ?? 'lg:basis-1/3'])}>
