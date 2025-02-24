@@ -9,7 +9,7 @@ import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell
 
 const AdminAccessLogsItem: FC<AdminAccessLogsItemProps> = ({ data }) => {
     return (
-        <tr key={data.time.toLocaleString()} data-testid='AdminAccessLogsItem'>
+        <tr key={JSON.stringify(data)} data-testid='AdminAccessLogsItem'>
             <ConditionalTableCell condition={'time' in data} className='text-center'>
                 {data.time.toLocaleString()}
             </ConditionalTableCell>

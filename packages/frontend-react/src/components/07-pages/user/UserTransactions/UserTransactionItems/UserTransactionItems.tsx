@@ -11,8 +11,8 @@ const UserTransactionItems: FC<UserTransactionItemsProps> = ({ data }) => {
     if (data.status === 0) status = 'Pending'
 
     return (
-        <tr key={data.id}>
-            <ConditionalTableCell condition={'date' in data}>{data.date.toLocaleString()}</ConditionalTableCell>
+        <tr key={JSON.stringify(data)}>
+            <ConditionalTableCell condition={'date' in data}>{data.date?.toLocaleString()}</ConditionalTableCell>
             <ConditionalTableCell condition={'txn_id' in data}>{data.txn_id}</ConditionalTableCell>
             <ConditionalTableCell condition={'payer_fname' in data && 'payer_lname' in data}>
                 {data.payer_fname} {data.payer_lname}

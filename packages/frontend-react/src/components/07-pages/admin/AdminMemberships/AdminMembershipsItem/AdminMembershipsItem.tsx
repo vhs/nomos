@@ -12,8 +12,6 @@ import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell
 const AdminMembershipsItem: FC<AdminMembershipsItemProps> = ({ data }) => {
     const router = useRouter()
 
-    console.debug('AdminMembershipsItem - data:', data)
-
     return (
         <TablePageRow data-testid='AdminMembershipsItem'>
             <ConditionalTableCell className='text-center' condition={'title' in data}>
