@@ -1,6 +1,6 @@
-import type { FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const AdminStripeRecordsFields = [
+export const AdminStripeRecordsFields: FieldDefinitions = [
     { title: 'Timestamp', field: 'ts' },
     { title: 'Status', field: 'status' },
     { title: 'Created', field: 'created' },
@@ -12,7 +12,7 @@ export const AdminStripeRecordsFields = [
     { title: 'Raw', field: 'raw' }
 ]
 
-export const AdminStripeRecordsFilters: FilterDefinition[] = [
+export const AdminStripeRecordsFilters: FilterDefinitions = [
     {
         id: 'pending',
         label: 'Show Pending',

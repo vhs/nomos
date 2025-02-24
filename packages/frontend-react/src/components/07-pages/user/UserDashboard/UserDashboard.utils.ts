@@ -12,7 +12,7 @@ import {
     convertMonthNumberByNumber,
     convertDayofWeekByNumber,
     generateRowColArray
-} from '@/lib/util'
+} from '@/lib/utils'
 
 import type { RevenueGoalChartProps, BubbleChartProps, LineChartProps, LinePoint } from '@/types/custom'
 import type {

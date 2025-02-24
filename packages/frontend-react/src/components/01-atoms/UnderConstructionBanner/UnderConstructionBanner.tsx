@@ -2,8 +2,8 @@ import type { FC } from 'react'
 
 import type { UnderConstructionBannerProps } from './UnderConstructionBanner.types'
 
-import Col from '../Col/Col'
-import Row from '../Row/Row'
+import Col from '@/components/01-atoms/Col/Col'
+import Row from '@/components/01-atoms/Row/Row'
 
 const UnderConstructionBanner: FC<UnderConstructionBannerProps> = () => (
     <div data-testid='UnderConstructionBanner'>

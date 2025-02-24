@@ -1,6 +1,6 @@
-import type { FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const UserAccessHistoryFields = [
+export const UserAccessHistoryFields: FieldDefinitions = [
     { title: 'Time', field: 'time' },
     { title: 'Key', field: 'key' },
     { title: 'Type', field: 'type' },
@@ -9,7 +9,7 @@ export const UserAccessHistoryFields = [
     { title: 'From IP', field: 'from_ip' }
 ]
 
-export const UserAccessHistoryFilters: FilterDefinition[] = [
+export const UserAccessHistoryFilters: FilterDefinitions = [
     {
         id: 'unauthorized',
         label: 'Failed Attempts',

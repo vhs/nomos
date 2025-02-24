@@ -9,7 +9,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 import type { Memberships } from '@/types/records'
 

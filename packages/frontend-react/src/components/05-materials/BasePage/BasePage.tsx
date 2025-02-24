@@ -4,7 +4,7 @@ import type { BasePageProps } from './BasePage.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 import styles from './BasePage.module.css'
 

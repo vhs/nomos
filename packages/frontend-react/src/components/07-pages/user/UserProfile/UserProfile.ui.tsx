@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 import type { Key } from '@/types/records'
 
