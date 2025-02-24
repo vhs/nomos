@@ -9,12 +9,10 @@ import { filterMockData } from './functions'
 
 export const mockHandlers = [
     http.get('/services/v2/AuthService2.svc/CurrentUser', () => {
-        console.debug(`mockHandlers['/services/v2/AuthService2.svc/CurrentUser']`)
         return HttpResponse.json(mockCurrentUser)
     }),
 
     http.get('/services/v2/PreferenceService2.svc/SystemPreference', ({ request }) => {
-        console.debug(`mockHandlers['/services/v2/PreferenceService2.svc/SystemPreference']`)
         const url = new URL(request.url)
 
         const key = url.searchParams.get('key')
@@ -25,7 +23,6 @@ export const mockHandlers = [
     }),
 
     http.get('/services/v2/UserService2.svc/GetUser', ({ request }) => {
-        console.debug(`mockHandlers['/services/v2/UserService2.svc/GetUser']`)
         const url = new URL(request.url)
 
         const userId = url.searchParams.get('userid')
