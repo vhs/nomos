@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useRegisterClient = () => {}
+const useRegisterClient = () => {}
+
+export default useRegisterClient

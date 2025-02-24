@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useDeleteTemplate = () => {}
+const useDeleteTemplate = () => {}
+
+export default useDeleteTemplate

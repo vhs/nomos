@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useEnableEvent = () => {}
+const useEnableEvent = () => {}
+
+export default useEnableEvent

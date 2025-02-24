@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutKeyPrivileges = () => {}
+const usePutKeyPrivileges = () => {}
+
+export default usePutKeyPrivileges

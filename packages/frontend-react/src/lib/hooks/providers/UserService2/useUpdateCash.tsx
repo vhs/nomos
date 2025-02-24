@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateCash = () => {}
+const useUpdateCash = () => {}
+
+export default useUpdateCash

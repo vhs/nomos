@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListHooks = () => {}
+const useListHooks = () => {}
+
+export default useListHooks

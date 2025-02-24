@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateSystemPreferenceEnabled = () => {}
+const useUpdateSystemPreferenceEnabled = () => {}
+
+export default useUpdateSystemPreferenceEnabled

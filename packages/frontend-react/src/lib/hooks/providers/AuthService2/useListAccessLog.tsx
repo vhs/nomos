@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListAccessLog = () => {}
+const useListAccessLog = () => {}
+
+export default useListAccessLog

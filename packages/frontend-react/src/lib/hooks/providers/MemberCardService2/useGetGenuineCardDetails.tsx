@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetGenuineCardDetails = () => {}
+const useGetGenuineCardDetails = () => {}
+
+export default useGetGenuineCardDetails

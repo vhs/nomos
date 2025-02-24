@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateStripeEmail = () => {}
+const useUpdateStripeEmail = () => {}
+
+export default useUpdateStripeEmail

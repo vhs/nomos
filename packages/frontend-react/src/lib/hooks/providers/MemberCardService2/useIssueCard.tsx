@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useIssueCard = () => {}
+const useIssueCard = () => {}
+
+export default useIssueCard

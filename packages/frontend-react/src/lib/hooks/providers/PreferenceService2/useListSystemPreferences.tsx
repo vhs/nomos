@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListSystemPreferences = () => {}
+const useListSystemPreferences = () => {}
+
+export default useListSystemPreferences

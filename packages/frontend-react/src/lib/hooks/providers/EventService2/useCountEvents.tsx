@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCountEvents = () => {}
+const useCountEvents = () => {}
+
+export default useCountEvents

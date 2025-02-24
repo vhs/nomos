@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateHtml = () => {}
+const useUpdateHtml = () => {}
+
+export default useUpdateHtml

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useDeleteEvent = () => {}
+const useDeleteEvent = () => {}
+
+export default useDeleteEvent

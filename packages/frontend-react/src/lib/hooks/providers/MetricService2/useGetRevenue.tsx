@@ -34,7 +34,7 @@ const getNewMembersFetcher = async (
     return result
 }
 
-export const useGetRevenue = (
+const useGetRevenue = (
     start: string,
     end: string,
     group: MetricServiceGroupTypes
@@ -48,3 +48,5 @@ export const useGetRevenue = (
         }
     )
 }
+
+export default useGetRevenue

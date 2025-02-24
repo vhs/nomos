@@ -35,7 +35,7 @@ const getNewMembersFetcher = async (
     return result
 }
 
-export const useGetMembers = (
+const useGetMembers = (
     start: string,
     end: string,
     group: MetricServiceGroupTypes
@@ -46,3 +46,5 @@ export const useGetMembers = (
         return await getNewMembersFetcher(start, end, group)
     })
 }
+
+export default useGetMembers

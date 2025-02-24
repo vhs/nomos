@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListTemplates = () => {}
+const useListTemplates = () => {}
+
+export default useListTemplates

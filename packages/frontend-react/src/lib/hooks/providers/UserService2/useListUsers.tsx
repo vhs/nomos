@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListUsers = () => {}
+const useListUsers = () => {}
+
+export default useListUsers

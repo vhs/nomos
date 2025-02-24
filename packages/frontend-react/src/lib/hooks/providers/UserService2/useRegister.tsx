@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useRegister = () => {}
+const useRegister = () => {}
+
+export default useRegister

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateBody = () => {}
+const useUpdateBody = () => {}
+
+export default useUpdateBody

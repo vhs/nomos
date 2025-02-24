@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCountTemplates = () => {}
+const useCountTemplates = () => {}
+
+export default useCountTemplates

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetDomainDefinitions = () => {}
+const useGetDomainDefinitions = () => {}
+
+export default useGetDomainDefinitions

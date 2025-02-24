@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetGrantUserPrivileges = () => {}
+const useGetGrantUserPrivileges = () => {}
+
+export default useGetGrantUserPrivileges

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateTrial = () => {}
+const useUpdateTrial = () => {}
+
+export default useUpdateTrial

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdatePrivate = () => {}
+const useUpdatePrivate = () => {}
+
+export default useUpdatePrivate

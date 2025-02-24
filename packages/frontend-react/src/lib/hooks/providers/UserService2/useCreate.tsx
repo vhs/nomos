@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCreate = () => {}
+const useCreate = () => {}
+
+export default useCreate

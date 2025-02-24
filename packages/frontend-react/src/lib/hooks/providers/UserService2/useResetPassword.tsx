@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useResetPassword = () => {}
+const useResetPassword = () => {}
+
+export default useResetPassword

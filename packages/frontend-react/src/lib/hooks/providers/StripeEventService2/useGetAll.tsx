@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetAll = () => {}
+const useGetAll = () => {}
+
+export default useGetAll

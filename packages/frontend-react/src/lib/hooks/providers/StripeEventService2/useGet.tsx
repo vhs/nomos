@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGet = () => {}
+const useGet = () => {}
+
+export default useGet

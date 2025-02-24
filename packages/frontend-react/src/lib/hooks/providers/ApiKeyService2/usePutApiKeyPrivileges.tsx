@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutApiKeyPrivileges = () => {}
+const usePutApiKeyPrivileges = () => {}
+
+export default usePutApiKeyPrivileges

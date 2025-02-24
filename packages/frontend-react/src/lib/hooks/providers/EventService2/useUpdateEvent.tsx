@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateEvent = () => {}
+const useUpdateEvent = () => {}
+
+export default useUpdateEvent

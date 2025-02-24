@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGeneratePin = () => {}
+const useGeneratePin = () => {}
+
+export default useGeneratePin

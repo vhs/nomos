@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateNewsletter = () => {}
+const useUpdateNewsletter = () => {}
+
+export default useUpdateNewsletter

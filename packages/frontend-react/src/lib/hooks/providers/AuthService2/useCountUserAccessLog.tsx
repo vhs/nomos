@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { coerceStringObject } from '@/lib/util'
+import { coerceStringObject } from '@/lib/utils'
 
 import type { PageUserApiRequestParams } from '@/types/api'
 
@@ -12,7 +12,7 @@ interface CountUserAccessLogParams {
     filters?: PageUserApiRequestParams['filters']
 }
 
-export const useCountUserAccessLogUrl = (opts: CountUserAccessLogParams): string | null => {
+const useCountUserAccessLogUrl = (opts: CountUserAccessLogParams): string | null => {
     return useMemo(() => {
         if (opts.userid == null) return null
 
@@ -22,6 +22,8 @@ export const useCountUserAccessLogUrl = (opts: CountUserAccessLogParams): string
     }, [opts])
 }
 
-export const useCountUserAccessLog = ({ userid }: CountUserAccessLogParams): void => {
-    console.log('useCountUserAccessLog:', { userid })
+const useCountUserAccessLog = ({ userid }: CountUserAccessLogParams): void => {
+    console.debug('useCountUserAccessLog:', { userid })
 }
+
+export default useCountUserAccessLog

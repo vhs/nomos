@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetPendingAccounts = () => {}
+const useGetPendingAccounts = () => {}
+
+export default useGetPendingAccounts

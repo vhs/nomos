@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetTemplate = () => {}
+const useGetTemplate = () => {}
+
+export default useGetTemplate

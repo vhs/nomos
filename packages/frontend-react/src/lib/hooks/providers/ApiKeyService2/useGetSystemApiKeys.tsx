@@ -6,7 +6,7 @@ import type { NOMOSSWRResponse } from '@/types/custom'
 import type { Keys } from '@/types/records'
 
 /* eslint-disable */
-export const useGetSystemApiKeys = () => {
+const useGetSystemApiKeys = () => {
     return useSWR<NOMOSSWRResponse<Keys>>(
         '/services/v2/ApiKeyService2.svc/GetSystemApiKeys',
         async (_url: string): Promise<NOMOSSWRResponse<Keys>> => {
@@ -16,3 +16,5 @@ export const useGetSystemApiKeys = () => {
         }
     )
 }
+
+export default useGetSystemApiKeys

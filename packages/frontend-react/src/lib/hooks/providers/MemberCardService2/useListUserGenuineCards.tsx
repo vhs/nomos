@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListUserGenuineCards = () => {}
+const useListUserGenuineCards = () => {}
+
+export default useListUserGenuineCards

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListRecords = () => {}
+const useListRecords = () => {}
+
+export default useListRecords

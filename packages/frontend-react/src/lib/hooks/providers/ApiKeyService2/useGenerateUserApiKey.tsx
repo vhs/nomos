@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGenerateUserApiKey = () => {}
+const useGenerateUserApiKey = () => {}
+
+export default useGenerateUserApiKey

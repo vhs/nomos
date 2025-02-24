@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListPayments = () => {}
+const useListPayments = () => {}
+
+export default useListPayments
