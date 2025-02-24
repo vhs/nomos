@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import type { CardHeaderProps } from './CardHeader.types'
 
 const CardHeader: FC<CardHeaderProps> = ({ children, className }) => (
-    <div className={clsx(['header font-bold', className])} data-testid='CardHeader'>
+    <div className={clsx([className, 'element header font-bold'])} data-testid='CardHeader'>
         {children}
     </div>
 )
