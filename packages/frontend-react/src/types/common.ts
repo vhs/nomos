@@ -2,6 +2,7 @@ import type { z } from 'zod'
 
 import type {
     zBoolean,
+    zBooleanRecord,
     zDateTime,
     zEmailAddress,
     zFunctionBoolResultFromStringArraySpread,
@@ -19,7 +20,6 @@ import type {
     zPayPal,
     zPaymentProviders,
     zPositiveNumber,
-    zStateRecord,
     zString,
     zStringArray,
     zStripe,
@@ -47,6 +47,8 @@ import type {
 
 export type Boolean = z.infer<typeof zBoolean>
 export type Booleans = Boolean[]
+export type BooleanRecord = z.infer<typeof zBooleanRecord>
+export type BooleanRecords = BooleanRecord[]
 export type DateTime = z.infer<typeof zDateTime>
 export type DateTimes = DateTime[]
 export type EmailAddress = z.infer<typeof zEmailAddress>
@@ -81,8 +83,6 @@ export type PaymentProviders = z.infer<typeof zPaymentProviders>
 export type PaymentProviderss = PaymentProviders[]
 export type PositiveNumber = z.infer<typeof zPositiveNumber>
 export type PositiveNumbers = PositiveNumber[]
-export type StateRecord = z.infer<typeof zStateRecord>
-export type StateRecords = StateRecord[]
 export type String = z.infer<typeof zString>
 export type Strings = String[]
 export type StringArray = z.infer<typeof zStringArray>
