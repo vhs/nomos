@@ -7,9 +7,9 @@ import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell
 
 const UserAccessHistoryItem: FC<UserAccessHistoryItemProps> = ({ data }) => {
     return (
-        <tr key={data.time.toLocaleString()}>
+        <tr key={JSON.stringify(data)}>
             <ConditionalTableCell className='text-center' condition={'time' in data}>
-                {data.time.toLocaleString()}
+                {data.time?.toLocaleString()}
             </ConditionalTableCell>
             <ConditionalTableCell className='shortened text-center' condition={'key' in data}>
                 {data.key}
