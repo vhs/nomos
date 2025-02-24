@@ -10,7 +10,7 @@ export const zNonNegativeNumber = z.number().nonnegative()
 
 export const zNumber = z.number()
 
-export const zNumberArray = z.array(zNumber)
+export const zNumberArray = zNumber.array()
 
 export const zPositiveNumber = zNumber.positive()
 
@@ -20,7 +20,7 @@ export const zUrl = zString.url().nullish()
 
 export const zHumanName = zString.min(1)
 
-export const zNonEmptyStringArray = z.array(zString).min(1)
+export const zNonEmptyStringArray = zString.array().min(1)
 
 export const zStringArray = z.array(zString).min(0)
 
@@ -50,14 +50,14 @@ export const zKeyTypes = z.union([
     z.literal('slack')
 ])
 
-export const zPasswordField = z
-    .string()
+export const zPasswordField = zString
     .min(8)
     .max(255)
     .refine((password) => /[A-Z]/.test(password), { message: 'Please use at least one uppercase letter.' })
     .refine((password) => /[a-z]/.test(password), { message: 'Please use at least one lowercase letter.' })
-    .refine((password) => /[0-9]/.test(password), { message: 'Please use at least one number.' })
-    .refine((password) => /[!@#$%^&*]/.test(password), { message: 'Please use at least one special character.' })
+    .refine((password) => /[0-9!@#$%^&*\\/()-]/.test(password), {
+        message: 'Please use at least one number or special character.'
+    })
 
 export const zPasswordInput = z
     .object({ password1: zPasswordField, password2: zPasswordField })
@@ -69,7 +69,7 @@ export const zStripe = z.literal('Stripe')
 
 export const zPaymentProviders = z.union([zPayPal, zMoneyBookers, zStripe])
 
-export const zStateRecord = z.record(zString, zBoolean)
+export const zBooleanRecord = z.record(zString, zBoolean)
 
 export const zStripePaymentStates = z.union([z.literal('UNKNOWN'), z.literal('VALID')])
 
@@ -118,7 +118,7 @@ export const zUserActiveStateDefinition = z.union([
     zUserPendingStateType
 ])
 
-export const zUserActiveStates = z.array(zUserActiveStateDefinition)
+export const zUserActiveStates = zUserActiveStateDefinition.array()
 
 export const zUsername = zString.min(3)
 

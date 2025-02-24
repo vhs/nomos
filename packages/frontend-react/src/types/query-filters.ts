@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zString } from '@/lib/validators/common'
+import { zBoolean, zString, zStringArray } from '@/lib/validators/common'
 
 export const zQueryFilterLogicalOperators = z.union([z.literal('and'), z.literal('or')])
 
@@ -46,5 +46,30 @@ export const zQueryFilterComp: z.ZodType<QueryFilterComp> = zBaseQueryFilterComp
 export const zFilter = z.union([zQueryFilterObject, zQueryFilterComp])
 
 export type Filter = z.infer<typeof zFilter>
+export type Filters = Filter[]
 
 export const isFilter = (inp: unknown): inp is Filter => zFilter.safeParse(inp).success
+
+export const zFieldDefinition = z.object({
+    title: zString,
+    field: z.union([zString, zStringArray]),
+    hidden: zBoolean.nullish()
+})
+
+export const zFilterDefinition = z.object({
+    id: zString,
+    label: zString,
+    filter: zFilter
+})
+
+export interface FilterDefinition<T extends string = string> extends z.infer<typeof zFilterDefinition> {
+    id: T
+}
+
+export type FilterDefinitions<T extends string = string> = Array<FilterDefinition<T>>
+
+export interface FieldDefinition<T extends string = string> extends z.infer<typeof zFieldDefinition> {
+    title: T
+}
+
+export type FieldDefinitions<T extends string = string> = Array<FieldDefinition<T>>

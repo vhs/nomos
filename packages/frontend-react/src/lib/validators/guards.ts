@@ -4,6 +4,7 @@
 
 import {
     zBoolean,
+    zBooleanRecord,
     zDateTime,
     zEmailAddress,
     zFunctionBoolResultFromStringArraySpread,
@@ -21,7 +22,6 @@ import {
     zPayPal,
     zPaymentProviders,
     zPositiveNumber,
-    zStateRecord,
     zString,
     zStringArray,
     zStripe,
@@ -52,6 +52,7 @@ import {
     zAppClient,
     zAuthCheckResult,
     zBasePrivilege,
+    zBasePrivilegesArray,
     zCommon,
     zCurrentUser,
     zDataRecord,
@@ -98,11 +99,13 @@ import {
     zTrimmedUser,
     zUser,
     zUserPrincipal,
-    zWebHook
+    zWebHook,
+    zWebHookFields
 } from '@/lib/validators/records'
 
 import type {
     Boolean,
+    BooleanRecord,
     DateTime,
     EmailAddress,
     FunctionBoolResultFromStringArraySpread,
@@ -120,7 +123,6 @@ import type {
     PayPal,
     PaymentProviders,
     PositiveNumber,
-    StateRecord,
     String,
     StringArray,
     Stripe,
@@ -151,6 +153,7 @@ import type {
     AppClient,
     AuthCheckResult,
     BasePrivilege,
+    BasePrivilegesArray,
     Common,
     CurrentUser,
     DataRecord,
@@ -197,7 +200,8 @@ import type {
     TrimmedUser,
     User,
     UserPrincipal,
-    WebHook
+    WebHook,
+    WebHookFields
 } from '@/types/records'
 
 export const isAccessLog = (inp: unknown): inp is AccessLog => zAccessLog.safeParse(inp).success
@@ -205,7 +209,10 @@ export const isAccessToken = (inp: unknown): inp is AccessToken => zAccessToken.
 export const isAppClient = (inp: unknown): inp is AppClient => zAppClient.safeParse(inp).success
 export const isAuthCheckResult = (inp: unknown): inp is AuthCheckResult => zAuthCheckResult.safeParse(inp).success
 export const isBasePrivilege = (inp: unknown): inp is BasePrivilege => zBasePrivilege.safeParse(inp).success
+export const isBasePrivilegesArray = (inp: unknown): inp is BasePrivilegesArray =>
+    zBasePrivilegesArray.safeParse(inp).success
 export const isBoolean = (inp: unknown): inp is Boolean => zBoolean.safeParse(inp).success
+export const isBooleanRecord = (inp: unknown): inp is BooleanRecord => zBooleanRecord.safeParse(inp).success
 export const isCommon = (inp: unknown): inp is Common => zCommon.safeParse(inp).success
 export const isCurrentUser = (inp: unknown): inp is CurrentUser => zCurrentUser.safeParse(inp).success
 export const isDataRecord = (inp: unknown): inp is DataRecord => zDataRecord.safeParse(inp).success
@@ -277,7 +284,6 @@ export const isRevenueByMembersTypes = (inp: unknown): inp is RevenueByMembersTy
 export const isRevenueByMembership = (inp: unknown): inp is RevenueByMembership =>
     zRevenueByMembership.safeParse(inp).success
 export const isRevenueResultSet = (inp: unknown): inp is RevenueResultSet => zRevenueResultSet.safeParse(inp).success
-export const isStateRecord = (inp: unknown): inp is StateRecord => zStateRecord.safeParse(inp).success
 export const isString = (inp: unknown): inp is String => zString.safeParse(inp).success
 export const isStringArray = (inp: unknown): inp is StringArray => zStringArray.safeParse(inp).success
 export const isStripe = (inp: unknown): inp is Stripe => zStripe.safeParse(inp).success
@@ -330,3 +336,4 @@ export const isUserStateTitlePending = (inp: unknown): inp is UserStateTitlePend
     zUserStateTitlePending.safeParse(inp).success
 export const isUsername = (inp: unknown): inp is Username => zUsername.safeParse(inp).success
 export const isWebHook = (inp: unknown): inp is WebHook => zWebHook.safeParse(inp).success
+export const isWebHookFields = (inp: unknown): inp is WebHookFields => zWebHookFields.safeParse(inp).success

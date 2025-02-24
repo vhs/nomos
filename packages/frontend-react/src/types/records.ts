@@ -6,6 +6,7 @@ import type {
     zAppClient,
     zAuthCheckResult,
     zBasePrivilege,
+    zBasePrivilegesArray,
     zCommon,
     zCurrentUser,
     zDataRecord,
@@ -52,7 +53,8 @@ import type {
     zTrimmedUser,
     zUser,
     zUserPrincipal,
-    zWebHook
+    zWebHook,
+    zWebHookFields
 } from '@/lib/validators/records.ts'
 
 export type AccessLog = z.infer<typeof zAccessLog>
@@ -65,6 +67,8 @@ export type AuthCheckResult = z.infer<typeof zAuthCheckResult>
 export type AuthCheckResults = AuthCheckResult[]
 export type BasePrivilege = z.infer<typeof zBasePrivilege>
 export type BasePrivileges = BasePrivilege[]
+export type BasePrivilegesArray = z.infer<typeof zBasePrivilegesArray>
+export type BasePrivilegesArrays = BasePrivilegesArray[]
 export type Common = z.infer<typeof zCommon>
 export type Commons = Common[]
 export type CurrentUser = z.infer<typeof zCurrentUser>
@@ -159,3 +163,5 @@ export type UserPrincipal = z.infer<typeof zUserPrincipal>
 export type UserPrincipals = UserPrincipal[]
 export type WebHook = z.infer<typeof zWebHook>
 export type WebHooks = WebHook[]
+export type WebHookFields = z.infer<typeof zWebHookFields>
+export type WebHookFieldss = WebHookFields[]
