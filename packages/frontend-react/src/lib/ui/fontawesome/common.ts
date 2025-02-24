@@ -1,3 +1,5 @@
+import { zString } from '@/lib/validators/common'
+
 import type { FontAwesomeCategoryOption, IconName } from '@/types/fontawesome'
 
 import { BrandIconNames, SolidIconNames } from './generated'
@@ -16,3 +18,8 @@ export const getIconCategory = (iconName: string | null | undefined): FontAwesom
 
     return null
 }
+
+export const zIcon = zString.refine(
+    (val) => BrandIconNames.includes(val) || SolidIconNames.includes(val),
+    (val) => ({ message: `${val} is not a valid FontAwesome icon` })
+)
