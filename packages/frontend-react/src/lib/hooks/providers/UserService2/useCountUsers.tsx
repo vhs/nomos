@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCountUsers = () => {}
+const useCountUsers = () => {}
+
+export default useCountUsers

@@ -27,7 +27,7 @@ const getNewCreatedDatesFetcher = async (start: string, end: string): Promise<Me
     return result
 }
 
-export const useGetCreatedDates = (start: string, end: string): SWRResponse<MetricServiceGetCreatedDatesResult> => {
+const useGetCreatedDates = (start: string, end: string): SWRResponse<MetricServiceGetCreatedDatesResult> => {
     const uri = useMemo(() => `${baseUri}?start_range=${start}&end_range=${end}`, [start, end])
 
     return useSWR<MetricServiceGetCreatedDatesResult>(
@@ -37,3 +37,5 @@ export const useGetCreatedDates = (start: string, end: string): SWRResponse<Metr
         }
     )
 }
+
+export default useGetCreatedDates

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdatePrivilegeIcon = () => {}
+const useUpdatePrivilegeIcon = () => {}
+
+export default useUpdatePrivilegeIcon

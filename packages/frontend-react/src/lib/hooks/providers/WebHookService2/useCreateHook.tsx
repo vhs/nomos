@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCreateHook = () => {}
+const useCreateHook = () => {}
+
+export default useCreateHook

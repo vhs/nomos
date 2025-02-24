@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateRecurring = () => {}
+const useUpdateRecurring = () => {}
+
+export default useUpdateRecurring

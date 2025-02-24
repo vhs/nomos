@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutSystemPreference = () => {}
+const usePutSystemPreference = () => {}
+
+export default usePutSystemPreference

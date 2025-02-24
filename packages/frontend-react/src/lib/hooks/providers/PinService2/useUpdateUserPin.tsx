@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateUserPin = () => {}
+const useUpdateUserPin = () => {}
+
+export default useUpdateUserPin

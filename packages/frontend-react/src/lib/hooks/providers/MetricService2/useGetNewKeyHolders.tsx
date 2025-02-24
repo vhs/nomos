@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetNewKeyHolders = () => {}
+const useGetNewKeyHolders = () => {}
+
+export default useGetNewKeyHolders

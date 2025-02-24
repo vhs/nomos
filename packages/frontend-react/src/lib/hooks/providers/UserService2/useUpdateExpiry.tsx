@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateExpiry = () => {}
+const useUpdateExpiry = () => {}
+
+export default useUpdateExpiry

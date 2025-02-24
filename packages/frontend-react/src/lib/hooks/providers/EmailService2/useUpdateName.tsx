@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateName = () => {}
+const useUpdateName = () => {}
+
+export default useUpdateName

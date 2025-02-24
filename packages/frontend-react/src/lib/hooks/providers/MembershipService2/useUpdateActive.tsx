@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateActive = () => {}
+const useUpdateActive = () => {}
+
+export default useUpdateActive

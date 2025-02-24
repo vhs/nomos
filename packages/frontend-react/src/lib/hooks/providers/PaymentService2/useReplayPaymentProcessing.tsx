@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useReplayPaymentProcessing = () => {}
+const useReplayPaymentProcessing = () => {}
+
+export default useReplayPaymentProcessing

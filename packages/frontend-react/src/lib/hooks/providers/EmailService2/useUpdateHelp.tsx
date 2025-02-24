@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateHelp = () => {}
+const useUpdateHelp = () => {}
+
+export default useUpdateHelp

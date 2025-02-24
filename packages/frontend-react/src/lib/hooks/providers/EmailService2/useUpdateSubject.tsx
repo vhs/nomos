@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateSubject = () => {}
+const useUpdateSubject = () => {}
+
+export default useUpdateSubject

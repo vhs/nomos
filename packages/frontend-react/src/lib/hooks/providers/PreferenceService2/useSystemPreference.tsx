@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useSystemPreference = () => {}
+const useSystemPreference = () => {}
+
+export default useSystemPreference

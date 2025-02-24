@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetExceptionPayments = () => {}
+const useGetExceptionPayments = () => {}
+
+export default useGetExceptionPayments

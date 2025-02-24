@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateHook = () => {}
+const useUpdateHook = () => {}
+
+export default useUpdateHook

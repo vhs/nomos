@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdatePaymentEmail = () => {}
+const useUpdatePaymentEmail = () => {}
+
+export default useUpdatePaymentEmail

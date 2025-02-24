@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutHookPrivileges = () => {}
+const usePutHookPrivileges = () => {}
+
+export default usePutHookPrivileges

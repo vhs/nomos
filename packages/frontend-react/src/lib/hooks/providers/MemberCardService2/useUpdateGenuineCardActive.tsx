@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateGenuineCardActive = () => {}
+const useUpdateGenuineCardActive = () => {}
+
+export default useUpdateGenuineCardActive

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useValidateGenuineCard = () => {}
+const useValidateGenuineCard = () => {}
+
+export default useValidateGenuineCard

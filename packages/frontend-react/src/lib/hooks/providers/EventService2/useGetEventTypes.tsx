@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetEventTypes = () => {}
+const useGetEventTypes = () => {}
+
+export default useGetEventTypes
