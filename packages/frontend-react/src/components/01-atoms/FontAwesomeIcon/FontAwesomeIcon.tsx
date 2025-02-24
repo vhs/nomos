@@ -41,7 +41,7 @@ const FontAwesomeIcon: FC<FontAwesomeIconProps> = ({
         return iconOptions.join(' ')
     }, [icon, category, effect, flip, inverse, pullLeft, pullRight, rotate, size, stack])
 
-    return <i className={clsx([iconClassName, className])} data-testid='FontAwesomeIcon' {...restProps}></i>
+    return <i className={clsx([className, iconClassName])} data-testid='FontAwesomeIcon' {...restProps}></i>
 }
 
 export default FontAwesomeIcon

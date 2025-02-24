@@ -6,7 +6,7 @@ import type { ModalFooterProps } from './ModalFooter.types'
 
 const ModalFooter: FC<ModalFooterProps> = ({ children, className }) => (
     <div
-        className={clsx(['flex flex-row justify-between rounded-b-lg rounded-t-none border-t p-2', className])}
+        className={clsx([className, 'flex flex-row justify-between rounded-b-lg rounded-t-none border-t p-2'])}
         data-testid='ModalFooter'
     >
         {children}
