@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IPrivilegeService2 } from '@/types/providers/IPrivilegeService2'
 import type { Privilege } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class PrivilegeService2 implements IPrivilegeService2 {
     /**

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type User from '../db/User'
+import { backendCall } from '@/lib/backend'
+import type User from '@/lib/db/User'
 
 import type { BackendResult } from '@/types/custom'
 import type { IAuthService2 } from '@/types/providers/IAuthService2'
@@ -16,8 +17,6 @@ import type {
     TrimmedUser,
     AccessLog
 } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class AuthService2 implements IAuthService2 {
     /**

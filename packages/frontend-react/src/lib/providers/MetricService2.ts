@@ -1,26 +1,25 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type User from '../db/User'
+import { backendCall } from '@/lib/backend'
+import type User from '@/lib/db/User'
 
 import type { BackendResult } from '@/types/custom'
 import type { IMetricService2 } from '@/types/providers/IMetricService2'
 import type {
     MetricServiceGetCreatedDatesResult,
-    Users,
     MetricServiceGetMembersResult,
-    NewMembersResult,
     MetricServiceGetRevenueResult,
+    NewMembersResult,
+    Payments,
     TotalKeyHoldersResult,
     TotalMembersResult
 } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class MetricService2 implements IMetricService2 {
     async GetCreatedDates(start_range: string, end_range: string): BackendResult<MetricServiceGetCreatedDatesResult> {
         return await backendCall('/services/v2/MetricService2.svc/GetCreatedDates', { start_range, end_range })
     }
-    async GetExceptionPayments(): BackendResult<Users> {
+    async GetExceptionPayments(): BackendResult<Payments> {
         return await backendCall('/services/v2/MetricService2.svc/GetExceptionPayments', {})
     }
     async GetMembers(
