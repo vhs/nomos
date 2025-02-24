@@ -8,7 +8,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 
 const ConditionalTableCell: FC<ConditionalTableCellProps> = ({ className, condition, children }) => (
     <Conditional condition={condition}>
-        <td className={clsx(['px-1 text-center', className])}>{children}</td>
+        <td className={clsx([className, 'px-1 text-center'])}>{children}</td>
     </Conditional>
 )
 

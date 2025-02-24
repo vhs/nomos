@@ -18,7 +18,7 @@ const Col: FC<ColProps> = ({ children, className, ...restProps }) => {
             return basis
         })
 
-    const classNames = ['col', className, ...breakpointClasses].map((cn) => cn?.replace(/default:/, ''))
+    const classNames = [className, ...breakpointClasses, 'col'].map((cn) => cn?.replace(/default:/, ''))
 
     if (!classNames.join(' ').includes('basis-')) {
         classNames.splice(1, 0, 'shrink grow basis-0')

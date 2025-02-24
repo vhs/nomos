@@ -6,11 +6,11 @@ import type { FormColProps } from './FormCol.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 
-const FormCol: FC<FormColProps> = ({ children, error }) => {
+const FormCol: FC<FormColProps> = ({ children, className, error }) => {
     error ??= false
 
     return (
-        <Col className={clsx(['rounded-lg', error ? 'shadow-form-error' : null])} data-testid='FormCol'>
+        <Col className={clsx([className, 'rounded-lg', error ? 'shadow-form-error' : null])} data-testid='FormCol'>
             {children}
         </Col>
     )

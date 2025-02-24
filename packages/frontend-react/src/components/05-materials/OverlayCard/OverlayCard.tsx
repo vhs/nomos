@@ -8,7 +8,7 @@ import type { OverlayCardProps } from './OverlayCard.types'
 import Button from '@/components/01-atoms/Button/Button'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Overlay from '@/components/01-atoms/Overlay/Overlay'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 const OverlayCard: FC<OverlayCardProps> = ({ show, title, children, className, actions, closeLabel, onClose }) => {
     closeLabel ??= 'Cancel'
@@ -25,7 +25,7 @@ const OverlayCard: FC<OverlayCardProps> = ({ show, title, children, className, a
         <div data-testid='OverlayCard'>
             <Conditional condition={show}>
                 <Overlay handler={closeHandler}>
-                    <div className={clsx(['m-auto', className])}>
+                    <div className={clsx([className, 'm-auto'])}>
                         <Card>
                             <Card.Header>
                                 <h1>{title}</h1>

@@ -7,8 +7,8 @@ import type { PillProps } from './Pill.types'
 const Pill: FC<PillProps> = ({ children, className }) => (
     <div
         className={clsx([
-            'm-1 rounded-xl bg-blue-500 px-4 py-0.5 text-center align-middle italic text-white',
-            className
+            className,
+            'm-1 rounded-xl bg-blue-500 px-4 py-0.5 text-center align-middle italic text-white'
         ])}
         data-testid='Pill'
     >

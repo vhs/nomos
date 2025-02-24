@@ -13,7 +13,7 @@ const ModalHeader: FC<ModalHeaderProps> = ({ children, className, closeButton })
     const showCloseButton = closeButton != null
 
     return (
-        <div className={clsx(['rounded-t-lg p-2', className])} data-testid='ModalHeader'>
+        <div className={clsx([className, 'rounded-t-lg p-2'])} data-testid='ModalHeader'>
             <Row>
                 <Col className={clsx([showCloseButton ? 'basis-11/12' : 'basis-auto', 'text-center font-bold italic'])}>
                     {children}
