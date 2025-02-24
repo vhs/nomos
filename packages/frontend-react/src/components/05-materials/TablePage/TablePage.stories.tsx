@@ -48,8 +48,9 @@ export const Default: StoryType = {
         order: ['id'],
         // @ts-expect-error mismatch
         component: MockDataComponent,
-        filters: [
+        primaryFilters: [
             {
+                id: 'red',
                 label: 'Red',
                 filter: {
                     column: 'color',
@@ -58,6 +59,7 @@ export const Default: StoryType = {
                 }
             },
             {
+                id: 'green',
                 label: 'Green',
                 filter: {
                     column: 'color',
@@ -66,6 +68,7 @@ export const Default: StoryType = {
                 }
             },
             {
+                id: 'blue',
                 label: 'Blue',
                 filter: {
                     column: 'color',
