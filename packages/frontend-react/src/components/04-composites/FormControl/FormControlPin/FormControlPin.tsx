@@ -21,7 +21,6 @@ const FormControlPin: FC<FormControlPinProps> = ({
     options,
     preContent,
     reset,
-    validators,
     ...restProps
 }) => {
     const hasPreContent = useMemo(() => preContent != null, [preContent])
@@ -46,7 +45,6 @@ const FormControlPin: FC<FormControlPinProps> = ({
                     <span className={styles.PreContent}>{preContent ?? ''}</span>
                 </Conditional>
                 <input
-                    id={id}
                     className={clsx([styles.Main, 'w-14'])}
                     type='number'
                     onBlur={(event) => {
