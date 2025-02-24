@@ -18,7 +18,6 @@ const FormControlTextArea: FC<FormControlTextAreaProps> = ({
     options,
     preContent,
     reset,
-    validators,
     ...restProps
 }) => {
     const [hasFocus, setHasFocus] = useState(false)
@@ -31,8 +30,7 @@ const FormControlTextArea: FC<FormControlTextAreaProps> = ({
         <div data-testid='FormControlTextArea'>
             <FormControlContainer className={className} error={error} hasFocus={hasFocus}>
                 <textarea
-                    id={id}
-                    className={clsx([styles.Main, 'w-full'])}
+                    className={clsx([styles.Main])}
                     data-testid='textarea'
                     onBlur={(event): void => {
                         setHasFocus(false)

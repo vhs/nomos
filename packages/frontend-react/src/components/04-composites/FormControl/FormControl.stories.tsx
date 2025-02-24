@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm, type UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
+import { zEmailAddress, zPasswordField, zString, zUserPin } from '@/lib/validators/common'
 
 import Col from '../../01-atoms/Col/Col'
 import FontAwesomeIcon from '../../01-atoms/FontAwesomeIcon/FontAwesomeIcon'
@@ -20,19 +23,52 @@ const meta: Meta<typeof FormControl> = {
 
 export default meta
 
+const FormControlStorySchema = z.object({
+    field1: zString,
+    field2: zString,
+    field3: zString,
+    field4: zString,
+    field5: zPasswordField,
+    field6: zEmailAddress,
+    field7: zEmailAddress,
+    field8: zUserPin,
+    field9: zUserPin,
+    field10: zUserPin,
+    field11: z.union([z.literal('option1'), z.literal('option2'), z.literal('option3'), z.literal('option4')]),
+    field12: zString
+})
+
+type FormControlStoryForm = z.infer<typeof FormControlStorySchema>
+
+const FormControlStoryDefaultValues: FormControlStoryForm = {
+    field1: '',
+    field2: '',
+    field3: '',
+    field4: '',
+    field5: 'password',
+    field6: 'user@example.com',
+    field7: 'user@example.com',
+    field8: '1234',
+    field9: '1234',
+    field10: '1234',
+    field11: 'option1',
+    field12: 'text area'
+}
+
+const useStoryForm = (): UseFormReturn<FormControlStoryForm> => {
+    return useForm<FormControlStoryForm>({
+        resolver: zodResolver(FormControlStorySchema),
+        mode: 'onChange',
+        defaultValues: FormControlStoryDefaultValues
+    })
+}
+
 export const Default: StoryType = {
     render: () => {
-        const [field1, setField1] = useState('')
-        const [field2, setField2] = useState('')
-        const [field3, setField3] = useState('password')
-        const [field4, setField4] = useState('user@example.com')
-        const [field5, setField5] = useState('1234')
-        const [field6, setField6] = useState('1234')
-        const [field7, setField7] = useState('')
-        const [field8, setField8] = useState('')
+        const form = useStoryForm()
 
         return (
-            <>
+            <FormProvider {...form}>
                 <Row className='spacious'>
                     <Col>
                         <h2 className='text-left'>Unspecified</h2>
@@ -40,13 +76,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl
-                            onChange={(change) => {
-                                setField1(change)
-                            }}
-                            placeholder='field1'
-                            value={field1}
-                        />
+                        <FormControl id='field1' placeholder='field1' />
                     </Col>
                 </Row>
 
@@ -57,7 +87,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl disabled value={'disabled'} />
+                        <FormControl id='field2' disabled value={'disabled'} placeholder='field2' />
                     </Col>
                 </Row>
 
@@ -68,14 +98,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl
-                            formType='text'
-                            onChange={(change) => {
-                                setField2(change)
-                            }}
-                            placeholder='field2'
-                            value={field2}
-                        />
+                        <FormControl id='field3' formType='text' placeholder='field3' />
                     </Col>
                 </Row>
 
@@ -87,14 +110,11 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            onChange={(change) => {
-                                setField2(change)
-                            }}
-                            placeholder='field2'
+                            id='field4'
+                            placeholder='field4'
                             reset={() => {
-                                setField2('')
+                                // form.setValue('field4', '')
                             }}
-                            value={field2}
                         />
                     </Col>
                 </Row>
@@ -106,14 +126,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl
-                            formType='password'
-                            onChange={(change) => {
-                                setField3(change)
-                            }}
-                            placeholder='password'
-                            value={field3}
-                        />
+                        <FormControl id='field5' formType='password' placeholder='password' />
                     </Col>
                 </Row>
 
@@ -125,13 +138,10 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field6'
                             formType='email'
                             preContent={<FontAwesomeIcon icon='at' />}
-                            onChange={(change) => {
-                                setField4(change)
-                            }}
                             placeholder='user@example.com'
-                            value={field4}
                         />
                     </Col>
                 </Row>
@@ -144,13 +154,10 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field7'
                             formType='email'
                             preContent={<FontAwesomeIcon icon='at' />}
-                            onChange={(change) => {
-                                setField4(change)
-                            }}
                             placeholder='user@example.com'
-                            value={field4}
                             infoButton={{
                                 title: 'Info Title',
                                 children: 'Info Content'
@@ -166,16 +173,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl
-                            formType='number'
-                            maxLength={4}
-                            size={4}
-                            onChange={(change) => {
-                                setField5(change)
-                            }}
-                            placeholder='0000'
-                            value={field5}
-                        />
+                        <FormControl id='field8' formType='number' maxLength={4} size={4} placeholder='0000' />
                     </Col>
                 </Row>
 
@@ -187,15 +185,12 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field9'
                             formType='pin'
                             preContent='0000'
                             maxLength={4}
                             size={4}
-                            onChange={(change) => {
-                                if (/\d{1,4}/.test(change)) setField6(change)
-                            }}
                             placeholder='0000'
-                            value={field6}
                         />
                     </Col>
                 </Row>
@@ -208,15 +203,12 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field10'
                             formType='pin'
                             preContent='0000'
                             maxLength={4}
                             size={4}
-                            onChange={(change) => {
-                                if (/\d{1,4}/.test(change)) setField6(change)
-                            }}
                             placeholder='0000'
-                            value={field6}
                             infoButton={{ title: 'Info Title', children: 'Info Content' }}
                         />
                     </Col>
@@ -230,12 +222,9 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field11'
                             formType='dropdown'
                             options={['option1', 'option2', 'option3', 'option4']}
-                            onChange={(change) => {
-                                setField7(change)
-                            }}
-                            value={field7}
                         />
                     </Col>
                 </Row>
@@ -248,52 +237,49 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
+                            id='field12'
                             formType='textarea'
                             aria-placeholder='text area'
                             placeholder='text area'
-                            onChange={(change) => {
-                                setField8(change)
-                            }}
-                            value={field8}
                         />
                     </Col>
                 </Row>
-            </>
+            </FormProvider>
         )
     }
 }
 
 export const Normal: StoryType = {
-    args: { formType: 'text' }
+    args: { id: 'field3', formType: 'text' }
 }
 
 export const PinWithInfoButton: StoryType = {
     render: () => {
-        const [field6, setField6] = useState('1234')
+        const form = useStoryForm()
 
         return (
-            <Row>
-                <Col className='find-me text-center'>
-                    <FormControl
-                        formType='pin'
-                        preContent='0000'
-                        maxLength={4}
-                        size={4}
-                        onChange={(change) => {
-                            if (/\d{1,4}/.test(change)) setField6(change)
-                        }}
-                        placeholder='0000'
-                        value={field6}
-                        infoButton={{ title: 'Info Title', children: 'Info Content' }}
-                    />
-                </Col>
-            </Row>
+            <FormProvider {...form}>
+                <Row>
+                    <Col className='find-me text-center'>
+                        <FormControl
+                            id='field10'
+                            formType='pin'
+                            preContent='0000'
+                            maxLength={4}
+                            size={4}
+                            placeholder='0000'
+                            infoButton={{ title: 'Info Title', children: 'Info Content' }}
+                        />
+                    </Col>
+                </Row>
+            </FormProvider>
         )
     }
 }
 
 export const PreContent: StoryType = {
     args: {
+        id: 'field6',
         formType: 'email',
         preContent: <FontAwesomeIcon icon='at' />
     }
@@ -301,6 +287,7 @@ export const PreContent: StoryType = {
 
 export const PinInput: StoryType = {
     args: {
+        id: 'field8',
         formType: 'number',
         preContent: '0000'
     }

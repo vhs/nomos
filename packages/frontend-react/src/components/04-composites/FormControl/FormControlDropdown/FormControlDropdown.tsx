@@ -17,7 +17,6 @@ const FormControlDropdown: FC<FormControlDropdownProps> = ({
     options,
     preContent,
     reset,
-    validators,
     ...restProps
 }) => {
     const [hasFocus, setHasFocus] = useState(false)
@@ -30,8 +29,7 @@ const FormControlDropdown: FC<FormControlDropdownProps> = ({
         <div data-testid='FormControlDropdown'>
             <FormControlContainer className={className} error={error} hasFocus={hasFocus}>
                 <select
-                    id={id}
-                    className={clsx([styles.Main, 'w-full'])}
+                    className={clsx([styles.Main])}
                     data-testid='FormControl'
                     onBlur={(event): void => {
                         setHasFocus(false)

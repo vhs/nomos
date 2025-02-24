@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 
+import styles from './FormControl.module.css'
 import {
     isFormControlDropdownProps,
     isFormControlPinProps,
@@ -17,25 +18,25 @@ const FormControl: FC<FormControlProps> = (props) => {
 
     if (isFormControlDropdownProps(props)) {
         return (
-            <div data-testid='FormControl' className='w-full'>
+            <div data-testid='FormControl' className={styles.Wrapper}>
                 <FormControlDropdown {...props} />
             </div>
         )
     } else if (isFormControlTextAreaProps(props)) {
         return (
-            <div data-testid='FormControl' className='w-full'>
+            <div data-testid='FormControl' className={styles.Wrapper}>
                 <FormControlTextArea {...props} />
             </div>
         )
     } else if (isFormControlPinProps(props)) {
         return (
-            <div data-testid='FormControl' className='w-full'>
+            <div data-testid='FormControl' className={styles.Wrapper}>
                 <FormControlPin {...props} />
             </div>
         )
     } else {
         return (
-            <div data-testid='FormControl' className='w-full'>
+            <div data-testid='FormControl' className={styles.Wrapper}>
                 <FormControlDefault {...props} />
             </div>
         )

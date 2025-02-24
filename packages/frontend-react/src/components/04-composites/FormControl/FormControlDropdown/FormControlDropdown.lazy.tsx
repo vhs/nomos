@@ -1,6 +1,6 @@
 import { lazy, Suspense, type JSX } from 'react'
 
-import type { FormControlDropdownProps } from './FormControlDropdown.types'
+import type { FormControlDropdownProps } from '../FormControl.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 

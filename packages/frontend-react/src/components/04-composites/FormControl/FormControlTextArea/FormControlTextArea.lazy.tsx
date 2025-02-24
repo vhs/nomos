@@ -1,6 +1,6 @@
 import { lazy, Suspense, type JSX } from 'react'
 
-import type { FormControlTextAreaProps } from './FormControlTextArea.types'
+import type { FormControlTextAreaProps } from '../FormControl.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
