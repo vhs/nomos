@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IPinService2 } from '@/types/providers/IPinService2'
 import type { Key } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class PinService2 implements IPinService2 {
     /**

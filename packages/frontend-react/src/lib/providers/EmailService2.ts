@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { backendCall } from '@/lib/backend'
+
 import type { BackendResult } from '@/types/custom'
 import type { IEmailService2 } from '@/types/providers/IEmailService2'
 import type { EmailTemplate, User } from '@/types/records'
-
-import { backendCall } from '../backend'
 
 export default class EmailService2 implements IEmailService2 {
     /**
