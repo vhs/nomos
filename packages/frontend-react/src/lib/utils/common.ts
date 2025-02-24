@@ -2,7 +2,17 @@ import moment from 'moment'
 
 import type { BubbleDataPoint } from 'chart.js'
 
-import { isString, isStringArray } from './validators/guards'
+import {
+    isBasePrivilegesArray,
+    isPrivilegesArray,
+    isBooleanRecord,
+    isString,
+    isStringArray
+} from '@/lib/validators/guards'
+
+import type { BooleanRecord } from '@/types/common'
+import type { FilterDefinitions } from '@/types/query-filters'
+import type { BasePrivileges, Privileges } from '@/types/records'
 
 export const coerceStringArray = (inp: unknown): string[] => {
     if (typeof inp !== 'string' && Array.isArray(inp) && inp.length > 0 && inp.every((e) => typeof e !== 'string'))
@@ -99,4 +109,67 @@ export const stripResultMessageQuotes = (inp: string): string => {
     if (!/^".+"$/.test(inp)) return inp
 
     return inp.substring(1, inp.length - 1)
+}
+
+export const getEnabledStateRecordKeys = <
+    T extends Record<string, boolean>,
+    F extends string | number | symbol = keyof T
+>(
+    inp: T
+): F[] => Object.keys(inp).filter((k) => inp[k]) as F[]
+
+export const convertPrivilegesArrayToBooleanRecord = (
+    privileges: BasePrivileges | Privileges | null | undefined | string,
+    defaultVal?: boolean
+): BooleanRecord => {
+    defaultVal ??= true
+
+    if (privileges == null || (!isPrivilegesArray(privileges) && !isBasePrivilegesArray(privileges))) return {}
+
+    return privileges?.reduce<BooleanRecord>((c, e) => {
+        c[e.code] = defaultVal
+
+        return c
+    }, {})
+}
+
+export const convertFilterArrayToBooleanRecord = (
+    filters: FilterDefinitions | null | undefined,
+    defaultVal?: boolean
+): BooleanRecord => {
+    defaultVal ??= false
+
+    if (filters == null) return {}
+
+    return filters?.reduce<BooleanRecord>((c, filter) => {
+        c[filter.id] = defaultVal
+
+        return c
+    }, {})
+}
+
+export const convertStringArrayToBooleanRecord = (
+    inp: string[] | null | undefined,
+    defaultVal?: boolean
+): BooleanRecord => {
+    defaultVal ??= false
+
+    if (!isStringArray(inp)) return {}
+
+    return inp?.reduce<BooleanRecord>((c, e) => {
+        c[e] = defaultVal
+
+        return c
+    }, {})
+}
+
+export const mergeBooleanRecord = (base: BooleanRecord, override: BooleanRecord): BooleanRecord => {
+    if (!isBooleanRecord(base)) throw new Error('Invalid base state record')
+    if (!isBooleanRecord(override)) throw new Error('Invalid override state record')
+
+    return Object.keys(override).reduce((c, e) => {
+        c[e] = override[e]
+
+        return c
+    }, base)
 }
