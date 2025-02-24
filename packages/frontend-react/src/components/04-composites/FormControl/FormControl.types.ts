@@ -78,10 +78,10 @@ type FormControlExcludeProps = 'id' | 'name' | 'onBlur' | 'onChange'
 interface FormControlBaseProps {
     id: string
     error?: boolean
+    errorMessage?: string
     reset?: () => void
     // onChange?: (change: string) => void
     // value?: string
-    validators?: Array<(value: string) => boolean>
 }
 
 type BaseInputElementProps = Partial<Omit<CastReactElement<'input'>, FormControlExcludeProps>> & {

@@ -16,13 +16,13 @@ import styles from './FormControlDefault.module.css'
 const FormControlDefault: FC<FormControlDefaultProps> = ({
     className,
     error,
+    errorMessage,
     formType,
     id,
     infoButton,
     options,
     preContent,
     reset,
-    validators,
     ...restProps
 }) => {
     error ??= false
@@ -52,8 +52,7 @@ const FormControlDefault: FC<FormControlDefaultProps> = ({
                 </Conditional>
                 <input
                     type={formType}
-                    id={id}
-                    className={clsx([styles.Main, 'w-full'])}
+                    className={clsx([styles.Main])}
                     onBlur={(event): void => {
                         setHasFocus(false)
                         void onBlur(event)

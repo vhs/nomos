@@ -1,3 +1,7 @@
+.Wrapper {
+    @apply w-full;
+}
+
 .Container {
     @apply flex h-8 min-h-8 w-full animate-btn flex-row flex-nowrap align-middle leading-6 text-gray-500 outline-none;
 }
@@ -7,7 +11,7 @@
 }
 
 .Main {
-    @apply h-8 animate-btn rounded-lg border-2 border-gray-200 bg-white px-1 py-0.5 align-middle text-gray-800 outline-none;
+    @apply h-8 w-available animate-btn rounded-lg border-2 border-gray-200 bg-white px-1 py-0.5 align-middle text-gray-800 outline-none;
 }
 
 .PreContent {
@@ -38,4 +42,8 @@
 
 .ResetInset {
     @apply -ml-6 mt-1.5 h-6 w-6 text-gray-500/50;
+}
+
+.PopoutError {
+    @apply relative bottom-8 left-16 z-above-and-beyond w-fit text-nowrap rounded-lg border border-slate-500 bg-white/100 p-1 text-center shadow-form-error;
 }
