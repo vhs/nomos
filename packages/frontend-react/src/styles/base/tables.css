@@ -1,0 +1,9 @@
+@layer base {
+    TR.data-row {
+        @apply odd:bg-white even:bg-slate-200;
+    }
+
+    TR.data-row > TD {
+        @apply overflow-hidden overflow-ellipsis;
+    }
+}
