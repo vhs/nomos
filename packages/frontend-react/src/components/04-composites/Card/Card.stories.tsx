@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
 
-import Card from './index'
+import Card from './Card'
 
 export default {
     title: '04-Composites/Card'

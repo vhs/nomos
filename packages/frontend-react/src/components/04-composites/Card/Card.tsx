@@ -1,4 +1,4 @@
-import type { CardComponent } from './Card.types'
+import type { CardComponent as Card } from './Card.types'
 
 import Body from './CardBody/CardBody'
 import Container from './CardContainer/CardContainer'
@@ -12,6 +12,6 @@ Container.Footer = Footer
 // @ts-expect-error Property 'Header' does not exist on type 'FC<CardContainerProps>'.
 Container.Header = Header
 
-export default Container as CardComponent
+export default Container as Card
 
 export { Body, Container, Footer, Header }
