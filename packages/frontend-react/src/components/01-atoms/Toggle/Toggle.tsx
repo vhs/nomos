@@ -26,7 +26,7 @@ const Toggle: FC<ToggleProps> = ({ children, checked, disabled, onChange, ...res
 
     return (
         <button
-            className={clsx(['flex w-full flex-row px-1'])}
+            className={clsx(['flex w-available flex-row px-1'])}
             onKeyUp={() => {
                 if (!disabled) toggleChecked()
             }}
