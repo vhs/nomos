@@ -1,5 +1,5 @@
-import type { FieldDefinition, FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const AdminApiKeysFields: FieldDefinition[] = [{ title: 'Field', field: 'field' }]
+export const AdminApiKeysFields: FieldDefinitions = [{ title: 'Field', field: 'field' }]
 
-export const AdminApiKeysFilters: FilterDefinition[] = []
+export const AdminApiKeysFilters: FilterDefinitions = []

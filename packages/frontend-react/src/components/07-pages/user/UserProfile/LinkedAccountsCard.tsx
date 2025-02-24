@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
 import type UserObject from '@/lib/db/User'
 

@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import type { AuthenticationProviderProps, AuthenticationStates } from './AuthenticationProvider.types'
 
 import AuthService2 from '@/lib/providers/AuthService2'
-import { stripResultMessageQuotes } from '@/lib/util'
+import { stripResultMessageQuotes } from '@/lib/utils'
 
 import { AuthenticationContext } from './AuthenticationProvider.context'
 import { backendCurrentUserUrl, currentUserFetchConfig, currentUserFetcher } from './AuthenticationProvider.utils'

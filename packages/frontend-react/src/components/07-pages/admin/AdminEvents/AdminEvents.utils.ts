@@ -1,6 +1,6 @@
-import type { FieldDefinition, FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const AdminEventsFields: FieldDefinition[] = [
+export const AdminEventsFields: FieldDefinitions = [
     { title: 'Name', field: 'name' },
     { title: 'Domain', field: 'domain' },
     { title: 'Event', field: 'event' },
@@ -9,4 +9,4 @@ export const AdminEventsFields: FieldDefinition[] = [
     { title: 'Privileges', field: 'privileges' }
 ]
 
-export const AdminEventsFilters: FilterDefinition[] = []
+export const AdminEventsFilters: FilterDefinitions = []

@@ -5,7 +5,7 @@ import type { UserPurchasesProps } from './UserPurchases.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Container from '@/components/01-atoms/Container/Container'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
 const UserPurchases: FC<UserPurchasesProps> = () => (

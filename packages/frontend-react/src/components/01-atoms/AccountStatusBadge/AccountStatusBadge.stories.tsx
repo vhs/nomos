@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook/common'
+import Col from '@/components/01-atoms/Col/Col'
+import Row from '@/components/01-atoms/Row/Row'
 
-import Col from '../Col/Col'
-import Row from '../Row/Row'
+import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook/common'
 
 import AccountStatusBadge from './AccountStatusBadge'
 

@@ -1,6 +1,6 @@
-import type { FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const AdminIPNRecordsFields = [
+export const AdminIPNRecordsFields: FieldDefinitions = [
     { title: 'Created', field: 'created' },
     { title: 'Validated', field: 'validation' },
     { title: 'Payment Status', field: 'payment_status' },
@@ -12,7 +12,7 @@ export const AdminIPNRecordsFields = [
     { title: 'Raw', field: 'raw' }
 ]
 
-export const AdminIPNRecordsFilters: FilterDefinition[] = [
+export const AdminIPNRecordsFilters: FilterDefinitions = [
     {
         id: 'pending',
         label: 'Show Pending',

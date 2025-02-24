@@ -10,18 +10,17 @@ import useSWR from 'swr'
 
 import type { AdminUserItemData, AdminUserItemProps } from './AdminUserItem.types'
 
+import AccountStatusBadge from '@/components/01-atoms/AccountStatusBadge/AccountStatusBadge'
+import Button from '@/components/01-atoms/Button/Button'
+import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import Popover from '@/components/01-atoms/Popover/Popover'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import Loading from '@/components/02-molecules/Loading/Loading'
 
 import { convertUserStatus } from '@/lib/nomos'
 
 import type { UserActiveStates } from '@/types/common'
-
-import AccountStatusBadge from '../../../../01-atoms/AccountStatusBadge/AccountStatusBadge'
-import Button from '../../../../01-atoms/Button/Button'
-import FontAwesomeIcon from '../../../../01-atoms/FontAwesomeIcon/FontAwesomeIcon'
-import Popover from '../../../../01-atoms/Popover/Popover'
-import TablePageRow from '../../../../01-atoms/TablePageRow/TablePageRow'
 
 const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
     const router = useRouter()
