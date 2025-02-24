@@ -8,7 +8,7 @@ const Container: FC<ContainerProps> = ({ fluid, className, children }) => {
     fluid ??= false
 
     return (
-        <div className={clsx([fluid ? 'w-full' : 'container', 'mx-auto', className])} data-testid='Container'>
+        <div className={clsx([className, fluid ? 'w-full' : 'container', 'mx-auto'])} data-testid='Container'>
             {children}
         </div>
     )

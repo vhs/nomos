@@ -15,12 +15,12 @@ const ModalContainer: FC<ModalContainerProps> = ({ children, className, show }) 
             <Overlay>
                 <div
                     className={clsx([
+                        className,
                         'overlay-container',
-                        'm-auto w-9/12 rounded-sm border border-gray-500/50 shadow-lg',
+                        'm-auto w-9/12 rounded-sm border border-gray-500/50 shadow-lg'
                         // 'relative',
                         // 'left-[50vw] w-[24vw] -translate-x-[12vw]',
                         // 'top-[48vh] h-[24vh] -translate-y-[12vh]',
-                        className
                     ])}
                     data-testid='ModalTitle'
                 >

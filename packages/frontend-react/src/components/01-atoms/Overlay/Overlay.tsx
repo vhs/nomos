@@ -22,7 +22,9 @@ const Overlay: FC<OverlayProps> = ({ children, handler }) => {
     return (
         <div className='modal' data-testid='Overlay'>
             <div className='modal-container'>
-                <div ref={ref}>{children}</div>
+                <div className='modal-content' ref={ref}>
+                    {children}
+                </div>
             </div>
         </div>
     )

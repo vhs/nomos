@@ -18,7 +18,7 @@ const InfoButton: FC<InfoButtonProps> = ({ className, title, children }) => {
     return (
         <>
             <Button
-                className={clsx(['max-h-4 max-w-8 text-center align-top', className])}
+                className={clsx([className, 'max-h-4 max-w-8 text-center align-top'])}
                 variant='none'
                 onClick={toggleOverlay}
             >
