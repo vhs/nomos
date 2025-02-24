@@ -1,0 +1,109 @@
+@layer components {
+    .btn {
+        @apply mb-0 inline-block h-10 min-w-fit cursor-pointer touch-manipulation select-none whitespace-nowrap rounded-lg border border-solid bg-none px-3 text-center align-middle font-bold;
+    }
+
+    .btn-primary {
+        @apply border-primary bg-primary text-white;
+    }
+
+    .btn-primary:hover {
+        @apply shadow-primary;
+    }
+
+    .btn-secondary {
+        @apply border-secondary bg-secondary text-white;
+    }
+
+    .btn-secondary:hover {
+        @apply shadow-secondary;
+    }
+
+    .btn-success {
+        @apply border-success bg-success text-white;
+    }
+
+    .btn-success:hover {
+        @apply shadow-success;
+    }
+
+    .btn-warning {
+        @apply border-warning bg-warning text-white;
+    }
+
+    .btn-warning:hover {
+        @apply shadow-warning;
+    }
+
+    .btn-danger {
+        @apply border-danger bg-danger text-white;
+    }
+
+    .btn-danger:hover {
+        @apply shadow-danger;
+    }
+
+    .btn-info {
+        @apply border-info bg-info text-white;
+    }
+
+    .btn-info:hover {
+        @apply shadow-info;
+    }
+
+    .btn-light {
+        @apply border-light bg-light text-black;
+    }
+
+    .btn-light:hover {
+        @apply shadow-light;
+    }
+
+    .btn-dark {
+        @apply border-dark bg-dark text-white;
+    }
+
+    .btn-dark:hover {
+        @apply shadow-dark;
+    }
+
+    .btn-link {
+        @apply border-link bg-link text-anchor;
+    }
+
+    .btn-link:hover {
+        @apply shadow-link;
+    }
+
+    .btn-none {
+        @apply border-0 bg-transparent text-[unset];
+    }
+
+    .btn-none:hover {
+        @apply shadow-link;
+    }
+
+    .btn-disabled {
+        @apply cursor-not-allowed border-disabled bg-disabled text-white;
+    }
+
+    .btn-disabled:hover {
+        @apply shadow-disabled;
+    }
+
+    .btn-circle {
+        @apply rounded-3xl;
+    }
+
+    .btn-sm {
+        @apply h-7 pt-0.5;
+    }
+
+    .btn-icon {
+        @apply h-[4vmin] w-[4vmin] p-[unset];
+    }
+
+    .btn:disabled {
+        @apply cursor-[unset] opacity-65 shadow-none;
+    }
+}

@@ -1,0 +1,67 @@
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@layer base {
+    BODY {
+        @apply mt-16 text-sm sm:text-base;
+        /* scrollbar-gutter: stable both-edges; */
+    }
+
+    A {
+        @apply text-blue-500;
+    }
+
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6 {
+        font-size: revert;
+        font-weight: revert;
+    }
+
+    UL,
+    OL,
+    LI {
+        list-style: revert;
+        margin: revert;
+        padding: revert;
+    }
+
+    P {
+        @apply spacious;
+    }
+
+    TR,
+    TH,
+    TD {
+        @apply border border-black/25;
+    }
+
+    PRE {
+        @apply rounded-lg bg-gray-200;
+    }
+
+    INPUT[type='number'] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    INPUT::-webkit-outer-spin-button,
+    INPUT::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    #user-dashboard-link > .col > a {
+        @apply text-[revert];
+    }
+}
