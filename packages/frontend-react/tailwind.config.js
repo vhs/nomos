@@ -10,7 +10,7 @@ export default {
             },
             boxShadow: {
                 'form-control': 'inset 0px 0px 4px 4px aliceblue',
-                'form-error': '0px 0px 4px 2px #dc354580',
+                'form-error': '0px 0px 4px 2px #ffac3680',
                 'primary': '0px 0px 8px -2px #0d6efdff',
                 'secondary': '0px 0px 8px -2px #6c757dff',
                 'success': '0px 0px 8px -2px #51ab51ff',
