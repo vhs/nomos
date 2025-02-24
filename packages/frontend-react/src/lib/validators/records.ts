@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { z } from 'zod'
 
+import { zIcon } from '@/lib/ui/fontawesome'
+
 import {
     zBoolean,
     zString,
@@ -20,7 +22,7 @@ import {
     zDateTime
 } from './common'
 
-export const zCommon = z.object({ id: z.number() })
+export const zCommon = z.object({ id: zNumber })
 
 export const zDataRecord = zCommon.catchall(z.unknown())
 
@@ -37,109 +39,111 @@ export const UserTrimValues = [
 ]
 
 export const zAccessLog = zCommon.extend({
-    key: z.string(),
-    type: z.string(),
-    authorized: z.boolean(),
-    from_ip: z.string(),
+    key: zString,
+    type: zString,
+    authorized: zBoolean,
+    from_ip: zString,
     time: zDateTime,
-    userid: z.number().nullish()
+    userid: zNumber.nullish()
 })
 
 export const zAccessToken = zCommon.extend({
-    token: z.string(),
+    token: zString,
     expires: zDateTime,
-    userid: z.number(),
-    appclientid: z.number()
+    userid: zNumber,
+    appclientid: zNumber
 })
 
 export const zAppClient = zCommon.extend({
-    secret: z.string(),
+    secret: zString,
     expires: zDateTime,
-    userid: z.number(),
-    name: z.string(),
-    description: z.string(),
-    url: z.string(),
-    redirecturi: z.string(),
-    enabled: z.boolean()
+    userid: zNumber,
+    name: zString,
+    description: zString,
+    url: zString,
+    redirecturi: zString,
+    enabled: zBoolean
 })
 
 export const zAuthCheckResult = z
     .object({ valid: zBoolean, type: zString.nullish(), privileges: zStringArray.nullish() })
     .catchall(z.unknown())
 
-export const zBasePrivilege = z.object({ name: z.string(), code: z.string() })
+export const zBasePrivilege = z.object({ name: zString, code: zString })
 
-export const zCurrentUser = zCommon.extend({ permissions: z.array(z.string()) })
+export const zBasePrivilegesArray = zBasePrivilege.array()
+
+export const zCurrentUser = zCommon.extend({ permissions: zStringArray })
 
 export const zDomain = zCommon.extend({
-    name: z.string(),
-    domain: z.string(),
-    event: z.string(),
-    description: z.string(),
-    enabled: z.boolean()
+    name: zString,
+    domain: zString,
+    event: zString,
+    description: zString,
+    enabled: zBoolean
 })
 
 export const zEmail = zCommon.extend({
-    name: z.string(),
-    code: z.string(),
-    subject: z.string(),
-    help: z.string(),
-    body: z.string(),
-    html: z.string()
+    name: zString,
+    code: zString,
+    subject: zString,
+    help: zString,
+    body: zString,
+    html: zString
 })
 
 export const zEmailTemplate = z.object({
-    id: z.number(),
-    name: z.string(),
-    code: z.string(),
-    subject: z.string(),
-    help: z.string(),
-    body: z.string(),
-    html: z.string()
+    id: zNumber,
+    name: zString,
+    code: zString,
+    subject: zString,
+    help: zString,
+    body: zString,
+    html: zString
 })
 
 export const zEvent = zCommon.extend({
-    name: z.string(),
-    domain: z.string(),
-    event: z.string(),
-    description: z.string(),
-    enabled: z.boolean()
+    name: zString,
+    domain: zString,
+    event: zString,
+    description: zString,
+    enabled: zBoolean
 })
 
 export const zGenuineCard = zCommon.extend({
-    key: z.string(),
+    key: zString,
     created: zDateTime,
     issued: zDateTime,
-    active: z.boolean(),
-    paymentid: z.number().nullish(),
-    userid: z.number().nullish(),
-    owneremail: z.string(),
-    notes: z.string()
+    active: zBoolean,
+    paymentid: zNumber.nullish(),
+    userid: zNumber.nullish(),
+    owneremail: zString,
+    notes: zString
 })
 
 export const zIpn = z.object({
-    id: z.number(),
-    created: z.string(),
+    id: zNumber,
+    created: zString,
     validation: zIpnValidationStates,
-    payment_status: z.string(),
-    payment_amount: z.string(),
-    payment_currency: z.string(),
-    payer_email: z.string(),
-    item_name: z.string(),
-    item_number: z.string(),
-    raw: z.string()
+    payment_status: zString,
+    payment_amount: zString,
+    payment_currency: zString,
+    payer_email: zString,
+    item_name: zString,
+    item_number: zString,
+    raw: zString
 })
 
 export const zIpnRequest = zCommon.extend({
     created: zDateTime,
     validation: zIpnValidationStates,
-    payment_status: z.string(),
-    payment_amount: z.string(),
-    payment_currency: z.string(),
-    payer_email: z.string(),
-    item_name: z.string(),
-    item_number: z.string(),
-    raw: z.string()
+    payment_status: zString,
+    payment_amount: zString,
+    payment_currency: zString,
+    payer_email: zString,
+    item_name: zString,
+    item_number: zString,
+    raw: zString
 })
 
 export const zIPrincipal = z.object({
@@ -154,7 +158,7 @@ export const zIPrincipal = z.object({
 
 export const zPrivilege = zCommon
     .merge(zBasePrivilege)
-    .extend({ description: z.string().nullish(), icon: z.string().nullish(), enabled: z.boolean() })
+    .extend({ description: zString.nullish(), icon: zIcon.nullish(), enabled: zBoolean })
 
 export const zPrivilegesArray = z.array(zPrivilege)
 
@@ -162,14 +166,14 @@ export const zPrivilegesField = z.object({ privileges: zPrivilegesArray.nullish(
 
 export const zKey = zCommon
     .extend({
-        userid: z.number(),
+        userid: zNumber,
         type: zKeyTypes,
-        key: z.string(),
+        key: zString,
         created: zDateTime,
-        notes: z.string().nullish(),
+        notes: zString.nullish(),
         expires: zDateTime.nullish(),
-        pin: z.string().nullish(),
-        pinid: z.string().nullish()
+        pin: zString.nullish(),
+        pinid: zString.nullish()
     })
     .merge(zPrivilegesField)
 
@@ -182,32 +186,32 @@ export const zMembershipPeriodYear = z.literal('Y')
 export const zMembershipPeriod = z.union([zMembershipPeriodDay, zMembershipPeriodMonth, zMembershipPeriodYear])
 
 export const zMembershipBaseFields = z.object({
-    title: z.string(),
-    code: z.string(),
-    description: z.string(),
-    price: z.number(),
-    days: z.number(),
+    title: zString,
+    code: zString,
+    description: zString,
+    price: zNumber,
+    days: zNumber,
     period: zMembershipPeriod
 })
 
 export const zMembership = zCommon
     .merge(zMembershipBaseFields)
-    .extend({ trial: z.boolean(), recurring: z.boolean(), private: z.boolean(), active: z.boolean() })
+    .extend({ trial: zBoolean, recurring: zBoolean, private: zBoolean, active: zBoolean })
     .merge(zPrivilegesField)
 
 export const zMembershipWithId = zMembership.extend({ membershipId: z.coerce.number() })
 
-export const zMetricsBaseRangeResult = z.object({ start_range: z.string(), end_range: z.string() })
+export const zMetricsBaseRangeResult = z.object({ start_range: zString, end_range: zString })
 
 export const zMetricServiceGetCreatedDatesResult = zMetricsBaseRangeResult.extend({
-    byDowHour: z.record(z.string(), z.record(z.string(), z.number())),
-    byMonthDow: z.record(z.string(), z.record(z.string(), z.number()))
+    byDowHour: z.record(zString, z.record(zString, zNumber)),
+    byMonthDow: z.record(zString, z.record(zString, zNumber))
 })
 
 export const zMetricServiceGetMembersResult = zMetricsBaseRangeResult.extend({
-    created: z.record(z.string(), z.number()),
-    expired: z.record(z.string(), z.number()),
-    total: z.record(z.string(), z.number())
+    created: z.record(zString, zNumber),
+    expired: z.record(zString, zNumber),
+    total: z.record(zString, zNumber)
 })
 
 export const zMetricServiceGroupTypes = z.union([
@@ -218,8 +222,8 @@ export const zMetricServiceGroupTypes = z.union([
 ])
 
 export const zRevenueResultSet = z.record(
-    z.union([zMetricServiceGroupTypes, z.string()]),
-    z.union([z.number(), z.record(z.string(), z.number())])
+    z.union([zMetricServiceGroupTypes, zString]),
+    z.union([zNumber, z.record(zString, zNumber)])
 )
 
 export const zRevenueByMembersTypes = z.union([
@@ -227,17 +231,17 @@ export const zRevenueByMembersTypes = z.union([
     z.literal('vhs_membership_member'),
     z.literal('Donation'),
     z.literal('vhs_card_2015'),
-    z.string().regex(/^prod_.+/)
+    zString.regex(/^prod_.+/)
 ])
 
-export const zRevenueByMembership = z.record(zRevenueByMembersTypes, z.record(z.string(), z.number()))
+export const zRevenueByMembership = z.record(zRevenueByMembersTypes, z.record(zString, zNumber))
 
 export const zMetricServiceGetRevenueResult = zMetricsBaseRangeResult.extend({
     grouping: z.union([zRevenueResultSet, z.any().array().length(0)]),
     by_membership: zRevenueByMembership
 })
 
-export const zMetricsResult = zMetricsBaseRangeResult.extend({ start: z.number(), end: z.number() })
+export const zMetricsResult = zMetricsBaseRangeResult.extend({ start: zNumber, end: zNumber })
 
 export const zMetricsValueResult = z.object({ value: z.coerce.number() })
 
@@ -246,46 +250,46 @@ export const zNewKeyholdersResult = zMetricsBaseRangeResult.merge(zMetricsValueR
 export const zNewMembersResult = zMetricsResult.merge(zMetricsValueResult)
 
 export const zPayment = zCommon.extend({
-    txn_id: z.string(),
-    membership_id: z.number(),
-    user_id: z.number(),
-    payer_email: z.string(),
-    payer_fname: z.string(),
-    payer_lname: z.string(),
-    rate_amount: z.string(),
-    currency: z.string(),
+    txn_id: zString,
+    membership_id: zNumber,
+    user_id: zNumber,
+    payer_email: zString,
+    payer_fname: zString,
+    payer_lname: zString,
+    rate_amount: zString,
+    currency: zString,
     date: zDateTime,
     pp: zPaymentProviders,
-    ip: z.string(),
-    status: z.number(),
-    item_name: z.string(),
-    item_number: z.string()
+    ip: zString,
+    status: zNumber,
+    item_name: zString,
+    item_number: zString
 })
 
 export const zUser = zCommon.extend({
     username: zUsername,
-    password: z.string().nullish(),
-    membership_id: z.number(),
+    password: zString.nullish(),
+    membership_id: zNumber,
     mem_expire: zDateTime,
-    trial_used: z.boolean(),
+    trial_used: zBoolean,
     email: zEmailAddress,
     fname: zHumanName,
     lname: zHumanName,
-    token: z.string(),
-    cookie_id: z.string(),
-    newsletter: z.boolean(),
-    cash: z.boolean(),
-    userlevel: z.number(),
-    notes: z.string().nullish(),
+    token: zString,
+    cookie_id: zString,
+    newsletter: zBoolean,
+    cash: zBoolean,
+    userlevel: zNumber,
+    notes: zString.nullish(),
     created: zDateTime,
     lastlogin: zDateTime,
-    lastip: z.string(),
-    avatar: z.string().nullish(),
+    lastip: zString,
+    avatar: zString.nullish(),
     active: zUserActiveStateCodes,
-    paypal_id: z.string(),
-    payment_email: z.string(),
-    stripe_id: z.string(),
-    stripe_email: z.string(),
+    paypal_id: zString,
+    payment_email: zString,
+    stripe_id: zString,
+    stripe_email: zString,
     keys: z.array(zKey),
     privileges: zPrivilegesArray,
     membership: zMembership
@@ -293,31 +297,31 @@ export const zUser = zCommon.extend({
 
 export const zPrincipalUser = zUser.extend({
     principal: zUser,
-    hasPermission: z.function().args(z.string()).returns(z.boolean())
+    hasPermission: z.function().args(zString).returns(z.boolean())
 })
 
 export const zRefreshToken = z.object({
-    id: z.number(),
-    token: z.string(),
-    expires: z.string(),
-    userid: z.number(),
-    appclientid: z.number()
+    id: zNumber,
+    token: zString,
+    expires: zString,
+    userid: zNumber,
+    appclientid: zNumber
 })
 
 export const zStripeEvent = zCommon.extend({
     ts: zDateTime,
     status: zStripePaymentStates,
-    created: z.number(),
-    event_id: z.string(),
-    type: z.string(),
-    object: z.string(),
-    request: z.string(),
-    api_version: z.string(),
-    raw: z.string()
+    created: zNumber,
+    event_id: zString,
+    type: zString,
+    object: zString,
+    request: zString,
+    api_version: zString,
+    raw: zString
 })
 
 export const zSystemPreference = zCommon
-    .extend({ key: z.string(), value: z.string(), enabled: z.boolean(), notes: z.string().nullish() })
+    .extend({ key: zString, value: zString, enabled: zBoolean, notes: zString.nullish() })
     .merge(zPrivilegesField)
 
 export const zTotalKeyHoldersResult = zMetricsValueResult
@@ -351,16 +355,18 @@ export const zTrimmedUser = zUser
     .pick(UserTrimValues.reduce((c, e) => ({ ...c, [e]: true }), {}))
     .extend({ expires: zDateTime })
 
-export const zUserPrincipal = zCommon.extend({ permissions: z.array(z.string()) })
+export const zUserPrincipal = zCommon.extend({ permissions: z.array(zString) })
 
-export const zWebHook = zCommon.extend({
-    name: z.string(),
-    description: z.string(),
-    enabled: z.boolean(),
-    userid: z.number(),
-    url: z.string(),
-    translation: z.string(),
-    headers: z.string(),
+export const zWebHookFields = z.object({
+    name: zString,
+    description: zString,
+    enabled: zBoolean,
+    userid: zNumber,
+    url: zString,
+    translation: zString,
+    headers: zString,
     method: zHTTPMethods,
-    eventid: z.number()
+    eventid: zNumber
 })
+
+export const zWebHook = zCommon.merge(zWebHookFields)

@@ -1,3 +1,5 @@
+import type { CastReactElement } from './utils'
+
 import type { FontAwesomeIconProps, IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
 
 import type PrincipalUserObject from '@/lib/db/PrincipalUser'
@@ -12,8 +14,7 @@ export interface MenuItem {
 
 export type MenuItems = MenuItem[]
 
-export interface SideMenuProps {
+export interface SideMenuProps extends CastReactElement<'div'> {
     admin?: boolean
-    className?: string
     menuItems: MenuItems
 }
