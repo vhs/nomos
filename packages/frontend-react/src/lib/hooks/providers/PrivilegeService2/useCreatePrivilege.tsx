@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCreatePrivilege = () => {}
+const useCreatePrivilege = () => {}
+
+export default useCreatePrivilege

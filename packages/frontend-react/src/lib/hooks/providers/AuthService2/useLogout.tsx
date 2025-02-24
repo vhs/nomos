@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useLogout = () => {}
+const useLogout = () => {}
+
+export default useLogout

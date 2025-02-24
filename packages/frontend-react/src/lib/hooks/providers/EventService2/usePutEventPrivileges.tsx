@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutEventPrivileges = () => {}
+const usePutEventPrivileges = () => {}
+
+export default usePutEventPrivileges

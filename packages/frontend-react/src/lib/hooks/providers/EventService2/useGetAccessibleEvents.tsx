@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetAccessibleEvents = () => {}
+const useGetAccessibleEvents = () => {}
+
+export default useGetAccessibleEvents

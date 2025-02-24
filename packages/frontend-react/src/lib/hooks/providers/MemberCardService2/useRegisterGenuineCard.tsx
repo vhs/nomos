@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useRegisterGenuineCard = () => {}
+const useRegisterGenuineCard = () => {}
+
+export default useRegisterGenuineCard

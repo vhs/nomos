@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCountUserHooks = () => {}
+const useCountUserHooks = () => {}
+
+export default useCountUserHooks

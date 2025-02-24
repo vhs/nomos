@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetUserPin = () => {}
+const useGetUserPin = () => {}
+
+export default useGetUserPin

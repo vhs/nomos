@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetCurrentUser = () => {}
+const useGetCurrentUser = () => {}
+
+export default useGetCurrentUser

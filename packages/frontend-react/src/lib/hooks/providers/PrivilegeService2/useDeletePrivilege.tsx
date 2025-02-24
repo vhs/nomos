@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useDeletePrivilege = () => {}
+const useDeletePrivilege = () => {}
+
+export default useDeletePrivilege

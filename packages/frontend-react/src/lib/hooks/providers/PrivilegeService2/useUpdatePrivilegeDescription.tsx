@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdatePrivilegeDescription = () => {}
+const useUpdatePrivilegeDescription = () => {}
+
+export default useUpdatePrivilegeDescription

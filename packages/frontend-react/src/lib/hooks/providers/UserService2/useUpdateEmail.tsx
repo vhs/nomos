@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateEmail = () => {}
+const useUpdateEmail = () => {}
+
+export default useUpdateEmail

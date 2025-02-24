@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useDeleteSystemPreference = () => {}
+const useDeleteSystemPreference = () => {}
+
+export default useDeleteSystemPreference

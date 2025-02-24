@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutSystemPreferencePrivileges = () => {}
+const usePutSystemPreferencePrivileges = () => {}
+
+export default usePutSystemPreferencePrivileges

@@ -27,10 +27,12 @@ const getNewMembersFetcher = async (start: string, end: string): Promise<NewMemb
     return result
 }
 
-export const useGetNewMembers = (start: string, end: string): SWRResponse<NewMembersResult> => {
+const useGetNewMembers = (start: string, end: string): SWRResponse<NewMembersResult> => {
     const uri = useMemo(() => `${baseUri}?start_range=${start}&end_range=${end}`, [start, end])
 
     return useSWR<NewMembersResult>(uri, async (_uri: string): Promise<NewMembersResult> => {
         return await getNewMembersFetcher(start, end)
     })
 }
+
+export default useGetNewMembers

@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateCode = () => {}
+const useUpdateCode = () => {}
+
+export default useUpdateCode

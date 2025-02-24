@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListClients = () => {}
+const useListClients = () => {}
+
+export default useListClients

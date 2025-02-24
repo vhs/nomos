@@ -1,12 +1,11 @@
-import useSWR from 'swr'
+import useSWR, { type SWRResponse } from 'swr'
 
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 
 import type { NOMOSSWRResponse } from '@/types/custom'
 import type { Privileges } from '@/types/records'
 
-/* eslint-disable */
-export const useGetAllPrivileges = () => {
+const useGetAllPrivileges = (): SWRResponse<NOMOSSWRResponse<Privileges>> => {
     return useSWR<NOMOSSWRResponse<Privileges>>(
         '/services/v2/PrivilegeService2.svc/GetAllPrivileges',
         async (_url: string): Promise<NOMOSSWRResponse<Privileges>> => {
@@ -16,3 +15,5 @@ export const useGetAllPrivileges = () => {
         }
     )
 }
+
+export default useGetAllPrivileges

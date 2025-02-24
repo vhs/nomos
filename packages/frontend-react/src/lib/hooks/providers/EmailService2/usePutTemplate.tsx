@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const usePutTemplate = () => {}
+const usePutTemplate = () => {}
+
+export default usePutTemplate

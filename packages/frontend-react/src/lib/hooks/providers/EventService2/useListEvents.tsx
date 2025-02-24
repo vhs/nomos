@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useListEvents = () => {}
+const useListEvents = () => {}
+
+export default useListEvents

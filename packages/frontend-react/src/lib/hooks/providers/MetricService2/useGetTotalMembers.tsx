@@ -7,10 +7,6 @@ import type { TotalMembersResult } from '@/types/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetTotalMembers'
 
-export const useGetTotalMembersUrl = (): string => {
-    return baseUri
-}
-
 const getTotalMembersFetcher = async (): Promise<TotalMembersResult> => {
     const result = await MetricService2.getInstance().GetTotalMembers()
 
@@ -29,10 +25,12 @@ const getTotalMembersFetcher = async (): Promise<TotalMembersResult> => {
     return result
 }
 
-export const useGetTotalMembers = (): SWRResponse<TotalMembersResult> => {
+const useGetTotalMembers = (): SWRResponse<TotalMembersResult> => {
     const uri = baseUri
 
     return useSWR<TotalMembersResult>(uri, async (_uri: string): Promise<TotalMembersResult> => {
         return await getTotalMembersFetcher()
     })
 }
+
+export default useGetTotalMembers

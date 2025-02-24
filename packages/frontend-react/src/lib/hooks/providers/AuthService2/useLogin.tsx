@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useLogin = () => {}
+const useLogin = () => {}
+
+export default useLogin

@@ -4,11 +4,10 @@ import useSWR, { type SWRResponse } from 'swr'
 
 import PrincipalUserObject from '@/lib/db/PrincipalUser'
 import { fetcher } from '@/lib/fetcher'
+import useGetUser from '@/lib/hooks/providers/UserService2/useGetUser'
 
 import type { NOMOSResponse, ReactAction } from '@/types/custom'
 import type { User } from '@/types/records'
-
-import { useGetUser } from '../UserService2/useGetUser'
 
 interface UserHookData {
     currentUser?: PrincipalUserObject

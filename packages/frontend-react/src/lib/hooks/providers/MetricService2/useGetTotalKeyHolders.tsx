@@ -7,7 +7,7 @@ import type { TotalKeyHoldersResult } from '@/types/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetTotalKeyHolders'
 
-export const useGetTotalKeyHoldersUrl = (): string => {
+const useGetTotalKeyHoldersUrl = (): string => {
     return baseUri
 }
 
@@ -29,10 +29,12 @@ const getTotalKeyHoldersFetcher = async (): Promise<TotalKeyHoldersResult> => {
     return result
 }
 
-export const useGetTotalKeyHolders = (): SWRResponse<TotalKeyHoldersResult> => {
+const useGetTotalKeyHolders = (): SWRResponse<TotalKeyHoldersResult> => {
     const uri = baseUri
 
     return useSWR<TotalKeyHoldersResult>(uri, async (_uri: string): Promise<TotalKeyHoldersResult> => {
         return await getTotalKeyHoldersFetcher()
     })
 }
+
+export default useGetTotalKeyHolders

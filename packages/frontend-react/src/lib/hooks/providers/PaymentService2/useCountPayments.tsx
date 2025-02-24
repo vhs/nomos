@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useCountPayments = () => {}
+const useCountPayments = () => {}
+
+export default useCountPayments

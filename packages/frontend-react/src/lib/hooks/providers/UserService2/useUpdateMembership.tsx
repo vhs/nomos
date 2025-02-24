@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useUpdateMembership = () => {}
+const useUpdateMembership = () => {}
+
+export default useUpdateMembership

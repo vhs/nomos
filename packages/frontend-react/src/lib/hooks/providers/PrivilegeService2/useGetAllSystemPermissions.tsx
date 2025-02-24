@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetAllSystemPermissions = () => {}
+const useGetAllSystemPermissions = () => {}
+
+export default useGetAllSystemPermissions

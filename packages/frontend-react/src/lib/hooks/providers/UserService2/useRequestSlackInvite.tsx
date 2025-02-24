@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useRequestSlackInvite = () => {}
+const useRequestSlackInvite = () => {}
+
+export default useRequestSlackInvite

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { coerceStringObject } from '@/lib/util'
+import { coerceStringObject } from '@/lib/utils'
 
 import type { PagedApiRequestParams } from '@/types/api'
 
@@ -11,7 +11,7 @@ interface ListUserAccessLogParams extends PagedApiRequestParams {
     userid?: number
 }
 
-export const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string | null => {
+const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string | null => {
     return useMemo(() => {
         if (opts.userid == null) return null
 
@@ -20,7 +20,7 @@ export const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string |
         return `${baseUrl}?${searchParams.toString()}`
     }, [opts])
 }
-export const useListUserAccessLog = ({
+const useListUserAccessLog = ({
     userid,
     page,
     size,
@@ -39,3 +39,5 @@ export const useListUserAccessLog = ({
         filters
     })
 }
+
+export default useListUserAccessLog

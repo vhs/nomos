@@ -1,2 +1,4 @@
 /* eslint-disable */
-export const useGetStatuses = () => {}
+const useGetStatuses = () => {}
+
+export default useGetStatuses
