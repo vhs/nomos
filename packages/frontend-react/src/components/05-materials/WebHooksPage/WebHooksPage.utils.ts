@@ -1,4 +1,4 @@
-import type { FieldDefinitions } from '../TablePage/TablePage.types'
+import type { FieldDefinitions } from '@/types/query-filters'
 
 export const webhookFields: FieldDefinitions = [
     { title: 'ID', field: 'id' },
