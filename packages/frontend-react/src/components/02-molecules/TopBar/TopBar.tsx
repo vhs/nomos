@@ -14,9 +14,11 @@ const TopBar: FC = () => {
     return (
         <NavBar>
             <div className='flex w-full justify-between'>
-                <Link to='/'>
-                    <img className='h-12' src='/images/logo.png' alt='VHS logo' />
-                </Link>
+                <div>
+                    <Link to='/'>
+                        <img className='h-12' src='/images/logo.png' alt='VHS logo' />
+                    </Link>
+                </div>
                 <Conditional condition={isAuthenticated}>
                     <div>
                         <UserProfileCard />
