@@ -11,6 +11,7 @@ import InfoButton from '@/components/02-molecules/InfoButton/InfoButton'
 import FormControlContainer from '../FormControlContainer/FormControlContainer'
 
 import styles from './FormControlPin.module.css'
+import { coercePaddedPinEvent } from './FormControlPin.utils'
 
 const FormControlPin: FC<FormControlPinProps> = ({
     className,
@@ -48,14 +49,11 @@ const FormControlPin: FC<FormControlPinProps> = ({
                     className={clsx([styles.Main, 'w-14'])}
                     type='number'
                     onBlur={(event) => {
-                        if (event.target.value.length < 4)
-                            void onBlur({ target: { value: event.target.value.padStart(4, '0') } })
+                        void onBlur(coercePaddedPinEvent(event))
                         setHasFocus(false)
                     }}
                     onChange={(event) => {
-                        const t = `0000${event.target.value}`
-
-                        void onChange({ target: { value: t.slice(-4, t.length) } })
+                        void onChange(coercePaddedPinEvent(event))
                     }}
                     onFocus={() => {
                         setHasFocus(true)
