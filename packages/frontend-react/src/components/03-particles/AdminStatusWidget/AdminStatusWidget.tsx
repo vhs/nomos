@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react'
+import { useMemo, useState, type FC } from 'react'
 
 import { clsx } from 'clsx'
 
@@ -6,6 +6,7 @@ import type { AdminStatusWidgetProps } from './AdminStatusWidget.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import type { IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card/Card'
 
@@ -17,6 +18,14 @@ const AdminStatusWidget: FC<AdminStatusWidgetProps> = ({ variant, icon, count, d
     const toggleCollapsed = (): void => {
         setCollapsed((prevState) => !prevState)
     }
+
+    const actionIcon: IconProp = useMemo(() => {
+        let icon: IconProp = 'times-circle'
+
+        if (count > 0) icon = collapsed ? 'circle-arrow-right' : 'circle-arrow-down'
+
+        return icon
+    }, [collapsed, count])
 
     const bodyClasses = variant === 'green' ? 'decorate-green' : 'decorate-red'
     const footerClasses = variant === 'green' ? 'green-card-footer text-green-card' : 'red-card-footer text-red-card'
@@ -44,14 +53,10 @@ const AdminStatusWidget: FC<AdminStatusWidgetProps> = ({ variant, icon, count, d
                             <button
                                 className='spacious pull-right font-bold'
                                 onClick={() => {
-                                    toggleCollapsed()
+                                    if (count > 0) toggleCollapsed()
                                 }}
                             >
-                                View Details{' '}
-                                <FontAwesomeIcon
-                                    icon={collapsed ? 'circle-arrow-right' : 'circle-arrow-down'}
-                                    className='inline max-h-4 max-w-4'
-                                />
+                                View Details <FontAwesomeIcon icon={actionIcon} className='inline max-h-4 max-w-4' />
                             </button>
                         </Col>
                     </Row>
