@@ -7,18 +7,18 @@ import {
     zBoolean,
     zString,
     zStringArray,
-    zIpnValidationStates,
+    zIpnValidationState,
     zFunctionBoolResultFromStringArraySpread,
-    zKeyTypes,
-    zPaymentProviders,
+    zKeyType,
+    zPaymentProvider,
     zUsername,
     zEmailAddress,
     zHumanName,
-    zUserActiveStateCodes,
-    zStripePaymentStates,
+    zUserActiveStateCode,
+    zStripePaymentState,
     zNumber,
     zUrl,
-    zHTTPMethods,
+    zHTTPMethod,
     zDateTime
 } from './common'
 
@@ -124,7 +124,7 @@ export const zGenuineCard = zCommon.extend({
 export const zIpn = z.object({
     id: zNumber,
     created: zString,
-    validation: zIpnValidationStates,
+    validation: zIpnValidationState,
     payment_status: zString,
     payment_amount: zString,
     payment_currency: zString,
@@ -136,7 +136,7 @@ export const zIpn = z.object({
 
 export const zIpnRequest = zCommon.extend({
     created: zDateTime,
-    validation: zIpnValidationStates,
+    validation: zIpnValidationState,
     payment_status: zString,
     payment_amount: zString,
     payment_currency: zString,
@@ -167,7 +167,7 @@ export const zPrivilegesField = z.object({ privileges: zPrivilegesArray.nullish(
 export const zKey = zCommon
     .extend({
         userid: zNumber,
-        type: zKeyTypes,
+        type: zKeyType,
         key: zString,
         created: zDateTime,
         notes: zString.nullish(),
@@ -214,7 +214,7 @@ export const zMetricServiceGetMembersResult = zMetricsBaseRangeResult.extend({
     total: z.record(zString, zNumber)
 })
 
-export const zMetricServiceGroupTypes = z.union([
+export const zMetricServiceGroupType = z.union([
     z.literal('day'),
     z.literal('month'),
     z.literal('year'),
@@ -222,11 +222,11 @@ export const zMetricServiceGroupTypes = z.union([
 ])
 
 export const zRevenueResultSet = z.record(
-    z.union([zMetricServiceGroupTypes, zString]),
+    z.union([zMetricServiceGroupType, zString]),
     z.union([zNumber, z.record(zString, zNumber)])
 )
 
-export const zRevenueByMembersTypes = z.union([
+export const zRevenueByMembersType = z.union([
     z.literal('vhs_membership_keyholder'),
     z.literal('vhs_membership_member'),
     z.literal('Donation'),
@@ -234,7 +234,7 @@ export const zRevenueByMembersTypes = z.union([
     zString.regex(/^prod_.+/)
 ])
 
-export const zRevenueByMembership = z.record(zRevenueByMembersTypes, z.record(zString, zNumber))
+export const zRevenueByMembership = z.record(zRevenueByMembersType, z.record(zString, zNumber))
 
 export const zMetricServiceGetRevenueResult = zMetricsBaseRangeResult.extend({
     grouping: z.union([zRevenueResultSet, z.any().array().length(0)]),
@@ -259,7 +259,7 @@ export const zPayment = zCommon.extend({
     rate_amount: zString,
     currency: zString,
     date: zDateTime,
-    pp: zPaymentProviders,
+    pp: zPaymentProvider,
     ip: zString,
     status: zNumber,
     item_name: zString,
@@ -285,7 +285,7 @@ export const zUser = zCommon.extend({
     lastlogin: zDateTime,
     lastip: zString,
     avatar: zString.nullish(),
-    active: zUserActiveStateCodes,
+    active: zUserActiveStateCode,
     paypal_id: zString,
     payment_email: zString,
     stripe_id: zString,
@@ -310,7 +310,7 @@ export const zRefreshToken = z.object({
 
 export const zStripeEvent = zCommon.extend({
     ts: zDateTime,
-    status: zStripePaymentStates,
+    status: zStripePaymentState,
     created: zNumber,
     event_id: zString,
     type: zString,
@@ -357,7 +357,7 @@ export const zTrimmedUser = zUser
 
 export const zUserPrincipal = zCommon.extend({ permissions: z.array(zString) })
 
-export const zWebHookFields = z.object({
+export const zWebHookBaseFields = z.object({
     name: zString,
     description: zString,
     enabled: zBoolean,
@@ -365,8 +365,8 @@ export const zWebHookFields = z.object({
     url: zString,
     translation: zString,
     headers: zString,
-    method: zHTTPMethods,
+    method: zHTTPMethod,
     eventid: zNumber
 })
 
-export const zWebHook = zCommon.merge(zWebHookFields)
+export const zWebHook = zCommon.merge(zWebHookBaseFields)
