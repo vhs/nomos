@@ -7,11 +7,12 @@ import { Bounce, ToastContainer } from 'react-toastify'
 import type { RootComponentProps } from './RootComponent.types'
 
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
+import Container from '@/components/01-atoms/Container/Container'
 import TopBar from '@/components/02-molecules/TopBar/TopBar'
 
 const RootComponent: FC<RootComponentProps> = () => {
     return (
-        <>
+        <Container fluid>
             <TopBar />
 
             <Outlet />
@@ -30,7 +31,7 @@ const RootComponent: FC<RootComponentProps> = () => {
             <Conditional condition={process.env.NODE_ENV === 'development'}>
                 <TanStackRouterDevtools />
             </Conditional>
-        </>
+        </Container>
     )
 }
 
