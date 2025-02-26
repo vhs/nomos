@@ -11,7 +11,7 @@ interface ListUserAccessLogParams extends PagedApiRequestParams {
     userid?: number
 }
 
-const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string | null => {
+export const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string | null => {
     return useMemo(() => {
         if (opts.userid == null) return null
 
@@ -20,6 +20,7 @@ const useListUserAccessLogUrl = (opts: ListUserAccessLogParams): string | null =
         return `${baseUrl}?${searchParams.toString()}`
     }, [opts])
 }
+
 const useListUserAccessLog = ({
     userid,
     page,
