@@ -22,6 +22,10 @@ export const zUrl = zString.url()
 
 export const zHumanName = zString.min(1)
 
+export const zMinString = zString.min(1)
+
+export const zEmptyOrMinString = z.union([z.literal(''), zMinString])
+
 export const zNonEmptyStringArray = zString.array().min(1)
 
 export const zStringArray = z.array(zString).min(0)

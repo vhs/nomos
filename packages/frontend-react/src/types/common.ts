@@ -8,11 +8,13 @@ import type {
     zDateTime,
     zDateTimeString,
     zEmailAddress,
+    zEmptyOrMinString,
     zFunctionBoolResultFromStringArraySpread,
     zHTTPMethod,
     zHumanName,
     zIpnValidationState,
     zKeyType,
+    zMinString,
     zMoneyBookers,
     zNonEmptyStringArray,
     zNonNegativeNumber,
@@ -63,6 +65,8 @@ export type DateTimeString = z.infer<typeof zDateTimeString>
 export type DateTimeStrings = DateTimeString[]
 export type EmailAddress = z.infer<typeof zEmailAddress>
 export type EmailAddresss = EmailAddress[]
+export type EmptyOrMinString = z.infer<typeof zEmptyOrMinString>
+export type EmptyOrMinStrings = EmptyOrMinString[]
 export type FunctionBoolResultFromStringArraySpread = z.infer<typeof zFunctionBoolResultFromStringArraySpread>
 export type FunctionBoolResultFromStringArraySpreads = FunctionBoolResultFromStringArraySpread[]
 export type HTTPMethod = z.infer<typeof zHTTPMethod>
@@ -73,6 +77,8 @@ export type IpnValidationState = z.infer<typeof zIpnValidationState>
 export type IpnValidationStates = IpnValidationState[]
 export type KeyType = z.infer<typeof zKeyType>
 export type KeyTypes = KeyType[]
+export type MinString = z.infer<typeof zMinString>
+export type MinStrings = MinString[]
 export type MoneyBookers = z.infer<typeof zMoneyBookers>
 export type MoneyBookerss = MoneyBookers[]
 export type NonEmptyStringArray = z.infer<typeof zNonEmptyStringArray>
