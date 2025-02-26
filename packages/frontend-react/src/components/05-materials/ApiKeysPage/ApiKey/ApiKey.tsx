@@ -87,11 +87,14 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
             expiry: apiKey.expires != null ? new Date(apiKey.expires).toISOString().slice(0, 16) : ''
         })
         dispatchPrivileges({
-            action: 'reset',
+            action: 'update-defaults',
             value: mergeBooleanRecord(
                 convertPrivilegesArrayToBooleanRecord(availablePrivileges, false),
-                convertPrivilegesArrayToBooleanRecord(apiKey.privileges)
+                convertPrivilegesArrayToBooleanRecord(apiKey.privileges, true)
             )
+        })
+        dispatchPrivileges({
+            action: 'reset'
         })
     }, [apiKey.expires, apiKey.key, apiKey.notes, apiKey.privileges, availablePrivileges, dispatchPrivileges, form])
 
