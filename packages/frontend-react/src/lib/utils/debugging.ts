@@ -39,7 +39,8 @@ export const RESET_CHECKPOINT = (color: string): void => {
     checkpointStates[color] = 0
 }
 export const CHECKPOINT = (color: string, ...args: unknown[]): void => {
-    if (checkpointStates[color] == null) checkpointStates[color] = 0
+    if (checkpointStates[color] == null || checkpointStates[color] === checkpointNames.length)
+        checkpointStates[color] = 0
 
     const checkpointStateIdx = checkpointStates[color]++
 
