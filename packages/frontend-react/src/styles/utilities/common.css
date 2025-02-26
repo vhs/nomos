@@ -55,4 +55,14 @@
     .col {
         @apply px-1;
     }
+
+    .pull-left {
+        /* justify-self: start; */
+        float:inline-start;
+    }
+
+    .pull-right {
+        /* justify-self: end; */
+        float:inline-end;
+    }
 }
