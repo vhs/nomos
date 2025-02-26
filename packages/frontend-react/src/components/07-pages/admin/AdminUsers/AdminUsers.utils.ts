@@ -90,8 +90,7 @@ export const AdminUsersEditDefaultValues: AdminUsersEditForm = {
         userPin: '',
         memExpire: '',
         memStatus: 'y',
-        memType: 0,
-        privileges: {}
+        memType: 0
     },
     password: {
         password1: '',
