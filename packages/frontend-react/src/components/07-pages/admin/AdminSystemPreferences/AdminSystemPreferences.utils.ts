@@ -1,6 +1,6 @@
-import type { FieldDefinition, FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
 
-export const AdminSystemPreferencesFields: FieldDefinition[] = [
+export const AdminSystemPreferencesFields: FieldDefinitions = [
     { title: 'Key', field: 'key' },
     { title: 'Value', field: 'value' },
     { title: 'Enabled', field: 'enabled' },
@@ -8,7 +8,7 @@ export const AdminSystemPreferencesFields: FieldDefinition[] = [
     { title: 'Privileges', field: 'privileges', hidden: true }
 ]
 
-export const AdminSystemPreferencesFilters: FilterDefinition[] = [
+export const AdminSystemPreferencesFilters: FilterDefinitions = [
     {
         id: 'showEnabled',
         label: 'Show Enabled',

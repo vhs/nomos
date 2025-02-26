@@ -1,1 +1,1 @@
-export const AdminSystemPreferencesItemFields = ['key', 'value', 'enabled', 'notes']
+export const AdminSystemPreferencesItemFields = ['key', 'value', 'enabled', 'notes', 'privileges']

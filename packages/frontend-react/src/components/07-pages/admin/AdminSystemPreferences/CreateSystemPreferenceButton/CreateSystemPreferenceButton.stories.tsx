@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import CreateSystemPreference from './CreateSystemPreference'
+import CreateSystemPreferenceButton from './CreateSystemPreferenceButton'
 
-type StoryType = StoryObj<typeof CreateSystemPreference>
+type StoryType = StoryObj<typeof CreateSystemPreferenceButton>
 
-const meta: Meta<typeof CreateSystemPreference> = {
-    component: CreateSystemPreference,
-    title: '07-Pages/Admin/AdminSystemPreferences/CreateSystemPreference',
+const meta: Meta<typeof CreateSystemPreferenceButton> = {
+    component: CreateSystemPreferenceButton,
+    title: '99-Templates/default',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -22,6 +22,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'CreateSystemPreference'
+        children: 'CreateSystemPreferenceButton'
     }
 }
