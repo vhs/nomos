@@ -7,8 +7,8 @@ import type { AdminApiKeysProps } from './AdminApiKeys.types'
 
 import ApiKeysPage from '@/components/05-materials/ApiKeysPage/ApiKeysPage'
 
-import { useGetSystemApiKeys } from '@/lib/hooks/providers/ApiKeyService2/useGetSystemApiKeys'
-import { useGetAllPrivileges } from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
+import useGetSystemApiKeys from '@/lib/hooks/providers/ApiKeyService2/useGetSystemApiKeys'
+import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
 import type { BasePrivileges } from '@/types/records'
@@ -19,7 +19,8 @@ const AdminApiKeys: FC<AdminApiKeysProps> = () => {
     const { data: systemPrivileges } = useGetAllPrivileges()
 
     const availablePrivileges: BasePrivileges = useMemo(() => {
-        return [...new Set([...(systemPrivileges ?? []), ...[{ code: 'inherit', name: 'Inherit (acts as you)' }]])]
+        // return [...new Set([...(systemPrivileges ?? []), ...[{ code: 'inherit', name: 'Inherit (acts as you)' }]])]
+        return (Array.isArray(systemPrivileges) ? systemPrivileges : [])
             .filter(Boolean)
             .map((p) => {
                 if (typeof p !== 'string')
