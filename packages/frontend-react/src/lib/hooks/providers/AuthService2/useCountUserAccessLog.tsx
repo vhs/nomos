@@ -12,7 +12,7 @@ interface CountUserAccessLogParams {
     filters?: PageUserApiRequestParams['filters']
 }
 
-const useCountUserAccessLogUrl = (opts: CountUserAccessLogParams): string | null => {
+export const useCountUserAccessLogUrl = (opts: CountUserAccessLogParams): string | null => {
     return useMemo(() => {
         if (opts.userid == null) return null
 
