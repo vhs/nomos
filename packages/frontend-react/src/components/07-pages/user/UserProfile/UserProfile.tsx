@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, type FC, type MouseEvent } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { clsx } from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -170,7 +169,10 @@ const UserProfile: FC<UserProfileProps> = () => {
                                 <Card.Header>Profile</Card.Header>
                                 <Card.Body>
                                     <Row>
-                                        <FormCol error={form.formState.errors.user?.userName != null}>
+                                        <FormCol
+                                            className='basis-full md:basis-1/2'
+                                            error={form.formState.errors.user?.userName != null}
+                                        >
                                             <FormControl
                                                 id='user.userName'
                                                 formType='text'
@@ -181,69 +183,22 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 aria-describedby='basic-addon1'
                                             />
                                         </FormCol>
-                                        <Col className='basis-1/2'>
+                                        <Col className='basis-full md:basis-1/2'>
                                             <Button
-                                                className='btn-warning w-full'
+                                                className='btn-warning !h-8 w-full'
                                                 onClick={() => {
                                                     setShowChangePassword(true)
                                                 }}
                                             >
                                                 Change Password
                                             </Button>
-                                            <Conditional condition={showChangePassword}>
-                                                <OverlayCard
-                                                    title='Change Password'
-                                                    actions={[
-                                                        <Button
-                                                            variant='warning'
-                                                            key='Change Password'
-                                                            className='float-right'
-                                                            onClick={(event) => {
-                                                                void updatePassword(event)
-                                                            }}
-                                                        >
-                                                            Change Password
-                                                        </Button>
-                                                    ]}
-                                                    onClose={() => {
-                                                        setShowChangePassword(false)
-                                                        return false
-                                                    }}
-                                                >
-                                                    <Row>
-                                                        <Col>New Password:</Col>
-                                                        <FormCol
-                                                            error={form.formState.errors.password?.password1 != null}
-                                                        >
-                                                            <FormControl
-                                                                id='password.password1'
-                                                                formType='password'
-                                                                placeholder='New Password'
-                                                            />
-                                                        </FormCol>
-                                                    </Row>
-
-                                                    <Row>
-                                                        <Col>Confirm Password:</Col>
-                                                        <FormCol
-                                                            error={form.formState.errors.password?.password2 != null}
-                                                        >
-                                                            <FormControl
-                                                                id='password.password2'
-                                                                formType='password'
-                                                                placeholder='Confirm Password'
-                                                            />
-                                                        </FormCol>
-                                                    </Row>
-                                                </OverlayCard>
-                                            </Conditional>
                                         </Col>
                                     </Row>
 
                                     <Row>
                                         <FormCol
                                             error={form.formState.errors.user?.firstName != null}
-                                            className='basis-1/2'
+                                            className='basis-full md:basis-1/2'
                                         >
                                             <label htmlFor='firstName'>
                                                 <b>First Name</b>
@@ -254,13 +209,13 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 formType='text'
                                                 placeholder='First Name'
                                                 aria-label='First Name'
-                                                readOnly={currentUser.hasPrivilege('full-profile')}
-                                                disabled={currentUser.hasPrivilege('full-profile')}
+                                                readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                disabled={!currentUser.hasPrivilege('full-profile')}
                                             />
                                         </FormCol>
                                         <FormCol
                                             error={form.formState.errors.user?.lastName != null}
-                                            className={clsx(['basis-1/2'])}
+                                            className='basis-full md:basis-1/2'
                                         >
                                             <label htmlFor='lastName'>
                                                 <b>Last Name</b>
@@ -271,14 +226,17 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 formType='text'
                                                 placeholder='Last Name'
                                                 aria-label='Last Name'
-                                                readOnly={currentUser.hasPrivilege('full-profile')}
-                                                disabled={currentUser.hasPrivilege('full-profile')}
+                                                readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                disabled={!currentUser.hasPrivilege('full-profile')}
                                             />
                                         </FormCol>
                                     </Row>
 
                                     <Row>
-                                        <FormCol error={form.formState.errors.user?.email != null}>
+                                        <FormCol
+                                            className='basis-full'
+                                            error={form.formState.errors.user?.email != null}
+                                        >
                                             <label htmlFor='userEmail'>
                                                 <b>Email</b>
                                                 <div className='checkbox pull-right m-0'>
@@ -294,21 +252,29 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 formType='email'
                                                 placeholder='Email'
                                                 aria-label='Email'
-                                                readOnly={currentUser.hasPrivilege('full-profile')}
-                                                disabled={currentUser.hasPrivilege('full-profile')}
+                                                readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                disabled={!currentUser.hasPrivilege('full-profile')}
                                             />
                                         </FormCol>
                                     </Row>
 
                                     <Row>
-                                        <FormCol error={form.formState.errors.user?.paypalEmail != null}>
+                                        <FormCol
+                                            className='basis-full'
+                                            error={form.formState.errors.user?.paypalEmail != null}
+                                        >
                                             <label htmlFor='paypalEmail'>
                                                 <b>PayPal Email</b>
                                             </label>
                                             <div className='checkbox pull-right m-0'>
                                                 <label>
-                                                    <input type='checkbox' checked={currentUser.cash} disabled /> Cash
-                                                    Member
+                                                    <input
+                                                        type='checkbox'
+                                                        {...form.register('user.cashMember')}
+                                                        readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                        disabled={!currentUser.hasPrivilege('full-profile')}
+                                                    />{' '}
+                                                    Cash Member
                                                 </label>
                                             </div>
                                             <FormControl
@@ -317,14 +283,17 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 formType='email'
                                                 placeholder='PayPal Email'
                                                 aria-label='PayPal Email'
-                                                readOnly={currentUser.hasPrivilege('full-profile')}
-                                                disabled={currentUser.hasPrivilege('full-profile')}
+                                                readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                disabled={!currentUser.hasPrivilege('full-profile')}
                                             />
                                         </FormCol>
                                     </Row>
 
                                     <Row>
-                                        <FormCol error={form.formState.errors.user?.stripeEmail != null}>
+                                        <FormCol
+                                            className='basis-full lg:basis-1/2'
+                                            error={form.formState.errors.user?.stripeEmail != null}
+                                        >
                                             <label htmlFor='user.stripeEmail'>
                                                 <b>Stripe Email</b>
                                                 <FormControl
@@ -333,8 +302,8 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                     formType='email'
                                                     placeholder='Stripe Email'
                                                     aria-label='Stripe Email'
-                                                    readOnly={currentUser.hasPrivilege('full-profile')}
-                                                    disabled={currentUser.hasPrivilege('full-profile')}
+                                                    readOnly={!currentUser.hasPrivilege('full-profile')}
+                                                    disabled={!currentUser.hasPrivilege('full-profile')}
                                                 />
                                             </label>
                                         </FormCol>
@@ -391,7 +360,7 @@ const UserProfile: FC<UserProfileProps> = () => {
 
                                     <Row>
                                         <Conditional condition={standing ?? false}>
-                                            <Col className='basis-full lg:basis-1/2'>
+                                            <Col className='basis-full md:basis-1/2'>
                                                 <Card>
                                                     <Card.Header>PIN</Card.Header>
                                                     <Card.Body>
@@ -404,7 +373,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 </Card>
                                             </Col>
                                         </Conditional>
-                                        <Col className='basis-full lg:basis-1/2'>
+                                        <Col className='basis-full md:basis-1/2'>
                                             <StandingCard standing={standing} />
                                         </Col>
                                     </Row>
@@ -447,6 +416,49 @@ const UserProfile: FC<UserProfileProps> = () => {
                             </Card>
                         </Col>
                     </Row>
+                    <Conditional condition={showChangePassword}>
+                        <OverlayCard
+                            title='Change Password'
+                            actions={[
+                                <Button
+                                    variant='warning'
+                                    key='Change Password'
+                                    className='float-right'
+                                    onClick={(event) => {
+                                        void updatePassword(event)
+                                    }}
+                                >
+                                    Change Password
+                                </Button>
+                            ]}
+                            onClose={() => {
+                                setShowChangePassword(false)
+                                return false
+                            }}
+                        >
+                            <Row>
+                                <Col>New Password:</Col>
+                                <FormCol error={form.formState.errors.password?.password1 != null}>
+                                    <FormControl
+                                        id='password.password1'
+                                        formType='password'
+                                        placeholder='New Password'
+                                    />
+                                </FormCol>
+                            </Row>
+
+                            <Row>
+                                <Col>Confirm Password:</Col>
+                                <FormCol error={form.formState.errors.password?.password2 != null}>
+                                    <FormControl
+                                        id='password.password2'
+                                        formType='password'
+                                        placeholder='Confirm Password'
+                                    />
+                                </FormCol>
+                            </Row>
+                        </OverlayCard>
+                    </Conditional>
                 </FormProvider>
             </BasePage>
         </div>
