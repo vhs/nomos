@@ -7,10 +7,6 @@ import type { TotalKeyHoldersResult } from '@/types/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetTotalKeyHolders'
 
-const useGetTotalKeyHoldersUrl = (): string => {
-    return baseUri
-}
-
 const getTotalKeyHoldersFetcher = async (): Promise<TotalKeyHoldersResult> => {
     const result = await MetricService2.getInstance().GetTotalKeyHolders()
 

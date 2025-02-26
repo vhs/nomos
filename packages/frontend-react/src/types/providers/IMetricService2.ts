@@ -7,6 +7,7 @@ import type {
     MetricServiceGetCreatedDatesResult,
     MetricServiceGetMembersResult,
     MetricServiceGetRevenueResult,
+    MetricServiceGroupType,
     NewMembersResult,
     Payments,
     TotalKeyHoldersResult,
@@ -41,13 +42,17 @@ export interface IMetricService2 {
      *
      * @param {string} $start_range
      * @param {string} $end_range
-     * @param {string} $group
+     * @param {MetricServiceGroupType} $group
      *
      * @throws {string}
      *
      * @returns {MetricServiceGetMembersResult}
      */
-    GetMembers: (start_range: string, end_range: string, group: string) => BackendResult<MetricServiceGetMembersResult>
+    GetMembers: (
+        start_range: string,
+        end_range: string,
+        group: MetricServiceGroupType
+    ) => BackendResult<MetricServiceGetMembersResult>
 
     /**
      * @permission user
@@ -87,13 +92,17 @@ export interface IMetricService2 {
      *
      * @param {string} $start_range string iso date in UTC, if empty is end of today
      * @param {string} $end_range   string iso date in UTC, if empty is end of today
-     * @param {string} $group       group by month, day, year
+     * @param {MetricServiceGroupType} $group       group by month, day, year
      *
      * @throws {string}
      *
      * @returns {MetricServiceGetRevenueResult}
      */
-    GetRevenue: (start_range: string, end_range: string, group: string) => BackendResult<MetricServiceGetRevenueResult>
+    GetRevenue: (
+        start_range: string,
+        end_range: string,
+        group: MetricServiceGroupType
+    ) => BackendResult<MetricServiceGetRevenueResult>
 
     /**
      * @permission user

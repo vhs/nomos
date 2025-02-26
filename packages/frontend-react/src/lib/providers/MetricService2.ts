@@ -9,6 +9,7 @@ import type {
     MetricServiceGetCreatedDatesResult,
     MetricServiceGetMembersResult,
     MetricServiceGetRevenueResult,
+    MetricServiceGroupType,
     NewMembersResult,
     Payments,
     TotalKeyHoldersResult,
@@ -25,7 +26,7 @@ export default class MetricService2 implements IMetricService2 {
     async GetMembers(
         start_range: string,
         end_range: string,
-        group: string
+        group: MetricServiceGroupType
     ): BackendResult<MetricServiceGetMembersResult> {
         return await backendCall('/services/v2/MetricService2.svc/GetMembers', { start_range, end_range, group })
     }
@@ -41,7 +42,7 @@ export default class MetricService2 implements IMetricService2 {
     async GetRevenue(
         start_range: string,
         end_range: string,
-        group: string
+        group: MetricServiceGroupType
     ): BackendResult<MetricServiceGetRevenueResult> {
         return await backendCall('/services/v2/MetricService2.svc/GetRevenue', { start_range, end_range, group })
     }
