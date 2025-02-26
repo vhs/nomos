@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { zUser } from '@/lib/validators/records'
 
-import type { UserActiveStateCodes } from '@/types/common'
+import type { UserActiveStateCode } from '@/types/common'
 import type { IUserObject } from '@/types/db'
 import type { Keys, Membership, Privileges, User } from '@/types/records'
 
@@ -25,7 +25,7 @@ export default class UserObject implements User, IUserObject {
     lastlogin: string | number | Date
     lastip: string
     avatar: string | null | undefined
-    active: UserActiveStateCodes
+    active: UserActiveStateCode
     paypal_id: string
     payment_email: string
     stripe_id: string
