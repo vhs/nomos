@@ -15,7 +15,7 @@ const AdminStripeRecords: FC<AdminStripeRecordsProps> = () => (
         serviceEndpoint={'StripeEventService2'}
         baseServiceMethod={'Records'}
         fields={AdminStripeRecordsFields}
-        filters={AdminStripeRecordsFilters}
+        primaryFilters={AdminStripeRecordsFilters}
         order={'created desc'}
         // @ts-expect-error This is fucky. Technical term.
         component={AdminStripeRecordsItem}
