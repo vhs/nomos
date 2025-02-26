@@ -1,31 +1,35 @@
-import { useCallback, useEffect, useMemo, useState, type FC, type MouseEvent } from 'react'
+import { useCallback, useMemo, type FC, type MouseEvent } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from '@tanstack/react-router'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { CreateSystemPreferenceProps } from './CreateSystemPreference.types'
+import type { AdminSystemPreferencesNewForm, AdminSystemPreferencesNewProps } from './AdminSystemPreferencesNew.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
+import Card from '@/components/04-composites/Card/Card'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
-import { AdminSystemPreferencesItemFields } from '@/components/07-pages/admin/AdminSystemPreferences/AdminSystemPreferencesItem/AdminSystemPreferencesItem.utils'
 
-import { useGetAllPrivileges } from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
-import useFormDirty from '@/lib/hooks/useFormDirty'
-import useFormErrors from '@/lib/hooks/useFormErrors'
-import { usePrivilegeCodesReducer, type PrivilegeCodesMutationArg } from '@/lib/hooks/usePrivilegeCodesReducer'
+import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
+import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
+import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
 
 import type { BasePrivileges } from '@/types/records'
 
-import Card from '../../../../04-composites/Card'
+import { AdminSystemPreferencesNewSchema } from './AdminSystemPreferencesNew.schema'
+import { AdminSystemPreferencesNewDefaultValues } from './AdminSystemPreferencesNew.utils'
 
-const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
+const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
     const { mutate } = useTablePageContext()
+    const router = useRouter()
 
     const { data: systemPrivileges } = useGetAllPrivileges()
 
@@ -43,48 +47,39 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
             .filter((p) => p != null) as BasePrivileges
     }, [systemPrivileges])
 
-    const [showModal, setShowModal] = useState<boolean>(false)
+    const form = useForm<AdminSystemPreferencesNewForm>({
+        resolver: zodResolver(AdminSystemPreferencesNewSchema),
+        mode: 'onChange',
+        defaultValues: AdminSystemPreferencesNewDefaultValues
+    })
 
-    const openModal = (): void => {
-        setShowModal(true)
-    }
+    const enabled = form.watch('enabled')
 
-    const closeModal = (): void => {
-        setShowModal(false)
-    }
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
 
-    const [key, setKey] = useState('')
-    const [value, setValue] = useState('')
-    const [enabled, setEnabled] = useState(false)
-    const [notes, setNotes] = useState('')
-    const [settingAccessPrivileges, dispatchSettingAccessPrivileges] = usePrivilegeCodesReducer([])
-
-    const [errorStates, catchError, clearErrors] = useFormErrors(...AdminSystemPreferencesItemFields)
-    const [dirtyStates, handleDirty, clearDirty] = useFormDirty(...AdminSystemPreferencesItemFields)
-    const [dirtyPrivileges, setDirtyPrivileges] = useState(false)
+    const {
+        state: privileges,
+        dispatch: dispatchPrivileges,
+        isDirty: isPrivilegesDirty
+    } = useToggleReducer(convertPrivilegesArrayToBooleanRecord(availablePrivileges, false))
 
     const resetFields = useCallback((): void => {
-        setKey('')
-        setValue('')
-        setEnabled(false)
-        setNotes('')
-        dispatchSettingAccessPrivileges({
-            action: 'replace',
-            value: []
-        })
-        clearDirty()
-        clearErrors()
-    }, [clearDirty, clearErrors, dispatchSettingAccessPrivileges])
+        form.reset(AdminSystemPreferencesNewDefaultValues)
+    }, [form])
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
 
-        if (!Object.values(dirtyStates).some(Boolean) && !dirtyPrivileges) return
+        if (!form.formState.isDirty) return
 
-        if (Object.values(errorStates).some(Boolean)) {
+        if (!isValid) {
             toast.error('You have errors in your form. Please fix these first.')
+            console.error(errors)
             return
         }
+
+        const { key, value, enabled, notes } = form.getValues()
 
         await toast
             .promise(
@@ -99,49 +94,35 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                     if (newPreference == null || typeof newPreference !== 'object')
                         throw new Error('Failed to create new system preference')
 
-                    if (dirtyPrivileges)
+                    if (isPrivilegesDirty)
                         await PreferenceService2.getInstance().PutSystemPreferencePrivileges(
                             newPreference.id,
-                            settingAccessPrivileges.privileges
+                            getEnabledStateRecordKeys(privileges)
                         )
                 },
                 {
-                    error: 'Failed to update this API key. Please contact your administrators',
-                    pending: 'Creating API key',
-                    success: 'Created API key'
+                    error: 'Failed to update this system preference. Please contact your administrators',
+                    pending: 'Creating system preference',
+                    success: 'Created system preference'
                 }
             )
             .then(async () => {
                 resetFields()
-                closeModal()
+                void mutate()
+
+                void router.navigate({ to: '/admin/systempreferences' })
             })
     }
 
-    useEffect(() => {
-        if (!showModal) {
-            console.debug('calling mutate')
-            void mutate()
-        }
-    })
-
     return (
-        <div data-testid='CreateSystemPreference'>
-            <Button
-                variant='warning'
-                onClick={() => {
-                    openModal()
-                }}
-            >
-                Create System Preference
-            </Button>
+        <FormProvider {...form}>
             <OverlayCard
-                show={showModal}
                 title='Create System Preference'
                 actions={[
                     <Button
                         key='Save & Close'
                         variant='success'
-                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        disabled={!form.formState.isDirty}
                         onClick={(event) => {
                             void submitHandler(event)
                         }}
@@ -151,7 +132,7 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                     <Button
                         key='Reset'
                         className='btn-default'
-                        disabled={!(Object.values(dirtyStates).some(Boolean) || dirtyPrivileges)}
+                        disabled={!form.formState.isDirty}
                         onClick={() => {
                             resetFields()
                         }}
@@ -160,9 +141,9 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                     </Button>
                 ]}
                 onClose={() => {
-                    closeModal()
                     resetFields()
-                    clearDirty()
+
+                    void router.navigate({ to: '/admin/systempreferences' })
 
                     return false
                 }}
@@ -173,16 +154,11 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                             <Card.Header>Key</Card.Header>
                             <Card.Body>
                                 <FormControl
+                                    id='key'
                                     formType='text'
                                     aria-placeholder='Key'
                                     placeholder='Key'
-                                    error={errorStates.key}
-                                    value={key}
-                                    onChange={(value) => {
-                                        setKey(value)
-                                        handleDirty('key', true)
-                                        catchError('key', typeof value === 'string')
-                                    }}
+                                    error={form.formState.errors.key != null}
                                 />
                             </Card.Body>
                         </Card>
@@ -197,16 +173,11 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                                     <Card.Header>Value</Card.Header>
                                     <Card.Body>
                                         <FormControl
+                                            id='value'
                                             formType='text'
                                             aria-placeholder='Value'
                                             placeholder='Value'
-                                            error={errorStates.value}
-                                            value={value ?? ''}
-                                            onChange={(value) => {
-                                                setValue(value)
-                                                handleDirty('value', true)
-                                                catchError('value', typeof value === 'string')
-                                            }}
+                                            error={form.formState.errors.value != null}
                                         />
                                     </Card.Body>
                                 </Card>
@@ -220,8 +191,10 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                                         <Toggle
                                             checked={enabled}
                                             onChange={(checked) => {
-                                                setEnabled(checked)
-                                                handleDirty('enabled', true)
+                                                form.setValue('enabled', checked, {
+                                                    shouldValidate: true,
+                                                    shouldDirty: true
+                                                })
                                             }}
                                         >
                                             Enabled
@@ -236,16 +209,11 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                                     <Card.Header>Notes</Card.Header>
                                     <Card.Body>
                                         <FormControl
+                                            id='notes'
                                             formType='textarea'
                                             aria-placeholder='Notes'
                                             placeholder='Notes'
-                                            error={errorStates.notes}
-                                            value={notes ?? ''}
-                                            onChange={(value) => {
-                                                setNotes(value)
-                                                handleDirty('notes', true)
-                                                catchError('notes', typeof value === 'string')
-                                            }}
+                                            error={form.formState.errors.notes != null}
                                         />
                                     </Card.Body>
                                 </Card>
@@ -256,20 +224,22 @@ const CreateSystemPreference: FC<CreateSystemPreferenceProps> = () => {
                         <Row className='spacious'>
                             <Col>
                                 <PrivilegesSelectorCard
-                                    availablePrivileges={availablePrivileges}
-                                    onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                                        dispatchSettingAccessPrivileges(mutation)
-                                        setDirtyPrivileges(true)
+                                    customPrivileges={availablePrivileges}
+                                    onUpdate={({ privilege, state }): void => {
+                                        dispatchPrivileges({
+                                            action: state ? 'set' : 'unset',
+                                            value: privilege
+                                        })
                                     }}
-                                    value={settingAccessPrivileges}
+                                    selected={privileges}
                                 />
                             </Col>
                         </Row>
                     </Col>
                 </Row>
             </OverlayCard>
-        </div>
+        </FormProvider>
     )
 }
 
-export default CreateSystemPreference
+export default AdminSystemPreferencesNew

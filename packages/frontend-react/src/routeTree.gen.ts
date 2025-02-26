@@ -70,6 +70,8 @@ import { Route as AdminAdminAccesslogsImport } from './routes/_admin/admin.acces
 import { Route as PublicRecoveryResetTokenImport } from './routes/_public/recovery.reset.$token'
 import { Route as AdminAdminUsersNewImport } from './routes/_admin/admin.users.new'
 import { Route as AdminAdminUsersUserIdImport } from './routes/_admin/admin.users.$userId'
+import { Route as AdminAdminSystempreferencesNewImport } from './routes/_admin/admin.systempreferences.new'
+import { Route as AdminAdminSystempreferencesPreferenceIdImport } from './routes/_admin/admin.systempreferences.$preferenceId'
 import { Route as AdminAdminSystemkeysUsageImport } from './routes/_admin/admin.systemkeys.usage'
 import { Route as AdminAdminSystemkeysHelpImport } from './routes/_admin/admin.systemkeys.help'
 import { Route as AdminAdminMembershipsMembershipIdImport } from './routes/_admin/admin.memberships.$membershipId'
@@ -428,6 +430,20 @@ const AdminAdminUsersUserIdRoute = AdminAdminUsersUserIdImport.update({
   path: '/$userId',
   getParentRoute: () => AdminAdminUsersRoute,
 } as any)
+
+const AdminAdminSystempreferencesNewRoute =
+  AdminAdminSystempreferencesNewImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AdminAdminSystempreferencesRoute,
+  } as any)
+
+const AdminAdminSystempreferencesPreferenceIdRoute =
+  AdminAdminSystempreferencesPreferenceIdImport.update({
+    id: '/$preferenceId',
+    path: '/$preferenceId',
+    getParentRoute: () => AdminAdminSystempreferencesRoute,
+  } as any)
 
 const AdminAdminSystemkeysUsageRoute = AdminAdminSystemkeysUsageImport.update({
   id: '/usage',
@@ -865,6 +881,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminSystemkeysUsageImport
       parentRoute: typeof AdminAdminSystemkeysImport
     }
+    '/_admin/admin/systempreferences/$preferenceId': {
+      id: '/_admin/admin/systempreferences/$preferenceId'
+      path: '/$preferenceId'
+      fullPath: '/admin/systempreferences/$preferenceId'
+      preLoaderRoute: typeof AdminAdminSystempreferencesPreferenceIdImport
+      parentRoute: typeof AdminAdminSystempreferencesImport
+    }
+    '/_admin/admin/systempreferences/new': {
+      id: '/_admin/admin/systempreferences/new'
+      path: '/new'
+      fullPath: '/admin/systempreferences/new'
+      preLoaderRoute: typeof AdminAdminSystempreferencesNewImport
+      parentRoute: typeof AdminAdminSystempreferencesImport
+    }
     '/_admin/admin/users/$userId': {
       id: '/_admin/admin/users/$userId'
       path: '/$userId'
@@ -918,6 +948,23 @@ const AdminAdminSystemkeysRouteChildren: AdminAdminSystemkeysRouteChildren = {
 const AdminAdminSystemkeysRouteWithChildren =
   AdminAdminSystemkeysRoute._addFileChildren(AdminAdminSystemkeysRouteChildren)
 
+interface AdminAdminSystempreferencesRouteChildren {
+  AdminAdminSystempreferencesPreferenceIdRoute: typeof AdminAdminSystempreferencesPreferenceIdRoute
+  AdminAdminSystempreferencesNewRoute: typeof AdminAdminSystempreferencesNewRoute
+}
+
+const AdminAdminSystempreferencesRouteChildren: AdminAdminSystempreferencesRouteChildren =
+  {
+    AdminAdminSystempreferencesPreferenceIdRoute:
+      AdminAdminSystempreferencesPreferenceIdRoute,
+    AdminAdminSystempreferencesNewRoute: AdminAdminSystempreferencesNewRoute,
+  }
+
+const AdminAdminSystempreferencesRouteWithChildren =
+  AdminAdminSystempreferencesRoute._addFileChildren(
+    AdminAdminSystempreferencesRouteChildren,
+  )
+
 interface AdminAdminUsersRouteChildren {
   AdminAdminUsersUserIdRoute: typeof AdminAdminUsersUserIdRoute
   AdminAdminUsersNewRoute: typeof AdminAdminUsersNewRoute
@@ -958,7 +1005,7 @@ interface AdminRouteChildren {
   AdminAdminSiteconfigurationRoute: typeof AdminAdminSiteconfigurationRoute
   AdminAdminStriperecordsRoute: typeof AdminAdminStriperecordsRoute
   AdminAdminSystemkeysRoute: typeof AdminAdminSystemkeysRouteWithChildren
-  AdminAdminSystempreferencesRoute: typeof AdminAdminSystempreferencesRoute
+  AdminAdminSystempreferencesRoute: typeof AdminAdminSystempreferencesRouteWithChildren
   AdminAdminTransactionsRoute: typeof AdminAdminTransactionsRoute
   AdminAdminUsersRoute: typeof AdminAdminUsersRouteWithChildren
   AdminAdminWebhooksRoute: typeof AdminAdminWebhooksRoute
@@ -991,7 +1038,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminSiteconfigurationRoute: AdminAdminSiteconfigurationRoute,
   AdminAdminStriperecordsRoute: AdminAdminStriperecordsRoute,
   AdminAdminSystemkeysRoute: AdminAdminSystemkeysRouteWithChildren,
-  AdminAdminSystempreferencesRoute: AdminAdminSystempreferencesRoute,
+  AdminAdminSystempreferencesRoute:
+    AdminAdminSystempreferencesRouteWithChildren,
   AdminAdminTransactionsRoute: AdminAdminTransactionsRoute,
   AdminAdminUsersRoute: AdminAdminUsersRouteWithChildren,
   AdminAdminWebhooksRoute: AdminAdminWebhooksRoute,
@@ -1129,7 +1177,7 @@ export interface FileRoutesByFullPath {
   '/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/admin/striperecords': typeof AdminAdminStriperecordsRoute
   '/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
-  '/admin/systempreferences': typeof AdminAdminSystempreferencesRoute
+  '/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/admin/transactions': typeof AdminAdminTransactionsRoute
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
@@ -1141,6 +1189,8 @@ export interface FileRoutesByFullPath {
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
   '/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
+  '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/admin/users/new': typeof AdminAdminUsersNewRoute
   '/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
@@ -1192,7 +1242,7 @@ export interface FileRoutesByTo {
   '/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/admin/striperecords': typeof AdminAdminStriperecordsRoute
   '/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
-  '/admin/systempreferences': typeof AdminAdminSystempreferencesRoute
+  '/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/admin/transactions': typeof AdminAdminTransactionsRoute
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
@@ -1204,6 +1254,8 @@ export interface FileRoutesByTo {
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
   '/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
+  '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/admin/users/new': typeof AdminAdminUsersNewRoute
   '/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
@@ -1258,7 +1310,7 @@ export interface FileRoutesById {
   '/_admin/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/_admin/admin/striperecords': typeof AdminAdminStriperecordsRoute
   '/_admin/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
-  '/_admin/admin/systempreferences': typeof AdminAdminSystempreferencesRoute
+  '/_admin/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/_admin/admin/transactions': typeof AdminAdminTransactionsRoute
   '/_admin/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/_admin/admin/webhooks': typeof AdminAdminWebhooksRoute
@@ -1270,6 +1322,8 @@ export interface FileRoutesById {
   '/_admin/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/_admin/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
   '/_admin/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/_admin/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
+  '/_admin/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/_admin/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/_admin/admin/users/new': typeof AdminAdminUsersNewRoute
   '/_public/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
@@ -1335,6 +1389,8 @@ export interface FileRouteTypes {
     | '/admin/memberships/$membershipId'
     | '/admin/systemkeys/help'
     | '/admin/systemkeys/usage'
+    | '/admin/systempreferences/$preferenceId'
+    | '/admin/systempreferences/new'
     | '/admin/users/$userId'
     | '/admin/users/new'
     | '/recovery/reset/$token'
@@ -1397,6 +1453,8 @@ export interface FileRouteTypes {
     | '/admin/memberships/$membershipId'
     | '/admin/systemkeys/help'
     | '/admin/systemkeys/usage'
+    | '/admin/systempreferences/$preferenceId'
+    | '/admin/systempreferences/new'
     | '/admin/users/$userId'
     | '/admin/users/new'
     | '/recovery/reset/$token'
@@ -1461,6 +1519,8 @@ export interface FileRouteTypes {
     | '/_admin/admin/memberships/$membershipId'
     | '/_admin/admin/systemkeys/help'
     | '/_admin/admin/systemkeys/usage'
+    | '/_admin/admin/systempreferences/$preferenceId'
+    | '/_admin/admin/systempreferences/new'
     | '/_admin/admin/users/$userId'
     | '/_admin/admin/users/new'
     | '/_public/recovery/reset/$token'
@@ -1753,7 +1813,11 @@ export const routeTree = rootRoute
     },
     "/_admin/admin/systempreferences": {
       "filePath": "_admin/admin.systempreferences.tsx",
-      "parent": "/_admin"
+      "parent": "/_admin",
+      "children": [
+        "/_admin/admin/systempreferences/$preferenceId",
+        "/_admin/admin/systempreferences/new"
+      ]
     },
     "/_admin/admin/transactions": {
       "filePath": "_admin/admin.transactions.tsx",
@@ -1802,6 +1866,14 @@ export const routeTree = rootRoute
     "/_admin/admin/systemkeys/usage": {
       "filePath": "_admin/admin.systemkeys.usage.tsx",
       "parent": "/_admin/admin/systemkeys"
+    },
+    "/_admin/admin/systempreferences/$preferenceId": {
+      "filePath": "_admin/admin.systempreferences.$preferenceId.tsx",
+      "parent": "/_admin/admin/systempreferences"
+    },
+    "/_admin/admin/systempreferences/new": {
+      "filePath": "_admin/admin.systempreferences.new.tsx",
+      "parent": "/_admin/admin/systempreferences"
     },
     "/_admin/admin/users/$userId": {
       "filePath": "_admin/admin.users.$userId.tsx",
