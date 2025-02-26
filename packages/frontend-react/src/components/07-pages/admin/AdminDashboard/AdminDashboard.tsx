@@ -1,85 +1,64 @@
 import type { FC } from 'react'
 
-import { UsersIcon, ArrowRightCircleIcon, BanknotesIcon } from '@heroicons/react/16/solid'
+import { Link } from '@tanstack/react-router'
 import useSWR from 'swr'
 
 import type { AdminDashboardProps } from './AdminDashboard.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import AdminStatusWidget from '@/components/03-particles/AdminStatusWidget/AdminStatusWidget'
+import BasePage from '@/components/05-materials/BasePage/BasePage'
 
-import type { Users } from '@/types/records'
+import type { Payments, Users } from '@/types/records'
 
 const AdminDashboard: FC<AdminDashboardProps> = () => {
     const { data: pendingAccounts } = useSWR<Users>('/services/v2/MetricService2.svc/GetPendingAccounts')
-    const { data: paymentExceptions } = useSWR<Users>('/services/v2/MetricService2.svc/GetExceptionPayments')
+    const { data: paymentExceptions } = useSWR<Payments>('/services/v2/MetricService2.svc/GetExceptionPayments')
 
     return (
         <div data-testid='AdminDashboard'>
-            <Row className='spacious'>
-                <Col>
-                    <div className='text-4xl'>
-                        {new Date().toLocaleString('default', { month: 'long' })} {new Date().getFullYear()}
-                    </div>
-                </Col>
-            </Row>
+            <BasePage title={`${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getFullYear()}`}>
+                <Row className='spacious'>
+                    <Col className='basis-full md:basis-1/2 xl:basis-1/4'>
+                        <AdminStatusWidget
+                            variant='green'
+                            icon='users'
+                            count={pendingAccounts?.length ?? 0}
+                            description='Pending Accounts'
+                            details={pendingAccounts?.map((account) => (
+                                <Row key={account.username}>
+                                    <Col>
+                                        <span className='text-black'>{account.created.toLocaleString()}</span>{' '}
+                                        <Link to={`/admin/users/$userId`} params={{ userId: String(account.id) }}>
+                                            {account.email}
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            ))}
+                        />
+                    </Col>
 
-            <hr className='my-3' />
-
-            <Row className='spacious flex-wrap'>
-                <Col className='basis-full md:basis-1/2 lg:basis-1/4'>
-                    <Card className='m-1 rounded-xl border'>
-                        <Card.Body className='decorate-green rounded-t-md'>
-                            <Row>
-                                <Col className='basis-1/2'>
-                                    <UsersIcon className='max-h-20 max-w-20' />
-                                </Col>
-                                <Col className='basis-1/2'>
-                                    <div className='grid h-full grid-flow-row justify-evenly'>
-                                        <div className='block text-right text-5xl'>{pendingAccounts?.length}</div>
-                                        <div className='text-right font-bold'>Pending Accounts</div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                        <Card.Footer className='green-card-footer rounded-b-md text-green-card'>
-                            <Row>
-                                <Col className='basis-11/12 font-bold'>View Details</Col>
-                                <Col className='basis-1/12'>
-                                    <ArrowRightCircleIcon className='float-right my-auto mt-1.5 h-4 w-4' />
-                                </Col>
-                            </Row>
-                        </Card.Footer>
-                    </Card>
-                </Col>
-
-                <Col className='basis-full md:basis-1/2 lg:basis-1/4'>
-                    <Card className='m-1 rounded-lg'>
-                        <Card.Body className='decorate-red rounded-t-md'>
-                            <Row>
-                                <Col className='basis-1/2'>
-                                    <BanknotesIcon className='max-h-20 max-w-20' />
-                                </Col>
-                                <Col className='basis-1/2'>
-                                    <div className='grid h-full grid-flow-row justify-evenly'>
-                                        <div className='block text-right text-5xl'>{paymentExceptions?.length}</div>
-                                        <div className='text-right font-bold'>Payment Exceptions</div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                        <Card.Footer className='red-card-footer rounded-b-md text-red-card'>
-                            <Row>
-                                <Col className='basis-11/12 font-bold'>View Details</Col>
-                                <Col className='basis-1/12'>
-                                    <ArrowRightCircleIcon className='float-right my-auto mt-1.5 h-4 w-4' />
-                                </Col>
-                            </Row>
-                        </Card.Footer>
-                    </Card>
-                </Col>
-            </Row>
+                    <Col className='basis-full md:basis-1/2 xl:basis-1/4'>
+                        <AdminStatusWidget
+                            variant='red'
+                            icon='money-bills'
+                            count={paymentExceptions?.length ?? 0}
+                            description='Payment Exceptions'
+                            details={paymentExceptions?.map((payment) => (
+                                <Row key={payment.payer_email}>
+                                    <Col>
+                                        <span className='text-black'>{payment.date.toLocaleString()}</span>{' '}
+                                        <Link to={`/admin/users/$userId`} params={{ userId: String(payment.id) }}>
+                                            {payment.payer_email} (${payment.rate_amount})
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            ))}
+                        />
+                    </Col>
+                </Row>
+            </BasePage>
         </div>
     )
 }
