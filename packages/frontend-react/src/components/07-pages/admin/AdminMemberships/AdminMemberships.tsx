@@ -1,7 +1,5 @@
 import type { FC } from 'react'
 
-import { Outlet } from '@tanstack/react-router'
-
 import type { AdminMembershipsProps } from './AdminMemberships.types'
 
 import TablePage from '@/components/05-materials/TablePage/TablePage'
@@ -21,9 +19,7 @@ const AdminMemberships: FC<AdminMembershipsProps> = () => (
             order={'title'}
             // @ts-expect-error This is fucky. Technical term.
             component={AdminMembershipsItem}
-        >
-            <Outlet />
-        </TablePage>
+        />
     </>
 )
 
