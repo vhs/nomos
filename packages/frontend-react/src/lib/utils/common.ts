@@ -126,7 +126,7 @@ export const convertPrivilegesArrayToBooleanRecord = (
 
     if (privileges == null || (!isPrivilegesArray(privileges) && !isBasePrivilegesArray(privileges))) return {}
 
-    return privileges?.reduce<BooleanRecord>((c, e) => {
+    return structuredClone(privileges).reduce<BooleanRecord>((c, e) => {
         c[e.code] = defaultVal
 
         return c
@@ -141,7 +141,7 @@ export const convertFilterArrayToBooleanRecord = (
 
     if (filters == null) return {}
 
-    return filters?.reduce<BooleanRecord>((c, filter) => {
+    return structuredClone(filters).reduce<BooleanRecord>((c, filter) => {
         c[filter.id] = defaultVal
 
         return c
@@ -156,7 +156,7 @@ export const convertStringArrayToBooleanRecord = (
 
     if (!isStringArray(inp)) return {}
 
-    return inp?.reduce<BooleanRecord>((c, e) => {
+    return structuredClone(inp).reduce<BooleanRecord>((c, e) => {
         c[e] = defaultVal
 
         return c
@@ -171,5 +171,17 @@ export const mergeBooleanRecord = (base: BooleanRecord, override: BooleanRecord)
         c[e] = override[e]
 
         return c
-    }, base)
+    }, structuredClone(base))
+}
+
+export const compareBooleanRecords = (left?: BooleanRecord, right?: BooleanRecord): boolean => {
+    if (left == null || Array.isArray(left) || right == null || Array.isArray(right)) return false
+
+    if (Object.keys(left).length !== Object.keys(right).length) return false
+
+    if (Object.keys(left).sort().join(':') !== Object.keys(right).sort().join(':')) return false
+
+    if (Object.keys(left).filter((k) => left[k] === right[k]).length === Object.keys(left).length) return false
+
+    return true
 }
