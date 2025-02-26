@@ -15,7 +15,7 @@ const AdminIPNRecords: FC<AdminIPNRecordsProps> = () => (
         serviceEndpoint={'IpnService2'}
         baseServiceMethod={'Records'}
         fields={AdminIPNRecordsFields}
-        filters={AdminIPNRecordsFilters}
+        primaryFilters={AdminIPNRecordsFilters}
         order={'created desc'}
         // @ts-expect-error This is fucky. Technical term.
         component={AdminIPNRecordsItem}

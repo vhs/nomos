@@ -6,8 +6,7 @@ import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Row from '@/components/01-atoms/Row/Row'
-
-import PrivilegeIcon from '../../../../02-molecules/PrivilegeIcon/PrivilegeIcon'
+import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
 
 const PrivilegesList: FC<PrivilegesListProps> = ({ keyPrivileges, basePrivileges, callback }) => {
     keyPrivileges ??= []

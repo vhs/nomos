@@ -1,4 +1,8 @@
-export const AdminMembershipFields = [
+import type { AdminMembershipsForm } from './AdminMemberships.types'
+
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+
+export const AdminMembershipFields: FieldDefinitions = [
     { title: 'Title', field: 'title' },
     { title: 'Code', field: 'code' },
     { title: 'Description', field: 'description' },
@@ -7,7 +11,7 @@ export const AdminMembershipFields = [
     { title: 'Private', field: 'private' }
 ]
 
-export const AdminMembershipFilters = [
+export const AdminMembershipFilters: FilterDefinitions = [
     {
         id: 'Active Memberships',
         label: 'Active Memberships',
@@ -27,3 +31,16 @@ export const AdminMembershipFilters = [
         }
     }
 ]
+
+export const AdminMembershipsDefaultValues: AdminMembershipsForm = {
+    code: '',
+    title: '',
+    description: '',
+    price: 0,
+    period: 'D',
+    activeFlag: false,
+    privateFlag: false,
+    recurringFlag: false,
+    trialFlag: false,
+    interval: 0
+}

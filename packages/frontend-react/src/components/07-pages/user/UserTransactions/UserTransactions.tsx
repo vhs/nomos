@@ -20,7 +20,7 @@ const UserTransactions: FC<UserTransactionsProps> = () => {
                 // @ts-expect-error props
                 component={UserTransactionItems}
                 order={['date desc']}
-                filters={UserTransactionFilters}
+                primaryFilters={UserTransactionFilters}
             />
         </div>
     )
