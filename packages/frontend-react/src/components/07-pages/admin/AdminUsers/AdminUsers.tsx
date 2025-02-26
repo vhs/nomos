@@ -1,7 +1,5 @@
 import type { FC } from 'react'
 
-import { Outlet } from '@tanstack/react-router'
-
 import type { AdminUsersProps } from './AdminUsers.types'
 
 import CreateUserButton from '@/components/01-atoms/CreateUserButton/CreateUserButton'
@@ -29,9 +27,7 @@ const AdminUsers: FC<AdminUsersProps> = () => {
                 secondaryFilters={SecondaryAdminUserFilters}
                 actions={[<CreateUserButton key='CreateUserButton' />]}
                 unsafeSearchColumns={['active', 'cash']}
-            >
-                <Outlet />
-            </TablePage>
+            />
         </>
     )
 }
