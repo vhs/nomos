@@ -5,13 +5,16 @@
 import {
     zBoolean,
     zBooleanRecord,
+    zCoerceNumber,
+    zCoerceString,
     zDateTime,
+    zDateTimeString,
     zEmailAddress,
     zFunctionBoolResultFromStringArraySpread,
-    zHTTPMethods,
+    zHTTPMethod,
     zHumanName,
-    zIpnValidationStates,
-    zKeyTypes,
+    zIpnValidationState,
+    zKeyType,
     zMoneyBookers,
     zNonEmptyStringArray,
     zNonNegativeNumber,
@@ -20,18 +23,19 @@ import {
     zPasswordField,
     zPasswordInput,
     zPayPal,
-    zPaymentProviders,
+    zPaymentProvider,
     zPositiveNumber,
     zString,
     zStringArray,
     zStripe,
-    zStripePaymentStates,
+    zStripePaymentState,
     zUrl,
-    zUserActiveStateCodes,
+    zUserActiveState,
+    zUserActiveStateCode,
     zUserActiveStateDefinition,
-    zUserActiveStateTitles,
+    zUserActiveStateTitle,
     zUserActiveStateType,
-    zUserActiveStates,
+    zUserActiveStatus,
     zUserBannedStateType,
     zUserInactiveStateType,
     zUserPendingStateType,
@@ -66,7 +70,6 @@ import {
     zIpnRequest,
     zKey,
     zMembership,
-    zMembershipBaseFields,
     zMembershipPeriod,
     zMembershipPeriodDay,
     zMembershipPeriodMonth,
@@ -75,7 +78,7 @@ import {
     zMetricServiceGetCreatedDatesResult,
     zMetricServiceGetMembersResult,
     zMetricServiceGetRevenueResult,
-    zMetricServiceGroupTypes,
+    zMetricServiceGroupType,
     zMetricsBaseRangeResult,
     zMetricsResult,
     zMetricsValueResult,
@@ -87,7 +90,7 @@ import {
     zPrivilegesArray,
     zPrivilegesField,
     zRefreshToken,
-    zRevenueByMembersTypes,
+    zRevenueByMembersType,
     zRevenueByMembership,
     zRevenueResultSet,
     zStripeEvent,
@@ -99,20 +102,22 @@ import {
     zTrimmedUser,
     zUser,
     zUserPrincipal,
-    zWebHook,
-    zWebHookFields
+    zWebHook
 } from '@/lib/validators/records'
 
 import type {
     Boolean,
     BooleanRecord,
+    CoerceNumber,
+    CoerceString,
     DateTime,
+    DateTimeString,
     EmailAddress,
     FunctionBoolResultFromStringArraySpread,
-    HTTPMethods,
+    HTTPMethod,
     HumanName,
-    IpnValidationStates,
-    KeyTypes,
+    IpnValidationState,
+    KeyType,
     MoneyBookers,
     NonEmptyStringArray,
     NonNegativeNumber,
@@ -121,18 +126,19 @@ import type {
     PasswordField,
     PasswordInput,
     PayPal,
-    PaymentProviders,
+    PaymentProvider,
     PositiveNumber,
     String,
     StringArray,
     Stripe,
-    StripePaymentStates,
+    StripePaymentState,
     Url,
-    UserActiveStateCodes,
+    UserActiveState,
+    UserActiveStateCode,
     UserActiveStateDefinition,
-    UserActiveStateTitles,
+    UserActiveStateTitle,
     UserActiveStateType,
-    UserActiveStates,
+    UserActiveStatus,
     UserBannedStateType,
     UserInactiveStateType,
     UserPendingStateType,
@@ -167,7 +173,6 @@ import type {
     IpnRequest,
     Key,
     Membership,
-    MembershipBaseFields,
     MembershipPeriod,
     MembershipPeriodDay,
     MembershipPeriodMonth,
@@ -176,7 +181,7 @@ import type {
     MetricServiceGetCreatedDatesResult,
     MetricServiceGetMembersResult,
     MetricServiceGetRevenueResult,
-    MetricServiceGroupTypes,
+    MetricServiceGroupType,
     MetricsBaseRangeResult,
     MetricsResult,
     MetricsValueResult,
@@ -188,7 +193,7 @@ import type {
     PrivilegesArray,
     PrivilegesField,
     RefreshToken,
-    RevenueByMembersTypes,
+    RevenueByMembersType,
     RevenueByMembership,
     RevenueResultSet,
     StripeEvent,
@@ -200,140 +205,385 @@ import type {
     TrimmedUser,
     User,
     UserPrincipal,
-    WebHook,
-    WebHookFields
+    WebHook
 } from '@/types/records'
 
 export const isAccessLog = (inp: unknown): inp is AccessLog => zAccessLog.safeParse(inp).success
+export const isAccessLogs = (inp: unknown): inp is AccessLog => zAccessLog.array().safeParse(inp).success
+
 export const isAccessToken = (inp: unknown): inp is AccessToken => zAccessToken.safeParse(inp).success
+export const isAccessTokens = (inp: unknown): inp is AccessToken => zAccessToken.array().safeParse(inp).success
+
 export const isAppClient = (inp: unknown): inp is AppClient => zAppClient.safeParse(inp).success
+export const isAppClients = (inp: unknown): inp is AppClient => zAppClient.array().safeParse(inp).success
+
 export const isAuthCheckResult = (inp: unknown): inp is AuthCheckResult => zAuthCheckResult.safeParse(inp).success
+export const isAuthCheckResults = (inp: unknown): inp is AuthCheckResult =>
+    zAuthCheckResult.array().safeParse(inp).success
+
 export const isBasePrivilege = (inp: unknown): inp is BasePrivilege => zBasePrivilege.safeParse(inp).success
+export const isBasePrivileges = (inp: unknown): inp is BasePrivilege => zBasePrivilege.array().safeParse(inp).success
+
 export const isBasePrivilegesArray = (inp: unknown): inp is BasePrivilegesArray =>
     zBasePrivilegesArray.safeParse(inp).success
+export const isBasePrivilegesArrays = (inp: unknown): inp is BasePrivilegesArray =>
+    zBasePrivilegesArray.array().safeParse(inp).success
+
 export const isBoolean = (inp: unknown): inp is Boolean => zBoolean.safeParse(inp).success
+export const isBooleans = (inp: unknown): inp is Boolean => zBoolean.array().safeParse(inp).success
+
 export const isBooleanRecord = (inp: unknown): inp is BooleanRecord => zBooleanRecord.safeParse(inp).success
+export const isBooleanRecords = (inp: unknown): inp is BooleanRecord => zBooleanRecord.array().safeParse(inp).success
+
+export const isCoerceNumber = (inp: unknown): inp is CoerceNumber => zCoerceNumber.safeParse(inp).success
+export const isCoerceNumbers = (inp: unknown): inp is CoerceNumber => zCoerceNumber.array().safeParse(inp).success
+
+export const isCoerceString = (inp: unknown): inp is CoerceString => zCoerceString.safeParse(inp).success
+export const isCoerceStrings = (inp: unknown): inp is CoerceString => zCoerceString.array().safeParse(inp).success
+
 export const isCommon = (inp: unknown): inp is Common => zCommon.safeParse(inp).success
+export const isCommons = (inp: unknown): inp is Common => zCommon.array().safeParse(inp).success
+
 export const isCurrentUser = (inp: unknown): inp is CurrentUser => zCurrentUser.safeParse(inp).success
+export const isCurrentUsers = (inp: unknown): inp is CurrentUser => zCurrentUser.array().safeParse(inp).success
+
 export const isDataRecord = (inp: unknown): inp is DataRecord => zDataRecord.safeParse(inp).success
+export const isDataRecords = (inp: unknown): inp is DataRecord => zDataRecord.array().safeParse(inp).success
+
 export const isDateTime = (inp: unknown): inp is DateTime => zDateTime.safeParse(inp).success
+export const isDateTimes = (inp: unknown): inp is DateTime => zDateTime.array().safeParse(inp).success
+
+export const isDateTimeString = (inp: unknown): inp is DateTimeString => zDateTimeString.safeParse(inp).success
+export const isDateTimeStrings = (inp: unknown): inp is DateTimeString => zDateTimeString.array().safeParse(inp).success
+
 export const isDomain = (inp: unknown): inp is Domain => zDomain.safeParse(inp).success
+export const isDomains = (inp: unknown): inp is Domain => zDomain.array().safeParse(inp).success
+
 export const isEmail = (inp: unknown): inp is Email => zEmail.safeParse(inp).success
-export const isEmailAddress = (inp: unknown): inp is EmailAddress => zEmailAddress.safeParse(inp).success
+export const isEmails = (inp: unknown): inp is Email => zEmail.array().safeParse(inp).success
+
+export const isEmailAddreses = (inp: unknown): inp is EmailAddress => zEmailAddress.safeParse(inp).success
+export const isEmailAddresses = (inp: unknown): inp is EmailAddress => zEmailAddress.array().safeParse(inp).success
+
 export const isEmailTemplate = (inp: unknown): inp is EmailTemplate => zEmailTemplate.safeParse(inp).success
+export const isEmailTemplates = (inp: unknown): inp is EmailTemplate => zEmailTemplate.array().safeParse(inp).success
+
 export const isEvent = (inp: unknown): inp is Event => zEvent.safeParse(inp).success
+export const isEvents = (inp: unknown): inp is Event => zEvent.array().safeParse(inp).success
+
 export const isFunctionBoolResultFromStringArraySpread = (
     inp: unknown
 ): inp is FunctionBoolResultFromStringArraySpread => zFunctionBoolResultFromStringArraySpread.safeParse(inp).success
+export const isFunctionBoolResultFromStringArraySpreads = (
+    inp: unknown
+): inp is FunctionBoolResultFromStringArraySpread =>
+    zFunctionBoolResultFromStringArraySpread.array().safeParse(inp).success
+
 export const isGenuineCard = (inp: unknown): inp is GenuineCard => zGenuineCard.safeParse(inp).success
-export const isHTTPMethods = (inp: unknown): inp is HTTPMethods => zHTTPMethods.safeParse(inp).success
+export const isGenuineCards = (inp: unknown): inp is GenuineCard => zGenuineCard.array().safeParse(inp).success
+
+export const isHTTPMethod = (inp: unknown): inp is HTTPMethod => zHTTPMethod.safeParse(inp).success
+export const isHTTPMethods = (inp: unknown): inp is HTTPMethod => zHTTPMethod.array().safeParse(inp).success
+
 export const isHumanName = (inp: unknown): inp is HumanName => zHumanName.safeParse(inp).success
+export const isHumanNames = (inp: unknown): inp is HumanName => zHumanName.array().safeParse(inp).success
+
 export const isIPrincipal = (inp: unknown): inp is IPrincipal => zIPrincipal.safeParse(inp).success
+export const isIPrincipals = (inp: unknown): inp is IPrincipal => zIPrincipal.array().safeParse(inp).success
+
 export const isIpn = (inp: unknown): inp is Ipn => zIpn.safeParse(inp).success
+export const isIpns = (inp: unknown): inp is Ipn => zIpn.array().safeParse(inp).success
+
 export const isIpnRequest = (inp: unknown): inp is IpnRequest => zIpnRequest.safeParse(inp).success
-export const isIpnValidationStates = (inp: unknown): inp is IpnValidationStates =>
-    zIpnValidationStates.safeParse(inp).success
+export const isIpnRequests = (inp: unknown): inp is IpnRequest => zIpnRequest.array().safeParse(inp).success
+
+export const isIpnValidationState = (inp: unknown): inp is IpnValidationState =>
+    zIpnValidationState.safeParse(inp).success
+export const isIpnValidationStates = (inp: unknown): inp is IpnValidationState =>
+    zIpnValidationState.array().safeParse(inp).success
+
 export const isKey = (inp: unknown): inp is Key => zKey.safeParse(inp).success
-export const isKeyTypes = (inp: unknown): inp is KeyTypes => zKeyTypes.safeParse(inp).success
+export const isKeys = (inp: unknown): inp is Key => zKey.array().safeParse(inp).success
+
+export const isKeyType = (inp: unknown): inp is KeyType => zKeyType.safeParse(inp).success
+export const isKeyTypes = (inp: unknown): inp is KeyType => zKeyType.array().safeParse(inp).success
+
 export const isMembership = (inp: unknown): inp is Membership => zMembership.safeParse(inp).success
-export const isMembershipBaseFields = (inp: unknown): inp is MembershipBaseFields =>
-    zMembershipBaseFields.safeParse(inp).success
+export const isMemberships = (inp: unknown): inp is Membership => zMembership.array().safeParse(inp).success
+
 export const isMembershipPeriod = (inp: unknown): inp is MembershipPeriod => zMembershipPeriod.safeParse(inp).success
+export const isMembershipPeriods = (inp: unknown): inp is MembershipPeriod =>
+    zMembershipPeriod.array().safeParse(inp).success
+
 export const isMembershipPeriodDay = (inp: unknown): inp is MembershipPeriodDay =>
     zMembershipPeriodDay.safeParse(inp).success
+export const isMembershipPeriodDays = (inp: unknown): inp is MembershipPeriodDay =>
+    zMembershipPeriodDay.array().safeParse(inp).success
+
 export const isMembershipPeriodMonth = (inp: unknown): inp is MembershipPeriodMonth =>
     zMembershipPeriodMonth.safeParse(inp).success
+export const isMembershipPeriodMonths = (inp: unknown): inp is MembershipPeriodMonth =>
+    zMembershipPeriodMonth.array().safeParse(inp).success
+
 export const isMembershipPeriodYear = (inp: unknown): inp is MembershipPeriodYear =>
     zMembershipPeriodYear.safeParse(inp).success
+export const isMembershipPeriodYears = (inp: unknown): inp is MembershipPeriodYear =>
+    zMembershipPeriodYear.array().safeParse(inp).success
+
 export const isMembershipWithId = (inp: unknown): inp is MembershipWithId => zMembershipWithId.safeParse(inp).success
+export const isMembershipWithIds = (inp: unknown): inp is MembershipWithId =>
+    zMembershipWithId.array().safeParse(inp).success
+
 export const isMetricServiceGetCreatedDatesResult = (inp: unknown): inp is MetricServiceGetCreatedDatesResult =>
     zMetricServiceGetCreatedDatesResult.safeParse(inp).success
+export const isMetricServiceGetCreatedDatesResults = (inp: unknown): inp is MetricServiceGetCreatedDatesResult =>
+    zMetricServiceGetCreatedDatesResult.array().safeParse(inp).success
+
 export const isMetricServiceGetMembersResult = (inp: unknown): inp is MetricServiceGetMembersResult =>
     zMetricServiceGetMembersResult.safeParse(inp).success
+export const isMetricServiceGetMembersResults = (inp: unknown): inp is MetricServiceGetMembersResult =>
+    zMetricServiceGetMembersResult.array().safeParse(inp).success
+
 export const isMetricServiceGetRevenueResult = (inp: unknown): inp is MetricServiceGetRevenueResult =>
     zMetricServiceGetRevenueResult.safeParse(inp).success
-export const isMetricServiceGroupTypes = (inp: unknown): inp is MetricServiceGroupTypes =>
-    zMetricServiceGroupTypes.safeParse(inp).success
+export const isMetricServiceGetRevenueResults = (inp: unknown): inp is MetricServiceGetRevenueResult =>
+    zMetricServiceGetRevenueResult.array().safeParse(inp).success
+
+export const isMetricServiceGroupType = (inp: unknown): inp is MetricServiceGroupType =>
+    zMetricServiceGroupType.safeParse(inp).success
+export const isMetricServiceGroupTypes = (inp: unknown): inp is MetricServiceGroupType =>
+    zMetricServiceGroupType.array().safeParse(inp).success
+
 export const isMetricsBaseRangeResult = (inp: unknown): inp is MetricsBaseRangeResult =>
     zMetricsBaseRangeResult.safeParse(inp).success
+export const isMetricsBaseRangeResults = (inp: unknown): inp is MetricsBaseRangeResult =>
+    zMetricsBaseRangeResult.array().safeParse(inp).success
+
 export const isMetricsResult = (inp: unknown): inp is MetricsResult => zMetricsResult.safeParse(inp).success
+export const isMetricsResults = (inp: unknown): inp is MetricsResult => zMetricsResult.array().safeParse(inp).success
+
 export const isMetricsValueResult = (inp: unknown): inp is MetricsValueResult =>
     zMetricsValueResult.safeParse(inp).success
+export const isMetricsValueResults = (inp: unknown): inp is MetricsValueResult =>
+    zMetricsValueResult.array().safeParse(inp).success
+
 export const isMoneyBookers = (inp: unknown): inp is MoneyBookers => zMoneyBookers.safeParse(inp).success
+export const isMoneyBookerses = (inp: unknown): inp is MoneyBookers => zMoneyBookers.array().safeParse(inp).success
+
 export const isNewKeyholdersResult = (inp: unknown): inp is NewKeyholdersResult =>
     zNewKeyholdersResult.safeParse(inp).success
+export const isNewKeyholdersResults = (inp: unknown): inp is NewKeyholdersResult =>
+    zNewKeyholdersResult.array().safeParse(inp).success
+
 export const isNewMembersResult = (inp: unknown): inp is NewMembersResult => zNewMembersResult.safeParse(inp).success
+export const isNewMembersResults = (inp: unknown): inp is NewMembersResult =>
+    zNewMembersResult.array().safeParse(inp).success
+
 export const isNonEmptyStringArray = (inp: unknown): inp is NonEmptyStringArray =>
     zNonEmptyStringArray.safeParse(inp).success
+export const isNonEmptyStringArrays = (inp: unknown): inp is NonEmptyStringArray =>
+    zNonEmptyStringArray.array().safeParse(inp).success
+
 export const isNonNegativeNumber = (inp: unknown): inp is NonNegativeNumber => zNonNegativeNumber.safeParse(inp).success
+export const isNonNegativeNumbers = (inp: unknown): inp is NonNegativeNumber =>
+    zNonNegativeNumber.array().safeParse(inp).success
+
 export const isNumber = (inp: unknown): inp is Number => zNumber.safeParse(inp).success
+export const isNumbers = (inp: unknown): inp is Number => zNumber.array().safeParse(inp).success
+
 export const isNumberArray = (inp: unknown): inp is NumberArray => zNumberArray.safeParse(inp).success
+export const isNumberArrays = (inp: unknown): inp is NumberArray => zNumberArray.array().safeParse(inp).success
+
 export const isPasswordField = (inp: unknown): inp is PasswordField => zPasswordField.safeParse(inp).success
+export const isPasswordFields = (inp: unknown): inp is PasswordField => zPasswordField.array().safeParse(inp).success
+
 export const isPasswordInput = (inp: unknown): inp is PasswordInput => zPasswordInput.safeParse(inp).success
+export const isPasswordInputs = (inp: unknown): inp is PasswordInput => zPasswordInput.array().safeParse(inp).success
+
 export const isPayPal = (inp: unknown): inp is PayPal => zPayPal.safeParse(inp).success
+export const isPayPals = (inp: unknown): inp is PayPal => zPayPal.array().safeParse(inp).success
+
 export const isPayment = (inp: unknown): inp is Payment => zPayment.safeParse(inp).success
-export const isPaymentProviders = (inp: unknown): inp is PaymentProviders => zPaymentProviders.safeParse(inp).success
+export const isPayments = (inp: unknown): inp is Payment => zPayment.array().safeParse(inp).success
+
+export const isPaymentProvider = (inp: unknown): inp is PaymentProvider => zPaymentProvider.safeParse(inp).success
+export const isPaymentProviders = (inp: unknown): inp is PaymentProvider =>
+    zPaymentProvider.array().safeParse(inp).success
+
 export const isPositiveNumber = (inp: unknown): inp is PositiveNumber => zPositiveNumber.safeParse(inp).success
+export const isPositiveNumbers = (inp: unknown): inp is PositiveNumber => zPositiveNumber.array().safeParse(inp).success
+
 export const isPrincipalUser = (inp: unknown): inp is PrincipalUser => zPrincipalUser.safeParse(inp).success
+export const isPrincipalUsers = (inp: unknown): inp is PrincipalUser => zPrincipalUser.array().safeParse(inp).success
+
 export const isPrivilege = (inp: unknown): inp is Privilege => zPrivilege.safeParse(inp).success
+export const isPrivileges = (inp: unknown): inp is Privilege => zPrivilege.array().safeParse(inp).success
+
 export const isPrivilegesArray = (inp: unknown): inp is PrivilegesArray => zPrivilegesArray.safeParse(inp).success
+export const isPrivilegesArrays = (inp: unknown): inp is PrivilegesArray =>
+    zPrivilegesArray.array().safeParse(inp).success
+
 export const isPrivilegesField = (inp: unknown): inp is PrivilegesField => zPrivilegesField.safeParse(inp).success
+export const isPrivilegesFields = (inp: unknown): inp is PrivilegesField =>
+    zPrivilegesField.array().safeParse(inp).success
+
 export const isRefreshToken = (inp: unknown): inp is RefreshToken => zRefreshToken.safeParse(inp).success
-export const isRevenueByMembersTypes = (inp: unknown): inp is RevenueByMembersTypes =>
-    zRevenueByMembersTypes.safeParse(inp).success
+export const isRefreshTokens = (inp: unknown): inp is RefreshToken => zRefreshToken.array().safeParse(inp).success
+
+export const isRevenueByMembersType = (inp: unknown): inp is RevenueByMembersType =>
+    zRevenueByMembersType.safeParse(inp).success
+export const isRevenueByMembersTypes = (inp: unknown): inp is RevenueByMembersType =>
+    zRevenueByMembersType.array().safeParse(inp).success
+
 export const isRevenueByMembership = (inp: unknown): inp is RevenueByMembership =>
     zRevenueByMembership.safeParse(inp).success
+export const isRevenueByMemberships = (inp: unknown): inp is RevenueByMembership =>
+    zRevenueByMembership.array().safeParse(inp).success
+
 export const isRevenueResultSet = (inp: unknown): inp is RevenueResultSet => zRevenueResultSet.safeParse(inp).success
+export const isRevenueResultSets = (inp: unknown): inp is RevenueResultSet =>
+    zRevenueResultSet.array().safeParse(inp).success
+
 export const isString = (inp: unknown): inp is String => zString.safeParse(inp).success
+export const isStrings = (inp: unknown): inp is String => zString.array().safeParse(inp).success
+
 export const isStringArray = (inp: unknown): inp is StringArray => zStringArray.safeParse(inp).success
+export const isStringArrays = (inp: unknown): inp is StringArray => zStringArray.array().safeParse(inp).success
+
 export const isStripe = (inp: unknown): inp is Stripe => zStripe.safeParse(inp).success
+export const isStripes = (inp: unknown): inp is Stripe => zStripe.array().safeParse(inp).success
+
 export const isStripeEvent = (inp: unknown): inp is StripeEvent => zStripeEvent.safeParse(inp).success
-export const isStripePaymentStates = (inp: unknown): inp is StripePaymentStates =>
-    zStripePaymentStates.safeParse(inp).success
+export const isStripeEvents = (inp: unknown): inp is StripeEvent => zStripeEvent.array().safeParse(inp).success
+
+export const isStripePaymentState = (inp: unknown): inp is StripePaymentState =>
+    zStripePaymentState.safeParse(inp).success
+export const isStripePaymentStates = (inp: unknown): inp is StripePaymentState =>
+    zStripePaymentState.array().safeParse(inp).success
+
 export const isSystemPreference = (inp: unknown): inp is SystemPreference => zSystemPreference.safeParse(inp).success
+export const isSystemPreferences = (inp: unknown): inp is SystemPreference =>
+    zSystemPreference.array().safeParse(inp).success
+
 export const isTotalKeyHoldersResult = (inp: unknown): inp is TotalKeyHoldersResult =>
     zTotalKeyHoldersResult.safeParse(inp).success
+export const isTotalKeyHoldersResults = (inp: unknown): inp is TotalKeyHoldersResult =>
+    zTotalKeyHoldersResult.array().safeParse(inp).success
+
 export const isTotalMembersResult = (inp: unknown): inp is TotalMembersResult =>
     zTotalMembersResult.safeParse(inp).success
+export const isTotalMembersResults = (inp: unknown): inp is TotalMembersResult =>
+    zTotalMembersResult.array().safeParse(inp).success
+
 export const isTrimmedAppClient = (inp: unknown): inp is TrimmedAppClient => zTrimmedAppClient.safeParse(inp).success
+export const isTrimmedAppClients = (inp: unknown): inp is TrimmedAppClient =>
+    zTrimmedAppClient.array().safeParse(inp).success
+
 export const isTrimmedAppClientOwner = (inp: unknown): inp is TrimmedAppClientOwner =>
     zTrimmedAppClientOwner.safeParse(inp).success
+export const isTrimmedAppClientOwners = (inp: unknown): inp is TrimmedAppClientOwner =>
+    zTrimmedAppClientOwner.array().safeParse(inp).success
+
 export const isTrimmedUser = (inp: unknown): inp is TrimmedUser => zTrimmedUser.safeParse(inp).success
+export const isTrimmedUsers = (inp: unknown): inp is TrimmedUser => zTrimmedUser.array().safeParse(inp).success
+
 export const isUrl = (inp: unknown): inp is Url => zUrl.safeParse(inp).success
+export const isUrls = (inp: unknown): inp is Url => zUrl.array().safeParse(inp).success
+
 export const isUser = (inp: unknown): inp is User => zUser.safeParse(inp).success
-export const isUserActiveStateCodes = (inp: unknown): inp is UserActiveStateCodes =>
-    zUserActiveStateCodes.safeParse(inp).success
+export const isUsers = (inp: unknown): inp is User => zUser.array().safeParse(inp).success
+
+export const isUserActiveState = (inp: unknown): inp is UserActiveState => zUserActiveState.safeParse(inp).success
+export const isUserActiveStates = (inp: unknown): inp is UserActiveState =>
+    zUserActiveState.array().safeParse(inp).success
+
+export const isUserActiveStateCode = (inp: unknown): inp is UserActiveStateCode =>
+    zUserActiveStateCode.safeParse(inp).success
+export const isUserActiveStateCodes = (inp: unknown): inp is UserActiveStateCode =>
+    zUserActiveStateCode.array().safeParse(inp).success
+
 export const isUserActiveStateDefinition = (inp: unknown): inp is UserActiveStateDefinition =>
     zUserActiveStateDefinition.safeParse(inp).success
-export const isUserActiveStateTitles = (inp: unknown): inp is UserActiveStateTitles =>
-    zUserActiveStateTitles.safeParse(inp).success
+export const isUserActiveStateDefinitions = (inp: unknown): inp is UserActiveStateDefinition =>
+    zUserActiveStateDefinition.array().safeParse(inp).success
+
+export const isUserActiveStateTitle = (inp: unknown): inp is UserActiveStateTitle =>
+    zUserActiveStateTitle.safeParse(inp).success
+export const isUserActiveStateTitles = (inp: unknown): inp is UserActiveStateTitle =>
+    zUserActiveStateTitle.array().safeParse(inp).success
+
 export const isUserActiveStateType = (inp: unknown): inp is UserActiveStateType =>
     zUserActiveStateType.safeParse(inp).success
-export const isUserActiveStates = (inp: unknown): inp is UserActiveStates => zUserActiveStates.safeParse(inp).success
+export const isUserActiveStateTypes = (inp: unknown): inp is UserActiveStateType =>
+    zUserActiveStateType.array().safeParse(inp).success
+
+export const isUserActiveStatus = (inp: unknown): inp is UserActiveStatus => zUserActiveStatus.safeParse(inp).success
+export const isUserActiveStatuses = (inp: unknown): inp is UserActiveStatus =>
+    zUserActiveStatus.array().safeParse(inp).success
+
 export const isUserBannedStateType = (inp: unknown): inp is UserBannedStateType =>
     zUserBannedStateType.safeParse(inp).success
+export const isUserBannedStateTypes = (inp: unknown): inp is UserBannedStateType =>
+    zUserBannedStateType.array().safeParse(inp).success
+
 export const isUserInactiveStateType = (inp: unknown): inp is UserInactiveStateType =>
     zUserInactiveStateType.safeParse(inp).success
+export const isUserInactiveStateTypes = (inp: unknown): inp is UserInactiveStateType =>
+    zUserInactiveStateType.array().safeParse(inp).success
+
 export const isUserPendingStateType = (inp: unknown): inp is UserPendingStateType =>
     zUserPendingStateType.safeParse(inp).success
+export const isUserPendingStateTypes = (inp: unknown): inp is UserPendingStateType =>
+    zUserPendingStateType.array().safeParse(inp).success
+
 export const isUserPin = (inp: unknown): inp is UserPin => zUserPin.safeParse(inp).success
+export const isUserPins = (inp: unknown): inp is UserPin => zUserPin.array().safeParse(inp).success
+
 export const isUserPrincipal = (inp: unknown): inp is UserPrincipal => zUserPrincipal.safeParse(inp).success
+export const isUserPrincipals = (inp: unknown): inp is UserPrincipal => zUserPrincipal.array().safeParse(inp).success
+
 export const isUserStateCodeActive = (inp: unknown): inp is UserStateCodeActive =>
     zUserStateCodeActive.safeParse(inp).success
+export const isUserStateCodeActives = (inp: unknown): inp is UserStateCodeActive =>
+    zUserStateCodeActive.array().safeParse(inp).success
+
 export const isUserStateCodeBanned = (inp: unknown): inp is UserStateCodeBanned =>
     zUserStateCodeBanned.safeParse(inp).success
+export const isUserStateCodeBanneds = (inp: unknown): inp is UserStateCodeBanned =>
+    zUserStateCodeBanned.array().safeParse(inp).success
+
 export const isUserStateCodeInactive = (inp: unknown): inp is UserStateCodeInactive =>
     zUserStateCodeInactive.safeParse(inp).success
+export const isUserStateCodeInactives = (inp: unknown): inp is UserStateCodeInactive =>
+    zUserStateCodeInactive.array().safeParse(inp).success
+
 export const isUserStateCodePending = (inp: unknown): inp is UserStateCodePending =>
     zUserStateCodePending.safeParse(inp).success
+export const isUserStateCodePendings = (inp: unknown): inp is UserStateCodePending =>
+    zUserStateCodePending.array().safeParse(inp).success
+
 export const isUserStateTitleActive = (inp: unknown): inp is UserStateTitleActive =>
     zUserStateTitleActive.safeParse(inp).success
+export const isUserStateTitleActives = (inp: unknown): inp is UserStateTitleActive =>
+    zUserStateTitleActive.array().safeParse(inp).success
+
 export const isUserStateTitleBanned = (inp: unknown): inp is UserStateTitleBanned =>
     zUserStateTitleBanned.safeParse(inp).success
+export const isUserStateTitleBanneds = (inp: unknown): inp is UserStateTitleBanned =>
+    zUserStateTitleBanned.array().safeParse(inp).success
+
 export const isUserStateTitleInactive = (inp: unknown): inp is UserStateTitleInactive =>
     zUserStateTitleInactive.safeParse(inp).success
+export const isUserStateTitleInactives = (inp: unknown): inp is UserStateTitleInactive =>
+    zUserStateTitleInactive.array().safeParse(inp).success
+
 export const isUserStateTitlePending = (inp: unknown): inp is UserStateTitlePending =>
     zUserStateTitlePending.safeParse(inp).success
+export const isUserStateTitlePendings = (inp: unknown): inp is UserStateTitlePending =>
+    zUserStateTitlePending.array().safeParse(inp).success
+
 export const isUsername = (inp: unknown): inp is Username => zUsername.safeParse(inp).success
+export const isUsernames = (inp: unknown): inp is Username => zUsername.array().safeParse(inp).success
+
 export const isWebHook = (inp: unknown): inp is WebHook => zWebHook.safeParse(inp).success
-export const isWebHookFields = (inp: unknown): inp is WebHookFields => zWebHookFields.safeParse(inp).success
+export const isWebHooks = (inp: unknown): inp is WebHook => zWebHook.array().safeParse(inp).success

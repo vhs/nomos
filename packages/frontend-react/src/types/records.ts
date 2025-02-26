@@ -29,7 +29,7 @@ import type {
     zMetricServiceGetCreatedDatesResult,
     zMetricServiceGetMembersResult,
     zMetricServiceGetRevenueResult,
-    zMetricServiceGroupTypes,
+    zMetricServiceGroupType,
     zMetricsBaseRangeResult,
     zMetricsResult,
     zMetricsValueResult,
@@ -41,7 +41,7 @@ import type {
     zPrivilegesArray,
     zPrivilegesField,
     zRefreshToken,
-    zRevenueByMembersTypes,
+    zRevenueByMembersType,
     zRevenueByMembership,
     zRevenueResultSet,
     zStripeEvent,
@@ -54,7 +54,7 @@ import type {
     zUser,
     zUserPrincipal,
     zWebHook,
-    zWebHookFields
+    zWebHookBaseFields
 } from '@/lib/validators/records.ts'
 
 export type AccessLog = z.infer<typeof zAccessLog>
@@ -113,8 +113,8 @@ export type MetricServiceGetMembersResult = z.infer<typeof zMetricServiceGetMemb
 export type MetricServiceGetMembersResults = MetricServiceGetMembersResult[]
 export type MetricServiceGetRevenueResult = z.infer<typeof zMetricServiceGetRevenueResult>
 export type MetricServiceGetRevenueResults = MetricServiceGetRevenueResult[]
-export type MetricServiceGroupTypes = z.infer<typeof zMetricServiceGroupTypes>
-export type MetricServiceGroupTypess = MetricServiceGroupTypes[]
+export type MetricServiceGroupType = z.infer<typeof zMetricServiceGroupType>
+export type MetricServiceGroupTypes = MetricServiceGroupType[]
 export type MetricsBaseRangeResult = z.infer<typeof zMetricsBaseRangeResult>
 export type MetricsBaseRangeResults = MetricsBaseRangeResult[]
 export type MetricsResult = z.infer<typeof zMetricsResult>
@@ -137,8 +137,8 @@ export type PrivilegesField = z.infer<typeof zPrivilegesField>
 export type PrivilegesFields = PrivilegesField[]
 export type RefreshToken = z.infer<typeof zRefreshToken>
 export type RefreshTokens = RefreshToken[]
-export type RevenueByMembersTypes = z.infer<typeof zRevenueByMembersTypes>
-export type RevenueByMembersTypess = RevenueByMembersTypes[]
+export type RevenueByMembersType = z.infer<typeof zRevenueByMembersType>
+export type RevenueByMembersTypes = RevenueByMembersType[]
 export type RevenueByMembership = z.infer<typeof zRevenueByMembership>
 export type RevenueByMemberships = RevenueByMembership[]
 export type RevenueResultSet = z.infer<typeof zRevenueResultSet>
@@ -163,5 +163,5 @@ export type UserPrincipal = z.infer<typeof zUserPrincipal>
 export type UserPrincipals = UserPrincipal[]
 export type WebHook = z.infer<typeof zWebHook>
 export type WebHooks = WebHook[]
-export type WebHookFields = z.infer<typeof zWebHookFields>
-export type WebHookFieldss = WebHookFields[]
+export type WebHookBaseFields = z.infer<typeof zWebHookBaseFields>
+export type WebHookBaseFieldss = WebHookBaseFields[]
