@@ -10,11 +10,13 @@ import {
     zDateTime,
     zDateTimeString,
     zEmailAddress,
+    zEmptyOrMinString,
     zFunctionBoolResultFromStringArraySpread,
     zHTTPMethod,
     zHumanName,
     zIpnValidationState,
     zKeyType,
+    zMinString,
     zMoneyBookers,
     zNonEmptyStringArray,
     zNonNegativeNumber,
@@ -113,11 +115,13 @@ import type {
     DateTime,
     DateTimeString,
     EmailAddress,
+    EmptyOrMinString,
     FunctionBoolResultFromStringArraySpread,
     HTTPMethod,
     HumanName,
     IpnValidationState,
     KeyType,
+    MinString,
     MoneyBookers,
     NonEmptyStringArray,
     NonNegativeNumber,
@@ -268,6 +272,10 @@ export const isEmailAddresses = (inp: unknown): inp is EmailAddress => zEmailAdd
 export const isEmailTemplate = (inp: unknown): inp is EmailTemplate => zEmailTemplate.safeParse(inp).success
 export const isEmailTemplates = (inp: unknown): inp is EmailTemplate => zEmailTemplate.array().safeParse(inp).success
 
+export const isEmptyOrMinString = (inp: unknown): inp is EmptyOrMinString => zEmptyOrMinString.safeParse(inp).success
+export const isEmptyOrMinStrings = (inp: unknown): inp is EmptyOrMinString =>
+    zEmptyOrMinString.array().safeParse(inp).success
+
 export const isEvent = (inp: unknown): inp is Event => zEvent.safeParse(inp).success
 export const isEvents = (inp: unknown): inp is Event => zEvent.array().safeParse(inp).success
 
@@ -366,6 +374,9 @@ export const isMetricsValueResult = (inp: unknown): inp is MetricsValueResult =>
     zMetricsValueResult.safeParse(inp).success
 export const isMetricsValueResults = (inp: unknown): inp is MetricsValueResult =>
     zMetricsValueResult.array().safeParse(inp).success
+
+export const isMinString = (inp: unknown): inp is MinString => zMinString.safeParse(inp).success
+export const isMinStrings = (inp: unknown): inp is MinString => zMinString.array().safeParse(inp).success
 
 export const isMoneyBookers = (inp: unknown): inp is MoneyBookers => zMoneyBookers.safeParse(inp).success
 export const isMoneyBookerses = (inp: unknown): inp is MoneyBookers => zMoneyBookers.array().safeParse(inp).success
