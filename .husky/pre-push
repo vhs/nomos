@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+cd "$(dirname "$(realpath "$0")")/../" || exit 255
+
+if git show-ref "$(git branch --show-current)" | awk '{ print $2 }' | xargs | sed 's/ /../g' | xargs git diff --numstat | grep packages/frontend-react; then
+    pnpm run -r build
+fi
+
+exit 0
