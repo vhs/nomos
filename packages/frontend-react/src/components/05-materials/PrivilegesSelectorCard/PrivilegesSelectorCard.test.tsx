@@ -7,12 +7,12 @@ it('It should mount', () => {
     const root = createRoot(container)
     root.render(
         <PrivilegesSelectorCard
-            availablePrivileges={[
+            customPrivileges={[
                 { name: 'Privilege1', code: 'privilege1' },
                 { name: 'privilege2', code: 'privilege2' }
             ]}
             onUpdate={(mutation) => {
-                console.log(mutation)
+                console.debug(mutation)
             }}
         />
     )

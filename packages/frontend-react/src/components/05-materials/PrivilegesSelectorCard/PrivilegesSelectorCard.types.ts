@@ -1,10 +1,11 @@
-import type { PrivilegeCodesMutationArg, PrivilegesReducerState } from '@/lib/hooks/usePrivilegeCodesReducer'
-
+import type { BooleanRecord } from '@/types/common'
 import type { BasePrivileges } from '@/types/records'
+import type { CastReactElement } from '@/types/utils'
 
-export interface PrivilegesSelectorCardProps {
+export interface PrivilegesSelectorCardProps extends CastReactElement<'div'> {
     className?: string
-    onUpdate: (mutation: PrivilegeCodesMutationArg) => void
-    availablePrivileges?: BasePrivileges
-    value?: PrivilegesReducerState
+    title?: string
+    onUpdate: (mutation: { privilege: string; state: boolean }) => void
+    customPrivileges?: BasePrivileges
+    selected?: BooleanRecord
 }

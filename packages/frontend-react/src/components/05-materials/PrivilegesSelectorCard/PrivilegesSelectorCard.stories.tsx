@@ -1,24 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { type PrivilegeCodesMutationArg, usePrivilegeCodesReducer } from '@/lib/hooks/useSelectorReducer'
+import useToggleReducer from '@/lib/hooks/useToggleReducer'
+import { convertPrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
 import PrivilegesSelectorCard from './PrivilegesSelectorCard'
 
 type StoryType = StoryObj<typeof PrivilegesSelectorCard>
 
 const meta: Meta<typeof PrivilegesSelectorCard> = {
-    component: ({ availablePrivileges, onUpdate, value, ...restProps }) => {
-        const [privilegesState, dispatchPrivileges] = usePrivilegeCodesReducer(
-            availablePrivileges?.slice(0, 1).map((p) => p.code)
+    component: ({ customPrivileges, onUpdate, selected: value, ...restProps }) => {
+        const { state: privileges, dispatch: dispatchPrivileges } = useToggleReducer(
+            convertPrivilegesArrayToBooleanRecord(customPrivileges)
         )
 
         return (
             <PrivilegesSelectorCard
-                onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                    dispatchPrivileges(mutation)
+                customPrivileges={customPrivileges}
+                onUpdate={({ privilege, state }): void => {
+                    dispatchPrivileges({ action: state ? 'set' : 'unset', value: privilege })
                 }}
-                availablePrivileges={availablePrivileges}
-                value={privilegesState}
+                selected={privileges}
                 {...restProps}
             />
         )
@@ -30,12 +31,12 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        availablePrivileges: [
+        customPrivileges: [
             { name: 'Privilege1', code: 'privilege1' },
             { name: 'Privilege2', code: 'privilege2' }
         ],
         onUpdate: (mutation) => {
-            console.log(mutation)
+            console.debug(mutation)
         }
     }
 }
