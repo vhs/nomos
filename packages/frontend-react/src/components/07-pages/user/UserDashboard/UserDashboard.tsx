@@ -9,16 +9,16 @@ import Col from '@/components/01-atoms/Col/Col'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Row from '@/components/01-atoms/Row/Row'
 import Loading from '@/components/02-molecules/Loading/Loading'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
 import 'chart.js/auto'
 
-import { useGetCreatedDates } from '@/lib/hooks/providers/MetricService2/useGetCreatedDates'
-import { useGetMembers } from '@/lib/hooks/providers/MetricService2/useGetMembers'
-import { useGetNewMembers } from '@/lib/hooks/providers/MetricService2/useGetNewMembers'
-import { useGetRevenue } from '@/lib/hooks/providers/MetricService2/useGetRevenue'
-import { useGetTotalMembers } from '@/lib/hooks/providers/MetricService2/useGetTotalMembers'
+import useGetCreatedDates from '@/lib/hooks/providers/MetricService2/useGetCreatedDates'
+import useGetMembers from '@/lib/hooks/providers/MetricService2/useGetMembers'
+import useGetNewMembers from '@/lib/hooks/providers/MetricService2/useGetNewMembers'
+import useGetRevenue from '@/lib/hooks/providers/MetricService2/useGetRevenue'
+import useGetTotalMembers from '@/lib/hooks/providers/MetricService2/useGetTotalMembers'
 
 import {
     generateCreatedByDoWHour30daysBubbleChartOptions,
@@ -108,7 +108,7 @@ const UserDashboard: FC<UserDashboardProps> = () => {
     return (
         <div data-testid='UserDashboard'>
             <BasePage title={date}>
-                <Row className='flex-wrap'>
+                <Row>
                     <Col className='spacious basis-full lg:basis-1/2'>
                         {revenueGoalDoughnutChartOptions != null ? (
                             <div className='relative h-96 w-96'>
@@ -120,7 +120,7 @@ const UserDashboard: FC<UserDashboardProps> = () => {
                     </Col>
 
                     <Col className='spacious basis-full lg:basis-1/2'>
-                        <Row className='flex-wrap lg:flex-nowrap'>
+                        <Row>
                             <Col className='basis-full p-1 lg:basis-1/2'>
                                 <Card className='m-2 max-w-full rounded-lg'>
                                     <Card.Body className='decorate-green rounded-t-lg'>
@@ -167,7 +167,7 @@ const UserDashboard: FC<UserDashboardProps> = () => {
                         </Row>
                     </Col>
 
-                    <Col className='spacious basis-full p-1 lg:basis-1/2'>
+                    <Col className='spacious w-max-[72vw] basis-full p-1 lg:basis-1/2'>
                         {createdByDoWHourBubbleChartOptions != null ? (
                             <div className='chart-container'>
                                 <Bubble {...createdByDoWHourBubbleChartOptions} />

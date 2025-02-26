@@ -18,7 +18,7 @@ const AdminAccessLogs: FC<AdminAccessLogsProps> = () => (
             // @ts-expect-error This is fucky. Technical term.
             component={AdminAccessLogsItem}
             order={['time desc']}
-            filters={AdminAccessLogsFilters}
+            primaryFilters={AdminAccessLogsFilters}
         />
     </div>
 )

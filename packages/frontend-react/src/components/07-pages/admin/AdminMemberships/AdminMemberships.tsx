@@ -17,7 +17,7 @@ const AdminMemberships: FC<AdminMembershipsProps> = () => (
             serviceEndpoint={'MembershipService2'}
             baseServiceMethod={'Memberships'}
             fields={AdminMembershipFields}
-            filters={AdminMembershipFilters}
+            primaryFilters={AdminMembershipFilters}
             order={'title'}
             // @ts-expect-error This is fucky. Technical term.
             component={AdminMembershipsItem}

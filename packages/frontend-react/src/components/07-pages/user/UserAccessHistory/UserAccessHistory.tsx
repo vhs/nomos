@@ -20,7 +20,7 @@ const UserAccessHistory: FC<UserAccessHistoryProps> = () => {
                 // @ts-expect-error This is fucky. Technical term.
                 component={UserAccessHistoryItem}
                 order={['time desc']}
-                filters={UserAccessHistoryFilters}
+                primaryFilters={UserAccessHistoryFilters}
             />
         </div>
     )
