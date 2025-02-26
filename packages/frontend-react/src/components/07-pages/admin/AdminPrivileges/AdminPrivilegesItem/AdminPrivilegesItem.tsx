@@ -1,30 +1,35 @@
 import { useCallback, useEffect, useMemo, useState, type FC, type MouseEvent } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useSWR from 'swr'
 
 import type { AdminPrivilegesItemProps } from './AdminPrivilegesItem.types'
+import type { AdminPrivilegeItemForm } from '../AdminPrivileges.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
-import { hydrateState } from '@/lib/ui'
 import { checkValidIcon } from '@/lib/ui/fontawesome'
-import { isBoolean, isString } from '@/lib/validators/guards'
+import { isString } from '@/lib/validators/guards'
 
 import type { Privilege } from '@/types/records'
+
+import { AdminPrivilegeItemSchema } from '../AdminPrivileges.schema'
 
 const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
     const { mutate } = useTablePageContext()
@@ -38,43 +43,16 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
 
     const { data: privilege, isLoading, mutate: mutatePrivilege } = useSWR<Privilege>(privilegeUrl)
 
+    const form = useForm<AdminPrivilegeItemForm>({
+        resolver: zodResolver(AdminPrivilegeItemSchema),
+        mode: 'onChange',
+        defaultValues: data
+    })
+
+    const enabled = form.watch('enabled')
+    const icon = form.watch('icon')
+
     const [showModal, setShowModal] = useState<boolean>(false)
-    const [dirty, setDirty] = useState(false)
-
-    const [privilegeName, setPrivilegeName] = useState<string>('')
-    const [privilegeDescription, setPrivilegeDescription] = useState<string>('')
-    const [privilegeIcon, setPrivilegeIcon] = useState<string>('')
-    const [privilegeEnabled, setPrivilegeEnabled] = useState<boolean>(false)
-
-    const [inputErrorStates, setInputErrorState] = useState<Record<string, boolean>>(
-        ['privilegeName', 'privilegeDescription', 'privilegeIcon'].reduce((c, e) => {
-            return { ...c, [e]: false }
-        }, {})
-    )
-
-    const addError = (inputFieldName: string): void => {
-        setInputErrorState((prevState) => {
-            return { ...structuredClone(prevState), [inputFieldName]: true }
-        })
-    }
-
-    const removeError = (inputFieldName: string): void => {
-        setInputErrorState((prevState) => {
-            return { ...structuredClone(prevState), [inputFieldName]: false }
-        })
-    }
-
-    const catchErrors = useCallback((inputFieldName: string, ...tests: boolean[]): boolean => {
-        if (tests.filter(Boolean).length !== tests.length) {
-            addError(inputFieldName)
-
-            return true
-        } else {
-            removeError(inputFieldName)
-
-            return false
-        }
-    }, [])
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
@@ -84,29 +62,29 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
             return
         }
 
-        const errors = [
-            catchErrors('privilegeName', isString(privilegeName)),
-            catchErrors('privilegeDescription', isString(privilegeDescription)),
-            catchErrors('privilegeIcon', isString(privilegeIcon)),
-            catchErrors('privilegeEnabled', isBoolean(privilegeEnabled))
-        ].filter(Boolean).length
+        if (!form.formState.isDirty) {
+            toast.warn('No changes detected!')
+            return
+        }
 
-        if (errors > 0) {
-            toast.error(`Please fix the errors (${errors}) before continuing`)
+        if (!form.formState.isValid) {
+            toast.error(`Please fix the errors before continuing`)
             return
         }
 
         const loadingToastId = toast.loading('Updating privilege')
 
+        const { name, description, icon, enabled } = form.getValues()
+
         try {
-            if (privilege.name !== privilegeName)
-                await PrivilegeService2.getInstance().UpdatePrivilegeName(privilegeId, privilegeName)
-            if (privilege.description !== privilegeDescription)
-                await PrivilegeService2.getInstance().UpdatePrivilegeDescription(privilegeId, privilegeDescription)
-            if (privilege.icon !== privilegeIcon)
-                await PrivilegeService2.getInstance().UpdatePrivilegeIcon(privilegeId, privilegeIcon)
-            if (privilege.enabled !== privilegeEnabled)
-                await PrivilegeService2.getInstance().UpdatePrivilegeEnabled(privilegeId, privilegeEnabled)
+            if (form.formState.dirtyFields.name != null)
+                await PrivilegeService2.getInstance().UpdatePrivilegeName(privilegeId, name)
+            if (form.formState.dirtyFields.description != null && isString(description))
+                await PrivilegeService2.getInstance().UpdatePrivilegeDescription(privilegeId, description)
+            if (form.formState.dirtyFields.icon != null && isString(icon))
+                await PrivilegeService2.getInstance().UpdatePrivilegeIcon(privilegeId, icon)
+            if (form.formState.dirtyFields.enabled != null)
+                await PrivilegeService2.getInstance().UpdatePrivilegeEnabled(privilegeId, enabled)
 
             toast.update(loadingToastId, {
                 render: 'Privilege updated',
@@ -157,14 +135,8 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
     }
 
     const hydrateDefaults = useCallback((): void => {
-        hydrateState(privilege?.name, setPrivilegeName)
-        hydrateState(privilege?.description, setPrivilegeDescription)
-        hydrateState(privilege?.icon, setPrivilegeIcon)
-        hydrateState(privilege?.enabled, setPrivilegeEnabled)
-        setInputErrorState({})
-        setDirty(false)
-        catchErrors('privilegeIcon', privilege?.icon != null && checkValidIcon(privilege?.icon))
-    }, [catchErrors, privilege])
+        form.reset(data)
+    }, [data, form])
 
     useEffect(() => {
         hydrateDefaults()
@@ -190,15 +162,15 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                         content={
                             <PrivilegeIcon
                                 className={
-                                    privilege?.icon !== '' && !checkValidIcon(privilege?.icon)
+                                    !isString(privilege?.icon) && !checkValidIcon(privilege?.icon)
                                         ? 'text-red-500'
                                         : undefined
                                 }
-                                icon={privilegeIcon}
+                                icon={privilege?.icon}
                                 size='xl'
                             />
                         }
-                        popover={privilegeIcon !== '' ? privilegeIcon.toString() : 'Not set'}
+                        popover={isString(privilege?.icon) ? privilege?.icon.toString() : 'Not set'}
                     />
                 </ConditionalTableCell>
                 <ConditionalTableCell condition={'enabled' in data}>
@@ -222,139 +194,95 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                         <FontAwesomeIcon icon='times' />
                     </Button>
                     <Conditional condition={showModal}>
-                        <OverlayCard
-                            title={`Edit Privilege - ${privilege.name} (${privilege.code})`}
-                            onClose={() => {
-                                setShowModal(false)
-                                return false
-                            }}
-                            closeLabel='Close'
-                            actions={[
-                                <Button
-                                    key='Save'
-                                    variant='success'
-                                    className={dirty ? 'btn-success bg-lime-500 text-black' : 'btn-success'}
-                                    onClick={(event) => {
-                                        void submitHandler(event)
-                                    }}
-                                >
-                                    Save
-                                </Button>,
-                                <Button
-                                    key='Reset'
-                                    variant='primary'
-                                    onClick={() => {
-                                        hydrateDefaults()
-                                        setDirty(false)
-                                    }}
-                                >
-                                    Reset
-                                </Button>
-                            ]}
-                        >
-                            <Row className='spacious'>
-                                <Col
-                                    className={
-                                        inputErrorStates.privilegeName ? 'rounded-sm border border-red-500' : undefined
-                                    }
-                                >
-                                    <label htmlFor={`privilege-name-${privilege.id}`}>
-                                        <strong>Name</strong>
-                                        <FormControl
-                                            formType='text'
-                                            id={`privilege-name-${privilege.id}`}
-                                            value={privilegeName}
-                                            onChange={(value) => {
-                                                setPrivilegeName(value)
-                                                setDirty(true)
-                                            }}
-                                        />
-                                    </label>
-                                </Col>
-                            </Row>
-
-                            <Row className='spacious'>
-                                <Col
-                                    className={
-                                        inputErrorStates.privilegeDescription
-                                            ? 'rounded-sm border border-red-500'
-                                            : undefined
-                                    }
-                                >
-                                    <label htmlFor={`privilege-description-${privilege.id}`}>
-                                        <strong>Description</strong>
-                                        <FormControl
-                                            formType='text'
-                                            id={`privilege-description-${privilege.id}`}
-                                            value={privilegeDescription}
-                                            onChange={(value) => {
-                                                setPrivilegeDescription(value)
-                                                setDirty(true)
-                                            }}
-                                        />
-                                    </label>
-                                </Col>
-                            </Row>
-
-                            <Row className='spacious'>
-                                <Col
-                                    className={
-                                        inputErrorStates.privilegeIcon ? 'rounded-sm border border-red-500' : undefined
-                                    }
-                                >
-                                    <label htmlFor={`privilege-icon-${privilege.id}`}>
-                                        <div className='inline'>
-                                            <Popover
-                                                className='inline'
-                                                content={<strong>Icon</strong>}
-                                                popover={'This is the FontAwesome icon name.'}
-                                            />{' '}
-                                            <span
-                                                className={
-                                                    !checkValidIcon(privilegeIcon) ? 'inline text-orange-500' : 'hidden'
-                                                }
-                                            >
-                                                Missing or invalid icon
-                                            </span>
-                                        </div>
-
-                                        <FormControl
-                                            formType='text'
-                                            id={`privilege-icon-${privilege.id}`}
-                                            className={!checkValidIcon(privilegeIcon) ? 'border-orange-500' : undefined}
-                                            value={privilegeIcon}
-                                            onChange={(value) => {
-                                                setPrivilegeIcon(value)
-                                                setDirty(true)
-                                            }}
-                                        />
-                                    </label>
-                                </Col>
-                            </Row>
-
-                            <Row className='spacious'>
-                                <Col
-                                    className={
-                                        inputErrorStates.privilegeEnabled
-                                            ? 'rounded-sm border border-red-500'
-                                            : undefined
-                                    }
-                                >
-                                    <Toggle
-                                        checked={privilegeEnabled}
-                                        onChange={() => {
-                                            void togglePrivilegeEnabled()
+                        <FormProvider {...form}>
+                            <OverlayCard
+                                title={`Edit Privilege - ${privilege.name} (${privilege.code})`}
+                                onClose={() => {
+                                    setShowModal(false)
+                                    return false
+                                }}
+                                closeLabel='Close'
+                                actions={[
+                                    <Button
+                                        key='Save'
+                                        variant='success'
+                                        className='btn-success'
+                                        disabled={!form.formState.isDirty}
+                                        onClick={(event) => {
+                                            void submitHandler(event)
                                         }}
                                     >
-                                        Enabled
-                                    </Toggle>
-                                </Col>
-                            </Row>
+                                        Save
+                                    </Button>,
+                                    <Button
+                                        key='Reset'
+                                        variant='primary'
+                                        disabled={!form.formState.isDirty}
+                                        onClick={() => {
+                                            hydrateDefaults()
+                                        }}
+                                    >
+                                        Reset
+                                    </Button>
+                                ]}
+                            >
+                                <Row className='spacious'>
+                                    <FormCol error={form.formState.errors.name != null}>
+                                        <label htmlFor='name'>
+                                            <strong>Name</strong>
+                                            <FormControl id='name' formType='text' />
+                                        </label>
+                                    </FormCol>
+                                </Row>
 
-                            <Row className='spacious'>
-                                <Col></Col>
-                            </Row>
-                        </OverlayCard>
+                                <Row className='spacious'>
+                                    <FormCol error={form.formState.errors.description != null}>
+                                        <label htmlFor='description'>
+                                            <strong>Description</strong>
+                                            <FormControl id='description' formType='text' />
+                                        </label>
+                                    </FormCol>
+                                </Row>
+
+                                <Row className='spacious'>
+                                    <FormCol error={form.formState.errors.icon != null}>
+                                        <label htmlFor='icon'>
+                                            <div className='inline'>
+                                                <Popover
+                                                    className='inline'
+                                                    content={<strong>Icon</strong>}
+                                                    popover={'This is the FontAwesome icon name.'}
+                                                />{' '}
+                                            </div>
+
+                                            <FormControl
+                                                id='icon'
+                                                formType='text'
+                                                className={!checkValidIcon(icon) ? 'border-orange-500' : undefined}
+                                                errorMessage={form.formState.errors.icon?.message}
+                                            />
+                                        </label>
+                                    </FormCol>
+                                </Row>
+
+                                <Row className='spacious'>
+                                    <FormCol error={form.formState.errors.enabled != null}>
+                                        <Toggle
+                                            checked={enabled}
+                                            onChange={(change) => {
+                                                form.setValue('enabled', change)
+                                            }}
+                                        >
+                                            Enabled
+                                        </Toggle>
+                                    </FormCol>
+                                </Row>
+
+                                <Row className='spacious'>
+                                    <Col></Col>
+                                </Row>
+                            </OverlayCard>
+                        </FormProvider>
                     </Conditional>
                 </td>
             </TablePageRow>
