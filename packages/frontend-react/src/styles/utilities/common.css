@@ -45,7 +45,7 @@
     }
 
     .row {
-        @apply my-2 flex flex-row;
+        @apply my-2 flex flex-row gap-y-2;
 
         &.hide {
             @apply hidden;
