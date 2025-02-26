@@ -76,8 +76,9 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
             <FormProvider {...form}>
                 <OverlayCard
                     title='Create User'
-                    actions={
+                    actions={[
                         <Button
+                            key='AdminUsersNewCreateButton'
                             variant='primary'
                             onClick={(event) => {
                                 void submitHandler(event)
@@ -85,7 +86,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                         >
                             Create
                         </Button>
-                    }
+                    ]}
                 >
                     <Row className='spacious'>
                         <FormCol className='basis-1/2 px-2' error={form.formState.errors.user?.firstName != null}>
