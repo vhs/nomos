@@ -270,7 +270,10 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                         <Toggle
                                             checked={enabled}
                                             onChange={(change) => {
-                                                form.setValue('enabled', change)
+                                                form.setValue('enabled', change, {
+                                                    shouldValidate: true,
+                                                    shouldDirty: true
+                                                })
                                             }}
                                         >
                                             Enabled

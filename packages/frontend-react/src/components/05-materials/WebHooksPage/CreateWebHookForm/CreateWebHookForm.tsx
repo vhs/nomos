@@ -287,7 +287,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     id='enabled'
                                     checked={enabled}
                                     onChange={(checked) => {
-                                        form.setValue('enabled', checked)
+                                        form.setValue('enabled', checked, { shouldValidate: true, shouldDirty: true })
                                     }}
                                 >
                                     Enabled
