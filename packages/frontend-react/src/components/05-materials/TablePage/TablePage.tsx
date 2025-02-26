@@ -84,11 +84,13 @@ const TablePage: FC<TablePageProps> = ({
         }
     })
 
-    const [fieldStates, dispatchFieldState] = useToggleReducer(convertStringArrayToBooleanRecord(fieldLabels, true))
-    const [primaryFilterStates, dispatchPrimaryFilterState] = useToggleReducer(
+    const { state: fieldStates, dispatch: dispatchFieldState } = useToggleReducer(
+        convertStringArrayToBooleanRecord(fieldLabels, true)
+    )
+    const { state: primaryFilterStates, dispatch: dispatchPrimaryFilterState } = useToggleReducer(
         convertFilterArrayToBooleanRecord(primaryFilters, false)
     )
-    const [secondaryFilterStates, dispatchSecondaryFilterState] = useToggleReducer(
+    const { state: secondaryFilterStates, dispatch: dispatchSecondaryFilterState } = useToggleReducer(
         convertFilterArrayToBooleanRecord(secondaryFilters, false)
     )
 
