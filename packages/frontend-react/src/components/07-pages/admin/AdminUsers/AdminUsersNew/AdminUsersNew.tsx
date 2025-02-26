@@ -154,7 +154,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             <MembershipSelectorCard
                                 className={clsx(['spacious'])}
                                 onUpdate={(id: number) => {
-                                    form.setValue('user.memType', id)
+                                    form.setValue('user.memType', id, { shouldValidate: true, shouldDirty: true })
                                 }}
                                 value={memType}
                             />

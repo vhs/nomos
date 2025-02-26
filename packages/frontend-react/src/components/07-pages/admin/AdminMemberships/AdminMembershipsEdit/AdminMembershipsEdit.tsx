@@ -273,7 +273,10 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                                 id='trialFlag'
                                                 checked={trialFlag}
                                                 onChange={(checked) => {
-                                                    form.setValue('trialFlag', checked)
+                                                    form.setValue('trialFlag', checked, {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true
+                                                    })
                                                 }}
                                             >
                                                 Trial
@@ -283,7 +286,10 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             <Toggle
                                                 checked={recurringFlag}
                                                 onChange={(checked) => {
-                                                    form.setValue('recurringFlag', checked)
+                                                    form.setValue('recurringFlag', checked, {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true
+                                                    })
                                                 }}
                                             >
                                                 Recurring
@@ -293,7 +299,10 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             <Toggle
                                                 checked={privateFlag}
                                                 onChange={(checked) => {
-                                                    form.setValue('privateFlag', checked)
+                                                    form.setValue('privateFlag', checked, {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true
+                                                    })
                                                 }}
                                             >
                                                 Private
@@ -303,7 +312,10 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             <Toggle
                                                 checked={activeFlag}
                                                 onChange={(checked) => {
-                                                    form.setValue('activeFlag', checked)
+                                                    form.setValue('activeFlag', checked, {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true
+                                                    })
                                                 }}
                                             >
                                                 Active

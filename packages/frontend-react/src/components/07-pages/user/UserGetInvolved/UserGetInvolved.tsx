@@ -52,7 +52,8 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
     }
 
     useEffect(() => {
-        if (currentUser != null) form.setValue('slackInvitationAddress', currentUser.email)
+        if (currentUser != null)
+            form.setValue('slackInvitationAddress', currentUser.email, { shouldValidate: true, shouldDirty: true })
     }, [currentUser, form])
 
     if (currentUser == null) return <Loading />
