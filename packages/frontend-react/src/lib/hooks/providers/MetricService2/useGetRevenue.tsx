@@ -5,14 +5,14 @@ import useSWR, { type SWRResponse } from 'swr'
 import MetricService2 from '@/lib/providers/MetricService2'
 import { zMetricServiceGetRevenueResult } from '@/lib/validators/records'
 
-import type { MetricServiceGroupTypes, MetricServiceGetRevenueResult } from '@/types/records'
+import type { MetricServiceGroupType, MetricServiceGetRevenueResult } from '@/types/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetRevenue'
 
 const getNewMembersFetcher = async (
     start: string,
     end: string,
-    group: MetricServiceGroupTypes
+    group: MetricServiceGroupType
 ): Promise<MetricServiceGetRevenueResult> => {
     const result = await MetricService2.getInstance().GetRevenue(start, end, group)
 
@@ -37,9 +37,12 @@ const getNewMembersFetcher = async (
 const useGetRevenue = (
     start: string,
     end: string,
-    group: MetricServiceGroupTypes
+    group: MetricServiceGroupType
 ): SWRResponse<MetricServiceGetRevenueResult, string> => {
-    const uri = useMemo(() => `${baseUri}?start_range=${start}&end_range=${end}&group=${group}`, [start, end, group])
+    const uri = useMemo(
+        () => `${baseUri}?start_range=${start}&end_range=${end}&group=${String(group)}`,
+        [start, end, group]
+    )
 
     return useSWR<MetricServiceGetRevenueResult, string>(
         uri,
