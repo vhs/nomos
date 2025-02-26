@@ -1,22 +1,24 @@
 import { z } from 'zod'
 
 export const zBoolean = z.boolean()
+export const zCoerceNumber = z.coerce.number()
+export const zCoerceString = z.coerce.string()
+export const zString = z.string()
+export const zNumber = z.number()
 
-export const zDateTime = z.union([z.date(), z.string(), z.number()])
+export const zDateTimeString = zString.regex(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/)
 
-export const zEmailAddress = z.coerce.string().email().min(5)
+export const zDateTime = z.union([z.date(), zString.datetime(), zDateTimeString, z.number()])
+
+export const zEmailAddress = zCoerceString.email().min(5)
 
 export const zNonNegativeNumber = z.number().nonnegative()
-
-export const zNumber = z.number()
 
 export const zNumberArray = zNumber.array()
 
 export const zPositiveNumber = zNumber.positive()
 
-export const zString = z.string()
-
-export const zUrl = zString.url().nullish()
+export const zUrl = zString.url()
 
 export const zHumanName = zString.min(1)
 
@@ -26,7 +28,7 @@ export const zStringArray = z.array(zString).min(0)
 
 export const zFunctionBoolResultFromStringArraySpread = z.function(z.tuple([]).rest(zString), zBoolean)
 
-export const zHTTPMethods = z.union([
+export const zHTTPMethod = z.union([
     z.literal('CONNECT'),
     z.literal('DELETE'),
     z.literal('GET'),
@@ -38,9 +40,9 @@ export const zHTTPMethods = z.union([
     z.literal('TRACE')
 ])
 
-export const zIpnValidationStates = z.union([z.literal('VERIFIED'), z.literal('INVALID')])
+export const zIpnValidationState = z.union([z.literal('VERIFIED'), z.literal('INVALID')])
 
-export const zKeyTypes = z.union([
+export const zKeyType = z.union([
     z.literal('undefined'),
     z.literal('api'),
     z.literal('rfid'),
@@ -67,11 +69,11 @@ export const zMoneyBookers = z.literal('MoneyBookers')
 export const zPayPal = z.literal('PayPal')
 export const zStripe = z.literal('Stripe')
 
-export const zPaymentProviders = z.union([zPayPal, zMoneyBookers, zStripe])
+export const zPaymentProvider = z.union([zPayPal, zMoneyBookers, zStripe])
 
 export const zBooleanRecord = z.record(zString, zBoolean)
 
-export const zStripePaymentStates = z.union([z.literal('UNKNOWN'), z.literal('VALID')])
+export const zStripePaymentState = z.union([z.literal('UNKNOWN'), z.literal('VALID')])
 
 export const zUserStateTitleActive = z.literal('Active')
 
@@ -81,7 +83,7 @@ export const zUserStateTitleInactive = z.literal('Inactive')
 
 export const zUserStateTitlePending = z.literal('Pending')
 
-export const zUserActiveStateTitles = z.union([
+export const zUserActiveStateTitle = z.union([
     zUserStateTitleActive,
     zUserStateTitleBanned,
     zUserStateTitleInactive,
@@ -96,7 +98,7 @@ export const zUserStateCodeInactive = z.literal('n')
 
 export const zUserStateCodePending = z.literal('t')
 
-export const zUserActiveStateCodes = z.union([
+export const zUserActiveStateCode = z.union([
     zUserStateCodeActive,
     zUserStateCodeBanned,
     zUserStateCodeInactive,
@@ -118,8 +120,15 @@ export const zUserActiveStateDefinition = z.union([
     zUserPendingStateType
 ])
 
-export const zUserActiveStates = zUserActiveStateDefinition.array()
+export const zUserActiveState = zUserActiveStateDefinition.array()
+
+export const zUserActiveStatus = z.object({
+    y: zUserStateTitleActive,
+    n: zUserStateTitleInactive,
+    t: zUserStateTitlePending,
+    b: zUserStateTitleBanned
+})
 
 export const zUsername = zString.min(3)
 
-export const zUserPin = z.coerce.string().regex(/\d{1,4}/)
+export const zUserPin = zCoerceString.regex(/\d{1,4}/)
