@@ -22,6 +22,10 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'AdminStatusWidget'
+        variant: 'green',
+        icon: 'users',
+        description: 'Users',
+        count: 123,
+        details: '123 Users'
     }
 }
