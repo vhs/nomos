@@ -9,6 +9,7 @@ export const UserProfileSchema = z.object({
             firstName: zHumanName,
             lastName: zHumanName,
             newsletter: zBoolean,
+            cashMember: zBoolean,
             email: zEmailAddress,
             paypalEmail: zEmailAddress,
             stripeEmail: zEmailAddress
