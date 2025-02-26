@@ -1,9 +1,10 @@
 import moment from 'moment'
 
-import type { FilterDefinition } from '@/components/05-materials/TablePage/TablePage.types'
+import type { AdminUsersColumns, AdminUsersEditForm } from './AdminUsers.types'
 
-export const AdminUserFields = [
-    // { title: 'ID', field: 'id' },
+import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+
+export const AdminUserFields: FieldDefinitions<AdminUsersColumns> = [
     { title: 'User Name', field: 'username' },
     { title: 'Real Name', field: ['fname', 'lname'] },
     { title: 'Email', field: 'email' },
@@ -11,11 +12,12 @@ export const AdminUserFields = [
     { title: 'Cash', field: 'cash' },
     { title: 'Member Since', field: 'created' },
     { title: 'Expiry', field: 'mem_expire' },
-    // { title: 'Privileges', field: 'privileges' },
     { title: 'Last Login', field: 'lastlogin' }
 ]
 
-export const PrimaryAdminUserFilters: FilterDefinition[] = [
+export const AdminUserFieldsTitles = AdminUserFields.map((f) => f.title)
+
+export const PrimaryAdminUserFilters: FilterDefinitions = [
     {
         id: 'showExpired',
         label: 'Expired Users',
@@ -36,7 +38,7 @@ export const PrimaryAdminUserFilters: FilterDefinition[] = [
     }
 ]
 
-export const SecondaryAdminUserFilters: FilterDefinition[] = [
+export const SecondaryAdminUserFilters: FilterDefinitions = [
     {
         id: 'showActive',
         label: 'Active Users',
@@ -74,3 +76,25 @@ export const SecondaryAdminUserFilters: FilterDefinition[] = [
         }
     }
 ]
+
+export const AdminUsersEditDefaultValues: AdminUsersEditForm = {
+    user: {
+        firstName: '',
+        lastName: '',
+        userName: '',
+        userEmail: '',
+        paypalEmail: '',
+        stripeEmail: '',
+        newsletter: false,
+        cashMember: false,
+        userPin: '',
+        memExpire: '',
+        memStatus: 'y',
+        memType: 0,
+        privileges: {}
+    },
+    password: {
+        password1: '',
+        password2: ''
+    }
+}
