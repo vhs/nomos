@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FC } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Outlet } from '@tanstack/react-router'
 import { FormProvider, useForm } from 'react-hook-form'
 import useSWR from 'swr'
 
@@ -530,6 +531,7 @@ const TablePage: FC<TablePageProps> = ({
                         </Conditional>
                     </Conditional>
                 </BasePage>
+                <Outlet />
                 {children}
             </TablePageContext.Provider>
         </div>
