@@ -9,49 +9,58 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
 
-import { compareStringArray } from '@/lib/util'
+import { compareStringArray } from '@/lib/utils'
+import { isBooleanRecord } from '@/lib/validators/guards'
 
-import type { PrivilegeCodes } from '@/types/custom'
+import type { BooleanRecord } from '@/types/common'
 import type { Privileges } from '@/types/records'
 
 const PrivilegesSelectorCard: FC<PrivilegesSelectorCardProps> = ({
+    customPrivileges,
     className,
-    availablePrivileges,
     onUpdate,
-    value
+    title,
+    selected,
+    ...restProps
 }) => {
+    title ??= 'Permissions'
+
     const { data: privileges } = useSWR<Privileges>(
-        availablePrivileges != null ? null : '/services/v2/PrivilegeService2.svc/GetAllPrivileges'
+        customPrivileges == null ? '/services/v2/PrivilegeService2.svc/GetAllPrivileges' : null
     )
 
-    const [selectedPrivileges, setSelectedPrivileges] = useState<PrivilegeCodes>(value?.privileges ?? [])
+    const [selectedPrivileges, setSelectedPrivileges] = useState<BooleanRecord>(selected ?? {})
 
     const togglePrivilege = (privilege: string): void => {
-        const update = !selectedPrivileges.includes(privilege)
-            ? [...selectedPrivileges, privilege]
-            : selectedPrivileges.filter((e) => e === privilege)
+        if (onUpdate != null) onUpdate({ privilege, state: !selectedPrivileges[privilege] })
+        else
+            setSelectedPrivileges((prevState) => {
+                const newState = structuredClone(prevState)
 
-        if (onUpdate != null)
-            onUpdate({ action: selectedPrivileges.includes(privilege) ? 'remove' : 'add', value: privilege })
-        else setSelectedPrivileges(update)
+                newState[privilege] = !newState[privilege]
+
+                return newState
+            })
     }
 
     useEffect(() => {
-        if (value?.privileges != null && !compareStringArray(value?.privileges, selectedPrivileges))
-            setSelectedPrivileges(value?.privileges)
-    }, [selectedPrivileges, value, value?.privileges])
+        if (isBooleanRecord(selected) && !compareStringArray(Object.keys(selected), Object.keys(selectedPrivileges)))
+            setSelectedPrivileges(selected)
+    }, [selectedPrivileges, selected])
+
+    const privilegesList = customPrivileges ?? privileges ?? []
 
     return (
-        <div className={className} data-testid='PrivilegesSelectorCard'>
+        <div className={className} data-testid='PrivilegesSelectorCard' {...restProps}>
             <Card>
-                <Card.Header>Permissions</Card.Header>
+                <Card.Header>{title}</Card.Header>
 
                 <Card.Body>
                     <Row className='list-group'>
                         <Col className='w-full'>
-                            {(availablePrivileges ?? privileges ?? []).map((privilege) => (
+                            {privilegesList.map((privilege) => (
                                 <Button
                                     key={privilege.code}
                                     variant='light'
@@ -61,7 +70,7 @@ const PrivilegesSelectorCard: FC<PrivilegesSelectorCardProps> = ({
                                     }}
                                 >
                                     {privilege.name}
-                                    <Conditional condition={selectedPrivileges.includes(privilege.code)}>
+                                    <Conditional condition={selectedPrivileges[privilege.code]}>
                                         <div className='float-right inline rounded-sm bg-green-card font-bold text-white'>
                                             <CheckIcon className='h-6 w-6' />
                                         </div>
