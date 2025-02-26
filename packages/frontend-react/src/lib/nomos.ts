@@ -1,4 +1,4 @@
-import type { UserActiveStates } from '@/types/common'
+import type { UserActiveState } from '@/types/common'
 import type { Filter } from '@/types/query-filters'
 
 // const addRightmost = function (filter: QueryFilter, val: QueryFilter) {
@@ -51,7 +51,7 @@ export const compileFilter = ({ filters, fields, defaultOperator, search }: Comp
     }, {})
 }
 
-export const convertUserStatus = (statuses: UserActiveStates | null | undefined, code: string): string => {
+export const convertUserStatus = (statuses: UserActiveState | null | undefined, code: string): string => {
     if (statuses == null) throw new Error('Undefined status codes')
 
     const result = statuses.find((status) => status.code === code)
