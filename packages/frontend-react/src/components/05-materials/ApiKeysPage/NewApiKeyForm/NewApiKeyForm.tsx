@@ -1,20 +1,31 @@
-import { useState, type FC } from 'react'
+import type { FC } from 'react'
 
-import type { NewApiKeyFormProps } from './NewApiKeyForm.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm } from 'react-hook-form'
+
+import type { NewApiKeyFormProps, NewApiKeySchemaType } from './NewApiKeyForm.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+
+import { NewApiKeySchema } from './NewApiKeyForm.schema'
 
 const NewApiKeyForm: FC<NewApiKeyFormProps> = ({ show, onHide, onCreate }) => {
     show ??= false
 
-    const [note, setNote] = useState('')
+    const form = useForm<NewApiKeySchemaType>({
+        resolver: zodResolver(NewApiKeySchema),
+        mode: 'onChange',
+        defaultValues: {
+            newApiKeyNote: ''
+        }
+    })
 
     const createHandler = (): void => {
-        onCreate(note)
+        onCreate(form.getValues('newApiKeyNote'))
         onHide()
     }
 
@@ -32,18 +43,14 @@ const NewApiKeyForm: FC<NewApiKeyFormProps> = ({ show, onHide, onCreate }) => {
                 return false
             }}
         >
-            <Row>
-                <Col>
-                    Notes:
-                    <FormControl
-                        formType='textarea'
-                        onChange={(value) => {
-                            setNote(value)
-                        }}
-                        value={note}
-                    />
-                </Col>
-            </Row>
+            <FormProvider {...form}>
+                <Row>
+                    <Col>
+                        Notes:
+                        <FormControl id='newApiKeyNote' formType='textarea' />
+                    </Col>
+                </Row>
+            </FormProvider>
         </OverlayCard>
     )
 }
