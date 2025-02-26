@@ -1,30 +1,36 @@
-import { useCallback, useEffect, useMemo, useState, type FC, type MouseEvent } from 'react'
+import { useCallback, useEffect, useMemo, type FC, type MouseEvent } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useParams } from '@tanstack/react-router'
 import clsx from 'clsx'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useSWR from 'swr'
 
+import type { AdminMembershipsForm } from '../AdminMemberships.types'
 import type { AdminMembershipsEditProps } from './AdminMembershipsEdit.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import FormControl from '@/components/01-atoms/FormControl/FormControl'
 import Row from '@/components/01-atoms/Row/Row'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
+import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
-import Card from '@/components/04-composites/Card'
+import Card from '@/components/04-composites/Card/Card'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
-import { usePrivilegeCodesReducer, type PrivilegeCodesMutationArg } from '@/lib/hooks/usePrivilegeCodesReducer'
+import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import MembershipService2 from '@/lib/providers/MembershipService2'
-import { hydrateReducer, hydrateState } from '@/lib/ui'
-import { compareStringArray } from '@/lib/util'
-import { isBoolean, isMembershipPeriod, isNumber, isString, isStringArray } from '@/lib/validators/guards'
+import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
+import { zMembershipPeriod } from '@/lib/validators/records'
 
-import type { Membership, MembershipPeriod } from '@/types/records'
+import type { Membership } from '@/types/records'
+
+import { AdminMembershipsSchema } from '../AdminMemberships.schema'
+import { AdminMembershipsDefaultValues } from '../AdminMemberships.utils'
 
 const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
     const { mutate } = useTablePageContext()
@@ -41,62 +47,19 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
 
     const { data: membership, isLoading, mutate: mutateMembership } = useSWR<Membership>(getMembershipUrl)
 
-    const [dirty, setDirty] = useState(false)
+    const form = useForm<AdminMembershipsForm>({
+        resolver: zodResolver(AdminMembershipsSchema),
+        mode: 'onChange',
+        defaultValues: AdminMembershipsDefaultValues
+    })
 
-    const [membershipTitle, setMembershipTitle] = useState<string>('')
-    const [membershipCode, setMembershipCode] = useState<string>('')
-    const [membershipDescription, setMembershipDescription] = useState<string>('')
-    const [membershipPrice, setMembershipPrice] = useState<number>(0.0)
-    const [membershipInterval, setMembershipInterval] = useState<number>(0.0)
-    const [membershipPeriod, setMembershipPeriod] = useState<MembershipPeriod>('M')
-    const [membershipTrial, setMembershipTrial] = useState<boolean>(false)
-    const [membershipPrivate, setMembershipPrivate] = useState<boolean>(false)
-    const [membershipRecurring, setMembershipRecurring] = useState<boolean>(false)
-    const [membershipActive, setMembershipActive] = useState<boolean>(false)
+    const { activeFlag, privateFlag, recurringFlag, trialFlag } = form.watch()
 
-    const [membershipPrivileges, dispatchMembershipPrivileges] = usePrivilegeCodesReducer()
-
-    const [inputErrorStates, setInputErrorState] = useState<Record<string, boolean>>(
-        [
-            'membershipTitle',
-            'membershipCode',
-            'membershipDescription',
-            'membershipPrice',
-            'membershipInterval',
-            'membershipPeriod',
-            'membershipTrial',
-            'membershipPrivate',
-            'membershipRecurring',
-            'membershipActive',
-            'membershipPrivileges'
-        ].reduce((c, e) => {
-            return { ...c, [e]: false }
-        }, {})
-    )
-
-    const addError = (inputFieldName: string): void => {
-        setInputErrorState((prevState) => {
-            return { ...structuredClone(prevState), [inputFieldName]: true }
-        })
-    }
-
-    const removeError = (inputFieldName: string): void => {
-        setInputErrorState((prevState) => {
-            return { ...structuredClone(prevState), [inputFieldName]: false }
-        })
-    }
-
-    const catchErrors = (inputFieldName: string, ...tests: boolean[]): boolean => {
-        if (tests.filter(Boolean).length !== tests.length) {
-            addError(inputFieldName)
-
-            return true
-        } else {
-            removeError(inputFieldName)
-
-            return false
-        }
-    }
+    const {
+        state: privileges,
+        dispatch: dispatchPrivileges,
+        isDirty: isPrivilegesDirty
+    } = useToggleReducer(convertPrivilegesArrayToBooleanRecord(membership?.privileges))
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
@@ -106,101 +69,63 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
             return
         }
 
-        const errors = [
-            catchErrors('membershipTitle', isString(membershipTitle)),
-            catchErrors('membershipCode', isString(membershipCode)),
-            catchErrors('membershipDescription', isString(membershipDescription)),
-            catchErrors('membershipPrice', isNumber(membershipPrice)),
-            catchErrors('membershipInterval', isNumber(membershipInterval)),
-            catchErrors('membershipPeriod', isMembershipPeriod(membershipPeriod)),
-            catchErrors('membershipTrial', isBoolean(membershipTrial)),
-            catchErrors('membershipRecurring', isBoolean(membershipRecurring)),
-            catchErrors('membershipPrivate', isBoolean(membershipPrivate)),
-            catchErrors('membershipActive', isBoolean(membershipActive)),
-            catchErrors(
-                'membershipPrivileges',
-                Array.isArray(membership.privileges),
-                Array.isArray(membershipPrivileges.privileges),
-                Array.isArray(membershipPrivileges.privileges) &&
-                    (membershipPrivileges.privileges.length === 0 ||
-                        (membershipPrivileges.privileges.length > 0 && isStringArray(membershipPrivileges.privileges)))
-            )
-        ].filter(Boolean).length
+        if (!form.formState.isDirty) {
+            toast.error('Nothing changed!')
 
-        if (errors > 0) {
-            toast.error(`Please fix the errors (${errors}) before continuing`)
+            return
+        }
+
+        if (!form.formState.isValid) {
+            toast.error(`Please fix the errors (${Object.keys(form.formState.errors).length}) before continuing`)
             return
         }
 
         const loadingToastId = toast.loading('Updating membership')
 
         try {
-            let membershipUpdateChanges = 0
+            const {
+                title,
+                code,
+                description,
+                price,
+                interval: days,
+                period,
+                activeFlag,
+                privateFlag,
+                recurringFlag,
+                trialFlag
+            } = form.getValues()
 
-            const membershipUpdate = {
-                title: membership.title,
-                code: membership.code,
-                description: membership.description,
-                price: membership.price,
-                days: membership.days,
-                period: membership.period
-            }
+            const updateFields = ['title', 'code', 'description', 'price', 'interval', 'period']
 
-            if (membershipTitle != null && membershipTitle !== membership.title) {
-                membershipUpdate.title = membershipTitle
-                membershipUpdateChanges++
-            }
-            if (membershipCode != null && membershipCode !== membership.code) {
-                membershipUpdate.code = membershipCode
-                membershipUpdateChanges++
-            }
-            if (membershipDescription != null && membershipDescription !== membership.description) {
-                membershipUpdate.description = membershipDescription
-                membershipUpdateChanges++
-            }
-            if (membershipPrice != null && membershipPrice !== membership.price) {
-                membershipUpdate.price = membershipPrice
-                membershipUpdateChanges++
-            }
-            if (membershipInterval != null && membershipInterval !== membership.days) {
-                membershipUpdate.days = membershipInterval
-                membershipUpdateChanges++
-            }
-            if (membershipPeriod != null && membershipPeriod !== membership.period) {
-                membershipUpdate.period = membershipPeriod
-                membershipUpdateChanges++
-            }
-
-            if (membershipUpdateChanges > 0)
+            if (updateFields.some((f) => f in form.formState.dirtyFields))
                 await MembershipService2.getInstance().Update(
                     Number(membershipId),
-                    membership.title,
-                    membership.description,
-                    membership.price,
-                    membership.code,
-                    membership.days,
-                    membership.period
+                    title,
+                    description,
+                    price,
+                    code,
+                    days,
+                    period
                 )
 
-            if (membershipTrial !== membership.trial)
-                await MembershipService2.getInstance().UpdateTrial(membershipId, membershipTrial)
+            if ('trialFlag' in form.formState.dirtyFields)
+                await MembershipService2.getInstance().UpdateTrial(membershipId, trialFlag)
 
-            if (membershipRecurring !== membership.recurring)
-                await MembershipService2.getInstance().UpdateRecurring(membershipId, membershipRecurring)
+            if ('recurringFlag' in form.formState.dirtyFields)
+                await MembershipService2.getInstance().UpdateRecurring(membershipId, recurringFlag)
 
-            if (membershipPrivate !== membership.private)
-                await MembershipService2.getInstance().UpdatePrivate(membershipId, membershipPrivate)
+            if ('privateFlag' in form.formState.dirtyFields)
+                await MembershipService2.getInstance().UpdatePrivate(membershipId, privateFlag)
 
-            if (membershipActive !== membership.active)
-                await MembershipService2.getInstance().UpdateActive(membershipId, membershipActive)
+            if ('activeFlag' in form.formState.dirtyFields)
+                await MembershipService2.getInstance().UpdateActive(membershipId, activeFlag)
 
-            if (
-                !compareStringArray(
-                    membershipPrivileges.privileges,
-                    membership.privileges?.map((p) => p.code)
+            if (isPrivilegesDirty)
+                await MembershipService2.getInstance().PutPrivileges(
+                    membershipId,
+                    getEnabledStateRecordKeys(privileges)
                 )
-            )
-                await MembershipService2.getInstance().PutPrivileges(membershipId, membershipPrivileges.privileges)
 
             toast.update(loadingToastId, {
                 render: 'Membership updated',
@@ -223,25 +148,31 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
     }
 
     const hydrateDefaults = useCallback((): void => {
-        hydrateState(membership?.title, setMembershipTitle)
-        hydrateState(membership?.code, setMembershipCode)
-        hydrateState(membership?.description, setMembershipDescription)
-        hydrateState(membership?.price, setMembershipPrice)
-        hydrateState(membership?.days, setMembershipInterval)
-        hydrateState(membership?.period, setMembershipPeriod)
-        hydrateState(membership?.trial, setMembershipTrial)
-        hydrateState(membership?.recurring, setMembershipRecurring)
-        hydrateState(membership?.private, setMembershipPrivate)
-        hydrateState(membership?.active, setMembershipActive)
-        hydrateReducer(
-            membership?.privileges != null
-                ? { action: 'replace', value: membership?.privileges?.map((p) => p.code) }
-                : null,
-            dispatchMembershipPrivileges
-        )
-        setInputErrorState({})
-        setDirty(false)
-    }, [dispatchMembershipPrivileges, membership])
+        form.reset({
+            title: membership?.title,
+            code: membership?.code,
+            description: membership?.description,
+            price: membership?.price,
+            interval: membership?.days,
+            period: membership?.period,
+            activeFlag: membership?.active,
+            privateFlag: membership?.private,
+            recurringFlag: membership?.recurring,
+            trialFlag: membership?.trial
+        })
+    }, [
+        form,
+        membership?.active,
+        membership?.code,
+        membership?.days,
+        membership?.description,
+        membership?.period,
+        membership?.price,
+        membership?.private,
+        membership?.recurring,
+        membership?.title,
+        membership?.trial
+    ])
 
     useEffect(() => {
         hydrateDefaults()
@@ -251,214 +182,160 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
 
     return (
         <div data-testid='AdminMembershipsEdit'>
-            <OverlayCard
-                title={`Edit Membership - ${membership.title}`}
-                actions={[
-                    <Button
-                        key='Save'
-                        className={dirty ? 'btn-success bg-lime-500 text-black' : 'btn-success'}
-                        onClick={(event) => {
-                            void submitHandler(event)
-                        }}
-                    >
-                        Save
-                    </Button>,
-                    <Button
-                        key='Reset'
-                        className='btn-default'
-                        onClick={() => {
-                            hydrateDefaults()
-                            setDirty(false)
-                        }}
-                    >
-                        Reset
-                    </Button>
-                ]}
-                closeLabel='Close'
-            >
-                <Row>
-                    <Col className='basis-full p-1 lg:basis-1/2'>
-                        <Card>
-                            <Card.Header>Options</Card.Header>
-                            <Card.Body>
-                                <Row className='spacious'>
-                                    <Col>
-                                        <label htmlFor='membership-title'>
-                                            <b>Title</b>
-                                            <FormControl
-                                                formType='text'
-                                                id='membership-title'
-                                                value={membershipTitle}
-                                                onChange={(value) => {
-                                                    setMembershipTitle(value)
-                                                    setDirty(true)
-                                                }}
-                                            />
-                                        </label>
-                                    </Col>
-                                </Row>
-                                <Row className='spacious'>
-                                    <Col>
-                                        <label htmlFor='membership-code'>
-                                            <b>Code</b>
-                                            <FormControl
-                                                formType='text'
-                                                id='membership-code'
-                                                value={membershipCode}
-                                                onChange={(value) => {
-                                                    setMembershipCode(value)
-                                                    setDirty(true)
-                                                }}
-                                            />
-                                        </label>
-                                    </Col>
-                                </Row>
-                                <Row className='spacious'>
-                                    <Col>
-                                        <label htmlFor='membership-description'>
-                                            <b>Description</b>
-                                            <FormControl
-                                                formType='text'
-                                                id='membership-description'
-                                                value={membershipDescription}
-                                                onChange={(value) => {
-                                                    setMembershipDescription(value)
-                                                    setDirty(true)
-                                                }}
-                                            />
-                                        </label>
-                                    </Col>
-                                </Row>
-                                <Row className='spacious'>
-                                    <Col>
-                                        <label htmlFor='membership-price'>
-                                            <b>Price</b>
-                                            <FormControl
-                                                formType='number'
-                                                id='membership-price'
-                                                value={membershipPrice.toLocaleString()}
-                                                onChange={(value) => {
-                                                    setMembershipPrice(Number(value))
-                                                    setDirty(true)
-                                                }}
-                                            />
-                                        </label>
-                                    </Col>
-                                </Row>
-                                <Row className='spacious'>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <label htmlFor='membership-interval'>
-                                            <b>Interval</b>
-                                            <FormControl
-                                                formType='number'
-                                                id='membership-interval'
-                                                value={membershipInterval.toLocaleString()}
-                                                onChange={(value) => {
-                                                    setMembershipInterval(Number(value))
-                                                    setDirty(true)
-                                                }}
-                                            />
-                                        </label>
-                                    </Col>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <label htmlFor='membership-period'>
-                                            <b>Period</b>
-                                            <div className='w-full'>
-                                                <select
-                                                    value={membershipPeriod}
-                                                    onChange={(event) => {
-                                                        if (isMembershipPeriod(event.target.value)) {
-                                                            setMembershipPeriod(event.target.value)
-                                                            setDirty(true)
-                                                        }
-                                                    }}
-                                                >
-                                                    <option value='---'>---</option>
-                                                    <option value='D'>Days</option>
-                                                    <option value='M'>Month</option>
-                                                    <option value='Y'>Year</option>
-                                                </select>
-                                            </div>
-                                        </label>
-                                    </Col>
-                                </Row>
+            <FormProvider {...form}>
+                <OverlayCard
+                    title={`Edit Membership - ${membership.title}`}
+                    actions={[
+                        <Button
+                            key='Save'
+                            className='btn-success'
+                            disabled={!form.formState.isDirty}
+                            onClick={(event) => {
+                                void submitHandler(event)
+                            }}
+                        >
+                            Save
+                        </Button>,
+                        <Button
+                            key='Reset'
+                            className='btn-default'
+                            disabled={!form.formState.isDirty}
+                            onClick={() => {
+                                hydrateDefaults()
+                            }}
+                        >
+                            Reset
+                        </Button>
+                    ]}
+                    closeLabel='Close'
+                >
+                    <Row>
+                        <Col className='basis-full p-1 lg:basis-1/2'>
+                            <Card>
+                                <Card.Header>Options</Card.Header>
+                                <Card.Body>
+                                    <Row className='spacious'>
+                                        <FormCol>
+                                            <label htmlFor='title'>
+                                                <b>Title</b>
+                                                <FormControl id='title' formType='text' />
+                                            </label>
+                                        </FormCol>
+                                    </Row>
+                                    <Row className='spacious'>
+                                        <FormCol>
+                                            <label htmlFor='code'>
+                                                <b>Code</b>
+                                                <FormControl id='code' formType='text' />
+                                            </label>
+                                        </FormCol>
+                                    </Row>
+                                    <Row className='spacious'>
+                                        <FormCol>
+                                            <label htmlFor='description'>
+                                                <b>Description</b>
+                                                <FormControl id='description' formType='text' />
+                                            </label>
+                                        </FormCol>
+                                    </Row>
+                                    <Row className='spacious'>
+                                        <FormCol>
+                                            <label htmlFor='price'>
+                                                <b>Price</b>
+                                                <FormControl id='price' formType='number' />
+                                            </label>
+                                        </FormCol>
+                                    </Row>
+                                    <Row className='spacious'>
+                                        <FormCol className='basis-full md:basis-1/2'>
+                                            <label htmlFor='interval'>
+                                                <b>Interval</b>
+                                                <FormControl id='interval' formType='number' />
+                                            </label>
+                                        </FormCol>
+                                        <FormCol className='basis-full md:basis-1/2'>
+                                            <label htmlFor='period'>
+                                                <b>Period</b>
+                                                <div className='w-full'>
+                                                    <FormControl
+                                                        id='period'
+                                                        formType='dropdown'
+                                                        options={zMembershipPeriod.options.map((o) => o.value)}
+                                                    />
+                                                </div>
+                                            </label>
+                                        </FormCol>
+                                    </Row>
 
-                                <Row className='spacious w-full flex-wrap'>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <Toggle
-                                            checked={membershipTrial}
-                                            onChange={(checked) => {
-                                                setMembershipTrial(checked)
-                                                setDirty(true)
-                                            }}
-                                        >
-                                            Trial
-                                        </Toggle>
-                                    </Col>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <Toggle
-                                            checked={membershipRecurring}
-                                            onChange={(checked) => {
-                                                setMembershipRecurring(checked)
-                                                setDirty(true)
-                                            }}
-                                        >
-                                            Recurring
-                                        </Toggle>
-                                    </Col>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <Toggle
-                                            checked={membershipPrivate}
-                                            onChange={(checked) => {
-                                                setMembershipPrivate(checked)
-                                                setDirty(true)
-                                            }}
-                                        >
-                                            Private
-                                        </Toggle>
-                                    </Col>
-                                    <Col className='basis-full md:basis-1/2'>
-                                        <Toggle
-                                            checked={membershipActive}
-                                            onChange={(checked) => {
-                                                setMembershipActive(checked)
-                                                setDirty(true)
-                                            }}
-                                        >
-                                            Active
-                                        </Toggle>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col className='basis-full p-1 lg:basis-1/2'>
-                        <Card>
-                            <Card.Header>Permissions</Card.Header>
-                            <Card.Body>
-                                <Row>
-                                    <Col
-                                        className={clsx([
-                                            'w-full p-1 lg:basis-1/2',
-                                            inputErrorStates.membershipPrivileges
-                                                ? 'rounded-sm border border-red-500'
-                                                : undefined
-                                        ])}
-                                    >
-                                        <PrivilegesSelectorCard
-                                            onUpdate={(mutation: PrivilegeCodesMutationArg): void => {
-                                                dispatchMembershipPrivileges(mutation)
-                                                setDirty(true)
-                                            }}
-                                            value={membershipPrivileges}
-                                        />
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </OverlayCard>
+                                    <Row className='spacious w-full'>
+                                        <Col className='basis-full md:basis-1/2'>
+                                            <Toggle
+                                                id='trialFlag'
+                                                checked={trialFlag}
+                                                onChange={(checked) => {
+                                                    form.setValue('trialFlag', checked)
+                                                }}
+                                            >
+                                                Trial
+                                            </Toggle>
+                                        </Col>
+                                        <Col className='basis-full md:basis-1/2'>
+                                            <Toggle
+                                                checked={recurringFlag}
+                                                onChange={(checked) => {
+                                                    form.setValue('recurringFlag', checked)
+                                                }}
+                                            >
+                                                Recurring
+                                            </Toggle>
+                                        </Col>
+                                        <Col className='basis-full md:basis-1/2'>
+                                            <Toggle
+                                                checked={privateFlag}
+                                                onChange={(checked) => {
+                                                    form.setValue('privateFlag', checked)
+                                                }}
+                                            >
+                                                Private
+                                            </Toggle>
+                                        </Col>
+                                        <Col className='basis-full md:basis-1/2'>
+                                            <Toggle
+                                                checked={activeFlag}
+                                                onChange={(checked) => {
+                                                    form.setValue('activeFlag', checked)
+                                                }}
+                                            >
+                                                Active
+                                            </Toggle>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col className='basis-full p-1 lg:basis-1/2'>
+                            <Card>
+                                <Card.Header>Permissions</Card.Header>
+                                <Card.Body>
+                                    <Row>
+                                        <Col className={clsx(['w-full p-1 lg:basis-1/2'])}>
+                                            <PrivilegesSelectorCard
+                                                onUpdate={({ privilege, state }): void => {
+                                                    dispatchPrivileges({
+                                                        action: state ? 'set' : 'unset',
+                                                        value: privilege
+                                                    })
+                                                }}
+                                                selected={privileges}
+                                            />
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </OverlayCard>
+            </FormProvider>
         </div>
     )
 }
