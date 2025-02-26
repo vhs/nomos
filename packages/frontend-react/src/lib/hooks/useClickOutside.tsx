@@ -1,11 +1,13 @@
 import { type RefObject, useEffect, useRef } from 'react'
 
-export const useOutsideClick = <T extends HTMLElement = HTMLElement>(callback: () => void): RefObject<T | null> => {
+const useOutsideClick = <T extends HTMLElement = HTMLElement>(callback: () => void): RefObject<T | null> => {
     const ref = useRef<T | null>(null)
 
     useEffect(() => {
         const handleMouseClick = (event: MouseEvent): void => {
-            if (ref.current != null && !ref.current.contains(event.target as Node)) callback()
+            if (ref.current != null && !ref.current.contains(event.target as Node)) {
+                callback()
+            }
         }
 
         const handleKeyClick = (event: KeyboardEvent): void => {
@@ -24,3 +26,5 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(callback: (
 
     return ref
 }
+
+export default useOutsideClick
