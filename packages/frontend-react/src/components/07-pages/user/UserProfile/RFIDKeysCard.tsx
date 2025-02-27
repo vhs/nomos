@@ -15,7 +15,7 @@ const RFIDKeys: FC<RFIDKeysProps> = ({ currentUser }) => {
             {keys.map((key) => {
                 return (
                     <FormControl
-                        id={`keys.rfid.${key.key}`}
+                        formKey={`keys.rfid.${key.key}`}
                         formType='text'
                         className='w-full'
                         key={key.id}

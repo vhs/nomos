@@ -12,6 +12,7 @@ const FormControlDropdown: FC<FormControlDropdownProps> = ({
     className,
     error,
     formType,
+    formKey,
     id,
     infoButton,
     options,
@@ -23,12 +24,13 @@ const FormControlDropdown: FC<FormControlDropdownProps> = ({
 
     const form = useFormContext()
 
-    const { onBlur, onChange, ...formProps } = form.register(id)
+    const { onBlur, onChange, ...formProps } = form.register(formKey)
 
     return (
         <div data-testid='FormControlDropdown'>
             <FormControlContainer className={className} error={error} hasFocus={hasFocus}>
                 <select
+                    id={id}
                     className={clsx([styles.Main])}
                     data-testid='FormControl'
                     onBlur={(event): void => {

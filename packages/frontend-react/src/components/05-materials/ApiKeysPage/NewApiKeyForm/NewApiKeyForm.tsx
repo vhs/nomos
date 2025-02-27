@@ -47,7 +47,7 @@ const NewApiKeyForm: FC<NewApiKeyFormProps> = ({ show, onHide, onCreate }) => {
                 <Row>
                     <Col>
                         Notes:
-                        <FormControl id='newApiKeyNote' formType='textarea' />
+                        <FormControl formKey='newApiKeyNote' formType='textarea' />
                     </Col>
                 </Row>
             </FormProvider>

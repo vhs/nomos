@@ -230,7 +230,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     <FormCol error={form.formState.errors.name != null}>
                                         <label htmlFor='name'>
                                             <strong>Name</strong>
-                                            <FormControl id='name' formType='text' />
+                                            <FormControl formKey='name' formType='text' />
                                         </label>
                                     </FormCol>
                                 </Row>
@@ -239,7 +239,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     <FormCol error={form.formState.errors.description != null}>
                                         <label htmlFor='description'>
                                             <strong>Description</strong>
-                                            <FormControl id='description' formType='text' />
+                                            <FormControl formKey='description' formType='text' />
                                         </label>
                                     </FormCol>
                                 </Row>
@@ -256,7 +256,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                             </div>
 
                                             <FormControl
-                                                id='icon'
+                                                formKey='icon'
                                                 formType='text'
                                                 className={!checkValidIcon(icon) ? 'border-orange-500' : undefined}
                                                 errorMessage={form.formState.errors.icon?.message}

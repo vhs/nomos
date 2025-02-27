@@ -18,6 +18,7 @@ const FormControlDefault: FC<FormControlDefaultProps> = ({
     error,
     errorMessage,
     formType,
+    formKey,
     id,
     infoButton,
     options,
@@ -36,7 +37,7 @@ const FormControlDefault: FC<FormControlDefaultProps> = ({
 
     const form = useFormContext()
 
-    const { onBlur, onChange, ...formProps } = form.register(id)
+    const { onBlur, onChange, ...formProps } = form.register(formKey)
 
     return (
         <div data-testid='FormControlDefault'>
@@ -51,6 +52,7 @@ const FormControlDefault: FC<FormControlDefaultProps> = ({
                     <span className={styles.PreContent}>{preContent ?? ''}</span>
                 </Conditional>
                 <input
+                    id={id}
                     type={formType}
                     className={clsx([styles.Main])}
                     onBlur={(event): void => {

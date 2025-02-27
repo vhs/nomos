@@ -328,7 +328,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     <b>Username</b>
                                                 </label>
                                                 <FormControl
-                                                    id='user.userName'
+                                                    formKey='user.userName'
                                                     formType='text'
                                                     placeholder='Username'
                                                     aria-label='Username'
@@ -342,7 +342,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     <b>First Name</b>
                                                 </label>
                                                 <FormControl
-                                                    id='user.firstName'
+                                                    formKey='user.firstName'
                                                     formType='text'
                                                     placeholder='First Name'
                                                     aria-label='First Name'
@@ -355,7 +355,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 <label htmlFor='lastName'>
                                                     <b>Last Name</b>
                                                     <FormControl
-                                                        id='user.lastName'
+                                                        formKey='user.lastName'
                                                         formType='text'
                                                         placeholder='Last Name'
                                                         aria-label='Last Name'
@@ -380,7 +380,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     </label>
                                                 </span>
                                                 <FormControl
-                                                    id='user.userEmail'
+                                                    formKey='user.userEmail'
                                                     formType='text'
                                                     placeholder='Email'
                                                     aria-label='Email'
@@ -404,7 +404,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     </label>
                                                 </span>
                                                 <FormControl
-                                                    id='user.paypalEmail'
+                                                    formKey='user.paypalEmail'
                                                     formType='text'
                                                     placeholder='PayPal Email'
                                                     aria-label='PayPal Email'
@@ -418,7 +418,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     <b>Stripe Email</b>
                                                 </label>
                                                 <FormControl
-                                                    id='user.stripeEmail'
+                                                    formKey='user.stripeEmail'
                                                     formType='text'
                                                     placeholder='Stripe Email'
                                                     aria-label='Stripe Email'
@@ -453,7 +453,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     <strong>Membership Expiry</strong>
                                                 </p>
                                                 <FormControl
-                                                    id='user.memExpire'
+                                                    formKey='user.memExpire'
                                                     formType='text'
                                                     className='text-right'
                                                 />
@@ -517,7 +517,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     </Conditional>
                                                     <Conditional condition={pinInfo != null}>
                                                         <FormControl
-                                                            id='user.userPin'
+                                                            formKey='user.userPin'
                                                             formType='pin'
                                                             preContent={keyInfo?.pinid ?? ''}
                                                             placeholder='User Pin'
@@ -582,7 +582,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 <Col>New Password:</Col>
                                                 <Col>
                                                     <FormControl
-                                                        id='password.password1'
+                                                        formKey='password.password1'
                                                         formType='password'
                                                         placeholder='New Password'
                                                     />
@@ -593,7 +593,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 <Col>Confirm Password:</Col>
                                                 <Col>
                                                     <FormControl
-                                                        id='password.password2'
+                                                        formKey='password.password2'
                                                         formType='password'
                                                         placeholder='Confirm Password'
                                                     />

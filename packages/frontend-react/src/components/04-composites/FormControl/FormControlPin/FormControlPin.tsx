@@ -17,6 +17,7 @@ const FormControlPin: FC<FormControlPinProps> = ({
     className,
     error,
     formType,
+    formKey,
     id,
     infoButton,
     options,
@@ -31,7 +32,7 @@ const FormControlPin: FC<FormControlPinProps> = ({
 
     const form = useFormContext()
 
-    const { onBlur, onChange, ...formProps } = form.register(id)
+    const { onBlur, onChange, ...formProps } = form.register(formKey)
 
     return (
         <div data-testid='FormControlPin'>
@@ -46,6 +47,7 @@ const FormControlPin: FC<FormControlPinProps> = ({
                     <span className={styles.PreContent}>{preContent ?? ''}</span>
                 </Conditional>
                 <input
+                    id={id}
                     className={clsx([styles.Main, 'w-14'])}
                     type='number'
                     onBlur={(event) => {

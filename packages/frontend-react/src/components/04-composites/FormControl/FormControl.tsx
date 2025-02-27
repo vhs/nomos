@@ -13,7 +13,7 @@ import FormControlPin from './FormControlPin/FormControlPin'
 import FormControlTextArea from './FormControlTextArea/FormControlTextArea'
 
 const FormControl: FC<FormControlProps> = (props) => {
-    if (props.id == null)
+    if (props.formKey == null)
         throw new Error('FormControl requires an id to work with react-hook-form: ' + JSON.stringify(props, null, ''))
 
     if (isFormControlDropdownProps(props)) {

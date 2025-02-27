@@ -174,7 +174,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             error={form.formState.errors.user?.userName != null}
                                         >
                                             <FormControl
-                                                id='user.userName'
+                                                formKey='user.userName'
                                                 formType='text'
                                                 className='w-full'
                                                 preContent={<FontAwesomeIcon icon='at' />}
@@ -204,7 +204,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 <b>First Name</b>
                                             </label>
                                             <FormControl
-                                                id='user.firstName'
+                                                formKey='user.firstName'
                                                 error={form.formState.errors.user?.firstName != null}
                                                 formType='text'
                                                 placeholder='First Name'
@@ -221,7 +221,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 <b>Last Name</b>
                                             </label>
                                             <FormControl
-                                                id='user.lastName'
+                                                formKey='user.lastName'
                                                 error={form.formState.errors.user?.lastName != null}
                                                 formType='text'
                                                 placeholder='Last Name'
@@ -247,7 +247,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 </div>
                                             </label>
                                             <FormControl
-                                                id='user.email'
+                                                formKey='user.email'
                                                 error={form.formState.errors.user?.email != null}
                                                 formType='email'
                                                 placeholder='Email'
@@ -278,7 +278,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 </label>
                                             </div>
                                             <FormControl
-                                                id='user.paypalEmail'
+                                                formKey='user.paypalEmail'
                                                 error={form.formState.errors.user?.paypalEmail != null}
                                                 formType='email'
                                                 placeholder='PayPal Email'
@@ -297,7 +297,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             <label htmlFor='user.stripeEmail'>
                                                 <b>Stripe Email</b>
                                                 <FormControl
-                                                    id='user.stripeEmail'
+                                                    formKey='user.stripeEmail'
                                                     error={form.formState.errors.user?.stripeEmail != null}
                                                     formType='email'
                                                     placeholder='Stripe Email'
@@ -440,7 +440,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                 <Col>New Password:</Col>
                                 <FormCol error={form.formState.errors.password?.password1 != null}>
                                     <FormControl
-                                        id='password.password1'
+                                        formKey='password.password1'
                                         formType='password'
                                         placeholder='New Password'
                                     />
@@ -451,7 +451,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                 <Col>Confirm Password:</Col>
                                 <FormCol error={form.formState.errors.password?.password2 != null}>
                                     <FormControl
-                                        id='password.password2'
+                                        formKey='password.password2'
                                         formType='password'
                                         placeholder='Confirm Password'
                                     />
