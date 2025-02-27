@@ -1,6 +1,7 @@
+
 .menu {
     &.item > * > a {
-        @apply text-nowrap text-[#337ab7];
+        @apply text-nowrap text-regular-link;
     }
 
     &.item.active {
@@ -13,5 +14,13 @@
 
     .admin > &.item > * > a {
         @apply text-red-600;
+    }
+
+    &.item.regular-link > * > a {
+        @apply text-nowrap text-regular-link;
+    }
+
+    &.item.user-back-link > * > a {
+        @apply text-nowrap text-purple-800;
     }
 }
