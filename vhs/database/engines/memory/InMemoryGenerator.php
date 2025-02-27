@@ -52,6 +52,7 @@ use vhs\database\wheres\WhereAnd;
 use vhs\database\wheres\WhereComparator;
 use vhs\database\wheres\WhereOr;
 
+/** @typescript */
 class InMemoryGenerator implements
     IWhereGenerator,
     IOrderByGenerator,

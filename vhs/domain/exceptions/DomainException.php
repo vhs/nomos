@@ -9,5 +9,5 @@
 
 namespace vhs\domain\exceptions;
 
-class DomainException extends \Exception {
-}
+/** @typescript */
+class DomainException extends \Exception {}

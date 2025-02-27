@@ -12,6 +12,7 @@ namespace vhs\database\wheres;
 use vhs\database\Column;
 use vhs\database\Table;
 
+/** @typescript */
 class WhereComparator extends Where {
     /** @var Column */
     public $column;

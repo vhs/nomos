@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 interface IConvertible {
     /**
      * @param IConverter $converter

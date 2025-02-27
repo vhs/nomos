@@ -1,0 +1,7 @@
+.DefaultCard {
+    @apply gray-card;
+}
+
+.DefaulterFooter {
+    @apply gray-card-footer text-left;
+}

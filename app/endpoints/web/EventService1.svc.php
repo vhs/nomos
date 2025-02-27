@@ -13,6 +13,7 @@ use app\services\EventService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class EventService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new EventService(new ServiceContext($this)));

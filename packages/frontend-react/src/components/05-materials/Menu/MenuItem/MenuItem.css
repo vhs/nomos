@@ -1,0 +1,17 @@
+.menu {
+    &.item > * > a {
+        @apply text-nowrap text-[#337ab7];
+    }
+
+    &.item.active {
+        @apply border-b border-gray-500/25 bg-[#eee] font-bold text-black;
+    }
+
+    &.item:hover {
+        @apply bg-gray-400;
+    }
+
+    .admin > &.item > * > a {
+        @apply text-red-600;
+    }
+}

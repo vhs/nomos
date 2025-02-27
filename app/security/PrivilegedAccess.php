@@ -14,6 +14,7 @@ use vhs\database\Column;
 use vhs\database\Table;
 use vhs\security\CurrentUser;
 
+/** @typescript */
 class PrivilegedAccess implements IAccess {
     /** @var IAccess[] */
     protected $checks;

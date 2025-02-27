@@ -11,6 +11,7 @@ namespace vhs\domain\collections;
 
 use vhs\domain\Domain;
 
+/** @typescript */
 class ParentDomainCollection extends DomainCollection {
     public function add(Domain $item) {
         // TODO: Implement add() method.

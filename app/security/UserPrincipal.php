@@ -11,6 +11,7 @@ namespace app\security;
 
 use vhs\security\IPrincipal;
 
+/** @typescript */
 class UserPrincipal implements IPrincipal, \JsonSerializable {
     private $grants;
     private $id;

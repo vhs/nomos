@@ -11,6 +11,7 @@ namespace vhs\database;
 
 use vhs\Logger;
 
+/** @typescript */
 abstract class Engine implements IDataInterface {
     abstract public function connect();
 

@@ -12,6 +12,7 @@ namespace vhs\migration;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 
+/** @typescript */
 class Backup {
     private $database;
     private $logger;
@@ -35,26 +36,24 @@ class Backup {
     public function external_backup($do_host = false, $fileName = null, $backupPath = 'backup/') {
         $this->logger->log('Starting backup');
 
-        $fileName = !is_null($fileName) ? $fileName : 'db-backup-' . time() . '.sql';
+        $fileName = !is_null($fileName) ? $fileName : sprintf('db-backup-%s.sql', time());
 
         $command = [];
         $command[] = 'mysqldump';
-        $command[] = "-u '" . $this->user . "'";
-        $command[] = '-p' . $this->password;
+        $command[] = sprintf("-u '%s'", $this->user);
+        $command[] = sprintf("-p '%s'", $this->password);
         if ($do_host == true) {
-            $command[] = '--host ' . $this->server;
+            $command[] = '--host';
+            $command[] = $this->server;
+            $command[] = '--skip-ssl-verify-server-cert';
         }
-        $command[] = "'" . $this->database . "'";
+        $command[] = sprintf("'%s'", $this->database);
         $command[] = '>';
-        $command[] = "'" . $backupPath . $fileName . "'";
+        $command[] = sprintf("'%s%s'", $backupPath, $fileName);
 
         exec(implode(' ', $command), $output, $return);
 
-        if (!$return) {
-            return true;
-        } else {
-            return false;
-        }
+        return !$return;
     }
 
     public function internal_backup($fileName = null, $backupPath = 'backup/') {
@@ -64,6 +63,7 @@ class Backup {
 
         if ($conn->connect_error) {
             $this->logger->log('Connection failed: ' . $conn->connect_error);
+
             return false;
         }
 
@@ -164,6 +164,7 @@ class Backup {
             case 16: //BIT
             case 246: //DECIMAL / NUMERIC / FIXED
                 return true;
+
                 break;
             default:
                 return false;

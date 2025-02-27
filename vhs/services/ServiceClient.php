@@ -9,6 +9,7 @@
 
 namespace vhs\services;
 
+/** @typescript */
 class ServiceClient {
     public static function __callStatic($name, $arguments) {
         $uri = explode('_', $name);

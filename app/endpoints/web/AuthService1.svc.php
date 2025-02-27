@@ -13,6 +13,7 @@ use app\services\AuthService;
 use vhs\services\endpoints\JsonEndpoint;
 use vhs\services\ServiceContext;
 
+/** @typescript */
 class AuthService1 extends JsonEndpoint {
     public function __construct() {
         parent::__construct(new AuthService(new ServiceContext($this)));

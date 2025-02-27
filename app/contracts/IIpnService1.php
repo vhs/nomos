@@ -8,6 +8,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IIpnService1 extends IContract {
     /**
      * @permission administrator

@@ -12,6 +12,7 @@ namespace app\security;
 use vhs\database\Column;
 use vhs\database\Table;
 
+/** @typescript */
 class TablePrivilegedAccess extends PrivilegedAccess {
     /** @var string[] */
     private $privileges;

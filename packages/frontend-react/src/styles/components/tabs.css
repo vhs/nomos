@@ -1,0 +1,13 @@
+@layer components {
+    .tab-titles {
+        @apply mb-3;
+    }
+
+    .tab-title {
+        @apply rounded-none border-b-4 border-b-transparent;
+
+        &.tab-active {
+            @apply border-b-anchor;
+        }
+    }
+}

@@ -9,6 +9,7 @@
 
 namespace vhs\messaging;
 
+/** @typescript */
 abstract class ConnectionInfo {
     abstract public function getDetails();
 

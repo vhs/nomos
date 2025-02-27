@@ -7,6 +7,7 @@ use app\domain\Membership;
 use app\domain\Privilege;
 use vhs\services\Service;
 
+/** @typescript */
 class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
@@ -25,10 +26,9 @@ class MembershipService extends Service implements IMembershipService1 {
      * @param $title
      * @param $description
      * @param $price
-     * @param $days
-     * @param $private
-     * @param $active
      * @param $code
+     * @param $days
+     * @param $period
      *
      * @return mixed
      */
@@ -73,6 +73,9 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $privileges
      */
     public function PutPrivileges($membershipId, $privileges) {
         $membership = $this->Get($membershipId);
@@ -99,6 +102,14 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
+     * @param $membershipId
+     * @param $title
+     * @param $description
+     * @param $price
+     * @param $code
+     * @param $days
+     * @param $period
+     *
      * @return mixed
      */
     public function Update($membershipId, $title, $description, $price, $code, $days, $period) {
@@ -119,6 +130,9 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
+     * @param $membershipId
+     * @param $active
+     *
      * @return mixed
      */
     public function UpdateActive($membershipId, $active) {
@@ -131,6 +145,9 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $private
      *
      * @return mixed
      */
@@ -145,6 +162,9 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
+     * @param $membershipId
+     * @param $recurring
+     *
      * @return mixed
      */
     public function UpdateRecurring($membershipId, $recurring) {
@@ -157,6 +177,9 @@ class MembershipService extends Service implements IMembershipService1 {
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $trial
      *
      * @return mixed
      */

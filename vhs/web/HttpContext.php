@@ -11,6 +11,7 @@ namespace vhs\web;
 
 use vhs\Singleton;
 
+/** @typescript */
 class HttpContext extends Singleton {
     private static $server;
 
@@ -19,9 +20,9 @@ class HttpContext extends Singleton {
     }
 
     /**
-     * @return HttpServer
-     *
      * @throws \Exception
+     *
+     * @return HttpServer
      */
     public static function Server() {
         if (!isset(HttpContext::$server)) {

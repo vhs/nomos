@@ -14,6 +14,7 @@ use vhs\services\ServiceRegistry;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
+/** @typescript */
 class HttpJsonServiceHandlerModule implements IHttpModule {
     private $registryKey;
 
@@ -21,8 +22,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         $this->registryKey = $registryKey;
     }
 
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     public function handle(HttpServer $server) {
         $input = null;
@@ -31,30 +31,53 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
 
         $uri = $server->request->url;
 
-        switch ($server->request->method) {
-            case 'HEAD':
-                $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
-                break;
-            case 'GET':
-                if (isset($_GET['json'])) {
-                    $input = $_GET['json'];
-                } else {
-                    $input = json_encode($_GET);
-                }
+        try {
+            switch ($server->request->method) {
+                case 'HEAD':
+                    $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
 
-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
-                break;
-            case 'POST':
-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
-                break;
-            //case 'PUT':
-            //case 'DELETE':
-            default:
-                throw new InvalidRequestException();
-                break;
+                    $server->end();
+
+                    break;
+                case 'GET':
+                    if (isset($_GET['json'])) {
+                        $input = $_GET['json'];
+                    } else {
+                        $input = json_encode($_GET);
+                    }
+
+                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
+
+                    break;
+                case 'POST':
+                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
+
+                    $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
+
+                    break;
+                //case 'PUT':
+                //case 'DELETE':
+                default:
+                    throw new InvalidRequestException();
+
+                    break;
+            }
+
+            $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
+            $server->end();
+        } catch (\Exception $exception) {
+            $server->logger->debug(
+                __FILE__,
+                __LINE__,
+                __METHOD__,
+                sprintf('caught exception: %s(%s)', $exception->getMessage(), $exception->getCode())
+            );
+
+            if ($exception->getCode() !== 409 && $exception->getCode() !== 418) {
+                throw $exception;
+            }
         }
     }
 
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }

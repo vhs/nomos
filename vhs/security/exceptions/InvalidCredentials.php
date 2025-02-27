@@ -9,5 +9,5 @@
 
 namespace vhs\security\exceptions;
 
-class InvalidCredentials extends \Exception {
-}
+/** @typescript */
+class InvalidCredentials extends \Exception {}

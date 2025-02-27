@@ -11,6 +11,7 @@ namespace app\security\credentials;
 
 use vhs\security\ICredentials;
 
+/** @typescript */
 abstract class TokenCredentials implements ICredentials {
     private $token;
 

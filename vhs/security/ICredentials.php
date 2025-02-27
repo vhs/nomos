@@ -9,5 +9,5 @@
 
 namespace vhs\security;
 
-interface ICredentials {
-}
+/** @typescript */
+interface ICredentials {}

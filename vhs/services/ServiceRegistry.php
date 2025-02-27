@@ -12,6 +12,7 @@ namespace vhs\services;
 use vhs\Logger;
 use vhs\Singleton;
 
+/** @typescript */
 class ServiceRegistry extends Singleton {
     private $services = [];
 

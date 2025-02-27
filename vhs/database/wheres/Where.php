@@ -14,6 +14,7 @@ use vhs\database\Element;
 use vhs\database\IGenerator;
 use vhs\database\queries\Query;
 
+/** @typescript */
 abstract class Where extends Element {
     public static function _And(Where ...$where) {
         return new WhereAnd(...$where);

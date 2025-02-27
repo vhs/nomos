@@ -11,6 +11,7 @@ namespace vhs\database\orders;
 
 use vhs\database\IGenerator;
 
+/** @typescript */
 interface IOrderByGenerator extends IGenerator {
     public function generateAscending(OrderByAscending $ascending);
 
