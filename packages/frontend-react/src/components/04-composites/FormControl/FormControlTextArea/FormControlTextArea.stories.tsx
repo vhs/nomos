@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FormControlTextArea>
 
 const meta: Meta<typeof FormControlTextArea> = {
     component: FormControlTextArea,
-    title: '99-Templates/default',
+    title: '04-Composites/FormControl/FormControlTextArea',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
