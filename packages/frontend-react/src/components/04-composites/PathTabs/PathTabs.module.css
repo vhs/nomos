@@ -13,11 +13,11 @@
 .Grid {
     @apply grid w-fit grid-flow-col-dense gap-2 ps-3;
 
-    &.Title {
+    & > .Title {
         @apply relative -bottom-0.5 z-auto inline-grid w-fit rounded-t-md border-2 border-gray-500/25 border-b-gray-500/50 bg-white px-2;
     }
 
-    &.Active {
+    & > .Active {
         @apply border-gray-500/75 border-b-transparent bg-header text-black;
     }
 }
