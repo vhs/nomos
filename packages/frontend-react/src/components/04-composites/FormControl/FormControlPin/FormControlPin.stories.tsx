@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FormControlPin>
 
 const meta: Meta<typeof FormControlPin> = {
     component: FormControlPin,
-    title: '99-Templates/default',
+    title: '04-Composites/FormControl/FormControlPin',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
