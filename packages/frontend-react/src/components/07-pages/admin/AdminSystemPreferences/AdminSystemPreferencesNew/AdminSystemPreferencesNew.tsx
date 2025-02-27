@@ -154,7 +154,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                             <Card.Header>Key</Card.Header>
                             <Card.Body>
                                 <FormControl
-                                    id='key'
+                                    formKey='key'
                                     formType='text'
                                     aria-placeholder='Key'
                                     placeholder='Key'
@@ -173,7 +173,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                     <Card.Header>Value</Card.Header>
                                     <Card.Body>
                                         <FormControl
-                                            id='value'
+                                            formKey='value'
                                             formType='text'
                                             aria-placeholder='Value'
                                             placeholder='Value'
@@ -209,7 +209,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                     <Card.Header>Notes</Card.Header>
                                     <Card.Body>
                                         <FormControl
-                                            id='notes'
+                                            formKey='notes'
                                             formType='textarea'
                                             aria-placeholder='Notes'
                                             placeholder='Notes'

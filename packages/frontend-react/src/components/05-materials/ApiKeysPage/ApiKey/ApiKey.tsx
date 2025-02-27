@@ -221,7 +221,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
                         >
                             <Row className='spacious'>
                                 <Col>
-                                    <FormControl id='key' formType='text' readOnly value={apiKey.key} disabled />
+                                    <FormControl formKey='key' formType='text' readOnly value={apiKey.key} disabled />
                                 </Col>
                             </Row>
 
@@ -232,7 +232,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
                                             <Card>
                                                 <Card.Header>Notes</Card.Header>
                                                 <Card.Body>
-                                                    <FormControl id='notes' formType='text' />
+                                                    <FormControl formKey='notes' formType='text' />
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -243,7 +243,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
                                                 <Card.Header>Expiry</Card.Header>
                                                 <Card.Body>
                                                     <FormControl
-                                                        id='expiry'
+                                                        formKey='expiry'
                                                         aria-label='Date and time'
                                                         formType='datetime-local'
                                                     />

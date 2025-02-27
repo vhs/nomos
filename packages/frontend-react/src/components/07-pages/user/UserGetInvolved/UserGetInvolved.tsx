@@ -108,7 +108,7 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
                                     </Conditional>
                                     <Row>
                                         <Col className='basis-3/4'>
-                                            <FormControl id='slackInvitationAddress' formType='text' />
+                                            <FormControl formKey='slackInvitationAddress' formType='text' />
                                         </Col>
                                         <Col className='basis-1/4'>
                                             <Button

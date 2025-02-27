@@ -195,7 +195,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='name'>
                                 <strong>Name</strong>
                                 <FormControl
-                                    id='name'
+                                    formKey='name'
                                     formType='text'
                                     aria-placeholder='Name'
                                     placeholder='Name'
@@ -210,7 +210,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='method'>
                                 <strong>Method</strong>
                                 <FormControl
-                                    id='method'
+                                    formKey='method'
                                     aria-placeholder='Method'
                                     formType='dropdown'
                                     options={zHTTPMethod.options.map((m) => m.value)}
@@ -223,7 +223,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='url'>
                                 <strong>URL</strong>
                                 <FormControl
-                                    id='url'
+                                    formKey='url'
                                     formType='url'
                                     aria-placeholder='URL'
                                     placeholder='URL'
@@ -238,7 +238,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='description'>
                                 <strong>Description</strong>
                                 <FormControl
-                                    id='description'
+                                    formKey='description'
                                     formType='text'
                                     aria-placeholder='Description'
                                     placeholder='Description'
@@ -253,7 +253,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='translation'>
                                 <strong>Translation</strong>
                                 <FormControl
-                                    id='translation'
+                                    formKey='translation'
                                     formType='text'
                                     aria-placeholder='Translation'
                                     placeholder='Translation'
@@ -268,7 +268,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                             <label htmlFor='headers'>
                                 <strong>Headers</strong>
                                 <FormControl
-                                    id='headers'
+                                    formKey='headers'
                                     formType='textarea'
                                     aria-placeholder='Headers'
                                     placeholder='Headers'

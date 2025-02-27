@@ -21,7 +21,7 @@ const APIKeys: FC<APIKeysProps> = ({ currentUser }) => {
             {keys.map((key) => {
                 return (
                     <FormControl
-                        id={`keys.api.${key.key}`}
+                        formKey={`keys.api.${key.key}`}
                         formType='text'
                         className='w-full'
                         key={key.id}

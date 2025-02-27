@@ -92,7 +92,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                         <FormCol className='basis-1/2 px-2' error={form.formState.errors.user?.firstName != null}>
                             <label htmlFor='user.firstName'>First Name</label>
                             <FormControl
-                                id='user.firstName'
+                                formKey='user.firstName'
                                 formType='text'
                                 placeholder='First Name'
                                 aria-label='First Name'
@@ -103,7 +103,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                         <FormCol className='basis-1/2 px-2' error={form.formState.errors.user?.lastName != null}>
                             <label htmlFor='user.lastName'>Last Name</label>
                             <FormControl
-                                id='user.lastName'
+                                formKey='user.lastName'
                                 formType='text'
                                 placeholder='Last Name'
                                 aria-label='Last Name'
@@ -118,7 +118,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                                 <FormCol className='w-full' error={form.formState.errors.user?.userName != null}>
                                     <label htmlFor='user.userName'>Username</label>
                                     <FormControl
-                                        id='user.userName'
+                                        formKey='user.userName'
                                         formType='text'
                                         placeholder='Username'
                                         aria-label='Username'
@@ -130,7 +130,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                                 <FormCol className='w-full' error={form.formState.errors.password?.password1 != null}>
                                     <label htmlFor='password.password1'>Password</label>
                                     <FormControl
-                                        id='password.password1'
+                                        formKey='password.password1'
                                         formType='password'
                                         placeholder='Password'
                                         aria-label='Password'
@@ -142,7 +142,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                                 <FormCol className='w-full' error={form.formState.errors.user?.userEmail != null}>
                                     <label htmlFor='user.email'>E-Mail</label>
                                     <FormControl
-                                        id='user.userEmail'
+                                        formKey='user.userEmail'
                                         formType='email'
                                         placeholder='E-Mail'
                                         aria-label='E-Mail'

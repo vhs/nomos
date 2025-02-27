@@ -179,7 +179,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                         <Card error={errors.key != null}>
                             <Card.Header>Code</Card.Header>
                             <Card.Body>
-                                <FormControl id='key' formType='text' error={errors.key != null} />
+                                <FormControl formKey='key' formType='text' error={errors.key != null} />
                             </Card.Body>
                         </Card>
                     </Col>
@@ -192,7 +192,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                                 <Card error={errors.value != null}>
                                     <Card.Header>Value</Card.Header>
                                     <Card.Body>
-                                        <FormControl id='value' formType='text' error={errors.value != null} />
+                                        <FormControl formKey='value' formType='text' error={errors.value != null} />
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -223,7 +223,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                                 <Card error={errors.notes != null}>
                                     <Card.Header>Notes</Card.Header>
                                     <Card.Body>
-                                        <FormControl id='notes' formType='textarea' error={errors.notes != null} />
+                                        <FormControl formKey='notes' formType='textarea' error={errors.notes != null} />
                                     </Card.Body>
                                 </Card>
                             </Col>

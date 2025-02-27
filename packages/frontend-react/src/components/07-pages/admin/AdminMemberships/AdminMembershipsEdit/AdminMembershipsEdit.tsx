@@ -218,7 +218,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         <FormCol>
                                             <label htmlFor='title'>
                                                 <b>Title</b>
-                                                <FormControl id='title' formType='text' />
+                                                <FormControl formKey='title' formType='text' />
                                             </label>
                                         </FormCol>
                                     </Row>
@@ -226,7 +226,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         <FormCol>
                                             <label htmlFor='code'>
                                                 <b>Code</b>
-                                                <FormControl id='code' formType='text' />
+                                                <FormControl formKey='code' formType='text' />
                                             </label>
                                         </FormCol>
                                     </Row>
@@ -234,7 +234,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         <FormCol>
                                             <label htmlFor='description'>
                                                 <b>Description</b>
-                                                <FormControl id='description' formType='text' />
+                                                <FormControl formKey='description' formType='text' />
                                             </label>
                                         </FormCol>
                                     </Row>
@@ -242,7 +242,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         <FormCol>
                                             <label htmlFor='price'>
                                                 <b>Price</b>
-                                                <FormControl id='price' formType='number' />
+                                                <FormControl formKey='price' formType='number' />
                                             </label>
                                         </FormCol>
                                     </Row>
@@ -250,7 +250,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         <FormCol className='basis-full md:basis-1/2'>
                                             <label htmlFor='interval'>
                                                 <b>Interval</b>
-                                                <FormControl id='interval' formType='number' />
+                                                <FormControl formKey='interval' formType='number' />
                                             </label>
                                         </FormCol>
                                         <FormCol className='basis-full md:basis-1/2'>
@@ -258,7 +258,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                                 <b>Period</b>
                                                 <div className='w-full'>
                                                     <FormControl
-                                                        id='period'
+                                                        formKey='period'
                                                         formType='dropdown'
                                                         options={zMembershipPeriod.options.map((o) => o.value)}
                                                     />
