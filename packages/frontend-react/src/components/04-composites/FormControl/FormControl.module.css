@@ -36,8 +36,11 @@
     @apply shadow-form-control;
 }
 
-.Error > * {
-    @apply text-danger;
+.WithError > .Main,
+.WithError > .Main,
+.WithError > .PostContent,
+.WithError > .PreContent {
+    @apply shadow-form-error;
 }
 
 .ResetInset {
