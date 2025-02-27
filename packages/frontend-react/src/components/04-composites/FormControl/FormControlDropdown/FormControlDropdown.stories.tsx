@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FormControlDropdown>
 
 const meta: Meta<typeof FormControlDropdown> = {
     component: FormControlDropdown,
-    title: '99-Templates/default',
+    title: '04-Composites/FormControl/FormControlDropdown',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

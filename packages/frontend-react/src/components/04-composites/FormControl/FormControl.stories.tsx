@@ -17,7 +17,7 @@ type StoryType = StoryObj<typeof FormControl>
 
 const meta: Meta<typeof FormControl> = {
     component: FormControl,
-    title: '01-Atoms/FormControl',
+    title: '04-Composites/FormControl',
     decorators: [CenteredContentStorybookDecorator]
 }
 
@@ -159,7 +159,7 @@ export const Default: StoryType = {
                             preContent={<FontAwesomeIcon icon='at' />}
                             placeholder='user@example.com'
                             infoButton={{
-                                title: 'Info Title',
+                                title: '04-Composites/FormControl',
                                 children: 'Info Content'
                             }}
                         />

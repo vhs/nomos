@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FormControlContainer>
 
 const meta: Meta<typeof FormControlContainer> = {
     component: FormControlContainer,
-    title: '99-Templates/default',
+    title: '04-Composites/FormControl/FormControlContainer',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
