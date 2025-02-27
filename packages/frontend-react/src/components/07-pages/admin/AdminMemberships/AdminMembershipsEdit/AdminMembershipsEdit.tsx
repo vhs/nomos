@@ -59,7 +59,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
         state: privileges,
         dispatch: dispatchPrivileges,
         isDirty: isPrivilegesDirty
-    } = useToggleReducer(convertPrivilegesArrayToBooleanRecord(membership?.privileges))
+    } = useToggleReducer(convertPrivilegesArrayToBooleanRecord(membership?.privileges, true))
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()

@@ -122,7 +122,7 @@ export const convertPrivilegesArrayToBooleanRecord = (
     privileges: BasePrivileges | Privileges | null | undefined | string,
     defaultVal?: boolean
 ): BooleanRecord => {
-    defaultVal ??= true
+    defaultVal ??= false
 
     if (privileges == null || (!isPrivilegesArray(privileges) && !isBasePrivilegesArray(privileges))) return {}
 
@@ -185,3 +185,12 @@ export const compareBooleanRecords = (left?: BooleanRecord, right?: BooleanRecor
 
     return true
 }
+
+export const mergePrivilegesArrayToBooleanRecord = (
+    base: BasePrivileges | Privileges | null | undefined | string,
+    override: BasePrivileges | Privileges | null | undefined | string
+): BooleanRecord =>
+    mergeBooleanRecord(
+        convertPrivilegesArrayToBooleanRecord(base, false),
+        convertPrivilegesArrayToBooleanRecord(override, true)
+    )
