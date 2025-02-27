@@ -73,10 +73,10 @@ type HTMLInputTypes =
     | 'url'
     | 'week'
 
-type FormControlExcludeProps = 'id' | 'name' | 'onBlur' | 'onChange'
+type FormControlExcludeProps = 'name' | 'onBlur' | 'onChange'
 
 interface FormControlBaseProps {
-    id: string
+    formKey: string
     error?: boolean
     errorMessage?: string
     reset?: () => void

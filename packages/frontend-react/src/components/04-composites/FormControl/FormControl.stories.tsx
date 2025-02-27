@@ -76,7 +76,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl id='field1' placeholder='field1' />
+                        <FormControl formKey='field1' placeholder='field1' />
                     </Col>
                 </Row>
 
@@ -87,7 +87,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl id='field2' disabled value={'disabled'} placeholder='field2' />
+                        <FormControl formKey='field2' disabled value={'disabled'} placeholder='field2' />
                     </Col>
                 </Row>
 
@@ -98,7 +98,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl id='field3' formType='text' placeholder='field3' />
+                        <FormControl formKey='field3' formType='text' placeholder='field3' />
                     </Col>
                 </Row>
 
@@ -110,7 +110,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field4'
+                            formKey='field4'
                             placeholder='field4'
                             reset={() => {
                                 // form.setValue('field4', '')
@@ -126,7 +126,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl id='field5' formType='password' placeholder='password' />
+                        <FormControl formKey='field5' formType='password' placeholder='password' />
                     </Col>
                 </Row>
 
@@ -138,7 +138,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field6'
+                            formKey='field6'
                             formType='email'
                             preContent={<FontAwesomeIcon icon='at' />}
                             placeholder='user@example.com'
@@ -154,7 +154,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field7'
+                            formKey='field7'
                             formType='email'
                             preContent={<FontAwesomeIcon icon='at' />}
                             placeholder='user@example.com'
@@ -173,7 +173,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl id='field8' formType='number' maxLength={4} size={4} placeholder='0000' />
+                        <FormControl formKey='field8' formType='number' maxLength={4} size={4} placeholder='0000' />
                     </Col>
                 </Row>
 
@@ -185,7 +185,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field9'
+                            formKey='field9'
                             formType='pin'
                             preContent='0000'
                             maxLength={4}
@@ -203,7 +203,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field10'
+                            formKey='field10'
                             formType='pin'
                             preContent='0000'
                             maxLength={4}
@@ -222,7 +222,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field11'
+                            formKey='field11'
                             formType='dropdown'
                             options={['option1', 'option2', 'option3', 'option4']}
                         />
@@ -237,7 +237,7 @@ export const Default: StoryType = {
                 <Row className='spacious'>
                     <Col>
                         <FormControl
-                            id='field12'
+                            formKey='field12'
                             formType='textarea'
                             aria-placeholder='text area'
                             placeholder='text area'
@@ -250,7 +250,7 @@ export const Default: StoryType = {
 }
 
 export const Normal: StoryType = {
-    args: { id: 'field3', formType: 'text' }
+    args: { formKey: 'field3', formType: 'text' }
 }
 
 export const PinWithInfoButton: StoryType = {
@@ -262,7 +262,7 @@ export const PinWithInfoButton: StoryType = {
                 <Row>
                     <Col className='find-me text-center'>
                         <FormControl
-                            id='field10'
+                            formKey='field10'
                             formType='pin'
                             preContent='0000'
                             maxLength={4}
@@ -279,7 +279,7 @@ export const PinWithInfoButton: StoryType = {
 
 export const PreContent: StoryType = {
     args: {
-        id: 'field6',
+        formKey: 'field6',
         formType: 'email',
         preContent: <FontAwesomeIcon icon='at' />
     }
@@ -287,7 +287,7 @@ export const PreContent: StoryType = {
 
 export const PinInput: StoryType = {
     args: {
-        id: 'field8',
+        formKey: 'field8',
         formType: 'number',
         preContent: '0000'
     }

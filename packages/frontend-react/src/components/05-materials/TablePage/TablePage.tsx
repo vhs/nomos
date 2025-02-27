@@ -355,13 +355,13 @@ const TablePage: FC<TablePageProps> = ({
                             <Col className='basis-full lg:basis-1/2'>
                                 <strong>Order</strong>
                                 <br />
-                                <FormControl id='search.orderInput' formType='text' />
+                                <FormControl formKey='search.orderInput' formType='text' />
                             </Col>
 
                             <Col className='basis-full lg:basis-1/2'>
                                 <strong>Search</strong>
                                 <br />
-                                <FormControl id='search.queryInput' formType='text' reset={resetSearch} />
+                                <FormControl formKey='search.queryInput' formType='text' reset={resetSearch} />
                             </Col>
 
                             <Conditional condition={Array.isArray(primaryFilters)}>

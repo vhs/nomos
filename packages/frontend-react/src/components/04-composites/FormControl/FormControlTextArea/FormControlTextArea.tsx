@@ -13,6 +13,7 @@ const FormControlTextArea: FC<FormControlTextAreaProps> = ({
     className,
     error,
     formType,
+    formKey,
     id,
     infoButton,
     options,
@@ -24,12 +25,13 @@ const FormControlTextArea: FC<FormControlTextAreaProps> = ({
 
     const form = useFormContext()
 
-    const { onBlur, onChange, ...formProps } = form.register(id)
+    const { onBlur, onChange, ...formProps } = form.register(formKey)
 
     return (
         <div data-testid='FormControlTextArea'>
             <FormControlContainer className={className} error={error} hasFocus={hasFocus}>
                 <textarea
+                    id={id}
                     className={clsx([styles.Main])}
                     data-testid='textarea'
                     onBlur={(event): void => {
