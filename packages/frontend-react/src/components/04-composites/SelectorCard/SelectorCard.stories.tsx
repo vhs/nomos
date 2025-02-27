@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof SelectorCard>
 
 const meta: Meta<typeof SelectorCard> = {
     component: SelectorCard,
-    title: '99-Templates/default',
+    title: '04-Composites/SelectorCard',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

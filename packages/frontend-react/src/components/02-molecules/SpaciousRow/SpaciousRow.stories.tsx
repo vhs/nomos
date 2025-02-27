@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof SpaciousRow>
 
 const meta: Meta<typeof SpaciousRow> = {
     component: SpaciousRow,
-    title: '99-Templates/default',
+    title: '02-Molecules/SpaciousRow',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

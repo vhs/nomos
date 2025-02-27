@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof CreateSystemPreferenceButton>
 
 const meta: Meta<typeof CreateSystemPreferenceButton> = {
     component: CreateSystemPreferenceButton,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminSystemPreferences/CreateSystemPreferenceButton',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

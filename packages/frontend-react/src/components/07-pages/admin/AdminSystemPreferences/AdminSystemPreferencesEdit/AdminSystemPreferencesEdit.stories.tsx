@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminSystemPreferencesEdit>
 
 const meta: Meta<typeof AdminSystemPreferencesEdit> = {
     component: AdminSystemPreferencesEdit,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminSystemPreferences/AdminSystemPreferencesEdit',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

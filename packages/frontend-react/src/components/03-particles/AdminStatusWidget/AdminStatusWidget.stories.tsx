@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AdminStatusWidget>
 
 const meta: Meta<typeof AdminStatusWidget> = {
     component: AdminStatusWidget,
-    title: '99-Templates/default',
+    title: '03-Particles/AdminStatusWidget',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

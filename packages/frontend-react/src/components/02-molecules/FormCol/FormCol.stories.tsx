@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof FormCol>
 
 const meta: Meta<typeof FormCol> = {
     component: FormCol,
-    title: '99-Templates/default',
+    title: '02-Molecules/FormCol',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

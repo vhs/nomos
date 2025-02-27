@@ -16,7 +16,7 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        title: 'InfoButton',
+        title: '02-Molecules/InfoButton',
         children: 'InfoButton'
     }
 }
