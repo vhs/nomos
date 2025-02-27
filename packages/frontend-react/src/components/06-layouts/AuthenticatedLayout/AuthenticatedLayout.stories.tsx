@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof AuthenticatedLayout>
 
 const meta: Meta<typeof AuthenticatedLayout> = {
     component: AuthenticatedLayout,
-    title: '99-Templates/default',
+    title: '06-Layouts/AuthenticatedLayout',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
