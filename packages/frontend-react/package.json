@@ -101,9 +101,11 @@
         "create:provider": "generate-react c --type=provider",
         "dev": "vite",
         "dev:lan": "vite --host",
+        "fix:storybook:titles": "wireit",
         "generate:fontawesome": "wireit",
         "generate:fontawesome:names": "wireit",
         "generate:fontawesome:types": "wireit",
+        "generate:validator:implementations": "wireit",
         "lint": "wireit",
         "prepare": "wireit",
         "preview": "vite preview",
@@ -132,6 +134,9 @@
                 "generate:fontawesome"
             ]
         },
+        "fix:storybook:titles": {
+            "command": "./tools/fix-storybook-titles.sh"
+        },
         "generate:fontawesome": {
             "dependencies": [
                 "generate:fontawesome:names",
@@ -150,6 +155,9 @@
                 "bower:install"
             ]
         },
+        "generate:validator:implementations": {
+            "command": "./tools/generate-validator-implementations.sh"
+        },
         "install:dependencies": {
             "dependencies": [
                 "bower:install"
@@ -164,6 +172,9 @@
             ]
         },
         "storybook": {
+            "dependencies": [
+                "fix:storybook:titles"
+            ],
             "command": "storybook dev -p 6006 --https --ssl-ca ./certs/ca.crt --ssl-key ./certs/localhost.key --ssl-cert ./certs/localhost.crt",
             "service": true
         },
