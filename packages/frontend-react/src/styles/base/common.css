@@ -60,8 +60,4 @@
         -webkit-appearance: none;
         margin: 0;
     }
-
-    #user-dashboard-link > .col > a {
-        @apply text-[revert];
-    }
 }

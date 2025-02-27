@@ -42,7 +42,8 @@ export default {
                 'red-card-footer': '#f5f5f5',
                 'green-card': '#35a435',
                 'panel-green': '#35a435',
-                'anchor': '#6ea8fe'
+                'anchor': '#6ea8fe',
+                'regular-link': '#337ab7'
             },
             flexBasis: {
                 '1/7': '14.285714285714285%',
