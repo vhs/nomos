@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm, type UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
@@ -35,7 +37,7 @@ const FormControlStorySchema = z.object({
     field9: zUserPin,
     field10: zUserPin,
     field11: z.union([z.literal('option1'), z.literal('option2'), z.literal('option3'), z.literal('option4')]),
-    field12: zString
+    field12: zString.min(3)
 })
 
 type FormControlStoryForm = z.infer<typeof FormControlStorySchema>
@@ -67,6 +69,8 @@ export const Default: StoryType = {
     render: () => {
         const form = useStoryForm()
 
+        const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+
         return (
             <FormProvider {...form}>
                 <Row className='spacious'>
@@ -76,7 +80,7 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl formKey='field1' placeholder='field1' />
+                        <FormControl formKey='field1' placeholder='field1' error={errors.field1 != null} />
                     </Col>
                 </Row>
 
@@ -87,7 +91,13 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl formKey='field2' disabled value={'disabled'} placeholder='field2' />
+                        <FormControl
+                            formKey='field2'
+                            disabled
+                            value={'disabled'}
+                            placeholder='field2'
+                            error={errors.field2 != null}
+                        />
                     </Col>
                 </Row>
 
@@ -98,7 +108,12 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl formKey='field3' formType='text' placeholder='field3' />
+                        <FormControl
+                            formKey='field3'
+                            formType='text'
+                            placeholder='field3'
+                            error={errors.field3 != null}
+                        />
                     </Col>
                 </Row>
 
@@ -115,6 +130,7 @@ export const Default: StoryType = {
                             reset={() => {
                                 // form.setValue('field4', '')
                             }}
+                            error={errors.field4 != null}
                         />
                     </Col>
                 </Row>
@@ -126,7 +142,64 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl formKey='field5' formType='password' placeholder='password' />
+                        <FormControl
+                            formKey='field5'
+                            formType='password'
+                            error={errors.field5 != null}
+                            placeholder='password'
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Password</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl
+                            formKey='field5'
+                            formType='password'
+                            error={errors.field5 != null}
+                            placeholder='password'
+                            preContent={<FontAwesomeIcon icon='key' />}
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Password</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl
+                            formKey='field5'
+                            formType='password'
+                            error={errors.field5 != null}
+                            placeholder='password'
+                            infoButton={{ title: 'Password', children: 'Password Field' }}
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='spacious'>
+                    <Col>
+                        <h2 className='text-left'>Password</h2>
+                    </Col>
+                </Row>
+                <Row className='spacious'>
+                    <Col>
+                        <FormControl
+                            formKey='field5'
+                            formType='password'
+                            error={errors.field5 != null}
+                            placeholder='password'
+                            preContent={<FontAwesomeIcon icon='key' />}
+                            infoButton={{ title: 'Password', children: 'Password Field' }}
+                        />
                     </Col>
                 </Row>
 
@@ -142,6 +215,7 @@ export const Default: StoryType = {
                             formType='email'
                             preContent={<FontAwesomeIcon icon='at' />}
                             placeholder='user@example.com'
+                            error={errors.field6 != null}
                         />
                     </Col>
                 </Row>
@@ -162,6 +236,7 @@ export const Default: StoryType = {
                                 title: '04-Composites/FormControl',
                                 children: 'Info Content'
                             }}
+                            error={errors.field7 != null}
                         />
                     </Col>
                 </Row>
@@ -173,7 +248,14 @@ export const Default: StoryType = {
                 </Row>
                 <Row className='spacious'>
                     <Col>
-                        <FormControl formKey='field8' formType='number' maxLength={4} size={4} placeholder='0000' />
+                        <FormControl
+                            formKey='field8'
+                            formType='number'
+                            maxLength={4}
+                            size={4}
+                            placeholder='0000'
+                            error={errors.field8 != null}
+                        />
                     </Col>
                 </Row>
 
@@ -191,6 +273,7 @@ export const Default: StoryType = {
                             maxLength={4}
                             size={4}
                             placeholder='0000'
+                            error={errors.field9 != null}
                         />
                     </Col>
                 </Row>
@@ -210,6 +293,7 @@ export const Default: StoryType = {
                             size={4}
                             placeholder='0000'
                             infoButton={{ title: 'Info Title', children: 'Info Content' }}
+                            error={errors.field10 != null}
                         />
                     </Col>
                 </Row>
@@ -225,6 +309,7 @@ export const Default: StoryType = {
                             formKey='field11'
                             formType='dropdown'
                             options={['option1', 'option2', 'option3', 'option4']}
+                            error={errors.field11 != null}
                         />
                     </Col>
                 </Row>
@@ -241,6 +326,7 @@ export const Default: StoryType = {
                             formType='textarea'
                             aria-placeholder='text area'
                             placeholder='text area'
+                            error={errors.field12 != null}
                         />
                     </Col>
                 </Row>
