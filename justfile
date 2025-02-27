@@ -19,6 +19,60 @@ format_php:
 
     vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
 
+git_hooks:
+    #!/usr/bin/env bash
+    echo "Available git hooks:"
+    just --summary | xargs -d' ' -I% echo '- %' | grep 'git_hook_'
+
+git_hook_pre_commit:
+    #!/usr/bin/env bash
+
+    set -e
+
+    FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+
+    if [ "${FILES}" != "" ]; then
+        PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
+        STORYBOOK_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/.+\.stories\.tsx' | xargs)
+        VALIDATOR_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/src/lib/validators/(common|records).ts' | xargs)
+        WEBHOOKER_FILES=$(echo "${FILES}" | grep 'packages/webhooker/' | xargs)
+
+        if [ "${PHP_FILES}" != "" ]; then
+            FILES=$(echo "${PHP_FILES}" | xargs) pnpm exec just format php
+            pnpm exec just test php
+        fi
+
+        if [ "${STORYBOOK_FILES}" != "" ]; then
+            pnpm --filter @vhs/nomos-frontend-react run fix:storybook:titles
+        fi
+
+        if [ "${VALIDATOR_FILES}" != "" ]; then
+            pnpm --filter @vhs/nomos-frontend-react run generate:validator:implementations
+        fi
+
+        if [ "${WEBHOOKER_FILES}" != "" ]; then
+            pnpm exec just test webhooker
+        fi
+
+        FILES=$(echo "${FILES}" | xargs) pnpm exec just format all
+
+        git update-index --again
+
+        exit 0
+    fi
+
+git_hook_pre_push:
+    #!/usr/bin/env bash
+
+    set -e
+
+    if git show-ref "$(git branch --show-current)" | awk '{ print $2 }' | xargs | sed 's/ /../g' | xargs git diff --numstat | grep packages/frontend-react > /dev/null; then
+        pnpm run -r build
+    fi
+
+    exit 0
+
+
 install target:
     @echo 'Installing {{target}}…'
     just "install_{{target}}"
@@ -110,6 +164,3 @@ test_webhooker:
 update target:
     @echo 'Updating {{target}}…'
     just "update_{{target}}"
-
-update_validators:
-    ./packages/frontend-react/tools/generate-validator-implementations.sh
