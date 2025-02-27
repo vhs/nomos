@@ -9,7 +9,7 @@ export interface MenuItem {
     icon: IconProp | FontAwesomeIconProps
     name: string
     condition?: (currentUser: PrincipalUserObject | null | undefined) => boolean
-    id?: string
+    itemClassName?: string
 }
 
 export type MenuItems = MenuItem[]
