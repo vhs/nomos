@@ -23,7 +23,7 @@ import { backendCurrentUserUrl } from '@/components/09-providers/AuthenticationP
 import useAuth from '@/lib/hooks/useAuth'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
-import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys, mergeBooleanRecord } from '@/lib/utils'
+import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
 import styles from './ApiKey.module.css'
 import { ApiKeyEditSchema } from './ApiKey.schema'
@@ -45,12 +45,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
         state: privileges,
         dispatch: dispatchPrivileges,
         isDirty: dirtyPrivileges
-    } = useToggleReducer(
-        mergeBooleanRecord(
-            convertPrivilegesArrayToBooleanRecord(availablePrivileges, false),
-            convertPrivilegesArrayToBooleanRecord(apiKey.privileges)
-        )
-    )
+    } = useToggleReducer(mergePrivilegesArrayToBooleanRecord(availablePrivileges, apiKey.privileges))
 
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -88,10 +83,7 @@ const ApiKey: FC<ApiKeyProps> = ({ apiKey, availablePrivileges, scope }) => {
         })
         dispatchPrivileges({
             action: 'update-defaults',
-            value: mergeBooleanRecord(
-                convertPrivilegesArrayToBooleanRecord(availablePrivileges, false),
-                convertPrivilegesArrayToBooleanRecord(apiKey.privileges, true)
-            )
+            value: mergePrivilegesArrayToBooleanRecord(availablePrivileges, apiKey.privileges)
         })
         dispatchPrivileges({
             action: 'reset'
