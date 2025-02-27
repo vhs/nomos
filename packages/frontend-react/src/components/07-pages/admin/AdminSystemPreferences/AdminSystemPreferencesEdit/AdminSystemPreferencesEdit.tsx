@@ -22,7 +22,7 @@ import useGetSystemPreference from '@/lib/hooks/providers/PreferenceService2/use
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
-import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys, mergeBooleanRecord } from '@/lib/utils'
+import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
 import type { SystemPreference } from '@/types/records'
 
@@ -62,12 +62,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
         state: privileges,
         dispatch: dispatchPrivileges,
         isDirty: isPrivilegesDirty
-    } = useToggleReducer(
-        mergeBooleanRecord(
-            convertPrivilegesArrayToBooleanRecord(allPrivileges, false),
-            convertPrivilegesArrayToBooleanRecord(systemPreference?.privileges, true)
-        )
-    )
+    } = useToggleReducer(mergePrivilegesArrayToBooleanRecord(allPrivileges, systemPreference?.privileges))
 
     const resetFields = useCallback(
         (systemPreference?: SystemPreference): void => {
@@ -85,10 +80,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
 
             dispatchPrivileges({
                 action: 'update-defaults',
-                value: mergeBooleanRecord(
-                    convertPrivilegesArrayToBooleanRecord(allPrivileges, false),
-                    convertPrivilegesArrayToBooleanRecord(systemPreference?.privileges, true)
-                )
+                value: mergePrivilegesArrayToBooleanRecord(allPrivileges, systemPreference?.privileges)
             })
         },
         [allPrivileges, dispatchPrivileges, form]

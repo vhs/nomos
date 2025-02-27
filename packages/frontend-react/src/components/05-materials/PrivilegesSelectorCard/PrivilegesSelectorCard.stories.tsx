@@ -10,7 +10,7 @@ type StoryType = StoryObj<typeof PrivilegesSelectorCard>
 const meta: Meta<typeof PrivilegesSelectorCard> = {
     component: ({ customPrivileges, onUpdate, selected: value, ...restProps }) => {
         const { state: privileges, dispatch: dispatchPrivileges } = useToggleReducer(
-            convertPrivilegesArrayToBooleanRecord(customPrivileges)
+            convertPrivilegesArrayToBooleanRecord(customPrivileges, false)
         )
 
         return (

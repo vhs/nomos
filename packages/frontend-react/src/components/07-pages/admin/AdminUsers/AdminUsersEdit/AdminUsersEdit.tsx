@@ -39,7 +39,7 @@ import useAuth from '@/lib/hooks/useAuth'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import PinService2 from '@/lib/providers/PinService2'
 import UserService2 from '@/lib/providers/UserService2'
-import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys, mergeBooleanRecord } from '@/lib/utils'
+import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 import { statuses } from '@/lib/utils/constants'
 import { zPasswordInput } from '@/lib/validators/common'
 import { isMemberships } from '@/lib/validators/guards'
@@ -88,10 +88,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
         dispatch: dispatchPrivileges,
         isDirty: isPrivilegesDirty
     } = useToggleReducer(
-        mergeBooleanRecord(
-            convertPrivilegesArrayToBooleanRecord(Array.isArray(allPrivileges) ? allPrivileges : [], false),
-            convertPrivilegesArrayToBooleanRecord(userObj?.privileges, true)
-        )
+        mergePrivilegesArrayToBooleanRecord(Array.isArray(allPrivileges) ? allPrivileges : [], userObj?.privileges)
     )
 
     const pinInfo = useMemo(() => userObj?.keys.find((key) => key.type === 'pin'), [userObj?.keys])
@@ -270,12 +267,13 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
         }
 
         if (userObj != null && allPrivileges != null && !isPrivilegesDirty) {
-            const mergedPrivileges = mergeBooleanRecord(
-                convertPrivilegesArrayToBooleanRecord(Array.isArray(allPrivileges) ? allPrivileges : [], false),
-                convertPrivilegesArrayToBooleanRecord(userObj?.privileges, true)
-            )
-
-            dispatchPrivileges({ action: 'update-defaults', value: mergedPrivileges })
+            dispatchPrivileges({
+                action: 'update-defaults',
+                value: mergePrivilegesArrayToBooleanRecord(
+                    Array.isArray(allPrivileges) ? allPrivileges : [],
+                    userObj?.privileges
+                )
+            })
             dispatchPrivileges({ action: 'reset' })
         }
     }, [userObj, allPrivileges, dispatchPrivileges])
