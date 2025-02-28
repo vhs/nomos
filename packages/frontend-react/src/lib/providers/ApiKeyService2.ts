@@ -86,7 +86,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @returns {Key[]}
      */
     public async GetUserApiKeys(userid: number): BackendResult<Key[]> {
-        return await backendCall('/services/v2/ApiKeyService2.svc/GetUserApiKey[]', { userid })
+        return await backendCall('/services/v2/ApiKeyService2.svc/GetUserApiKeys', { userid })
     }
 
     /**
