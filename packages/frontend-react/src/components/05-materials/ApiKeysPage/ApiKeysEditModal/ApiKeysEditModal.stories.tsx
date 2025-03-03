@@ -9,13 +9,13 @@ import type { Key } from '@/types/records'
 
 import ApiKeysEditModal from './ApiKeysEditModal'
 
-const mockApiKeyEdit: Key = {
+const mockApiKeysEdit: Key = {
     id: 1,
     created: new Date(),
     key: crypto.randomUUID(),
     type: 'api',
     userid: 1,
-    notes: 'mockApiKeyEdit',
+    notes: 'mockApiKeysEdit',
     privileges: mockPrincipalUserData.privileges
 }
 
@@ -37,6 +37,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        keyId: mockApiKeyEdit.id
+        keyId: mockApiKeysEdit.id
     }
 }

@@ -9,7 +9,7 @@ import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOver
 import ApiKeysHelpPage from './ApiKeysHelpPage/ApiKeysHelpPage.lazy'
 import ApiKeysListPage from './ApiKeysListPage/ApiKeysListPage.lazy'
 import { useAvailablePrivileges, useAvailableKeys } from './ApiKeysPage.hooks'
-import { getParsedApiKeyPath } from './ApiKeysPage.utils'
+import { getParsedApiKeysPath } from './ApiKeysPage.utils'
 import ApiKeysPageContainer from './ApiKeysPageContainer/ApiKeysPageContainer.lazy'
 import ApiKeysUsagePage from './ApiKeysUsagePage/ApiKeysUsagePage.lazy'
 
@@ -19,7 +19,7 @@ const ApiKeysPage: FC<ApiKeysPageProps> = ({ basePath, scope }) => {
     const { pathname } = useLocation()
 
     const { createModal, editModal, keyId, activeView } = useMemo(
-        () => getParsedApiKeyPath(basePath, pathname),
+        () => getParsedApiKeysPath(basePath, pathname),
         [basePath, pathname]
     )
 

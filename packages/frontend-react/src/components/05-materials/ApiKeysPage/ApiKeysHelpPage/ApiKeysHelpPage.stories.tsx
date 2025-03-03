@@ -24,6 +24,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'ApiKeyHelp'
+        children: 'ApiKeysHelp'
     }
 }

@@ -2,7 +2,7 @@ import { useMemo, type FC } from 'react'
 
 import { useLocation } from '@tanstack/react-router'
 
-import type { ApiKeyCreateNewButtonLinkOpts, ApiKeysCreateNewButtonProps } from './ApiKeysCreateNewButton.types'
+import type { ApiKeysCreateNewButtonLinkOpts, ApiKeysCreateNewButtonProps } from './ApiKeysCreateNewButton.types'
 import type { FileRoutesByFullPath } from '@/routeTree.gen'
 
 import LinkButton from '@/components/02-molecules/LinkButton/LinkButton'
@@ -14,7 +14,7 @@ const ApiKeysCreateNewButton: FC<ApiKeysCreateNewButtonProps> = () => {
 
     const { pathname } = useLocation()
 
-    const { to, mask, title }: ApiKeyCreateNewButtonLinkOpts = useMemo(
+    const { to, mask, title }: ApiKeysCreateNewButtonLinkOpts = useMemo(
         () => ({
             to: `${pathname}/$/new` as keyof FileRoutesByFullPath,
             mask: {

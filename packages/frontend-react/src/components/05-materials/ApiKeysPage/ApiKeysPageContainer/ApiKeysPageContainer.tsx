@@ -11,10 +11,10 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import BasePage from '../../BasePage/BasePage'
 import ApiKeysCreateNewButton from '../ApiKeysCreateNewButton/ApiKeysCreateNewButton'
 import ApiKeysEditModal from '../ApiKeysEditModal/ApiKeysEditModal'
-import ApiKeyNewModal from '../ApiKeysNewModal/ApiKeyNewModal'
+import ApiKeysNewModal from '../ApiKeysNewModal/ApiKeysNewModal'
 import { ApiKeysPageContext } from '../ApiKeysPage.context'
 import { ApiKeysMenu } from '../ApiKeysPage.settings'
-import { getApiKeysViewPath, getApiKeyTermByScope } from '../ApiKeysPage.utils'
+import { getApiKeysViewPath, getApiKeysTermByScope } from '../ApiKeysPage.utils'
 
 const ApiKeysPageContainer: FC<ApiKeysPageContainerProps> = ({
     activeView,
@@ -32,7 +32,7 @@ const ApiKeysPageContainer: FC<ApiKeysPageContainerProps> = ({
         <div data-testid='ApiKeysPageContainer'>
             <ApiKeysPageContext.Provider value={contextValue}>
                 <BasePage
-                    title={getApiKeyTermByScope('title', scope)}
+                    title={getApiKeysTermByScope('title', scope)}
                     actions={[<ApiKeysCreateNewButton key='ApiKeysCreateNewButton' basePath={basePath} />]}
                 >
                     <div className='grid w-fit grid-flow-col-dense gap-2 ps-3'>
@@ -60,7 +60,7 @@ const ApiKeysPageContainer: FC<ApiKeysPageContainerProps> = ({
                     </div>
 
                     <Conditional condition={createModal}>
-                        <ApiKeyNewModal />
+                        <ApiKeysNewModal />
                     </Conditional>
 
                     <Conditional condition={editModal}>
