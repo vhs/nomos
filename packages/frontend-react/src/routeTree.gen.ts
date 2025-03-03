@@ -72,7 +72,7 @@ import { Route as AdminAdminUsersNewImport } from './routes/_admin/admin.users.n
 import { Route as AdminAdminUsersUserIdImport } from './routes/_admin/admin.users.$userId'
 import { Route as AdminAdminSystempreferencesNewImport } from './routes/_admin/admin.systempreferences.new'
 import { Route as AdminAdminSystempreferencesPreferenceIdImport } from './routes/_admin/admin.systempreferences.$preferenceId'
-import { Route as AdminAdminSystemkeysKeyIdImport } from './routes/_admin/admin.systemkeys.$keyId'
+import { Route as AdminAdminSystemkeysSplatImport } from './routes/_admin/admin.systemkeys.$'
 import { Route as AdminAdminMembershipsMembershipIdImport } from './routes/_admin/admin.memberships.$membershipId'
 
 // Create/Update Routes
@@ -444,9 +444,9 @@ const AdminAdminSystempreferencesPreferenceIdRoute =
     getParentRoute: () => AdminAdminSystempreferencesRoute,
   } as any)
 
-const AdminAdminSystemkeysKeyIdRoute = AdminAdminSystemkeysKeyIdImport.update({
-  id: '/admin/systemkeys/$keyId',
-  path: '/admin/systemkeys/$keyId',
+const AdminAdminSystemkeysSplatRoute = AdminAdminSystemkeysSplatImport.update({
+  id: '/admin/systemkeys/$',
+  path: '/admin/systemkeys/$',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -853,11 +853,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminMembershipsMembershipIdImport
       parentRoute: typeof AdminAdminMembershipsImport
     }
-    '/_admin/admin/systemkeys/$keyId': {
-      id: '/_admin/admin/systemkeys/$keyId'
-      path: '/admin/systemkeys/$keyId'
-      fullPath: '/admin/systemkeys/$keyId'
-      preLoaderRoute: typeof AdminAdminSystemkeysKeyIdImport
+    '/_admin/admin/systemkeys/$': {
+      id: '/_admin/admin/systemkeys/$'
+      path: '/admin/systemkeys/$'
+      fullPath: '/admin/systemkeys/$'
+      preLoaderRoute: typeof AdminAdminSystemkeysSplatImport
       parentRoute: typeof AdminImport
     }
     '/_admin/admin/systempreferences/$preferenceId': {
@@ -982,7 +982,7 @@ interface AdminRouteChildren {
   AdminAdminUsersRoute: typeof AdminAdminUsersRouteWithChildren
   AdminAdminWebhooksRoute: typeof AdminAdminWebhooksRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
-  AdminAdminSystemkeysKeyIdRoute: typeof AdminAdminSystemkeysKeyIdRoute
+  AdminAdminSystemkeysSplatRoute: typeof AdminAdminSystemkeysSplatRoute
   AdminAdminSystemkeysIndexRoute: typeof AdminAdminSystemkeysIndexRoute
 }
 
@@ -1017,7 +1017,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminUsersRoute: AdminAdminUsersRouteWithChildren,
   AdminAdminWebhooksRoute: AdminAdminWebhooksRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
-  AdminAdminSystemkeysKeyIdRoute: AdminAdminSystemkeysKeyIdRoute,
+  AdminAdminSystemkeysSplatRoute: AdminAdminSystemkeysSplatRoute,
   AdminAdminSystemkeysIndexRoute: AdminAdminSystemkeysIndexRoute,
 }
 
@@ -1147,7 +1147,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
+  '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
@@ -1211,7 +1211,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
+  '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
@@ -1278,7 +1278,7 @@ export interface FileRoutesById {
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_user/apikeys/': typeof UserApikeysIndexRoute
   '/_admin/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/_admin/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
+  '/_admin/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/_admin/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/_admin/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/_admin/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
@@ -1344,7 +1344,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/apikeys'
     | '/admin/memberships/$membershipId'
-    | '/admin/systemkeys/$keyId'
+    | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
     | '/admin/users/$userId'
@@ -1407,7 +1407,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/apikeys'
     | '/admin/memberships/$membershipId'
-    | '/admin/systemkeys/$keyId'
+    | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
     | '/admin/users/$userId'
@@ -1472,7 +1472,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/'
     | '/_user/apikeys/'
     | '/_admin/admin/memberships/$membershipId'
-    | '/_admin/admin/systemkeys/$keyId'
+    | '/_admin/admin/systemkeys/$'
     | '/_admin/admin/systempreferences/$preferenceId'
     | '/_admin/admin/systempreferences/new'
     | '/_admin/admin/users/$userId'
@@ -1550,7 +1550,7 @@ export const routeTree = rootRoute
         "/_admin/admin/users",
         "/_admin/admin/webhooks",
         "/_admin/admin/",
-        "/_admin/admin/systemkeys/$keyId",
+        "/_admin/admin/systemkeys/$",
         "/_admin/admin/systemkeys/"
       ]
     },
@@ -1807,8 +1807,8 @@ export const routeTree = rootRoute
       "filePath": "_admin/admin.memberships.$membershipId.tsx",
       "parent": "/_admin/admin/memberships"
     },
-    "/_admin/admin/systemkeys/$keyId": {
-      "filePath": "_admin/admin.systemkeys.$keyId.tsx",
+    "/_admin/admin/systemkeys/$": {
+      "filePath": "_admin/admin.systemkeys.$.tsx",
       "parent": "/_admin"
     },
     "/_admin/admin/systempreferences/$preferenceId": {
