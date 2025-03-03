@@ -20,6 +20,7 @@ import type { Privileges } from '@/types/records'
 const PrivilegesSelectorCard: FC<PrivilegesSelectorCardProps> = ({
     customPrivileges,
     className,
+    error,
     onUpdate,
     title,
     selected,
@@ -54,7 +55,7 @@ const PrivilegesSelectorCard: FC<PrivilegesSelectorCardProps> = ({
 
     return (
         <div className={className} data-testid='PrivilegesSelectorCard' {...restProps}>
-            <Card>
+            <Card error={error}>
                 <Card.Header>{title}</Card.Header>
 
                 <Card.Body>
