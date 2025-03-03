@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react'
+import { type FC, useState } from 'react'
 
 import { useRouter } from '@tanstack/react-router'
 import { toast } from 'react-toastify'

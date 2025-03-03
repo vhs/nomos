@@ -1,7 +1,7 @@
 import type { TablePageDefaults } from './TablePage.types'
 
-import type { BooleanRecord } from '@/types/common'
-import type { FieldDefinitions, FilterDefinitions, Filters } from '@/types/query-filters'
+import type { BooleanRecord } from '@/types/validators/common'
+import type { FieldDefinitions, FilterDefinitions, Filters } from '@/lib/db/utils/query-filters'
 
 import { type AllowedPageSizes, zAllowedPageSizes } from './TablePage.schema'
 

@@ -3,8 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IEventService2 } from '@/types/providers/IEventService2'
+import type { Events } from '@/types/validators/records'
 
 export default class EventService2 implements IEventService2 {
     /**
@@ -84,9 +85,9 @@ export default class EventService2 implements IEventService2 {
      *
      * @throws {string}
      *
-     * @returns {Event[]}
+     * @returns {Events}
      */
-    async GetAccessibleEvents(): BackendResult<Event[]> {
+    async GetAccessibleEvents(): BackendResult<Events> {
         return await backendCall('/services/v2/EventService2.svc/GetAccessibleEvents')
     }
 
@@ -132,9 +133,9 @@ export default class EventService2 implements IEventService2 {
      *
      * @throws {string}
      *
-     * @returns {Event[]}
+     * @returns {Events}
      */
-    async GetEvents(): BackendResult<Event[]> {
+    async GetEvents(): BackendResult<Events> {
         return await backendCall('/services/v2/EventService2.svc/GetEvents')
     }
 
@@ -160,7 +161,7 @@ export default class EventService2 implements IEventService2 {
      *
      * @throws {string}
      *
-     * @returns {Event[]}
+     * @returns {Events}
      */
     async ListEvents(
         page: number,
@@ -168,7 +169,7 @@ export default class EventService2 implements IEventService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Event[]> {
+    ): BackendResult<Events> {
         return await backendCall('/services/v2/EventService2.svc/ListEvents', {
             page,
             size,

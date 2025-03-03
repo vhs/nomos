@@ -12,7 +12,7 @@ import BasePage from '@/components/05-materials/BasePage/BasePage'
 
 import useAuth from '@/lib/hooks/useAuth'
 
-import type { SystemPreference } from '@/types/records'
+import type { SystemPreference } from '@/types/validators/records'
 
 const UserDoorAccess: FC<UserDoorAccessProps> = () => {
     const { currentUser } = useAuth()

@@ -8,7 +8,7 @@ import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 
-import type { BasePrivileges, Keys } from '@/types/records'
+import type { BasePrivileges, Keys } from '@/types/validators/records'
 
 export const useAvailableKeys = (scope: ApiKeysScope): SWRResponse<Keys> => {
     const { currentUser } = useAuth()

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import type UserObject from '@/lib/db/User'
+import type UserObject from '@/lib/db/models/User'
 
 import type { CastReactElement } from '@/types/utils'
 

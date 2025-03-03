@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import type { ReactAction } from '@/types/custom'
+import type { ReactAction } from '@/types/ui'
 
 export interface OverlayProps {
     children?: ReactNode

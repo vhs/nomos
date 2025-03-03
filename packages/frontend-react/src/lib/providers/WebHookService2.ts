@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IWebHookService2 } from '@/types/providers/IWebHookService2'
-import type { WebHook } from '@/types/records'
+import type { WebHook, WebHooks } from '@/types/validators/records'
 
 export default class WebHookService2 implements IWebHookService2 {
     /**
@@ -109,9 +109,9 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @throws {string}
      *
-     * @returns {WebHook[]}
+     * @returns {WebHooks}
      */
-    async GetAllHooks(): BackendResult<WebHook[]> {
+    async GetAllHooks(): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/GetAllHooks')
     }
 
@@ -136,9 +136,9 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @throws {string}
      *
-     * @returns {WebHook[]}
+     * @returns {WebHooks}
      */
-    async GetHooks(domain: string, event: string): BackendResult<WebHook[]> {
+    async GetHooks(domain: string, event: string): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/GetHooks', { domain, event })
     }
 
@@ -153,7 +153,7 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @throws {string}
      *
-     * @returns {WebHook[]}
+     * @returns {WebHooks}
      */
     async ListHooks(
         page: number,
@@ -161,7 +161,7 @@ export default class WebHookService2 implements IWebHookService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<WebHook[]> {
+    ): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/ListHooks', {
             page,
             size,
@@ -184,7 +184,7 @@ export default class WebHookService2 implements IWebHookService2 {
      * @throws {string}
      * @throws {\Exception}
      *
-     * @returns {WebHook[]}
+     * @returns {WebHooks}
      */
     async ListUserHooks(
         userid: number,
@@ -193,7 +193,7 @@ export default class WebHookService2 implements IWebHookService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<WebHook[]> {
+    ): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/ListUserHooks', {
             userid,
             page,

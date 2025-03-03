@@ -1,6 +1,6 @@
 import { type ActionDispatch, useReducer } from 'react'
 
-import type { PrivilegeCodes } from '@/types/custom'
+import type { PrivilegeCodes } from '@/types/common'
 
 export interface PrivilegeCodesAddAction {
     action: 'add'

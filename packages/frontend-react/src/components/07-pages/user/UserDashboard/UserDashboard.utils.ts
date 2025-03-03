@@ -14,7 +14,8 @@ import {
     generateRowColArray
 } from '@/lib/utils'
 
-import type { RevenueGoalChartProps, BubbleChartProps, LineChartProps, LinePoint } from '@/types/custom'
+import type { LinePoint, RevenueGoalChartProps, BubbleChartProps, LineChartProps } from '@/types/charts'
+import type { ArrayElement } from '@/types/utils'
 import type {
     Privileges,
     NewMembersResult,
@@ -22,8 +23,7 @@ import type {
     MetricServiceGetRevenueResult,
     MetricServiceGetMembersResult,
     MetricServiceGetCreatedDatesResult
-} from '@/types/records'
-import type { ArrayElement } from '@/types/utils'
+} from '@/types/validators/records'
 
 export const initialDataState: UserDashboardDataState = {}
 

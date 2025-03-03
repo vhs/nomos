@@ -10,7 +10,7 @@ import Row from '@/components/01-atoms/Row/Row'
 import AdminStatusWidget from '@/components/03-particles/AdminStatusWidget/AdminStatusWidget'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
-import type { Payments, Users } from '@/types/records'
+import type { Payments, Users } from '@/types/validators/records'
 
 const AdminDashboard: FC<AdminDashboardProps> = () => {
     const { data: pendingAccounts } = useSWR<Users>('/services/v2/MetricService2.svc/GetPendingAccounts')

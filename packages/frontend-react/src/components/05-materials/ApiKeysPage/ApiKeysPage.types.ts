@@ -1,6 +1,8 @@
+import type { ReactNode } from 'react'
+
 import type {
-    zApiKeysCreateSchema,
     zApiKeysSchema,
+    zApiKeysCreateSchema,
     zApiKeysActiveView,
     zApiKeysActiveViewHelp,
     zApiKeysActiveViewList,
@@ -9,11 +11,10 @@ import type {
     zParsedApiKeysPath,
     zScopedApiKeysTerm
 } from './ApiKeysPage.schemas'
-import type { ReactNode } from '@tanstack/react-router'
 import type { z } from 'zod'
 
-import type { NOMOSSWRResponse } from '@/types/custom'
-import type { BasePrivileges, Keys } from '@/types/records'
+import type { NOMOSSWRResponse } from '@/types/api'
+import type { Keys, BasePrivileges } from '@/types/validators/records'
 
 export type ApiKeysForm = z.infer<typeof zApiKeysSchema>
 export type ApiKeysCreateSchema = z.infer<typeof zApiKeysCreateSchema>

@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { backendCall } from '@/lib/backend'
-import type User from '@/lib/db/User'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IMetricService2 } from '@/types/providers/IMetricService2'
 import type {
     MetricServiceGetCreatedDatesResult,
@@ -13,8 +12,9 @@ import type {
     NewMembersResult,
     Payments,
     TotalKeyHoldersResult,
-    TotalMembersResult
-} from '@/types/records'
+    TotalMembersResult,
+    Users
+} from '@/types/validators/records'
 
 export default class MetricService2 implements IMetricService2 {
     async GetCreatedDates(start_range: string, end_range: string): BackendResult<MetricServiceGetCreatedDatesResult> {
@@ -36,7 +36,7 @@ export default class MetricService2 implements IMetricService2 {
     async GetNewMembers(start_range: string, end_range: string): BackendResult<NewMembersResult> {
         return await backendCall('/services/v2/MetricService2.svc/GetNewMembers', { start_range, end_range })
     }
-    async GetPendingAccounts(): BackendResult<User[]> {
+    async GetPendingAccounts(): BackendResult<Users> {
         return await backendCall('/services/v2/MetricService2.svc/GetPendingAccounts', {})
     }
     async GetRevenue(

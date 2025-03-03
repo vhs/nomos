@@ -30,7 +30,7 @@ import LinkedAccountsCard from '@/components/07-pages/user/UserProfile/LinkedAcc
 import PrivilegesCard from '@/components/07-pages/user/UserProfile/PrivilegesCard'
 import RFIDKeysCard from '@/components/07-pages/user/UserProfile/RFIDKeysCard'
 
-import UserObject from '@/lib/db/User'
+import UserObject from '@/lib/db/models/User'
 import { postWithParams } from '@/lib/fetcher'
 import useGetAllMemberships from '@/lib/hooks/providers/MembershipService2/useGetAllMemberships'
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'

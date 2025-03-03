@@ -22,7 +22,7 @@ import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
 import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
 
-import type { BasePrivileges } from '@/types/records'
+import type { BasePrivileges } from '@/types/validators/records'
 
 import { AdminSystemPreferencesNewSchema } from './AdminSystemPreferencesNew.schema'
 import { AdminSystemPreferencesNewDefaultValues } from './AdminSystemPreferencesNew.utils'

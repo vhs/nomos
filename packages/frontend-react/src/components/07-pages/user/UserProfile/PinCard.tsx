@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from 'react'
+import { type FC, useState, useMemo } from 'react'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -7,8 +7,8 @@ import Pill from '@/components/01-atoms/Pill/Pill'
 import Row from '@/components/01-atoms/Row/Row'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
-import type PrincipalUserObject from '@/lib/db/PrincipalUser'
-import type UserObject from '@/lib/db/User'
+import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
+import type UserObject from '@/lib/db/models/User'
 import PinService2 from '@/lib/providers/PinService2'
 
 const PinCard: FC<{ currentUser: PrincipalUserObject | UserObject }> = ({ currentUser }) => {

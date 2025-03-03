@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IStripeEventService2 } from '@/types/providers/IStripeEventService2'
-import type { StripeEvent } from '@/types/records'
+import type { StripeEvent, StripeEvents } from '@/types/validators/records'
 
 export default class StripeEventService2 implements IStripeEventService2 {
     /**
@@ -39,9 +39,9 @@ export default class StripeEventService2 implements IStripeEventService2 {
      *
      * @throws {string}
      *
-     * @returns {StripeEvent[]}
+     * @returns {StripeEvents}
      */
-    async GetAll(): BackendResult<StripeEvent[]> {
+    async GetAll(): BackendResult<StripeEvents> {
         return await backendCall('/services/v2/StripeEventService2.svc/GetAll')
     }
 
@@ -56,7 +56,7 @@ export default class StripeEventService2 implements IStripeEventService2 {
      *
      * @throws {string}
      *
-     * @returns {StripeEvent[]}
+     * @returns {StripeEvents}
      */
     async ListRecords(
         page: number,
@@ -64,7 +64,7 @@ export default class StripeEventService2 implements IStripeEventService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<StripeEvent[]> {
+    ): BackendResult<StripeEvents> {
         return await backendCall('/services/v2/StripeEventService2.svc/ListRecords', {
             page,
             size,

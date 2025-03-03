@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { backendCall } from '@/lib/backend'
-import type User from '@/lib/db/User'
+import type User from '@/lib/db/models/User'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IAuthService2 } from '@/types/providers/IAuthService2'
-import type { Filter } from '@/types/query-filters'
 import type {
     AuthCheckResult,
     UserPrincipal,
@@ -15,8 +15,9 @@ import type {
     TrimmedAppClient,
     RefreshToken,
     TrimmedUser,
-    AccessLog
-} from '@/types/records'
+    AccessLogs,
+    AppClients
+} from '@/types/validators/records'
 
 export default class AuthService2 implements IAuthService2 {
     /**
@@ -274,7 +275,7 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @throws {string}
      *
-     * @returns {AccessLog[]}
+     * @returns {AccessLogs}
      */
     async ListAccessLog(
         page: number,
@@ -282,7 +283,7 @@ export default class AuthService2 implements IAuthService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<AccessLog[]> {
+    ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListAccessLog', {
             page,
             size,
@@ -303,7 +304,7 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @throws {string}
      *
-     * @returns {AppClient[]}
+     * @returns {AppClients}
      */
     async ListClients(
         page: number,
@@ -311,7 +312,7 @@ export default class AuthService2 implements IAuthService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<AppClient[]> {
+    ): BackendResult<AppClients> {
         return await backendCall('/services/v2/AuthService2.svc/ListClients', {
             page,
             size,
@@ -333,7 +334,7 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @throws {string}
      *
-     * @returns {AccessLog[]}
+     * @returns {AccessLogs}
      */
     async ListUserAccessLog(
         userid: number,
@@ -342,7 +343,7 @@ export default class AuthService2 implements IAuthService2 {
         columns: string,
         order: string,
         filters: Filter
-    ): BackendResult<AccessLog[]> {
+    ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListUserAccessLog', {
             userid,
             page,
@@ -366,7 +367,7 @@ export default class AuthService2 implements IAuthService2 {
      * @throws {string}
      * @throws {\Exception}
      *
-     * @returns {AppClient[]}
+     * @returns {AppClients}
      */
     async ListUserClients(
         userid: number,
@@ -375,7 +376,7 @@ export default class AuthService2 implements IAuthService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<AppClient[]> {
+    ): BackendResult<AppClients> {
         return await backendCall('/services/v2/AuthService2.svc/ListUserClients', {
             userid,
             page,

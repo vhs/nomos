@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import PrincipalUserObject from '@/lib/db/PrincipalUser'
+import PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 
 import AuthService2 from './AuthService2'
 import UserService2 from './UserService2'

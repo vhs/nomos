@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import type { BubbleDataPoint } from 'chart.js'
 
+import type { FilterDefinitions } from '@/lib/db/utils/query-filters'
 import {
     isBasePrivilegesArray,
     isPrivilegesArray,
@@ -10,9 +11,8 @@ import {
     isStringArray
 } from '@/lib/validators/guards'
 
-import type { BooleanRecord } from '@/types/common'
-import type { FilterDefinitions } from '@/types/query-filters'
-import type { BasePrivileges, Privileges } from '@/types/records'
+import type { BooleanRecord } from '@/types/validators/common'
+import type { BasePrivileges, Privileges } from '@/types/validators/records'
 
 export const coerceStringArray = (inp: unknown): string[] => {
     if (typeof inp !== 'string' && Array.isArray(inp) && inp.length > 0 && inp.every((e) => typeof e !== 'string'))

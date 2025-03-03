@@ -1,7 +1,7 @@
 // import { QueryFilter } from '@/types/query-filters'
 import { http, HttpResponse } from 'msw'
 
-import type { Filter } from '@/types/query-filters'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import { mockCurrentUser, mockPrincipalUserData, mockServiceData } from './data'
 import { filterMockData } from './functions'
