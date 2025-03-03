@@ -20,8 +20,8 @@ public/assets/
 !src/**/*.tsx
 src/routeTree.gen.ts
 src/lib/ui/fontawesome/generated.ts
-src/routes/_public/fafo.tsx
-src/routes/test.tsx
+src/routes/**/fafo*.tsx
+src/routes/**/test*.tsx
 src/types/fontawesome/generated.ts
 src/types/nomos.d.ts
 
