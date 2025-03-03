@@ -66,6 +66,8 @@ export const useAvailablePrivileges = (scope: ApiKeysScope): SWRResponse<BasePri
                     }
                 else return null
             })
-            .filter((p) => p != null) as BasePrivileges
+            .filter((p, idx, a) => {
+                return p != null && idx === a.findIndex((f) => f?.code === p.code)
+            }) as BasePrivileges
     })
 }

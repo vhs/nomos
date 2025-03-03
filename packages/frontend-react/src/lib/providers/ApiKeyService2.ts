@@ -102,7 +102,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
     public async PutApiKeyPrivileges(keyid: number, privileges: string | string[]): BackendResult<boolean> {
         return await backendCall('/services/v2/ApiKeyService2.svc/PutApiKeyPrivileges', {
             keyid,
-            privileges
+            privileges: Array.isArray(privileges) ? privileges.join(',') : privileges
         })
     }
 
