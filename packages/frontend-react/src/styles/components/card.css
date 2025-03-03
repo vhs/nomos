@@ -68,7 +68,7 @@
         @apply bg-header;
 
         a,
-        &a,
+        & a,
         & > a,
         & > * > a {
             @apply text-green-card;
