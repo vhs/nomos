@@ -1,4 +1,4 @@
-import { useCallback, useEffect, type FC } from 'react'
+import { useCallback, useEffect, useMemo, type FC } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -42,6 +42,10 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
         }
     })
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const {
         state: privileges,
         dispatch: dispatchPrivileges,
@@ -81,10 +85,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
             async (): Promise<void> => {
                 const { notes, expiry } = form.getValues()
 
-                if (
-                    form.formState.isDirty &&
-                    Object.keys(form.formState.dirtyFields).filter((f) => f !== 'privileges').length > 0
-                ) {
+                if (isDirty && Object.keys(form.formState.dirtyFields).filter((f) => f !== 'privileges').length > 0) {
                     await ApiKeyService2.getInstance().UpdateApiKey(apiKey.id, notes, expiry.toString())
                     scope === 'system'
                         ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
@@ -95,6 +96,8 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                         : await mutate(
                               `/services/v2/VirtualService1.svc/GetScopedKeys?scope=user&id=${currentUser?.id}`
                           )
+
+                    form.reset({ notes, expiry })
                 }
 
                 if (dirtyPrivileges) {
@@ -102,6 +105,14 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                         apiKey.id,
                         getEnabledStateRecordKeys(privileges)
                     )
+
+                    dispatchPrivileges({
+                        action: 'update-defaults',
+                        value: privileges
+                    })
+                    dispatchPrivileges({
+                        action: 'reset'
+                    })
                 }
 
                 await mutate(backendCurrentUserUrl)
@@ -125,7 +136,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                         <Button
                             key='Save & Close'
                             variant='success'
-                            disabled={!form.formState.isDirty}
+                            disabled={isValid && !isDirty && !dirtyPrivileges}
                             onClick={() => {
                                 void submitHandler()
                             }}
@@ -138,7 +149,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                             onClick={() => {
                                 resetDefaults()
                             }}
-                            disabled={!form.formState.isDirty}
+                            disabled={isValid && !isDirty && !dirtyPrivileges}
                         >
                             Reset
                         </Button>
@@ -154,7 +165,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                         <Col className='basis-full md:basis-1/2'>
                             <Row className='spacious'>
                                 <Col>
-                                    <Card>
+                                    <Card error={errors.notes != null}>
                                         <Card.Header>Notes</Card.Header>
                                         <Card.Body>
                                             <FormControl formKey='notes' formType='textarea' />
@@ -164,7 +175,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                             </Row>
                             <Row className='spacious'>
                                 <Col>
-                                    <Card>
+                                    <Card error={errors.expiry != null}>
                                         <Card.Header>Expiry</Card.Header>
                                         <Card.Body>
                                             <FormControl
@@ -183,6 +194,11 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                                     <PrivilegesSelectorCard
                                         customPrivileges={availablePrivileges}
                                         onUpdate={({ privilege, state }): void => {
+                                            console.debug(
+                                                'ApiKeysEditModal/PrivilegesSelectorCard/onUpdate - action => value:',
+                                                state ? 'set' : 'unset',
+                                                privilege
+                                            )
                                             dispatchPrivileges({
                                                 action: state ? 'set' : 'unset',
                                                 value: privilege

@@ -5,7 +5,6 @@ import { zKey } from '@/lib/validators/records'
 
 export const zApiKeysSchema = z.object({
     key: zString,
-    value: zString,
     notes: zString,
     expiry: zDateTime
 })
