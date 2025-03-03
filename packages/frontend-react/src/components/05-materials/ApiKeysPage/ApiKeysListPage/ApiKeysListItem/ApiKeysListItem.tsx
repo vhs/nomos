@@ -17,6 +17,7 @@ import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
 import { useApiKeysPageContext } from '../../ApiKeysPage.context'
+import { getApiKeyTermByScope } from '../../ApiKeysPage.utils'
 
 import styles from './ApiKeysListItem.module.css'
 
@@ -42,12 +43,21 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
     }
 
     const deleteAPIKey = async (): Promise<void> => {
-        toast.success('Deleting key')
-        await ApiKeyService2.getInstance().DeleteApiKey(apiKey.id)
-        closeDeleteModal()
+        await toast.promise(ApiKeyService2.getInstance().DeleteApiKey(apiKey.id), {
+            error: getApiKeyTermByScope('deleteApiKeyError', scope),
+            pending: getApiKeyTermByScope('deleteApiKeyPending', scope),
+            success: getApiKeyTermByScope('deleteApiKeySuccess', scope)
+        })
+
         scope === 'system'
             ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
             : await mutate(`/services/v2/ApiKeyService2.svc/GetUserAPIKeys?userid=${currentUser?.id}`)
+
+        scope === 'system'
+            ? await mutate('/services/v2/VirtualService1.svc/GetScopedKeys?scope=system')
+            : await mutate(`/services/v2/VirtualService1.svc/GetScopedKeys?scope=user&id=${currentUser?.id}`)
+
+        closeDeleteModal()
     }
 
     return (

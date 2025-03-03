@@ -89,6 +89,12 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                     scope === 'system'
                         ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
                         : await mutate(`/services/v2/ApiKeyService2.svc/GetUserAPIKeys?userid=${currentUser?.id}`)
+
+                    scope === 'system'
+                        ? await mutate('/services/v2/VirtualService1.svc/GetScopedKeys?scope=system')
+                        : await mutate(
+                              `/services/v2/VirtualService1.svc/GetScopedKeys?scope=user&id=${currentUser?.id}`
+                          )
                 }
 
                 if (dirtyPrivileges) {
