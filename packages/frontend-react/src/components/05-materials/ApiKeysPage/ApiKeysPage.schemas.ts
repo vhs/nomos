@@ -10,6 +10,10 @@ export const zApiKeySchema = z.object({
     expiry: zDateTime
 })
 
+export const zApiKeyCreateSchema = z.object({
+    notes: zString.min(1)
+})
+
 export const zApiKeysScope = z.union([z.literal('system'), z.literal('user')])
 
 export const zScopedApiKeyTerm = z.record(zApiKeysScope, z.string())

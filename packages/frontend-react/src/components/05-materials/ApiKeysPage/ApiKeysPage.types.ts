@@ -1,4 +1,5 @@
 import type {
+    zApiKeyCreateSchema,
     zApiKeySchema,
     zApiKeysActiveView,
     zApiKeysActiveViewHelp,
@@ -15,6 +16,7 @@ import type { NOMOSSWRResponse } from '@/types/custom'
 import type { BasePrivileges, Keys } from '@/types/records'
 
 export type ApiKeyForm = z.infer<typeof zApiKeySchema>
+export type ApiKeyCreateSchema = z.infer<typeof zApiKeyCreateSchema>
 export type ApiKeySchema = z.infer<typeof zApiKeySchema>
 export type ApiKeysActiveView = z.infer<typeof zApiKeysActiveView>
 export type ApiKeysActiveViewHelp = z.infer<typeof zApiKeysActiveViewHelp>
