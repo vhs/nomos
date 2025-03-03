@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 import useSWR, { type SWRResponse } from 'swr'
 
-import PrincipalUserObject from '@/lib/db/PrincipalUser'
+import PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 import { fetcher } from '@/lib/fetcher'
-import useGetUser from '@/lib/hooks/providers/UserService2/useGetUser'
 
-import type { NOMOSResponse, ReactAction } from '@/types/custom'
-import type { User } from '@/types/records'
+import type { NOMOSResponse } from '@/types/api'
+import type { ReactAction } from '@/types/ui'
+import type { User } from '@/types/validators/records'
+
+import useGetUser from '../UserService2/useGetUser'
 
 interface UserHookData {
     currentUser?: PrincipalUserObject

@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IEmailService2 } from '@/types/providers/IEmailService2'
-import type { EmailTemplate, User } from '@/types/records'
+import type { EmailTemplate, EmailTemplates, User } from '@/types/validators/records'
 
 export default class EmailService2 implements IEmailService2 {
     /**
@@ -104,7 +104,7 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @throws {string}
      *
-     * @returns {EmailTemplate[]}
+     * @returns {EmailTemplates}
      */
     async ListTemplates(
         page: number,
@@ -112,7 +112,7 @@ export default class EmailService2 implements IEmailService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<EmailTemplate[]> {
+    ): BackendResult<EmailTemplates> {
         return await backendCall('/services/v2/EmailService2.svc/ListTemplates', {
             page,
             size,

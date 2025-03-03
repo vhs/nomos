@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IMembershipService2 } from '@/types/providers/IMembershipService2'
-import type { Membership } from '@/types/records'
+import type { Membership, Memberships } from '@/types/validators/records'
 
 export default class MembershipService2 implements IMembershipService2 {
     /**
@@ -64,9 +64,9 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @throws {string}
      *
-     * @returns {Membership[]}
+     * @returns {Memberships}
      */
-    async GetAll(): BackendResult<Membership[]> {
+    async GetAll(): BackendResult<Memberships> {
         return await backendCall('/services/v2/MembershipService2.svc/GetAll')
     }
 
@@ -81,7 +81,7 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @throws {string}
      *
-     * @returns {Membership[]}
+     * @returns {Memberships}
      */
     async ListMemberships(
         page: number,
@@ -89,7 +89,7 @@ export default class MembershipService2 implements IMembershipService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Membership[]> {
+    ): BackendResult<Memberships> {
         return await backendCall('/services/v2/MembershipService2.svc/ListMemberships', {
             page,
             size,

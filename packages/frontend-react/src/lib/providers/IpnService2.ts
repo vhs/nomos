@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IIpnService2 } from '@/types/providers/IIpnService2'
-import type { Ipn } from '@/types/records'
+import type { Ipn, Ipns } from '@/types/validators/records'
 
 export default class IpnService2 implements IIpnService2 {
     /**
@@ -39,9 +39,9 @@ export default class IpnService2 implements IIpnService2 {
      *
      * @throws {string}
      *
-     * @returns {Ipn[]}
+     * @returns {Ipns}
      */
-    async GetAll(): BackendResult<Ipn[]> {
+    async GetAll(): BackendResult<Ipns> {
         return await backendCall('/services/v2/IpnService2.svc/GetAll')
     }
 
@@ -56,7 +56,7 @@ export default class IpnService2 implements IIpnService2 {
      *
      * @throws {string}
      *
-     * @returns {Ipn[]}
+     * @returns {Ipns}
      */
     async ListRecords(
         page: number,
@@ -64,7 +64,7 @@ export default class IpnService2 implements IIpnService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Ipn[]> {
+    ): BackendResult<Ipns> {
         return await backendCall('/services/v2/IpnService2.svc/ListRecords', {
             page,
             size,

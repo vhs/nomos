@@ -6,14 +6,14 @@ export const zCoerceString = z.coerce.string()
 export const zString = z.string()
 export const zNumber = z.number()
 
-export const zDateTimeForm = zString.regex(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/)
+export const zDateTimeFormInput = zString.regex(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/)
 export const zDateTimeString = zString.regex(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/)
 
 export const zDateTime = z.union([
     z.literal(''),
     z.date(),
     zString.datetime(),
-    zDateTimeForm,
+    zDateTimeFormInput,
     zDateTimeString,
     z.number()
 ])

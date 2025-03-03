@@ -1,6 +1,6 @@
 import type { AdminMembershipsForm } from './AdminMemberships.types'
 
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const AdminMembershipFields: FieldDefinitions = [
     { title: 'Title', field: 'title' },

@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IPaymentService2 } from '@/types/providers/IPaymentService2'
-import type { Payment } from '@/types/records'
+import type { Payment, Payments } from '@/types/validators/records'
 
 export default class PaymentService2 implements IPaymentService2 {
     /**
@@ -59,7 +59,7 @@ export default class PaymentService2 implements IPaymentService2 {
      *
      * @throws {string}
      *
-     * @returns {Payment[]}
+     * @returns {Payments}
      */
     async ListPayments(
         page: number,
@@ -67,7 +67,7 @@ export default class PaymentService2 implements IPaymentService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Payment[]> {
+    ): BackendResult<Payments> {
         return await backendCall('/services/v2/PaymentService2.svc/ListPayments', {
             page,
             size,
@@ -89,7 +89,7 @@ export default class PaymentService2 implements IPaymentService2 {
      *
      * @throws {string}
      *
-     * @returns {Payment[]}
+     * @returns {Payments}
      */
     async ListUserPayments(
         userid: number,
@@ -98,7 +98,7 @@ export default class PaymentService2 implements IPaymentService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Payment[]> {
+    ): BackendResult<Payments> {
         return await backendCall('/services/v2/PaymentService2.svc/ListUserPayments', {
             userid,
             page,

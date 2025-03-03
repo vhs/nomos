@@ -5,7 +5,7 @@ import useSWR, { type SWRResponse } from 'swr'
 import MetricService2 from '@/lib/providers/MetricService2'
 import { zMetricServiceGetCreatedDatesResult } from '@/lib/validators/records'
 
-import type { MetricServiceGetCreatedDatesResult } from '@/types/records'
+import type { MetricServiceGetCreatedDatesResult } from '@/types/validators/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetCreatedDates'
 

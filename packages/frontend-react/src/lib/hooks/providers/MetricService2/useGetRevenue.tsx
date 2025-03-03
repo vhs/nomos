@@ -5,7 +5,7 @@ import useSWR, { type SWRResponse } from 'swr'
 import MetricService2 from '@/lib/providers/MetricService2'
 import { zMetricServiceGetRevenueResult } from '@/lib/validators/records'
 
-import type { MetricServiceGroupType, MetricServiceGetRevenueResult } from '@/types/records'
+import type { MetricServiceGroupType, MetricServiceGetRevenueResult } from '@/types/validators/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetRevenue'
 

@@ -2,9 +2,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IApiKeyService2 } from '@/types/providers/IApiKeyService2'
-import type { Key } from '@/types/records'
+import type { Key, Keys } from '@/types/validators/records'
 
 export default class ApiKeyService2 implements IApiKeyService2 {
     /**
@@ -70,9 +70,9 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      *
      * @throws {string}
      *
-     * @returns {Key[]}
+     * @returns {Keys}
      */
-    public async GetSystemApiKeys(): BackendResult<Key[]> {
+    public async GetSystemApiKeys(): BackendResult<Keys> {
         return await backendCall('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
     }
 
@@ -83,9 +83,9 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      *
      * @throws {string}
      *
-     * @returns {Key[]}
+     * @returns {Keys}
      */
-    public async GetUserApiKeys(userid: number): BackendResult<Key[]> {
+    public async GetUserApiKeys(userid: number): BackendResult<Keys> {
         return await backendCall('/services/v2/ApiKeyService2.svc/GetUserApiKeys', { userid })
     }
 
@@ -117,7 +117,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      *
      * @returns {boolean}
      */
-    public async UpdateApiKey(keyid: number, notes: string, expires: string): BackendResult<boolean> {
+    public async UpdateApiKey(keyid: number, notes: string, expires: string | null): BackendResult<boolean> {
         return await backendCall('/services/v2/ApiKeyService2.svc/UpdateApiKey', {
             keyid,
             notes,

@@ -86,7 +86,12 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                 const { notes, expiry } = form.getValues()
 
                 if (isDirty && Object.keys(form.formState.dirtyFields).filter((f) => f !== 'privileges').length > 0) {
-                    await ApiKeyService2.getInstance().UpdateApiKey(apiKey.id, notes, expiry.toString())
+                    await ApiKeyService2.getInstance().UpdateApiKey(
+                        apiKey.id,
+                        notes,
+                        expiry.toString() === '' ? null : expiry.toString()
+                    )
+
                     scope === 'system'
                         ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
                         : await mutate(`/services/v2/ApiKeyService2.svc/GetUserAPIKeys?userid=${currentUser?.id}`)

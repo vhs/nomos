@@ -1,4 +1,4 @@
-import type { Filter } from '@/types/query-filters'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 export const filterMockData = (
     data: Array<Record<string, unknown>>,

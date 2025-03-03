@@ -2,8 +2,8 @@ import useSWR from 'swr'
 
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
-import type { NOMOSSWRResponse } from '@/types/custom'
-import type { Keys } from '@/types/records'
+import type { NOMOSSWRResponse } from '@/types/api'
+import type { Keys } from '@/types/validators/records'
 
 /* eslint-disable */
 const useGetSystemApiKeys = () => {

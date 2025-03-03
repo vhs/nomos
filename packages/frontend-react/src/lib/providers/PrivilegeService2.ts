@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IPrivilegeService2 } from '@/types/providers/IPrivilegeService2'
-import type { Privilege } from '@/types/records'
+import type { Privilege, Privileges } from '@/types/validators/records'
 
 export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
@@ -68,9 +68,9 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @throws {string}
      *
-     * @returns {Privilege[]}
+     * @returns {Privileges}
      */
-    async GetAllPrivileges(): BackendResult<Privilege[]> {
+    async GetAllPrivileges(): BackendResult<Privileges> {
         return await backendCall('/services/v2/PrivilegeService2.svc/GetAllPrivileges')
     }
 
@@ -105,9 +105,9 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @throws {string}
      *
-     * @returns {Privilege[]}
+     * @returns {Privileges}
      */
-    async GetUserPrivileges(userid: number): BackendResult<Privilege[]> {
+    async GetUserPrivileges(userid: number): BackendResult<Privileges> {
         return await backendCall('/services/v2/PrivilegeService2.svc/GetUserPrivileges', { userid })
     }
 
@@ -122,7 +122,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @throws {string}
      *
-     * @returns {Privilege[]}
+     * @returns {Privileges}
      */
     async ListPrivileges(
         page: number,
@@ -130,7 +130,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<Privilege[]> {
+    ): BackendResult<Privileges> {
         return await backendCall('/services/v2/PrivilegeService2.svc/ListPrivileges', {
             page,
             size,

@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { ISystemPreferenceService2 } from '@/types/providers/ISystemPreferenceService2'
-import type { SystemPreference } from '@/types/records'
+import type { SystemPreference, SystemPreferences } from '@/types/validators/records'
 
 export default class SystemPreferenceService2 implements ISystemPreferenceService2 {
     /**
@@ -39,9 +39,9 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      *
      * @throws {string}
      *
-     * @returns {SystemPreference[]}
+     * @returns {SystemPreferences}
      */
-    async GetAllSystemPreferences(): BackendResult<SystemPreference[]> {
+    async GetAllSystemPreferences(): BackendResult<SystemPreferences> {
         return await backendCall('/services/v2/SystemPreferenceService2.svc/GetAllSystemPreferences')
     }
 
@@ -69,7 +69,7 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      *
      * @throws {string}
      *
-     * @returns {SystemPreference[]}
+     * @returns {SystemPreferences}
      */
     async ListSystemPreferences(
         page: number,
@@ -77,7 +77,7 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<SystemPreference[]> {
+    ): BackendResult<SystemPreferences> {
         return await backendCall('/services/v2/SystemPreferenceService2.svc/ListSystemPreferences', {
             page,
             size,

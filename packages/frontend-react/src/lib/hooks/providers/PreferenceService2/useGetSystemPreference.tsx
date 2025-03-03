@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import useSWR, { type SWRResponse } from 'swr'
 
-import type { SystemPreference } from '@/types/records'
+import type { SystemPreference } from '@/types/validators/records'
 
 const baseUrl = '/services/v2/PreferenceService2.svc/GetSystemPreference'
 

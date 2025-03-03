@@ -3,9 +3,9 @@
 
 import { backendCall } from '@/lib/backend'
 
-import type { BackendResult } from '@/types/custom'
+import type { BackendResult } from '@/types/api'
 import type { IMemberCardService2 } from '@/types/providers/IMemberCardService2'
-import type { GenuineCard } from '@/types/records'
+import type { GenuineCard, GenuineCards } from '@/types/validators/records'
 
 export default class MemberCardService2 implements IMemberCardService2 {
     /**
@@ -81,7 +81,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
      *
      * @throws {string}
      *
-     * @returns {GenuineCard[]}
+     * @returns {GenuineCards}
      */
     async ListGenuineCards(
         page: number,
@@ -89,7 +89,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<GenuineCard[]> {
+    ): BackendResult<GenuineCards> {
         return await backendCall('/services/v2/MemberCardService2.svc/ListGenuineCards', {
             page,
             size,
@@ -112,7 +112,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
      * @throws {\Exception}
      * @throws {string}
      *
-     * @returns {GenuineCard[]}
+     * @returns {GenuineCards}
      */
     async ListUserGenuineCards(
         userid: number,
@@ -121,7 +121,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
         columns: string,
         order: string,
         filters: string
-    ): BackendResult<GenuineCard[]> {
+    ): BackendResult<GenuineCards> {
         return await backendCall('/services/v2/MemberCardService2.svc/ListUserGenuineCards', {
             userid,
             page,

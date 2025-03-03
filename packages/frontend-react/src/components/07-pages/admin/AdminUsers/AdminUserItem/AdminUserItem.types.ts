@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 
-import type { User } from '@/types/records'
+import type { User } from '@/types/validators/records'
 
 export interface AdminUserItemProps {
     children?: ReactNode

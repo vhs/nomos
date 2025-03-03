@@ -27,7 +27,7 @@ import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 import { checkValidIcon } from '@/lib/ui/fontawesome'
 import { isString } from '@/lib/validators/guards'
 
-import type { Privilege } from '@/types/records'
+import type { Privilege } from '@/types/validators/records'
 
 import { AdminPrivilegeItemSchema } from '../AdminPrivileges.schema'
 

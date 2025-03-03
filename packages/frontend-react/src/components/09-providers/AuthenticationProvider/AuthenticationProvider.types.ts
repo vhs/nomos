@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import type PrincipalUserObject from '@/lib/db/PrincipalUser'
+import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 
 export interface AuthenticationProviderProps {
     children?: ReactNode

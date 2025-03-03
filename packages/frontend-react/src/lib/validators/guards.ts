@@ -8,6 +8,7 @@ import {
     zCoerceNumber,
     zCoerceString,
     zDateTime,
+    zDateTimeFormInput,
     zDateTimeString,
     zEmailAddress,
     zEmptyOrMinString,
@@ -113,6 +114,7 @@ import type {
     CoerceNumber,
     CoerceString,
     DateTime,
+    DateTimeFormInput,
     DateTimeString,
     EmailAddress,
     EmptyOrMinString,
@@ -156,7 +158,7 @@ import type {
     UserStateTitleInactive,
     UserStateTitlePending,
     Username
-} from '@/types/common'
+} from '@/types/validators/common'
 import type {
     AccessLog,
     AccessToken,
@@ -210,7 +212,7 @@ import type {
     User,
     UserPrincipal,
     WebHook
-} from '@/types/records'
+} from '@/types/validators/records'
 
 export const isAccessLog = (inp: unknown): inp is AccessLog => zAccessLog.safeParse(inp).success
 export const isAccessLogs = (inp: unknown): inp is AccessLog => zAccessLog.array().safeParse(inp).success
@@ -256,6 +258,10 @@ export const isDataRecords = (inp: unknown): inp is DataRecord => zDataRecord.ar
 
 export const isDateTime = (inp: unknown): inp is DateTime => zDateTime.safeParse(inp).success
 export const isDateTimes = (inp: unknown): inp is DateTime => zDateTime.array().safeParse(inp).success
+
+export const isDateTimeFormInput = (inp: unknown): inp is DateTimeFormInput => zDateTimeFormInput.safeParse(inp).success
+export const isDateTimeFormInputs = (inp: unknown): inp is DateTimeFormInput =>
+    zDateTimeFormInput.array().safeParse(inp).success
 
 export const isDateTimeString = (inp: unknown): inp is DateTimeString => zDateTimeString.safeParse(inp).success
 export const isDateTimeStrings = (inp: unknown): inp is DateTimeString => zDateTimeString.array().safeParse(inp).success

@@ -1,7 +1,7 @@
-import PrincipalUserObject from '@/lib/db/PrincipalUser'
+import PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 import { fetcher } from '@/lib/fetcher'
 
-import type { CurrentUser, User } from '@/types/records'
+import type { CurrentUser, User } from '@/types/validators/records'
 
 export const backendCurrentUserUrl = '/services/v2/AuthService2.svc/CurrentUser'
 

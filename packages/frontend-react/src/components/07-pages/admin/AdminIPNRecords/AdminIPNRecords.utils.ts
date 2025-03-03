@@ -1,4 +1,4 @@
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const AdminIPNRecordsFields: FieldDefinitions = [
     { title: 'Created', field: 'created' },

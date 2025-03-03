@@ -3,8 +3,8 @@ import type { ReactNode, FC } from 'react'
 import type { TablePageForm, AllowedPageSizes, TablePageSchemaType } from './TablePage.schema'
 import type { KeyedMutator } from 'swr'
 
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
-import type { DataRecord } from '@/types/records'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
+import type { DataRecord } from '@/types/validators/records'
 
 export type ValidServiceEndpoints =
     | 'ApiKeyService2'

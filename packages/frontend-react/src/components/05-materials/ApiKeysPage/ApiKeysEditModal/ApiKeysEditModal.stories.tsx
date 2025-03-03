@@ -5,7 +5,7 @@ import AuthenticationProvider from '@/components/09-providers/AuthenticationProv
 import { mockPrincipalUserData } from '@/lib/mocking/data'
 // import { mockHandlers } from '@/lib/mocking/handlers'
 
-import type { Key } from '@/types/records'
+import type { Key } from '@/types/validators/records'
 
 import ApiKeysEditModal from './ApiKeysEditModal'
 

@@ -14,8 +14,8 @@ import Card from '@/components/04-composites/Card/Card'
 import { compareStringArray } from '@/lib/utils'
 import { isBooleanRecord } from '@/lib/validators/guards'
 
-import type { BooleanRecord } from '@/types/common'
-import type { Privileges } from '@/types/records'
+import type { BooleanRecord } from '@/types/validators/common'
+import type { Privileges } from '@/types/validators/records'
 
 const PrivilegesSelectorCard: FC<PrivilegesSelectorCardProps> = ({
     customPrivileges,

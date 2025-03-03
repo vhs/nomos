@@ -11,7 +11,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card/Card'
 
-import type { Memberships } from '@/types/records'
+import type { Memberships } from '@/types/validators/records'
 
 const MembershipSelectorCard: FC<MembershipSelectorCardProps> = ({ className, onUpdate, value }) => {
     const { data: memberships } = useSWR<Memberships>('/services/v2/MembershipService2.svc/GetAll')

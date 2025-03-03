@@ -24,7 +24,7 @@ import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
 import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
-import type { SystemPreference } from '@/types/records'
+import type { SystemPreference } from '@/types/validators/records'
 
 import { SystemPreferenceSchema } from './AdminSystemPreferencesEdit.schema'
 import { SystemPreferenceDefaultValues } from './AdminSystemPreferencesEdit.utils'

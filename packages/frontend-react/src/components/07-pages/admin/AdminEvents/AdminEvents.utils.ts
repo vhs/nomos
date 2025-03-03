@@ -1,4 +1,4 @@
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const AdminEventsFields: FieldDefinitions = [
     { title: 'Name', field: 'name' },

@@ -1,6 +1,6 @@
 import { type ActionDispatch, useMemo, useReducer } from 'react'
 
-import type { BooleanRecord } from '@/types/common'
+import type { BooleanRecord } from '@/types/validators/common'
 
 export interface ResetBooleanRecordAction {
     action: 'reset'
