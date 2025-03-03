@@ -6,8 +6,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { mutate } from 'swr'
 
-import type { ApiKeysNewModalProps } from './ApiKeyNewModal.types'
-import type { ApiKeyCreateSchema } from '../ApiKeysPage.types'
+import type { ApiKeysNewModalProps } from './ApiKeysNewModal.types'
+import type { ApiKeysCreateSchema } from '../ApiKeysPage.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
@@ -19,18 +19,18 @@ import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
 import { useApiKeysPageContext } from '../ApiKeysPage.context'
-import { zApiKeyCreateSchema } from '../ApiKeysPage.schemas'
-import { getApiKeyTermByScope } from '../ApiKeysPage.utils'
+import { zApiKeysCreateSchema } from '../ApiKeysPage.schemas'
+import { getApiKeysTermByScope } from '../ApiKeysPage.utils'
 
-const ApiKeyNewModal: FC<ApiKeysNewModalProps> = () => {
+const ApiKeysNewModal: FC<ApiKeysNewModalProps> = () => {
     const router = useRouter()
 
     const { scope } = useApiKeysPageContext()
 
     const { currentUser } = useAuth()
 
-    const form = useForm<ApiKeyCreateSchema>({
-        resolver: zodResolver(zApiKeyCreateSchema),
+    const form = useForm<ApiKeysCreateSchema>({
+        resolver: zodResolver(zApiKeysCreateSchema),
         mode: 'onChange',
         defaultValues: {
             notes: ''
@@ -58,9 +58,9 @@ const ApiKeyNewModal: FC<ApiKeysNewModalProps> = () => {
                     ? ApiKeyService2.getInstance().GenerateSystemApiKey(notes)
                     : ApiKeyService2.getInstance().GenerateUserApiKey(currentUser?.id, notes),
                 {
-                    error: getApiKeyTermByScope('newApiKeyError', scope),
-                    pending: getApiKeyTermByScope('newApiKeyPending', scope),
-                    success: getApiKeyTermByScope('newApiKeySuccess', scope)
+                    error: getApiKeysTermByScope('newApiKeysError', scope),
+                    pending: getApiKeysTermByScope('newApiKeysPending', scope),
+                    success: getApiKeysTermByScope('newApiKeysSuccess', scope)
                 }
             )
             .then(async () => {
@@ -81,7 +81,7 @@ const ApiKeyNewModal: FC<ApiKeysNewModalProps> = () => {
     }, [])
 
     return (
-        <div data-testid='ApiKeyNewModal'>
+        <div data-testid='ApiKeysNewModal'>
             <FormProvider {...form}>
                 <OverlayCard
                     title='Generate API Key'
@@ -110,4 +110,4 @@ const ApiKeyNewModal: FC<ApiKeysNewModalProps> = () => {
     )
 }
 
-export default ApiKeyNewModal
+export default ApiKeysNewModal

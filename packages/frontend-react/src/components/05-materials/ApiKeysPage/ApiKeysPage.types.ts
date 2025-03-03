@@ -1,13 +1,13 @@
 import type {
-    zApiKeyCreateSchema,
-    zApiKeySchema,
+    zApiKeysCreateSchema,
+    zApiKeysSchema,
     zApiKeysActiveView,
     zApiKeysActiveViewHelp,
     zApiKeysActiveViewList,
     zApiKeysActiveViewUsage,
     zApiKeysScope,
-    zParsedApiKeyPath,
-    zScopedApiKeyTerm
+    zParsedApiKeysPath,
+    zScopedApiKeysTerm
 } from './ApiKeysPage.schemas'
 import type { ReactNode } from '@tanstack/react-router'
 import type { z } from 'zod'
@@ -15,16 +15,16 @@ import type { z } from 'zod'
 import type { NOMOSSWRResponse } from '@/types/custom'
 import type { BasePrivileges, Keys } from '@/types/records'
 
-export type ApiKeyForm = z.infer<typeof zApiKeySchema>
-export type ApiKeyCreateSchema = z.infer<typeof zApiKeyCreateSchema>
-export type ApiKeySchema = z.infer<typeof zApiKeySchema>
+export type ApiKeysForm = z.infer<typeof zApiKeysSchema>
+export type ApiKeysCreateSchema = z.infer<typeof zApiKeysCreateSchema>
+export type ApiKeysSchema = z.infer<typeof zApiKeysSchema>
 export type ApiKeysActiveView = z.infer<typeof zApiKeysActiveView>
 export type ApiKeysActiveViewHelp = z.infer<typeof zApiKeysActiveViewHelp>
 export type ApiKeysActiveViewList = z.infer<typeof zApiKeysActiveViewList>
 export type ApiKeysActiveViewUsage = z.infer<typeof zApiKeysActiveViewUsage>
 export type ApiKeysScope = z.infer<typeof zApiKeysScope>
-export type ParsedApiKeyPath = z.infer<typeof zParsedApiKeyPath>
-export type ScopedApiKeyTerm = z.infer<typeof zScopedApiKeyTerm>
+export type ParsedApiKeysPath = z.infer<typeof zParsedApiKeysPath>
+export type ScopedApiKeysTerm = z.infer<typeof zScopedApiKeysTerm>
 
 export interface ApiKeysPageProps {
     children?: ReactNode
@@ -32,7 +32,7 @@ export interface ApiKeysPageProps {
     basePath: string
 }
 
-export type ApiKeysDictionary = Record<string, string | ScopedApiKeyTerm>
+export type ApiKeysDictionary = Record<string, string | ScopedApiKeysTerm>
 
 export interface ApiKeysPageContextValue {
     activeView: ApiKeysActiveView

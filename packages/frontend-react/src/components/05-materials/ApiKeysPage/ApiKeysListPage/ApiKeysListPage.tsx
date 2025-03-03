@@ -9,7 +9,7 @@ import Loading from '@/components/02-molecules/Loading/Loading'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
 import { useApiKeysPageContext } from '../ApiKeysPage.context'
-import { getApiKeyTermByScope } from '../ApiKeysPage.utils'
+import { getApiKeysTermByScope } from '../ApiKeysPage.utils'
 
 import ApiKeysListItem from './ApiKeysListItem/ApiKeysListItem'
 
@@ -27,7 +27,7 @@ const ApiKeysListPage: FC<ApiKeysListPageProps> = () => {
         <div data-testid='ApiKeysListPage'>
             <Row className='spacious'>
                 <Col>
-                    <h4>{getApiKeyTermByScope('manageTableDescription', scope)}</h4>
+                    <h4>{getApiKeysTermByScope('manageTableDescription', scope)}</h4>
                 </Col>
             </Row>
 

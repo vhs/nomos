@@ -7,7 +7,7 @@ export interface ApiKeysCreateNewButtonProps {
     basePath: string
 }
 
-export interface ApiKeyCreateNewButtonLinkOpts {
+export interface ApiKeysCreateNewButtonLinkOpts {
     to: LinkButtonProps['to']
     mask: LinkButtonProps['mask']
     title: ReactNode
