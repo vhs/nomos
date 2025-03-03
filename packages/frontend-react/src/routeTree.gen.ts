@@ -11,11 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestImport } from './routes/test'
 import { Route as UserImport } from './routes/_user'
 import { Route as PublicImport } from './routes/_public'
 import { Route as AdminImport } from './routes/_admin'
+import { Route as TestIndexImport } from './routes/test.index'
 import { Route as UserIndexImport } from './routes/_user/index'
+import { Route as TestSplatImport } from './routes/test.$'
+import { Route as Fafo1HtmlImport } from './routes/fafo1.html'
 import { Route as UserWebhooksImport } from './routes/_user/webhooks'
 import { Route as UserVhsopenImport } from './routes/_user/vhsopen'
 import { Route as UserTransactionsImport } from './routes/_user/transactions'
@@ -28,7 +30,6 @@ import { Route as UserGrantsImport } from './routes/_user/grants'
 import { Route as UserGetinvolvedImport } from './routes/_user/getinvolved'
 import { Route as UserDooraccessImport } from './routes/_user/dooraccess'
 import { Route as UserDashboardImport } from './routes/_user/dashboard'
-import { Route as UserApikeysImport } from './routes/_user/apikeys'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicRecoveryImport } from './routes/_public/recovery'
 import { Route as PublicLoginImport } from './routes/_public/login'
@@ -38,16 +39,14 @@ import { Route as AdminLogsImport } from './routes/_admin/logs'
 import { Route as AdminEventsImport } from './routes/_admin/events'
 import { Route as AdminConfigImport } from './routes/_admin/config'
 import { Route as AdminBackupImport } from './routes/_admin/backup'
+import { Route as UserApikeysIndexImport } from './routes/_user/apikeys.index'
 import { Route as AdminAdminIndexImport } from './routes/_admin/admin.index'
 import { Route as UserUserAccesslogsImport } from './routes/_user/user.accesslogs'
-import { Route as UserApikeysUsageImport } from './routes/_user/apikeys.usage'
-import { Route as UserApikeysHelpImport } from './routes/_user/apikeys.help'
-import { Route as UserApikeysKeyIdImport } from './routes/_user/apikeys.$keyId'
+import { Route as UserApikeysSplatImport } from './routes/_user/apikeys.$'
 import { Route as AdminAdminWebhooksImport } from './routes/_admin/admin.webhooks'
 import { Route as AdminAdminUsersImport } from './routes/_admin/admin.users'
 import { Route as AdminAdminTransactionsImport } from './routes/_admin/admin.transactions'
 import { Route as AdminAdminSystempreferencesImport } from './routes/_admin/admin.systempreferences'
-import { Route as AdminAdminSystemkeysImport } from './routes/_admin/admin.systemkeys'
 import { Route as AdminAdminStriperecordsImport } from './routes/_admin/admin.striperecords'
 import { Route as AdminAdminSiteconfigurationImport } from './routes/_admin/admin.siteconfiguration'
 import { Route as AdminAdminReportsImport } from './routes/_admin/admin.reports'
@@ -67,22 +66,16 @@ import { Route as AdminAdminDatabasebackupImport } from './routes/_admin/admin.d
 import { Route as AdminAdminDashboardImport } from './routes/_admin/admin.dashboard'
 import { Route as AdminAdminApikeysImport } from './routes/_admin/admin.apikeys'
 import { Route as AdminAdminAccesslogsImport } from './routes/_admin/admin.accesslogs'
+import { Route as AdminAdminSystemkeysIndexImport } from './routes/_admin/admin.systemkeys.index'
 import { Route as PublicRecoveryResetTokenImport } from './routes/_public/recovery.reset.$token'
 import { Route as AdminAdminUsersNewImport } from './routes/_admin/admin.users.new'
 import { Route as AdminAdminUsersUserIdImport } from './routes/_admin/admin.users.$userId'
 import { Route as AdminAdminSystempreferencesNewImport } from './routes/_admin/admin.systempreferences.new'
 import { Route as AdminAdminSystempreferencesPreferenceIdImport } from './routes/_admin/admin.systempreferences.$preferenceId'
-import { Route as AdminAdminSystemkeysUsageImport } from './routes/_admin/admin.systemkeys.usage'
-import { Route as AdminAdminSystemkeysHelpImport } from './routes/_admin/admin.systemkeys.help'
+import { Route as AdminAdminSystemkeysKeyIdImport } from './routes/_admin/admin.systemkeys.$keyId'
 import { Route as AdminAdminMembershipsMembershipIdImport } from './routes/_admin/admin.memberships.$membershipId'
 
 // Create/Update Routes
-
-const TestRoute = TestImport.update({
-  id: '/test',
-  path: '/test',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const UserRoute = UserImport.update({
   id: '/_user',
@@ -99,10 +92,28 @@ const AdminRoute = AdminImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const TestIndexRoute = TestIndexImport.update({
+  id: '/test/',
+  path: '/test/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const UserIndexRoute = UserIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => UserRoute,
+} as any)
+
+const TestSplatRoute = TestSplatImport.update({
+  id: '/test/$',
+  path: '/test/$',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Fafo1HtmlRoute = Fafo1HtmlImport.update({
+  id: '/fafo1/html',
+  path: '/fafo1/html',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const UserWebhooksRoute = UserWebhooksImport.update({
@@ -177,12 +188,6 @@ const UserDashboardRoute = UserDashboardImport.update({
   getParentRoute: () => UserRoute,
 } as any)
 
-const UserApikeysRoute = UserApikeysImport.update({
-  id: '/apikeys',
-  path: '/apikeys',
-  getParentRoute: () => UserRoute,
-} as any)
-
 const PublicRegisterRoute = PublicRegisterImport.update({
   id: '/register',
   path: '/register',
@@ -237,6 +242,12 @@ const AdminBackupRoute = AdminBackupImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const UserApikeysIndexRoute = UserApikeysIndexImport.update({
+  id: '/apikeys/',
+  path: '/apikeys/',
+  getParentRoute: () => UserRoute,
+} as any)
+
 const AdminAdminIndexRoute = AdminAdminIndexImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -249,22 +260,10 @@ const UserUserAccesslogsRoute = UserUserAccesslogsImport.update({
   getParentRoute: () => UserRoute,
 } as any)
 
-const UserApikeysUsageRoute = UserApikeysUsageImport.update({
-  id: '/usage',
-  path: '/usage',
-  getParentRoute: () => UserApikeysRoute,
-} as any)
-
-const UserApikeysHelpRoute = UserApikeysHelpImport.update({
-  id: '/help',
-  path: '/help',
-  getParentRoute: () => UserApikeysRoute,
-} as any)
-
-const UserApikeysKeyIdRoute = UserApikeysKeyIdImport.update({
-  id: '/$keyId',
-  path: '/$keyId',
-  getParentRoute: () => UserApikeysRoute,
+const UserApikeysSplatRoute = UserApikeysSplatImport.update({
+  id: '/apikeys/$',
+  path: '/apikeys/$',
+  getParentRoute: () => UserRoute,
 } as any)
 
 const AdminAdminWebhooksRoute = AdminAdminWebhooksImport.update({
@@ -291,12 +290,6 @@ const AdminAdminSystempreferencesRoute =
     path: '/admin/systempreferences',
     getParentRoute: () => AdminRoute,
   } as any)
-
-const AdminAdminSystemkeysRoute = AdminAdminSystemkeysImport.update({
-  id: '/admin/systemkeys',
-  path: '/admin/systemkeys',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 const AdminAdminStriperecordsRoute = AdminAdminStriperecordsImport.update({
   id: '/admin/striperecords',
@@ -413,6 +406,12 @@ const AdminAdminAccesslogsRoute = AdminAdminAccesslogsImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AdminAdminSystemkeysIndexRoute = AdminAdminSystemkeysIndexImport.update({
+  id: '/admin/systemkeys/',
+  path: '/admin/systemkeys/',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const PublicRecoveryResetTokenRoute = PublicRecoveryResetTokenImport.update({
   id: '/reset/$token',
   path: '/reset/$token',
@@ -445,16 +444,10 @@ const AdminAdminSystempreferencesPreferenceIdRoute =
     getParentRoute: () => AdminAdminSystempreferencesRoute,
   } as any)
 
-const AdminAdminSystemkeysUsageRoute = AdminAdminSystemkeysUsageImport.update({
-  id: '/usage',
-  path: '/usage',
-  getParentRoute: () => AdminAdminSystemkeysRoute,
-} as any)
-
-const AdminAdminSystemkeysHelpRoute = AdminAdminSystemkeysHelpImport.update({
-  id: '/help',
-  path: '/help',
-  getParentRoute: () => AdminAdminSystemkeysRoute,
+const AdminAdminSystemkeysKeyIdRoute = AdminAdminSystemkeysKeyIdImport.update({
+  id: '/admin/systemkeys/$keyId',
+  path: '/admin/systemkeys/$keyId',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 const AdminAdminMembershipsMembershipIdRoute =
@@ -487,13 +480,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof UserImport
-      parentRoute: typeof rootRoute
-    }
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestImport
       parentRoute: typeof rootRoute
     }
     '/_admin/backup': {
@@ -558,13 +544,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof PublicRegisterImport
       parentRoute: typeof PublicImport
-    }
-    '/_user/apikeys': {
-      id: '/_user/apikeys'
-      path: '/apikeys'
-      fullPath: '/apikeys'
-      preLoaderRoute: typeof UserApikeysImport
-      parentRoute: typeof UserImport
     }
     '/_user/dashboard': {
       id: '/_user/dashboard'
@@ -650,12 +629,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserWebhooksImport
       parentRoute: typeof UserImport
     }
+    '/fafo1/html': {
+      id: '/fafo1/html'
+      path: '/fafo1/html'
+      fullPath: '/fafo1/html'
+      preLoaderRoute: typeof Fafo1HtmlImport
+      parentRoute: typeof rootRoute
+    }
+    '/test/$': {
+      id: '/test/$'
+      path: '/test/$'
+      fullPath: '/test/$'
+      preLoaderRoute: typeof TestSplatImport
+      parentRoute: typeof rootRoute
+    }
     '/_user/': {
       id: '/_user/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof UserIndexImport
       parentRoute: typeof UserImport
+    }
+    '/test/': {
+      id: '/test/'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestIndexImport
+      parentRoute: typeof rootRoute
     }
     '/_admin/admin/accesslogs': {
       id: '/_admin/admin/accesslogs'
@@ -790,13 +790,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminStriperecordsImport
       parentRoute: typeof AdminImport
     }
-    '/_admin/admin/systemkeys': {
-      id: '/_admin/admin/systemkeys'
-      path: '/admin/systemkeys'
-      fullPath: '/admin/systemkeys'
-      preLoaderRoute: typeof AdminAdminSystemkeysImport
-      parentRoute: typeof AdminImport
-    }
     '/_admin/admin/systempreferences': {
       id: '/_admin/admin/systempreferences'
       path: '/admin/systempreferences'
@@ -825,26 +818,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminWebhooksImport
       parentRoute: typeof AdminImport
     }
-    '/_user/apikeys/$keyId': {
-      id: '/_user/apikeys/$keyId'
-      path: '/$keyId'
-      fullPath: '/apikeys/$keyId'
-      preLoaderRoute: typeof UserApikeysKeyIdImport
-      parentRoute: typeof UserApikeysImport
-    }
-    '/_user/apikeys/help': {
-      id: '/_user/apikeys/help'
-      path: '/help'
-      fullPath: '/apikeys/help'
-      preLoaderRoute: typeof UserApikeysHelpImport
-      parentRoute: typeof UserApikeysImport
-    }
-    '/_user/apikeys/usage': {
-      id: '/_user/apikeys/usage'
-      path: '/usage'
-      fullPath: '/apikeys/usage'
-      preLoaderRoute: typeof UserApikeysUsageImport
-      parentRoute: typeof UserApikeysImport
+    '/_user/apikeys/$': {
+      id: '/_user/apikeys/$'
+      path: '/apikeys/$'
+      fullPath: '/apikeys/$'
+      preLoaderRoute: typeof UserApikeysSplatImport
+      parentRoute: typeof UserImport
     }
     '/_user/user/accesslogs': {
       id: '/_user/user/accesslogs'
@@ -860,6 +839,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexImport
       parentRoute: typeof AdminImport
     }
+    '/_user/apikeys/': {
+      id: '/_user/apikeys/'
+      path: '/apikeys'
+      fullPath: '/apikeys'
+      preLoaderRoute: typeof UserApikeysIndexImport
+      parentRoute: typeof UserImport
+    }
     '/_admin/admin/memberships/$membershipId': {
       id: '/_admin/admin/memberships/$membershipId'
       path: '/$membershipId'
@@ -867,19 +853,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminMembershipsMembershipIdImport
       parentRoute: typeof AdminAdminMembershipsImport
     }
-    '/_admin/admin/systemkeys/help': {
-      id: '/_admin/admin/systemkeys/help'
-      path: '/help'
-      fullPath: '/admin/systemkeys/help'
-      preLoaderRoute: typeof AdminAdminSystemkeysHelpImport
-      parentRoute: typeof AdminAdminSystemkeysImport
-    }
-    '/_admin/admin/systemkeys/usage': {
-      id: '/_admin/admin/systemkeys/usage'
-      path: '/usage'
-      fullPath: '/admin/systemkeys/usage'
-      preLoaderRoute: typeof AdminAdminSystemkeysUsageImport
-      parentRoute: typeof AdminAdminSystemkeysImport
+    '/_admin/admin/systemkeys/$keyId': {
+      id: '/_admin/admin/systemkeys/$keyId'
+      path: '/admin/systemkeys/$keyId'
+      fullPath: '/admin/systemkeys/$keyId'
+      preLoaderRoute: typeof AdminAdminSystemkeysKeyIdImport
+      parentRoute: typeof AdminImport
     }
     '/_admin/admin/systempreferences/$preferenceId': {
       id: '/_admin/admin/systempreferences/$preferenceId'
@@ -916,6 +895,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRecoveryResetTokenImport
       parentRoute: typeof PublicRecoveryImport
     }
+    '/_admin/admin/systemkeys/': {
+      id: '/_admin/admin/systemkeys/'
+      path: '/admin/systemkeys'
+      fullPath: '/admin/systemkeys'
+      preLoaderRoute: typeof AdminAdminSystemkeysIndexImport
+      parentRoute: typeof AdminImport
+    }
   }
 }
 
@@ -934,19 +920,6 @@ const AdminAdminMembershipsRouteWithChildren =
   AdminAdminMembershipsRoute._addFileChildren(
     AdminAdminMembershipsRouteChildren,
   )
-
-interface AdminAdminSystemkeysRouteChildren {
-  AdminAdminSystemkeysHelpRoute: typeof AdminAdminSystemkeysHelpRoute
-  AdminAdminSystemkeysUsageRoute: typeof AdminAdminSystemkeysUsageRoute
-}
-
-const AdminAdminSystemkeysRouteChildren: AdminAdminSystemkeysRouteChildren = {
-  AdminAdminSystemkeysHelpRoute: AdminAdminSystemkeysHelpRoute,
-  AdminAdminSystemkeysUsageRoute: AdminAdminSystemkeysUsageRoute,
-}
-
-const AdminAdminSystemkeysRouteWithChildren =
-  AdminAdminSystemkeysRoute._addFileChildren(AdminAdminSystemkeysRouteChildren)
 
 interface AdminAdminSystempreferencesRouteChildren {
   AdminAdminSystempreferencesPreferenceIdRoute: typeof AdminAdminSystempreferencesPreferenceIdRoute
@@ -1004,12 +977,13 @@ interface AdminRouteChildren {
   AdminAdminReportsRoute: typeof AdminAdminReportsRoute
   AdminAdminSiteconfigurationRoute: typeof AdminAdminSiteconfigurationRoute
   AdminAdminStriperecordsRoute: typeof AdminAdminStriperecordsRoute
-  AdminAdminSystemkeysRoute: typeof AdminAdminSystemkeysRouteWithChildren
   AdminAdminSystempreferencesRoute: typeof AdminAdminSystempreferencesRouteWithChildren
   AdminAdminTransactionsRoute: typeof AdminAdminTransactionsRoute
   AdminAdminUsersRoute: typeof AdminAdminUsersRouteWithChildren
   AdminAdminWebhooksRoute: typeof AdminAdminWebhooksRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
+  AdminAdminSystemkeysKeyIdRoute: typeof AdminAdminSystemkeysKeyIdRoute
+  AdminAdminSystemkeysIndexRoute: typeof AdminAdminSystemkeysIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -1037,13 +1011,14 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminReportsRoute: AdminAdminReportsRoute,
   AdminAdminSiteconfigurationRoute: AdminAdminSiteconfigurationRoute,
   AdminAdminStriperecordsRoute: AdminAdminStriperecordsRoute,
-  AdminAdminSystemkeysRoute: AdminAdminSystemkeysRouteWithChildren,
   AdminAdminSystempreferencesRoute:
     AdminAdminSystempreferencesRouteWithChildren,
   AdminAdminTransactionsRoute: AdminAdminTransactionsRoute,
   AdminAdminUsersRoute: AdminAdminUsersRouteWithChildren,
   AdminAdminWebhooksRoute: AdminAdminWebhooksRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
+  AdminAdminSystemkeysKeyIdRoute: AdminAdminSystemkeysKeyIdRoute,
+  AdminAdminSystemkeysIndexRoute: AdminAdminSystemkeysIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -1077,24 +1052,7 @@ const PublicRouteChildren: PublicRouteChildren = {
 const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
-interface UserApikeysRouteChildren {
-  UserApikeysKeyIdRoute: typeof UserApikeysKeyIdRoute
-  UserApikeysHelpRoute: typeof UserApikeysHelpRoute
-  UserApikeysUsageRoute: typeof UserApikeysUsageRoute
-}
-
-const UserApikeysRouteChildren: UserApikeysRouteChildren = {
-  UserApikeysKeyIdRoute: UserApikeysKeyIdRoute,
-  UserApikeysHelpRoute: UserApikeysHelpRoute,
-  UserApikeysUsageRoute: UserApikeysUsageRoute,
-}
-
-const UserApikeysRouteWithChildren = UserApikeysRoute._addFileChildren(
-  UserApikeysRouteChildren,
-)
-
 interface UserRouteChildren {
-  UserApikeysRoute: typeof UserApikeysRouteWithChildren
   UserDashboardRoute: typeof UserDashboardRoute
   UserDooraccessRoute: typeof UserDooraccessRoute
   UserGetinvolvedRoute: typeof UserGetinvolvedRoute
@@ -1108,11 +1066,12 @@ interface UserRouteChildren {
   UserVhsopenRoute: typeof UserVhsopenRoute
   UserWebhooksRoute: typeof UserWebhooksRoute
   UserIndexRoute: typeof UserIndexRoute
+  UserApikeysSplatRoute: typeof UserApikeysSplatRoute
   UserUserAccesslogsRoute: typeof UserUserAccesslogsRoute
+  UserApikeysIndexRoute: typeof UserApikeysIndexRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
-  UserApikeysRoute: UserApikeysRouteWithChildren,
   UserDashboardRoute: UserDashboardRoute,
   UserDooraccessRoute: UserDooraccessRoute,
   UserGetinvolvedRoute: UserGetinvolvedRoute,
@@ -1126,14 +1085,15 @@ const UserRouteChildren: UserRouteChildren = {
   UserVhsopenRoute: UserVhsopenRoute,
   UserWebhooksRoute: UserWebhooksRoute,
   UserIndexRoute: UserIndexRoute,
+  UserApikeysSplatRoute: UserApikeysSplatRoute,
   UserUserAccesslogsRoute: UserUserAccesslogsRoute,
+  UserApikeysIndexRoute: UserApikeysIndexRoute,
 }
 
 const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof UserRouteWithChildren
-  '/test': typeof TestRoute
   '/backup': typeof AdminBackupRoute
   '/config': typeof AdminConfigRoute
   '/events': typeof AdminEventsRoute
@@ -1143,7 +1103,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
-  '/apikeys': typeof UserApikeysRouteWithChildren
   '/dashboard': typeof UserDashboardRoute
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
@@ -1156,7 +1115,10 @@ export interface FileRoutesByFullPath {
   '/transactions': typeof UserTransactionsRoute
   '/vhsopen': typeof UserVhsopenRoute
   '/webhooks': typeof UserWebhooksRoute
+  '/fafo1/html': typeof Fafo1HtmlRoute
+  '/test/$': typeof TestSplatRoute
   '/': typeof UserIndexRoute
+  '/test': typeof TestIndexRoute
   '/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/admin/apikeys': typeof AdminAdminApikeysRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1176,29 +1138,26 @@ export interface FileRoutesByFullPath {
   '/admin/reports': typeof AdminAdminReportsRoute
   '/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/admin/striperecords': typeof AdminAdminStriperecordsRoute
-  '/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
   '/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/admin/transactions': typeof AdminAdminTransactionsRoute
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
-  '/apikeys/$keyId': typeof UserApikeysKeyIdRoute
-  '/apikeys/help': typeof UserApikeysHelpRoute
-  '/apikeys/usage': typeof UserApikeysUsageRoute
+  '/apikeys/$': typeof UserApikeysSplatRoute
   '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
+  '/apikeys': typeof UserApikeysIndexRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
-  '/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/admin/users/new': typeof AdminAdminUsersNewRoute
   '/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
+  '/admin/systemkeys': typeof AdminAdminSystemkeysIndexRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof PublicRouteWithChildren
-  '/test': typeof TestRoute
   '/backup': typeof AdminBackupRoute
   '/config': typeof AdminConfigRoute
   '/events': typeof AdminEventsRoute
@@ -1208,7 +1167,6 @@ export interface FileRoutesByTo {
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
-  '/apikeys': typeof UserApikeysRouteWithChildren
   '/dashboard': typeof UserDashboardRoute
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
@@ -1221,7 +1179,10 @@ export interface FileRoutesByTo {
   '/transactions': typeof UserTransactionsRoute
   '/vhsopen': typeof UserVhsopenRoute
   '/webhooks': typeof UserWebhooksRoute
+  '/fafo1/html': typeof Fafo1HtmlRoute
+  '/test/$': typeof TestSplatRoute
   '/': typeof UserIndexRoute
+  '/test': typeof TestIndexRoute
   '/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/admin/apikeys': typeof AdminAdminApikeysRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1241,24 +1202,22 @@ export interface FileRoutesByTo {
   '/admin/reports': typeof AdminAdminReportsRoute
   '/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/admin/striperecords': typeof AdminAdminStriperecordsRoute
-  '/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
   '/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/admin/transactions': typeof AdminAdminTransactionsRoute
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
-  '/apikeys/$keyId': typeof UserApikeysKeyIdRoute
-  '/apikeys/help': typeof UserApikeysHelpRoute
-  '/apikeys/usage': typeof UserApikeysUsageRoute
+  '/apikeys/$': typeof UserApikeysSplatRoute
   '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
+  '/apikeys': typeof UserApikeysIndexRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
-  '/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/admin/users/new': typeof AdminAdminUsersNewRoute
   '/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
+  '/admin/systemkeys': typeof AdminAdminSystemkeysIndexRoute
 }
 
 export interface FileRoutesById {
@@ -1266,7 +1225,6 @@ export interface FileRoutesById {
   '/_admin': typeof AdminRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_user': typeof UserRouteWithChildren
-  '/test': typeof TestRoute
   '/_admin/backup': typeof AdminBackupRoute
   '/_admin/config': typeof AdminConfigRoute
   '/_admin/events': typeof AdminEventsRoute
@@ -1276,7 +1234,6 @@ export interface FileRoutesById {
   '/_public/login': typeof PublicLoginRoute
   '/_public/recovery': typeof PublicRecoveryRouteWithChildren
   '/_public/register': typeof PublicRegisterRoute
-  '/_user/apikeys': typeof UserApikeysRouteWithChildren
   '/_user/dashboard': typeof UserDashboardRoute
   '/_user/dooraccess': typeof UserDooraccessRoute
   '/_user/getinvolved': typeof UserGetinvolvedRoute
@@ -1289,7 +1246,10 @@ export interface FileRoutesById {
   '/_user/transactions': typeof UserTransactionsRoute
   '/_user/vhsopen': typeof UserVhsopenRoute
   '/_user/webhooks': typeof UserWebhooksRoute
+  '/fafo1/html': typeof Fafo1HtmlRoute
+  '/test/$': typeof TestSplatRoute
   '/_user/': typeof UserIndexRoute
+  '/test/': typeof TestIndexRoute
   '/_admin/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/_admin/admin/apikeys': typeof AdminAdminApikeysRoute
   '/_admin/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1309,31 +1269,28 @@ export interface FileRoutesById {
   '/_admin/admin/reports': typeof AdminAdminReportsRoute
   '/_admin/admin/siteconfiguration': typeof AdminAdminSiteconfigurationRoute
   '/_admin/admin/striperecords': typeof AdminAdminStriperecordsRoute
-  '/_admin/admin/systemkeys': typeof AdminAdminSystemkeysRouteWithChildren
   '/_admin/admin/systempreferences': typeof AdminAdminSystempreferencesRouteWithChildren
   '/_admin/admin/transactions': typeof AdminAdminTransactionsRoute
   '/_admin/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/_admin/admin/webhooks': typeof AdminAdminWebhooksRoute
-  '/_user/apikeys/$keyId': typeof UserApikeysKeyIdRoute
-  '/_user/apikeys/help': typeof UserApikeysHelpRoute
-  '/_user/apikeys/usage': typeof UserApikeysUsageRoute
+  '/_user/apikeys/$': typeof UserApikeysSplatRoute
   '/_user/user/accesslogs': typeof UserUserAccesslogsRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
+  '/_user/apikeys/': typeof UserApikeysIndexRoute
   '/_admin/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
-  '/_admin/admin/systemkeys/help': typeof AdminAdminSystemkeysHelpRoute
-  '/_admin/admin/systemkeys/usage': typeof AdminAdminSystemkeysUsageRoute
+  '/_admin/admin/systemkeys/$keyId': typeof AdminAdminSystemkeysKeyIdRoute
   '/_admin/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/_admin/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
   '/_admin/admin/users/$userId': typeof AdminAdminUsersUserIdRoute
   '/_admin/admin/users/new': typeof AdminAdminUsersNewRoute
   '/_public/recovery/reset/$token': typeof PublicRecoveryResetTokenRoute
+  '/_admin/admin/systemkeys/': typeof AdminAdminSystemkeysIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/test'
     | '/backup'
     | '/config'
     | '/events'
@@ -1343,7 +1300,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery'
     | '/register'
-    | '/apikeys'
     | '/dashboard'
     | '/dooraccess'
     | '/getinvolved'
@@ -1356,7 +1312,10 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/vhsopen'
     | '/webhooks'
+    | '/fafo1/html'
+    | '/test/$'
     | '/'
+    | '/test'
     | '/admin/accesslogs'
     | '/admin/apikeys'
     | '/admin/dashboard'
@@ -1376,28 +1335,25 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/siteconfiguration'
     | '/admin/striperecords'
-    | '/admin/systemkeys'
     | '/admin/systempreferences'
     | '/admin/transactions'
     | '/admin/users'
     | '/admin/webhooks'
-    | '/apikeys/$keyId'
-    | '/apikeys/help'
-    | '/apikeys/usage'
+    | '/apikeys/$'
     | '/user/accesslogs'
     | '/admin'
+    | '/apikeys'
     | '/admin/memberships/$membershipId'
-    | '/admin/systemkeys/help'
-    | '/admin/systemkeys/usage'
+    | '/admin/systemkeys/$keyId'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
     | '/admin/users/$userId'
     | '/admin/users/new'
     | '/recovery/reset/$token'
+    | '/admin/systemkeys'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
-    | '/test'
     | '/backup'
     | '/config'
     | '/events'
@@ -1407,7 +1363,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery'
     | '/register'
-    | '/apikeys'
     | '/dashboard'
     | '/dooraccess'
     | '/getinvolved'
@@ -1420,7 +1375,10 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/vhsopen'
     | '/webhooks'
+    | '/fafo1/html'
+    | '/test/$'
     | '/'
+    | '/test'
     | '/admin/accesslogs'
     | '/admin/apikeys'
     | '/admin/dashboard'
@@ -1440,30 +1398,27 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/siteconfiguration'
     | '/admin/striperecords'
-    | '/admin/systemkeys'
     | '/admin/systempreferences'
     | '/admin/transactions'
     | '/admin/users'
     | '/admin/webhooks'
-    | '/apikeys/$keyId'
-    | '/apikeys/help'
-    | '/apikeys/usage'
+    | '/apikeys/$'
     | '/user/accesslogs'
     | '/admin'
+    | '/apikeys'
     | '/admin/memberships/$membershipId'
-    | '/admin/systemkeys/help'
-    | '/admin/systemkeys/usage'
+    | '/admin/systemkeys/$keyId'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
     | '/admin/users/$userId'
     | '/admin/users/new'
     | '/recovery/reset/$token'
+    | '/admin/systemkeys'
   id:
     | '__root__'
     | '/_admin'
     | '/_public'
     | '/_user'
-    | '/test'
     | '/_admin/backup'
     | '/_admin/config'
     | '/_admin/events'
@@ -1473,7 +1428,6 @@ export interface FileRouteTypes {
     | '/_public/login'
     | '/_public/recovery'
     | '/_public/register'
-    | '/_user/apikeys'
     | '/_user/dashboard'
     | '/_user/dooraccess'
     | '/_user/getinvolved'
@@ -1486,7 +1440,10 @@ export interface FileRouteTypes {
     | '/_user/transactions'
     | '/_user/vhsopen'
     | '/_user/webhooks'
+    | '/fafo1/html'
+    | '/test/$'
     | '/_user/'
+    | '/test/'
     | '/_admin/admin/accesslogs'
     | '/_admin/admin/apikeys'
     | '/_admin/admin/dashboard'
@@ -1506,24 +1463,22 @@ export interface FileRouteTypes {
     | '/_admin/admin/reports'
     | '/_admin/admin/siteconfiguration'
     | '/_admin/admin/striperecords'
-    | '/_admin/admin/systemkeys'
     | '/_admin/admin/systempreferences'
     | '/_admin/admin/transactions'
     | '/_admin/admin/users'
     | '/_admin/admin/webhooks'
-    | '/_user/apikeys/$keyId'
-    | '/_user/apikeys/help'
-    | '/_user/apikeys/usage'
+    | '/_user/apikeys/$'
     | '/_user/user/accesslogs'
     | '/_admin/admin/'
+    | '/_user/apikeys/'
     | '/_admin/admin/memberships/$membershipId'
-    | '/_admin/admin/systemkeys/help'
-    | '/_admin/admin/systemkeys/usage'
+    | '/_admin/admin/systemkeys/$keyId'
     | '/_admin/admin/systempreferences/$preferenceId'
     | '/_admin/admin/systempreferences/new'
     | '/_admin/admin/users/$userId'
     | '/_admin/admin/users/new'
     | '/_public/recovery/reset/$token'
+    | '/_admin/admin/systemkeys/'
   fileRoutesById: FileRoutesById
 }
 
@@ -1531,14 +1486,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
-  TestRoute: typeof TestRoute
+  Fafo1HtmlRoute: typeof Fafo1HtmlRoute
+  TestSplatRoute: typeof TestSplatRoute
+  TestIndexRoute: typeof TestIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   UserRoute: UserRouteWithChildren,
-  TestRoute: TestRoute,
+  Fafo1HtmlRoute: Fafo1HtmlRoute,
+  TestSplatRoute: TestSplatRoute,
+  TestIndexRoute: TestIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -1554,7 +1513,9 @@ export const routeTree = rootRoute
         "/_admin",
         "/_public",
         "/_user",
-        "/test"
+        "/fafo1/html",
+        "/test/$",
+        "/test/"
       ]
     },
     "/_admin": {
@@ -1584,12 +1545,13 @@ export const routeTree = rootRoute
         "/_admin/admin/reports",
         "/_admin/admin/siteconfiguration",
         "/_admin/admin/striperecords",
-        "/_admin/admin/systemkeys",
         "/_admin/admin/systempreferences",
         "/_admin/admin/transactions",
         "/_admin/admin/users",
         "/_admin/admin/webhooks",
-        "/_admin/admin/"
+        "/_admin/admin/",
+        "/_admin/admin/systemkeys/$keyId",
+        "/_admin/admin/systemkeys/"
       ]
     },
     "/_public": {
@@ -1604,7 +1566,6 @@ export const routeTree = rootRoute
     "/_user": {
       "filePath": "_user.tsx",
       "children": [
-        "/_user/apikeys",
         "/_user/dashboard",
         "/_user/dooraccess",
         "/_user/getinvolved",
@@ -1618,11 +1579,10 @@ export const routeTree = rootRoute
         "/_user/vhsopen",
         "/_user/webhooks",
         "/_user/",
-        "/_user/user/accesslogs"
+        "/_user/apikeys/$",
+        "/_user/user/accesslogs",
+        "/_user/apikeys/"
       ]
-    },
-    "/test": {
-      "filePath": "test.tsx"
     },
     "/_admin/backup": {
       "filePath": "_admin/backup.tsx",
@@ -1662,15 +1622,6 @@ export const routeTree = rootRoute
     "/_public/register": {
       "filePath": "_public/register.tsx",
       "parent": "/_public"
-    },
-    "/_user/apikeys": {
-      "filePath": "_user/apikeys.tsx",
-      "parent": "/_user",
-      "children": [
-        "/_user/apikeys/$keyId",
-        "/_user/apikeys/help",
-        "/_user/apikeys/usage"
-      ]
     },
     "/_user/dashboard": {
       "filePath": "_user/dashboard.tsx",
@@ -1720,9 +1671,18 @@ export const routeTree = rootRoute
       "filePath": "_user/webhooks.tsx",
       "parent": "/_user"
     },
+    "/fafo1/html": {
+      "filePath": "fafo1.html.tsx"
+    },
+    "/test/$": {
+      "filePath": "test.$.tsx"
+    },
     "/_user/": {
       "filePath": "_user/index.tsx",
       "parent": "/_user"
+    },
+    "/test/": {
+      "filePath": "test.index.tsx"
     },
     "/_admin/admin/accesslogs": {
       "filePath": "_admin/admin.accesslogs.tsx",
@@ -1803,14 +1763,6 @@ export const routeTree = rootRoute
       "filePath": "_admin/admin.striperecords.tsx",
       "parent": "/_admin"
     },
-    "/_admin/admin/systemkeys": {
-      "filePath": "_admin/admin.systemkeys.tsx",
-      "parent": "/_admin",
-      "children": [
-        "/_admin/admin/systemkeys/help",
-        "/_admin/admin/systemkeys/usage"
-      ]
-    },
     "/_admin/admin/systempreferences": {
       "filePath": "_admin/admin.systempreferences.tsx",
       "parent": "/_admin",
@@ -1835,17 +1787,9 @@ export const routeTree = rootRoute
       "filePath": "_admin/admin.webhooks.tsx",
       "parent": "/_admin"
     },
-    "/_user/apikeys/$keyId": {
-      "filePath": "_user/apikeys.$keyId.tsx",
-      "parent": "/_user/apikeys"
-    },
-    "/_user/apikeys/help": {
-      "filePath": "_user/apikeys.help.tsx",
-      "parent": "/_user/apikeys"
-    },
-    "/_user/apikeys/usage": {
-      "filePath": "_user/apikeys.usage.tsx",
-      "parent": "/_user/apikeys"
+    "/_user/apikeys/$": {
+      "filePath": "_user/apikeys.$.tsx",
+      "parent": "/_user"
     },
     "/_user/user/accesslogs": {
       "filePath": "_user/user.accesslogs.tsx",
@@ -1855,17 +1799,17 @@ export const routeTree = rootRoute
       "filePath": "_admin/admin.index.tsx",
       "parent": "/_admin"
     },
+    "/_user/apikeys/": {
+      "filePath": "_user/apikeys.index.tsx",
+      "parent": "/_user"
+    },
     "/_admin/admin/memberships/$membershipId": {
       "filePath": "_admin/admin.memberships.$membershipId.tsx",
       "parent": "/_admin/admin/memberships"
     },
-    "/_admin/admin/systemkeys/help": {
-      "filePath": "_admin/admin.systemkeys.help.tsx",
-      "parent": "/_admin/admin/systemkeys"
-    },
-    "/_admin/admin/systemkeys/usage": {
-      "filePath": "_admin/admin.systemkeys.usage.tsx",
-      "parent": "/_admin/admin/systemkeys"
+    "/_admin/admin/systemkeys/$keyId": {
+      "filePath": "_admin/admin.systemkeys.$keyId.tsx",
+      "parent": "/_admin"
     },
     "/_admin/admin/systempreferences/$preferenceId": {
       "filePath": "_admin/admin.systempreferences.$preferenceId.tsx",
@@ -1886,6 +1830,10 @@ export const routeTree = rootRoute
     "/_public/recovery/reset/$token": {
       "filePath": "_public/recovery.reset.$token.tsx",
       "parent": "/_public/recovery"
+    },
+    "/_admin/admin/systemkeys/": {
+      "filePath": "_admin/admin.systemkeys.index.tsx",
+      "parent": "/_admin"
     }
   }
 }
