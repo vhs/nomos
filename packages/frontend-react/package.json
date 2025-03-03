@@ -121,12 +121,20 @@
         "build": {
             "command": "vite build",
             "dependencies": [
+                "clean:dist:assets",
                 "compile",
                 "generate:fontawesome"
             ]
         },
         "build:storybook": {
             "command": "storybook build"
+        },
+        "clean:dist:assets": {
+            "command": "tools/clean-dist-assets.sh",
+            "dependencies": [
+                "bower:install",
+                "compile"
+            ]
         },
         "compile": {
             "command": "tsc",
