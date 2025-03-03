@@ -17,7 +17,7 @@ import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
 import { useApiKeysPageContext } from '../../ApiKeysPage.context'
-import { getApiKeyTermByScope } from '../../ApiKeysPage.utils'
+import { getApiKeysTermByScope } from '../../ApiKeysPage.utils'
 
 import styles from './ApiKeysListItem.module.css'
 
@@ -44,9 +44,9 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
 
     const deleteAPIKey = async (): Promise<void> => {
         await toast.promise(ApiKeyService2.getInstance().DeleteApiKey(apiKey.id), {
-            error: getApiKeyTermByScope('deleteApiKeyError', scope),
-            pending: getApiKeyTermByScope('deleteApiKeyPending', scope),
-            success: getApiKeyTermByScope('deleteApiKeySuccess', scope)
+            error: getApiKeysTermByScope('deleteApiKeysError', scope),
+            pending: getApiKeysTermByScope('deleteApiKeysPending', scope),
+            success: getApiKeysTermByScope('deleteApiKeysSuccess', scope)
         })
 
         scope === 'system'
