@@ -46,7 +46,7 @@ class MySqlConverter implements ITypeConverter {
     }
 
     public function convertDateTime(TypeDateTime $type, $value = null) {
-        if (is_null($value)) {
+        if (is_null($value) || empty($value)) {
             if (!$type->nullable) {
                 return $type->default;
             } else {
