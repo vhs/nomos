@@ -16,6 +16,8 @@ import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 
+import type { ValidRoutePath } from '@/types/routing'
+
 import { useApiKeysPageContext } from '../../ApiKeysPage.context'
 import { getApiKeysTermByScope } from '../../ApiKeysPage.utils'
 
@@ -37,7 +39,7 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
     }
 
     const openEditModal = (): void => {
-        const to = `${basePath}/$keyId`
+        const to = `${basePath}/$keyId` as ValidRoutePath
 
         void router.navigate({ to, params: { keyId: apiKey.id.toString() } })
     }
