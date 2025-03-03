@@ -27,7 +27,7 @@ import MembershipService2 from '@/lib/providers/MembershipService2'
 import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
 import { zMembershipPeriod } from '@/lib/validators/records'
 
-import type { Membership } from '@/types/records'
+import type { Membership } from '@/types/validators/records'
 
 import { AdminMembershipsSchema } from '../AdminMemberships.schema'
 import { AdminMembershipsDefaultValues } from '../AdminMemberships.utils'

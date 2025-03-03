@@ -24,7 +24,7 @@ import WebHookService2 from '@/lib/providers/WebHookService2'
 import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
 import { zHTTPMethod } from '@/lib/validators/common'
 
-import type { BasePrivileges } from '@/types/records'
+import type { BasePrivileges } from '@/types/validators/records'
 
 import { CreateWebHookFormSchema } from './CreateWebHookForm.schema'
 import { CreateWebHookDefaultValues } from './CreateWebHookForm.utils'

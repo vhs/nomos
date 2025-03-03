@@ -1,4 +1,4 @@
-import type { WebHook } from '@/types/records'
+import type { WebHook } from '@/types/validators/records'
 
 export interface WebHooksComponentProps {
     data: WebHook

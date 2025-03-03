@@ -9,7 +9,7 @@ import Row from '@/components/01-atoms/Row/Row'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
 import Card from '@/components/04-composites/Card/Card'
 
-import type UserObject from '@/lib/db/User'
+import type UserObject from '@/lib/db/models/User'
 
 const PrivilegesList: FC<PrivilegesListProps> = ({ className, privileges }) => {
     if (!Array.isArray(privileges) || privileges.length === 0) return <>No privileges found</>

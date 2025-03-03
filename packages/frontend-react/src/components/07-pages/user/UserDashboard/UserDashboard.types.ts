@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 
-import type { LineChartProps, RevenueGoalChartProps } from '@/types/custom'
+import type { LineChartProps, RevenueGoalChartProps } from '@/types/charts'
 import type {
     NewMembersResult,
     TotalMembersResult,
     MetricServiceGetRevenueResult,
     MetricServiceGetMembersResult,
     MetricServiceGetCreatedDatesResult
-} from '@/types/records'
+} from '@/types/validators/records'
 
 export interface UserDashboardProps {
     children?: ReactNode

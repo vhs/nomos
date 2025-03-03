@@ -20,7 +20,7 @@ import Loading from '@/components/02-molecules/Loading/Loading'
 
 import { convertUserStatus } from '@/lib/nomos'
 
-import type { UserActiveState } from '@/types/common'
+import type { UserActiveState } from '@/types/validators/common'
 
 const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
     const router = useRouter()

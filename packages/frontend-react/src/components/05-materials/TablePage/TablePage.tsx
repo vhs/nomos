@@ -31,8 +31,8 @@ import {
     convertStringArrayToBooleanRecord
 } from '@/lib/utils'
 
-import type { Filter, Filters } from '@/types/query-filters'
-import type { DataRecord } from '@/types/records'
+import type { Filter, Filters } from '@/lib/db/utils/query-filters'
+import type { DataRecord } from '@/types/validators/records'
 
 import { TablePageContext } from './TablePage.context'
 import { TablePageSchema, isTablePageSchemaType, type AllowedPageSizes } from './TablePage.schema'

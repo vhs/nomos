@@ -1,4 +1,4 @@
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const UserTransactionFields: FieldDefinitions = [
     { title: 'Date', field: 'date' },

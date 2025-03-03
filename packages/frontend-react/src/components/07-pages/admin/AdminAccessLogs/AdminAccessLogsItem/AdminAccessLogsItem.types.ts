@@ -1,4 +1,4 @@
-import type { AccessLog } from '@/types/records'
+import type { AccessLog } from '@/types/validators/records'
 
 export interface AdminAccessLogsItemProps {
     data: AccessLog

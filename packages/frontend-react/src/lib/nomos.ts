@@ -1,5 +1,6 @@
-import type { UserActiveState } from '@/types/common'
-import type { Filter } from '@/types/query-filters'
+import type { Filter } from '@/lib/db/utils/query-filters'
+
+import type { UserActiveState } from '@/types/validators/common'
 
 // const addRightmost = function (filter: QueryFilter, val: QueryFilter) {
 //     if (isQueryFilterComp(filter) && filter.right == null) filter.right = val

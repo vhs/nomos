@@ -2,7 +2,7 @@ import moment from 'moment'
 
 import type { AdminUsersColumns, AdminUsersEditForm } from './AdminUsers.types'
 
-import type { FieldDefinitions, FilterDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const AdminUserFields: FieldDefinitions<AdminUsersColumns> = [
     { title: 'User Name', field: 'username' },

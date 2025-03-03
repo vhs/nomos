@@ -1,4 +1,4 @@
-import type { UserActiveStatus } from '@/types/common'
+import type { UserActiveStatus } from '@/types/validators/common'
 
 export const statuses: UserActiveStatus = {
     y: 'Active',

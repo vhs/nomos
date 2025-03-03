@@ -1,4 +1,4 @@
-import type { FieldDefinitions } from '@/types/query-filters'
+import type { FieldDefinitions } from '@/lib/db/utils/query-filters'
 
 export const webhookFields: FieldDefinitions = [
     { title: 'ID', field: 'id' },

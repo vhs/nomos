@@ -1,4 +1,4 @@
-import type PrincipalUserObject from '@/lib/db/PrincipalUser'
+import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 
 import type { MenuItems } from '@/types/ui'
 

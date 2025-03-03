@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { backendCall } from '@/lib/backend'
-import type User from '@/lib/db/User'
+import type User from '@/lib/db/models/User'
 
-import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/custom'
+import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/api'
 import type { IUserService2 } from '@/types/providers/IUserService2'
+import type { Users } from '@/types/validators/records'
 
 export default class UserService2 implements IUserService2 {
     /**
@@ -108,9 +109,9 @@ export default class UserService2 implements IUserService2 {
      *
      * @throws {string}
      *
-     * @returns {User[]}
+     * @returns {Users}
      */
-    async GetUsers(): BackendResult<User[]> {
+    async GetUsers(): BackendResult<Users> {
         return await backendCall('/services/v2/UserService2.svc/GetUsers')
     }
 
@@ -142,15 +143,9 @@ export default class UserService2 implements IUserService2 {
      *
      * @throws {string}
      *
-     * @returns {User[]}
+     * @returns {Users}
      */
-    async ListUsers(
-        page: number,
-        size: number,
-        columns: string,
-        order: string,
-        filters: string
-    ): BackendResult<User[]> {
+    async ListUsers(page: number, size: number, columns: string, order: string, filters: string): BackendResult<Users> {
         return await backendCall('/services/v2/UserService2.svc/ListUsers', {
             page,
             size,
