@@ -24,7 +24,7 @@ class IpnServiceHandler2 extends Service implements IIpnService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $ipnId
+     * @param int $ipnId
      *
      * @throws string
      *

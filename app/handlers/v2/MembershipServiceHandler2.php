@@ -43,7 +43,7 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $membershipId
+     * @param int $membershipId
      *
      * @throws string
      *
@@ -163,16 +163,16 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
      * @permission administrator
      *
      * @param int  $membershipId
-     * @param bool $private
+     * @param bool $privateVal
      *
      * @throws string
      *
      * @return bool
      */
-    public function UpdatePrivate($membershipId, $private): bool {
+    public function UpdatePrivate($membershipId, $privateVal): bool {
         $membership = $this->getMembershipById($membershipId);
 
-        $membership->private = $private;
+        $membership->private = $privateVal;
 
         return $membership->save();
     }

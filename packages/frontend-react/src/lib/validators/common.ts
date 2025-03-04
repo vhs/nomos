@@ -38,6 +38,8 @@ export const zNonEmptyStringArray = zString.array().min(1)
 
 export const zStringArray = z.array(zString).min(0)
 
+export const zSpreadString = z.tuple([]).rest(zString)
+
 export const zFunctionBoolResultFromStringArraySpread = z.function(z.tuple([]).rest(zString), zBoolean)
 
 export const zHTTPMethod = z.union([

@@ -14,7 +14,7 @@ function getDocCommentParam($contractMethod, string $param): string {
 
     foreach ($lines as $line) {
         $matchStr = sprintf('/@param (.+) \\$%s/', $param);
-        if (preg_match($matchStr, $line, $match)) {
+        if (preg_match($matchStr, trim($line), $match)) {
             return $match[1];
         }
     }
@@ -35,7 +35,7 @@ function convertDocComment(string $docComment): string {
     $lines = explode("\n", $docComment);
 
     foreach ($lines as $lineNo => $line) {
-        $chunks = explode(' ', preg_replace('/\r?\n?$/', '', $line));
+        $chunks = explode(' ', preg_replace('/\r?\n?$/', '', trim($line)));
 
         foreach ($chunks as $id => $chunk) {
             if ($chunk === '@return') {
@@ -43,11 +43,11 @@ function convertDocComment(string $docComment): string {
             }
 
             if (in_array($chunk, $wrappedTags)) {
-                $chunks[$id + 1] = sprintf('{%s}', $chunks[$id + 1]);
+                $chunks[$id + 1] = str_replace('\\app\\domain\\', '', sprintf('{%s}', trim($chunks[$id + 1])));
             }
         }
 
-        $lines[$lineNo] = implode(' ', $chunks);
+        $lines[$lineNo] = sprintf('      %s', implode(' ', $chunks));
     }
 
     return str_replace('$', '', implode("\n", $lines));
@@ -59,10 +59,20 @@ function generateContractMethodArgs($contractMethod): string {
     return join(
         ', ',
         array_map(
-            fn($param): string => sprintf('%s: %s', $param->getName(), str_replace('$', '', getDocCommentParam($contractMethod, $param->getName()))),
+            fn($param): string => sprintf(
+                '%s: %s',
+                $param->getName(),
+                trim(str_replace('$', '', getDocCommentParam($contractMethod, $param->getName())))
+            ),
             $params
         )
     );
+}
+
+function generateContractMethodParams($contractMethod): string {
+    $params = $contractMethod->getParameters();
+
+    return join(', ', array_map(fn($param): string => sprintf('%s', $param->getName()), $params));
 }
 
 function generateContractMethodReturnType($contractMethod): string {
@@ -80,7 +90,7 @@ function generateContractMethodReturnType($contractMethod): string {
             }
         }
 
-        return implode('|', $returnStatements);
+        return str_replace('\\app\\domain\\', '', implode('|', $returnStatements));
     } else {
         throw new Error(sprintf('Missing return statement for: %s->%s', $contractMethod->getDeclaringClass()->getName(), $contractMethod->getName()));
     }
@@ -107,7 +117,10 @@ foreach ($argv as $service_file) {
         }
     }
 
-    printf("export interface %s {\n", $contract->getName());
+    $baseInterface = substr($contract->getName(), strrpos($contract->getName(), '\\') + 1);
+    $baseService = substr($baseInterface, 1);
+
+    printf("export default class %s implements %s {\n", $baseService, $baseInterface);
 
     $contractMethods = $contract->getMethods();
 
@@ -120,11 +133,14 @@ foreach ($argv as $service_file) {
             'array',
             'Record',
             sprintf(
-                "    %s\n    %s: (%s) => BackendResult<%s>\n",
+                "    %s\n    async %s(%s): BackendResult<%s> {\n        return await backendCall('/services/v2/%s.svc/%s', { %s })\n }\n",
                 convertDocComment($contractMethod->getDocComment()),
                 $contractMethod->getName(),
                 generateContractMethodArgs($contractMethod),
-                generateContractMethodReturnType($contractMethod)
+                generateContractMethodReturnType($contractMethod),
+                $baseService,
+                $contractMethod->getName(),
+                generateContractMethodParams($contractMethod)
             )
         );
     }

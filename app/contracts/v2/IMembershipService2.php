@@ -41,7 +41,7 @@ interface IMembershipService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $membershipId
+     * @param int $membershipId
      *
      * @throws string
      *
@@ -118,13 +118,13 @@ interface IMembershipService2 extends IContract {
      * @permission administrator
      *
      * @param int  $membershipId
-     * @param bool $private
+     * @param bool $privateVal
      *
      * @throws string
      *
      * @return bool
      */
-    public function UpdatePrivate($membershipId, $private): bool;
+    public function UpdatePrivate($membershipId, $privateVal): bool;
 
     /**
      * @permission administrator

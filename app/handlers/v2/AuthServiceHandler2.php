@@ -39,6 +39,35 @@ use vhs\services\Service;
 /** @typescript */
 class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
+     * fill retVal from User result.
+     *
+     * @param \app\domain\Key            &$key
+     * @param \app\domain\User           &$user
+     * @param \app\utils\AuthCheckResult &$retval
+     *
+     * @return bool
+     */
+    private static function parseValidAccount(&$key, &$user, &$retval): bool {
+        if (!is_null($user) && $user instanceof User && $user->valid) {
+            $retval->valid = true;
+            $retval->userId = $user->id;
+            $retval->username = $user->username;
+            $retval->type = $user->membership->code;
+            $retval->privileges = $key->getAbsolutePrivileges();
+
+            return true;
+        } elseif (!is_null($user) && $user instanceof User) {
+            $retval->username = $user->username;
+            $retval->message = $user->getInvalidReason();
+        } else {
+            $retval->username = 'unknown';
+            $retval->message = 'Null user';
+        }
+
+        return false;
+    }
+
+    /**
      * Check to see if the user pin and account is valid.
      *
      * @permission administrator|pin-auth
@@ -94,28 +123,23 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
             return $retval;
         }
 
-        // Fetch user
+        // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval->valid = true;
-            $retval->userId = $user->id;
-            $retval->username = $user->username;
-            $retval->type = $user->membership->code;
-            $retval->privileges = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval->username = $user->username;
-            $retval->message = $user->getInvalidReason();
         }
 
-        // Log and return
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -160,27 +184,23 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
             return $retval;
         }
 
-        // Fetch user info
+        // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval->valid = true;
-            $retval->userId = $user->id;
-            $retval->username = $user->username;
-            $retval->type = $user->membership->code;
-            $retval->privileges = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval->username = $user->username;
-            $retval->message = $user->getInvalidReason();
         }
 
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -234,25 +254,20 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval->valid = true;
-            $retval->userId = $user->id;
-            $retval->username = $user->username;
-            $retval->type = $user->membership->code;
-            $retval->privileges = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval->username = $user->username;
-            $retval->message = $user->getInvalidReason();
         }
 
-        // Log and return
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -394,8 +409,8 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @param string|string[] $clientId
-     * @param string          $clientSecret
+     * @param string $clientId
+     * @param string $clientSecret
      *
      * @throws string
      *
@@ -415,7 +430,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string|string[] $clientId
+     * @param string $clientId
      *
      * @throws string
      *
@@ -682,10 +697,10 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param int       $userId
-     * @param string    $accessToken
-     * @param int|int[] $clientId
-     * @param string    $expires
+     * @param int    $userId
+     * @param string $accessToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @throws string
      *
@@ -720,10 +735,10 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param int|int[] $userId
-     * @param string    $refreshToken
-     * @param int|int[] $clientId
-     * @param string    $expires
+     * @param int    $userId
+     * @param string $refreshToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @throws string
      *
@@ -793,7 +808,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * Summary of getMyClient.
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -859,7 +874,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * Summary of trimUser.
      *
-     * @param User $user
+     * @param \app\domain\User $user
      *
      * @throws string
      *

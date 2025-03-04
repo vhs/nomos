@@ -1,9 +1,11 @@
+import type { BackendResult } from '@/types/api'
+
 import { getter, postWithParams } from './fetcher'
 
 export const backendCall = async <T = null | undefined>(
     endpoint: string,
     data?: Record<string, unknown>
-): Promise<T | string | null> => {
+): BackendResult<T> => {
     try {
         const response = data != null ? await postWithParams(endpoint, data) : await getter(endpoint)
 

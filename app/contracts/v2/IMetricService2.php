@@ -8,6 +8,13 @@ namespace app\contracts\v2;
 
 use vhs\services\IContract;
 
+enum MetricServiceGroupType: string {
+    case ALL = 'all';
+    case DAY = 'day';
+    case MONTH = 'month';
+    case YEAR = 'year';
+}
+
 /** @typescript */
 interface IMetricService2 extends IContract {
     /**
@@ -34,9 +41,9 @@ interface IMetricService2 extends IContract {
     /**
      * @permission user
      *
-     * @param string $start_range
-     * @param string $end_range
-     * @param string $group
+     * @param string                     $start_range
+     * @param string                     $end_range
+     * @param "all"|"day"|"month"|"year" $group
      *
      * @throws string
      *
@@ -80,9 +87,9 @@ interface IMetricService2 extends IContract {
     /**
      * @permission user
      *
-     * @param string $start_range string iso date in UTC, if empty is end of today
-     * @param string $end_range   string iso date in UTC, if empty is end of today
-     * @param string $group       group by month, day, year
+     * @param string                     $start_range string iso date in UTC, if empty is end of today
+     * @param string                     $end_range   string iso date in UTC, if empty is end of today
+     * @param "all"|"day"|"month"|"year" $group       group by month, day, year
      *
      * @throws string
      *

@@ -1,6 +1,7 @@
 import useSWR, { type SWRResponse } from 'swr'
 
 import MetricService2 from '@/lib/providers/MetricService2'
+import { isTotalMembersResult } from '@/lib/validators/guards'
 import { zTotalMembersResult } from '@/lib/validators/records'
 
 import type { TotalMembersResult } from '@/types/validators/records'
@@ -15,12 +16,13 @@ const getTotalMembersFetcher = async (): Promise<TotalMembersResult> => {
             `MetricService2.getInstance().GetTotalMembers returned an invalid value[${typeof result}]: ${result ?? 'null'}`
         )
 
-    const validated = zTotalMembersResult.safeParse(result)
+    if (!isTotalMembersResult(result)) {
+        const validated = zTotalMembersResult.safeParse(result)
 
-    if (!validated.success)
         throw new Error(
-            `Invalid server input: ${validated.error.errors.map((issue) => issue.message.toString()).join(', ')}`
+            `Invalid server input: ${validated.error?.errors.map((issue) => issue.message.toString()).join(', ')}`
         )
+    }
 
     return result
 }

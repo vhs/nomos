@@ -28,6 +28,7 @@ import {
     zPayPal,
     zPaymentProvider,
     zPositiveNumber,
+    zSpreadString,
     zString,
     zStringArray,
     zStripe,
@@ -56,6 +57,7 @@ import {
 import {
     zAccessLog,
     zAccessToken,
+    zAnonPrincipal,
     zAppClient,
     zAuthCheckResult,
     zBasePrivilege,
@@ -134,6 +136,7 @@ import type {
     PayPal,
     PaymentProvider,
     PositiveNumber,
+    SpreadString,
     String,
     StringArray,
     Stripe,
@@ -162,6 +165,7 @@ import type {
 import type {
     AccessLog,
     AccessToken,
+    AnonPrincipal,
     AppClient,
     AuthCheckResult,
     BasePrivilege,
@@ -219,6 +223,9 @@ export const isAccessLogs = (inp: unknown): inp is AccessLog => zAccessLog.array
 
 export const isAccessToken = (inp: unknown): inp is AccessToken => zAccessToken.safeParse(inp).success
 export const isAccessTokens = (inp: unknown): inp is AccessToken => zAccessToken.array().safeParse(inp).success
+
+export const isAnonPrincipal = (inp: unknown): inp is AnonPrincipal => zAnonPrincipal.safeParse(inp).success
+export const isAnonPrincipals = (inp: unknown): inp is AnonPrincipal => zAnonPrincipal.array().safeParse(inp).success
 
 export const isAppClient = (inp: unknown): inp is AppClient => zAppClient.safeParse(inp).success
 export const isAppClients = (inp: unknown): inp is AppClient => zAppClient.array().safeParse(inp).success
@@ -460,6 +467,9 @@ export const isRevenueByMemberships = (inp: unknown): inp is RevenueByMembership
 export const isRevenueResultSet = (inp: unknown): inp is RevenueResultSet => zRevenueResultSet.safeParse(inp).success
 export const isRevenueResultSets = (inp: unknown): inp is RevenueResultSet =>
     zRevenueResultSet.array().safeParse(inp).success
+
+export const isSpreadString = (inp: unknown): inp is SpreadString => zSpreadString.safeParse(inp).success
+export const isSpreadStrings = (inp: unknown): inp is SpreadString => zSpreadString.array().safeParse(inp).success
 
 export const isString = (inp: unknown): inp is String => zString.safeParse(inp).success
 export const isStrings = (inp: unknown): inp is String => zString.array().safeParse(inp).success
