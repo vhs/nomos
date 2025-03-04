@@ -40,7 +40,7 @@ interface IPaymentService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *

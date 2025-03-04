@@ -286,7 +286,7 @@ class EventServiceHandler2 extends Service implements IEventService2 {
     /**
      * Summary of getEventById.
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws string

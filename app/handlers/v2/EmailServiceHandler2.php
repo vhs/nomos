@@ -27,7 +27,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -122,7 +122,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -183,8 +183,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $body
+     * @param int    $id
+     * @param string $body
      *
      * @throws string
      *
@@ -201,8 +201,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $code
+     * @param int    $id
+     * @param string $code
      *
      * @throws string
      *
@@ -219,8 +219,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $help
+     * @param int    $id
+     * @param string $help
      *
      * @throws string
      *
@@ -237,8 +237,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $html
+     * @param int    $id
+     * @param string $html
      *
      * @throws string
      *
@@ -255,8 +255,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $name
+     * @param int    $id
+     * @param string $name
      *
      * @throws string
      *
@@ -273,8 +273,8 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $subject
+     * @param int    $id
+     * @param string $subject
      *
      * @throws string
      *

@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import useSWR, { type SWRResponse } from 'swr'
 
 import MetricService2 from '@/lib/providers/MetricService2'
+import { isMetricServiceGetMembersResult } from '@/lib/validators/guards'
 import { zMetricServiceGetMembersResult } from '@/lib/validators/records'
 
 import type { MetricServiceGroupType, MetricServiceGetMembersResult } from '@/types/validators/records'
@@ -16,9 +17,9 @@ const getNewMembersFetcher = async (
 ): Promise<MetricServiceGetMembersResult> => {
     const result = await MetricService2.getInstance().GetMembers(start, end, group)
 
-    if (result == null || typeof result === 'string')
+    if (!isMetricServiceGetMembersResult(result))
         throw new Error(
-            `MetricService2.getInstance().GetMembers returned an invalid value[${typeof result}]: ${result ?? 'null'}`
+            `MetricService2.getInstance().GetMembers returned an invalid value[${typeof result}]: ${JSON.stringify(result)}`
         )
 
     if (Array.isArray(result.created)) result.created = {}

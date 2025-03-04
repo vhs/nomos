@@ -23,14 +23,14 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $keyid
+     * @param int $id
      *
      * @throws string
      *
      * @return void
      */
-    public function DeleteApiKey($keyid): void {
-        $key = Key::find($keyid);
+    public function DeleteApiKey($id): void {
+        $key = Key::find($id);
 
         if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
@@ -61,8 +61,8 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $userid
-     * @param string    $notes
+     * @param int    $userid
+     * @param string $notes
      *
      * @throws string
      *
@@ -95,7 +95,7 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $keyid
+     * @param int $keyid
      *
      * @throws string
      *
@@ -148,7 +148,7 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[]       $keyid
+     * @param int             $keyid
      * @param string|string[] $privileges
      *
      * @throws string
@@ -190,9 +190,9 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $notes
-     * @param string $expires
+     * @param int         $keyid
+     * @param string      $notes
+     * @param string|null $expires
      *
      * @throws string
      *

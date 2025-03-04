@@ -43,7 +43,7 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -72,7 +72,7 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission user
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -109,8 +109,8 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $description
+     * @param int    $id
+     * @param string $description
      *
      * @throws string
      *
@@ -121,8 +121,8 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param bool      $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @throws string
      *
@@ -133,8 +133,8 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $icon
+     * @param int    $id
+     * @param string $icon
      *
      * @throws string
      *
@@ -145,8 +145,8 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $name
+     * @param int    $id
+     * @param string $name
      *
      * @throws string
      *

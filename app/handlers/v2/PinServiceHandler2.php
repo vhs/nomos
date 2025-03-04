@@ -139,8 +139,8 @@ class PinServiceHandler2 extends Service implements IPinService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $keyid
-     * @param string    $pin
+     * @param int    $keyid
+     * @param string $pin
      *
      * @throws string
      *
@@ -200,7 +200,7 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      *
      * @return \app\domain\Key|null
      */
-    private function getUserPinByUserId($userid): ?\app\domain\Key {
+    private function getUserPinByUserId($userid): ?Key {
         if (!CurrentUser::hasAnyPermissions('administrator') && $userid != CurrentUser::getIdentity()) {
             throw new UnauthorizedException();
         }

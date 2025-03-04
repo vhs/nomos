@@ -29,7 +29,7 @@ class StripeEventServiceHandler2 extends Service implements IStripeEventService2
     /**
      * @permission administrator
      *
-     * @param int|int[] $eventId
+     * @param int $eventId
      *
      * @throws string
      *

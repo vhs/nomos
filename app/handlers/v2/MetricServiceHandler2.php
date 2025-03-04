@@ -178,9 +178,9 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @param string $start_range
-     * @param string $end_range
-     * @param string $group
+     * @param string                     $start_range
+     * @param string                     $end_range
+     * @param "all"|"day"|"month"|"year" $group
      *
      * @throws string
      *
@@ -291,9 +291,9 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @param string $start_range string iso date in UTC, if empty is end of today
-     * @param string $end_range   string iso date in UTC, if empty is end of today
-     * @param string $group       group by month, day, year
+     * @param string                     $start_range string iso date in UTC, if empty is end of today
+     * @param string                     $end_range   string iso date in UTC, if empty is end of today
+     * @param "all"|"day"|"month"|"year" $group       group by month, day, year
      *
      * @throws string
      *

@@ -65,7 +65,7 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *
@@ -128,7 +128,7 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[]       $id
+     * @param int             $id
      * @param string|string[] $privileges
      *
      * @throws string
@@ -190,11 +190,11 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param int|int[] $id
-     * @param string    $key
-     * @param string    $value
-     * @param bool      $enabled
-     * @param string    $notes
+     * @param int    $id
+     * @param string $key
+     * @param string $value
+     * @param bool   $enabled
+     * @param string $notes
      *
      * @throws string
      *

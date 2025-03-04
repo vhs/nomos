@@ -28,7 +28,7 @@ interface ISystemPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param string|string[] $key
+     * @param string $key
      *
      * @throws string
      *
