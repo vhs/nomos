@@ -2,6 +2,7 @@
 
 namespace app\handlers\v2;
 
+use app\constants\Formats;
 use app\contracts\v2\IMetricService2;
 use app\domain\Membership;
 use app\domain\Payment;
@@ -30,9 +31,9 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             UserSchema::Table(),
             Where::_And(
                 Where::Equal(UserSchema::Columns()->active, 'y'),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
-                Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
+                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
             )
         );
 
@@ -55,10 +56,10 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             UserSchema::Table(),
             Where::_And(
                 Where::Equal(UserSchema::Columns()->active, 'y'),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
+                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
                 Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
-                Where::LesserEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date('Y-m-d 00:00:00', $start))
+                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
             )
         );
 
@@ -81,7 +82,7 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
                 UserSchema::Table(),
                 Where::_And(
                     Where::Equal(UserSchema::Columns()->active, 'y'),
-                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s'))
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL))
                 )
             )
         );
@@ -93,7 +94,7 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
                 UserSchema::Table(),
                 Where::_And(
                     Where::Equal(UserSchema::Columns()->active, 'y'),
-                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date('Y-m-d H:i:s')),
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
                     Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
                 )
             )

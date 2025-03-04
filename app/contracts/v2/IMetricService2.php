@@ -8,13 +8,6 @@ namespace app\contracts\v2;
 
 use vhs\services\IContract;
 
-enum MetricServiceGroupType: string {
-    case ALL = 'all';
-    case DAY = 'day';
-    case MONTH = 'month';
-    case YEAR = 'year';
-}
-
 /** @typescript */
 interface IMetricService2 extends IContract {
     /**
