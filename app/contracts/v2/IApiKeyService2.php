@@ -102,5 +102,5 @@ interface IApiKeyService2 extends IContract {
      *
      * @return bool
      */
-    public function UpdateApiKey(int $keyid, string $notes, string $expires): bool;
+    public function UpdateApiKey(int $keyid, string $notes, string|null $expires): bool;
 }
