@@ -7,19 +7,19 @@
  * Time: 3:28 PM.
  */
 
-use app\constants\DateTime;
 use app\constants\Errors;
+use app\constants\Formats;
 use app\constants\StringLiterals;
 use PHPUnit\Framework\TestCase;
 
 /** @typescript */
 class ConstantsTest extends TestCase {
     public function test_DateTime_DATE_TIME_MIDNIGHT() {
-        $this->assertEquals('Y-m-d 00:00:00', DateTime::DATE_TIME_MIDNIGHT);
+        $this->assertEquals('Y-m-d 00:00:00', Formats::DATE_TIME_ISO_SHORT_MIDNIGHT);
     }
 
     public function test_DateTime_DATE_TIME_SIMPLE() {
-        $this->assertEquals('Y-m-d H:i:s', DateTime::DATE_TIME_SIMPLE);
+        $this->assertEquals('Y-m-d H:i:s', Formats::DATE_TIME_ISO_SHORT_FULL);
     }
 
     public function test_Errors_E_INVALID_PASSWORD_HASH() {
