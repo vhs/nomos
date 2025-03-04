@@ -2,8 +2,8 @@ import type { ReactNode } from 'react'
 
 import type { LineChartProps, RevenueGoalChartProps } from '@/types/charts'
 import type {
-    NewMembersResult,
-    TotalMembersResult,
+    MetricServiceNewMembersResult,
+    MetricServiceTotalMembersResult,
     MetricServiceGetRevenueResult,
     MetricServiceGetMembersResult,
     MetricServiceGetCreatedDatesResult
@@ -14,9 +14,9 @@ export interface UserDashboardProps {
 }
 
 export interface UserDashboardDataState {
-    newMembers?: NewMembersResult
+    newMembers?: MetricServiceNewMembersResult
     newMembersSince?: string
-    totalMembers?: TotalMembersResult
+    totalMembers?: MetricServiceTotalMembersResult
     revenue?: MetricServiceGetRevenueResult
     members?: MetricServiceGetMembersResult
     revenueLastMonth?: MetricServiceGetRevenueResult
