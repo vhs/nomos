@@ -42,7 +42,11 @@ class ConstantsTest extends TestCase {
         $this->assertEquals('https://', StringLiterals::HTTPS_PREFIX);
     }
 
-    protected function setUp(): void {}
+    protected function setUp(): void {
+        // Override
+    }
 
-    protected function tearDown(): void {}
+    protected function tearDown(): void {
+        // Override
+    }
 }
