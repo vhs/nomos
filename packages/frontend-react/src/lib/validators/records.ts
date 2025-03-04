@@ -202,14 +202,14 @@ export const zMembership = zCommon
 
 export const zMembershipWithId = zMembership.extend({ membershipId: z.coerce.number() })
 
-export const zMetricsBaseRangeResult = z.object({ start_range: zString, end_range: zString })
+export const zMetricServiceBaseRangeResult = z.object({ start_range: zString, end_range: zString })
 
-export const zMetricServiceGetCreatedDatesResult = zMetricsBaseRangeResult.extend({
+export const zMetricServiceGetCreatedDatesResult = zMetricServiceBaseRangeResult.extend({
     byDowHour: z.record(zString, z.record(zString, zNumber)),
     byMonthDow: z.record(zString, z.record(zString, zNumber))
 })
 
-export const zMetricServiceGetMembersResult = zMetricsBaseRangeResult.extend({
+export const zMetricServiceGetMembersResult = zMetricServiceBaseRangeResult.extend({
     created: z.record(zString, zNumber),
     expired: z.record(zString, zNumber),
     total: z.record(zString, zNumber)
@@ -222,7 +222,7 @@ export const zMetricServiceGroupType = z.union([
     z.literal('all')
 ])
 
-export const zRevenueResultSet = z.record(
+export const zMetricServiceRevenueResultSet = z.record(
     z.union([zMetricServiceGroupType, zString]),
     z.union([zNumber, z.record(zString, zNumber)])
 )
@@ -235,20 +235,20 @@ export const zRevenueByMembersType = z.union([
     zString.regex(/^prod_.+/)
 ])
 
-export const zRevenueByMembership = z.record(zRevenueByMembersType, z.record(zString, zNumber))
+export const zMetricServiceRevenueByMembership = z.record(zRevenueByMembersType, z.record(zString, zNumber))
 
-export const zMetricServiceGetRevenueResult = zMetricsBaseRangeResult.extend({
-    grouping: z.union([zRevenueResultSet, z.any().array().length(0)]),
-    by_membership: zRevenueByMembership
+export const zMetricServiceGetRevenueResult = zMetricServiceBaseRangeResult.extend({
+    grouping: z.union([zMetricServiceRevenueResultSet, z.any().array().length(0)]),
+    by_membership: zMetricServiceRevenueByMembership
 })
 
-export const zMetricsResult = zMetricsBaseRangeResult.extend({ start: zNumber, end: zNumber })
+export const zMetricServiceResult = zMetricServiceBaseRangeResult.extend({ start: zNumber, end: zNumber })
 
-export const zMetricsValueResult = z.object({ value: z.coerce.number() })
+export const zMetricServiceValueResult = z.object({ value: z.coerce.number() })
 
-export const zNewKeyholdersResult = zMetricsBaseRangeResult.merge(zMetricsValueResult)
+export const zMetricServiceNewKeyholdersResult = zMetricServiceValueResult
 
-export const zNewMembersResult = zMetricsResult.merge(zMetricsValueResult)
+export const zMetricServiceNewMembersResult = zMetricServiceResult.merge(zMetricServiceValueResult)
 
 export const zPayment = zCommon.extend({
     txn_id: zString,
@@ -325,8 +325,9 @@ export const zSystemPreference = zCommon
     .extend({ key: zString, value: zString, enabled: zBoolean, notes: zString.nullish() })
     .merge(zPrivilegesField)
 
-export const zTotalKeyHoldersResult = zMetricsValueResult
-export const zTotalMembersResult = zMetricsValueResult
+export const zMetricServiceTotalKeyHoldersResult = zMetricServiceValueResult
+export const zMetricServiceTotalMembersResult = zMetricServiceValueResult
+
 export const zTrimmedAppClientOwner = z
     .object({
         id: zNumber,

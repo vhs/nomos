@@ -4,13 +4,13 @@ import useSWR, { type SWRResponse } from 'swr'
 
 import MetricService2 from '@/lib/providers/MetricService2'
 import { isNewMembersResult } from '@/lib/validators/guards'
-import { zNewMembersResult } from '@/lib/validators/records'
+import { zMetricServiceNewMembersResult } from '@/lib/validators/records'
 
-import type { NewMembersResult } from '@/types/validators/records'
+import type { MetricServiceNewMembersResult } from '@/types/validators/records'
 
 const baseUri = '/services/v2/MetricService2.svc/GetNewMembers'
 
-const getNewMembersFetcher = async (start: string, end: string): Promise<NewMembersResult> => {
+const getNewMembersFetcher = async (start: string, end: string): Promise<MetricServiceNewMembersResult> => {
     const result = await MetricService2.getInstance().GetNewMembers(start, end)
 
     if (result == null || typeof result === 'string')
@@ -19,7 +19,7 @@ const getNewMembersFetcher = async (start: string, end: string): Promise<NewMemb
         )
 
     if (!isNewMembersResult(result)) {
-        const validated = zNewMembersResult.safeParse(result)
+        const validated = zMetricServiceNewMembersResult.safeParse(result)
 
         throw new Error(
             `Invalid server input: ${validated.error?.errors.map((issue) => issue.message.toString()).join(', ')}`
@@ -28,10 +28,10 @@ const getNewMembersFetcher = async (start: string, end: string): Promise<NewMemb
     return result
 }
 
-const useGetNewMembers = (start: string, end: string): SWRResponse<NewMembersResult> => {
+const useGetNewMembers = (start: string, end: string): SWRResponse<MetricServiceNewMembersResult> => {
     const uri = useMemo(() => `${baseUri}?start_range=${start}&end_range=${end}`, [start, end])
 
-    return useSWR<NewMembersResult>(uri, async (_uri: string): Promise<NewMembersResult> => {
+    return useSWR<MetricServiceNewMembersResult>(uri, async (_uri: string): Promise<MetricServiceNewMembersResult> => {
         return await getNewMembersFetcher(start, end)
     })
 }
