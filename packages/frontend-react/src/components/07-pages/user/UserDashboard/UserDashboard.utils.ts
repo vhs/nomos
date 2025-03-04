@@ -8,21 +8,28 @@ import type { GridChartProps } from '@/components/04-composites/GridChart/GridCh
 import MetricService2 from '@/lib/providers/MetricService2'
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 import {
-    generateRowColBubbleDataset,
-    convertMonthNumberByNumber,
     convertDayofWeekByNumber,
-    generateRowColArray
+    convertMonthNumberByNumber,
+    generateRowColArray,
+    generateRowColBubbleDataset
 } from '@/lib/utils'
+import {
+    isMetricServiceGetCreatedDatesResult,
+    isMetricServiceGetMembersResult,
+    isMetricServiceGetRevenueResult,
+    isNewMembersResult,
+    isTotalMembersResult
+} from '@/lib/validators/guards'
 
-import type { LinePoint, RevenueGoalChartProps, BubbleChartProps, LineChartProps } from '@/types/charts'
+import type { BubbleChartProps, LineChartProps, LinePoint, RevenueGoalChartProps } from '@/types/charts'
 import type { ArrayElement } from '@/types/utils'
 import type {
-    Privileges,
-    NewMembersResult,
-    TotalMembersResult,
-    MetricServiceGetRevenueResult,
+    MetricServiceGetCreatedDatesResult,
     MetricServiceGetMembersResult,
-    MetricServiceGetCreatedDatesResult
+    MetricServiceGetRevenueResult,
+    NewMembersResult,
+    Privileges,
+    TotalMembersResult
 } from '@/types/validators/records'
 
 export const initialDataState: UserDashboardDataState = {}
@@ -94,8 +101,7 @@ export const getNewMembers = async (): Promise<NewMembersResult> => {
         moment().utc().endOf('month').toISOString()
     )
 
-    if (newMembers == null || typeof newMembers !== 'object')
-        throw new Error('Invalid new members data for past 30 days')
+    if (!isNewMembersResult(newMembers)) throw new Error('Invalid new members data for past 30 days')
 
     return newMembers
 }
@@ -110,8 +116,7 @@ export const getNewMembersArgs = (): string[] => {
 export const getTotalMembers = async (): Promise<TotalMembersResult> => {
     const totalMembers = await MetricService2.getInstance().GetTotalMembers()
 
-    if (totalMembers == null || typeof totalMembers !== 'object')
-        throw new Error('Invalid new members data for past 30 days')
+    if (!isTotalMembersResult(totalMembers)) throw new Error('Invalid new members data for past 30 days')
 
     return totalMembers
 }
@@ -125,7 +130,7 @@ export const getRevenueLastMonth = async (): Promise<MetricServiceGetRevenueResu
         'all'
     )
 
-    if (revenueLastMonth == null || typeof revenueLastMonth !== 'object')
+    if (!isMetricServiceGetRevenueResult(revenueLastMonth))
         throw new Error(`Invalid revenue data for last month's period`)
 
     return revenueLastMonth
@@ -138,7 +143,7 @@ export const getRevenueThisMonth = async (): Promise<MetricServiceGetRevenueResu
         'all'
     )
 
-    if (revenueThisMonth == null || typeof revenueThisMonth !== 'object')
+    if (!isMetricServiceGetRevenueResult(revenueThisMonth))
         throw new Error(`Invalid revenue data for this month's period`)
 
     return revenueThisMonth
@@ -151,7 +156,7 @@ export const getHistoricalMonthlyRevenue = async (): Promise<MetricServiceGetRev
         'month'
     )
 
-    if (historicalMonthlyRevenue == null || typeof historicalMonthlyRevenue !== 'object')
+    if (!isMetricServiceGetRevenueResult(historicalMonthlyRevenue))
         throw new Error(`Invalid revenue data for historical monthly revenue`)
 
     return historicalMonthlyRevenue
@@ -164,7 +169,7 @@ export const getHistoricalMonthlyMemberCounts = async (): Promise<MetricServiceG
         'month'
     )
 
-    if (historicalMonthlyMembershipCounts == null || typeof historicalMonthlyMembershipCounts !== 'object')
+    if (!isMetricServiceGetMembersResult(historicalMonthlyMembershipCounts))
         throw new Error(`Invalid revenue data for historical monthly membership counts`)
 
     return historicalMonthlyMembershipCounts
@@ -176,7 +181,7 @@ export const getCreatedDates = async (): Promise<MetricServiceGetCreatedDatesRes
         moment().utc().endOf('month').toISOString()
     )
 
-    if (createdDates == null || typeof createdDates !== 'object') throw new Error(`Invalid data for created dates`)
+    if (!isMetricServiceGetCreatedDatesResult(createdDates)) throw new Error(`Invalid data for created dates`)
 
     return createdDates
 }
@@ -187,7 +192,7 @@ export const getCreatedDatesLast30days = async (): Promise<MetricServiceGetCreat
         moment().utc().endOf('month').toISOString()
     )
 
-    if (createdDatesLast30days == null || typeof createdDatesLast30days !== 'object')
+    if (!isMetricServiceGetCreatedDatesResult(createdDatesLast30days))
         throw new Error(`Invalid data for created dates for the last 30 days`)
 
     return createdDatesLast30days

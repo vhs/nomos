@@ -7,6 +7,7 @@ import type { z } from 'zod'
 import type {
     zAccessLog,
     zAccessToken,
+    zAnonPrincipal,
     zAppClient,
     zAuthCheckResult,
     zBasePrivilege,
@@ -65,6 +66,8 @@ export type AccessLog = z.infer<typeof zAccessLog>
 export type AccessLogs = AccessLog[]
 export type AccessToken = z.infer<typeof zAccessToken>
 export type AccessTokens = AccessToken[]
+export type AnonPrincipal = z.infer<typeof zAnonPrincipal>
+export type AnonPrincipals = AnonPrincipal[]
 export type AppClient = z.infer<typeof zAppClient>
 export type AppClients = AppClient[]
 export type AuthCheckResult = z.infer<typeof zAuthCheckResult>

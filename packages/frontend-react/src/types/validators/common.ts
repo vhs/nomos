@@ -30,6 +30,7 @@ import type {
     zPayPal,
     zPaymentProvider,
     zPositiveNumber,
+    zSpreadString,
     zString,
     zStringArray,
     zStripe,
@@ -106,6 +107,8 @@ export type PaymentProvider = z.infer<typeof zPaymentProvider>
 export type PaymentProviders = PaymentProvider[]
 export type PositiveNumber = z.infer<typeof zPositiveNumber>
 export type PositiveNumbers = PositiveNumber[]
+export type SpreadString = z.infer<typeof zSpreadString>
+export type SpreadStrings = SpreadString[]
 export type String = z.infer<typeof zString>
 export type Strings = String[]
 export type StringArray = z.infer<typeof zStringArray>

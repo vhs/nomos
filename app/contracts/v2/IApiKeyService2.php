@@ -17,13 +17,13 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $keyid
+     * @param int $id
      *
      * @throws string
      *
      * @return void
      */
-    public function DeleteApiKey($keyid): void;
+    public function DeleteApiKey($id): void;
 
     /**
      * @permission administrator
@@ -39,8 +39,8 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $userid
-     * @param string    $notes
+     * @param int    $userid
+     * @param string $notes
      *
      * @throws string
      *
@@ -51,7 +51,7 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $keyid
+     * @param int $keyid
      *
      * @throws string
      *
@@ -82,7 +82,7 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int|int[]       $keyid
+     * @param int             $keyid
      * @param string|string[] $privileges
      *
      * @throws string
@@ -94,9 +94,9 @@ interface IApiKeyService2 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int    $keyid
-     * @param string $notes
-     * @param string $expires
+     * @param int         $keyid
+     * @param string      $notes
+     * @param string|null $expires
      *
      * @throws string
      *

@@ -19,7 +19,8 @@ import {
     zNumber,
     zUrl,
     zHTTPMethod,
-    zDateTime
+    zDateTime,
+    zSpreadString
 } from './common'
 
 export const zCommon = z.object({ id: zNumber })
@@ -354,6 +355,16 @@ export const zTrimmedAppClient = z.object({
 export const zTrimmedUser = zUser
     .pick(UserTrimValues.reduce((c, e) => ({ ...c, [e]: true }), {}))
     .extend({ expires: zDateTime })
+
+export const zAnonPrincipal = zCommon.extend({
+    canGrantAllPermissions: z.function(zSpreadString, z.literal(false)),
+    canGrantAnyPermissions: z.function(zSpreadString, z.literal(false)),
+    hasAllPermissions: z.function(zSpreadString, zBoolean),
+    hasAnyPermissions: z.function(zSpreadString, zBoolean),
+    getIdentity: z.function().returns(z.null()),
+    isAnon: z.function().returns(z.literal(true)),
+    __toString: z.function().returns(z.literal('anon'))
+})
 
 export const zUserPrincipal = zCommon.extend({ permissions: z.array(zString) })
 

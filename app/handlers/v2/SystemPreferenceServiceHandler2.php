@@ -224,7 +224,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * getSystemPreferenceById.
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *

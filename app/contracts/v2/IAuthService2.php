@@ -163,8 +163,8 @@ interface IAuthService2 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param string|string[] $clientId
-     * @param string          $clientSecret
+     * @param string $clientId
+     * @param string $clientSecret
      *
      * @throws string
      *
@@ -176,7 +176,7 @@ interface IAuthService2 extends IContract {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string|string[] $clientId
+     * @param string $clientId
      *
      * @throws string
      *
@@ -331,10 +331,10 @@ interface IAuthService2 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param int       $userId
-     * @param string    $accessToken
-     * @param int|int[] $clientId
-     * @param string    $expires
+     * @param int    $userId
+     * @param string $accessToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @throws string
      *
@@ -345,10 +345,10 @@ interface IAuthService2 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param int|int[] $userId
-     * @param string    $refreshToken
-     * @param int|int[] $clientId
-     * @param string    $expires
+     * @param int    $userId
+     * @param string $refreshToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @throws string
      *

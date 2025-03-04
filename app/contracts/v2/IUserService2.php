@@ -197,8 +197,8 @@ interface IUserService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int    $userid
-     * @param string $cash
+     * @param int         $userid
+     * @param bool|string $cash
      *
      * @throws string
      *

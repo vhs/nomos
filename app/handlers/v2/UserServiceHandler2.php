@@ -503,8 +503,8 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     /**
      * @permission administrator
      *
-     * @param int    $userid
-     * @param string $cash
+     * @param int         $userid
+     * @param bool|string $cash
      *
      * @throws string
      *
@@ -563,7 +563,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int   $userid
      * @param mixed $membershipid
-     * @param int   $int|int[]
      *
      * @throws string
      *

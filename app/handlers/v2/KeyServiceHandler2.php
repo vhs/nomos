@@ -27,14 +27,14 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int $keyid
+     * @param int $id
      *
      * @throws string
      *
      * @return void
      */
-    public function DeleteKey($keyid): void {
-        $key = $this->getKeyById($keyid);
+    public function DeleteKey($id): void {
+        $key = $this->getKeyById($id);
 
         $key->delete();
     }
@@ -42,10 +42,10 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $userid
-     * @param string    $type
-     * @param string    $value
-     * @param string    $notes
+     * @param int    $userid
+     * @param string $type
+     * @param string $value
+     * @param string $notes
      *
      * @throws string
      *
@@ -136,8 +136,8 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $userid
-     * @param string[]  $types
+     * @param int      $userid
+     * @param string[] $types
      *
      * @throws string
      *

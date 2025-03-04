@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import useSWR, { type SWRResponse } from 'swr'
 
 import MetricService2 from '@/lib/providers/MetricService2'
+import { isNewMembersResult } from '@/lib/validators/guards'
 import { zNewMembersResult } from '@/lib/validators/records'
 
 import type { NewMembersResult } from '@/types/validators/records'
@@ -17,13 +18,13 @@ const getNewMembersFetcher = async (start: string, end: string): Promise<NewMemb
             `MetricService2.getInstance().GetNewMembers returned an invalid value[${typeof result}]: ${result ?? 'null'}`
         )
 
-    const validated = zNewMembersResult.safeParse(result)
+    if (!isNewMembersResult(result)) {
+        const validated = zNewMembersResult.safeParse(result)
 
-    if (!validated.success)
         throw new Error(
-            `Invalid server input: ${validated.error.errors.map((issue) => issue.message.toString()).join(', ')}`
+            `Invalid server input: ${validated.error?.errors.map((issue) => issue.message.toString()).join(', ')}`
         )
-
+    }
     return result
 }
 

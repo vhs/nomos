@@ -46,7 +46,7 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
     /**
      * @permission administrator|user
      *
-     * @param int|int[] $id
+     * @param int $id
      *
      * @throws string
      *

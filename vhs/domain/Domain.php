@@ -133,9 +133,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param array $primaryKeyValues
+     * @param int $primaryKeyValues
      *
-     * @return object
+     * @return Domain|null
      */
     public static function find($primaryKeyValues) {
         $class = get_called_class();
