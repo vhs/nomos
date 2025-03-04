@@ -198,7 +198,7 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      *
      * @return bool
      */
-    public function UpdateApiKey(int $keyid, string $notes, string $expires): bool {
+    public function UpdateApiKey($keyid, $notes, $expires): bool {
         $key = Key::find($keyid);
 
         if (is_null($key)) {
