@@ -17,8 +17,8 @@ import {
     isMetricServiceGetCreatedDatesResult,
     isMetricServiceGetMembersResult,
     isMetricServiceGetRevenueResult,
-    isNewMembersResult,
-    isTotalMembersResult
+    isMetricServiceNewMembersResult,
+    isMetricServiceTotalMembersResult
 } from '@/lib/validators/guards'
 
 import type { BubbleChartProps, LineChartProps, LinePoint, RevenueGoalChartProps } from '@/types/charts'
@@ -27,9 +27,9 @@ import type {
     MetricServiceGetCreatedDatesResult,
     MetricServiceGetMembersResult,
     MetricServiceGetRevenueResult,
-    NewMembersResult,
+    MetricServiceNewMembersResult,
     Privileges,
-    TotalMembersResult
+    MetricServiceTotalMembersResult
 } from '@/types/validators/records'
 
 export const initialDataState: UserDashboardDataState = {}
@@ -95,13 +95,13 @@ export const getAllPermissions = async (): Promise<Privileges> => {
     return allPermissions
 }
 
-export const getNewMembers = async (): Promise<NewMembersResult> => {
+export const getNewMembers = async (): Promise<MetricServiceNewMembersResult> => {
     const newMembers = await MetricService2.getInstance().GetNewMembers(
         moment().utc().subtract(30, 'days').startOf('month').toISOString(),
         moment().utc().endOf('month').toISOString()
     )
 
-    if (!isNewMembersResult(newMembers)) throw new Error('Invalid new members data for past 30 days')
+    if (!isMetricServiceNewMembersResult(newMembers)) throw new Error('Invalid new members data for past 30 days')
 
     return newMembers
 }
@@ -113,10 +113,10 @@ export const getNewMembersArgs = (): string[] => {
     ]
 }
 
-export const getTotalMembers = async (): Promise<TotalMembersResult> => {
+export const getTotalMembers = async (): Promise<MetricServiceTotalMembersResult> => {
     const totalMembers = await MetricService2.getInstance().GetTotalMembers()
 
-    if (!isTotalMembersResult(totalMembers)) throw new Error('Invalid new members data for past 30 days')
+    if (!isMetricServiceTotalMembersResult(totalMembers)) throw new Error('Invalid new members data for past 30 days')
 
     return totalMembers
 }
