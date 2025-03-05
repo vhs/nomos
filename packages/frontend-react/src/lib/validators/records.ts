@@ -238,8 +238,8 @@ export const zRevenueByMembersType = z.union([
 export const zMetricServiceRevenueByMembership = z.record(zRevenueByMembersType, z.record(zString, zNumber))
 
 export const zMetricServiceGetRevenueResult = zMetricServiceBaseRangeResult.extend({
-    grouping: z.union([zMetricServiceRevenueResultSet, z.any().array().length(0)]),
-    by_membership: zMetricServiceRevenueByMembership
+    grouping: z.tuple([]).or(zMetricServiceRevenueResultSet),
+    by_membership: z.tuple([]).or(zMetricServiceRevenueByMembership)
 })
 
 export const zMetricServiceResult = zMetricServiceBaseRangeResult.extend({ start: zNumber, end: zNumber })
