@@ -4,6 +4,7 @@ import type { TablePageForm, AllowedPageSizes, TablePageSchemaType } from './Tab
 import type { KeyedMutator } from 'swr'
 
 import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
+
 import type { DataRecord } from '@/types/validators/records'
 
 export type ValidServiceEndpoints =
