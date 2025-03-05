@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { zUser } from '@/lib/validators/records'
 
-import type { UserActiveStateCode } from '@/types/validators/common'
 import type { IUserObject } from '@/types/db'
+import type { UserActiveStateCode } from '@/types/validators/common'
 import type { Keys, Membership, Privileges, User } from '@/types/validators/records'
 
 export default class UserObject implements User, IUserObject {

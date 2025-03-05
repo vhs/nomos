@@ -20,6 +20,7 @@ import Paginator from '@/components/04-composites/Paginator/Paginator'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
+import type { Filter, Filters } from '@/lib/db/utils/query-filters'
 import { postWithParams } from '@/lib/fetcher'
 import useAuth from '@/lib/hooks/useAuth'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'
@@ -31,7 +32,6 @@ import {
     convertStringArrayToBooleanRecord
 } from '@/lib/utils'
 
-import type { Filter, Filters } from '@/lib/db/utils/query-filters'
 import type { DataRecord } from '@/types/validators/records'
 
 import { TablePageContext } from './TablePage.context'
