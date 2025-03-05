@@ -7,6 +7,13 @@ use app\contracts\v2\IMetricService2;
 use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
+use app\dto\v2\MetricServiceGetCreatedDatesResult;
+use app\dto\v2\MetricServiceGetMembersResult;
+use app\dto\v2\MetricServiceGetRevenueResult;
+use app\dto\v2\MetricServiceNewKeyholdersResult;
+use app\dto\v2\MetricServiceNewMembersResult;
+use app\dto\v2\MetricServiceTotalKeyHoldersResult;
+use app\dto\v2\MetricServiceTotalMembersResult;
 use app\schema\UserSchema;
 use DateTime;
 use vhs\database\Database;
@@ -109,9 +116,9 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceGetCreatedDatesResult
      */
-    public function GetCreatedDates($start_range, $end_range): array {
+    public function GetCreatedDates($start_range, $end_range): MetricServiceGetCreatedDatesResult {
         $users = User::where(
             Where::_And(
                 Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
@@ -157,12 +164,14 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             $byMonthDow[$month][$dow] += 1;
         }
 
-        return [
+        $result = new MetricServiceGetCreatedDatesResult([
             'start_range' => $start_range,
             'end_range' => $end_range,
             'byDowHour' => $byDowHour,
             'byMonthDow' => $byMonthDow
-        ];
+        ]);
+
+        return $result;
     }
 
     /**
@@ -170,7 +179,7 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\domain\Payment[]
      */
     public function GetExceptionPayments(): array {
         return Payment::where(Where::NotEqual(Payment::Schema()->Columns()->status, 1));
@@ -179,15 +188,15 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @param string                     $start_range
-     * @param string                     $end_range
-     * @param "all"|"day"|"month"|"year" $group
+     * @param string                            $start_range
+     * @param string                            $end_range
+     * @param \app\enums\MetricServiceGroupType $group
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceGetMembersResult
      */
-    public function GetMembers($start_range, $end_range, $group): mixed {
+    public function GetMembers($start_range, $end_range, $group): MetricServiceGetMembersResult {
         $users = User::where(
             Where::_And(
                 Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
@@ -222,13 +231,15 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
         ksort($expired);
         ksort($total);
 
-        return [
+        $result = new MetricServiceGetMembersResult([
             'start_range' => $start_range,
             'end_range' => $end_range,
             'created' => $created,
             'expired' => $expired,
             'total' => $total
-        ];
+        ]);
+
+        return $result;
     }
 
     /**
@@ -239,19 +250,17 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceNewKeyholdersResult
      */
-    public function GetNewKeyHolders($start_range, $end_range): mixed {
+    public function GetNewKeyHolders($start_range, $end_range): MetricServiceNewKeyholdersResult {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
         $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::NewMembershipByIdCount($membership[0]->id, $start, $end);
 
-        return [
-            'start_range' => $start_range,
-            'end_range' => $end_range,
+        return new MetricServiceNewKeyholdersResult([
             'value' => $count
-        ];
+        ]);
     }
 
     /**
@@ -262,20 +271,20 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceNewMembersResult
      */
-    public function GetNewMembers($start_range, $end_range): mixed {
+    public function GetNewMembers($start_range, $end_range): MetricServiceNewMembersResult {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
         $count = self::NewMemberCount($start, $end);
 
-        return [
+        return new MetricServiceNewMembersResult([
             'start_range' => $start_range,
             'start' => $start,
             'end_range' => $end_range,
             'end' => $end,
             'value' => $count
-        ];
+        ]);
     }
 
     /**
@@ -292,15 +301,15 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @param string                     $start_range string iso date in UTC, if empty is end of today
-     * @param string                     $end_range   string iso date in UTC, if empty is end of today
-     * @param "all"|"day"|"month"|"year" $group       group by month, day, year
+     * @param string                            $start_range string iso date in UTC, if empty is end of today
+     * @param string                            $end_range   string iso date in UTC, if empty is end of today
+     * @param \app\enums\MetricServiceGroupType $group       group by month, day, year
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceGetRevenueResult
      */
-    public function GetRevenue($start_range, $end_range, $group): mixed {
+    public function GetRevenue($start_range, $end_range, $group): MetricServiceGetRevenueResult {
         $payments = Payment::where(
             Where::_And(
                 Where::Equal(Payment::Schema()->Columns()->status, 1),
@@ -352,12 +361,12 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             $byDate[$grouping] += $payment->rate_amount;
         }
 
-        return [
+        return new MetricServiceGetRevenueResult([
             'start_range' => $start_range,
             'end_range' => $end_range,
             'grouping' => $byDate,
             'by_membership' => $byMembership
-        ];
+        ]);
     }
 
     /**
@@ -365,15 +374,15 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceTotalKeyHoldersResult
      */
-    public function GetTotalKeyHolders(): mixed {
+    public function GetTotalKeyHolders(): MetricServiceTotalKeyHoldersResult {
         $membership = Membership::findByCode(Membership::KEYHOLDER);
         $count = self::TotalMembershipByIdCount($membership[0]->id);
 
-        return [
+        return new MetricServiceTotalKeyHoldersResult([
             'value' => $count
-        ];
+        ]);
     }
 
     /**
@@ -381,14 +390,14 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      *
      * @throws string
      *
-     * @return mixed
+     * @return \app\dto\v2\MetricServiceTotalMembersResult
      */
-    public function GetTotalMembers(): mixed {
+    public function GetTotalMembers(): MetricServiceTotalMembersResult {
         $count = self::TotalMemberCount();
 
-        return [
+        return new MetricServiceTotalMembersResult([
             'value' => $count
-        ];
+        ]);
     }
 
     private function countByDate($arr, $date, $group): mixed {
