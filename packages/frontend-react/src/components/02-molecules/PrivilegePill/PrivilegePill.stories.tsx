@@ -22,6 +22,11 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'PrivilegePill'
+        privilege: {
+            id: 1,
+            code: 'test',
+            name: 'Test',
+            enabled: false
+        }
     }
 }
