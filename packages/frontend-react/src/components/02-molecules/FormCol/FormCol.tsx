@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { useMemo, type FC } from 'react'
 
 import { clsx } from 'clsx'
 
@@ -6,11 +6,13 @@ import type { FormColProps } from './FormCol.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 
+import { coerceErrorBoolean } from '@/lib/utils'
+
 const FormCol: FC<FormColProps> = ({ children, className, error }) => {
-    error ??= false
+    const errorValue = useMemo(() => coerceErrorBoolean(error), [error])
 
     return (
-        <Col className={clsx([className, 'rounded-lg', error ? 'shadow-form-error' : null])} data-testid='FormCol'>
+        <Col className={clsx([className, 'rounded-lg', errorValue ? 'shadow-form-error' : null])} data-testid='FormCol'>
             {children}
         </Col>
     )
