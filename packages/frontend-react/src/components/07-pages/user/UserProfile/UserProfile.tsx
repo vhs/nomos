@@ -15,6 +15,7 @@ import Row from '@/components/01-atoms/Row/Row'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 import Card from '@/components/04-composites/Card/Card'
+import CurrentUserPrivilegesCard from '@/components/04-composites/CurrentUserPrivilegesCard/CurrentUserPrivilegesCard'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
@@ -27,7 +28,6 @@ import { zPasswordInput } from '@/lib/validators/common'
 import APIKeysCard from './APIKeysCard'
 import LinkedAccountsCard from './LinkedAccountsCard'
 import PinCard from './PinCard'
-import PrivilegesCard from './PrivilegesCard'
 import RFIDKeysCard from './RFIDKeysCard'
 import StandingCard from './StandingCard'
 import { UserProfileSchema } from './UserProfile.schema'
@@ -395,7 +395,7 @@ const UserProfile: FC<UserProfileProps> = () => {
 
                                     <Row>
                                         <Col>
-                                            <PrivilegesCard currentUser={currentUser} />
+                                            <CurrentUserPrivilegesCard currentUser={currentUser} />
                                         </Col>
                                     </Row>
                                 </Card.Body>
