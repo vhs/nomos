@@ -203,3 +203,5 @@ export const mergePrivilegesArrayToBooleanRecord = (
         convertPrivilegesArrayToBooleanRecord(base, false),
         convertPrivilegesArrayToBooleanRecord(override, true)
     )
+
+export const coerceErrorBoolean = (inp: unknown): boolean => (typeof inp === 'boolean' ? inp : inp != null)
