@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import moment from 'moment'
 import useSWR from 'swr'
 
-import type { AdminUserItemData, AdminUserItemProps } from './AdminUserItem.types'
+import type { AdminUsersItemData, AdminUsersItemProps } from './AdminUsersItem.types'
 
 import AccountStatusBadge from '@/components/01-atoms/AccountStatusBadge/AccountStatusBadge'
 import Button from '@/components/01-atoms/Button/Button'
@@ -22,14 +22,14 @@ import { convertUserStatus } from '@/lib/nomos'
 
 import type { UserActiveState } from '@/types/validators/common'
 
-const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
+const AdminUsersItem: FC<AdminUsersItemProps> = ({ data }) => {
     const router = useRouter()
 
     const { data: statuses, isLoading: isStatusesLoading } = useSWR<UserActiveState>(
         '/services/v2/UserService2.svc/GetStatuses'
     )
 
-    const user: AdminUserItemData = {
+    const user: AdminUsersItemData = {
         ...data,
 
         member_since_month: moment(data.created).format('MMMM'),
@@ -53,43 +53,40 @@ const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
     const userStatus = user.active != null ? convertUserStatus(statuses, user.active) : null
 
     return (
-        <TablePageRow data-testid='AdminUserItem'>
-            <ConditionalTableCell className='text-center' condition={'username' in data}>
+        <TablePageRow data-testid='AdminUsersItem'>
+            <ConditionalTableCell className='data-field' condition={'username' in data}>
                 <Popover className='shortened' content={user.username} popover={user.username} />
             </ConditionalTableCell>
             <ConditionalTableCell
-                className='break-words text-center'
+                className='data-field break-words'
                 condition={user.fname != null && user.lname != null}
             >
                 {user.fname} {data.lname}
             </ConditionalTableCell>
-            <ConditionalTableCell className='text-center' condition={'email' in data}>
+            <ConditionalTableCell className='data-field' condition={'email' in data}>
                 <Popover className='shortened' content={user.email} popover={user.email} />
             </ConditionalTableCell>
-            <ConditionalTableCell className='text-center' condition={userStatus != null}>
+            <ConditionalTableCell className='data-field' condition={userStatus != null}>
                 <AccountStatusBadge status={userStatus} />
             </ConditionalTableCell>
-            <ConditionalTableCell className='text-center' condition={'cash' in data}>
+            <ConditionalTableCell className='data-field' condition={'cash' in data}>
                 <CheckCircleIcon
                     className={clsx(['mx-auto max-h-5 max-w-5', user.cash ? 'text-primary' : 'text-gray-400/50'])}
                 />
             </ConditionalTableCell>
-            <ConditionalTableCell className='overflow-hidden text-ellipsis text-center' condition={'created' in data}>
+            <ConditionalTableCell className='data-field' condition={'created' in data}>
                 {user.member_since_month} {user.member_since_rest} ({user.member_for})
             </ConditionalTableCell>
-            <ConditionalTableCell
-                className='overflow-hidden text-ellipsis text-center'
-                condition={'mem_expire' in data}
-            >
+            <ConditionalTableCell className='data-field' condition={'mem_expire' in data}>
                 {user.expiry_date_month} {user.expiry_date_rest} ({user.expiry})
             </ConditionalTableCell>
-            <ConditionalTableCell className='text-balance text-center' condition={'privileges' in data}>
+            <ConditionalTableCell className='data-field text-balance' condition={'privileges' in data}>
                 {user.privileges != null &&
                     Object.values(user.privileges)
                         .map((p) => p.code)
                         .join(', ')}
             </ConditionalTableCell>
-            <ConditionalTableCell className='break-all text-center' condition={'lastlogin' in data}>
+            <ConditionalTableCell className='data-field break-all' condition={'lastlogin' in data}>
                 {user.lastlogin != null ? user.lastlogin.toLocaleString() : null}
             </ConditionalTableCell>
             <td>
@@ -109,4 +106,4 @@ const AdminUserItem: FC<AdminUserItemProps> = ({ data }) => {
     )
 }
 
-export default AdminUserItem
+export default AdminUsersItem
