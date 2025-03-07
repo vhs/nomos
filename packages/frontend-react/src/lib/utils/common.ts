@@ -43,6 +43,15 @@ export const coerceStringObject = (inp: Record<string, unknown>): Record<string,
     }, {})
 }
 
+export const fallbackNestedNumberRecord = (inp: unknown): Record<string, Record<string, number>> => {
+    if (typeof inp === 'object' && inp != null && !Array.isArray(inp))
+        return inp as Record<string, Record<string, number>>
+
+    const fallback: Record<string, Record<string, number>> = {}
+
+    return fallback
+}
+
 export const generateRangeArray = (min: number, max: number): number[] =>
     Array.from({ length: max - min + 1 }, (_, i) => min + i)
 
