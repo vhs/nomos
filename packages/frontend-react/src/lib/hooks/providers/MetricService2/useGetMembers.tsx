@@ -17,21 +17,13 @@ const getNewMembersFetcher = async (
 ): Promise<MetricServiceGetMembersResult> => {
     const result = await MetricService2.getInstance().GetMembers(start, end, group)
 
-    if (!isMetricServiceGetMembersResult(result))
+    if (!isMetricServiceGetMembersResult(result)) {
+        const validated = zMetricServiceGetMembersResult.safeParse(result)
+
         throw new Error(
-            `MetricService2.getInstance().GetMembers returned an invalid value[${typeof result}]: ${JSON.stringify(result)}`
+            `Invalid server input: ${validated.error?.errors.map((issue) => issue.message.toString()).join(', ')}`
         )
-
-    if (Array.isArray(result.created) && result.created.length === 0) result.created = {}
-    if (Array.isArray(result.expired) && result.expired.length === 0) result.expired = {}
-    if (Array.isArray(result.total) && result.total.length === 0) result.total = {}
-
-    const validated = zMetricServiceGetMembersResult.safeParse(result)
-
-    if (!validated.success)
-        throw new Error(
-            `Invalid server input: ${validated.error.errors.map((issue) => issue.message.toString()).join(', ')}`
-        )
+    }
 
     return result
 }
