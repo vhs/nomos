@@ -3,6 +3,8 @@
 namespace app\dto\v2;
 
 use app\utils\DTO;
+use app\utils\IDTO;
+use stdClass;
 
 /**
  * MetricServiceGetMembersResult Data Transfer Object.
@@ -15,4 +17,22 @@ use app\utils\DTO;
  *
  * @typescript
  */
-class MetricServiceGetMembersResult extends DTO {}
+class MetricServiceGetMembersResult extends DTO implements IDTO {
+    public function jsonSerialize(): array {
+        return $this->__serialize();
+    }
+
+    public function __serialize(): array {
+        return [
+            'start_range' => $this->start_range,
+            'end_range' => $this->end_range,
+            'created' => !empty($this->created) ? $this->created : new stdClass(),
+            'expired' => count(value: $this->expired) !== 0 ? $this->expired : new stdClass(),
+            'total' => !empty($this->total) ? $this->total : new stdClass()
+        ];
+    }
+
+    public function __toString(): string {
+        return json_encode($this->jsonSerialize());
+    }
+}
