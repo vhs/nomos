@@ -22,9 +22,9 @@ const getNewMembersFetcher = async (
             `MetricService2.getInstance().GetMembers returned an invalid value[${typeof result}]: ${JSON.stringify(result)}`
         )
 
-    if (Array.isArray(result.created)) result.created = {}
-    if (Array.isArray(result.expired)) result.expired = {}
-    if (Array.isArray(result.total)) result.total = {}
+    if (Array.isArray(result.created) && result.created.length === 0) result.created = {}
+    if (Array.isArray(result.expired) && result.expired.length === 0) result.expired = {}
+    if (Array.isArray(result.total) && result.total.length === 0) result.total = {}
 
     const validated = zMetricServiceGetMembersResult.safeParse(result)
 
