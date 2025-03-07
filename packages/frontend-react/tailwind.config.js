@@ -29,7 +29,7 @@ export default {
                 'warning-border': '#eea236',
                 'primary': '#0d6efd',
                 'secondary': '#6c757d',
-                'success': '#51ab51',
+                'success': '#35a435',
                 'warning': '#ffac36',
                 'danger': '#dc3545',
                 'info': '#0dcaf0',
