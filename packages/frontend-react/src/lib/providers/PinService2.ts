@@ -65,7 +65,7 @@ export default class PinService2 implements IPinService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    keyid
+     * @param {number} keyid
      * @param {string} pin
      *
      * @throws {string}
@@ -81,7 +81,7 @@ export default class PinService2 implements IPinService2 {
      *
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} pin
      *
      * @throws {string}

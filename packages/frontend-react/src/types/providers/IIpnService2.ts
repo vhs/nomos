@@ -40,8 +40,8 @@ export interface IIpnService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters

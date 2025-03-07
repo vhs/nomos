@@ -25,11 +25,11 @@ export default class EventService2 implements IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {string} name
-     * @param {string} domain
-     * @param {string} event
-     * @param {string} description
-     * @param {boolean}   enabled
+     * @param {string}  name
+     * @param {string}  domain
+     * @param {string}  event
+     * @param {string}  description
+     * @param {boolean} enabled
      *
      * @throws {string}
      *
@@ -107,9 +107,9 @@ export default class EventService2 implements IEventService2 {
      *
      * @throws {string}
      *
-     * @returns {unknown[]}
+     * @returns {unknown}
      */
-    async GetDomainDefinitions(): BackendResult<unknown[]> {
+    async GetDomainDefinitions(): BackendResult<unknown> {
         return await backendCall('/services/v2/EventService2.svc/GetDomainDefinitions', {})
     }
 
@@ -151,8 +151,8 @@ export default class EventService2 implements IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -174,7 +174,7 @@ export default class EventService2 implements IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {number}             id
+     * @param {number}          id
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -188,12 +188,12 @@ export default class EventService2 implements IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
-     * @param {string} name
-     * @param {string} domain
-     * @param {string} event
-     * @param {string} description
-     * @param {boolean}   enabled
+     * @param {number}  id
+     * @param {string}  name
+     * @param {string}  domain
+     * @param {string}  event
+     * @param {string}  description
+     * @param {boolean} enabled
      *
      * @throws {string}
      *

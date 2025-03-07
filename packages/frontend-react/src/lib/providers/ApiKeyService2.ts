@@ -37,7 +37,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} notes
      *
      * @throws {string}
@@ -88,7 +88,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}             keyid
+     * @param {number}          keyid
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -102,7 +102,7 @@ export default class ApiKeyService2 implements IApiKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}         keyid
+     * @param {number}      keyid
      * @param {string}      notes
      * @param {string|null} expires
      *

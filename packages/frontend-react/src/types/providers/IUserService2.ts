@@ -25,7 +25,7 @@ export interface IUserService2 {
      * @param {string} email
      * @param {string} fname
      * @param {string} lname
-     * @param {number}    membershipid
+     * @param {number} membershipid
      *
      * @throws {string}
      *
@@ -67,9 +67,9 @@ export interface IUserService2 {
      *
      * @throws {string}
      *
-     * @returns {unknown[]}
+     * @returns {unknown} [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
      */
-    GetStatuses: () => BackendResult<unknown[]>
+    GetStatuses: () => BackendResult<unknown>
 
     /**
      * @permission administrator|user
@@ -94,7 +94,7 @@ export interface IUserService2 {
     /**
      * @permission grants
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} privilege
      *
      * @throws {string}
@@ -106,8 +106,8 @@ export interface IUserService2 {
     /**
      * @permission administrator|grants
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -121,7 +121,7 @@ export interface IUserService2 {
     /**
      * @permission administrator
      *
-     * @param {number}             userid
+     * @param {number}          userid
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -182,7 +182,7 @@ export interface IUserService2 {
     /**
      * @permission grants
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} privilege
      *
      * @throws {string}
@@ -206,7 +206,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|full-profile
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} email
      *
      * @throws {string}
@@ -218,7 +218,7 @@ export interface IUserService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} date
      *
      * @throws {string}
@@ -242,7 +242,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|full-profile
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} fname
      * @param {string} lname
      *
@@ -267,7 +267,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} password
      *
      * @throws {string}
@@ -279,7 +279,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|full-profile
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} email
      *
      * @throws {string}
@@ -291,7 +291,7 @@ export interface IUserService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} status
      *
      * @throws {string}
@@ -303,7 +303,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|full-profile
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} email
      *
      * @throws {string}
@@ -315,7 +315,7 @@ export interface IUserService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} username
      *
      * @throws {string}

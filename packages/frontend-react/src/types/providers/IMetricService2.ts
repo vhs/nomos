@@ -40,8 +40,8 @@ export interface IMetricService2 {
     /**
      * @permission user
      *
-     * @param {string}                            start_range
-     * @param {string}                            end_range
+     * @param {string}                 start_range
+     * @param {string}                 end_range
      * @param {MetricServiceGroupType} group
      *
      * @throws {string}

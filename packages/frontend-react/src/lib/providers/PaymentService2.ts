@@ -25,7 +25,7 @@ export default class PaymentService2 implements IPaymentService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} filters
      *
      * @throws {string}
@@ -52,8 +52,8 @@ export default class PaymentService2 implements IPaymentService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -81,9 +81,9 @@ export default class PaymentService2 implements IPaymentService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} userid
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters

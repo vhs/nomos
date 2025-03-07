@@ -33,10 +33,10 @@ export interface IEmailService2 {
      *
      * @permission administrator
      *
-     * @param {string}               email
-     * @param {string}               tmpl
-     * @param {Record<string, unknown>} context
-     * @param {string|null}          subject
+     * @param {string}                 email
+     * @param {string}                 tmpl
+     * @param {Record<string,unknown>} context
+     * @param {string|null}            subject
      *
      * @throws {string}
      *
@@ -54,10 +54,10 @@ export interface IEmailService2 {
      *
      * @permission administrator
      *
-     * @param {User}     user    email address
-     * @param {string}               tmpl
-     * @param {Record<string, unknown>} context
-     * @param {string|null}          subject
+     * @param {User}                   user    email address
+     * @param {string}                 tmpl
+     * @param {Record<string,unknown>} context
+     * @param {string|null}            subject
      *
      * @throws {string}
      *
@@ -84,8 +84,8 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -128,7 +128,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} body
      *
      * @throws {string}
@@ -140,7 +140,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} code
      *
      * @throws {string}
@@ -152,7 +152,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} help
      *
      * @throws {string}
@@ -164,7 +164,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} html
      *
      * @throws {string}
@@ -176,7 +176,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} name
      *
      * @throws {string}
@@ -188,7 +188,7 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} subject
      *
      * @throws {string}
