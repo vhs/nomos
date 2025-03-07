@@ -146,9 +146,9 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @throws string
      *
-     * @return mixed[]
+     * @return mixed
      */
-    public function GetDomainDefinitions(): array {
+    public function GetDomainDefinitions(): mixed {
         foreach (glob('domain/*.php') as $filename) {
             include_once $filename;
         }

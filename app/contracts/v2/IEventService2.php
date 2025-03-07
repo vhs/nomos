@@ -88,9 +88,9 @@ interface IEventService2 extends IContract {
      *
      * @throws string
      *
-     * @return mixed[]
+     * @return mixed
      */
-    public function GetDomainDefinitions(): array;
+    public function GetDomainDefinitions(): mixed;
 
     /**
      * @permission administrator
