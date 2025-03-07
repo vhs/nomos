@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zBoolean, zHTTPMethod, zNumber, zString } from '@/lib/validators/common'
+import { zBoolean, zCoerceNumber, zHTTPMethod, zString } from '@/lib/validators/common'
 
 export const CreateWebHookFormSchema = z.object({
     name: zString,
@@ -10,5 +10,5 @@ export const CreateWebHookFormSchema = z.object({
     translation: zString,
     headers: zString,
     method: zHTTPMethod,
-    eventId: zNumber
+    eventId: zCoerceNumber
 })
