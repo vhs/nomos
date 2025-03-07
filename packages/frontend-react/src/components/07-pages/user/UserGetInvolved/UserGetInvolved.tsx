@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react'
+import { useEffect, useMemo, useState, type FC } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
+import FormRow from '@/components/02-molecules/FormRow/FormRow'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import Card from '@/components/04-composites/Card/Card'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
@@ -37,8 +38,11 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
         }
     })
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const sendSlackInvitation = async (): Promise<void> => {
-        if (form.formState.errors.slackInvitationAddress != null) {
+        if (!isValid) {
             toast.error('Invalid email address')
             return
         }
@@ -106,20 +110,33 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
                                             <Col>{response}</Col>
                                         </Row>
                                     </Conditional>
-                                    <Row>
-                                        <Col className='basis-3/4'>
-                                            <FormControl formKey='slackInvitationAddress' formType='text' />
+                                    <FormRow error={errors.slackInvitationAddress}>
+                                        <Col>
+                                            <div className='flex flex-row'>
+                                                <FormControl
+                                                    className='w-available'
+                                                    formKey='slackInvitationAddress'
+                                                    formType='text'
+                                                />
+                                                <Button
+                                                    className='ml-2 h-8'
+                                                    onClick={() => {
+                                                        void sendSlackInvitation()
+                                                    }}
+                                                    disabled={!isValid}
+                                                >
+                                                    Send
+                                                </Button>
+                                            </div>
+                                            <div className='ml-2 h-8'>
+                                                <Conditional condition={errors.slackInvitationAddress != null}>
+                                                    <span className='font-bold text-warning'>
+                                                        {errors.slackInvitationAddress?.message}
+                                                    </span>
+                                                </Conditional>
+                                            </div>
                                         </Col>
-                                        <Col className='basis-1/4'>
-                                            <Button
-                                                onClick={() => {
-                                                    void sendSlackInvitation()
-                                                }}
-                                            >
-                                                Send
-                                            </Button>
-                                        </Col>
-                                    </Row>
+                                    </FormRow>
                                 </Conditional>
                             </Card.Body>
                         </Card>
