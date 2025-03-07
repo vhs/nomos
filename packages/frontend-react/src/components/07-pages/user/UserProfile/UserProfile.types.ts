@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 
 import type UserObject from '@/lib/db/models/User'
 
+import type { CombinedPrivileges } from '@/types/common'
 import type { CastReactElement } from '@/types/utils'
 
 export interface UserProfileProps {
@@ -32,7 +33,7 @@ export interface StandingCardProps {
 }
 
 export interface PrivilegesListProps extends CastReactElement<'div'> {
-    privileges: UserObject['privileges'] | UserObject['membership']['privileges']
+    privileges: CombinedPrivileges
 }
 
 export interface PrivilegesCardProps extends CastReactElement<'div'> {
