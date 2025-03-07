@@ -1,34 +1,35 @@
-.basis-dynamic-menu {
-    @apply hidden pt-2 md:flex;
-    @apply md:basis-1/5;
-    @apply 2md:basis-1/6;
-    @apply lg:basis-1/8;
-    @apply xl:basis-1/9;
-    @apply 2xl:basis-1/9;
-    @apply 3xl:basis-1/8;
-    @apply 4xl:basis-1/10;
-    @apply 5xl:basis-1/11;
-    @apply bg-red-500/50;
-    @apply px-0;
-}
+@layer utilities {
+    .basis-dynamic-menu {
+        @apply hidden pt-2 md:flex;
+        @apply md:basis-1/5;
+        @apply 2md:basis-1/6;
+        @apply lg:basis-1/8;
+        @apply xl:basis-1/9;
+        @apply 2xl:basis-1/9;
+        @apply 3xl:basis-1/8;
+        @apply 4xl:basis-1/10;
+        @apply 5xl:basis-1/11;
+        @apply bg-red-500/50;
+        @apply px-0;
+    }
 
-.sidemenu {
-    /* @apply fixed left-0 top-20 w-40 rounded-r-lg; */
-    @apply rounded-r-lg border;
-}
+    .sidemenu {
+        /* @apply fixed left-0 top-20 w-40 rounded-r-lg; */
+        @apply rounded-r-lg border;
+    }
 
-.dynamic-menu {
-    @apply hidden pr-2 pt-2 md:flex;
-}
+    .dynamic-menu {
+        @apply hidden pr-2 pt-2 md:flex;
+    }
 
-.dynamic-content {
-    @apply w-available;
-}
+    .dynamic-content {
+        @apply w-available;
+    }
 
-.basis-dynamic-content {
-    /* @apply basis-full; */
-    @apply basis-auto;
-    /* @apply md:basis-4/5;
+    .basis-dynamic-content {
+        /* @apply basis-full; */
+        @apply basis-auto;
+        /* @apply md:basis-4/5;
         @apply lg:basis-7/8;
         @apply xl:basis-8/9;
         @apply 2xl:basis-8/9;
@@ -36,4 +37,5 @@
         @apply 3xl:basis-6/7;
         @apply 4xl:basis-9/10;
         @apply 5xl:basis-11/12; */
+    }
 }
