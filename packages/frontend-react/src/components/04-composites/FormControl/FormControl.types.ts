@@ -77,7 +77,7 @@ type FormControlExcludeProps = 'name' | 'onBlur' | 'onChange'
 
 interface FormControlBaseProps {
     formKey: string
-    error?: boolean
+    error?: unknown
     errorMessage?: string
     reset?: () => void
     // onChange?: (change: string) => void
