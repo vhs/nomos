@@ -199,11 +199,6 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                                     <PrivilegesSelectorCard
                                         customPrivileges={availablePrivileges}
                                         onUpdate={({ privilege, state }): void => {
-                                            console.debug(
-                                                'ApiKeysEditModal/PrivilegesSelectorCard/onUpdate - action => value:',
-                                                state ? 'set' : 'unset',
-                                                privilege
-                                            )
                                             dispatchPrivileges({
                                                 action: state ? 'set' : 'unset',
                                                 value: privilege
