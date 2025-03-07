@@ -86,11 +86,13 @@ web/components/
 !eslint.config.mjs
 !justfile
 !logs/EMPTY
-!nomos.d.ts
+nomos.d.ts
 !package.json
 !php-ts-transformer.php
+!phpstan.neon
 !phpunit.xml
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
+!psalm.xml
 !prettier.config.mjs
 !tsconfig.json
