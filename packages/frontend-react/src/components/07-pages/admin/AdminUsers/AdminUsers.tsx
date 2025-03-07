@@ -4,7 +4,7 @@ import type { AdminUsersProps } from './AdminUsers.types'
 
 import CreateUserButton from '@/components/01-atoms/CreateUserButton/CreateUserButton'
 import TablePage from '@/components/05-materials/TablePage/TablePage'
-import AdminUserItem from '@/components/07-pages/admin/AdminUsers/AdminUserItem/AdminUserItem'
+import AdminUsersItem from '@/components/07-pages/admin/AdminUsers/AdminUsersItem/AdminUsersItem'
 
 import { AdminUsersTablePageSchema } from './AdminUsers.schema'
 import { AdminUserFields, PrimaryAdminUserFilters, SecondaryAdminUserFilters } from './AdminUsers.utils'
@@ -21,7 +21,7 @@ const AdminUsers: FC<AdminUsersProps> = () => {
                 // @ts-expect-error This is fucky. Technical term.
                 schema={AdminUsersTablePageSchema}
                 // @ts-expect-error This is fucky. Technical term.
-                component={AdminUserItem}
+                component={AdminUsersItem}
                 order={['created desc']}
                 primaryFilters={PrimaryAdminUserFilters}
                 secondaryFilters={SecondaryAdminUserFilters}
