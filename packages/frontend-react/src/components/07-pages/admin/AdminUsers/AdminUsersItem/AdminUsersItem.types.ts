@@ -4,12 +4,12 @@ import type { ReactNode } from 'react'
 
 import type { User } from '@/types/validators/records'
 
-export interface AdminUserItemProps {
+export interface AdminUsersItemProps {
     children?: ReactNode
     data: User
 }
 
-export interface AdminUserItemData extends User {
+export interface AdminUsersItemData extends User {
     member_since_month: string
     member_since_rest: string
     member_for: string
