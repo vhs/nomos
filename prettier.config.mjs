@@ -72,6 +72,12 @@ const config = {
             options: {
                 parser: 'nginx'
             }
+        },
+        {
+            files: ['*.neon'],
+            options: {
+                parser: 'yaml'
+            }
         }
     ]
 }
