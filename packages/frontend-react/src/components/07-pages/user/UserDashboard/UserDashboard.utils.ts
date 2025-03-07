@@ -10,6 +10,7 @@ import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 import {
     convertDayofWeekByNumber,
     convertMonthNumberByNumber,
+    fallbackNestedNumberRecord,
     generateRowColArray,
     generateRowColBubbleDataset
 } from '@/lib/utils'
@@ -497,16 +498,18 @@ export const generateLineChartOptions = (
 })
 
 export const generateRevenueLineChartOptions = (revenue: MetricServiceGetRevenueResult): LineChartProps => {
+    const revenueByMembership = fallbackNestedNumberRecord(revenue.by_membership)
+
     const labels: string[] = [
         ...Object.keys(revenue.grouping),
-        ...(revenue.by_membership.vhs_membership_keyholder != null
-            ? Object.keys(revenue.by_membership.vhs_membership_keyholder)
+        ...(revenueByMembership.vhs_membership_keyholder != null
+            ? Object.keys(revenueByMembership.vhs_membership_keyholder)
             : []),
-        ...(revenue.by_membership.vhs_membership_member != null
-            ? Object.keys(revenue.by_membership.vhs_membership_member)
+        ...(revenueByMembership.vhs_membership_member != null
+            ? Object.keys(revenueByMembership.vhs_membership_member)
             : []),
-        ...(revenue.by_membership.Donation != null ? Object.keys(revenue.by_membership.Donation) : []),
-        ...(revenue.by_membership.vhs_card_2015 != null ? Object.keys(revenue.by_membership.vhs_card_2015) : [])
+        ...(revenueByMembership.Donation != null ? Object.keys(revenueByMembership.Donation) : []),
+        ...(revenueByMembership.vhs_card_2015 != null ? Object.keys(revenueByMembership.vhs_card_2015) : [])
     ]
         .reduce<string[]>((c, e) => {
             if (!c.includes(e)) c.push(e)
@@ -519,7 +522,7 @@ export const generateRevenueLineChartOptions = (revenue: MetricServiceGetRevenue
         datasets: []
     }
 
-    Object.entries(revenue.by_membership).forEach(([revenueType, revenueData]) => {
+    Object.entries(revenueByMembership).forEach(([revenueType, revenueData]) => {
         data.datasets.push({
             ...defaultLineOptions,
             label: revenueType,
