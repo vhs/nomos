@@ -2,6 +2,7 @@
 
 namespace app\utils;
 
+use Exception;
 use stdClass;
 
 /**
@@ -13,6 +14,10 @@ use stdClass;
  */
 class DTO extends stdClass {
     public function __construct(array $data) {
+        if (empty($data) || count($data) === 0) {
+            throw new Exception('Missing DTO construction argument!');
+        }
+
         foreach ($data as $k => $v) {
             $this->{$k} = $v;
         }
