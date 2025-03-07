@@ -18,6 +18,7 @@ import Row from '@/components/01-atoms/Row/Row'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 import Card from '@/components/04-composites/Card/Card'
+import CurrentUserPrivilegesCard from '@/components/04-composites/CurrentUserPrivilegesCard/CurrentUserPrivilegesCard'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import SelectorCard from '@/components/04-composites/SelectorCard/SelectorCard'
 import Tab from '@/components/04-composites/Tabs/Tab/Tab'
@@ -27,7 +28,6 @@ import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelector
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 import APIKeysCard from '@/components/07-pages/user/UserProfile/APIKeysCard'
 import LinkedAccountsCard from '@/components/07-pages/user/UserProfile/LinkedAccountsCard'
-import PrivilegesCard from '@/components/07-pages/user/UserProfile/PrivilegesCard'
 import RFIDKeysCard from '@/components/07-pages/user/UserProfile/RFIDKeysCard'
 
 import UserObject from '@/lib/db/models/User'
@@ -555,7 +555,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         <Tab tabKey={'privileges'} title={'Permissions'}>
                             <Row className='spacious'>
                                 <Col className='w-full p-1 lg:basis-1/2'>
-                                    <PrivilegesCard className='lg:basis-full' currentUser={userObj} />
+                                    <CurrentUserPrivilegesCard className='lg:basis-full' currentUser={userObj} />
                                 </Col>
 
                                 <Col>
