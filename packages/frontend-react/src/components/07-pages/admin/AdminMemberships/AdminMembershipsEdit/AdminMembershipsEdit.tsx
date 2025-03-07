@@ -22,12 +22,13 @@ import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
+import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'
 import MembershipService2 from '@/lib/providers/MembershipService2'
-import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from '@/lib/utils'
+import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 import { zMembershipPeriod } from '@/lib/validators/records'
 
-import type { Membership } from '@/types/validators/records'
+import type { BasePrivileges, Membership } from '@/types/validators/records'
 
 import { AdminMembershipsSchema } from '../AdminMemberships.schema'
 import { AdminMembershipsDefaultValues } from '../AdminMemberships.utils'
@@ -35,13 +36,29 @@ import { AdminMembershipsDefaultValues } from '../AdminMemberships.utils'
 const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
     const { mutate } = useTablePageContext()
 
+    const { data: systemPrivileges } = useGetAllPrivileges()
+
+    const availablePrivileges: BasePrivileges = useMemo(() => {
+        return [...(systemPrivileges ?? [])]
+            .filter(Boolean)
+            .map((p) => {
+                if (typeof p !== 'string')
+                    return {
+                        code: p.code,
+                        name: p.name
+                    }
+                else return null
+            })
+            .filter((p) => p != null) as BasePrivileges
+    }, [systemPrivileges])
+
     const membershipId = useParams({
         from: '/_admin/admin/memberships/$membershipId',
         select: ({ membershipId }): number => Number(membershipId)
     })
 
     const getMembershipUrl = useMemo(
-        () => `/services/v2/MembershipService2.svc/Get?membershipId=${membershipId}`,
+        () => (membershipId != null ? `/services/v2/MembershipService2.svc/Get?membershipId=${membershipId}` : null),
         [membershipId]
     )
 
@@ -55,11 +72,15 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
 
     const { activeFlag, privateFlag, recurringFlag, trialFlag } = form.watch()
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const {
         state: privileges,
         dispatch: dispatchPrivileges,
         isDirty: isPrivilegesDirty
-    } = useToggleReducer(convertPrivilegesArrayToBooleanRecord(membership?.privileges, true))
+    } = useToggleReducer(mergePrivilegesArrayToBooleanRecord(availablePrivileges, membership?.privileges))
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
@@ -69,14 +90,14 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
             return
         }
 
-        if (!form.formState.isDirty) {
+        if (!isDirty && !isPrivilegesDirty) {
             toast.error('Nothing changed!')
 
             return
         }
 
-        if (!form.formState.isValid) {
-            toast.error(`Please fix the errors (${Object.keys(form.formState.errors).length}) before continuing`)
+        if (!isValid) {
+            toast.error(`Please fix the errors (${Object.keys(errors).length}) before continuing`)
             return
         }
 
@@ -121,11 +142,20 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
             if ('activeFlag' in form.formState.dirtyFields)
                 await MembershipService2.getInstance().UpdateActive(membershipId, activeFlag)
 
-            if (isPrivilegesDirty)
+            if (isPrivilegesDirty) {
                 await MembershipService2.getInstance().PutPrivileges(
                     membershipId,
                     getEnabledStateRecordKeys(privileges)
                 )
+
+                dispatchPrivileges({
+                    action: 'update-defaults',
+                    value: privileges
+                })
+                dispatchPrivileges({
+                    action: 'reset'
+                })
+            }
 
             toast.update(loadingToastId, {
                 render: 'Membership updated',
@@ -160,7 +190,16 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
             recurringFlag: membership?.recurring,
             trialFlag: membership?.trial
         })
+        dispatchPrivileges({
+            action: 'update-defaults',
+            value: mergePrivilegesArrayToBooleanRecord(availablePrivileges, membership?.privileges)
+        })
+        dispatchPrivileges({
+            action: 'reset'
+        })
     }, [
+        availablePrivileges,
+        dispatchPrivileges,
         form,
         membership?.active,
         membership?.code,
@@ -169,6 +208,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
         membership?.period,
         membership?.price,
         membership?.private,
+        membership?.privileges,
         membership?.recurring,
         membership?.title,
         membership?.trial
@@ -189,7 +229,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                         <Button
                             key='Save'
                             className='btn-success'
-                            disabled={!form.formState.isDirty}
+                            disabled={!isDirty && !isPrivilegesDirty}
                             onClick={(event) => {
                                 void submitHandler(event)
                             }}
@@ -199,7 +239,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                         <Button
                             key='Reset'
                             className='btn-default'
-                            disabled={!form.formState.isDirty}
+                            disabled={!isDirty && !isPrivilegesDirty}
                             onClick={() => {
                                 hydrateDefaults()
                             }}
@@ -215,7 +255,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                 <Card.Header>Options</Card.Header>
                                 <Card.Body>
                                     <Row className='spacious'>
-                                        <FormCol>
+                                        <FormCol error={errors.title}>
                                             <label htmlFor='title'>
                                                 <b>Title</b>
                                                 <FormControl formKey='title' formType='text' />
@@ -223,7 +263,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         </FormCol>
                                     </Row>
                                     <Row className='spacious'>
-                                        <FormCol>
+                                        <FormCol error={errors.code}>
                                             <label htmlFor='code'>
                                                 <b>Code</b>
                                                 <FormControl formKey='code' formType='text' />
@@ -231,7 +271,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         </FormCol>
                                     </Row>
                                     <Row className='spacious'>
-                                        <FormCol>
+                                        <FormCol error={errors.description}>
                                             <label htmlFor='description'>
                                                 <b>Description</b>
                                                 <FormControl formKey='description' formType='text' />
@@ -239,7 +279,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         </FormCol>
                                     </Row>
                                     <Row className='spacious'>
-                                        <FormCol>
+                                        <FormCol error={errors.price}>
                                             <label htmlFor='price'>
                                                 <b>Price</b>
                                                 <FormControl formKey='price' formType='number' />
@@ -247,13 +287,13 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                         </FormCol>
                                     </Row>
                                     <Row className='spacious'>
-                                        <FormCol className='basis-full md:basis-1/2'>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.interval}>
                                             <label htmlFor='interval'>
                                                 <b>Interval</b>
                                                 <FormControl formKey='interval' formType='number' />
                                             </label>
                                         </FormCol>
-                                        <FormCol className='basis-full md:basis-1/2'>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.period}>
                                             <label htmlFor='period'>
                                                 <b>Period</b>
                                                 <div className='w-full'>
@@ -268,7 +308,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                     </Row>
 
                                     <Row className='spacious w-full'>
-                                        <Col className='basis-full md:basis-1/2'>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.trialFlag}>
                                             <Toggle
                                                 id='trialFlag'
                                                 checked={trialFlag}
@@ -281,8 +321,8 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             >
                                                 Trial
                                             </Toggle>
-                                        </Col>
-                                        <Col className='basis-full md:basis-1/2'>
+                                        </FormCol>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.recurringFlag}>
                                             <Toggle
                                                 checked={recurringFlag}
                                                 onChange={(checked) => {
@@ -294,8 +334,8 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             >
                                                 Recurring
                                             </Toggle>
-                                        </Col>
-                                        <Col className='basis-full md:basis-1/2'>
+                                        </FormCol>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.privateFlag}>
                                             <Toggle
                                                 checked={privateFlag}
                                                 onChange={(checked) => {
@@ -307,8 +347,8 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             >
                                                 Private
                                             </Toggle>
-                                        </Col>
-                                        <Col className='basis-full md:basis-1/2'>
+                                        </FormCol>
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.activeFlag}>
                                             <Toggle
                                                 checked={activeFlag}
                                                 onChange={(checked) => {
@@ -320,7 +360,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             >
                                                 Active
                                             </Toggle>
-                                        </Col>
+                                        </FormCol>
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -330,7 +370,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                 <Card.Header>Permissions</Card.Header>
                                 <Card.Body>
                                     <Row>
-                                        <Col className={clsx(['w-full p-1 lg:basis-1/2'])}>
+                                        <Col className={clsx(['w-full p-1'])}>
                                             <PrivilegesSelectorCard
                                                 onUpdate={({ privilege, state }): void => {
                                                     dispatchPrivileges({
