@@ -145,9 +145,9 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @throws string
      *
-     * @return mixed[]
+     * @return mixed [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
      */
-    public function GetStatuses(): array {
+    public function GetStatuses(): mixed {
         return [
             ['title' => 'Active', 'code' => 'y'],
             ['title' => 'Pending', 'code' => 't'],
