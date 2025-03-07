@@ -4,7 +4,7 @@ import type { CastReactElement } from '@/types/utils'
 
 export interface FormControlContainerProps extends CastReactElement<'div'> {
     children?: ReactNode
-    error?: boolean
+    error?: unknown
     hasFocus?: boolean
     hasPreContent?: boolean
     hasPostContent?: boolean

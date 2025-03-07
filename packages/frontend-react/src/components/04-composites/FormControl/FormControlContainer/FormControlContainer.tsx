@@ -1,8 +1,10 @@
-import type { FC } from 'react'
+import { useMemo, type FC } from 'react'
 
 import clsx from 'clsx'
 
 import type { FormControlContainerProps } from './FormControlContainer.types'
+
+import { coerceErrorBoolean } from '@/lib/utils'
 
 import styles from './FormControlContainer.module.css'
 
@@ -14,10 +16,11 @@ const FormControlContainer: FC<FormControlContainerProps> = ({
     hasPreContent,
     hasPostContent
 }) => {
-    error ??= false
     hasFocus ??= false
     hasPreContent ??= false
     hasPostContent ??= false
+
+    const hasError = useMemo(() => coerceErrorBoolean(error), [error])
 
     return (
         <div
@@ -26,7 +29,7 @@ const FormControlContainer: FC<FormControlContainerProps> = ({
                 className,
                 hasPreContent ? styles.WithPreContent : null,
                 hasPostContent ? styles.WithPostContent : null,
-                error ? styles.WithError : null,
+                hasError ? styles.WithError : null,
                 hasFocus ? styles.Focus : null
             ])}
             data-testid='FormControlContainer'
