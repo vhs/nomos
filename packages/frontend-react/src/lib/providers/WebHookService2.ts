@@ -25,7 +25,7 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} filters
      *
      * @throws {string}
@@ -39,14 +39,14 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission user
      *
-     * @param {string} name
-     * @param {string} description
-     * @param {boolean}   enabled
-     * @param {string} url
-     * @param {string} translation
-     * @param {string} headers
-     * @param {string} method
-     * @param {number}    eventid
+     * @param {string}  name
+     * @param {string}  description
+     * @param {boolean} enabled
+     * @param {string}  url
+     * @param {string}  translation
+     * @param {string}  headers
+     * @param {string}  method
+     * @param {number}  eventid
      *
      * @throws {string}
      * @throws {UnauthorizedException}
@@ -143,8 +143,8 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -166,15 +166,15 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} userid
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
      *
      * @throws {string}
-     * @throws {\Exception}
+     * @throws {Exception}
      *
      * @returns {WebHooks}
      */
@@ -199,7 +199,7 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}             id
+     * @param {number}          id
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -213,15 +213,15 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    id
-     * @param {string} name
-     * @param {string} description
-     * @param {boolean}   enabled
-     * @param {string} url
-     * @param {string} translation
-     * @param {string} headers
-     * @param {string} method
-     * @param {number}    eventid
+     * @param {number}  id
+     * @param {string}  name
+     * @param {string}  description
+     * @param {boolean} enabled
+     * @param {string}  url
+     * @param {string}  translation
+     * @param {string}  headers
+     * @param {string}  method
+     * @param {number}  eventid
      *
      * @throws {string}
      *

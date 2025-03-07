@@ -25,11 +25,11 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param {string} name
-     * @param {string} code
-     * @param {string} description
-     * @param {string} icon
-     * @param {boolean}   enabled
+     * @param {string}  name
+     * @param {string}  code
+     * @param {string}  description
+     * @param {string}  icon
+     * @param {boolean} enabled
      *
      * @throws {string}
      *
@@ -115,8 +115,8 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -144,7 +144,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} description
      *
      * @throws {string}
@@ -172,7 +172,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} icon
      *
      * @throws {string}
@@ -186,7 +186,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
+     * @param {number} id
      * @param {string} name
      *
      * @throws {string}

@@ -20,11 +20,11 @@ export interface IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {string} name
-     * @param {string} domain
-     * @param {string} event
-     * @param {string} description
-     * @param {boolean}   enabled
+     * @param {string}  name
+     * @param {string}  domain
+     * @param {string}  event
+     * @param {string}  description
+     * @param {boolean} enabled
      *
      * @throws {string}
      *
@@ -86,9 +86,9 @@ export interface IEventService2 {
      *
      * @throws {string}
      *
-     * @returns {unknown[]}
+     * @returns {unknown}
      */
-    GetDomainDefinitions: () => BackendResult<unknown[]>
+    GetDomainDefinitions: () => BackendResult<unknown>
 
     /**
      * @permission administrator
@@ -122,8 +122,8 @@ export interface IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -137,7 +137,7 @@ export interface IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {number}             id
+     * @param {number}          id
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -149,12 +149,12 @@ export interface IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
-     * @param {string} name
-     * @param {string} domain
-     * @param {string} event
-     * @param {string} description
-     * @param {boolean}   enabled
+     * @param {number}  id
+     * @param {string}  name
+     * @param {string}  domain
+     * @param {string}  event
+     * @param {string}  description
+     * @param {boolean} enabled
      *
      * @throws {string}
      *

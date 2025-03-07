@@ -49,8 +49,8 @@ export default class IpnService2 implements IIpnService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
