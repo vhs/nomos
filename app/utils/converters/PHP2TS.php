@@ -5,13 +5,21 @@ namespace app\utils\converters;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 class PHP2TS {
-    public static function convertDataType(string $type): string {
-        $result = $type;
+    public static function convertDataType(string $dataType): string {
+        $result = $dataType;
         $result = preg_replace('/\barray\<\b/', 'Record<', $result);
         $result = preg_replace('/\bbool\b/', 'boolean', $result);
         $result = preg_replace('/\bint\b/', 'number', $result);
         $result = preg_replace('/\bmixed\b/', 'unknown', $result);
         $result = preg_replace('/([A-Z]\w+)\[\]/', '$1s', $result);
+
+        $matches = preg_split('/[|,<>\n ]/', trim($result));
+
+        foreach ($matches as $match) {
+            if (strrpos($match, '\\') !== false) {
+                $result = str_replace($match, PHP2TS::getBaseContractInterface($match), subject: $result);
+            }
+        }
 
         return $result;
     }
@@ -56,16 +64,15 @@ class PHP2TS {
                 case 'param':
                     /** @disregard P1013 manually checking */
                     $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestType, ' ');
-                    // $tagRow[] = str_pad($tag->getVariableName(), $longestVarName, ' ');
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = trim($tag->getVariableName());
+                    $tagRow[] = str_pad($tag->getVariableName(), $longestVarName, ' ');
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
                     break;
                 case 'throws':
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestType + $longestVarName + 2, ' ');
+                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 2, ' ');
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
@@ -73,7 +80,7 @@ class PHP2TS {
                 case 'return':
                     $tagRow[0] = '@returns';
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestType + $longestVarName + 1, ' ');
+                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 1, ' ');
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 

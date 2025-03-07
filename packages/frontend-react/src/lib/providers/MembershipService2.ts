@@ -27,7 +27,7 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @param {string} title
      * @param {string} description
-     * @param {number}    price
+     * @param {number} price
      * @param {string} code
      * @param {string} days
      * @param {string} period
@@ -81,8 +81,8 @@ export default class MembershipService2 implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -110,7 +110,7 @@ export default class MembershipService2 implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param {number}             membershipId
+     * @param {number}          membershipId
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -124,12 +124,12 @@ export default class MembershipService2 implements IMembershipService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    membershipId
+     * @param {number} membershipId
      * @param {string} title
      * @param {string} description
-     * @param {number}    price
+     * @param {number} price
      * @param {string} code
-     * @param {number}    days
+     * @param {number} days
      * @param {string} period
      *
      * @throws {string}

@@ -19,7 +19,7 @@ export interface IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} type
      * @param {string} value
      * @param {string} notes
@@ -62,7 +62,7 @@ export interface IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}      userid
+     * @param {number}   userid
      * @param {string[]} types
      *
      * @throws {string}
@@ -74,7 +74,7 @@ export interface IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}             keyid
+     * @param {number}          keyid
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -86,7 +86,7 @@ export interface IKeyService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    keyid
+     * @param {number} keyid
      * @param {string} notes
      * @param {string} expires
      *

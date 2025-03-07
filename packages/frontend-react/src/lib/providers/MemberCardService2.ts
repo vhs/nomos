@@ -25,10 +25,10 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} filters
      *
-     * @throws {\Exception}
+     * @throws {Exception}
      * @throws {string}
      *
      * @returns {number}
@@ -56,7 +56,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
      * @param {string} email
      * @param {string} key
      *
-     * @throws {\Exception}
+     * @throws {Exception}
      * @throws {string}
      *
      * @returns {GenuineCard}
@@ -68,8 +68,8 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -97,14 +97,14 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} userid
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
      *
-     * @throws {\Exception}
+     * @throws {Exception}
      * @throws {string}
      *
      * @returns {GenuineCards}
@@ -133,7 +133,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
      * @param {string} key
      * @param {string} notes
      *
-     * @throws {\Exception}
+     * @throws {Exception}
      * @throws {string}
      *
      * @returns {GenuineCard}
@@ -148,7 +148,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
      * @param {string} key
      * @param {string} active
      *
-     * @throws {\Exception}
+     * @throws {Exception}
      * @throws {string}
      *
      * @returns {boolean}

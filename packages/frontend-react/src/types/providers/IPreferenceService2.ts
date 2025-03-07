@@ -51,8 +51,8 @@ export interface IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -72,10 +72,10 @@ export interface IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} key
-     * @param {string} value
-     * @param {boolean}   enabled
-     * @param {string} notes
+     * @param {string}  key
+     * @param {string}  value
+     * @param {boolean} enabled
+     * @param {string}  notes
      *
      * @throws {string}
      *
@@ -91,7 +91,7 @@ export interface IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {number}             id
+     * @param {number}          id
      * @param {string|string[]} privileges
      *
      * @throws {string}
@@ -114,11 +114,11 @@ export interface IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    id
-     * @param {string} key
-     * @param {string} value
-     * @param {boolean}   enabled
-     * @param {string} notes
+     * @param {number}  id
+     * @param {string}  key
+     * @param {string}  value
+     * @param {boolean} enabled
+     * @param {string}  notes
      *
      * @throws {string}
      *
@@ -135,8 +135,8 @@ export interface IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} key
-     * @param {boolean}   enabled
+     * @param {string}  key
+     * @param {boolean} enabled
      *
      * @throws {string}
      *

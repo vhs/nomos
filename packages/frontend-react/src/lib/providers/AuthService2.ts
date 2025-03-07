@@ -108,7 +108,7 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} filters
      *
      * @throws {string}
@@ -122,7 +122,7 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
+     * @param {number} userid
      * @param {string} filters
      *
      * @throws {string}
@@ -242,8 +242,8 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -265,8 +265,8 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
@@ -288,15 +288,15 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}                userid
-     * @param {number}                page
-     * @param {number}                size
-     * @param {string}             columns
-     * @param {string}             order
+     * @param {number} userid
+     * @param {number} page
+     * @param {number} size
+     * @param {string} columns
+     * @param {string} order
      * @param {Filter} filters
      *
      * @throws {string}
-     * @throws {\Exception}
+     * @throws {Exception}
      *
      * @returns {AccessLogs}
      */
@@ -321,15 +321,15 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number}    userid
-     * @param {number}    page
-     * @param {number}    size
+     * @param {number} userid
+     * @param {number} page
+     * @param {number} size
      * @param {string} columns
      * @param {string} order
      * @param {string} filters
      *
      * @throws {string}
-     * @throws {\Exception}
+     * @throws {Exception}
      *
      * @returns {AppClients}
      */
@@ -431,9 +431,9 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param {number}    userId
+     * @param {number} userId
      * @param {string} accessToken
-     * @param {number}    clientId
+     * @param {number} clientId
      * @param {string} expires
      *
      * @throws {string}
@@ -457,9 +457,9 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission oauth-provider
      *
-     * @param {number}    userId
+     * @param {number} userId
      * @param {string} refreshToken
-     * @param {number}    clientId
+     * @param {number} clientId
      * @param {string} expires
      *
      * @throws {string}
