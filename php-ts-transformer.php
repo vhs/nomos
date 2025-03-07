@@ -29,6 +29,6 @@ $config = TypeScriptTransformerConfig::create()
     // list of transformers
     ->transformers([InterfaceTransformer::class, EnumTransformer::class, DtoTransformer::class])
     // file where TypeScript type definitions will be written
-    ->outputFile(__DIR__ . '/ts/generated.d.ts');
+    ->outputFile(__DIR__ . '/packages/frontend-react/src/types/nomos.d.ts');
 
 TypeScriptTransformer::create($config)->transform();
