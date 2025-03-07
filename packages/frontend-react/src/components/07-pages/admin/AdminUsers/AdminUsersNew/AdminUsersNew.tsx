@@ -1,4 +1,4 @@
-import type { FC, MouseEvent } from 'react'
+import { useMemo, type FC, type MouseEvent } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from '@tanstack/react-router'
@@ -35,17 +35,21 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
         defaultValues: AdminUsersEditDefaultValues
     })
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const memType = form.watch('user.memType')
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
 
-        if (!form.formState.isDirty) {
+        if (!isDirty) {
             toast.warn('No changes')
             return
         }
 
-        if (!form.formState.isValid) {
+        if (!isValid) {
             toast.error('Please fix the errors first')
             return
         }
@@ -83,13 +87,14 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             onClick={(event) => {
                                 void submitHandler(event)
                             }}
+                            disabled={!isDirty}
                         >
                             Create
                         </Button>
                     ]}
                 >
                     <Row className='spacious'>
-                        <FormCol className='basis-1/2 px-2' error={form.formState.errors.user?.firstName != null}>
+                        <FormCol className='basis-1/2 px-2' error={errors.user?.firstName}>
                             <label htmlFor='user.firstName'>First Name</label>
                             <FormControl
                                 formKey='user.firstName'
@@ -100,7 +105,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             />
                         </FormCol>
 
-                        <FormCol className='basis-1/2 px-2' error={form.formState.errors.user?.lastName != null}>
+                        <FormCol className='basis-1/2 px-2' error={errors.user?.lastName}>
                             <label htmlFor='user.lastName'>Last Name</label>
                             <FormControl
                                 formKey='user.lastName'
@@ -115,7 +120,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                     <Row>
                         <Col className='basis-1/2 px-2'>
                             <Row className='spacious'>
-                                <FormCol className='w-full' error={form.formState.errors.user?.userName != null}>
+                                <FormCol className='w-full' error={errors.user?.userName}>
                                     <label htmlFor='user.userName'>Username</label>
                                     <FormControl
                                         formKey='user.userName'
@@ -127,7 +132,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             </Row>
 
                             <Row className='spacious'>
-                                <FormCol className='w-full' error={form.formState.errors.password?.password1 != null}>
+                                <FormCol className='w-full' error={errors.password?.password1}>
                                     <label htmlFor='password.password1'>Password</label>
                                     <FormControl
                                         formKey='password.password1'
@@ -139,7 +144,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             </Row>
 
                             <Row className='spacious'>
-                                <FormCol className='w-full' error={form.formState.errors.user?.userEmail != null}>
+                                <FormCol className='w-full' error={errors.user?.userEmail}>
                                     <label htmlFor='user.email'>E-Mail</label>
                                     <FormControl
                                         formKey='user.userEmail'
@@ -151,7 +156,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                             </Row>
                         </Col>
 
-                        <FormCol className='basis-1/2 px-1' error={form.formState.errors.user?.memType != null}>
+                        <FormCol className='basis-1/2 px-1' error={errors.user?.memType}>
                             <MembershipSelectorCard
                                 className={clsx(['spacious'])}
                                 onUpdate={(id: number) => {

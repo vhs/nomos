@@ -66,6 +66,10 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
 
     const enabled = form.watch('enabled')
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const {
         state: privileges,
         dispatch: dispatchPrivileges,
@@ -79,11 +83,11 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
 
-        if (!form.formState.isDirty) return
+        if (!isDirty) return
 
         const { name, description, enabled, url, translation, headers, method, eventId } = form.getValues()
 
-        if (!form.formState.isValid || typeof eventId !== 'number') {
+        if (!isValid) {
             toast.error('You have errors in your form. Please fix these first.')
             return
         }
@@ -165,7 +169,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         <Button
                             key='Create & Close'
                             variant='success'
-                            disabled={!form.formState.isDirty}
+                            disabled={!isDirty}
                             onClick={(event) => {
                                 void submitHandler(event)
                             }}
@@ -175,7 +179,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         <Button
                             key='Reset'
                             className='btn-default'
-                            disabled={!form.formState.isDirty}
+                            disabled={!isDirty}
                             onClick={() => {
                                 resetFields()
                             }}
@@ -191,7 +195,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                     }}
                 >
                     <Row className='spacious'>
-                        <FormCol error={form.formState.errors.name != null}>
+                        <FormCol error={errors.name}>
                             <label htmlFor='name'>
                                 <strong>Name</strong>
                                 <FormControl
@@ -199,14 +203,14 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     formType='text'
                                     aria-placeholder='Name'
                                     placeholder='Name'
-                                    error={form.formState.errors.name != null}
+                                    error={errors.name}
                                 />
                             </label>
                         </FormCol>
                     </Row>
 
                     <Row className='spacious'>
-                        <FormCol className='basis-full lg:basis-1/6' error={form.formState.errors.method != null}>
+                        <FormCol className='basis-full lg:basis-1/6' error={errors.method}>
                             <label htmlFor='method'>
                                 <strong>Method</strong>
                                 <FormControl
@@ -214,12 +218,12 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     aria-placeholder='Method'
                                     formType='dropdown'
                                     options={zHTTPMethod.options.map((m) => m.value)}
-                                    error={form.formState.errors.method != null}
+                                    error={errors.method}
                                 />
                             </label>
                         </FormCol>
 
-                        <FormCol className='basis-full lg:basis-5/6' error={form.formState.errors.url != null}>
+                        <FormCol className='basis-full lg:basis-5/6' error={errors.url}>
                             <label htmlFor='url'>
                                 <strong>URL</strong>
                                 <FormControl
@@ -227,14 +231,14 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     formType='url'
                                     aria-placeholder='URL'
                                     placeholder='URL'
-                                    error={form.formState.errors.url != null}
+                                    error={errors.url}
                                 />
                             </label>
                         </FormCol>
                     </Row>
 
                     <Row className='spacious'>
-                        <FormCol error={form.formState.errors.description != null}>
+                        <FormCol error={errors.description}>
                             <label htmlFor='description'>
                                 <strong>Description</strong>
                                 <FormControl
@@ -242,14 +246,14 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     formType='text'
                                     aria-placeholder='Description'
                                     placeholder='Description'
-                                    error={form.formState.errors.description != null}
+                                    error={errors.description}
                                 />
                             </label>
                         </FormCol>
                     </Row>
 
                     <Row className='spacious'>
-                        <FormCol error={form.formState.errors.translation != null}>
+                        <FormCol error={errors.translation}>
                             <label htmlFor='translation'>
                                 <strong>Translation</strong>
                                 <FormControl
@@ -257,14 +261,14 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     formType='text'
                                     aria-placeholder='Translation'
                                     placeholder='Translation'
-                                    error={form.formState.errors.translation != null}
+                                    error={errors.translation}
                                 />
                             </label>
                         </FormCol>
                     </Row>
 
                     <Row className='spacious'>
-                        <FormCol error={form.formState.errors.headers != null}>
+                        <FormCol error={errors.headers}>
                             <label htmlFor='headers'>
                                 <strong>Headers</strong>
                                 <FormControl
@@ -272,7 +276,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                                     formType='textarea'
                                     aria-placeholder='Headers'
                                     placeholder='Headers'
-                                    error={form.formState.errors.headers != null}
+                                    error={errors.headers}
                                     rows={5}
                                 />
                             </label>

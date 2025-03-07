@@ -81,7 +81,9 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
         defaultValues: AdminUsersDefaultValues
     })
 
-    const errors = useMemo(() => form.formState.errors, [form.formState])
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
 
     const {
         state: privileges,
@@ -116,9 +118,9 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const submitHandler = async (event?: BaseSyntheticEvent): Promise<boolean> => {
         event?.preventDefault()
 
-        if (!form.formState.isDirty && !isPrivilegesDirty) return false
+        if (!isDirty && !isPrivilegesDirty) return false
 
-        if (Object.keys(errors).length > 0) {
+        if (!isValid) {
             toast.error(`Please fix the errors before continuing`)
             return false
         }
@@ -240,7 +242,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     }
 
     const hydrateDefaults = useCallback((): void => {
-        if (userObj != null && !form.formState.isDirty) {
+        if (userObj != null && !isDirty) {
             form.reset({
                 user: {
                     firstName: userObj.fname,
@@ -296,7 +298,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         <Button
                             key='Save Profile'
                             className='btn-success'
-                            disabled={!form.formState.isDirty && !isPrivilegesDirty}
+                            disabled={!isDirty && !isPrivilegesDirty}
                             onClick={(event) => {
                                 void submitHandler(event)
                             }}
@@ -306,7 +308,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         <Button
                             key='Reset'
                             className='btn-default'
-                            disabled={!form.formState.isDirty && !isPrivilegesDirty}
+                            disabled={!isDirty && !isPrivilegesDirty}
                             onClick={() => {
                                 resetDefaults()
                             }}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FC, type MouseEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FC, type MouseEvent } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -57,6 +57,10 @@ const UserProfile: FC<UserProfileProps> = () => {
         }
     })
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const standing = useGetStanding(currentUser?.id)
 
     const hydrateDefaults = useCallback((): void => {
@@ -93,9 +97,9 @@ const UserProfile: FC<UserProfileProps> = () => {
 
         const userId = currentUser.id
 
-        if (!form.formState.isDirty) return
+        if (!isDirty) return
 
-        if (!form.formState.isValid) {
+        if (!isValid) {
             toast.error('You have errors in your input fields')
             return
         }
@@ -169,10 +173,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                 <Card.Header>Profile</Card.Header>
                                 <Card.Body>
                                     <Row>
-                                        <FormCol
-                                            className='basis-full md:basis-1/2'
-                                            error={form.formState.errors.user?.userName != null}
-                                        >
+                                        <FormCol className='basis-full md:basis-1/2' error={errors.user?.userName}>
                                             <FormControl
                                                 formKey='user.userName'
                                                 formType='text'
@@ -196,16 +197,13 @@ const UserProfile: FC<UserProfileProps> = () => {
                                     </Row>
 
                                     <Row>
-                                        <FormCol
-                                            error={form.formState.errors.user?.firstName != null}
-                                            className='basis-full md:basis-1/2'
-                                        >
+                                        <FormCol error={errors.user?.firstName} className='basis-full md:basis-1/2'>
                                             <label htmlFor='firstName'>
                                                 <b>First Name</b>
                                             </label>
                                             <FormControl
                                                 formKey='user.firstName'
-                                                error={form.formState.errors.user?.firstName != null}
+                                                error={errors.user?.firstName}
                                                 formType='text'
                                                 placeholder='First Name'
                                                 aria-label='First Name'
@@ -213,16 +211,13 @@ const UserProfile: FC<UserProfileProps> = () => {
                                                 disabled={!currentUser.hasPrivilege('full-profile')}
                                             />
                                         </FormCol>
-                                        <FormCol
-                                            error={form.formState.errors.user?.lastName != null}
-                                            className='basis-full md:basis-1/2'
-                                        >
+                                        <FormCol error={errors.user?.lastName} className='basis-full md:basis-1/2'>
                                             <label htmlFor='lastName'>
                                                 <b>Last Name</b>
                                             </label>
                                             <FormControl
                                                 formKey='user.lastName'
-                                                error={form.formState.errors.user?.lastName != null}
+                                                error={errors.user?.lastName}
                                                 formType='text'
                                                 placeholder='Last Name'
                                                 aria-label='Last Name'
@@ -233,10 +228,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                     </Row>
 
                                     <Row>
-                                        <FormCol
-                                            className='basis-full'
-                                            error={form.formState.errors.user?.email != null}
-                                        >
+                                        <FormCol className='basis-full' error={errors.user?.email}>
                                             <label htmlFor='userEmail'>
                                                 <b>Email</b>
                                                 <div className='checkbox pull-right m-0'>
@@ -248,7 +240,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             </label>
                                             <FormControl
                                                 formKey='user.email'
-                                                error={form.formState.errors.user?.email != null}
+                                                error={errors.user?.email}
                                                 formType='email'
                                                 placeholder='Email'
                                                 aria-label='Email'
@@ -259,10 +251,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                     </Row>
 
                                     <Row>
-                                        <FormCol
-                                            className='basis-full'
-                                            error={form.formState.errors.user?.paypalEmail != null}
-                                        >
+                                        <FormCol className='basis-full' error={errors.user?.paypalEmail}>
                                             <label htmlFor='paypalEmail'>
                                                 <b>PayPal Email</b>
                                             </label>
@@ -279,7 +268,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             </div>
                                             <FormControl
                                                 formKey='user.paypalEmail'
-                                                error={form.formState.errors.user?.paypalEmail != null}
+                                                error={errors.user?.paypalEmail}
                                                 formType='email'
                                                 placeholder='PayPal Email'
                                                 aria-label='PayPal Email'
@@ -290,15 +279,12 @@ const UserProfile: FC<UserProfileProps> = () => {
                                     </Row>
 
                                     <Row>
-                                        <FormCol
-                                            className='basis-full lg:basis-1/2'
-                                            error={form.formState.errors.user?.stripeEmail != null}
-                                        >
+                                        <FormCol className='basis-full lg:basis-1/2' error={errors.user?.stripeEmail}>
                                             <label htmlFor='user.stripeEmail'>
                                                 <b>Stripe Email</b>
                                                 <FormControl
                                                     formKey='user.stripeEmail'
-                                                    error={form.formState.errors.user?.stripeEmail != null}
+                                                    error={errors.user?.stripeEmail}
                                                     formType='email'
                                                     placeholder='Stripe Email'
                                                     aria-label='Stripe Email'
@@ -333,7 +319,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                     <Row>
                                         <Col>
                                             <Button
-                                                disabled={!form.formState.isDirty}
+                                                disabled={!isDirty}
                                                 onClick={() => {
                                                     hydrateDefaults()
                                                 }}
@@ -346,7 +332,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                                             <Button
                                                 variant='success'
                                                 className='float-end'
-                                                disabled={!form.formState.isDirty}
+                                                disabled={!isDirty}
                                                 onClick={(event) => {
                                                     void submitHandler(event)
                                                 }}
@@ -438,7 +424,7 @@ const UserProfile: FC<UserProfileProps> = () => {
                         >
                             <Row>
                                 <Col>New Password:</Col>
-                                <FormCol error={form.formState.errors.password?.password1 != null}>
+                                <FormCol error={errors.password?.password1}>
                                     <FormControl
                                         formKey='password.password1'
                                         formType='password'
@@ -449,7 +435,7 @@ const UserProfile: FC<UserProfileProps> = () => {
 
                             <Row>
                                 <Col>Confirm Password:</Col>
-                                <FormCol error={form.formState.errors.password?.password2 != null}>
+                                <FormCol error={errors.password?.password2}>
                                     <FormControl
                                         formKey='password.password2'
                                         formType='password'
