@@ -55,8 +55,9 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
 
     const enabled = form.watch('enabled')
 
-    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
     const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
 
     const {
         state: privileges,
@@ -71,7 +72,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
 
-        if (!form.formState.isDirty) return
+        if (!isDirty) return
 
         if (!isValid) {
             toast.error('You have errors in your form. Please fix these first.')
@@ -122,7 +123,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                     <Button
                         key='Save & Close'
                         variant='success'
-                        disabled={!form.formState.isDirty}
+                        disabled={!isDirty}
                         onClick={(event) => {
                             void submitHandler(event)
                         }}
@@ -132,7 +133,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                     <Button
                         key='Reset'
                         className='btn-default'
-                        disabled={!form.formState.isDirty}
+                        disabled={!isDirty}
                         onClick={() => {
                             resetFields()
                         }}
@@ -158,7 +159,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                     formType='text'
                                     aria-placeholder='Key'
                                     placeholder='Key'
-                                    error={form.formState.errors.key != null}
+                                    error={errors.key}
                                 />
                             </Card.Body>
                         </Card>
@@ -177,7 +178,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                             formType='text'
                                             aria-placeholder='Value'
                                             placeholder='Value'
-                                            error={form.formState.errors.value != null}
+                                            error={errors.value}
                                         />
                                     </Card.Body>
                                 </Card>
@@ -213,7 +214,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                             formType='textarea'
                                             aria-placeholder='Notes'
                                             placeholder='Notes'
-                                            error={form.formState.errors.notes != null}
+                                            error={errors.notes}
                                         />
                                     </Card.Body>
                                 </Card>

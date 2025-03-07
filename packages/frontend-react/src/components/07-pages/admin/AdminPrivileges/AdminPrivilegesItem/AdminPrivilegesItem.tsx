@@ -52,6 +52,10 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
     const enabled = form.watch('enabled')
     const icon = form.watch('icon')
 
+    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
+    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
+    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+
     const [showModal, setShowModal] = useState<boolean>(false)
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
@@ -62,12 +66,12 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
             return
         }
 
-        if (!form.formState.isDirty) {
+        if (!isDirty) {
             toast.warn('No changes detected!')
             return
         }
 
-        if (!form.formState.isValid) {
+        if (!isValid) {
             toast.error(`Please fix the errors before continuing`)
             return
         }
@@ -207,7 +211,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                         key='Save'
                                         variant='success'
                                         className='btn-success'
-                                        disabled={!form.formState.isDirty}
+                                        disabled={!isDirty}
                                         onClick={(event) => {
                                             void submitHandler(event)
                                         }}
@@ -217,7 +221,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     <Button
                                         key='Reset'
                                         variant='primary'
-                                        disabled={!form.formState.isDirty}
+                                        disabled={!isDirty}
                                         onClick={() => {
                                             hydrateDefaults()
                                         }}
@@ -227,7 +231,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                 ]}
                             >
                                 <Row className='spacious'>
-                                    <FormCol error={form.formState.errors.name != null}>
+                                    <FormCol error={errors.name}>
                                         <label htmlFor='name'>
                                             <strong>Name</strong>
                                             <FormControl formKey='name' formType='text' />
@@ -236,7 +240,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                 </Row>
 
                                 <Row className='spacious'>
-                                    <FormCol error={form.formState.errors.description != null}>
+                                    <FormCol error={errors.description}>
                                         <label htmlFor='description'>
                                             <strong>Description</strong>
                                             <FormControl formKey='description' formType='text' />
@@ -245,7 +249,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                 </Row>
 
                                 <Row className='spacious'>
-                                    <FormCol error={form.formState.errors.icon != null}>
+                                    <FormCol error={errors.icon}>
                                         <label htmlFor='icon'>
                                             <div className='inline'>
                                                 <Popover
@@ -259,14 +263,14 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                                 formKey='icon'
                                                 formType='text'
                                                 className={!checkValidIcon(icon) ? 'border-orange-500' : undefined}
-                                                errorMessage={form.formState.errors.icon?.message}
+                                                errorMessage={errors.icon?.message}
                                             />
                                         </label>
                                     </FormCol>
                                 </Row>
 
                                 <Row className='spacious'>
-                                    <FormCol error={form.formState.errors.enabled != null}>
+                                    <FormCol error={errors.enabled}>
                                         <Toggle
                                             checked={enabled}
                                             onChange={(change) => {
