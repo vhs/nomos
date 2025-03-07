@@ -70,9 +70,9 @@ interface IUserService2 extends IContract {
      *
      * @throws string
      *
-     * @return mixed[]
+     * @return mixed [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
      */
-    public function GetStatuses(): array;
+    public function GetStatuses(): mixed;
 
     /**
      * @permission administrator|user
