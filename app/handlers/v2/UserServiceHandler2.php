@@ -99,7 +99,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
             'host' => $protocol . $domainName
         ]);
 
-        return $user;
+        return $this->getUserById($user->id);
     }
 
     /**
