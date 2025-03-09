@@ -1,3 +1,3 @@
 import { zPrivilege } from '@/lib/validators/records'
 
-export const AdminPrivilegeItemSchema = zPrivilege.omit({ id: true })
+export const zAdminPrivilegeItemSchema = zPrivilege.omit({ id: true })

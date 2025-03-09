@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { CreateWebHookFormProps, CreateWebHookFormTypes } from './CreateWebHookForm.types'
+import type { CreateWebHookFormProps, CreateWebHookFormSchema } from './CreateWebHookForm.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -26,7 +26,7 @@ import { zHTTPMethod } from '@/lib/validators/common'
 
 import type { BasePrivileges } from '@/types/validators/records'
 
-import { CreateWebHookFormSchema } from './CreateWebHookForm.schema'
+import { zCreateWebHookFormSchema } from './CreateWebHookForm.schema'
 import { CreateWebHookDefaultValues } from './CreateWebHookForm.utils'
 
 const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
@@ -58,8 +58,8 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
         setShowModal(false)
     }
 
-    const form = useForm<CreateWebHookFormTypes>({
-        resolver: zodResolver(CreateWebHookFormSchema),
+    const form = useForm<CreateWebHookFormSchema>({
+        resolver: zodResolver(zCreateWebHookFormSchema),
         mode: 'onChange',
         defaultValues: CreateWebHookDefaultValues
     })

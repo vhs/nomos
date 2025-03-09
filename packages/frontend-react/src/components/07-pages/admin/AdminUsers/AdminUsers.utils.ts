@@ -1,6 +1,11 @@
 import moment from 'moment'
 
-import type { AdminUsersColumns, AdminUsersEditForm } from './AdminUsers.types'
+import type {
+    AdminUsersColumns,
+    AdminUsersCreateSchema,
+    AdminUsersEditPasswordSchema,
+    AdminUsersEditProfileSchema
+} from './AdminUsers.types'
 
 import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
@@ -77,23 +82,31 @@ export const SecondaryAdminUserFilters: FilterDefinitions = [
     }
 ]
 
-export const AdminUsersEditDefaultValues: AdminUsersEditForm = {
-    user: {
-        firstName: '',
-        lastName: '',
-        userName: '',
-        userEmail: '',
-        paypalEmail: '',
-        stripeEmail: '',
-        newsletter: false,
-        cashMember: false,
-        userPin: '',
-        memExpire: '',
-        memStatus: 'y',
-        memType: 0
-    },
-    password: {
-        password1: '',
-        password2: ''
-    }
+export const AdminUsersCreateDefaultValues: AdminUsersCreateSchema = {
+    firstName: '',
+    lastName: '',
+    memType: 0,
+    userEmail: '',
+    userName: '',
+    userPass: ''
+}
+
+export const AdminUsersEditPasswordDefaultValues: AdminUsersEditPasswordSchema = {
+    password1: '',
+    password2: ''
+}
+
+export const AdminUsersEditProfileDefaultValues: AdminUsersEditProfileSchema = {
+    firstName: '',
+    lastName: '',
+    userName: '',
+    userEmail: '',
+    paypalEmail: '',
+    stripeEmail: '',
+    newsletter: false,
+    cashMember: false,
+    userPin: '',
+    memExpire: '',
+    memStatus: 'y',
+    memType: 0
 }

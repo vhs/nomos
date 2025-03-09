@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import type { AdminMembershipsSchema } from './AdminMemberships.schema'
+import type { zAdminMembershipsSchema } from './AdminMemberships.schema'
 import type { z } from 'zod'
 
 import type { Membership } from '@/types/validators/records'
@@ -10,4 +10,4 @@ export interface AdminMembershipsProps {
     data: Membership
 }
 
-export type AdminMembershipsForm = z.infer<typeof AdminMembershipsSchema>
+export type AdminMembershipsSchema = z.infer<typeof zAdminMembershipsSchema>

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { mutate } from 'swr'
 
 import type { ApiKeysEditModalProps } from './ApiKeysEditModal.types'
-import type { ApiKeysForm } from '../ApiKeysPage.types'
+import type { ApiKeysEditSchema } from '../ApiKeysPage.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -24,7 +24,7 @@ import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
 import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
 import { useApiKeysPageContext } from '../ApiKeysPage.context'
-import { zApiKeysSchema } from '../ApiKeysPage.schemas'
+import { zApiKeysEditSchema } from '../ApiKeysPage.schemas'
 
 const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
     const { currentUser } = useAuth()
@@ -32,8 +32,8 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
 
     const { data: apiKey } = useGetApiKey(keyId)
 
-    const form = useForm<ApiKeysForm>({
-        resolver: zodResolver(zApiKeysSchema),
+    const form = useForm<ApiKeysEditSchema>({
+        resolver: zodResolver(zApiKeysEditSchema),
         mode: 'onChange',
         defaultValues: {
             key: apiKey?.key ?? '',

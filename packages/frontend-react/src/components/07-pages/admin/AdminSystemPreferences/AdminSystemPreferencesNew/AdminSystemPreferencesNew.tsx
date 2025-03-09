@@ -5,7 +5,7 @@ import { useRouter } from '@tanstack/react-router'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { AdminSystemPreferencesNewForm, AdminSystemPreferencesNewProps } from './AdminSystemPreferencesNew.types'
+import type { AdminSystemPreferencesNewSchema, AdminSystemPreferencesNewProps } from './AdminSystemPreferencesNew.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -24,8 +24,8 @@ import { convertPrivilegesArrayToBooleanRecord, getEnabledStateRecordKeys } from
 
 import type { BasePrivileges } from '@/types/validators/records'
 
-import { AdminSystemPreferencesNewSchema } from './AdminSystemPreferencesNew.schema'
-import { AdminSystemPreferencesNewDefaultValues } from './AdminSystemPreferencesNew.utils'
+import { zAdminSystemPreferencesNewSchema } from '../AdminSystemPreferences.schema'
+import { AdminSystemPreferencesNewDefaultValues } from '../AdminSystemPreferences.utils'
 
 const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
     const { mutate } = useTablePageContext()
@@ -47,8 +47,8 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
             .filter((p) => p != null) as BasePrivileges
     }, [systemPrivileges])
 
-    const form = useForm<AdminSystemPreferencesNewForm>({
-        resolver: zodResolver(AdminSystemPreferencesNewSchema),
+    const form = useForm<AdminSystemPreferencesNewSchema>({
+        resolver: zodResolver(zAdminSystemPreferencesNewSchema),
         mode: 'onChange',
         defaultValues: AdminSystemPreferencesNewDefaultValues
     })

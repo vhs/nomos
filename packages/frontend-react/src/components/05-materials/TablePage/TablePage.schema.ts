@@ -11,7 +11,7 @@ export const zAllowedPageSizes = z.union([
     z.literal(10000)
 ])
 
-export const TablePageSchema = z.object({
+export const zTablePageSchema = z.object({
     search: z.object({
         columns: zString,
         order: zString,
@@ -26,7 +26,7 @@ export const TablePageSchema = z.object({
     secondaryFilterStates: zBooleanRecord
 })
 
-export type TablePageForm = z.infer<typeof TablePageSchema>
+export type TablePageSchema = z.infer<typeof zTablePageSchema>
 
 export type AllowedPageSizes = z.infer<typeof zAllowedPageSizes>
 
@@ -49,7 +49,7 @@ const zTablePageSchemaType = z.object({
     })
 })
 
-export type TablePageSchemaType = typeof TablePageSchema
+export type TablePageSchemaType = typeof zTablePageSchema
 
 export const isTablePageSchemaType = (inp: unknown): inp is TablePageSchemaType => {
     return zTablePageSchemaType.safeParse(inp).success
