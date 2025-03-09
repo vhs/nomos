@@ -9,6 +9,7 @@
 
 namespace app\handlers\v2;
 
+use app\adapters\v2\EmailAdapter2;
 use app\constants\StringLiterals;
 use app\contracts\v2\IUserService2;
 use app\domain\Membership;
@@ -93,9 +94,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
                 : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
-        $emailService2 = new EmailServiceHandler2();
-
-        $emailService2->EmailUser($user, 'welcome', [
+        EmailAdapter2::getInstance()->EmailUser($user, 'welcome', [
             'token' => $user->token,
             'host' => $protocol . $domainName
         ]);
@@ -310,9 +309,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
                 : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
-        $emailService2 = new EmailServiceHandler2();
-
-        $emailService2->EmailUser($user, 'welcome', [
+        EmailAdapter2::getInstance()->EmailUser($user, 'welcome', [
             'token' => $user->token,
             'host' => $protocol . $domainName
         ]);
@@ -349,8 +346,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
                 : StringLiterals::HTTP_PREFIX;
         $domainName = $_SERVER['HTTP_HOST'] . '/';
 
-        $emailService2 = new EmailServiceHandler2();
-        $emailService2->EmailUser($user, 'recover', [
+        EmailAdapter2::getInstance()->EmailUser($user, 'recover', [
             'token' => $request->token,
             'host' => $protocol . $domainName
         ]);
