@@ -1,6 +1,6 @@
 import type { ReactNode, FC } from 'react'
 
-import type { TablePageForm, AllowedPageSizes, TablePageSchemaType } from './TablePage.schema'
+import type { TablePageSchema, AllowedPageSizes, TablePageSchemaType } from './TablePage.schema'
 import type { KeyedMutator } from 'swr'
 
 import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
@@ -42,8 +42,8 @@ export interface TablePageContextDefinition<T = DataRecord> {
 }
 
 export interface TablePageDefaults {
-    searchPage: TablePageForm['search']['page']
-    searchPageSize: TablePageForm['search']['pageSize']
+    searchPage: TablePageSchema['search']['page']
+    searchPageSize: TablePageSchema['search']['pageSize']
     allowedPageSizes: AllowedPageSizes[]
 }
 

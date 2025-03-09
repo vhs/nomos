@@ -1,4 +1,4 @@
-import type { AdminPrivilegeItemForm } from './AdminPrivileges.types'
+import type { AdminPrivilegeItemSchema } from './AdminPrivileges.types'
 
 export const AdminPrivilegesFields = [
     {
@@ -23,7 +23,7 @@ export const AdminPrivilegesFields = [
     }
 ]
 
-export const AdminPrivilegeItemDefaultValues: AdminPrivilegeItemForm = {
+export const AdminPrivilegeItemDefaultValues: AdminPrivilegeItemSchema = {
     name: '',
     code: '',
     enabled: false

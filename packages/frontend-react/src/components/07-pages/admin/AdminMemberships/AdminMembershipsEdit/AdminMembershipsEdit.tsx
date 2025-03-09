@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useSWR from 'swr'
 
-import type { AdminMembershipsForm } from '../AdminMemberships.types'
+import type { AdminMembershipsSchema } from '../AdminMemberships.types'
 import type { AdminMembershipsEditProps } from './AdminMembershipsEdit.types'
 
 import Button from '@/components/01-atoms/Button/Button'
@@ -30,7 +30,7 @@ import { zMembershipPeriod } from '@/lib/validators/records'
 
 import type { BasePrivileges, Membership } from '@/types/validators/records'
 
-import { AdminMembershipsSchema } from '../AdminMemberships.schema'
+import { zAdminMembershipsSchema } from '../AdminMemberships.schema'
 import { AdminMembershipsDefaultValues } from '../AdminMemberships.utils'
 
 const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
@@ -64,8 +64,8 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
 
     const { data: membership, isLoading, mutate: mutateMembership } = useSWR<Membership>(getMembershipUrl)
 
-    const form = useForm<AdminMembershipsForm>({
-        resolver: zodResolver(AdminMembershipsSchema),
+    const form = useForm<AdminMembershipsSchema>({
+        resolver: zodResolver(zAdminMembershipsSchema),
         mode: 'onChange',
         defaultValues: AdminMembershipsDefaultValues
     })

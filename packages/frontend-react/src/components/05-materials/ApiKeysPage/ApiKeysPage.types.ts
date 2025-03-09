@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import type {
-    zApiKeysSchema,
+    zApiKeysEditSchema,
     zApiKeysCreateSchema,
     zApiKeysActiveView,
     zApiKeysActiveViewHelp,
@@ -16,9 +16,8 @@ import type { z } from 'zod'
 import type { NOMOSSWRResponse } from '@/types/api'
 import type { Keys, BasePrivileges } from '@/types/validators/records'
 
-export type ApiKeysForm = z.infer<typeof zApiKeysSchema>
+export type ApiKeysEditSchema = z.infer<typeof zApiKeysEditSchema>
 export type ApiKeysCreateSchema = z.infer<typeof zApiKeysCreateSchema>
-export type ApiKeysSchema = z.infer<typeof zApiKeysSchema>
 export type ApiKeysActiveView = z.infer<typeof zApiKeysActiveView>
 export type ApiKeysActiveViewHelp = z.infer<typeof zApiKeysActiveViewHelp>
 export type ApiKeysActiveViewList = z.infer<typeof zApiKeysActiveViewList>

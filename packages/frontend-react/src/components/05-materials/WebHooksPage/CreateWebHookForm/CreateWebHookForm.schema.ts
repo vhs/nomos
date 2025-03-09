@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { zBoolean, zCoerceNumber, zHTTPMethod, zString } from '@/lib/validators/common'
 
-export const CreateWebHookFormSchema = z.object({
+export const zCreateWebHookFormSchema = z.object({
     name: zString,
     description: zString,
     enabled: zBoolean,

@@ -7,8 +7,11 @@ import { clsx } from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { AdminUsersEditForm } from '../AdminUsers.types'
-import type { AdminUsersEditProps } from './AdminUsersEdit.types'
+import type {
+    AdminUsersEditPasswordSchema,
+    AdminUsersEditProfileSchema,
+    AdminUsersEditProps
+} from './AdminUsersEdit.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -16,6 +19,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Container from '@/components/01-atoms/Container/Container'
 import Row from '@/components/01-atoms/Row/Row'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
+import FormRow from '@/components/02-molecules/FormRow/FormRow'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 import Card from '@/components/04-composites/Card/Card'
 import CurrentUserPrivilegesCard from '@/components/04-composites/CurrentUserPrivilegesCard/CurrentUserPrivilegesCard'
@@ -41,12 +45,11 @@ import PinService2 from '@/lib/providers/PinService2'
 import UserService2 from '@/lib/providers/UserService2'
 import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 import { statuses } from '@/lib/utils/constants'
-import { zPasswordInput } from '@/lib/validators/common'
 import { isMemberships } from '@/lib/validators/guards'
 
-import { AdminUsersEditSchema } from '../AdminUsers.schema'
+import { zAdminUsersEditPasswordSchema, zAdminUsersEditProfileSchema } from '../AdminUsers.schema'
 
-import { AdminUsersDefaultValues } from './AdminUsersEdit.utils'
+import { AdminUsersDefaultPasswordValues, AdminUsersDefaultProfileValues } from './AdminUsersEdit.utils'
 
 const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const { mutate } = useTablePageContext()
@@ -75,15 +78,25 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
 
     const userObj = useMemo(() => (userData != null ? new UserObject(userData) : null), [userData])
 
-    const form = useForm<AdminUsersEditForm>({
-        resolver: zodResolver(AdminUsersEditSchema),
+    const passwordForm = useForm<AdminUsersEditPasswordSchema>({
+        resolver: zodResolver(zAdminUsersEditPasswordSchema),
         mode: 'onChange',
-        defaultValues: AdminUsersDefaultValues
+        defaultValues: AdminUsersDefaultPasswordValues
     })
 
-    const errors = useMemo(() => form.formState.errors, [form.formState.errors])
-    const isDirty = useMemo(() => form.formState.isDirty, [form.formState.isDirty])
-    const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid])
+    const passwordErrors = useMemo(() => passwordForm.formState.errors, [passwordForm.formState.errors])
+    const passwordIsDirty = useMemo(() => passwordForm.formState.isDirty, [passwordForm.formState.isDirty])
+    const passwordIsValid = useMemo(() => passwordForm.formState.isValid, [passwordForm.formState.isValid])
+
+    const profileForm = useForm<AdminUsersEditProfileSchema>({
+        resolver: zodResolver(zAdminUsersEditProfileSchema),
+        mode: 'onChange',
+        defaultValues: AdminUsersDefaultProfileValues
+    })
+
+    const profileErrors = useMemo(() => profileForm.formState.errors, [profileForm.formState.errors])
+    const profileIsDirty = useMemo(() => profileForm.formState.isDirty, [profileForm.formState.isDirty])
+    const profileIsValid = useMemo(() => profileForm.formState.isValid, [profileForm.formState.isValid])
 
     const {
         state: privileges,
@@ -118,10 +131,11 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const submitHandler = async (event?: BaseSyntheticEvent): Promise<boolean> => {
         event?.preventDefault()
 
-        if (!isDirty && !isPrivilegesDirty) return false
+        if (!profileIsDirty && !isPrivilegesDirty) return false
 
-        if (!isValid) {
+        if (!profileIsValid) {
             toast.error(`Please fix the errors before continuing`)
+            console.error(profileErrors)
             return false
         }
 
@@ -129,53 +143,51 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
 
         try {
             const {
-                user: {
-                    firstName,
-                    lastName,
-                    userName,
-                    userEmail,
-                    paypalEmail,
-                    stripeEmail,
-                    newsletter,
-                    cashMember,
-                    userPin,
-                    memExpire,
-                    memStatus,
-                    memType
-                }
-            } = form.getValues()
+                firstName,
+                lastName,
+                userName,
+                userEmail,
+                paypalEmail,
+                stripeEmail,
+                newsletter,
+                cashMember,
+                userPin,
+                memExpire,
+                memStatus,
+                memType
+            } = profileForm.getValues()
 
-            if (form.formState.dirtyFields.user?.userName != null)
+            if (profileForm.formState.dirtyFields.userName != null)
                 await UserService2.getInstance().UpdateUsername(userId, userName)
 
             if (currentUser?.hasPrivilege('full-profile') === true) {
                 if (
-                    form.formState.dirtyFields.user?.firstName != null &&
-                    form.formState.dirtyFields.user?.lastName != null
+                    profileForm.formState.dirtyFields.firstName != null &&
+                    profileForm.formState.dirtyFields.lastName != null
                 )
                     await UserService2.getInstance().UpdateName(userId, firstName, lastName)
-                if (form.formState.dirtyFields.user?.userEmail != null)
+                if (profileForm.formState.dirtyFields.userEmail != null)
                     await UserService2.getInstance().UpdateEmail(userId, userEmail)
-                if (form.formState.dirtyFields.user?.paypalEmail != null)
+                if (profileForm.formState.dirtyFields.paypalEmail != null)
                     await UserService2.getInstance().UpdatePaymentEmail(userId, paypalEmail)
-                if (form.formState.dirtyFields.user?.stripeEmail != null)
+                if (profileForm.formState.dirtyFields.stripeEmail != null)
                     await UserService2.getInstance().UpdateStripeEmail(userId, stripeEmail)
             }
 
-            if (form.formState.dirtyFields.user?.newsletter != null)
+            if (profileForm.formState.dirtyFields.newsletter != null)
                 await UserService2.getInstance().UpdateNewsletter(userId, newsletter)
-            if (form.formState.dirtyFields.user?.cashMember != null)
+            if (profileForm.formState.dirtyFields.cashMember != null)
                 await UserService2.getInstance().UpdateCash(userId, cashMember)
 
             if (userPin !== keyInfo?.pin) await PinService2.getInstance().UpdatePin(userId, userPin)
 
-            if (form.formState.dirtyFields.user?.memExpire != null)
+            if (profileForm.formState.dirtyFields.memExpire != null)
                 await UserService2.getInstance().UpdateExpiry(userId, memExpire.toLocaleString())
 
-            if (form.formState.dirtyFields.user?.memStatus != null)
+            if (profileForm.formState.dirtyFields.memStatus != null)
                 await UserService2.getInstance().UpdateStatus(userId, memStatus)
 
-            if (form.formState.dirtyFields.user?.memType != null)
+            if (profileForm.formState.dirtyFields.memType != null)
                 await UserService2.getInstance().UpdateMembership(userId, memType)
 
             if (isPrivilegesDirty) {
@@ -187,8 +199,8 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                 dispatchPrivileges({ action: 'reset' })
             }
 
-            const formData = form.getValues()
-            form.reset(formData)
+            const formData = profileForm.getValues()
+            profileForm.reset(formData)
 
             toast.update(loadingToastId, { render: 'User updated', type: 'success', isLoading: false, autoClose: 5000 })
 
@@ -211,7 +223,13 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     }
 
     const resetDefaults = (): void => {
-        form.reset()
+        passwordForm.reset()
+
+        void passwordForm.trigger()
+
+        profileForm.reset()
+
+        void profileForm.trigger()
 
         dispatchPrivileges({
             action: 'reset'
@@ -221,14 +239,14 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const updatePassword = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault()
 
-        const { password1, password2 } = form.getValues('password')
+        if (!passwordIsDirty) return
 
-        const passwordResult = zPasswordInput.safeParse({ password1, password2 })
-
-        if (!passwordResult.success) {
-            passwordResult.error.errors.forEach((e) => toast.error(e.message.replace(/String/, 'Password')))
+        if (!passwordIsValid) {
+            toast.error('Unknown error in password input')
             return
         }
+
+        const { password1 } = passwordForm.getValues()
 
         try {
             await toast.promise(UserService2.getInstance().UpdatePassword(userId, password1), {
@@ -236,37 +254,40 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                 success: 'Password updated',
                 error: 'Failed to update password'
             })
+
+            passwordForm.reset()
         } catch (err) {
             console.error(err)
         }
     }
 
     const hydrateDefaults = useCallback((): void => {
-        if (userObj != null && !isDirty) {
-            form.reset({
-                user: {
-                    firstName: userObj.fname,
-                    lastName: userObj.lname,
-                    userName: userObj.username,
-                    userEmail: userObj.email,
-                    paypalEmail: userObj.payment_email,
-                    stripeEmail: userObj.stripe_email,
-                    newsletter: userObj.newsletter,
-                    cashMember: userObj.cash,
-                    memExpire: userObj.mem_expire.toLocaleString(),
-                    memStatus: userObj.active,
-                    memType: userObj.membership_id
-                },
-                password: {
-                    password1: '',
-                    password2: ''
-                }
+        if (userObj != null && !profileIsDirty) {
+            passwordForm.reset({
+                password1: '',
+                password2: ''
+            })
+            profileForm.reset({
+                firstName: userObj.fname,
+                lastName: userObj.lname,
+                userName: userObj.username,
+                userEmail: userObj.email,
+                paypalEmail: userObj.payment_email,
+                stripeEmail: userObj.stripe_email,
+                newsletter: userObj.newsletter,
+                cashMember: userObj.cash,
+                memExpire: userObj.mem_expire.toLocaleString(),
+                memStatus: userObj.active,
+                memType: userObj.membership_id
             })
         }
 
         if (keyInfo?.pin != null) {
-            form.setValue('user.userPin', keyInfo?.pin)
+            profileForm.setValue('userPin', keyInfo?.pin)
         }
+
+        void passwordForm.trigger()
+        void profileForm.trigger()
 
         if (userObj != null && allPrivileges != null && !isPrivilegesDirty) {
             dispatchPrivileges({
@@ -284,21 +305,21 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
         hydrateDefaults()
     }, [userObj, allPrivileges])
 
-    const userMemStatus = form.watch('user.memStatus')
-    const userMemType = form.watch('user.memType')
+    const userMemStatus = profileForm.watch('memStatus')
+    const userMemType = profileForm.watch('memType')
 
     if (isUserLoading || userObj == null) return <LoadingOverlay />
 
     return (
         <div data-testid='AdminUsersEdit'>
-            <FormProvider {...form}>
+            <FormProvider {...profileForm}>
                 <OverlayCard
                     title='Edit User'
                     actions={[
                         <Button
                             key='Save Profile'
                             className='btn-success'
-                            disabled={!isDirty && !isPrivilegesDirty}
+                            disabled={!profileIsDirty && !isPrivilegesDirty}
                             onClick={(event) => {
                                 void submitHandler(event)
                             }}
@@ -308,7 +329,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         <Button
                             key='Reset'
                             className='btn-default'
-                            disabled={!isDirty && !isPrivilegesDirty}
+                            disabled={!profileIsDirty && !isPrivilegesDirty}
                             onClick={() => {
                                 resetDefaults()
                             }}
@@ -325,12 +346,12 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                 <Card.Body>
                                     <Container>
                                         <Row className='spacious'>
-                                            <FormCol error={errors.user?.userName != null}>
+                                            <FormCol error={profileErrors.userName != null}>
                                                 <label htmlFor='userName'>
                                                     <b>Username</b>
                                                 </label>
                                                 <FormControl
-                                                    formKey='user.userName'
+                                                    formKey='userName'
                                                     formType='text'
                                                     placeholder='Username'
                                                     aria-label='Username'
@@ -339,12 +360,12 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         </Row>
 
                                         <Row className='spacious'>
-                                            <FormCol error={errors.user?.firstName != null}>
+                                            <FormCol error={profileErrors.firstName != null}>
                                                 <label htmlFor='firstName'>
                                                     <b>First Name</b>
                                                 </label>
                                                 <FormControl
-                                                    formKey='user.firstName'
+                                                    formKey='firstName'
                                                     formType='text'
                                                     placeholder='First Name'
                                                     aria-label='First Name'
@@ -353,11 +374,11 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         </Row>
 
                                         <Row className='spacious'>
-                                            <FormCol error={errors.user?.lastName != null}>
+                                            <FormCol error={profileErrors.lastName != null}>
                                                 <label htmlFor='lastName'>
                                                     <b>Last Name</b>
                                                     <FormControl
-                                                        formKey='user.lastName'
+                                                        formKey='lastName'
                                                         formType='text'
                                                         placeholder='Last Name'
                                                         aria-label='Last Name'
@@ -369,7 +390,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         <Row className='spacious'>
                                             <FormCol
                                                 error={
-                                                    errors.user?.userEmail != null || errors.user?.newsletter != null
+                                                    profileErrors.userEmail != null || profileErrors.newsletter != null
                                                 }
                                             >
                                                 <label htmlFor='userEmail'>
@@ -377,12 +398,15 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 </label>
                                                 <span className='float-right m-0 inline'>
                                                     <label>
-                                                        <input type='checkbox' {...form.register('user.newsletter')} />{' '}
+                                                        <input
+                                                            type='checkbox'
+                                                            {...profileForm.register('newsletter')}
+                                                        />{' '}
                                                         Newsletter
                                                     </label>
                                                 </span>
                                                 <FormControl
-                                                    formKey='user.userEmail'
+                                                    formKey='userEmail'
                                                     formType='text'
                                                     placeholder='Email'
                                                     aria-label='Email'
@@ -393,7 +417,8 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         <Row>
                                             <FormCol
                                                 error={
-                                                    errors.user?.paypalEmail != null || errors.user?.cashMember != null
+                                                    profileErrors.paypalEmail != null ||
+                                                    profileErrors.cashMember != null
                                                 }
                                             >
                                                 <label htmlFor='payPalEmail'>
@@ -401,12 +426,15 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 </label>
                                                 <span className='float-right m-0 inline'>
                                                     <label>
-                                                        <input type='checkbox' {...form.register('user.cashMember')} />{' '}
+                                                        <input
+                                                            type='checkbox'
+                                                            {...profileForm.register('cashMember')}
+                                                        />{' '}
                                                         Cash Member
                                                     </label>
                                                 </span>
                                                 <FormControl
-                                                    formKey='user.paypalEmail'
+                                                    formKey='paypalEmail'
                                                     formType='text'
                                                     placeholder='PayPal Email'
                                                     aria-label='PayPal Email'
@@ -415,12 +443,12 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         </Row>
 
                                         <Row className='spacious'>
-                                            <FormCol error={errors.user?.stripeEmail != null}>
+                                            <FormCol error={profileErrors.stripeEmail != null}>
                                                 <label htmlFor='stripeEmail'>
                                                     <b>Stripe Email</b>
                                                 </label>
                                                 <FormControl
-                                                    formKey='user.stripeEmail'
+                                                    formKey='stripeEmail'
                                                     formType='text'
                                                     placeholder='Stripe Email'
                                                     aria-label='Stripe Email'
@@ -450,12 +478,12 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 </p>
                                                 {userObj.mem_expire.toLocaleString()}
                                             </Col>
-                                            <FormCol error={errors.user?.memExpire != null}>
+                                            <FormCol error={profileErrors.memExpire != null}>
                                                 <p>
                                                     <strong>Membership Expiry</strong>
                                                 </p>
                                                 <FormControl
-                                                    formKey='user.memExpire'
+                                                    formKey='memExpire'
                                                     formType='text'
                                                     className='text-right'
                                                 />
@@ -464,11 +492,11 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
 
                                         <Row className='spacious'>
                                             <FormCol
-                                                error={errors.user?.memType != null}
+                                                error={profileErrors.memType != null}
                                                 className={clsx(['basis-1/2 p-1'])}
                                             >
                                                 <SelectorCard
-                                                    id='user.memType'
+                                                    id='memType'
                                                     defaultValue={userMemType}
                                                     mode='radio'
                                                     title='Membership Type'
@@ -477,11 +505,11 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
 
                                             <FormCol
-                                                error={errors.user?.memStatus != null}
+                                                error={profileErrors.memStatus != null}
                                                 className={clsx(['basis-1/2 p-1'])}
                                             >
                                                 <SelectorCard
-                                                    id='user.memStatus'
+                                                    id='memStatus'
                                                     defaultValue={userMemStatus}
                                                     mode='radio'
                                                     title='Status'
@@ -504,7 +532,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 <Card.Header>User&apos;s Access Pin</Card.Header>
                                                 <Card.Body
                                                     className={
-                                                        errors.user?.userPin != null ? 'shadow-form-error' : undefined
+                                                        profileErrors.userPin != null ? 'shadow-form-error' : undefined
                                                     }
                                                 >
                                                     <Conditional condition={pinInfo == null}>
@@ -519,7 +547,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                     </Conditional>
                                                     <Conditional condition={pinInfo != null}>
                                                         <FormControl
-                                                            formKey='user.userPin'
+                                                            formKey='userPin'
                                                             formType='pin'
                                                             preContent={keyInfo?.pinid ?? ''}
                                                             placeholder='User Pin'
@@ -580,27 +608,27 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         <Card.Header>Change Password</Card.Header>
 
                                         <Card.Body>
-                                            <Row className='spacious'>
+                                            <FormRow className='my-3' error={passwordErrors.password1}>
                                                 <Col>New Password:</Col>
                                                 <Col>
                                                     <FormControl
-                                                        formKey='password.password1'
+                                                        formKey='password1'
                                                         formType='password'
                                                         placeholder='New Password'
                                                     />
                                                 </Col>
-                                            </Row>
+                                            </FormRow>
 
-                                            <Row className='spacious'>
+                                            <FormRow className='my-3' error={passwordErrors.password2}>
                                                 <Col>Confirm Password:</Col>
                                                 <Col>
                                                     <FormControl
-                                                        formKey='password.password2'
+                                                        formKey='password2'
                                                         formType='password'
                                                         placeholder='Confirm Password'
                                                     />
                                                 </Col>
-                                            </Row>
+                                            </FormRow>
                                         </Card.Body>
                                         <Card.Footer>
                                             <Button
@@ -610,6 +638,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                                 onClick={(event) => {
                                                     void updatePassword(event)
                                                 }}
+                                                disabled={!passwordIsDirty && !passwordIsValid}
                                             >
                                                 Change Password
                                             </Button>

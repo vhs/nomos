@@ -6,3 +6,5 @@ export interface AdminPayPalPaymentItemProps {
     children?: ReactNode
     data: Payment
 }
+
+export type * from '../AdminPayments.types'

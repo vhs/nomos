@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { TablePageSchema } from '@/components/05-materials/TablePage/TablePage.schema'
+import { zTablePageSchema } from '@/components/05-materials/TablePage/TablePage.schema'
 
 import {
     zBoolean,
@@ -8,6 +8,7 @@ import {
     zDateTimeString,
     zEmailAddress,
     zHumanName,
+    zPasswordField,
     zPasswordInput,
     zString,
     zStringArray,
@@ -17,14 +18,14 @@ import {
 } from '@/lib/validators/common'
 
 export const zAdminUsersColumns = z.union([
-    z.literal('User Name'),
-    z.literal('Real Name'),
-    z.literal('Email'),
-    z.literal('Status'),
     z.literal('Cash'),
-    z.literal('Member Since'),
+    z.literal('Email'),
     z.literal('Expiry'),
-    z.literal('Last Login')
+    z.literal('Last Login'),
+    z.literal('Member Since'),
+    z.literal('Real Name'),
+    z.literal('Status'),
+    z.literal('User Name')
 ])
 
 export const zAdminUserField = z.object({
@@ -49,26 +50,34 @@ export const zAdminUsersSecondaryFilters = z.union([
 
 export const zAdminUsersSecondaryFilterStates = z.record(zAdminUsersSecondaryFilters, zBoolean)
 
-export const AdminUsersTablePageSchema = TablePageSchema.extend({
+export const zAdminUsersTablePageSchema = zTablePageSchema.extend({
     fieldStates: zAdminUsersFieldStates,
     primaryFilterStates: zAdminUsersPrimaryFilterStates,
     secondaryFilterStates: zAdminUsersSecondaryFilterStates
 })
 
-export const AdminUsersEditSchema = z.object({
-    user: z.object({
-        firstName: zHumanName,
-        lastName: zHumanName,
-        userName: zUsername,
-        userEmail: zEmailAddress,
-        paypalEmail: zEmailAddress,
-        stripeEmail: zEmailAddress,
-        newsletter: zBoolean,
-        cashMember: zBoolean,
-        userPin: zUserPin,
-        memExpire: zDateTimeString,
-        memStatus: zUserActiveStateCode,
-        memType: zCoerceNumber
-    }),
-    password: zPasswordInput
+export const zAdminUsersCreateSchema = z.object({
+    firstName: zHumanName,
+    lastName: zHumanName,
+    memType: zCoerceNumber,
+    userEmail: zEmailAddress,
+    userName: zUsername,
+    userPass: zPasswordField
+})
+
+export const zAdminUsersEditPasswordSchema = zPasswordInput
+
+export const zAdminUsersEditProfileSchema = z.object({
+    cashMember: zBoolean,
+    firstName: zHumanName,
+    lastName: zHumanName,
+    memExpire: zDateTimeString,
+    memStatus: zUserActiveStateCode,
+    memType: zCoerceNumber,
+    newsletter: zBoolean,
+    paypalEmail: zEmailAddress,
+    stripeEmail: zEmailAddress,
+    userEmail: zEmailAddress,
+    userName: zUsername,
+    userPin: zUserPin
 })

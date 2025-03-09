@@ -18,3 +18,5 @@ export interface AdminUsersItemData extends User {
     expiry_date_month: string
     expiry_date_rest: string
 }
+
+export type * from '../AdminUsers.types'

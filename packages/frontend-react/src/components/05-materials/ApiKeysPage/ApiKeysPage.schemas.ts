@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { zBoolean, zDateTime, zString } from '@/lib/validators/common'
 import { zKey } from '@/lib/validators/records'
 
-export const zApiKeysSchema = z.object({
+export const zApiKeysEditSchema = z.object({
     key: zString,
     notes: zString,
     expiry: zDateTime
