@@ -9,6 +9,7 @@
 
 namespace app\processors;
 
+use app\adapters\v2\EmailAdapter2;
 use app\constants\StringLiterals;
 use app\domain\Membership;
 use app\domain\Payment;
@@ -23,14 +24,12 @@ use vhs\security\SystemPrincipal;
 
 /** @typescript */
 class PaymentProcessor {
-    private $emailService;
     private $host;
     /** @var Logger */
     private $logger;
 
     public function __construct(Logger &$logger = null) {
         $this->logger = $logger;
-        $this->emailService = new EmailService();
     }
 
     public function paymentCreated($id) {
@@ -87,7 +86,7 @@ class PaymentProcessor {
 
     private function processDonationPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
                 'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
                 'message' =>
                     $payment->fname .
@@ -107,7 +106,7 @@ class PaymentProcessor {
                     $payment->currency
             ]);
         } else {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
+            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
                 'email' => $payment->payer_email,
                 'fname' => $payment->payer_fname,
                 'lname' => $payment->payer_lname,
@@ -117,7 +116,7 @@ class PaymentProcessor {
                 'currency' => $payment->currency
             ]);
 
-            $this->emailService->EmailUser($user, 'donation_random', [
+            EmailAdapter2::getInstance()->EmailUser($user, 'donation_random', [
                 'fname' => $user->fname,
                 'lname' => $user->lname,
                 'rate_amount' => $payment->rate_amount,
@@ -172,7 +171,7 @@ class PaymentProcessor {
                 return;
             }
 
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
+            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
                 'email' => $payment->payer_email,
                 'fname' => $payment->payer_fname,
                 'lname' => $payment->payer_lname,
@@ -191,7 +190,7 @@ class PaymentProcessor {
             $user = User::find($user->id);
 
             if ($user->active != 'y') {
-                $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+                EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
                     'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
                     'message' =>
                         $payment->fname .
@@ -235,7 +234,7 @@ class PaymentProcessor {
         $payment->status = 1; //processed
         $payment->save();
 
-        $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
+        EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
             'email' => $payment->payer_email,
             'fname' => $payment->payer_fname,
             'lname' => $payment->payer_lname,
@@ -243,7 +242,7 @@ class PaymentProcessor {
             'pp' => $payment->pp
         ]);
 
-        $this->emailService->EmailUser($user, 'payment', [
+        EmailAdapter2::getInstance()->EmailUser($user, 'payment', [
             'host' => $this->host,
             'fname' => $user->fname
         ]);
@@ -251,7 +250,7 @@ class PaymentProcessor {
 
     private function processMembershipCardPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
                 'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
                 'message' =>
                     $payment->fname .
@@ -264,13 +263,13 @@ class PaymentProcessor {
                     ' we can issue a member card.'
             ]);
         } else {
-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
+            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
                 'email' => $payment->payer_email,
                 'fname' => $payment->payer_fname,
                 'lname' => $payment->payer_lname
             ]);
 
-            $this->emailService->EmailUser($user, 'membercard_purchased', [
+            EmailAdapter2::getInstance()->EmailUser($user, 'membercard_purchased', [
                 'fname' => $user->fname,
                 'lname' => $user->lname
             ]);
