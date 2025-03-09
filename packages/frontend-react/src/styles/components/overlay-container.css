@@ -1,0 +1,9 @@
+@layer components {
+    .overlay-container {
+        @apply rounded-t-lg;
+
+        & > * {
+            @apply bg-white opacity-100;
+        }
+    }
+}

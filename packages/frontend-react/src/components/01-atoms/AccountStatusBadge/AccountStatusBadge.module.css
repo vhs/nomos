@@ -1,0 +1,11 @@
+.Icon {
+    @apply inline h-5 w-5;
+}
+
+.Icon > svg {
+    @apply inline h-5 w-5 rounded-full p-0;
+}
+
+.Icon > svg > * {
+    @apply bg-white;
+}

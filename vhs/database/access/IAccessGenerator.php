@@ -9,5 +9,5 @@
 
 namespace vhs\database\access;
 
-interface IAccessGenerator {
-}
+/** @typescript */
+interface IAccessGenerator {}

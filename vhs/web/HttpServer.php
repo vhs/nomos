@@ -11,16 +11,18 @@ namespace vhs\web;
 
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
+use vhs\services\exceptions\InvalidRequestException;
 use vhs\web\modules\HttpServerInfoModule;
 
+/** @typescript */
 class HttpServer {
+    public $logger;
     /** @var HttpRequest */
     public $request;
     private $endset = false;
     private $handling = false;
     private $headerBuffer = [];
     private $http_response_code;
-    private $logger;
     private $modules = [];
     private $outputBuffer = [];
 
@@ -59,9 +61,15 @@ class HttpServer {
     }
 
     public function end() {
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'trying end');
+
         if ($this->endset) {
+            $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'already ended - bailing');
+
             return;
         }
+
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
 
         $this->endset = true;
         $self = $this;
@@ -83,6 +91,8 @@ class HttpServer {
         /** @var IHttpModule $module */
         $index = 0;
         foreach ($this->modules as $module) {
+            $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('trying module: %s', get_class($module)));
+
             if ($this->endset) {
                 break;
             }
@@ -91,9 +101,14 @@ class HttpServer {
                 $module->handle($this);
             } catch (\Exception $ex) {
                 $exception = $ex;
+
                 break;
             }
             $index += 1;
+        }
+
+        if (!$this->endset) {
+            $exception = new InvalidRequestException('No valid service endpoint found', 503);
         }
 
         $this->log($this->request->method . ' ' . $this->request->url . ' ' . json_encode($this->request->headers));
@@ -120,7 +135,7 @@ class HttpServer {
         $this->endResponse();
     }
 
-    public function header($string, $replace = true, $http_response_code = null) {
+    public function header($string, $replace = true, $http_response_code = 0) {
         if ($this->endset) {
             return;
         }
@@ -159,6 +174,7 @@ class HttpServer {
     public function register(IHttpModule $module) {
         if ($this->handling) {
             $this->log('Failed to register module ' . get_class($module));
+
             throw new \Exception('Registrations must occur prior to handling a request');
         }
 
@@ -185,6 +201,7 @@ class HttpServer {
                 $module->endResponse($this);
             } catch (\Exception $ex) {
                 $exception = $ex;
+
                 break;
             }
             $index += 1;

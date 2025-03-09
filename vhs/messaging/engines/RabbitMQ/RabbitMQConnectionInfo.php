@@ -11,6 +11,7 @@ namespace vhs\messaging\engines\RabbitMQ;
 
 use vhs\messaging\ConnectionInfo;
 
+/** @typescript */
 class RabbitMQConnectionInfo extends ConnectionInfo {
     private $host;
     private $password;

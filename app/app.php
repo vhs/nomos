@@ -17,7 +17,7 @@ if (DEBUG) {
 
 require_once 'include.php';
 
-$serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/server.log');
+$serverLog = new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/server.log');
 
 \vhs\web\HttpContext::Init(new \vhs\web\HttpServer(new \vhs\web\modules\HttpServerInfoModule('Nomos'), $serverLog));
 
@@ -27,6 +27,7 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/server.lo
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpExceptionHandlerModule('verbose', $serverLog));
 \vhs\web\HttpContext::Server()->register(\app\modules\HttpPaymentGatewayHandlerModule::getInstance());
 \vhs\web\HttpContext::Server()->register(\app\security\oauth\modules\OAuthHandlerModule::getInstance());
+\vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule('v2'));
 \vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule('web'));
 
 \app\modules\HttpPaymentGatewayHandlerModule::register(new \app\gateways\PaypalGateway());
@@ -41,5 +42,7 @@ $serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/server.lo
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GithubOAuthHandler());
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GoogleOAuthHandler());
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\SlackOAuthHandler());
+
+\vhs\gateways\Engine::getInstance()->setLogger($serverLog);
 
 \vhs\web\HttpContext::Server()->handle();

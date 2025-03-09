@@ -30,7 +30,34 @@ use vhs\security\exceptions\UnauthorizedException;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
 
+/** @typescript */
 class AuthService extends Service implements IAuthService1 {
+    /**
+     * fill retVal from User result.
+     *
+     * @param \app\domain\Key  &$key
+     * @param \app\domain\User &$user
+     * @param array            &$retval
+     *
+     * @return bool
+     */
+    private static function parseValidAccount(&$key, &$user, &$retval): bool {
+        if ($user->valid) {
+            $retval['valid'] = true;
+            $retval['userId'] = $user->id;
+            $retval['username'] = $user->username;
+            $retval['type'] = $user->membership->code;
+            $retval['privileges'] = $key->getAbsolutePrivileges();
+
+            return true;
+        } else {
+            $retval['username'] = $user->username;
+            $retval['message'] = $user->getInvalidReason();
+        }
+
+        return false;
+    }
+
     /**
      * Check to see if the user pin and account is valid.
      *
@@ -88,28 +115,23 @@ class AuthService extends Service implements IAuthService1 {
             return $retval;
         }
 
-        // Fetch user
+        // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval['valid'] = true;
-            $retval['userId'] = $user->id;
-            $retval['username'] = $user->username;
-            $retval['type'] = $user->membership->code;
-            $retval['privileges'] = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval['username'] = $user->username;
-            $retval['message'] = $user->getInvalidReason();
         }
 
-        // Log and return
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -155,27 +177,23 @@ class AuthService extends Service implements IAuthService1 {
             return $retval;
         }
 
-        // Fetch user info
+        // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval['valid'] = true;
-            $retval['userId'] = $user->id;
-            $retval['username'] = $user->username;
-            $retval['type'] = $user->membership->code;
-            $retval['privileges'] = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval['username'] = $user->username;
-            $retval['message'] = $user->getInvalidReason();
         }
 
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -230,25 +248,20 @@ class AuthService extends Service implements IAuthService1 {
         // Fetch userinfo
         $user = User::find($key->userid);
 
-        // Check if account is active and in good standing, and return result set
-        if ($user->valid) {
-            $retval['valid'] = true;
-            $retval['userId'] = $user->id;
-            $retval['username'] = $user->username;
-            $retval['type'] = $user->membership->code;
-            $retval['privileges'] = $key->getAbsolutePrivileges();
-
-            $logAccess(true, $user->id);
+        // Check if we have a user from the key
+        if ($user == null || !$user instanceof User) {
+            $logAccess(false);
 
             return $retval;
-        } else {
-            $retval['username'] = $user->username;
-            $retval['message'] = $user->getInvalidReason();
         }
 
-        // Log and return
-        $logAccess(false, $user->id);
+        // Check if account is active and in good standing, and return result set
+        $isValid = self::parseValidAccount($key, $user, $retval);
 
+        // Log
+        $logAccess($isValid, $user->id);
+
+        // Return
         return $retval;
     }
 
@@ -257,7 +270,7 @@ class AuthService extends Service implements IAuthService1 {
      *
      * @param $username
      *
-     * @return boolean
+     * @return bool
      */
     public function CheckUsername($username) {
         return Database::exists(
@@ -268,10 +281,6 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
      * @param $filters
      *
      * @return mixed
@@ -487,9 +496,9 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters) {
         $filters = $this->AddUserIDToFilters($userid, $filters);
@@ -507,9 +516,9 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @return array
-     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters) {
         $userService = new UserService();
@@ -670,7 +679,7 @@ class AuthService extends Service implements IAuthService1 {
             $token->client = $client;
         }
 
-        $expiry = new \DateTime($expires);
+        $expiry = new DateTime($expires);
 
         $token->expires = $expiry->format('Y-m-d H:i:s');
 
@@ -706,7 +715,7 @@ class AuthService extends Service implements IAuthService1 {
             $token->client = $client;
         }
 
-        $expiry = new \DateTime($expires);
+        $expiry = new DateTime($expires);
 
         $token->expires = $expiry->format('Y-m-d H:i:s');
 

@@ -23,6 +23,7 @@ use DateTime;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
+/** @typescript */
 class UserService extends Service implements IUserService1 {
     /**
      * @permission administrator|grants
@@ -657,17 +658,21 @@ class UserService extends Service implements IUserService1 {
             case 'y':
             case 'true':
                 $status = 'y';
+
                 break;
             case 'pending':
             case 't':
                 $status = 't';
+
                 break;
             case 'banned':
             case 'b':
                 $status = 'b';
+
                 break;
             default:
                 $status = 'n';
+
                 break;
         }
 

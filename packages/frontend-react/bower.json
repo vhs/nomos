@@ -1,0 +1,14 @@
+{
+    "name": "@vhs/nomos-frontend-react",
+    "description": "NOMOS React frontend",
+    "main": "index.html",
+    "authors": ["Ty Eggen <tycho.eggen@gmail.com>"],
+    "license": "GPLv2",
+    "homepage": "https://github.com/vhs/nomos",
+    "private": true,
+    "ignore": ["**/.*", "node_modules", "bower_components", "./public/assets/", "test", "tests"],
+    "dependencies": {
+        "fontawesome": "6.7.2",
+        "pace": "https://github.com/HubSpot/pace.git#1.2.4"
+    }
+}

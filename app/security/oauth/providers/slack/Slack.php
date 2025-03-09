@@ -16,6 +16,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 
+/** @typescript */
 class Slack extends AbstractProvider {
     public const ACCESS_TOKEN_RESOURCE_OWNER_ID = 'authed_user';
 

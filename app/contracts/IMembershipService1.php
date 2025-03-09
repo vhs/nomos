@@ -8,6 +8,7 @@ namespace app\contracts;
 
 use vhs\services\IContract;
 
+/** @typescript */
 interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
@@ -24,10 +25,9 @@ interface IMembershipService1 extends IContract {
      * @param $title
      * @param $description
      * @param $price
-     * @param $days
-     * @param $private
-     * @param $active
      * @param $code
+     * @param $days
+     * @param $period
      *
      * @return mixed
      */
@@ -64,11 +64,22 @@ interface IMembershipService1 extends IContract {
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $privileges
      */
     public function PutPrivileges($membershipId, $privileges);
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $title
+     * @param $description
+     * @param $price
+     * @param $code
+     * @param $days
+     * @param $period
      *
      * @return mixed
      */
@@ -77,12 +88,18 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $membershipId
+     * @param $active
+     *
      * @return mixed
      */
     public function UpdateActive($membershipId, $active);
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $private
      *
      * @return mixed
      */
@@ -91,12 +108,18 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
+     * @param $membershipId
+     * @param $recurring
+     *
      * @return mixed
      */
     public function UpdateRecurring($membershipId, $recurring);
 
     /**
      * @permission administrator
+     *
+     * @param $membershipId
+     * @param $trial
      *
      * @return mixed
      */

@@ -1,0 +1,98 @@
+@layer components {
+    .card {
+        @apply mb-5 rounded-lg border border-gray-300 bg-white shadow-lg;
+
+        & > .element:first-child {
+            @apply rounded-t-lg;
+        }
+
+        & > .element:last-child {
+            @apply rounded-b-lg;
+        }
+
+        & > .element:only-child {
+            @apply border-b-0 border-t-0;
+        }
+
+        & > .header {
+            @apply bg-header px-3 py-4 shadow-lg;
+
+            &.element:nth-last-child(2) {
+                @apply border-b-0;
+            }
+        }
+
+        & > .body {
+            @apply p-4;
+        }
+
+        & > .footer {
+            @apply justify-end px-6 py-3;
+
+            &.gridded {
+                @apply grid grid-flow-col-dense justify-end gap-2;
+            }
+
+            &.element:nth-child(2) {
+                @apply border-t-0;
+            }
+
+            &.justify-end > * {
+                @apply mr-3;
+            }
+
+            &.justify-start > * {
+                @apply ml-3;
+            }
+        }
+    }
+
+    .red-card {
+        @apply border border-red-card bg-red-card text-white;
+    }
+
+    .red-card-footer {
+        @apply bg-header;
+
+        & > a,
+        & > * > a {
+            @apply text-red-card;
+        }
+    }
+
+    .green-card {
+        @apply border-green-card bg-green-card text-white;
+    }
+
+    .green-card-footer {
+        @apply bg-header;
+
+        a,
+        & a,
+        & > a,
+        & > * > a {
+            @apply text-green-card;
+        }
+    }
+
+    .gray-card {
+        @apply border-gray-500 bg-gray-500 text-white;
+    }
+
+    .gray-card-footer {
+        @apply bg-header;
+
+        & > a,
+        & > * > a {
+            @apply text-gray-500;
+        }
+    }
+
+    .decorate-green {
+        @apply border border-panel-green bg-panel-green text-white;
+    }
+
+    .decorate-red {
+        @apply border border-red-card bg-red-card text-white;
+    }
+}

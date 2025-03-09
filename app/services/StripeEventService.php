@@ -11,6 +11,7 @@ use app\contracts\IStripeEventService1;
 use app\domain\StripeEvent;
 use vhs\services\Service;
 
+/** @typescript */
 class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
@@ -26,7 +27,7 @@ class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
      *
-     * @param $ipnId
+     * @param $eventId
      *
      * @return mixed
      */

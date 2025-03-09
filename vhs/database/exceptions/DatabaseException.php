@@ -9,5 +9,5 @@
 
 namespace vhs\database\exceptions;
 
-class DatabaseException extends \Exception {
-}
+/** @typescript */
+class DatabaseException extends \Exception {}

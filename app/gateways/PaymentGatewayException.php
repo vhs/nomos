@@ -9,5 +9,5 @@
 
 namespace app\gateways;
 
-class PaymentGatewayException extends \Exception {
-}
+/** @typescript */
+class PaymentGatewayException extends \Exception {}

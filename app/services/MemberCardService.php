@@ -21,6 +21,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Filter;
 use vhs\security\exceptions\UnauthorizedException;
 
+/** @typescript */
 class MemberCardService implements IMemberCardService1 {
     /**
      * @permission administrator
@@ -64,9 +65,9 @@ class MemberCardService implements IMemberCardService1 {
      * @param $email
      * @param $key
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function IssueCard($email, $key) {
         $users = User::findByPaymentEmail($email);
@@ -142,9 +143,9 @@ class MemberCardService implements IMemberCardService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters) {
         $userService = new UserService();
@@ -176,9 +177,9 @@ class MemberCardService implements IMemberCardService1 {
      * @param $key
      * @param $notes
      *
-     * @return GenuineCard
-     *
      * @throws \Exception
+     *
+     * @return GenuineCard
      */
     public function RegisterGenuineCard($key, $notes) {
         $keys = GenuineCard::findByKey($key);
@@ -203,9 +204,9 @@ class MemberCardService implements IMemberCardService1 {
      * @param $key
      * @param $active
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function UpdateGenuineCardActive($key, $active) {
         if (!$this->ValidateGenuineCard($key)) {

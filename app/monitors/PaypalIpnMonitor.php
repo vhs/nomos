@@ -15,6 +15,7 @@ use DateTime;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 
+/** @typescript */
 class PaypalIpnMonitor extends Monitor {
     /** @var Logger */
     private $logger;

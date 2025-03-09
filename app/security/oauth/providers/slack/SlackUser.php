@@ -4,6 +4,7 @@ namespace app\security\oauth\providers\slack;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
+/** @typescript */
 class SlackUser implements ResourceOwnerInterface {
     protected $response;
 

@@ -14,6 +14,7 @@ namespace vhs\domain\collections;
 use vhs\domain\Domain;
 use vhs\domain\Notifier;
 
+/** @typescript */
 abstract class DomainCollection extends Notifier {
     protected $__existing;
     protected $__new;

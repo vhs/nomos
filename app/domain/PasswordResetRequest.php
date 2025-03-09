@@ -14,6 +14,7 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
+/** @typescript */
 class PasswordResetRequest extends Domain {
     public static function Define() {
         PasswordResetRequest::Schema(PasswordResetRequestSchema::Type());
@@ -24,5 +25,6 @@ class PasswordResetRequest extends Domain {
     }
 
     public function validate(ValidationResults &$results) {
+        // TODO: Implement validate() method.
     }
 }

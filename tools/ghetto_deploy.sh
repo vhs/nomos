@@ -31,7 +31,7 @@ read -r
 
 if [ ! -e "config.ini.php" ]; then
     echo -e "\e[31mExpected config.php.ini for nomos to be in .\e[0m"
-    cp "${NOMOS}/conf/config.ini.php.template" ./config.ini.php
+    cp "${NOMOS}/conf/config.ini.template.php" ./config.ini.php
     echo "Copied templates to local"
     nano ./config.ini.php
 

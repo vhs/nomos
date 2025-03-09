@@ -15,6 +15,7 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
+/** @typescript */
 class WebHookSchema extends Schema {
     /**
      * @return Table

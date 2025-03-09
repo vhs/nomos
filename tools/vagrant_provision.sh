@@ -43,7 +43,7 @@ sudo sed -i 's/;error_log = php_errors.log/error_log = \/var\/log\/php7.0-cli.lo
 
 # configure app
 if [ ! -e "/vagrant/conf/config.ini.php" ]; then
-    cp /vagrant/conf/config.ini.php.template /vagrant/conf/config.ini.php
+    cp /vagrant/conf/config.ini.template.php /vagrant/conf/config.ini.php
 fi
 
 # add composer

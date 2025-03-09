@@ -2,6 +2,7 @@
 
 namespace vhs;
 
+/** @typescript */
 class SplClassLoaderItem {
     public $fileExtension;
     public $includePath;
@@ -14,12 +15,12 @@ class SplClassLoaderItem {
     }
 }
 
+/** @typescript */
 class SplClassLoader {
     private $_items = [];
     private $_namespaceSeparator = '\\';
 
-    protected function __construct() {
-    }
+    protected function __construct() {}
 
     final public static function getInstance() {
         static $aoInstance = [];
@@ -88,7 +89,6 @@ class SplClassLoader {
 
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $item->fileExtension;
 
-            //print ($item->includePath !== null ? $item->includePath . DIRECTORY_SEPARATOR : '') . $fileName;
             require ($item->includePath !== null ? $item->includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }
     }
@@ -122,6 +122,5 @@ class SplClassLoader {
         spl_autoload_unregister([$this, 'loadClass']);
     }
 
-    private function __clone() {
-    }
+    private function __clone() {}
 }

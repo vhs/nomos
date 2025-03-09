@@ -13,6 +13,7 @@ use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\services\Service;
 
+/** @typescript */
 class MetricService extends Service implements IMetricService1 {
     /**
      * Get the total new members recorded in the date range.
@@ -301,15 +302,19 @@ class MetricService extends Service implements IMetricService1 {
             switch ($group) {
                 case 'day':
                     $grouping = $grouping->format('Y-m-d');
+
                     break;
                 case 'month':
                     $grouping = $grouping->format('Y-m');
+
                     break;
                 case 'year':
                     $grouping = $grouping->format('Y');
+
                     break;
                 default:
                     $grouping = 'all';
+
                     break;
             }
 
@@ -375,15 +380,19 @@ class MetricService extends Service implements IMetricService1 {
         switch ($group) {
             case 'day':
                 $grouping = $grouping->format('Y-m-d');
+
                 break;
             case 'month':
                 $grouping = $grouping->format('Y-m');
+
                 break;
             case 'year':
                 $grouping = $grouping->format('Y');
+
                 break;
             default:
                 $grouping = 'all';
+
                 break;
         }
 

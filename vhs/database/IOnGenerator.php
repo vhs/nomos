@@ -9,6 +9,7 @@
 
 namespace vhs\database;
 
+/** @typescript */
 interface IOnGenerator extends IGenerator {
     public function generateOn(On $on);
 }

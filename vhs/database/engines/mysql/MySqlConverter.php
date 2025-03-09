@@ -19,6 +19,7 @@ use vhs\database\types\TypeInt;
 use vhs\database\types\TypeString;
 use vhs\database\types\TypeText;
 
+/** @typescript */
 class MySqlConverter implements ITypeConverter {
     public function convertBool(TypeBool $type, $value = null) {
         if (is_null($value)) {
@@ -45,7 +46,7 @@ class MySqlConverter implements ITypeConverter {
     }
 
     public function convertDateTime(TypeDateTime $type, $value = null) {
-        if (is_null($value)) {
+        if (is_null($value) || empty($value)) {
             if (!$type->nullable) {
                 return $type->default;
             } else {
