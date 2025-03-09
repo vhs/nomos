@@ -179,7 +179,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
             if (profileForm.formState.dirtyFields.cashMember != null)
                 await UserService2.getInstance().UpdateCash(userId, cashMember)
 
-            if (userPin !== keyInfo?.pin) await PinService2.getInstance().UpdatePin(userId, userPin)
+            if (userPin != null && userPin !== keyInfo?.pin) await PinService2.getInstance().UpdatePin(userId, userPin)
 
             if (profileForm.formState.dirtyFields.memExpire != null)
                 await UserService2.getInstance().UpdateExpiry(userId, memExpire.toLocaleString())

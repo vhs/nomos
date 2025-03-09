@@ -79,5 +79,5 @@ export const zAdminUsersEditProfileSchema = z.object({
     stripeEmail: zEmailAddress,
     userEmail: zEmailAddress,
     userName: zUsername,
-    userPin: zUserPin
+    userPin: zUserPin.nullish()
 })
