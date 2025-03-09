@@ -57,7 +57,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @return void
      */
     public function Email($email, $tmpl, $context, $subject = null): void {
-        EmailAdapter2::getInstance()->Email($email, $subject, $tmpl, $context);
+        EmailAdapter2::getInstance()->Email($email, $tmpl, $context, $subject);
     }
 
     /**
@@ -75,7 +75,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @return void
      */
     public function EmailUser($user, $tmpl, $context, $subject = null): void {
-        EmailAdapter2::getInstance()->Email($user->email, $subject, $tmpl, $context);
+        EmailAdapter2::getInstance()->EmailUser($user, $tmpl, $context, $subject);
     }
 
     /**
