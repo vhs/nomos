@@ -56,7 +56,7 @@ class AWSSESClient extends Loggington implements IMessagesEmailGateway {
 
             return true;
         } catch (\Exception $e) {
-            error_log('An unknown error occured while trying to sendSimpleEmail: ' . $e->getMessage());
+            $this->logger->log('An unknown error occured while trying to sendSimpleEmail: ' . $e->getMessage());
 
             return false;
         }
@@ -86,7 +86,7 @@ class AWSSESClient extends Loggington implements IMessagesEmailGateway {
 
             return true;
         } catch (\Exception $e) {
-            error_log('An unknown error occured while trying to sendSimpleEmail: ' . $e->getMessage());
+            $this->logger->log('An unknown error occured while trying to sendSimpleEmail: ' . $e->getMessage());
 
             return false;
         }
