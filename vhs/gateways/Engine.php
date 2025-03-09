@@ -9,6 +9,8 @@ class Engine extends Loggington {
     private $gatewaysPrefix = 'vhs\gateways';
 
     protected function __construct() {
+        parent::__construct();
+
         $this->discover();
     }
 
