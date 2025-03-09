@@ -2,10 +2,9 @@
 
 namespace app\handlers\v2;
 
+use app\adapters\v2\EmailAdapter2;
 use app\contracts\v2\IEmailService2;
 use app\domain\EmailTemplate;
-use app\exceptions\InvalidInputException;
-use Aws\Ses\SesClient;
 use vhs\domain\exceptions\DomainException;
 use vhs\services\Service;
 
@@ -58,47 +57,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @return void
      */
     public function Email($email, $tmpl, $context, $subject = null): void {
-        $generated = EmailTemplate::generate($tmpl, $context);
-
-        if (is_null($generated)) {
-            throw new InvalidInputException('Unable to load e-mail template');
-        }
-
-        if (is_null($subject)) {
-            $subject = $generated['subject'];
-        }
-
-        $client = new SesClient([
-            'region' => AWS_SES_REGION,
-            'credentials' => [
-                'key' => AWS_SES_CLIENT_ID,
-                'secret' => AWS_SES_SECRET
-            ]
-        ]);
-
-        $client->sendEmail([
-            'Source' => NOMOS_FROM_EMAIL,
-            'Destination' => [
-                'ToAddresses' => [$email]
-            ],
-            'Message' => [
-                'Subject' => [
-                    // Data is required
-                    'Data' => $subject
-                ],
-                // Body is required
-                'Body' => [
-                    'Text' => [
-                        // Data is required
-                        'Data' => $generated['txt']
-                    ],
-                    'Html' => [
-                        // Data is required
-                        'Data' => $generated['html']
-                    ]
-                ]
-            ]
-        ]);
+        EmailAdapter2::getInstance()->Email($email, $subject, $tmpl, $context);
     }
 
     /**
@@ -116,7 +75,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @return void
      */
     public function EmailUser($user, $tmpl, $context, $subject = null): void {
-        $this->Email($user->email, $tmpl, $context, $subject);
+        EmailAdapter2::getInstance()->Email($user->email, $subject, $tmpl, $context);
     }
 
     /**
