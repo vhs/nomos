@@ -15,6 +15,8 @@ class AWSSESClient extends Loggington implements IMessagesEmailGateway {
     private $client;
 
     protected function __construct() {
+        parent::__construct();
+
         $this->client = new SesClient([
             'region' => AWS_SES_REGION,
             'credentials' => [
