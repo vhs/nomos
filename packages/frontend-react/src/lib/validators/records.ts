@@ -293,7 +293,7 @@ export const zUser = zCommon.extend({
     stripe_email: zString,
     keys: z.array(zKey),
     privileges: zPrivilegesArray,
-    membership: zMembership
+    membership: zMembership.nullish()
 })
 
 export const zPrincipalUser = zUser.extend({
