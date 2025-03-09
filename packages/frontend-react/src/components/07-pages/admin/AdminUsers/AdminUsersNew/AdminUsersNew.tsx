@@ -19,6 +19,7 @@ import { useTablePageContext } from '@/components/05-materials/TablePage/TablePa
 
 import UserService2 from '@/lib/providers/UserService2'
 import { isUser } from '@/lib/validators/guards'
+import { zUser } from '@/lib/validators/records'
 
 import { zAdminUsersCreateSchema } from '../AdminUsers.schema'
 import { AdminUsersCreateDefaultValues } from '../AdminUsers.utils'
@@ -70,6 +71,8 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
             await router.navigate({ to: `/admin/users/${submitResult.id}` })
         } else {
             toast.error('An unknown error occured! Please notify your administrators')
+
+            console.error(zUser.safeParse(submitResult).error)
         }
     }
 
