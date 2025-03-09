@@ -5,8 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useSWR from 'swr'
 
-import type { AdminPrivilegesItemProps } from './AdminPrivilegesItem.types'
-import type { AdminPrivilegeItemForm } from '../AdminPrivileges.types'
+import type { AdminPrivilegeItemSchema, AdminPrivilegesItemProps } from './AdminPrivilegesItem.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -29,7 +28,7 @@ import { isString } from '@/lib/validators/guards'
 
 import type { Privilege } from '@/types/validators/records'
 
-import { AdminPrivilegeItemSchema } from '../AdminPrivileges.schema'
+import { zAdminPrivilegeItemSchema } from '../AdminPrivileges.schema'
 
 const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
     const { mutate } = useTablePageContext()
@@ -43,8 +42,8 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
 
     const { data: privilege, isLoading, mutate: mutatePrivilege } = useSWR<Privilege>(privilegeUrl)
 
-    const form = useForm<AdminPrivilegeItemForm>({
-        resolver: zodResolver(AdminPrivilegeItemSchema),
+    const form = useForm<AdminPrivilegeItemSchema>({
+        resolver: zodResolver(zAdminPrivilegeItemSchema),
         mode: 'onChange',
         defaultValues: data
     })

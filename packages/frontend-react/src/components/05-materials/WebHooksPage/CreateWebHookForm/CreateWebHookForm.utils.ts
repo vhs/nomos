@@ -1,6 +1,6 @@
-import type { CreateWebHookFormTypes } from './CreateWebHookForm.types'
+import type { CreateWebHookFormSchema } from './CreateWebHookForm.types'
 
-export const CreateWebHookDefaultValues: CreateWebHookFormTypes = {
+export const CreateWebHookDefaultValues: CreateWebHookFormSchema = {
     name: '',
     description: '',
     enabled: false,

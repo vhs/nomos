@@ -6,3 +6,5 @@ export interface AdminPrivilegesItemProps {
     children?: ReactNode
     data: Privilege
 }
+
+export type * from '../AdminPrivileges.types'

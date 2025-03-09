@@ -5,7 +5,7 @@ import { useParams, useRouter } from '@tanstack/react-router'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { AdminSystemPreferencesEditProps, SystemPreferenceForm } from './AdminSystemPreferencesEdit.types'
+import type { AdminSystemPreferencesEditProps, SystemPreferenceSchema } from './AdminSystemPreferencesEdit.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -26,8 +26,8 @@ import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '
 
 import type { SystemPreference } from '@/types/validators/records'
 
-import { SystemPreferenceSchema } from './AdminSystemPreferencesEdit.schema'
-import { SystemPreferenceDefaultValues } from './AdminSystemPreferencesEdit.utils'
+import { zSystemPreferenceSchema } from '../AdminSystemPreferences.schema'
+import { SystemPreferenceDefaultValues } from '../AdminSystemPreferences.utils'
 
 const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
     const { mutate } = useTablePageContext()
@@ -46,8 +46,8 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
 
     const { data: allPrivileges } = useGetAllPrivileges()
 
-    const form = useForm<SystemPreferenceForm>({
-        resolver: zodResolver(SystemPreferenceSchema),
+    const form = useForm<SystemPreferenceSchema>({
+        resolver: zodResolver(zSystemPreferenceSchema),
         mode: 'onChange',
         defaultValues: SystemPreferenceDefaultValues
     })
@@ -66,7 +66,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
 
     const resetFields = useCallback(
         (systemPreference?: SystemPreference): void => {
-            const data: SystemPreferenceForm =
+            const data: SystemPreferenceSchema =
                 systemPreference != null
                     ? {
                           key: systemPreference.key,

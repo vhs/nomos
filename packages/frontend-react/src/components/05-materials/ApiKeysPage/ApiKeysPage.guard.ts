@@ -3,7 +3,7 @@ import type {
     ApiKeysActiveViewHelp,
     ApiKeysActiveViewList,
     ApiKeysActiveViewUsage,
-    ApiKeysSchema,
+    ApiKeysEditSchema,
     ApiKeysScope,
     ParsedApiKeysPath,
     ScopedApiKeysTerm
@@ -14,13 +14,13 @@ import {
     zApiKeysActiveViewHelp,
     zApiKeysActiveViewList,
     zApiKeysActiveViewUsage,
-    zApiKeysSchema,
+    zApiKeysEditSchema,
     zApiKeysScope,
     zParsedApiKeysPath,
     zScopedApiKeysTerm
 } from './ApiKeysPage.schemas'
 
-export const isApiKeysSchema = (inp: unknown): inp is ApiKeysSchema => zApiKeysSchema.safeParse(inp).success
+export const isApiKeysSchema = (inp: unknown): inp is ApiKeysEditSchema => zApiKeysEditSchema.safeParse(inp).success
 export const isApiKeysActiveView = (inp: unknown): inp is ApiKeysActiveView => zApiKeysActiveView.safeParse(inp).success
 export const isApiKeysActiveViewHelp = (inp: unknown): inp is ApiKeysActiveViewHelp =>
     zApiKeysActiveViewHelp.safeParse(inp).success

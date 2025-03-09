@@ -1,3 +1,5 @@
+import type { AdminSystemPreferencesNewSchema, SystemPreferenceSchema } from './AdminSystemPreferences.types'
+
 import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
 export const AdminSystemPreferencesFields: FieldDefinitions = [
@@ -28,3 +30,19 @@ export const AdminSystemPreferencesFilters: FilterDefinitions = [
         }
     }
 ]
+
+export const AdminSystemPreferencesNewDefaultValues: AdminSystemPreferencesNewSchema = {
+    key: '',
+    value: '',
+    enabled: false,
+    notes: ''
+}
+
+export const AdminSystemPreferencesItemFields = ['key', 'value', 'enabled', 'notes', 'privileges']
+
+export const SystemPreferenceDefaultValues: SystemPreferenceSchema = {
+    key: '',
+    value: '',
+    enabled: false,
+    notes: ''
+}

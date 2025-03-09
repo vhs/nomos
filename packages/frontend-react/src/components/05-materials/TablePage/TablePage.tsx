@@ -35,7 +35,7 @@ import {
 import type { DataRecord } from '@/types/validators/records'
 
 import { TablePageContext } from './TablePage.context'
-import { TablePageSchema, isTablePageSchemaType, type AllowedPageSizes } from './TablePage.schema'
+import { zTablePageSchema, isTablePageSchemaType, type AllowedPageSizes } from './TablePage.schema'
 import { compileActiveFilters, getEnabledFieldsLabels, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
 
 const TablePage: FC<TablePageProps> = ({
@@ -57,7 +57,7 @@ const TablePage: FC<TablePageProps> = ({
     user ??= false
     order ??= []
     unsafeSearchColumns ??= []
-    schema ??= TablePageSchema
+    schema ??= zTablePageSchema
 
     if (!isTablePageSchemaType(schema)) throw new Error('Invalid schema')
 

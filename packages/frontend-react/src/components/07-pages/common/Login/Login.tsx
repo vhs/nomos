@@ -6,7 +6,7 @@ import { clsx } from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { LoginForm, LoginProps } from './Login.types'
+import type { LoginSchema, LoginProps } from './Login.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
@@ -21,15 +21,15 @@ import useAuth from '@/lib/hooks/useAuth'
 
 import { Route } from '@/routes/_public/login'
 
-import { LoginSchema } from './Login.schema'
+import { zLoginSchema } from './Login.schema'
 
 const Login: FC<LoginProps> = () => {
     const { authenticationState, isAuthenticated, login } = useAuth()
 
     const { redirectUri } = Route.useSearch()
 
-    const form = useForm<LoginForm>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<LoginSchema>({
+        resolver: zodResolver(zLoginSchema),
         mode: 'onChange',
         defaultValues: {
             login: {

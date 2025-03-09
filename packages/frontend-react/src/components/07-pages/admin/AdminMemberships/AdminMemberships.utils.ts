@@ -1,4 +1,4 @@
-import type { AdminMembershipsForm } from './AdminMemberships.types'
+import type { AdminMembershipsSchema } from './AdminMemberships.types'
 
 import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
 
@@ -32,7 +32,7 @@ export const AdminMembershipFilters: FilterDefinitions = [
     }
 ]
 
-export const AdminMembershipsDefaultValues: AdminMembershipsForm = {
+export const AdminMembershipsDefaultValues: AdminMembershipsSchema = {
     code: '',
     title: '',
     description: '',
