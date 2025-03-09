@@ -43,4 +43,6 @@ $serverLog = new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/l
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GoogleOAuthHandler());
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\SlackOAuthHandler());
 
+\vhs\gateways\Engine::getInstance()->setLogger($serverLog);
+
 \vhs\web\HttpContext::Server()->handle();
