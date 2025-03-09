@@ -28,12 +28,22 @@ class AWSSESClient extends Loggington implements IMessagesEmailGateway {
         return true;
     }
 
-    public function sendRichEmail(string|array $to, string $subject, $textContent, $htmlContent): bool {
+    /**
+     * Send a rich (text+html) email.
+     *
+     * @param string|string[] $recipients  Recipient address or addresses array
+     * @param string          $subject     Email subject
+     * @param mixed           $textContent text content
+     * @param mixed           $htmlContent html content
+     *
+     * @return bool
+     */
+    public function sendRichEmail(string|array $recipients, string $subject, $textContent, $htmlContent): bool {
         try {
             $this->client->sendEmail([
                 'Source' => NOMOS_FROM_EMAIL,
                 'Destination' => [
-                    'ToAddresses' => is_array($to) ? $to : [$to]
+                    'ToAddresses' => is_array($recipients) ? $recipients : [$recipients]
                 ],
                 'Message' => [
                     'Subject' => [
@@ -56,18 +66,27 @@ class AWSSESClient extends Loggington implements IMessagesEmailGateway {
 
             return true;
         } catch (\Exception $e) {
-            $this->logger->log('An unknown error occured while trying to sendSimpleEmail: ' . $e->getMessage());
+            $this->logger->log('An unknown error occured while trying to sendRichEmail: ' . $e->getMessage());
 
             return false;
         }
     }
 
-    public function sendSimpleEmail(string|array $to, string $subject, $textContent): bool {
+    /**
+     * Send a simple (plain text) email.
+     *
+     * @param string|string[] $recipients  Recipient address or addresses array
+     * @param string          $subject     Email subject
+     * @param mixed           $textContent text content
+     *
+     * @return bool
+     */
+    public function sendSimpleEmail(string|array $recipients, string $subject, $textContent): bool {
         try {
             $this->client->sendEmail([
                 'Source' => NOMOS_FROM_EMAIL,
                 'Destination' => [
-                    'ToAddresses' => is_array($to) ? $to : [$to]
+                    'ToAddresses' => is_array($recipients) ? $recipients : [$recipients]
                 ],
                 'Message' => [
                     'Subject' => [
