@@ -174,7 +174,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                     return true
                 }}
             >
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <Card error={errors.key != null}>
                             <Card.Header>Code</Card.Header>
@@ -185,9 +185,9 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-full md:basis-1/2'>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card error={errors.value != null}>
                                     <Card.Header>Value</Card.Header>
@@ -197,7 +197,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card>
                                     <Card.Header>Enabled</Card.Header>
@@ -218,7 +218,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card error={errors.notes != null}>
                                     <Card.Header>Notes</Card.Header>
@@ -230,7 +230,7 @@ const AdminSystemPreferencesEdit: FC<AdminSystemPreferencesEditProps> = () => {
                         </Row>
                     </Col>
                     <Col className='basis-full md:basis-1/2'>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <PrivilegesSelectorCard
                                     title='Accessible by Roles'

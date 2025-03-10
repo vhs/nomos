@@ -21,52 +21,52 @@ export default meta
 export const Default: StoryType = {
     render: () => (
         <>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='primary'>Primary</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='secondary'>Secondary</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='success'>Success</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='warning'>Warning</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='danger'>Danger</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='info'>Info</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='light'>Light</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='dark'>Dark</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='link'>Link</Button>
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <Button variant='none'>None</Button>
                 </Col>

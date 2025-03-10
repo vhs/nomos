@@ -90,18 +90,18 @@ const PinCard: FC<{ currentUser: PrincipalUserObject | UserObject }> = ({ curren
                         </div>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-1/2'>Notes</Col>
                     <Col className='basis-1/2'>{keyInfo.notes}</Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-1/2'>Created:</Col>
                     <Col className='basis-1/2'>{keyInfo.created.toLocaleString()}</Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>Special privileges for this key:</Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Conditional condition={'privileges' in pinInfo}>
                         {pinInfo.privileges?.map((privilege) => (
                             <Col key={privilege.code}>
@@ -110,7 +110,7 @@ const PinCard: FC<{ currentUser: PrincipalUserObject | UserObject }> = ({ curren
                         ))}
                     </Conditional>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <small>Access log to be added</small>
                     </Col>
