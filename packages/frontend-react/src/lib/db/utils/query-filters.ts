@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zBoolean, zString, zStringArray } from '@/lib/validators/common'
+import { zBoolean, zString, zStrings } from '@/lib/validators/common'
 
 export const zQueryFilterLogicalOperators = z.union([z.literal('and'), z.literal('or')])
 
@@ -52,7 +52,7 @@ export const isFilter = (inp: unknown): inp is Filter => zFilter.safeParse(inp).
 
 export const zFieldDefinition = z.object({
     title: zString,
-    field: z.union([zString, zStringArray]),
+    field: z.union([zString, zStrings]),
     hidden: zBoolean.nullish()
 })
 

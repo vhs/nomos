@@ -22,9 +22,9 @@ import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
+import { isString } from '@/lib/guards/common'
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 import { checkValidIcon } from '@/lib/ui/fontawesome'
-import { isString } from '@/lib/validators/guards'
 
 import type { Privilege } from '@/types/validators/records'
 
@@ -229,7 +229,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     </Button>
                                 ]}
                             >
-                                <Row className='spacious'>
+                                <Row>
                                     <FormCol error={errors.name}>
                                         <label htmlFor='name'>
                                             <strong>Name</strong>
@@ -238,7 +238,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     </FormCol>
                                 </Row>
 
-                                <Row className='spacious'>
+                                <Row>
                                     <FormCol error={errors.description}>
                                         <label htmlFor='description'>
                                             <strong>Description</strong>
@@ -247,7 +247,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     </FormCol>
                                 </Row>
 
-                                <Row className='spacious'>
+                                <Row>
                                     <FormCol error={errors.icon}>
                                         <label htmlFor='icon'>
                                             <div className='inline'>
@@ -268,7 +268,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     </FormCol>
                                 </Row>
 
-                                <Row className='spacious'>
+                                <Row>
                                     <FormCol error={errors.enabled}>
                                         <Toggle
                                             checked={enabled}
@@ -284,7 +284,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                                     </FormCol>
                                 </Row>
 
-                                <Row className='spacious'>
+                                <Row>
                                     <Col></Col>
                                 </Row>
                             </OverlayCard>

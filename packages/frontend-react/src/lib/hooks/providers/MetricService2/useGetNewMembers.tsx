@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 
 import useSWR, { type SWRResponse } from 'swr'
 
+import { isMetricServiceNewMembersResult } from '@/lib/guards/records'
 import MetricService2 from '@/lib/providers/MetricService2'
-import { isMetricServiceNewMembersResult } from '@/lib/validators/guards'
 import { zMetricServiceNewMembersResult } from '@/lib/validators/records'
 
 import type { MetricServiceNewMembersResult } from '@/types/validators/records'

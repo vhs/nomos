@@ -11,8 +11,8 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card/Card'
 
+import { isBooleanRecord } from '@/lib/guards/common'
 import { compareStringArray } from '@/lib/utils'
-import { isBooleanRecord } from '@/lib/validators/guards'
 
 import type { BooleanRecord } from '@/types/validators/common'
 import type { Privileges } from '@/types/validators/records'

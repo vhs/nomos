@@ -3,13 +3,8 @@ import moment from 'moment'
 import type { BubbleDataPoint } from 'chart.js'
 
 import type { FilterDefinitions } from '@/lib/db/utils/query-filters'
-import {
-    isBasePrivilegesArray,
-    isPrivilegesArray,
-    isBooleanRecord,
-    isString,
-    isStringArray
-} from '@/lib/validators/guards'
+import { isBooleanRecord, isString, isStrings } from '@/lib/guards/common'
+import { isBasePrivileges, isPrivileges } from '@/lib/guards/records'
 
 import type { BooleanRecord } from '@/types/validators/common'
 import type { BasePrivileges, Privileges } from '@/types/validators/records'
@@ -56,7 +51,7 @@ export const generateRangeArray = (min: number, max: number): number[] =>
     Array.from({ length: max - min + 1 }, (_, i) => min + i)
 
 export const compareStringArray = <T extends string[] = string[]>(leftArray?: T, rightArray?: T): boolean => {
-    if (!isStringArray(leftArray) || !isStringArray(rightArray)) return false
+    if (!isStrings(leftArray) || !isStrings(rightArray)) return false
     if (leftArray.length !== rightArray.length) return false
 
     return (
@@ -133,7 +128,7 @@ export const convertPrivilegesArrayToBooleanRecord = (
 ): BooleanRecord => {
     defaultVal ??= false
 
-    if (privileges == null || (!isPrivilegesArray(privileges) && !isBasePrivilegesArray(privileges))) return {}
+    if (privileges == null || (!isPrivileges(privileges) && !isBasePrivileges(privileges))) return {}
 
     return structuredClone(privileges).reduce<BooleanRecord>((c, e) => {
         c[e.code] = defaultVal
@@ -163,7 +158,7 @@ export const convertStringArrayToBooleanRecord = (
 ): BooleanRecord => {
     defaultVal ??= false
 
-    if (!isStringArray(inp)) return {}
+    if (!isStrings(inp)) return {}
 
     return structuredClone(inp).reduce<BooleanRecord>((c, e) => {
         c[e] = defaultVal

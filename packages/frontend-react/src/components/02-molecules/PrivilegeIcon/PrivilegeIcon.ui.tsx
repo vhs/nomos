@@ -1,7 +1,7 @@
 import type { PrivilegeIconSettings } from './PrivilegeIcon.types'
 
+import { isString } from '@/lib/guards/common'
 import { checkValidIcon } from '@/lib/ui/fontawesome'
-import { isString } from '@/lib/validators/guards'
 
 export const getPrivilegeIconSettings = (icon: string | null | undefined): PrivilegeIconSettings => {
     if (isString(icon) && icon !== '' && !checkValidIcon(icon)) {
