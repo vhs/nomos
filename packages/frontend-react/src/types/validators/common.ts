@@ -7,199 +7,293 @@ import type { z } from 'zod'
 import type {
     zBoolean,
     zBooleanRecord,
+    zBooleanRecords,
+    zBooleans,
     zCoerceNumber,
+    zCoerceNumbers,
     zCoerceString,
+    zCoerceStrings,
     zDateTime,
     zDateTimeFormInput,
+    zDateTimeFormInputs,
     zDateTimeString,
+    zDateTimeStrings,
+    zDateTimes,
     zEmailAddress,
+    zEmailAddresss,
     zEmptyOrMinString,
+    zEmptyOrMinStrings,
     zFunctionBoolResultFromStringArraySpread,
+    zFunctionBoolResultFromStringArraySpreads,
     zHTTPMethod,
+    zHTTPMethods,
     zHumanName,
+    zHumanNames,
     zIpnValidationState,
+    zIpnValidationStates,
     zKeyType,
+    zKeyTypes,
     zMinString,
+    zMinStrings,
     zMoneyBookers,
-    zNonEmptyStringArray,
+    zMoneyBookerss,
+    zNonEmptyStrings,
     zNonNegativeNumber,
+    zNonNegativeNumbers,
     zNumber,
-    zNumberArray,
+    zNumbers,
     zPasswordField,
+    zPasswordFields,
     zPasswordInput,
+    zPasswordInputs,
     zPayPal,
+    zPayPals,
     zPaymentProvider,
+    zPaymentProviders,
     zPositiveNumber,
+    zPositiveNumbers,
     zSpreadString,
+    zSpreadStrings,
     zString,
-    zStringArray,
+    zStringRecord,
+    zStringRecords,
+    zStringStringRecord,
+    zStringStringRecords,
+    zStrings,
     zStripe,
     zStripePaymentState,
+    zStripePaymentStates,
+    zStripes,
     zUrl,
+    zUrls,
     zUserActiveState,
     zUserActiveStateCode,
-    zUserActiveStateDefinition,
+    zUserActiveStateCodes,
     zUserActiveStateTitle,
+    zUserActiveStateTitles,
     zUserActiveStateType,
+    zUserActiveStateTypes,
+    zUserActiveStates,
     zUserActiveStatus,
+    zUserActiveStatuses,
     zUserBannedStateType,
+    zUserBannedStateTypes,
     zUserInactiveStateType,
+    zUserInactiveStateTypes,
     zUserPendingStateType,
+    zUserPendingStateTypes,
     zUserPin,
+    zUserPins,
     zUserStateCodeActive,
+    zUserStateCodeActives,
     zUserStateCodeBanned,
+    zUserStateCodeBanneds,
     zUserStateCodeInactive,
+    zUserStateCodeInactives,
     zUserStateCodePending,
+    zUserStateCodePendings,
     zUserStateTitleActive,
+    zUserStateTitleActives,
     zUserStateTitleBanned,
+    zUserStateTitleBanneds,
     zUserStateTitleInactive,
+    zUserStateTitleInactives,
     zUserStateTitlePending,
-    zUsername
+    zUserStateTitlePendings,
+    zUsername,
+    zUsernames
 } from '@/lib/validators/common.ts'
 
 export type Boolean = z.infer<typeof zBoolean>
-export type Booleans = Boolean[]
 
 export type BooleanRecord = z.infer<typeof zBooleanRecord>
-export type BooleanRecords = BooleanRecord[]
+
+export type BooleanRecords = z.infer<typeof zBooleanRecords>
+
+export type Booleans = z.infer<typeof zBooleans>
 
 export type CoerceNumber = z.infer<typeof zCoerceNumber>
-export type CoerceNumbers = CoerceNumber[]
+
+export type CoerceNumbers = z.infer<typeof zCoerceNumbers>
 
 export type CoerceString = z.infer<typeof zCoerceString>
-export type CoerceStrings = CoerceString[]
+
+export type CoerceStrings = z.infer<typeof zCoerceStrings>
 
 export type DateTime = z.infer<typeof zDateTime>
-export type DateTimes = DateTime[]
 
 export type DateTimeFormInput = z.infer<typeof zDateTimeFormInput>
-export type DateTimeFormInputs = DateTimeFormInput[]
+
+export type DateTimeFormInputs = z.infer<typeof zDateTimeFormInputs>
 
 export type DateTimeString = z.infer<typeof zDateTimeString>
-export type DateTimeStrings = DateTimeString[]
+
+export type DateTimeStrings = z.infer<typeof zDateTimeStrings>
+
+export type DateTimes = z.infer<typeof zDateTimes>
 
 export type EmailAddress = z.infer<typeof zEmailAddress>
 
+export type EmailAddresss = z.infer<typeof zEmailAddresss>
+
 export type EmptyOrMinString = z.infer<typeof zEmptyOrMinString>
-export type EmptyOrMinStrings = EmptyOrMinString[]
+
+export type EmptyOrMinStrings = z.infer<typeof zEmptyOrMinStrings>
 
 export type FunctionBoolResultFromStringArraySpread = z.infer<typeof zFunctionBoolResultFromStringArraySpread>
-export type FunctionBoolResultFromStringArraySpreads = FunctionBoolResultFromStringArraySpread[]
+
+export type FunctionBoolResultFromStringArraySpreads = z.infer<typeof zFunctionBoolResultFromStringArraySpreads>
 
 export type HTTPMethod = z.infer<typeof zHTTPMethod>
-export type HTTPMethods = HTTPMethod[]
+
+export type HTTPMethods = z.infer<typeof zHTTPMethods>
 
 export type HumanName = z.infer<typeof zHumanName>
-export type HumanNames = HumanName[]
+
+export type HumanNames = z.infer<typeof zHumanNames>
 
 export type IpnValidationState = z.infer<typeof zIpnValidationState>
-export type IpnValidationStates = IpnValidationState[]
+
+export type IpnValidationStates = z.infer<typeof zIpnValidationStates>
 
 export type KeyType = z.infer<typeof zKeyType>
-export type KeyTypes = KeyType[]
+
+export type KeyTypes = z.infer<typeof zKeyTypes>
 
 export type MinString = z.infer<typeof zMinString>
-export type MinStrings = MinString[]
+
+export type MinStrings = z.infer<typeof zMinStrings>
 
 export type MoneyBookers = z.infer<typeof zMoneyBookers>
 
-export type NonEmptyStringArray = z.infer<typeof zNonEmptyStringArray>
-export type NonEmptyStringArrays = NonEmptyStringArray[]
+export type MoneyBookerss = z.infer<typeof zMoneyBookerss>
+
+export type NonEmptyStrings = z.infer<typeof zNonEmptyStrings>
 
 export type NonNegativeNumber = z.infer<typeof zNonNegativeNumber>
-export type NonNegativeNumbers = NonNegativeNumber[]
+
+export type NonNegativeNumbers = z.infer<typeof zNonNegativeNumbers>
 
 export type Number = z.infer<typeof zNumber>
-export type Numbers = Number[]
 
-export type NumberArray = z.infer<typeof zNumberArray>
-export type NumberArrays = NumberArray[]
+export type Numbers = z.infer<typeof zNumbers>
 
 export type PasswordField = z.infer<typeof zPasswordField>
-export type PasswordFields = PasswordField[]
+
+export type PasswordFields = z.infer<typeof zPasswordFields>
 
 export type PasswordInput = z.infer<typeof zPasswordInput>
-export type PasswordInputs = PasswordInput[]
+
+export type PasswordInputs = z.infer<typeof zPasswordInputs>
 
 export type PayPal = z.infer<typeof zPayPal>
-export type PayPals = PayPal[]
+
+export type PayPals = z.infer<typeof zPayPals>
 
 export type PaymentProvider = z.infer<typeof zPaymentProvider>
-export type PaymentProviders = PaymentProvider[]
+
+export type PaymentProviders = z.infer<typeof zPaymentProviders>
 
 export type PositiveNumber = z.infer<typeof zPositiveNumber>
-export type PositiveNumbers = PositiveNumber[]
+
+export type PositiveNumbers = z.infer<typeof zPositiveNumbers>
 
 export type SpreadString = z.infer<typeof zSpreadString>
-export type SpreadStrings = SpreadString[]
+
+export type SpreadStrings = z.infer<typeof zSpreadStrings>
 
 export type String = z.infer<typeof zString>
-export type Strings = String[]
 
-export type StringArray = z.infer<typeof zStringArray>
-export type StringArrays = StringArray[]
+export type StringRecord = z.infer<typeof zStringRecord>
+
+export type StringRecords = z.infer<typeof zStringRecords>
+
+export type StringStringRecord = z.infer<typeof zStringStringRecord>
+
+export type StringStringRecords = z.infer<typeof zStringStringRecords>
+
+export type Strings = z.infer<typeof zStrings>
 
 export type Stripe = z.infer<typeof zStripe>
-export type Stripes = Stripe[]
 
 export type StripePaymentState = z.infer<typeof zStripePaymentState>
-export type StripePaymentStates = StripePaymentState[]
+
+export type StripePaymentStates = z.infer<typeof zStripePaymentStates>
+
+export type Stripes = z.infer<typeof zStripes>
 
 export type Url = z.infer<typeof zUrl>
-export type Urls = Url[]
+
+export type Urls = z.infer<typeof zUrls>
 
 export type UserActiveState = z.infer<typeof zUserActiveState>
-export type UserActiveStates = UserActiveState[]
 
 export type UserActiveStateCode = z.infer<typeof zUserActiveStateCode>
-export type UserActiveStateCodes = UserActiveStateCode[]
 
-export type UserActiveStateDefinition = z.infer<typeof zUserActiveStateDefinition>
-export type UserActiveStateDefinitions = UserActiveStateDefinition[]
+export type UserActiveStateCodes = z.infer<typeof zUserActiveStateCodes>
 
 export type UserActiveStateTitle = z.infer<typeof zUserActiveStateTitle>
-export type UserActiveStateTitles = UserActiveStateTitle[]
+
+export type UserActiveStateTitles = z.infer<typeof zUserActiveStateTitles>
 
 export type UserActiveStateType = z.infer<typeof zUserActiveStateType>
-export type UserActiveStateTypes = UserActiveStateType[]
+
+export type UserActiveStateTypes = z.infer<typeof zUserActiveStateTypes>
+
+export type UserActiveStates = z.infer<typeof zUserActiveStates>
 
 export type UserActiveStatus = z.infer<typeof zUserActiveStatus>
 
+export type UserActiveStatuses = z.infer<typeof zUserActiveStatuses>
+
 export type UserBannedStateType = z.infer<typeof zUserBannedStateType>
-export type UserBannedStateTypes = UserBannedStateType[]
+
+export type UserBannedStateTypes = z.infer<typeof zUserBannedStateTypes>
 
 export type UserInactiveStateType = z.infer<typeof zUserInactiveStateType>
-export type UserInactiveStateTypes = UserInactiveStateType[]
+
+export type UserInactiveStateTypes = z.infer<typeof zUserInactiveStateTypes>
 
 export type UserPendingStateType = z.infer<typeof zUserPendingStateType>
-export type UserPendingStateTypes = UserPendingStateType[]
+
+export type UserPendingStateTypes = z.infer<typeof zUserPendingStateTypes>
 
 export type UserPin = z.infer<typeof zUserPin>
-export type UserPins = UserPin[]
+
+export type UserPins = z.infer<typeof zUserPins>
 
 export type UserStateCodeActive = z.infer<typeof zUserStateCodeActive>
-export type UserStateCodeActives = UserStateCodeActive[]
+
+export type UserStateCodeActives = z.infer<typeof zUserStateCodeActives>
 
 export type UserStateCodeBanned = z.infer<typeof zUserStateCodeBanned>
-export type UserStateCodeBanneds = UserStateCodeBanned[]
+
+export type UserStateCodeBanneds = z.infer<typeof zUserStateCodeBanneds>
 
 export type UserStateCodeInactive = z.infer<typeof zUserStateCodeInactive>
-export type UserStateCodeInactives = UserStateCodeInactive[]
+
+export type UserStateCodeInactives = z.infer<typeof zUserStateCodeInactives>
 
 export type UserStateCodePending = z.infer<typeof zUserStateCodePending>
-export type UserStateCodePendings = UserStateCodePending[]
+
+export type UserStateCodePendings = z.infer<typeof zUserStateCodePendings>
 
 export type UserStateTitleActive = z.infer<typeof zUserStateTitleActive>
-export type UserStateTitleActives = UserStateTitleActive[]
+
+export type UserStateTitleActives = z.infer<typeof zUserStateTitleActives>
 
 export type UserStateTitleBanned = z.infer<typeof zUserStateTitleBanned>
-export type UserStateTitleBanneds = UserStateTitleBanned[]
+
+export type UserStateTitleBanneds = z.infer<typeof zUserStateTitleBanneds>
 
 export type UserStateTitleInactive = z.infer<typeof zUserStateTitleInactive>
-export type UserStateTitleInactives = UserStateTitleInactive[]
+
+export type UserStateTitleInactives = z.infer<typeof zUserStateTitleInactives>
 
 export type UserStateTitlePending = z.infer<typeof zUserStateTitlePending>
-export type UserStateTitlePendings = UserStateTitlePending[]
+
+export type UserStateTitlePendings = z.infer<typeof zUserStateTitlePendings>
 
 export type Username = z.infer<typeof zUsername>
-export type Usernames = Username[]
+
+export type Usernames = z.infer<typeof zUsernames>

@@ -4,9 +4,11 @@ import { z } from 'zod'
 import { zIcon } from '@/lib/ui/fontawesome'
 
 import {
-    zBoolean,
+    zNumber,
     zString,
-    zStringArray,
+    zBoolean,
+    zDateTime,
+    zStrings,
     zIpnValidationState,
     zFunctionBoolResultFromStringArraySpread,
     zKeyType,
@@ -16,11 +18,9 @@ import {
     zHumanName,
     zUserActiveStateCode,
     zStripePaymentState,
-    zNumber,
     zUrl,
-    zHTTPMethod,
-    zDateTime,
-    zSpreadString
+    zSpreadString,
+    zHTTPMethod
 } from './common'
 
 export const zCommon = z.object({ id: zNumber })
@@ -67,14 +67,12 @@ export const zAppClient = zCommon.extend({
 })
 
 export const zAuthCheckResult = z
-    .object({ valid: zBoolean, type: zString.nullish(), privileges: zStringArray.nullish() })
+    .object({ valid: zBoolean, type: zString.nullish(), privileges: zStrings.nullish() })
     .catchall(z.unknown())
 
 export const zBasePrivilege = z.object({ name: zString, code: zString })
 
-export const zBasePrivilegesArray = zBasePrivilege.array()
-
-export const zCurrentUser = zCommon.extend({ permissions: zStringArray })
+export const zCurrentUser = zCommon.extend({ permissions: zStrings })
 
 export const zDomain = zCommon.extend({
     name: zString,
@@ -161,9 +159,9 @@ export const zPrivilege = zCommon
     .merge(zBasePrivilege)
     .extend({ description: zString.nullish(), icon: zIcon.nullish(), enabled: zBoolean })
 
-export const zPrivilegesArray = z.array(zPrivilege)
+export const zPrivileges = z.array(zPrivilege)
 
-export const zPrivilegesField = z.object({ privileges: zPrivilegesArray.nullish() })
+export const zPrivilegesField = z.object({ privileges: zPrivileges.nullish() })
 
 export const zKey = zCommon
     .extend({
@@ -186,7 +184,7 @@ export const zMembershipPeriodYear = z.literal('Y')
 
 export const zMembershipPeriod = z.union([zMembershipPeriodDay, zMembershipPeriodMonth, zMembershipPeriodYear])
 
-export const zMembershipBaseFields = z.object({
+export const zMembershipBase = z.object({
     title: zString,
     code: zString,
     description: zString,
@@ -196,7 +194,7 @@ export const zMembershipBaseFields = z.object({
 })
 
 export const zMembership = zCommon
-    .merge(zMembershipBaseFields)
+    .merge(zMembershipBase)
     .extend({ trial: zBoolean, recurring: zBoolean, private: zBoolean, active: zBoolean })
     .merge(zPrivilegesField)
 
@@ -292,9 +290,11 @@ export const zUser = zCommon.extend({
     stripe_id: zString,
     stripe_email: zString,
     keys: z.array(zKey),
-    privileges: zPrivilegesArray,
+    privileges: zPrivileges,
     membership: zMembership.nullish()
 })
+
+export const zPartialUser = zUser.omit({ id: true }).partial().merge(zCommon)
 
 export const zPrincipalUser = zUser.extend({
     principal: zUser,
@@ -326,6 +326,7 @@ export const zSystemPreference = zCommon
     .merge(zPrivilegesField)
 
 export const zMetricServiceTotalKeyHoldersResult = zMetricServiceValueResult
+
 export const zMetricServiceTotalMembersResult = zMetricServiceValueResult
 
 export const zTrimmedAppClientOwner = z
@@ -369,7 +370,7 @@ export const zAnonPrincipal = zCommon.extend({
 
 export const zUserPrincipal = zCommon.extend({ permissions: z.array(zString) })
 
-export const zWebHookBaseFields = z.object({
+export const zWebHookBase = z.object({
     name: zString,
     description: zString,
     enabled: zBoolean,
@@ -381,4 +382,104 @@ export const zWebHookBaseFields = z.object({
     eventid: zNumber
 })
 
-export const zWebHook = zCommon.merge(zWebHookBaseFields)
+export const zWebHook = zCommon.merge(zWebHookBase)
+
+export const zCommons = zCommon.array()
+
+export const zDataRecords = zDataRecord.array()
+
+export const zAccessLogs = zAccessLog.array()
+
+export const zAccessTokens = zAccessToken.array()
+
+export const zAppClients = zAppClient.array()
+
+export const zAuthCheckResults = zAuthCheckResult.array()
+
+export const zBasePrivileges = zBasePrivilege.array()
+
+export const zCurrentUsers = zCurrentUser.array()
+
+export const zDomains = zDomain.array()
+
+export const zEmails = zEmail.array()
+
+export const zEmailTemplates = zEmailTemplate.array()
+
+export const zEvents = zEvent.array()
+
+export const zGenuineCards = zGenuineCard.array()
+
+export const zIpns = zIpn.array()
+
+export const zIpnRequests = zIpnRequest.array()
+
+export const zIPrincipals = zIPrincipal.array()
+
+export const zPrivilegesFields = zPrivilegesField.array()
+
+export const zKeys = zKey.array()
+
+export const zMembershipPeriodDays = zMembershipPeriodDay.array()
+
+export const zMembershipPeriodMonths = zMembershipPeriodMonth.array()
+
+export const zMembershipPeriodYears = zMembershipPeriodYear.array()
+
+export const zMembershipPeriods = zMembershipPeriod.array()
+
+export const zMemberships = zMembership.array()
+
+export const zMembershipWithIds = zMembershipWithId.array()
+
+export const zMetricServiceBaseRangeResults = zMetricServiceBaseRangeResult.array()
+
+export const zMetricServiceGetCreatedDatesResults = zMetricServiceGetCreatedDatesResult.array()
+
+export const zMetricServiceGetMembersResults = zMetricServiceGetMembersResult.array()
+
+export const zMetricServiceGroupTypes = zMetricServiceGroupType.array()
+
+export const zMetricServiceRevenueResultSets = zMetricServiceRevenueResultSet.array()
+
+export const zRevenueByMembersTypes = zRevenueByMembersType.array()
+
+export const zMetricServiceRevenueByMemberships = zMetricServiceRevenueByMembership.array()
+
+export const zMetricServiceGetRevenueResults = zMetricServiceGetRevenueResult.array()
+
+export const zMetricServiceResults = zMetricServiceResult.array()
+
+export const zMetricServiceValueResults = zMetricServiceValueResult.array()
+
+export const zMetricServiceNewKeyholdersResults = zMetricServiceNewKeyholdersResult.array()
+
+export const zMetricServiceNewMembersResults = zMetricServiceNewMembersResult.array()
+
+export const zPayments = zPayment.array()
+
+export const zUsers = zUser.array()
+
+export const zPartialUsers = zPartialUser.array()
+
+export const zPrincipalUsers = zPrincipalUser.array()
+
+export const zRefreshTokens = zRefreshToken.array()
+
+export const zStripeEvents = zStripeEvent.array()
+
+export const zSystemPreferences = zSystemPreference.array()
+
+export const zMetricServiceTotalKeyHoldersResults = zMetricServiceTotalKeyHoldersResult.array()
+
+export const zMetricServiceTotalMembersResults = zMetricServiceTotalMembersResult.array()
+
+export const zTrimmedAppClientOwners = zTrimmedAppClientOwner.array()
+
+export const zTrimmedAppClients = zTrimmedAppClient.array()
+
+export const zTrimmedUsers = zTrimmedUser.array()
+
+export const zAnonPrincipals = zAnonPrincipal.array()
+
+export const zWebHooks = zWebHook.array()

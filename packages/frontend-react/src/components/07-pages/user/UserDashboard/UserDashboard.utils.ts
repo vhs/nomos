@@ -5,6 +5,13 @@ import type { ChartData, Point } from 'chart.js'
 
 import type { GridChartProps } from '@/components/04-composites/GridChart/GridChart.types'
 
+import {
+    isMetricServiceGetCreatedDatesResult,
+    isMetricServiceGetMembersResult,
+    isMetricServiceGetRevenueResult,
+    isMetricServiceNewMembersResult,
+    isMetricServiceTotalMembersResult
+} from '@/lib/guards/records'
 import MetricService2 from '@/lib/providers/MetricService2'
 import PrivilegeService2 from '@/lib/providers/PrivilegeService2'
 import {
@@ -14,13 +21,6 @@ import {
     generateRowColArray,
     generateRowColBubbleDataset
 } from '@/lib/utils'
-import {
-    isMetricServiceGetCreatedDatesResult,
-    isMetricServiceGetMembersResult,
-    isMetricServiceGetRevenueResult,
-    isMetricServiceNewMembersResult,
-    isMetricServiceTotalMembersResult
-} from '@/lib/validators/guards'
 
 import type { BubbleChartProps, LineChartProps, LinePoint, RevenueGoalChartProps } from '@/types/charts'
 import type { ArrayElement } from '@/types/utils'
