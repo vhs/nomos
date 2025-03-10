@@ -1,9 +1,16 @@
 import { z } from 'zod'
 
 export const zBoolean = z.boolean()
+
 export const zCoerceNumber = z.coerce.number()
+
 export const zCoerceString = z.coerce.string()
+
 export const zString = z.string()
+export const zStrings = zString.array().min(0)
+export const zStringRecord = z.record(zString, z.unknown())
+export const zStringStringRecord = z.record(zString, zString)
+
 export const zNumber = z.number()
 
 export const zDateTimeFormInput = zString.regex(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/)
@@ -22,7 +29,7 @@ export const zEmailAddress = zCoerceString.email().min(5)
 
 export const zNonNegativeNumber = z.number().nonnegative()
 
-export const zNumberArray = zNumber.array()
+export const zNumbers = zNumber.array()
 
 export const zPositiveNumber = zNumber.positive()
 
@@ -34,9 +41,7 @@ export const zMinString = zString.min(1)
 
 export const zEmptyOrMinString = z.union([z.literal(''), zMinString])
 
-export const zNonEmptyStringArray = zString.array().min(1)
-
-export const zStringArray = z.array(zString).min(0)
+export const zNonEmptyStrings = zString.array().min(1)
 
 export const zSpreadString = z.tuple([]).rest(zString)
 
@@ -127,14 +132,14 @@ export const zUserInactiveStateType = z.object({ title: zUserStateTitleInactive,
 
 export const zUserPendingStateType = z.object({ title: zUserStateTitlePending, code: zUserStateCodePending })
 
-export const zUserActiveStateDefinition = z.union([
+export const zUserActiveState = z.union([
     zUserActiveStateType,
     zUserBannedStateType,
     zUserInactiveStateType,
     zUserPendingStateType
 ])
 
-export const zUserActiveState = zUserActiveStateDefinition.array()
+export const zUserActiveStates = zUserActiveState.array()
 
 export const zUserActiveStatus = z.object({
     y: zUserStateTitleActive,
@@ -146,3 +151,49 @@ export const zUserActiveStatus = z.object({
 export const zUsername = zString.min(3)
 
 export const zUserPin = zCoerceString.regex(/\d{1,4}/)
+
+export const zBooleans = zBoolean.array()
+export const zCoerceNumbers = zCoerceNumber.array()
+export const zCoerceStrings = zCoerceString.array()
+export const zStringRecords = zStringRecord.array()
+export const zStringStringRecords = zStringStringRecord.array()
+export const zDateTimeFormInputs = zDateTimeFormInput.array()
+export const zDateTimeStrings = zDateTimeString.array()
+export const zDateTimes = zDateTime.array()
+export const zEmailAddresss = zEmailAddress.array()
+export const zNonNegativeNumbers = zNonNegativeNumber.array()
+export const zPositiveNumbers = zPositiveNumber.array()
+export const zUrls = zUrl.array()
+export const zHumanNames = zHumanName.array()
+export const zMinStrings = zMinString.array()
+export const zEmptyOrMinStrings = zEmptyOrMinString.array()
+export const zSpreadStrings = zSpreadString.array()
+export const zFunctionBoolResultFromStringArraySpreads = zFunctionBoolResultFromStringArraySpread.array()
+export const zHTTPMethods = zHTTPMethod.array()
+export const zIpnValidationStates = zIpnValidationState.array()
+export const zKeyTypes = zKeyType.array()
+export const zPasswordFields = zPasswordField.array()
+export const zPasswordInputs = zPasswordInput.array()
+export const zMoneyBookerss = zMoneyBookers.array()
+export const zPayPals = zPayPal.array()
+export const zStripes = zStripe.array()
+export const zPaymentProviders = zPaymentProvider.array()
+export const zBooleanRecords = zBooleanRecord.array()
+export const zStripePaymentStates = zStripePaymentState.array()
+export const zUserStateTitleActives = zUserStateTitleActive.array()
+export const zUserStateTitleBanneds = zUserStateTitleBanned.array()
+export const zUserStateTitleInactives = zUserStateTitleInactive.array()
+export const zUserStateTitlePendings = zUserStateTitlePending.array()
+export const zUserActiveStateTitles = zUserActiveStateTitle.array()
+export const zUserStateCodeActives = zUserStateCodeActive.array()
+export const zUserStateCodeBanneds = zUserStateCodeBanned.array()
+export const zUserStateCodeInactives = zUserStateCodeInactive.array()
+export const zUserStateCodePendings = zUserStateCodePending.array()
+export const zUserActiveStateCodes = zUserActiveStateCode.array()
+export const zUserActiveStateTypes = zUserActiveStateType.array()
+export const zUserBannedStateTypes = zUserBannedStateType.array()
+export const zUserInactiveStateTypes = zUserInactiveStateType.array()
+export const zUserPendingStateTypes = zUserPendingStateType.array()
+export const zUserActiveStatuses = zUserActiveStatus.array()
+export const zUsernames = zUsername.array()
+export const zUserPins = zUserPin.array()

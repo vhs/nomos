@@ -36,6 +36,7 @@ import RFIDKeysCard from '@/components/07-pages/user/UserProfile/RFIDKeysCard'
 
 import UserObject from '@/lib/db/models/User'
 import { postWithParams } from '@/lib/fetcher'
+import { isMemberships } from '@/lib/guards/records'
 import useGetAllMemberships from '@/lib/hooks/providers/MembershipService2/useGetAllMemberships'
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useGetUser from '@/lib/hooks/providers/UserService2/useGetUser'
@@ -45,7 +46,6 @@ import PinService2 from '@/lib/providers/PinService2'
 import UserService2 from '@/lib/providers/UserService2'
 import { getEnabledStateRecordKeys, mergePrivilegesArrayToBooleanRecord } from '@/lib/utils'
 import { statuses } from '@/lib/utils/constants'
-import { isMemberships } from '@/lib/validators/guards'
 
 import { zAdminUsersEditPasswordSchema, zAdminUsersEditProfileSchema } from '../AdminUsers.schema'
 
@@ -345,7 +345,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                 <Card.Header>Profile</Card.Header>
                                 <Card.Body>
                                     <Container>
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol error={profileErrors.userName != null}>
                                                 <label htmlFor='userName'>
                                                     <b>Username</b>
@@ -359,7 +359,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol error={profileErrors.firstName != null}>
                                                 <label htmlFor='firstName'>
                                                     <b>First Name</b>
@@ -373,7 +373,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol error={profileErrors.lastName != null}>
                                                 <label htmlFor='lastName'>
                                                     <b>Last Name</b>
@@ -387,7 +387,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol
                                                 error={
                                                     profileErrors.userEmail != null || profileErrors.newsletter != null
@@ -442,7 +442,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol error={profileErrors.stripeEmail != null}>
                                                 <label htmlFor='stripeEmail'>
                                                     <b>Stripe Email</b>
@@ -456,7 +456,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <Col>
                                                 <p>
                                                     <strong>Registration Date</strong>
@@ -471,7 +471,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </Col>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <Col>
                                                 <p>
                                                     <strong>Current Expiry</strong>
@@ -490,7 +490,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                             </FormCol>
                                         </Row>
 
-                                        <Row className='spacious'>
+                                        <Row>
                                             <FormCol
                                                 error={profileErrors.memType != null}
                                                 className={clsx(['basis-1/2 p-1'])}
@@ -526,7 +526,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                             <Card>
                                 <Card.Header>Access</Card.Header>
                                 <Card.Body>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <Col className='w-full'>
                                             <Card>
                                                 <Card.Header>User&apos;s Access Pin</Card.Header>
@@ -559,19 +559,19 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                                         </Col>
                                     </Row>
 
-                                    <Row className='spacious'>
+                                    <Row>
                                         <Col className='w-full'>
                                             <LinkedAccountsCard currentUser={userObj} />
                                         </Col>
                                     </Row>
 
-                                    <Row className='spacious'>
+                                    <Row>
                                         <Col className='w-full'>
                                             <RFIDKeysCard currentUser={userObj} />
                                         </Col>
                                     </Row>
 
-                                    <Row className='spacious'>
+                                    <Row>
                                         <Col className='w-full'>
                                             <APIKeysCard currentUser={userObj} />
                                         </Col>
@@ -581,7 +581,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         </Tab>
 
                         <Tab tabKey={'privileges'} title={'Permissions'}>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col className='w-full p-1 lg:basis-1/2'>
                                     <CurrentUserPrivilegesCard className='lg:basis-full' currentUser={userObj} />
                                 </Col>
@@ -602,7 +602,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
                         </Tab>
 
                         <Tab tabKey={'change-password'} title={'Change Password'}>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col className='w-full p-1'>
                                     <Card>
                                         <Card.Header>Change Password</Card.Header>

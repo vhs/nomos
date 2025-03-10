@@ -1,7 +1,7 @@
 import useSWR, { type SWRResponse } from 'swr'
 
+import { isMetricServiceTotalKeyHoldersResult } from '@/lib/guards/records'
 import MetricService2 from '@/lib/providers/MetricService2'
-import { isMetricServiceTotalKeyHoldersResult } from '@/lib/validators/guards'
 import { zMetricServiceTotalKeyHoldersResult } from '@/lib/validators/records'
 
 import type { MetricServiceTotalKeyHoldersResult } from '@/types/validators/records'

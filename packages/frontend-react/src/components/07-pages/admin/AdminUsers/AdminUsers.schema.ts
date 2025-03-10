@@ -11,7 +11,7 @@ import {
     zPasswordField,
     zPasswordInput,
     zString,
-    zStringArray,
+    zStrings,
     zUserActiveStateCode,
     zUsername,
     zUserPin
@@ -30,7 +30,7 @@ export const zAdminUsersColumns = z.union([
 
 export const zAdminUserField = z.object({
     title: zAdminUsersColumns,
-    field: z.union([zString, zStringArray])
+    field: z.union([zString, zStrings])
 })
 
 export const zAdminUserFields = zAdminUserField.array()

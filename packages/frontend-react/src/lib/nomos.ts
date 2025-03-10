@@ -1,11 +1,11 @@
-import type { Filter } from '@/lib/db/utils/query-filters'
-
-import type { UserActiveState } from '@/types/validators/common'
-
 // const addRightmost = function (filter: QueryFilter, val: QueryFilter) {
 //     if (isQueryFilterComp(filter) && filter.right == null) filter.right = val
 //     if (isQueryFilterComp(filter) && filter.right != null) addRightmost(filter.right, val)
 // }
+
+import type { Filter } from './db/utils/query-filters'
+
+import type { UserActiveStates } from '@/types/validators/common'
 
 interface CompileFilterArgs {
     filters: Filter[]
@@ -52,7 +52,7 @@ export const compileFilter = ({ filters, fields, defaultOperator, search }: Comp
     }, {})
 }
 
-export const convertUserStatus = (statuses: UserActiveState | null | undefined, code: string): string => {
+export const convertUserStatus = (statuses: UserActiveStates | null | undefined, code: string): string => {
     if (statuses == null) throw new Error('Undefined status codes')
 
     const result = statuses.find((status) => status.code === code)

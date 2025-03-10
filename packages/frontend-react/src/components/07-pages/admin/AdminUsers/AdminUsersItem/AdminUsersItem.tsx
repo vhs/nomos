@@ -20,12 +20,12 @@ import Loading from '@/components/02-molecules/Loading/Loading'
 
 import { convertUserStatus } from '@/lib/nomos'
 
-import type { UserActiveState } from '@/types/validators/common'
+import type { UserActiveStates } from '@/types/validators/common'
 
 const AdminUsersItem: FC<AdminUsersItemProps> = ({ data }) => {
     const router = useRouter()
 
-    const { data: statuses, isLoading: isStatusesLoading } = useSWR<UserActiveState>(
+    const { data: statuses, isLoading: isStatusesLoading } = useSWR<UserActiveStates>(
         '/services/v2/UserService2.svc/GetStatuses'
     )
 

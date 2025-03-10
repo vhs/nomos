@@ -17,8 +17,8 @@ import MembershipSelectorCard from '@/components/05-materials/MembershipSelector
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
+import { isUser } from '@/lib/guards/records'
 import UserService2 from '@/lib/providers/UserService2'
-import { isUser } from '@/lib/validators/guards'
 import { zUser } from '@/lib/validators/records'
 
 import { zAdminUsersCreateSchema } from '../AdminUsers.schema'
@@ -94,7 +94,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                         </Button>
                     ]}
                 >
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol className='basis-1/2 px-2' error={errors.firstName}>
                             <label htmlFor='firstName'>First Name</label>
                             <FormControl
@@ -120,7 +120,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
 
                     <Row>
                         <Col className='basis-1/2 px-2'>
-                            <Row className='spacious'>
+                            <Row>
                                 <FormCol className='w-full' error={errors.userName}>
                                     <label htmlFor='userName'>Username</label>
                                     <FormControl
@@ -132,7 +132,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                                 </FormCol>
                             </Row>
 
-                            <Row className='spacious'>
+                            <Row>
                                 <FormCol className='w-full' error={errors.userPass}>
                                     <label htmlFor='userPass'>Password</label>
                                     <FormControl
@@ -144,7 +144,7 @@ const AdminUsersNew: FC<AdminUsersNewProps> = () => {
                                 </FormCol>
                             </Row>
 
-                            <Row className='spacious'>
+                            <Row>
                                 <FormCol className='w-full' error={errors.userEmail}>
                                     <label htmlFor='email'>E-Mail</label>
                                     <FormControl

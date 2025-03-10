@@ -6,221 +6,318 @@ import type { z } from 'zod'
 
 import type {
     zAccessLog,
+    zAccessLogs,
     zAccessToken,
+    zAccessTokens,
     zAnonPrincipal,
+    zAnonPrincipals,
     zAppClient,
+    zAppClients,
     zAuthCheckResult,
+    zAuthCheckResults,
     zBasePrivilege,
-    zBasePrivilegesArray,
+    zBasePrivileges,
     zCommon,
+    zCommons,
     zCurrentUser,
+    zCurrentUsers,
     zDataRecord,
+    zDataRecords,
     zDomain,
+    zDomains,
     zEmail,
     zEmailTemplate,
+    zEmailTemplates,
+    zEmails,
     zEvent,
+    zEvents,
     zGenuineCard,
+    zGenuineCards,
     zIPrincipal,
+    zIPrincipals,
     zIpn,
     zIpnRequest,
+    zIpnRequests,
+    zIpns,
     zKey,
+    zKeys,
     zMembership,
-    zMembershipBaseFields,
+    zMembershipBase,
     zMembershipPeriod,
     zMembershipPeriodDay,
+    zMembershipPeriodDays,
     zMembershipPeriodMonth,
+    zMembershipPeriodMonths,
     zMembershipPeriodYear,
+    zMembershipPeriodYears,
+    zMembershipPeriods,
     zMembershipWithId,
+    zMembershipWithIds,
+    zMemberships,
     zMetricServiceBaseRangeResult,
+    zMetricServiceBaseRangeResults,
     zMetricServiceGetCreatedDatesResult,
+    zMetricServiceGetCreatedDatesResults,
     zMetricServiceGetMembersResult,
+    zMetricServiceGetMembersResults,
     zMetricServiceGetRevenueResult,
+    zMetricServiceGetRevenueResults,
     zMetricServiceGroupType,
+    zMetricServiceGroupTypes,
     zMetricServiceNewKeyholdersResult,
+    zMetricServiceNewKeyholdersResults,
     zMetricServiceNewMembersResult,
+    zMetricServiceNewMembersResults,
     zMetricServiceResult,
+    zMetricServiceResults,
     zMetricServiceRevenueByMembership,
+    zMetricServiceRevenueByMemberships,
     zMetricServiceRevenueResultSet,
+    zMetricServiceRevenueResultSets,
     zMetricServiceTotalKeyHoldersResult,
+    zMetricServiceTotalKeyHoldersResults,
     zMetricServiceTotalMembersResult,
+    zMetricServiceTotalMembersResults,
     zMetricServiceValueResult,
+    zMetricServiceValueResults,
+    zPartialUser,
+    zPartialUsers,
     zPayment,
+    zPayments,
     zPrincipalUser,
+    zPrincipalUsers,
     zPrivilege,
-    zPrivilegesArray,
+    zPrivileges,
     zPrivilegesField,
+    zPrivilegesFields,
     zRefreshToken,
+    zRefreshTokens,
     zRevenueByMembersType,
+    zRevenueByMembersTypes,
     zStripeEvent,
+    zStripeEvents,
     zSystemPreference,
+    zSystemPreferences,
     zTrimmedAppClient,
     zTrimmedAppClientOwner,
+    zTrimmedAppClientOwners,
+    zTrimmedAppClients,
     zTrimmedUser,
+    zTrimmedUsers,
     zUser,
     zUserPrincipal,
+    zUsers,
     zWebHook,
-    zWebHookBaseFields
+    zWebHookBase,
+    zWebHooks
 } from '@/lib/validators/records.ts'
 
 export type AccessLog = z.infer<typeof zAccessLog>
-export type AccessLogs = AccessLog[]
+
+export type AccessLogs = z.infer<typeof zAccessLogs>
 
 export type AccessToken = z.infer<typeof zAccessToken>
-export type AccessTokens = AccessToken[]
+
+export type AccessTokens = z.infer<typeof zAccessTokens>
 
 export type AnonPrincipal = z.infer<typeof zAnonPrincipal>
-export type AnonPrincipals = AnonPrincipal[]
+
+export type AnonPrincipals = z.infer<typeof zAnonPrincipals>
 
 export type AppClient = z.infer<typeof zAppClient>
-export type AppClients = AppClient[]
+
+export type AppClients = z.infer<typeof zAppClients>
 
 export type AuthCheckResult = z.infer<typeof zAuthCheckResult>
-export type AuthCheckResults = AuthCheckResult[]
+
+export type AuthCheckResults = z.infer<typeof zAuthCheckResults>
 
 export type BasePrivilege = z.infer<typeof zBasePrivilege>
-export type BasePrivileges = BasePrivilege[]
 
-export type BasePrivilegesArray = z.infer<typeof zBasePrivilegesArray>
-export type BasePrivilegesArrays = BasePrivilegesArray[]
+export type BasePrivileges = z.infer<typeof zBasePrivileges>
 
 export type Common = z.infer<typeof zCommon>
-export type Commons = Common[]
+
+export type Commons = z.infer<typeof zCommons>
 
 export type CurrentUser = z.infer<typeof zCurrentUser>
-export type CurrentUsers = CurrentUser[]
+
+export type CurrentUsers = z.infer<typeof zCurrentUsers>
 
 export type DataRecord = z.infer<typeof zDataRecord>
-export type DataRecords = DataRecord[]
+
+export type DataRecords = z.infer<typeof zDataRecords>
 
 export type Domain = z.infer<typeof zDomain>
-export type Domains = Domain[]
+
+export type Domains = z.infer<typeof zDomains>
 
 export type Email = z.infer<typeof zEmail>
-export type Emails = Email[]
 
 export type EmailTemplate = z.infer<typeof zEmailTemplate>
-export type EmailTemplates = EmailTemplate[]
+
+export type EmailTemplates = z.infer<typeof zEmailTemplates>
+
+export type Emails = z.infer<typeof zEmails>
 
 export type Event = z.infer<typeof zEvent>
-export type Events = Event[]
+
+export type Events = z.infer<typeof zEvents>
 
 export type GenuineCard = z.infer<typeof zGenuineCard>
-export type GenuineCards = GenuineCard[]
+
+export type GenuineCards = z.infer<typeof zGenuineCards>
 
 export type IPrincipal = z.infer<typeof zIPrincipal>
-export type IPrincipals = IPrincipal[]
+
+export type IPrincipals = z.infer<typeof zIPrincipals>
 
 export type Ipn = z.infer<typeof zIpn>
-export type Ipns = Ipn[]
 
 export type IpnRequest = z.infer<typeof zIpnRequest>
-export type IpnRequests = IpnRequest[]
+
+export type IpnRequests = z.infer<typeof zIpnRequests>
+
+export type Ipns = z.infer<typeof zIpns>
 
 export type Key = z.infer<typeof zKey>
-export type Keys = Key[]
+
+export type Keys = z.infer<typeof zKeys>
 
 export type Membership = z.infer<typeof zMembership>
-export type Memberships = Membership[]
 
-export type MembershipBaseFields = z.infer<typeof zMembershipBaseFields>
+export type MembershipBase = z.infer<typeof zMembershipBase>
 
 export type MembershipPeriod = z.infer<typeof zMembershipPeriod>
-export type MembershipPeriods = MembershipPeriod[]
 
 export type MembershipPeriodDay = z.infer<typeof zMembershipPeriodDay>
-export type MembershipPeriodDays = MembershipPeriodDay[]
+
+export type MembershipPeriodDays = z.infer<typeof zMembershipPeriodDays>
 
 export type MembershipPeriodMonth = z.infer<typeof zMembershipPeriodMonth>
-export type MembershipPeriodMonths = MembershipPeriodMonth[]
+
+export type MembershipPeriodMonths = z.infer<typeof zMembershipPeriodMonths>
 
 export type MembershipPeriodYear = z.infer<typeof zMembershipPeriodYear>
-export type MembershipPeriodYears = MembershipPeriodYear[]
+
+export type MembershipPeriodYears = z.infer<typeof zMembershipPeriodYears>
+
+export type MembershipPeriods = z.infer<typeof zMembershipPeriods>
 
 export type MembershipWithId = z.infer<typeof zMembershipWithId>
-export type MembershipWithIds = MembershipWithId[]
+
+export type MembershipWithIds = z.infer<typeof zMembershipWithIds>
+
+export type Memberships = z.infer<typeof zMemberships>
 
 export type MetricServiceBaseRangeResult = z.infer<typeof zMetricServiceBaseRangeResult>
-export type MetricServiceBaseRangeResults = MetricServiceBaseRangeResult[]
+
+export type MetricServiceBaseRangeResults = z.infer<typeof zMetricServiceBaseRangeResults>
 
 export type MetricServiceGetCreatedDatesResult = z.infer<typeof zMetricServiceGetCreatedDatesResult>
-export type MetricServiceGetCreatedDatesResults = MetricServiceGetCreatedDatesResult[]
+
+export type MetricServiceGetCreatedDatesResults = z.infer<typeof zMetricServiceGetCreatedDatesResults>
 
 export type MetricServiceGetMembersResult = z.infer<typeof zMetricServiceGetMembersResult>
-export type MetricServiceGetMembersResults = MetricServiceGetMembersResult[]
+
+export type MetricServiceGetMembersResults = z.infer<typeof zMetricServiceGetMembersResults>
 
 export type MetricServiceGetRevenueResult = z.infer<typeof zMetricServiceGetRevenueResult>
-export type MetricServiceGetRevenueResults = MetricServiceGetRevenueResult[]
+
+export type MetricServiceGetRevenueResults = z.infer<typeof zMetricServiceGetRevenueResults>
 
 export type MetricServiceGroupType = z.infer<typeof zMetricServiceGroupType>
-export type MetricServiceGroupTypes = MetricServiceGroupType[]
+
+export type MetricServiceGroupTypes = z.infer<typeof zMetricServiceGroupTypes>
 
 export type MetricServiceNewKeyholdersResult = z.infer<typeof zMetricServiceNewKeyholdersResult>
-export type MetricServiceNewKeyholdersResults = MetricServiceNewKeyholdersResult[]
+
+export type MetricServiceNewKeyholdersResults = z.infer<typeof zMetricServiceNewKeyholdersResults>
 
 export type MetricServiceNewMembersResult = z.infer<typeof zMetricServiceNewMembersResult>
-export type MetricServiceNewMembersResults = MetricServiceNewMembersResult[]
+
+export type MetricServiceNewMembersResults = z.infer<typeof zMetricServiceNewMembersResults>
 
 export type MetricServiceResult = z.infer<typeof zMetricServiceResult>
-export type MetricServiceResults = MetricServiceResult[]
+
+export type MetricServiceResults = z.infer<typeof zMetricServiceResults>
 
 export type MetricServiceRevenueByMembership = z.infer<typeof zMetricServiceRevenueByMembership>
-export type MetricServiceRevenueByMemberships = MetricServiceRevenueByMembership[]
+
+export type MetricServiceRevenueByMemberships = z.infer<typeof zMetricServiceRevenueByMemberships>
 
 export type MetricServiceRevenueResultSet = z.infer<typeof zMetricServiceRevenueResultSet>
-export type MetricServiceRevenueResultSets = MetricServiceRevenueResultSet[]
+
+export type MetricServiceRevenueResultSets = z.infer<typeof zMetricServiceRevenueResultSets>
 
 export type MetricServiceTotalKeyHoldersResult = z.infer<typeof zMetricServiceTotalKeyHoldersResult>
-export type MetricServiceTotalKeyHoldersResults = MetricServiceTotalKeyHoldersResult[]
+
+export type MetricServiceTotalKeyHoldersResults = z.infer<typeof zMetricServiceTotalKeyHoldersResults>
 
 export type MetricServiceTotalMembersResult = z.infer<typeof zMetricServiceTotalMembersResult>
-export type MetricServiceTotalMembersResults = MetricServiceTotalMembersResult[]
+
+export type MetricServiceTotalMembersResults = z.infer<typeof zMetricServiceTotalMembersResults>
 
 export type MetricServiceValueResult = z.infer<typeof zMetricServiceValueResult>
-export type MetricServiceValueResults = MetricServiceValueResult[]
+
+export type MetricServiceValueResults = z.infer<typeof zMetricServiceValueResults>
+
+export type PartialUser = z.infer<typeof zPartialUser>
+
+export type PartialUsers = z.infer<typeof zPartialUsers>
 
 export type Payment = z.infer<typeof zPayment>
-export type Payments = Payment[]
+
+export type Payments = z.infer<typeof zPayments>
 
 export type PrincipalUser = z.infer<typeof zPrincipalUser>
-export type PrincipalUsers = PrincipalUser[]
+
+export type PrincipalUsers = z.infer<typeof zPrincipalUsers>
 
 export type Privilege = z.infer<typeof zPrivilege>
-export type Privileges = Privilege[]
 
-export type PrivilegesArray = z.infer<typeof zPrivilegesArray>
-export type PrivilegesArrays = PrivilegesArray[]
+export type Privileges = z.infer<typeof zPrivileges>
 
 export type PrivilegesField = z.infer<typeof zPrivilegesField>
-export type PrivilegesFields = PrivilegesField[]
+
+export type PrivilegesFields = z.infer<typeof zPrivilegesFields>
 
 export type RefreshToken = z.infer<typeof zRefreshToken>
-export type RefreshTokens = RefreshToken[]
+
+export type RefreshTokens = z.infer<typeof zRefreshTokens>
 
 export type RevenueByMembersType = z.infer<typeof zRevenueByMembersType>
-export type RevenueByMembersTypes = RevenueByMembersType[]
+
+export type RevenueByMembersTypes = z.infer<typeof zRevenueByMembersTypes>
 
 export type StripeEvent = z.infer<typeof zStripeEvent>
-export type StripeEvents = StripeEvent[]
+
+export type StripeEvents = z.infer<typeof zStripeEvents>
 
 export type SystemPreference = z.infer<typeof zSystemPreference>
-export type SystemPreferences = SystemPreference[]
+
+export type SystemPreferences = z.infer<typeof zSystemPreferences>
 
 export type TrimmedAppClient = z.infer<typeof zTrimmedAppClient>
-export type TrimmedAppClients = TrimmedAppClient[]
 
 export type TrimmedAppClientOwner = z.infer<typeof zTrimmedAppClientOwner>
-export type TrimmedAppClientOwners = TrimmedAppClientOwner[]
+
+export type TrimmedAppClientOwners = z.infer<typeof zTrimmedAppClientOwners>
+
+export type TrimmedAppClients = z.infer<typeof zTrimmedAppClients>
 
 export type TrimmedUser = z.infer<typeof zTrimmedUser>
-export type TrimmedUsers = TrimmedUser[]
+
+export type TrimmedUsers = z.infer<typeof zTrimmedUsers>
 
 export type User = z.infer<typeof zUser>
-export type Users = User[]
 
 export type UserPrincipal = z.infer<typeof zUserPrincipal>
-export type UserPrincipals = UserPrincipal[]
+
+export type Users = z.infer<typeof zUsers>
 
 export type WebHook = z.infer<typeof zWebHook>
-export type WebHooks = WebHook[]
 
-export type WebHookBaseFields = z.infer<typeof zWebHookBaseFields>
+export type WebHookBase = z.infer<typeof zWebHookBase>
+
+export type WebHooks = z.infer<typeof zWebHooks>
