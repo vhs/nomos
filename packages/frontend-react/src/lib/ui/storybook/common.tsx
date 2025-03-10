@@ -10,7 +10,7 @@ export const CenteredContentStorybookDecorator = <T = Record<string, unknown>,>(
     Story: PartialStoryFn<ReactRenderer, T>
 ): JSX.Element => {
     return (
-        <Row className='spacious'>
+        <Row>
             <Col className='hidden lg:block lg:basis-1/4'></Col>
             <Col className='basis-full text-center lg:basis-2/4'>
                 <Story />

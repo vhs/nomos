@@ -20,27 +20,27 @@ export default meta
 export const Default: StoryType = {
     render: () => (
         <>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <AccountStatusBadge className='inline' status='Active' /> Active
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <AccountStatusBadge className='inline' status='Banned' /> Banned
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <AccountStatusBadge className='inline' status='Inactive' /> Inactive
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <AccountStatusBadge className='inline' status='Pending' /> Pending
                 </Col>
             </Row>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <AccountStatusBadge className='inline' status='Unknown' /> Unknown
                 </Col>

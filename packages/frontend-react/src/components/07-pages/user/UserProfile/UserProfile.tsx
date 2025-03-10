@@ -167,7 +167,7 @@ const UserProfile: FC<UserProfileProps> = () => {
         <div>
             <BasePage title='User Profile'>
                 <FormProvider {...form}>
-                    <Row className='spacious'>
+                    <Row>
                         <Col className='basis-full xl:basis-1/2'>
                             <Card>
                                 <Card.Header>Profile</Card.Header>
