@@ -423,7 +423,7 @@ const TablePage: FC<TablePageProps> = ({
                             </Col>
                         </Row>
 
-                        <Row className='spacious'>
+                        <Row>
                             <Col className='basis-9/12'>
                                 <Paginator
                                     count={itemCount}
@@ -473,7 +473,7 @@ const TablePage: FC<TablePageProps> = ({
 
                     <Conditional condition={!updating}>
                         <Conditional condition={data?.length === 0}>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col>No {label}s</Col>
                             </Row>
                         </Conditional>

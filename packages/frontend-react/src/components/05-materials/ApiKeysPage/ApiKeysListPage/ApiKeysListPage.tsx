@@ -25,7 +25,7 @@ const ApiKeysListPage: FC<ApiKeysListPageProps> = () => {
 
     return (
         <div data-testid='ApiKeysListPage'>
-            <Row className='spacious'>
+            <Row>
                 <Col>
                     <h4>{getApiKeysTermByScope('manageTableDescription', scope)}</h4>
                 </Col>

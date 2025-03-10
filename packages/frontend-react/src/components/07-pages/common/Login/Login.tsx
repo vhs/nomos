@@ -69,7 +69,7 @@ const Login: FC<LoginProps> = () => {
                     <Card>
                         <Card.Header>Please Sign In</Card.Header>
                         <Card.Body>
-                            <Row className='spacious'>
+                            <Row>
                                 <FormCol className='w-full'>
                                     <FormControl
                                         id='login.username'
@@ -85,7 +85,7 @@ const Login: FC<LoginProps> = () => {
                                 </FormCol>
                             </Row>
 
-                            <Row className='spacious'>
+                            <Row>
                                 <FormCol className='w-full'>
                                     <FormControl
                                         id='login.password'
@@ -105,7 +105,7 @@ const Login: FC<LoginProps> = () => {
                                 </FormCol>
                             </Row>
 
-                            <Row className='spacious'>
+                            <Row>
                                 <Col className='w-full'>
                                     <Button
                                         id='login.button'

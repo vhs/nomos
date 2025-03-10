@@ -73,23 +73,23 @@ export const Default: StoryType = {
 
         return (
             <FormProvider {...form}>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Unspecified</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl formKey='field1' placeholder='field1' error={errors.field1 != null} />
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Disabled</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field2'
@@ -101,12 +101,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Text</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field3'
@@ -117,12 +117,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Text with Reset</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field4'
@@ -135,12 +135,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Password</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field5'
@@ -151,12 +151,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Password</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field5'
@@ -168,12 +168,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Password</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field5'
@@ -185,12 +185,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Password</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field5'
@@ -203,12 +203,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Email</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field6'
@@ -220,12 +220,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Email with Info Button</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field7'
@@ -241,12 +241,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Number</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field8'
@@ -259,12 +259,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Pin</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field9'
@@ -278,12 +278,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Pin with Info Button</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field10'
@@ -298,12 +298,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Dropdown</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field11'
@@ -314,12 +314,12 @@ export const Default: StoryType = {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h2 className='text-left'>Text Area</h2>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <FormControl
                             formKey='field12'

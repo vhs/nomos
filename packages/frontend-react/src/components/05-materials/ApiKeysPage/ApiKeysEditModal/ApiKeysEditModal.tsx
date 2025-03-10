@@ -160,15 +160,15 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                         </Button>
                     ]}
                 >
-                    <Row className='spacious'>
+                    <Row>
                         <Col>
                             <FormControl formKey='key' formType='text' readOnly disabled />
                         </Col>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <Col className='basis-full md:basis-1/2'>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col>
                                     <Card error={errors.notes != null}>
                                         <Card.Header>Notes</Card.Header>
@@ -178,7 +178,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                                     </Card>
                                 </Col>
                             </Row>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col>
                                     <Card error={errors.expiry != null}>
                                         <Card.Header>Expiry</Card.Header>
@@ -194,7 +194,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                             </Row>
                         </Col>
                         <Col className='basis-full md:basis-1/2'>
-                            <Row className='spacious'>
+                            <Row>
                                 <Col>
                                     <PrivilegesSelectorCard
                                         customPrivileges={availablePrivileges}

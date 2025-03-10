@@ -28,7 +28,7 @@ const UserProfileCard: FC<UserProfileCardProps> = () => {
                     <div className='text mx-auto text-ellipsis'>
                         <Link to='/profile'>@{currentUser.username}</Link>
                     </div>
-                    <div className='mx-auto'>{currentUser.membership.title}</div>
+                    <div className='mx-auto'>{currentUser.membership?.title}</div>
                 </div>
             </div>
         )

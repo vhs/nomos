@@ -11,11 +11,11 @@ const PrivilegePill: FC<PrivilegePillProps> = ({ privilege }) => {
 
     return (
         <div data-testid='PrivilegePill'>
-            <Row className='green-card privilege-card spacious shadow-xs py-4'>
-                <Col xs={3}>
+            <Row className='green-card privilege-card spacious shadow-xs py-4' noWrap>
+                <Col className='basis-1/4'>
                     <PrivilegeIcon icon={privilege.icon} />
                 </Col>
-                <Col xs={9} className='text-nowrap px-2 text-right'>
+                <Col className='basis-3/4 text-nowrap px-2 text-right'>
                     <div className='my-auto font-semibold'>{privilege.name}</div>
                 </Col>
             </Row>

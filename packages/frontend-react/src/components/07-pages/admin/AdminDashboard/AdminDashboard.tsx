@@ -19,7 +19,7 @@ const AdminDashboard: FC<AdminDashboardProps> = () => {
     return (
         <div data-testid='AdminDashboard'>
             <BasePage title={`${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getFullYear()}`}>
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-full md:basis-1/2 xl:basis-1/4'>
                         <AdminStatusWidget
                             variant='green'

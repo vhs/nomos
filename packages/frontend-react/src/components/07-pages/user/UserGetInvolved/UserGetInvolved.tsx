@@ -65,7 +65,7 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
     return (
         <BasePage title='Get Involved!'>
             <FormProvider {...form}>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <p className='spacious'>Great, here&apos;s how you can help</p>
                         <h3 className='spacious'>Source Code</h3>
@@ -83,14 +83,14 @@ const UserGetInvolved: FC<UserGetInvolvedProps> = () => {
                         </p>
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <h3>Slack</h3>
                         To coordinate development, get on #vhs-nomos on Slack (a kind of web-based IRC). If you would
                         like to request an invite to Slack:
                     </Col>
                 </Row>
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-full'>
                         <Card>
                             <Card.Header>Request Slack Invitation</Card.Header>

@@ -254,7 +254,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                             <Card>
                                 <Card.Header>Options</Card.Header>
                                 <Card.Body>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <FormCol error={errors.title}>
                                             <label htmlFor='title'>
                                                 <b>Title</b>
@@ -262,7 +262,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             </label>
                                         </FormCol>
                                     </Row>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <FormCol error={errors.code}>
                                             <label htmlFor='code'>
                                                 <b>Code</b>
@@ -270,7 +270,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             </label>
                                         </FormCol>
                                     </Row>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <FormCol error={errors.description}>
                                             <label htmlFor='description'>
                                                 <b>Description</b>
@@ -278,7 +278,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             </label>
                                         </FormCol>
                                     </Row>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <FormCol error={errors.price}>
                                             <label htmlFor='price'>
                                                 <b>Price</b>
@@ -286,7 +286,7 @@ const AdminMembershipsEdit: FC<AdminMembershipsEditProps> = () => {
                                             </label>
                                         </FormCol>
                                     </Row>
-                                    <Row className='spacious'>
+                                    <Row>
                                         <FormCol className='basis-full md:basis-1/2' error={errors.interval}>
                                             <label htmlFor='interval'>
                                                 <b>Interval</b>

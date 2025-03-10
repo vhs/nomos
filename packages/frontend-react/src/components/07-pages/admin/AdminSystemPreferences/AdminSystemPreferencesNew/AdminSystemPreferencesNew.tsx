@@ -149,7 +149,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                     return false
                 }}
             >
-                <Row className='spacious'>
+                <Row>
                     <Col>
                         <Card>
                             <Card.Header>Key</Card.Header>
@@ -166,9 +166,9 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                     </Col>
                 </Row>
 
-                <Row className='spacious'>
+                <Row>
                     <Col className='basis-full md:basis-1/2'>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card>
                                     <Card.Header>Value</Card.Header>
@@ -184,7 +184,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card>
                                     <Card.Header>Enabled</Card.Header>
@@ -204,7 +204,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <Card>
                                     <Card.Header>Notes</Card.Header>
@@ -222,7 +222,7 @@ const AdminSystemPreferencesNew: FC<AdminSystemPreferencesNewProps> = () => {
                         </Row>
                     </Col>
                     <Col className='basis-full md:basis-1/2'>
-                        <Row className='spacious'>
+                        <Row>
                             <Col>
                                 <PrivilegesSelectorCard
                                     customPrivileges={availablePrivileges}

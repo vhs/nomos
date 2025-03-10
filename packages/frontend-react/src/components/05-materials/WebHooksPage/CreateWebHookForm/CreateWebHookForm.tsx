@@ -194,7 +194,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         return false
                     }}
                 >
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol error={errors.name}>
                             <label htmlFor='name'>
                                 <strong>Name</strong>
@@ -209,7 +209,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </FormCol>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol className='basis-full lg:basis-1/6' error={errors.method}>
                             <label htmlFor='method'>
                                 <strong>Method</strong>
@@ -237,7 +237,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </FormCol>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol error={errors.description}>
                             <label htmlFor='description'>
                                 <strong>Description</strong>
@@ -252,7 +252,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </FormCol>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol error={errors.translation}>
                             <label htmlFor='translation'>
                                 <strong>Translation</strong>
@@ -267,7 +267,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </FormCol>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <FormCol error={errors.headers}>
                             <label htmlFor='headers'>
                                 <strong>Headers</strong>
@@ -283,7 +283,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </FormCol>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <Col>
                             <label htmlFor='enabled'>
                                 <strong>Enabled</strong>
@@ -300,7 +300,7 @@ const CreateWebHookForm: FC<CreateWebHookFormProps> = () => {
                         </Col>
                     </Row>
 
-                    <Row className='spacious'>
+                    <Row>
                         <Col>
                             <PrivilegesSelectorCard
                                 customPrivileges={availablePrivileges}
