@@ -6,7 +6,9 @@ import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOver
 
 const LazyCreateSystemPreferenceButton = lazy(async () => await import('./CreateSystemPreferenceButton'))
 
-const CreateSystemPreferenceButton = (props: JSX.IntrinsicAttributes & CreateSystemPreferenceButtonProps): JSX.Element => (
+const CreateSystemPreferenceButton = (
+    props: JSX.IntrinsicAttributes & CreateSystemPreferenceButtonProps
+): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
         <LazyCreateSystemPreferenceButton {...props} />
     </Suspense>
