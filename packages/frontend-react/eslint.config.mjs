@@ -75,6 +75,9 @@ function hoistConfig(config, withReact) {
     config[0].plugins['unused-imports'] = unusedImports
     config[0].rules['unused-imports/no-unused-imports'] = 'warn'
 
+    config[0].rules['max-params'] = 'off'
+    config[0].rules['@typescript-eslint/max-params'] = ['error', { max: 8 }]
+
     config.unshift({ ignores: ['src/routeTree.gen.ts', 'src/types/nomos.d.ts'] })
 }
 
