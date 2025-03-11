@@ -8,3 +8,8 @@ export type PrivilegeCodes = string[]
 
 export type CombinedPrivileges = Privileges | Membership['privileges']
 export type CombinedPrivilege = ArrayElement<CombinedPrivileges>
+
+export interface PrivilegeMutation {
+    privilege: string
+    state: boolean
+}
