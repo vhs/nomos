@@ -14,7 +14,6 @@ import UserService2 from '@/lib/providers/UserService2'
 
 import type { PrivilegeMutation } from '@/types/common'
 
-
 const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, availableGrants }) => {
     const { id, username, fname, lname, email } = user
 
@@ -31,12 +30,12 @@ const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, availableGrants }) 
 
             return c
         }, {})
-    }, [grantUserPrivileges])
+    }, [availableGrants, grantUserPrivileges])
 
     const togglePrivilege = async (mutation: PrivilegeMutation): Promise<void> => {
         const { privilege, state } = mutation
 
-        toast.promise(
+        await toast.promise(
             async (): Promise<void> => {
                 if (state) {
                     await UserService2.getInstance().GrantPrivilege(id, privilege)
