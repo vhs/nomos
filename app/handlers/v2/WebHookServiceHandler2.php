@@ -12,7 +12,6 @@ namespace app\handlers\v2;
 use app\contracts\v2\IWebHookService2;
 use app\domain\Privilege;
 use app\domain\WebHook;
-use app\exceptions\MemberCardException;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -23,7 +22,7 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param string $filters
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -36,8 +35,8 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param string $filters
+     * @param int                     $userid
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -169,11 +168,11 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -186,12 +185,12 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $userid
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      * @throws \Exception

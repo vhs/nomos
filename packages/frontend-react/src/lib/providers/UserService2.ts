@@ -2,6 +2,7 @@
 // Do not change manually.
 
 import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/api'
 import type { IUserService2 } from '@/types/providers/IUserService2'
@@ -11,13 +12,13 @@ export default class UserService2 implements IUserService2 {
     /**
      * @permission administrator|grants
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountUsers(filters: string): BackendResult<number> {
+    async CountUsers(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/UserService2.svc/CountUsers', { filters })
     }
 
@@ -131,17 +132,23 @@ export default class UserService2 implements IUserService2 {
     /**
      * @permission administrator|grants
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {Users}
      */
-    async ListUsers(page: number, size: number, columns: string, order: string, filters: string): BackendResult<Users> {
+    async ListUsers(
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ): BackendResult<Users> {
         return await backendCall('/services/v2/UserService2.svc/ListUsers', { page, size, columns, order, filters })
     }
 

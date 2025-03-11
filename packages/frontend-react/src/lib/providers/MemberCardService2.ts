@@ -2,6 +2,7 @@
 // Do not change manually.
 
 import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import type { BackendResult } from '@/types/api'
 import type { IMemberCardService2 } from '@/types/providers/IMemberCardService2'
@@ -11,28 +12,28 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator|user
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountGenuineCards(filters: string): BackendResult<number> {
+    async CountGenuineCards(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/MemberCardService2.svc/CountGenuineCards', { filters })
     }
 
     /**
      * @permission administrator
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {Exception}
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountGenuineUserCards(userid: number, filters: string): BackendResult<number> {
+    async CountGenuineUserCards(userid: number, filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/MemberCardService2.svc/CountGenuineUserCards', { userid, filters })
     }
 
@@ -67,11 +68,11 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -82,7 +83,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<GenuineCards> {
         return await backendCall('/services/v2/MemberCardService2.svc/ListGenuineCards', {
             page,
@@ -96,12 +97,12 @@ export default class MemberCardService2 implements IMemberCardService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {Exception}
      * @throws {string}
@@ -114,7 +115,7 @@ export default class MemberCardService2 implements IMemberCardService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<GenuineCards> {
         return await backendCall('/services/v2/MemberCardService2.svc/ListUserGenuineCards', {
             userid,

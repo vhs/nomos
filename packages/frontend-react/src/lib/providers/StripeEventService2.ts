@@ -2,6 +2,7 @@
 // Do not change manually.
 
 import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import type { BackendResult } from '@/types/api'
 import type { IStripeEventService2 } from '@/types/providers/IStripeEventService2'
@@ -11,13 +12,13 @@ export default class StripeEventService2 implements IStripeEventService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountRecords(filters: string): BackendResult<number> {
+    async CountRecords(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/StripeEventService2.svc/CountRecords', { filters })
     }
 
@@ -48,11 +49,11 @@ export default class StripeEventService2 implements IStripeEventService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -63,7 +64,7 @@ export default class StripeEventService2 implements IStripeEventService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<StripeEvents> {
         return await backendCall('/services/v2/StripeEventService2.svc/ListRecords', {
             page,

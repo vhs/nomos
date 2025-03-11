@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult } from '@/types/api'
 import type { EmailTemplate, EmailTemplates, User } from '@/types/validators/records'
 
@@ -8,13 +10,13 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountTemplates: (filters: string) => BackendResult<number>
+    CountTemplates: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
@@ -83,11 +85,11 @@ export interface IEmailService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -98,7 +100,7 @@ export interface IEmailService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<EmailTemplates>
 
     /**
