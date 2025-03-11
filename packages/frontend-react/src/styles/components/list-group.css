@@ -3,14 +3,14 @@
         @apply rounded-lg border border-gray-400/50;
 
         .list-group-item {
-            @apply block min-w-full border-b border-b-gray-400/50 p-2 rounded-l-none rounded-r-none;
+            @apply block min-w-full rounded-l-none rounded-r-none border-b border-b-gray-400/50 p-2;
 
             &:first-child {
-                @apply border-t rounded-t-lg;
+                @apply rounded-t-lg border-t;
             }
 
             &:last-child {
-                @apply border-b rounded-b-lg;
+                @apply rounded-b-lg border-b;
             }
         }
     }
