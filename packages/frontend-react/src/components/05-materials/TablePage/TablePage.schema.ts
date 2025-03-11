@@ -11,16 +11,18 @@ export const zAllowedPageSizes = z.union([
     z.literal(10000)
 ])
 
+export const zTablePageSearchSchema = z.object({
+    columns: zString,
+    order: zString,
+    orderInput: zString,
+    page: zPositiveNumber,
+    pageSize: zAllowedPageSizes,
+    query: zString,
+    queryInput: zString
+})
+
 export const zTablePageSchema = z.object({
-    search: z.object({
-        columns: zString,
-        order: zString,
-        orderInput: zString,
-        page: zPositiveNumber,
-        pageSize: zAllowedPageSizes,
-        query: zString,
-        queryInput: zString
-    }),
+    search: zTablePageSearchSchema,
     fieldStates: zBooleanRecord,
     primaryFilterStates: zBooleanRecord,
     secondaryFilterStates: zBooleanRecord
