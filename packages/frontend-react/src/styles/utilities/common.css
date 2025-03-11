@@ -58,11 +58,11 @@
 
     .pull-left {
         /* justify-self: start; */
-        float:inline-start;
+        float: inline-start;
     }
 
     .pull-right {
         /* justify-self: end; */
-        float:inline-end;
+        float: inline-end;
     }
 }
