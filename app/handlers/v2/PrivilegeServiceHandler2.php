@@ -138,7 +138,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     }
 
     /**
-     * @permission administrator|grants|user
+     * @permission administrator|user|grants
      *
      * @param int $userid
      *
