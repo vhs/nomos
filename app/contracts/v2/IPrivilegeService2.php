@@ -81,7 +81,7 @@ interface IPrivilegeService2 extends IContract {
     public function GetPrivilege($id): Privilege;
 
     /**
-     * @permission administrator|grants|user
+     * @permission administrator|user|grants
      *
      * @param int $userid
      *
