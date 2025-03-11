@@ -40,7 +40,7 @@ export const fetcher = async <T = unknown>(input: RequestInfo | URL, init?: Requ
 
     if (!response.ok) {
         const error = new HTTPException('An error occurred while fetching the data.')
-        // Attach extra info to the error object.
+
         error.info = data
         error.status = response.status
 
