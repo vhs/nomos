@@ -20,7 +20,18 @@ const BasePage: FC<BasePageProps> = ({ title, actions, children }) => (
 
                 {actions != null ? (
                     <Card>
-                        <Card.Body>{actions}</Card.Body>
+                        <Card.Body>
+                            <Row>
+                                {actions.map((elem) => (
+                                    <Col
+                                        key={window.crypto.randomUUID()}
+                                        className='basis-1/4 md:basis-1/5 lg:basis-1/6 xl:basis-1/8'
+                                    >
+                                        {elem}
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Card.Body>
                     </Card>
                 ) : null}
 
