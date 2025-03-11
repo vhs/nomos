@@ -18,7 +18,7 @@ const CurrentUserPrivilegesCard: FC<CurrentUserPrivilegesCardProps> = ({ classNa
     }, [currentUser])
 
     const userPrivileges = useMemo(() => userObj.privileges, [userObj.privileges])
-    const membershipPrivileges = useMemo(() => userObj.membership.privileges, [userObj.membership.privileges])
+    const membershipPrivileges = useMemo(() => userObj.membership?.privileges, [userObj.membership?.privileges])
 
     return (
         <div data-testid='CurrentUserPrivilegesCard'>
