@@ -16,7 +16,6 @@ echo "Generating types files..." \
 
         {
             cat << EOF
-/* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
@@ -41,7 +40,6 @@ EOF
 
         {
             cat << EOF
-/* eslint-disable @typescript-eslint/max-params */
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 

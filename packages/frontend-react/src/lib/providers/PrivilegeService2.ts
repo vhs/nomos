@@ -99,7 +99,7 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     }
 
     /**
-     * @permission administrator|user
+     * @permission administrator|user|grants
      *
      * @param {number} userid
      *

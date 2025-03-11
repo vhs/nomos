@@ -78,7 +78,7 @@ export interface IPrivilegeService2 {
     GetPrivilege: (id: number) => BackendResult<Privilege>
 
     /**
-     * @permission administrator|user
+     * @permission administrator|user|grants
      *
      * @param {number} userid
      *
