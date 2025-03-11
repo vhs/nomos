@@ -23,7 +23,7 @@ const useCountUsers = (filters: Filter | null): SWRResponse<number> => {
         async (_url: string) => {
             if (countUrl == null || countUrlReal == null || countUrlParams == null) throw new Error('Missing args')
 
-            const result = await UserService2.getInstance().CountUsers(JSON.stringify(filters))
+            const result = await UserService2.getInstance().CountUsers(filters)
 
             if (!isNumber(result)) {
                 const error = new HTTPException('Not a number response')

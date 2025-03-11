@@ -52,13 +52,7 @@ const useListUsers = (
 
             const { filters, page, size, columns, order } = params
 
-            const result = await UserService2.getInstance().ListUsers(
-                page,
-                size,
-                columns,
-                order,
-                JSON.stringify(filters)
-            )
+            const result = await UserService2.getInstance().ListUsers(page, size, columns, order, filters)
 
             if (!isPartialUsers(result)) {
                 const error = new HTTPException('Response is not PartialUsers')
