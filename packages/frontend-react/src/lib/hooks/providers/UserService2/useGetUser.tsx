@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 
 import useSWR, { type SWRResponse } from 'swr'
 
-import { fetcher } from '@/lib/fetcher'
+import { HTTPException } from '@/lib/exceptions/HTTPException'
+import { isUser } from '@/lib/guards/records'
+import UserService2 from '@/lib/providers/UserService2'
 
 import type { User } from '@/types/validators/records'
 
@@ -12,9 +14,30 @@ export const useGetUserUrl = (userId?: string | number): string | null =>
 const useGetUser = (userId?: string | number): SWRResponse<User> => {
     const getUserUrl = useGetUserUrl(userId)
 
-    const result = useSWR<User>(getUserUrl, fetcher)
+    return useSWR<User>(
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        getUserUrl != null && userId != null ? getUserUrl : null,
+        async (_url: string) => {
+            if (getUserUrl == null || userId == null) throw new Error('Missing url or userId')
 
-    return result
+            const result = await UserService2.getInstance().GetUser(Number(userId))
+
+            if (!isUser(result)) {
+                const error = new HTTPException('Not a number response')
+                error.info = result
+                error.status = 503
+
+                throw error
+            }
+
+            return result
+        },
+        {
+            revalidateIfStale: true,
+            revalidateOnFocus: true,
+            refreshWhenHidden: true
+        }
+    )
 }
 
 export default useGetUser
