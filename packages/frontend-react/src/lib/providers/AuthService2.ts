@@ -81,54 +81,54 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountAccessLog(filters: string): BackendResult<number> {
+    async CountAccessLog(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/AuthService2.svc/CountAccessLog', { filters })
     }
 
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountClients(filters: string): BackendResult<number> {
+    async CountClients(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/AuthService2.svc/CountClients', { filters })
     }
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountUserAccessLog(userid: number, filters: string): BackendResult<number> {
+    async CountUserAccessLog(userid: number, filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/AuthService2.svc/CountUserAccessLog', { userid, filters })
     }
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountUserClients(userid: number, filters: string): BackendResult<number> {
+    async CountUserClients(userid: number, filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/AuthService2.svc/CountUserClients', { userid, filters })
     }
 
@@ -241,11 +241,11 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -256,7 +256,7 @@ export default class AuthService2 implements IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListAccessLog', { page, size, columns, order, filters })
     }
@@ -264,11 +264,11 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -279,7 +279,7 @@ export default class AuthService2 implements IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<AppClients> {
         return await backendCall('/services/v2/AuthService2.svc/ListClients', { page, size, columns, order, filters })
     }
@@ -287,12 +287,12 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {Filter} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -305,7 +305,7 @@ export default class AuthService2 implements IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: Filter
+        filters: Filter | null
     ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListUserAccessLog', {
             userid,
@@ -320,12 +320,12 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -338,7 +338,7 @@ export default class AuthService2 implements IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<AppClients> {
         return await backendCall('/services/v2/AuthService2.svc/ListUserClients', {
             userid,

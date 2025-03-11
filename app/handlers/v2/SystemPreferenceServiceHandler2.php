@@ -20,7 +20,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @param string $filters
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -77,11 +77,11 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *

@@ -23,7 +23,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @param string $filters
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -168,11 +168,11 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *

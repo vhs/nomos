@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult } from '@/types/api'
 import type { Ipn, Ipns } from '@/types/validators/records'
 
@@ -8,13 +10,13 @@ export interface IIpnService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountRecords: (filters: string) => BackendResult<number>
+    CountRecords: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
@@ -39,15 +41,21 @@ export interface IIpnService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {Ipns}
      */
-    ListRecords: (page: number, size: number, columns: string, order: string, filters: string) => BackendResult<Ipns>
+    ListRecords: (
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<Ipns>
 }

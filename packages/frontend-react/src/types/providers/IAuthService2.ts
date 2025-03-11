@@ -71,48 +71,48 @@ export interface IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountAccessLog: (filters: string) => BackendResult<number>
+    CountAccessLog: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountClients: (filters: string) => BackendResult<number>
+    CountClients: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountUserAccessLog: (userid: number, filters: string) => BackendResult<number>
+    CountUserAccessLog: (userid: number, filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountUserClients: (userid: number, filters: string) => BackendResult<number>
+    CountUserClients: (userid: number, filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission anonymous
@@ -207,11 +207,11 @@ export interface IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -222,17 +222,17 @@ export interface IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<AccessLogs>
 
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -243,18 +243,18 @@ export interface IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<AppClients>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {Filter} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -267,18 +267,18 @@ export interface IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: Filter
+        filters: Filter | null
     ) => BackendResult<AccessLogs>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -291,7 +291,7 @@ export interface IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<AppClients>
 
     /**

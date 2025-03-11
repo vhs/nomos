@@ -27,7 +27,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
     /**
      * @permission administrator|user
      *
-     * @param string $filters
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -40,8 +40,8 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param int    $userid
-     * @param string $filters
+     * @param int                     $userid
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws \Exception
      * @throws string
@@ -130,11 +130,11 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws string
      *
@@ -147,12 +147,12 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
     /**
      * @permission administrator|user
      *
-     * @param int    $userid
-     * @param int    $page
-     * @param int    $size
-     * @param string $columns
-     * @param string $order
-     * @param string $filters
+     * @param int                     $userid
+     * @param int                     $page
+     * @param int                     $size
+     * @param string                  $columns
+     * @param string                  $order
+     * @param \vhs\domain\Filter|null $filters
      *
      * @throws \Exception
      * @throws string
