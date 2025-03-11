@@ -2,6 +2,7 @@
 // Do not change manually.
 
 import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import type { BackendResult } from '@/types/api'
 import type { IWebHookService2 } from '@/types/providers/IWebHookService2'
@@ -11,27 +12,27 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountHooks(filters: string): BackendResult<number> {
+    async CountHooks(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/WebHookService2.svc/CountHooks', { filters })
     }
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountUserHooks(userid: number, filters: string): BackendResult<number> {
+    async CountUserHooks(userid: number, filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/WebHookService2.svc/CountUserHooks', { userid, filters })
     }
 
@@ -142,11 +143,11 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -157,7 +158,7 @@ export default class WebHookService2 implements IWebHookService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/ListHooks', { page, size, columns, order, filters })
     }
@@ -165,12 +166,12 @@ export default class WebHookService2 implements IWebHookService2 {
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -183,7 +184,7 @@ export default class WebHookService2 implements IWebHookService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<WebHooks> {
         return await backendCall('/services/v2/WebHookService2.svc/ListUserHooks', {
             userid,

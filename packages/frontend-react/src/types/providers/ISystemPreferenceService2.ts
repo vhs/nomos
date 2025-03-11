@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult } from '@/types/api'
 import type { SystemPreference, SystemPreferences } from '@/types/validators/records'
 
@@ -8,13 +10,13 @@ export interface ISystemPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountSystemPreferences: (filters: string) => BackendResult<number>
+    CountSystemPreferences: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
@@ -50,11 +52,11 @@ export interface ISystemPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -65,7 +67,7 @@ export interface ISystemPreferenceService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<SystemPreferences>
 
     /**

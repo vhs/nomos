@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult } from '@/types/api'
 import type { WebHook, WebHooks } from '@/types/validators/records'
 
@@ -8,25 +10,25 @@ export interface IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountHooks: (filters: string) => BackendResult<number>
+    CountHooks: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountUserHooks: (userid: number, filters: string) => BackendResult<number>
+    CountUserHooks: (userid: number, filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission user
@@ -114,27 +116,33 @@ export interface IWebHookService2 {
     /**
      * @permission administrator|webhook
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {WebHooks}
      */
-    ListHooks: (page: number, size: number, columns: string, order: string, filters: string) => BackendResult<WebHooks>
+    ListHooks: (
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<WebHooks>
 
     /**
      * @permission administrator|user
      *
-     * @param {number} userid
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      * @throws {Exception}
@@ -147,7 +155,7 @@ export interface IWebHookService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ) => BackendResult<WebHooks>
 
     /**

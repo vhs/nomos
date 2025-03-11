@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult } from '@/types/api'
 import type { Event, Events } from '@/types/validators/records'
 
@@ -8,13 +10,13 @@ export interface IEventService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountEvents: (filters: string) => BackendResult<number>
+    CountEvents: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
@@ -121,17 +123,23 @@ export interface IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {Events}
      */
-    ListEvents: (page: number, size: number, columns: string, order: string, filters: string) => BackendResult<Events>
+    ListEvents: (
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<Events>
 
     /**
      * @permission administrator

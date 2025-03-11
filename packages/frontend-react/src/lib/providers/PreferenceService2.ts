@@ -2,6 +2,7 @@
 // Do not change manually.
 
 import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
 
 import type { BackendResult } from '@/types/api'
 import type { IPreferenceService2 } from '@/types/providers/IPreferenceService2'
@@ -11,13 +12,13 @@ export default class PreferenceService2 implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    async CountSystemPreferences(filters: string): BackendResult<number> {
+    async CountSystemPreferences(filters: Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/PreferenceService2.svc/CountSystemPreferences', { filters })
     }
 
@@ -61,11 +62,11 @@ export default class PreferenceService2 implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
@@ -76,7 +77,7 @@ export default class PreferenceService2 implements IPreferenceService2 {
         size: number,
         columns: string,
         order: string,
-        filters: string
+        filters: Filter | null
     ): BackendResult<SystemPreferences> {
         return await backendCall('/services/v2/PreferenceService2.svc/ListSystemPreferences', {
             page,

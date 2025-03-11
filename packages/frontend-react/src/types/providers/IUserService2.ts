@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Do not change manually.
 
+import type { Filter } from '@/lib/db/utils/query-filters'
+
 import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/api'
 import type { User, Users } from '@/types/validators/records'
 
@@ -8,13 +10,13 @@ export interface IUserService2 {
     /**
      * @permission administrator|grants
      *
-     * @param {string} filters
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {number}
      */
-    CountUsers: (filters: string) => BackendResult<number>
+    CountUsers: (filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
@@ -105,17 +107,23 @@ export interface IUserService2 {
     /**
      * @permission administrator|grants
      *
-     * @param {number} page
-     * @param {number} size
-     * @param {string} columns
-     * @param {string} order
-     * @param {string} filters
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
      *
      * @throws {string}
      *
      * @returns {Users}
      */
-    ListUsers: (page: number, size: number, columns: string, order: string, filters: string) => BackendResult<Users>
+    ListUsers: (
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<Users>
 
     /**
      * @permission administrator
