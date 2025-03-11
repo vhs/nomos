@@ -27,7 +27,7 @@ const ApiKeysPage: FC<ApiKeysPageProps> = ({ basePath, scope }) => {
     const { data: availableKeys } = useAvailableKeys(scope)
 
     const loading = useMemo(
-        () => [availablePrivileges, availableKeys].some((inp) => !Array.isArray(inp) || inp.length === 0),
+        () => [availablePrivileges, availableKeys].some((inp) => !Array.isArray(inp)),
         [availablePrivileges, availableKeys]
     )
 
