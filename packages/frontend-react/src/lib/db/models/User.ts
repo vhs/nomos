@@ -32,7 +32,7 @@ export default class UserObject implements User, IUserObject {
     stripe_email: string
     keys: Keys
     privileges: Privileges
-    membership: Membership
+    membership: Membership | null | undefined
     protected privilegeCache: string[] = []
 
     constructor(userData: User, permissions?: string[]) {
