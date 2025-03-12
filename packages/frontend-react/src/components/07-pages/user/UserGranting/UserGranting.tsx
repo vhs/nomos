@@ -21,7 +21,6 @@ import { tablePageDefaults } from '@/components/05-materials/TablePage/TablePage
 import type { Filters, Filter } from '@/lib/db/utils/query-filters'
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useCountUsers from '@/lib/hooks/providers/UserService2/useCountUsers'
-import useGetGrantUserPrivileges from '@/lib/hooks/providers/UserService2/useGetGrantUserPrivileges'
 import useListUsers from '@/lib/hooks/providers/UserService2/useListUsers'
 import useAuth from '@/lib/hooks/useAuth'
 import { compileFilter } from '@/lib/nomos'
@@ -34,15 +33,14 @@ const UserGranting: FC<UserGrantingProps> = () => {
     const { currentUser } = useAuth()
 
     const { data: allPrivileges, isLoading: isGetAllPrivilegesLoading } = useGetAllPrivileges()
-    const { data: grantablePrivileges, isLoading: isGetGrantablePrivilegesLoading } = useGetGrantUserPrivileges(
-        currentUser?.id
-    )
 
-    const availableGrants = useMemo(() => {
-        return allPrivileges != null && grantablePrivileges != null
-            ? allPrivileges.filter((p) => Object.values(grantablePrivileges).includes(p.code))
-            : []
-    }, [allPrivileges, grantablePrivileges])
+    const grantablePrivileges = useMemo(() => {
+        const grantingPrivileges = Object.values(currentUser?.privileges ?? [])
+            .filter((p) => p.code.startsWith('grant:'))
+            .map((p) => p.code.replace(/^grant:/, ''))
+
+        return allPrivileges != null ? allPrivileges.filter((p) => grantingPrivileges.includes(p.code)) : []
+    }, [allPrivileges, currentUser?.privileges])
 
     const form = useForm<UserGrantingSchema>({
         resolver: zodResolver(zUserGrantingSchema),
@@ -90,25 +88,13 @@ const UserGranting: FC<UserGrantingProps> = () => {
     const updating = useMemo(
         () =>
             allPrivileges == null ||
-            availableGrants == null ||
-            data == null ||
             grantablePrivileges == null ||
+            data == null ||
             isCountLoading ||
             isGetAllPrivilegesLoading ||
-            isGetGrantablePrivilegesLoading ||
             isListLoading ||
             itemCount == null,
-        [
-            allPrivileges,
-            grantablePrivileges,
-            availableGrants,
-            data,
-            isCountLoading,
-            isGetAllPrivilegesLoading,
-            isGetGrantablePrivilegesLoading,
-            isListLoading,
-            itemCount
-        ]
+        [allPrivileges, grantablePrivileges, data, isCountLoading, isGetAllPrivilegesLoading, isListLoading, itemCount]
     )
 
     const totalPages = useMemo(() => {
@@ -128,7 +114,7 @@ const UserGranting: FC<UserGrantingProps> = () => {
             <BasePage
                 data-testid='UserGranting'
                 title='Grant Privileges'
-                actions={[availableGrants?.map((p) => <PrivilegePill key={p.code} privilege={p} />)]}
+                actions={[grantablePrivileges?.map((p) => <PrivilegePill key={p.code} privilege={p} />)]}
             >
                 <Row>
                     <Col className='basis-3/4'>
@@ -257,7 +243,7 @@ const UserGranting: FC<UserGrantingProps> = () => {
                                                 <UserGrantingItem
                                                     key={d.id}
                                                     user={d}
-                                                    availableGrants={availableGrants}
+                                                    grantablePrivileges={grantablePrivileges}
                                                 />
                                             )
                                         })}

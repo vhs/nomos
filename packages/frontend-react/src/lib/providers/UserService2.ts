@@ -55,19 +55,6 @@ export default class UserService2 implements IUserService2 {
     }
 
     /**
-     * @permission grants
-     *
-     * @param {number} userid
-     *
-     * @throws {string}
-     *
-     * @returns {string[]}
-     */
-    async GetGrantUserPrivileges(userid: number): BackendResult<string[]> {
-        return await backendCall('/services/v2/UserService2.svc/GetGrantUserPrivileges', { userid })
-    }
-
-    /**
      * @permission user|administrator
      *
      * @param {number} userid
@@ -102,6 +89,21 @@ export default class UserService2 implements IUserService2 {
      */
     async GetUser(userid: number): BackendResult<User | null> {
         return await backendCall('/services/v2/UserService2.svc/GetUser', { userid })
+    }
+
+    /**
+     * Get the privileges that are grantable to the specified user by the user calling this service method.
+     *
+     * @permission grants
+     *
+     * @param {number} userid
+     *
+     * @throws {string}
+     *
+     * @returns {string[]}
+     */
+    async GetUserGrantablePrivileges(userid: number): BackendResult<string[]> {
+        return await backendCall('/services/v2/UserService2.svc/GetUserGrantablePrivileges', { userid })
     }
 
     /**

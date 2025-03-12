@@ -9,41 +9,46 @@ import Button from '@/components/01-atoms/Button/Button'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 
-import useGetUserPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetUserPrivileges'
+import useGetUserGrantablePrivileges from '@/lib/hooks/providers/UserService2/useGetUserGrantablePrivileges'
 import UserService2 from '@/lib/providers/UserService2'
+import { convertPrivilegesArrayToBooleanRecord } from '@/lib/utils'
 
 import type { PrivilegeMutation } from '@/types/common'
 
-const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, availableGrants }) => {
+const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, grantablePrivileges }) => {
     const { id, username, fname, lname, email } = user
-
-    const { data: grantUserPrivileges, mutate } = useGetUserPrivileges(user.id)
 
     const [showModal, setShowModal] = useState(false)
 
+    const { data: userGrantablePrivileges, mutate: mutateUserGrantablePrivileges } = useGetUserGrantablePrivileges(
+        user.id
+    )
+
     const activeUserPrivileges = useMemo(() => {
-        const grantablePrivileges = Object.values(availableGrants).map((p) => p.code)
-        const userPrivileges = (grantUserPrivileges ?? []).map((p) => p.code)
+        const basePrivileges = convertPrivilegesArrayToBooleanRecord(grantablePrivileges, true)
 
-        return grantablePrivileges.reduce<Record<string, boolean>>((c, e) => {
-            c[e] = userPrivileges.includes(e)
+        if (userGrantablePrivileges != null)
+            Object.values(userGrantablePrivileges).forEach((code) => {
+                basePrivileges[code] = false
+            })
 
-            return c
-        }, {})
-    }, [availableGrants, grantUserPrivileges])
+        return basePrivileges
+    }, [grantablePrivileges, userGrantablePrivileges])
+
+    console.debug('UserGrantingItem - activeUserPrivileges:', activeUserPrivileges)
 
     const togglePrivilege = async (mutation: PrivilegeMutation): Promise<void> => {
-        const { privilege, state } = mutation
+        const { privilege: privilegeCode, state } = mutation
 
         await toast.promise(
             async (): Promise<void> => {
                 if (state) {
-                    await UserService2.getInstance().GrantPrivilege(id, privilege)
+                    await UserService2.getInstance().GrantPrivilege(id, privilegeCode)
                 } else {
-                    await UserService2.getInstance().RevokePrivilege(id, privilege)
+                    await UserService2.getInstance().RevokePrivilege(id, privilegeCode)
                 }
 
-                await mutate()
+                await mutateUserGrantablePrivileges()
             },
             {
                 error: 'An unknown error occured! Please notify your administrators',
@@ -85,7 +90,7 @@ const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, availableGrants }) 
                 }}
             >
                 <PrivilegesSelectorCard
-                    customPrivileges={availableGrants}
+                    customPrivileges={grantablePrivileges}
                     onUpdate={(mutation) => {
                         void togglePrivilege(mutation)
                     }}

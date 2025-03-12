@@ -103,28 +103,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     }
 
     /**
-     * @permission grants
-     *
-     * @param int $userid
-     *
-     * @throws string
-     *
-     * @return string[]
-     */
-    public function GetGrantUserPrivileges($userid): array {
-        /** @var User $user */
-        $user = $this->getUserById($userid);
-
-        if (CurrentUser::canGrantAllPermissions('*')) {
-            return $user->getPrivilegeCodes();
-        }
-
-        $me = $this->getUserById(CurrentUser::getIdentity());
-
-        return array_intersect($user->getPrivilegeCodes(), $me->getGrantCodes());
-    }
-
-    /**
      * @permission user|administrator
      *
      * @param int $userid
@@ -170,6 +148,30 @@ class UserServiceHandler2 extends Service implements IUserService2 {
         }
 
         return null;
+    }
+
+    /**
+     * Get the privileges that are grantable to the specified user by the user calling this service method.
+     *
+     * @permission grants
+     *
+     * @param int $userid
+     *
+     * @throws string
+     *
+     * @return string[]
+     */
+    public function GetUserGrantablePrivileges($userid): array {
+        /** @var User $user */
+        $user = $this->getUserById($userid);
+
+        if (CurrentUser::canGrantAllPermissions('*')) {
+            return $user->getPrivilegeCodes();
+        }
+
+        $me = $this->getUserById(CurrentUser::getIdentity());
+
+        return array_intersect($user->getPrivilegeCodes(), $me->getGrantCodes());
     }
 
     /**
