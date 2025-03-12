@@ -44,17 +44,6 @@ interface IUserService2 extends IContract {
     public function Create($username, $password, $email, $fname, $lname, $membershipid): User;
 
     /**
-     * @permission grants
-     *
-     * @param int $userid
-     *
-     * @throws string
-     *
-     * @return string[]
-     */
-    public function GetGrantUserPrivileges($userid): array;
-
-    /**
      * @permission user|administrator
      *
      * @param int $userid
@@ -84,6 +73,19 @@ interface IUserService2 extends IContract {
      * @return \app\domain\User|null
      */
     public function GetUser($userid): User|null;
+
+    /**
+     * Get the privileges that are grantable to the specified user by the user calling this service method.
+     *
+     * @permission grants
+     *
+     * @param int $userid
+     *
+     * @throws string
+     *
+     * @return string[]
+     */
+    public function GetUserGrantablePrivileges($userid): array;
 
     /**
      * @permission administrator

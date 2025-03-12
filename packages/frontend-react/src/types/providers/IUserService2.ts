@@ -42,17 +42,6 @@ export interface IUserService2 {
     ) => BackendResult<User>
 
     /**
-     * @permission grants
-     *
-     * @param {number} userid
-     *
-     * @throws {string}
-     *
-     * @returns {string[]}
-     */
-    GetGrantUserPrivileges: (userid: number) => BackendResult<string[]>
-
-    /**
      * @permission user|administrator
      *
      * @param {number} userid
@@ -82,6 +71,19 @@ export interface IUserService2 {
      * @returns {User|null}
      */
     GetUser: (userid: number) => BackendResult<User | null>
+
+    /**
+     * Get the privileges that are grantable to the specified user by the user calling this service method.
+     *
+     * @permission grants
+     *
+     * @param {number} userid
+     *
+     * @throws {string}
+     *
+     * @returns {string[]}
+     */
+    GetUserGrantablePrivileges: (userid: number) => BackendResult<string[]>
 
     /**
      * @permission administrator
