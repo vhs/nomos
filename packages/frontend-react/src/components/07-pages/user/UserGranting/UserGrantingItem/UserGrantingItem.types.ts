@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react'
 
-import type { Privileges, User, Users } from '@/types/validators/records'
-import { KeyedMutator } from 'swr'
+import type { Privileges, User } from '@/types/validators/records'
 
 export interface UserGrantingItemProps {
     children?: ReactNode
-    availableGrants: Privileges
-    mutateListUsers: KeyedMutator<Users>
+    grantablePrivileges: Privileges
     user: User
 }
