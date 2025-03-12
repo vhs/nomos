@@ -9,5 +9,12 @@
 
 namespace vhs\security\exceptions;
 
+use vhs\exceptions\HttpException;
+use vhs\web\enums\HttpStatusCodes;
+
 /** @typescript */
-class InvalidCredentials extends \Exception {}
+class InvalidCredentials extends HttpException {
+    public function __construct($message = 'Access denied') {
+        parent::__construct($message, HttpStatusCodes::Client_Error_Forbidden);
+    }
+}
