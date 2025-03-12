@@ -9,6 +9,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 
+import { isStrings, isStringStringRecord } from '@/lib/guards/common'
 import useGetUserGrantablePrivileges from '@/lib/hooks/providers/UserService2/useGetUserGrantablePrivileges'
 import UserService2 from '@/lib/providers/UserService2'
 import { convertPrivilegesArrayToBooleanRecord } from '@/lib/utils'
@@ -25,17 +26,21 @@ const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, grantablePrivileges
     )
 
     const activeUserPrivileges = useMemo(() => {
-        const basePrivileges = convertPrivilegesArrayToBooleanRecord(grantablePrivileges, true)
+        const basePrivileges = convertPrivilegesArrayToBooleanRecord(grantablePrivileges, false)
 
-        if (userGrantablePrivileges != null)
-            Object.values(userGrantablePrivileges).forEach((code) => {
-                basePrivileges[code] = false
-            })
+        if (userGrantablePrivileges != null) {
+            if (isStrings(userGrantablePrivileges) && !isStringStringRecord(userGrantablePrivileges))
+                Object.values(userGrantablePrivileges).forEach((code) => {
+                    basePrivileges[code as string] = true
+                })
+            else if (isStringStringRecord(userGrantablePrivileges))
+                Object.values(userGrantablePrivileges).forEach((code) => {
+                    basePrivileges[code] = false
+                })
+        }
 
         return basePrivileges
     }, [grantablePrivileges, userGrantablePrivileges])
-
-    console.debug('UserGrantingItem - activeUserPrivileges:', activeUserPrivileges)
 
     const togglePrivilege = async (mutation: PrivilegeMutation): Promise<void> => {
         const { privilege: privilegeCode, state } = mutation

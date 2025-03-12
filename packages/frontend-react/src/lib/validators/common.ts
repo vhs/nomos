@@ -1,10 +1,14 @@
 import { z } from 'zod'
 
+export const zEmptyArray = z.tuple([])
+
 export const zBoolean = z.boolean()
 
 export const zCoerceNumber = z.coerce.number()
 
 export const zCoerceString = z.coerce.string()
+
+export const zUnknown = z.unknown()
 
 export const zString = z.string()
 export const zStrings = zString.array().min(0)
@@ -12,6 +16,9 @@ export const zStringRecord = z.record(zString, z.unknown())
 export const zStringStringRecord = z.record(zString, zString)
 
 export const zNumber = z.number()
+
+export const zNumberRecord = z.record(zNumber, zUnknown)
+export const zNumberStringRecord = z.record(zNumber, zString)
 
 export const zDateTimeFormInput = zString.regex(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/)
 export const zDateTimeString = zString.regex(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/)
@@ -43,9 +50,9 @@ export const zEmptyOrMinString = z.union([z.literal(''), zMinString])
 
 export const zNonEmptyStrings = zString.array().min(1)
 
-export const zSpreadString = z.tuple([]).rest(zString)
+export const zSpreadString = zEmptyArray.rest(zString)
 
-export const zFunctionBoolResultFromStringArraySpread = z.function(z.tuple([]).rest(zString), zBoolean)
+export const zFunctionBoolResultFromStringArraySpread = z.function(zEmptyArray.rest(zString), zBoolean)
 
 export const zHTTPMethod = z.union([
     z.literal('CONNECT'),

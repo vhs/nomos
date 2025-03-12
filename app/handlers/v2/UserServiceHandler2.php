@@ -25,7 +25,9 @@ use app\exceptions\InvalidPasswordHashException;
 use app\exceptions\UserAlreadyExistsException;
 use app\security\PasswordUtil;
 use DateTime;
+use vhs\domain\exceptions\DomainException;
 use vhs\security\CurrentUser;
+use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
 
 /** @typescript */
@@ -159,7 +161,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @throws string
      *
-     * @return string[]
+     * @return array<string,string>|array
      */
     public function GetUserGrantablePrivileges($userid): array {
         /** @var User $user */
@@ -197,24 +199,32 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      */
     public function GrantPrivilege($userid, $privilege): bool {
         if (!CurrentUser::canGrantAllPermissions($privilege)) {
-            return false;
+            throw new UnauthorizedException('Current user is not allowed to grant this privilege.');
         }
 
+        /** @var User $user */
         $user = $this->getUserById($userid);
+
+        if ($user == null) {
+            throw new DomainException('User not found');
+        }
 
         /** @var Privilege $priv */
         $priv = Privilege::findByCode($privilege);
 
         if ($priv == null) {
-            return false;
+            throw new DomainException('Privilege not found');
         }
 
+        // @phpstan-ignore property.notFound
         foreach ($user->privileges->all() as $p) {
+            // @phpstan-ignore property.notFound
             if ($p->code == $priv->code) {
-                return false;
+                throw new DomainException('Privilege already granted');
             }
         }
 
+        // @phpstan-ignore property.notFound
         $user->privileges->add($priv);
 
         return $user->save();
@@ -466,33 +476,38 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      */
     public function RevokePrivilege($userid, $privilege): bool {
         if (!CurrentUser::canGrantAllPermissions($privilege)) {
-            return false;
+            throw new UnauthorizedException('Current user is not allowed to grant this privilege.');
         }
 
+        /** @var User $user */
         $user = $this->getUserById($userid);
 
         if ($user == null) {
-            return false;
+            throw new DomainException('User not found');
         }
 
+        /** @var Privilege $priv */
         $priv = Privilege::findByCode($privilege);
 
         if ($priv == null) {
-            return false;
+            throw new DomainException('Privilege not found');
         }
 
         $remove = null;
 
+        // @phpstan-ignore property.notFound
         foreach ($user->privileges->all() as $p) {
+            // @phpstan-ignore property.notFound
             if ($p->code == $priv->code) {
                 $remove = $p;
             }
         }
 
         if (is_null($remove)) {
-            return false;
+            throw new DomainException('Privilege instance not found');
         }
 
+        // @phpstan-ignore property.notFound
         $user->privileges->remove($remove);
 
         return $user->save();

@@ -14,11 +14,12 @@ import {
     zDateTime,
     zDateTimeFormInput,
     zDateTimeFormInputs,
+    zDateTimes,
     zDateTimeString,
     zDateTimeStrings,
-    zDateTimes,
     zEmailAddress,
     zEmailAddresss,
+    zEmptyArray,
     zEmptyOrMinString,
     zEmptyOrMinStrings,
     zFunctionBoolResultFromStringArraySpread,
@@ -39,15 +40,17 @@ import {
     zNonNegativeNumber,
     zNonNegativeNumbers,
     zNumber,
+    zNumberRecord,
     zNumbers,
+    zNumberStringRecord,
     zPasswordField,
     zPasswordFields,
     zPasswordInput,
     zPasswordInputs,
-    zPayPal,
-    zPayPals,
     zPaymentProvider,
     zPaymentProviders,
+    zPayPal,
+    zPayPals,
     zPositiveNumber,
     zPositiveNumbers,
     zSpreadString,
@@ -55,29 +58,32 @@ import {
     zString,
     zStringRecord,
     zStringRecords,
+    zStrings,
     zStringStringRecord,
     zStringStringRecords,
-    zStrings,
     zStripe,
     zStripePaymentState,
     zStripePaymentStates,
     zStripes,
+    zUnknown,
     zUrl,
     zUrls,
     zUserActiveState,
     zUserActiveStateCode,
     zUserActiveStateCodes,
+    zUserActiveStates,
     zUserActiveStateTitle,
     zUserActiveStateTitles,
     zUserActiveStateType,
     zUserActiveStateTypes,
-    zUserActiveStates,
     zUserActiveStatus,
     zUserActiveStatuses,
     zUserBannedStateType,
     zUserBannedStateTypes,
     zUserInactiveStateType,
     zUserInactiveStateTypes,
+    zUsername,
+    zUsernames,
     zUserPendingStateType,
     zUserPendingStateTypes,
     zUserPin,
@@ -97,9 +103,7 @@ import {
     zUserStateTitleInactive,
     zUserStateTitleInactives,
     zUserStateTitlePending,
-    zUserStateTitlePendings,
-    zUsername,
-    zUsernames
+    zUserStateTitlePendings
 } from '@/lib/validators/common.ts'
 
 import type {
@@ -114,11 +118,12 @@ import type {
     DateTime,
     DateTimeFormInput,
     DateTimeFormInputs,
+    DateTimes,
     DateTimeString,
     DateTimeStrings,
-    DateTimes,
     EmailAddress,
     EmailAddresss,
+    EmptyArray,
     EmptyOrMinString,
     EmptyOrMinStrings,
     FunctionBoolResultFromStringArraySpread,
@@ -139,15 +144,17 @@ import type {
     NonNegativeNumber,
     NonNegativeNumbers,
     Number,
+    NumberRecord,
     Numbers,
+    NumberStringRecord,
     PasswordField,
     PasswordFields,
     PasswordInput,
     PasswordInputs,
-    PayPal,
-    PayPals,
     PaymentProvider,
     PaymentProviders,
+    PayPal,
+    PayPals,
     PositiveNumber,
     PositiveNumbers,
     SpreadString,
@@ -155,29 +162,32 @@ import type {
     String,
     StringRecord,
     StringRecords,
+    Strings,
     StringStringRecord,
     StringStringRecords,
-    Strings,
     Stripe,
     StripePaymentState,
     StripePaymentStates,
     Stripes,
+    Unknown,
     Url,
     Urls,
     UserActiveState,
     UserActiveStateCode,
     UserActiveStateCodes,
+    UserActiveStates,
     UserActiveStateTitle,
     UserActiveStateTitles,
     UserActiveStateType,
     UserActiveStateTypes,
-    UserActiveStates,
     UserActiveStatus,
     UserActiveStatuses,
     UserBannedStateType,
     UserBannedStateTypes,
     UserInactiveStateType,
     UserInactiveStateTypes,
+    Username,
+    Usernames,
     UserPendingStateType,
     UserPendingStateTypes,
     UserPin,
@@ -197,9 +207,7 @@ import type {
     UserStateTitleInactive,
     UserStateTitleInactives,
     UserStateTitlePending,
-    UserStateTitlePendings,
-    Username,
-    Usernames
+    UserStateTitlePendings
 } from '@/types/validators/common.ts'
 
 export const isBoolean = (inp: unknown): inp is Boolean => zBoolean.safeParse(inp).success
@@ -225,15 +233,17 @@ export const isDateTimeFormInput = (inp: unknown): inp is DateTimeFormInput => z
 export const isDateTimeFormInputs = (inp: unknown): inp is DateTimeFormInputs =>
     zDateTimeFormInputs.safeParse(inp).success
 
+export const isDateTimes = (inp: unknown): inp is DateTimes => zDateTimes.safeParse(inp).success
+
 export const isDateTimeString = (inp: unknown): inp is DateTimeString => zDateTimeString.safeParse(inp).success
 
 export const isDateTimeStrings = (inp: unknown): inp is DateTimeStrings => zDateTimeStrings.safeParse(inp).success
 
-export const isDateTimes = (inp: unknown): inp is DateTimes => zDateTimes.safeParse(inp).success
-
 export const isEmailAddress = (inp: unknown): inp is EmailAddress => zEmailAddress.safeParse(inp).success
 
 export const isEmailAddresss = (inp: unknown): inp is EmailAddresss => zEmailAddresss.safeParse(inp).success
+
+export const isEmptyArray = (inp: unknown): inp is EmptyArray => zEmptyArray.safeParse(inp).success
 
 export const isEmptyOrMinString = (inp: unknown): inp is EmptyOrMinString => zEmptyOrMinString.safeParse(inp).success
 
@@ -282,7 +292,12 @@ export const isNonNegativeNumbers = (inp: unknown): inp is NonNegativeNumbers =>
 
 export const isNumber = (inp: unknown): inp is Number => zNumber.safeParse(inp).success
 
+export const isNumberRecord = (inp: unknown): inp is NumberRecord => zNumberRecord.safeParse(inp).success
+
 export const isNumbers = (inp: unknown): inp is Numbers => zNumbers.safeParse(inp).success
+
+export const isNumberStringRecord = (inp: unknown): inp is NumberStringRecord =>
+    zNumberStringRecord.safeParse(inp).success
 
 export const isPasswordField = (inp: unknown): inp is PasswordField => zPasswordField.safeParse(inp).success
 
@@ -292,13 +307,13 @@ export const isPasswordInput = (inp: unknown): inp is PasswordInput => zPassword
 
 export const isPasswordInputs = (inp: unknown): inp is PasswordInputs => zPasswordInputs.safeParse(inp).success
 
-export const isPayPal = (inp: unknown): inp is PayPal => zPayPal.safeParse(inp).success
-
-export const isPayPals = (inp: unknown): inp is PayPals => zPayPals.safeParse(inp).success
-
 export const isPaymentProvider = (inp: unknown): inp is PaymentProvider => zPaymentProvider.safeParse(inp).success
 
 export const isPaymentProviders = (inp: unknown): inp is PaymentProviders => zPaymentProviders.safeParse(inp).success
+
+export const isPayPal = (inp: unknown): inp is PayPal => zPayPal.safeParse(inp).success
+
+export const isPayPals = (inp: unknown): inp is PayPals => zPayPals.safeParse(inp).success
 
 export const isPositiveNumber = (inp: unknown): inp is PositiveNumber => zPositiveNumber.safeParse(inp).success
 
@@ -314,13 +329,13 @@ export const isStringRecord = (inp: unknown): inp is StringRecord => zStringReco
 
 export const isStringRecords = (inp: unknown): inp is StringRecords => zStringRecords.safeParse(inp).success
 
+export const isStrings = (inp: unknown): inp is Strings => zStrings.safeParse(inp).success
+
 export const isStringStringRecord = (inp: unknown): inp is StringStringRecord =>
     zStringStringRecord.safeParse(inp).success
 
 export const isStringStringRecords = (inp: unknown): inp is StringStringRecords =>
     zStringStringRecords.safeParse(inp).success
-
-export const isStrings = (inp: unknown): inp is Strings => zStrings.safeParse(inp).success
 
 export const isStripe = (inp: unknown): inp is Stripe => zStripe.safeParse(inp).success
 
@@ -331,6 +346,8 @@ export const isStripePaymentStates = (inp: unknown): inp is StripePaymentStates 
     zStripePaymentStates.safeParse(inp).success
 
 export const isStripes = (inp: unknown): inp is Stripes => zStripes.safeParse(inp).success
+
+export const isUnknown = (inp: unknown): inp is Unknown => zUnknown.safeParse(inp).success
 
 export const isUrl = (inp: unknown): inp is Url => zUrl.safeParse(inp).success
 
@@ -344,6 +361,8 @@ export const isUserActiveStateCode = (inp: unknown): inp is UserActiveStateCode 
 export const isUserActiveStateCodes = (inp: unknown): inp is UserActiveStateCodes =>
     zUserActiveStateCodes.safeParse(inp).success
 
+export const isUserActiveStates = (inp: unknown): inp is UserActiveStates => zUserActiveStates.safeParse(inp).success
+
 export const isUserActiveStateTitle = (inp: unknown): inp is UserActiveStateTitle =>
     zUserActiveStateTitle.safeParse(inp).success
 
@@ -355,8 +374,6 @@ export const isUserActiveStateType = (inp: unknown): inp is UserActiveStateType 
 
 export const isUserActiveStateTypes = (inp: unknown): inp is UserActiveStateTypes =>
     zUserActiveStateTypes.safeParse(inp).success
-
-export const isUserActiveStates = (inp: unknown): inp is UserActiveStates => zUserActiveStates.safeParse(inp).success
 
 export const isUserActiveStatus = (inp: unknown): inp is UserActiveStatus => zUserActiveStatus.safeParse(inp).success
 
@@ -374,6 +391,10 @@ export const isUserInactiveStateType = (inp: unknown): inp is UserInactiveStateT
 
 export const isUserInactiveStateTypes = (inp: unknown): inp is UserInactiveStateTypes =>
     zUserInactiveStateTypes.safeParse(inp).success
+
+export const isUsername = (inp: unknown): inp is Username => zUsername.safeParse(inp).success
+
+export const isUsernames = (inp: unknown): inp is Usernames => zUsernames.safeParse(inp).success
 
 export const isUserPendingStateType = (inp: unknown): inp is UserPendingStateType =>
     zUserPendingStateType.safeParse(inp).success
@@ -432,7 +453,3 @@ export const isUserStateTitlePending = (inp: unknown): inp is UserStateTitlePend
 
 export const isUserStateTitlePendings = (inp: unknown): inp is UserStateTitlePendings =>
     zUserStateTitlePendings.safeParse(inp).success
-
-export const isUsername = (inp: unknown): inp is Username => zUsername.safeParse(inp).success
-
-export const isUsernames = (inp: unknown): inp is Usernames => zUsernames.safeParse(inp).success

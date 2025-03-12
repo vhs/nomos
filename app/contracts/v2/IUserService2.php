@@ -83,7 +83,7 @@ interface IUserService2 extends IContract {
      *
      * @throws string
      *
-     * @return string[]
+     * @return array<string,string>|array
      */
     public function GetUserGrantablePrivileges($userid): array;
 

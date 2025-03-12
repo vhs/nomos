@@ -24,19 +24,20 @@ import {
     zDomain,
     zDomains,
     zEmail,
+    zEmails,
     zEmailTemplate,
     zEmailTemplates,
-    zEmails,
     zEvent,
     zEvents,
     zGenuineCard,
     zGenuineCards,
-    zIPrincipal,
-    zIPrincipals,
+    zGetUserGrantablePrivilegesResult,
     zIpn,
     zIpnRequest,
     zIpnRequests,
     zIpns,
+    zIPrincipal,
+    zIPrincipals,
     zKey,
     zKeys,
     zMembership,
@@ -46,12 +47,12 @@ import {
     zMembershipPeriodDays,
     zMembershipPeriodMonth,
     zMembershipPeriodMonths,
+    zMembershipPeriods,
     zMembershipPeriodYear,
     zMembershipPeriodYears,
-    zMembershipPeriods,
+    zMemberships,
     zMembershipWithId,
     zMembershipWithIds,
-    zMemberships,
     zMetricServiceBaseRangeResult,
     zMetricServiceBaseRangeResults,
     zMetricServiceGetCreatedDatesResult,
@@ -132,19 +133,20 @@ import type {
     Domain,
     Domains,
     Email,
+    Emails,
     EmailTemplate,
     EmailTemplates,
-    Emails,
     Event,
     Events,
     GenuineCard,
     GenuineCards,
-    IPrincipal,
-    IPrincipals,
+    GetUserGrantablePrivilegesResult,
     Ipn,
     IpnRequest,
     IpnRequests,
     Ipns,
+    IPrincipal,
+    IPrincipals,
     Key,
     Keys,
     Membership,
@@ -154,12 +156,12 @@ import type {
     MembershipPeriodDays,
     MembershipPeriodMonth,
     MembershipPeriodMonths,
+    MembershipPeriods,
     MembershipPeriodYear,
     MembershipPeriodYears,
-    MembershipPeriods,
+    Memberships,
     MembershipWithId,
     MembershipWithIds,
-    Memberships,
     MetricServiceBaseRangeResult,
     MetricServiceBaseRangeResults,
     MetricServiceGetCreatedDatesResult,
@@ -260,11 +262,11 @@ export const isDomains = (inp: unknown): inp is Domains => zDomains.safeParse(in
 
 export const isEmail = (inp: unknown): inp is Email => zEmail.safeParse(inp).success
 
+export const isEmails = (inp: unknown): inp is Emails => zEmails.safeParse(inp).success
+
 export const isEmailTemplate = (inp: unknown): inp is EmailTemplate => zEmailTemplate.safeParse(inp).success
 
 export const isEmailTemplates = (inp: unknown): inp is EmailTemplates => zEmailTemplates.safeParse(inp).success
-
-export const isEmails = (inp: unknown): inp is Emails => zEmails.safeParse(inp).success
 
 export const isEvent = (inp: unknown): inp is Event => zEvent.safeParse(inp).success
 
@@ -274,9 +276,8 @@ export const isGenuineCard = (inp: unknown): inp is GenuineCard => zGenuineCard.
 
 export const isGenuineCards = (inp: unknown): inp is GenuineCards => zGenuineCards.safeParse(inp).success
 
-export const isIPrincipal = (inp: unknown): inp is IPrincipal => zIPrincipal.safeParse(inp).success
-
-export const isIPrincipals = (inp: unknown): inp is IPrincipals => zIPrincipals.safeParse(inp).success
+export const isGetUserGrantablePrivilegesResult = (inp: unknown): inp is GetUserGrantablePrivilegesResult =>
+    zGetUserGrantablePrivilegesResult.safeParse(inp).success
 
 export const isIpn = (inp: unknown): inp is Ipn => zIpn.safeParse(inp).success
 
@@ -285,6 +286,10 @@ export const isIpnRequest = (inp: unknown): inp is IpnRequest => zIpnRequest.saf
 export const isIpnRequests = (inp: unknown): inp is IpnRequests => zIpnRequests.safeParse(inp).success
 
 export const isIpns = (inp: unknown): inp is Ipns => zIpns.safeParse(inp).success
+
+export const isIPrincipal = (inp: unknown): inp is IPrincipal => zIPrincipal.safeParse(inp).success
+
+export const isIPrincipals = (inp: unknown): inp is IPrincipals => zIPrincipals.safeParse(inp).success
 
 export const isKey = (inp: unknown): inp is Key => zKey.safeParse(inp).success
 
@@ -308,19 +313,19 @@ export const isMembershipPeriodMonth = (inp: unknown): inp is MembershipPeriodMo
 export const isMembershipPeriodMonths = (inp: unknown): inp is MembershipPeriodMonths =>
     zMembershipPeriodMonths.safeParse(inp).success
 
+export const isMembershipPeriods = (inp: unknown): inp is MembershipPeriods => zMembershipPeriods.safeParse(inp).success
+
 export const isMembershipPeriodYear = (inp: unknown): inp is MembershipPeriodYear =>
     zMembershipPeriodYear.safeParse(inp).success
 
 export const isMembershipPeriodYears = (inp: unknown): inp is MembershipPeriodYears =>
     zMembershipPeriodYears.safeParse(inp).success
 
-export const isMembershipPeriods = (inp: unknown): inp is MembershipPeriods => zMembershipPeriods.safeParse(inp).success
+export const isMemberships = (inp: unknown): inp is Memberships => zMemberships.safeParse(inp).success
 
 export const isMembershipWithId = (inp: unknown): inp is MembershipWithId => zMembershipWithId.safeParse(inp).success
 
 export const isMembershipWithIds = (inp: unknown): inp is MembershipWithIds => zMembershipWithIds.safeParse(inp).success
-
-export const isMemberships = (inp: unknown): inp is Memberships => zMemberships.safeParse(inp).success
 
 export const isMetricServiceBaseRangeResult = (inp: unknown): inp is MetricServiceBaseRangeResult =>
     zMetricServiceBaseRangeResult.safeParse(inp).success

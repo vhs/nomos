@@ -12,6 +12,7 @@ class PHP2TS {
         $result = preg_replace('/\bint\b/', 'number', $result);
         $result = preg_replace('/\bmixed\b/', 'unknown', $result);
         $result = preg_replace('/([A-Z]\w+)\[\]/', '$1s', $result);
+        $result = preg_replace('/\barray\b/', 'unknown[]', $result);
 
         $matches = preg_split('/[|,<>\n ]/', trim($result));
 
@@ -46,9 +47,16 @@ class PHP2TS {
         $tags = $docblock->getTags();
 
         /** @disregard P1013 manually checking */
-        $longestType = max(array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen(PHP2TS::convertDataType($tag->getType())) + 2, $tags));
+        $longestType = max(
+            array_map(
+                fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen(PHP2TS::convertDataType($tag->getType())) + 2,
+                $tags
+            )
+        );
         /** @disregard P1013 manually checking */
-        $longestVarName = max(array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen($tag->getVariableName()), $tags));
+        $longestVarName = max(
+            array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen($tag->getVariableName()), $tags)
+        );
 
         foreach ($tags as $tag) {
             if ($tag->getName() !== $lastTag) {
@@ -72,7 +80,11 @@ class PHP2TS {
                     break;
                 case 'throws':
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 2, ' ');
+                    $tagRow[] = str_pad(
+                        sprintf('{%s}', PHP2TS::convertDataType($tag->getType())),
+                        $longestVarName + 2,
+                        ' '
+                    );
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
@@ -80,7 +92,11 @@ class PHP2TS {
                 case 'return':
                     $tagRow[0] = '@returns';
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 1, ' ');
+                    $tagRow[] = str_pad(
+                        sprintf('{%s}', PHP2TS::convertDataType($tag->getType())),
+                        $longestVarName + 1,
+                        ' '
+                    );
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
@@ -145,7 +161,11 @@ class PHP2TS {
         }
 
         throw new \Exception(
-            sprintf('Missing return statement for: %s->%s', $contractMethod->getDeclaringClass()->getName(), $contractMethod->getName())
+            sprintf(
+                'Missing return statement for: %s->%s',
+                $contractMethod->getDeclaringClass()->getName(),
+                $contractMethod->getName()
+            )
         );
     }
 
