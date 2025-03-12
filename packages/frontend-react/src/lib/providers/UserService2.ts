@@ -100,9 +100,9 @@ export default class UserService2 implements IUserService2 {
      *
      * @throws {string}
      *
-     * @returns {string[]}
+     * @returns {Record<string,string>|unknown[]}
      */
-    async GetUserGrantablePrivileges(userid: number): BackendResult<string[]> {
+    async GetUserGrantablePrivileges(userid: number): BackendResult<Record<string, string> | unknown[]> {
         return await backendCall('/services/v2/UserService2.svc/GetUserGrantablePrivileges', { userid })
     }
 

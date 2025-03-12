@@ -26,19 +26,20 @@ import type {
     zDomain,
     zDomains,
     zEmail,
+    zEmails,
     zEmailTemplate,
     zEmailTemplates,
-    zEmails,
     zEvent,
     zEvents,
     zGenuineCard,
     zGenuineCards,
-    zIPrincipal,
-    zIPrincipals,
+    zGetUserGrantablePrivilegesResult,
     zIpn,
     zIpnRequest,
     zIpnRequests,
     zIpns,
+    zIPrincipal,
+    zIPrincipals,
     zKey,
     zKeys,
     zMembership,
@@ -48,12 +49,12 @@ import type {
     zMembershipPeriodDays,
     zMembershipPeriodMonth,
     zMembershipPeriodMonths,
+    zMembershipPeriods,
     zMembershipPeriodYear,
     zMembershipPeriodYears,
-    zMembershipPeriods,
+    zMemberships,
     zMembershipWithId,
     zMembershipWithIds,
-    zMemberships,
     zMetricServiceBaseRangeResult,
     zMetricServiceBaseRangeResults,
     zMetricServiceGetCreatedDatesResult,
@@ -154,11 +155,11 @@ export type Domains = z.infer<typeof zDomains>
 
 export type Email = z.infer<typeof zEmail>
 
+export type Emails = z.infer<typeof zEmails>
+
 export type EmailTemplate = z.infer<typeof zEmailTemplate>
 
 export type EmailTemplates = z.infer<typeof zEmailTemplates>
-
-export type Emails = z.infer<typeof zEmails>
 
 export type Event = z.infer<typeof zEvent>
 
@@ -168,9 +169,7 @@ export type GenuineCard = z.infer<typeof zGenuineCard>
 
 export type GenuineCards = z.infer<typeof zGenuineCards>
 
-export type IPrincipal = z.infer<typeof zIPrincipal>
-
-export type IPrincipals = z.infer<typeof zIPrincipals>
+export type GetUserGrantablePrivilegesResult = z.infer<typeof zGetUserGrantablePrivilegesResult>
 
 export type Ipn = z.infer<typeof zIpn>
 
@@ -179,6 +178,10 @@ export type IpnRequest = z.infer<typeof zIpnRequest>
 export type IpnRequests = z.infer<typeof zIpnRequests>
 
 export type Ipns = z.infer<typeof zIpns>
+
+export type IPrincipal = z.infer<typeof zIPrincipal>
+
+export type IPrincipals = z.infer<typeof zIPrincipals>
 
 export type Key = z.infer<typeof zKey>
 
@@ -198,17 +201,17 @@ export type MembershipPeriodMonth = z.infer<typeof zMembershipPeriodMonth>
 
 export type MembershipPeriodMonths = z.infer<typeof zMembershipPeriodMonths>
 
+export type MembershipPeriods = z.infer<typeof zMembershipPeriods>
+
 export type MembershipPeriodYear = z.infer<typeof zMembershipPeriodYear>
 
 export type MembershipPeriodYears = z.infer<typeof zMembershipPeriodYears>
 
-export type MembershipPeriods = z.infer<typeof zMembershipPeriods>
+export type Memberships = z.infer<typeof zMemberships>
 
 export type MembershipWithId = z.infer<typeof zMembershipWithId>
 
 export type MembershipWithIds = z.infer<typeof zMembershipWithIds>
-
-export type Memberships = z.infer<typeof zMemberships>
 
 export type MetricServiceBaseRangeResult = z.infer<typeof zMetricServiceBaseRangeResult>
 

@@ -4,23 +4,25 @@ import { z } from 'zod'
 import { zIcon } from '@/lib/ui/fontawesome'
 
 import {
-    zNumber,
-    zString,
     zBoolean,
     zDateTime,
-    zStrings,
-    zIpnValidationState,
-    zFunctionBoolResultFromStringArraySpread,
-    zKeyType,
-    zPaymentProvider,
-    zUsername,
     zEmailAddress,
+    zEmptyArray,
+    zFunctionBoolResultFromStringArraySpread,
+    zHTTPMethod,
     zHumanName,
-    zUserActiveStateCode,
+    zIpnValidationState,
+    zKeyType,
+    zNumber,
+    zPaymentProvider,
+    zSpreadString,
+    zString,
+    zStrings,
+    zStringStringRecord,
     zStripePaymentState,
     zUrl,
-    zSpreadString,
-    zHTTPMethod
+    zUserActiveStateCode,
+    zUsername
 } from './common'
 
 export const zCommon = z.object({ id: zNumber })
@@ -236,8 +238,8 @@ export const zRevenueByMembersType = z.union([
 export const zMetricServiceRevenueByMembership = z.record(zRevenueByMembersType, z.record(zString, zNumber))
 
 export const zMetricServiceGetRevenueResult = zMetricServiceBaseRangeResult.extend({
-    grouping: z.tuple([]).or(zMetricServiceRevenueResultSet),
-    by_membership: z.tuple([]).or(zMetricServiceRevenueByMembership)
+    grouping: zEmptyArray.or(zMetricServiceRevenueResultSet),
+    by_membership: zEmptyArray.or(zMetricServiceRevenueByMembership)
 })
 
 export const zMetricServiceResult = zMetricServiceBaseRangeResult.extend({ start: zNumber, end: zNumber })
@@ -483,3 +485,5 @@ export const zTrimmedUsers = zTrimmedUser.array()
 export const zAnonPrincipals = zAnonPrincipal.array()
 
 export const zWebHooks = zWebHook.array()
+
+export const zGetUserGrantablePrivilegesResult = zEmptyArray.or(zStringStringRecord).or(zStrings)
