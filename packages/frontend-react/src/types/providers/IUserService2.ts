@@ -81,9 +81,9 @@ export interface IUserService2 {
      *
      * @throws {string}
      *
-     * @returns {string[]}
+     * @returns {Record<string,string>|unknown[]}
      */
-    GetUserGrantablePrivileges: (userid: number) => BackendResult<string[]>
+    GetUserGrantablePrivileges: (userid: number) => BackendResult<Record<string, string> | unknown[]>
 
     /**
      * @permission administrator
