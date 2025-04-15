@@ -7,9 +7,9 @@
 namespace app\dto;
 
 /** @typescript */
-enum UserActiveEnum {
-    case b;
-    case n;
-    case t;
-    case y;
+enum UserActiveEnum: string {
+    case ACTIVE = 'y';
+    case BANNED = 'b';
+    case INACTIVE = 'n';
+    case PENDING = 't';
 }

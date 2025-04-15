@@ -18,15 +18,47 @@ use vhs\web\IHttpModule;
 
 /** @typescript */
 class HttpBearerTokenAuthModule implements IHttpModule {
+    /**
+     * authorizer.
+     *
+     * @var mixed
+     */
     private $authorizer;
+
+    /**
+     * headerKey.
+     *
+     * @var string
+     */
     private $headerKey = 'HTTP_AUTHORIZATION';
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\security\IAuthenticate $authorizer
+     *
+     * @return void
+     */
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
     }
 
+    /**
+     * endResponse.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function endResponse(HttpServer $server) {}
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         $bearerToken = null;
 
@@ -49,5 +81,13 @@ class HttpBearerTokenAuthModule implements IHttpModule {
         }
     }
 
+    /**
+     * handleException.
+     *
+     * @param \vhs\web\HttpServer $server
+     * @param \Exception          $ex
+     *
+     * @return void
+     */
     public function handleException(HttpServer $server, \Exception $ex) {}
 }

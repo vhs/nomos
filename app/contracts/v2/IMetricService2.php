@@ -24,16 +24,12 @@ interface IMetricService2 extends IContract {
      * @param string $start_range
      * @param string $end_range
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceGetCreatedDatesResult
      */
     public function GetCreatedDates($start_range, $end_range): MetricServiceGetCreatedDatesResult;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Payment[]
      */
@@ -46,8 +42,6 @@ interface IMetricService2 extends IContract {
      * @param string                            $end_range
      * @param \app\enums\MetricServiceGroupType $group
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceGetMembersResult
      */
     public function GetMembers($start_range, $end_range, $group): MetricServiceGetMembersResult;
@@ -57,8 +51,6 @@ interface IMetricService2 extends IContract {
      *
      * @param string $start_range string iso date in UTC, if empty is start of today
      * @param string $end_range   string iso date in UTC, if empty is end of today
-     *
-     * @throws string
      *
      * @return \app\dto\v2\MetricServiceNewKeyholdersResult
      */
@@ -70,16 +62,12 @@ interface IMetricService2 extends IContract {
      * @param string $start_range string iso date in UTC, if empty is start of today
      * @param string $end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceNewMembersResult
      */
     public function GetNewMembers($start_range, $end_range): MetricServiceNewMembersResult;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\User[]
      */
@@ -92,8 +80,6 @@ interface IMetricService2 extends IContract {
      * @param string                            $end_range   string iso date in UTC, if empty is end of today
      * @param \app\enums\MetricServiceGroupType $group       group by month, day, year
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceGetRevenueResult
      */
     public function GetRevenue($start_range, $end_range, $group): MetricServiceGetRevenueResult;
@@ -101,16 +87,12 @@ interface IMetricService2 extends IContract {
     /**
      * @permission user
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceTotalKeyHoldersResult
      */
     public function GetTotalKeyHolders(): MetricServiceTotalKeyHoldersResult;
 
     /**
      * @permission user
-     *
-     * @throws string
      *
      * @return \app\dto\v2\MetricServiceTotalMembersResult
      */

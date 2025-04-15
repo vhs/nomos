@@ -18,6 +18,7 @@ use app\exceptions\MemberCardException;
 use vhs\database\Columns;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
@@ -28,8 +29,6 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @permission administrator|user
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -42,9 +41,6 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      *
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws \Exception
-     * @throws string
      *
      * @return int
      */
@@ -59,8 +55,6 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      *
      * @param string $key
      *
-     * @throws string
-     *
      * @return \app\domain\GenuineCard
      */
     public function GetGenuineCardDetails($key): GenuineCard {
@@ -73,8 +67,9 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @param string $email
      * @param string $key
      *
-     * @throws \Exception
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \app\exceptions\MemberCardException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\GenuineCard
      */
@@ -136,11 +131,10 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\GenuineCard[]
      */
     public function ListGenuineCards($page, $size, $columns, $order, $filters): array {
+        /** @var \app\domain\GenuineCard[] */
         return GenuineCard::page($page, $size, $columns, $order, $filters);
     }
 
@@ -154,8 +148,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws \Exception
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\GenuineCard[]
      */
@@ -163,10 +156,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
         $userService2 = new UserServiceHandler2();
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -180,6 +170,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
             $filters = Filter::_And($userFilter, $filters);
         }
 
+        /** @var \app\domain\GenuineCard[] */
         return GenuineCard::page($page, $size, $columns, $order, $filters);
     }
 
@@ -189,8 +180,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @param string $key
      * @param string $notes
      *
-     * @throws \Exception
-     * @throws string
+     * @throws \app\exceptions\MemberCardException
      *
      * @return \app\domain\GenuineCard
      */
@@ -215,10 +205,9 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      * @permission administrator
      *
      * @param string $key
-     * @param string $active
+     * @param bool   $active
      *
-     * @throws \Exception
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return bool
      */
@@ -227,6 +216,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
             throw new InvalidInputException('Invalid card');
         }
 
+        /** @var GenuineCard */
         $card = GenuineCard::findByKey($key)[0];
 
         $card->active = $active;
@@ -239,8 +229,6 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      *
      * @param string $key
      *
-     * @throws string
-     *
      * @return bool
      */
     public function ValidateGenuineCard($key): bool {
@@ -249,14 +237,21 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
         return !is_null($keys) && count($keys) == 1;
     }
 
+    /**
+     * addUserIDToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function addUserIDToFilters($userid, $filters) {
         $userService2 = new UserServiceHandler2();
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');

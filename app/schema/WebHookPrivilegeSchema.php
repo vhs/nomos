@@ -27,7 +27,9 @@ class WebHookPrivilegeSchema extends Schema {
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->webhookid),
             Constraint::PrimaryKey($table->columns->privilegeid),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->webhookid, WebHookSchema::Table(), WebHookSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 

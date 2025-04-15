@@ -19,8 +19,6 @@ interface ISystemPreferenceService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountSystemPreferences($filters): int;
@@ -28,18 +26,14 @@ interface ISystemPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param string $key
-     *
-     * @throws string
+     * @param string|string[] $keys
      *
      * @return void
      */
-    public function DeleteSystemPreference($key): void;
+    public function DeleteSystemPreference($keys): void;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\SystemPreference[]
      */
@@ -48,9 +42,7 @@ interface ISystemPreferenceService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param string $id
-     *
-     * @throws string
+     * @param int $id
      *
      * @return \app\domain\SystemPreference
      */
@@ -65,8 +57,6 @@ interface ISystemPreferenceService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters): array;
@@ -79,8 +69,6 @@ interface ISystemPreferenceService2 extends IContract {
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference
      */
     public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference;
@@ -91,8 +79,6 @@ interface ISystemPreferenceService2 extends IContract {
      * @param int             $id
      * @param string|string[] $privileges
      *
-     * @throws string
-     *
      * @return bool
      */
     public function PutSystemPreferencePrivileges($id, $privileges): bool;
@@ -102,7 +88,7 @@ interface ISystemPreferenceService2 extends IContract {
      *
      * @param string $key
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return \app\domain\SystemPreference
      */
@@ -117,8 +103,6 @@ interface ISystemPreferenceService2 extends IContract {
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes): bool;
@@ -128,8 +112,6 @@ interface ISystemPreferenceService2 extends IContract {
      *
      * @param string $key
      * @param bool   $enabled
-     *
-     * @throws string
      *
      * @return bool
      */

@@ -5,8 +5,9 @@ namespace app\services;
 use app\contracts\IEmailService1;
 use app\domain\EmailTemplate;
 use Aws\Ses\SesClient;
+use vhs\services\Service;
 
-class EmailService implements IEmailService1 {
+class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
@@ -23,9 +24,10 @@ class EmailService implements IEmailService1 {
      *
      * @param $id
      *
-     * @return mixed
+     * @return void
      */
     public function DeleteTemplate($id) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         if (!is_null($template)) {
@@ -33,6 +35,16 @@ class EmailService implements IEmailService1 {
         }
     }
 
+    /**
+     * Email.
+     *
+     * @param mixed $email
+     * @param mixed $tmpl
+     * @param mixed $context
+     * @param mixed $subject
+     *
+     * @return null
+     */
     public function Email($email, $tmpl, $context, $subject = null) {
         $generated = EmailTemplate::generate($tmpl, $context);
 
@@ -41,7 +53,7 @@ class EmailService implements IEmailService1 {
         }
 
         if (is_null($subject)) {
-            $subject = $generated['subject'];
+            $subject = $generated->subject;
         }
 
         $client = new SesClient([
@@ -66,11 +78,11 @@ class EmailService implements IEmailService1 {
                 'Body' => [
                     'Text' => [
                         // Data is required
-                        'Data' => $generated['txt']
+                        'Data' => $generated->txt
                     ],
                     'Html' => [
                         // Data is required
-                        'Data' => $generated['html']
+                        'Data' => $generated->html
                     ]
                 ]
             ]
@@ -79,6 +91,16 @@ class EmailService implements IEmailService1 {
         return null;
     }
 
+    /**
+     * EmailUser.
+     *
+     * @param mixed $user
+     * @param mixed $tmpl
+     * @param mixed $context
+     * @param mixed $subject
+     *
+     * @return void
+     */
     public function EmailUser($user, $tmpl, $context, $subject = null) {
         $this->Email($user->email, $tmpl, $context, $subject);
     }
@@ -88,9 +110,10 @@ class EmailService implements IEmailService1 {
      *
      * @param $id
      *
-     * @return mixed
+     * @return \app\domain\EmailTemplate
      */
     public function GetTemplate($id) {
+        /** @var \app\domain\EmailTemplate */
         return EmailTemplate::find($id);
     }
 
@@ -103,9 +126,10 @@ class EmailService implements IEmailService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
+     * @return \app\domain\EmailTemplate[]
      */
     public function ListTemplates($page, $size, $columns, $order, $filters) {
+        /** @var \app\domain\EmailTemplate[] */
         return EmailTemplate::page($page, $size, $columns, $order, $filters);
     }
 
@@ -119,7 +143,7 @@ class EmailService implements IEmailService1 {
      * @param $body
      * @param $html
      *
-     * @return mixed
+     * @return void
      */
     public function PutTemplate($name, $code, $subject, $help, $body, $html) {
         $template = EmailTemplate::findByCode($code);
@@ -144,11 +168,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $body
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateBody($id, $body) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->body = $body;
+
         $template->save();
     }
 
@@ -158,11 +185,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $code
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateCode($id, $code) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->code = $code;
+
         $template->save();
     }
 
@@ -172,11 +202,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $help
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateHelp($id, $help) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->help = $help;
+
         $template->save();
     }
 
@@ -186,11 +219,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $html
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateHtml($id, $html) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->html = $html;
+
         $template->save();
     }
 
@@ -200,11 +236,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $name
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateName($id, $name) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->name = $name;
+
         $template->save();
     }
 
@@ -214,11 +253,14 @@ class EmailService implements IEmailService1 {
      * @param $id
      * @param $subject
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTemplateSubject($id, $subject) {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
+
         $template->subject = $subject;
+
         $template->save();
     }
 }

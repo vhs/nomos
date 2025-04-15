@@ -9,6 +9,7 @@
 
 namespace app\contracts;
 
+use app\domain\AppClient;
 use vhs\services\IContract;
 
 /** @typescript */
@@ -16,7 +17,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|pin-auth
      *
-     * @param $pin
+     * @param string $pin
      *
      * @return mixed
      */
@@ -25,7 +26,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|rfid-auth
      *
-     * @param $rfid
+     * @param string $rfid
      *
      * @return mixed
      */
@@ -34,8 +35,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|service-auth
      *
-     * @param $service
-     * @param $id
+     * @param string $service
+     * @param string $id
      *
      * @return mixed
      */
@@ -44,7 +45,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $username
+     * @param string $username
      *
      * @return bool
      */
@@ -53,7 +54,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string $filters
      *
      * @return mixed
      */
@@ -62,7 +63,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string $filters
      *
      * @return mixed
      */
@@ -71,8 +72,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int    $userid
+     * @param string $filters
      *
      * @return mixed
      */
@@ -81,8 +82,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int    $userid
+     * @param string $filters
      *
      * @return mixed
      */
@@ -98,7 +99,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -107,8 +108,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -117,7 +118,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $bearerToken
+     * @param string $bearerToken
      *
      * @return mixed
      */
@@ -126,8 +127,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $clientId
-     * @param $clientSecret
+     * @param int    $clientId
+     * @param string $clientSecret
      *
      * @return mixed
      */
@@ -136,7 +137,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $clientId
+     * @param int $clientId
      *
      * @return mixed
      */
@@ -145,7 +146,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $refreshToken
+     * @param string $refreshToken
      *
      * @return mixed
      */
@@ -154,8 +155,8 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      *
      * @return mixed
      */
@@ -164,11 +165,11 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int    $page
+     * @param int    $size
+     * @param string $columns
+     * @param string $order
+     * @param string $filters
      *
      * @return mixed
      */
@@ -177,11 +178,11 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int    $page
+     * @param int    $size
+     * @param string $columns
+     * @param string $order
+     * @param string $filters
      *
      * @return mixed
      */
@@ -190,12 +191,12 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int    $userid
+     * @param int    $page
+     * @param int    $size
+     * @param string $columns
+     * @param string $order
+     * @param string $filters
      *
      * @return mixed
      */
@@ -204,22 +205,22 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $userid
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
-     * @return mixed
+     * @return AppClient[]
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters);
 
     /**
      * @permission anonymous
      *
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      *
      * @return mixed
      */
@@ -235,10 +236,10 @@ interface IAuthService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $name
-     * @param $description
-     * @param $url
-     * @param $redirecturi
+     * @param string $name
+     * @param string $description
+     * @param string $url
+     * @param string $redirecturi
      *
      * @return mixed
      */
@@ -247,7 +248,7 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $refreshToken
+     * @param string $refreshToken
      *
      * @return mixed
      */
@@ -256,10 +257,10 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $userId
-     * @param $accessToken
-     * @param $clientId
-     * @param $expires
+     * @param int    $userId
+     * @param string $accessToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @return mixed
      */
@@ -268,10 +269,10 @@ interface IAuthService1 extends IContract {
     /**
      * @permission oauth-provider
      *
-     * @param $userId
-     * @param $refreshToken
-     * @param $clientId
-     * @param $expires
+     * @param int    $userId
+     * @param string $refreshToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @return mixed
      */

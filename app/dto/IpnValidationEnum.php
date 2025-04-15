@@ -7,7 +7,7 @@
 namespace app\dto;
 
 /** @typescript */
-enum IpnValidationEnum {
-    case INVALID;
-    case VERIFIED;
+enum IpnValidationEnum: int {
+    case INVALID = 0;
+    case VERIFIED = 1;
 }

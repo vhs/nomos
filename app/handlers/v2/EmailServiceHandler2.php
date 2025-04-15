@@ -5,8 +5,9 @@ namespace app\handlers\v2;
 use app\adapters\v2\EmailAdapter2;
 use app\contracts\v2\IEmailService2;
 use app\domain\EmailTemplate;
-use vhs\domain\exceptions\DomainException;
+use vhs\exceptions\HttpException;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class EmailServiceHandler2 extends Service implements IEmailService2 {
@@ -14,8 +15,6 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -28,7 +27,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      *
      * @param int $id
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return void
      */
@@ -36,7 +35,7 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
         $template = EmailTemplate::find($id);
 
         if (is_null($template)) {
-            throw new DomainException('EmailTemplate not found', 404);
+            throw new HttpException('EmailTemplate not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         $template->delete();
@@ -47,12 +46,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      *
      * @permission administrator
      *
-     * @param string               $email
-     * @param string               $tmpl
-     * @param array<string, mixed> $context
-     * @param string|null          $subject
-     *
-     * @throws string
+     * @param string              $email
+     * @param string              $tmpl
+     * @param array<string,mixed> $context
+     * @param string|null         $subject
      *
      * @return void
      */
@@ -65,12 +62,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      *
      * @permission administrator
      *
-     * @param \app\domain\User     $user    email address
-     * @param string               $tmpl
-     * @param array<string, mixed> $context
-     * @param string|null          $subject
-     *
-     * @throws string
+     * @param \app\domain\User    $user    email address
+     * @param string              $tmpl
+     * @param array<string,mixed> $context
+     * @param string|null         $subject
      *
      * @return void
      */
@@ -83,11 +78,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
-     * @return \app\domain\EmailTemplate
+     * @return \app\domain\EmailTemplate|null
      */
-    public function GetTemplate($id): EmailTemplate {
+    public function GetTemplate($id): EmailTemplate|null {
+        /** @var \app\domain\EmailTemplate|null */
         return EmailTemplate::find($id);
     }
 
@@ -100,11 +94,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\EmailTemplate[]
      */
     public function ListTemplates($page, $size, $columns, $order, $filters): array {
+        /** @var \app\domain\EmailTemplate[] */
         return EmailTemplate::page($page, $size, $columns, $order, $filters);
     }
 
@@ -118,11 +111,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param string $body
      * @param string $html
      *
-     * @throws string
-     *
-     * @return \app\domain\EmailTemplate
+     * @return bool
      */
-    public function PutTemplate($name, $code, $subject, $help, $body, $html): EmailTemplate {
+    public function PutTemplate($name, $code, $subject, $help, $body, $html): bool {
+        /** @var EmailTemplate|null */
         $template = EmailTemplate::findByCode($code);
 
         if (is_null($template)) {
@@ -145,11 +137,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $body
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateBody($id, $body): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->body = $body;
@@ -163,11 +154,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $code
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateCode($id, $code): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->code = $code;
@@ -181,11 +171,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $help
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateHelp($id, $help): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->help = $help;
@@ -199,11 +188,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $html
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateHtml($id, $html): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->html = $html;
@@ -217,11 +205,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $name
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateName($id, $name): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->name = $name;
@@ -235,11 +222,10 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @param int    $id
      * @param string $subject
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateSubject($id, $subject): bool {
+        /** @var \app\domain\EmailTemplate */
         $template = EmailTemplate::find($id);
 
         $template->subject = $subject;

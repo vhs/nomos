@@ -6,6 +6,8 @@
 
 namespace app\dto;
 
+use app\utils\EnumMapper;
+
 /** @typescript */
 class Payment {
     public string $currency;
@@ -48,7 +50,7 @@ class Payment {
         $this->rate_amount = $payment->rate_amount;
         $this->currency = $payment->currency;
         $this->date = $payment->date;
-        $this->pp = PaymentPpEnum::tryFrom($payment->pp);
+        $this->pp = EnumMapper::tryFrom(PaymentPpEnum::cases(), $payment->pp);
         $this->ip = $payment->ip;
         $this->status = $payment->status;
         $this->item_name = $payment->item_name;

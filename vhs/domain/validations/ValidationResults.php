@@ -11,23 +11,36 @@ namespace vhs\domain\validations;
 
 /** @typescript */
 class ValidationResults {
+    /**
+     * failures.
+     *
+     * @var \vhs\domain\validations\ValidationFailure[]
+     */
     private $failures = [];
 
     /**
-     * @param ValidationFailure $failure
+     * add.
+     *
+     * @param \vhs\domain\validations\ValidationFailure $failure
+     *
+     * @return void
      */
     public function add(ValidationFailure $failure) {
         array_push($this->failures, $failure);
     }
 
     /**
-     * @return ValidationFailure[]
+     * getFailures.
+     *
+     * @return \vhs\domain\validations\ValidationFailure[]
      */
     public function getFailures() {
         return $this->failures;
     }
 
     /**
+     * isSuccess.
+     *
      * @return bool
      */
     public function isSuccess() {

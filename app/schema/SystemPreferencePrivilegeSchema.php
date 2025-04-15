@@ -27,7 +27,9 @@ class SystemPreferencePrivilegeSchema extends Schema {
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->systempreferenceid),
             Constraint::PrimaryKey($table->columns->privilegeid),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->systempreferenceid, SystemPreferenceSchema::Table(), SystemPreferenceSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 

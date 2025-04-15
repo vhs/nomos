@@ -19,8 +19,6 @@ interface IKeyService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteKey($id): void;
@@ -33,16 +31,12 @@ interface IKeyService2 extends IContract {
      * @param string $value
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\Key|null
      */
     public function GenerateUserKey($userid, $type, $value, $notes): Key|null;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Key[]
      */
@@ -53,16 +47,12 @@ interface IKeyService2 extends IContract {
      *
      * @param int $keyid
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GetKey($keyid): Key;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Key[]
      */
@@ -74,8 +64,6 @@ interface IKeyService2 extends IContract {
      * @param int      $userid
      * @param string[] $types
      *
-     * @throws string
-     *
      * @return \app\domain\Key[]
      */
     public function GetUserKeys($userid, $types): array;
@@ -85,8 +73,6 @@ interface IKeyService2 extends IContract {
      *
      * @param int             $keyid
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -98,8 +84,6 @@ interface IKeyService2 extends IContract {
      * @param int    $keyid
      * @param string $notes
      * @param string $expires
-     *
-     * @throws string
      *
      * @return bool
      */

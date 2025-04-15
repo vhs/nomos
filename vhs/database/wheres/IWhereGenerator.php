@@ -13,9 +13,30 @@ use vhs\database\IGenerator;
 
 /** @typescript */
 interface IWhereGenerator extends IGenerator {
+    /**
+     * generateAnd.
+     *
+     * @param \vhs\database\wheres\WhereAnd $where
+     *
+     * @return callable
+     */
     public function generateAnd(WhereAnd $where);
 
+    /**
+     * generateComparator.
+     *
+     * @param \vhs\database\wheres\WhereComparator $where
+     *
+     * @return callable
+     */
     public function generateComparator(WhereComparator $where);
 
+    /**
+     * generateOr.
+     *
+     * @param \vhs\database\wheres\WhereOr $where
+     *
+     * @return callable
+     */
     public function generateOr(WhereOr $where);
 }

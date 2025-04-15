@@ -13,11 +13,44 @@ use vhs\database\types\Type;
 
 /** @typescript */
 class Column extends Element implements \Serializable, \JsonSerializable {
+    /**
+     * name.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * serializable.
+     *
+     * @var bool
+     */
     public $serializable;
+
+    /**
+     * table.
+     *
+     * @var \vhs\database\Table
+     */
     public $table;
+
+    /**
+     * type.
+     *
+     * @var \vhs\database\types\Type
+     */
     public $type;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\database\Table      $table
+     * @param string                   $name
+     * @param \vhs\database\types\Type $type
+     * @param ?bool                    $serializable
+     *
+     * @return void
+     */
     public function __construct(Table &$table, $name, Type $type, $serializable = true) {
         $this->table = $table;
         $this->name = $name;
@@ -26,8 +59,8 @@ class Column extends Element implements \Serializable, \JsonSerializable {
     }
 
     /**
-     * @param IGenerator $generator
-     * @param mixed|null $value
+     * @param \vhs\database\IGenerator $generator
+     * @param mixed|null               $value
      *
      * @return mixed
      */
@@ -36,10 +69,22 @@ class Column extends Element implements \Serializable, \JsonSerializable {
         return $this->generateColumn($generator);
     }
 
+    /**
+     * generateColumn.
+     *
+     * @param \vhs\database\IColumnGenerator $generator
+     *
+     * @return string
+     */
     public function generateColumn(IColumnGenerator $generator) {
         return $generator->generateColumn($this);
     }
 
+    /**
+     * getAbsoluteName.
+     *
+     * @return string
+     */
     public function getAbsoluteName() {
         return $this->table->name . '.' . $this->name;
     }
@@ -88,18 +133,43 @@ class Column extends Element implements \Serializable, \JsonSerializable {
         // TODO: Implement unserialize() method.
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     public function __clone() {
         $this->type = clone $this->type;
     }
 
+    /**
+     * __serialize.
+     *
+     * @return string
+     */
     public function __serialize() {
+        // @phpstan-ignore return.type
         return $this->serialize();
     }
 
+    /**
+     * __unserialize.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function __unserialize($data): void {
         // TODO: Implement __unserialize() method.
     }
 
+    /**
+     * __updateTable.
+     *
+     * @param \vhs\database\Table $table
+     *
+     * @return void
+     */
     public function __updateTable(Table &$table) {
         $this->table = $table;
     }

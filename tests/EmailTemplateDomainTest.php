@@ -25,7 +25,7 @@ class EmailTemplateDomainTest extends TestCase {
     public function test_Service() {
         $service = new EmailService();
 
-        $rows = $service->ListTemplates(1, 1, 'id', 'id', '');
+        $rows = array_map(fn($row): array => get_object_vars($row), array: json_decode(json_encode($service->ListTemplates(1, 1, 'id', 'id', ''))));
 
         $this->assertCount(1, $rows);
 
@@ -88,7 +88,7 @@ class EmailTemplateDomainTest extends TestCase {
 
         $service->PutTemplate('qwer', 'qwer', 'qwer', 'qwer', 'qwer', 'qwer');
 
-        $rows = $service->ListTemplates(1, 1, 'id', 'id', '');
+        $rows = array_map(fn($row): array => get_object_vars($row), json_decode(json_encode($service->ListTemplates(1, 1, 'id', 'id', ''))));
 
         $this->assertCount(1, $rows);
 
@@ -115,9 +115,9 @@ class EmailTemplateDomainTest extends TestCase {
             'random' => 'random'
         ]);
 
-        $this->assertEquals('the value for a some other value asdf', $generated['subject']);
-        $this->assertEquals('the value for a some other value qwer', $generated['txt']);
-        $this->assertEquals('<b>the value for a</b> some other value zxcv', $generated['html']);
+        $this->assertEquals('the value for a some other value asdf', $generated->subject);
+        $this->assertEquals('the value for a some other value qwer', $generated->txt);
+        $this->assertEquals('<b>the value for a</b> some other value zxcv', $generated->html);
     }
 
     public static function setUpBeforeClass(): void {

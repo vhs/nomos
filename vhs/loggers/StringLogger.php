@@ -13,12 +13,18 @@ use vhs\Logger;
 
 /** @typescript */
 class StringLogger extends Logger {
-    public $history;
+    /** @var string[] */
+    public array $history;
 
     public function __construct() {
         $this->history = [];
     }
 
+    /**
+     * fullText.
+     *
+     * @return string
+     */
     public function fullText() {
         return implode("\n", $this->history);
     }

@@ -4,6 +4,7 @@ use app\domain\Key;
 use app\domain\Membership;
 use app\domain\Privilege;
 use app\domain\User;
+use app\dto\UserActiveEnum;
 use app\services\AuthService;
 use PHPUnit\Framework\TestCase;
 use vhs\database\Database;
@@ -143,7 +144,7 @@ class KeyDomainTest extends TestCase {
         $user->membership = $membership;
         $user->username = 'vbnm';
         $user->email = 'nomos_tests@vanhack.ca';
-        $user->active = 'y';
+        $user->active = UserActiveEnum::ACTIVE->value;
         $user->privileges->add($user_privilege);
         $user_expiry = new DateTime('today');
         $user_expiry->modify('+1 month');

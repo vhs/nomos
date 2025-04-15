@@ -13,6 +13,13 @@ use app\domain\Ipn;
 
 /** @typescript */
 class PaypalGateway implements IPaymentGateway {
+    /**
+     * CreateInvalidIPNRecord.
+     *
+     * @param string $raw
+     *
+     * @return string
+     */
     public function CreateInvalidIPNRecord($raw) {
         // Create the IPN record in the database
         $ipn = new Ipn();
@@ -23,6 +30,19 @@ class PaypalGateway implements IPaymentGateway {
         return 'INVALID';
     }
 
+    /**
+     * CreateIPNRecord.
+     *
+     * @param mixed $payment_status
+     * @param mixed $mc_gross
+     * @param mixed $mc_currency
+     * @param mixed $payer_email
+     * @param mixed $item_name
+     * @param mixed $item_number
+     * @param mixed $raw
+     *
+     * @return string
+     */
     public function CreateIPNRecord($payment_status, $mc_gross, $mc_currency, $payer_email, $item_name, $item_number, $raw) {
         // Create the IPN record in the database
         $ipn = new Ipn();
@@ -40,10 +60,24 @@ class PaypalGateway implements IPaymentGateway {
         return $ipn->validation;
     }
 
+    /**
+     * Name.
+     *
+     * @return string
+     */
     public function Name() {
         return 'paypal';
     }
 
+    /**
+     * Process.
+     *
+     * @param mixed $data
+     *
+     * @throws \app\gateways\PaymentGatewayException
+     *
+     * @return string
+     */
     public function Process($data) {
         // Put this url into paypal
         // IPN URL: http://cook.vanhack.ca:8888/services/gateways/paypal
@@ -60,6 +94,7 @@ class PaypalGateway implements IPaymentGateway {
         // Step 2: POST IPN data back to PayPal to validate
         // ToDo: this should be an option available from the admin interface
         $paypal = 'https://ipnpb.paypal.com/cgi-bin/webscr';
+        // @phpstan-ignore if.alwaysFalse
         if (DEBUG) {
             $paypal = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
         }
@@ -67,12 +102,12 @@ class PaypalGateway implements IPaymentGateway {
         $ch = curl_init($paypal);
 
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Connection: Close']);
 
         $error = null;

@@ -14,13 +14,53 @@ use vhs\loggers\SilentLogger;
 
 /** @typescript */
 class Backup {
+    /**
+     * database.
+     *
+     * @var string
+     */
     private $database;
+
+    /**
+     * logger.
+     *
+     * @var \vhs\Logger
+     */
     private $logger;
+
+    /**
+     * password.
+     *
+     * @var string
+     */
     private $password;
+
+    /**
+     * server.
+     *
+     * @var string
+     */
     private $server;
+
+    /**
+     * user.
+     *
+     * @var string
+     */
     private $user;
 
-    public function __construct($server, $user, $password, $database, Logger $logger = null) {
+    /**
+     * __construct.
+     *
+     * @param string      $server
+     * @param string      $user
+     * @param string      $password
+     * @param string      $database
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
+    public function __construct($server, $user, $password, $database, ?Logger $logger = null) {
         $this->server = $server;
         $this->user = $user;
         $this->password = $password;
@@ -33,6 +73,15 @@ class Backup {
         }
     }
 
+    /**
+     * external_backup.
+     *
+     * @param bool   $do_host
+     * @param string $fileName
+     * @param string $backupPath
+     *
+     * @return bool
+     */
     public function external_backup($do_host = false, $fileName = null, $backupPath = 'backup/') {
         $this->logger->log('Starting backup');
 
@@ -56,6 +105,14 @@ class Backup {
         return !$return;
     }
 
+    /**
+     * internal_backup.
+     *
+     * @param string $fileName
+     * @param string $backupPath
+     *
+     * @return bool
+     */
     public function internal_backup($fileName = null, $backupPath = 'backup/') {
         $this->logger->log('Starting backup');
 
@@ -91,9 +148,11 @@ class Backup {
             print 'Grabbing table ' . $table . ': ';
 
             $create_result = $conn->query($sql);
-            if (!$result) {
+
+            if (!$create_result) {
                 return false;
             }
+
             $create_row = $create_result->fetch_row();
             $return .= $create_row[1];
 
@@ -103,6 +162,7 @@ class Backup {
             if (!$result) {
                 return false;
             }
+
             $num_fields = @intval($result->num_rows);
 
             $return .= ";\nINSERT INTO `" . $table . '` VALUES(';
@@ -149,6 +209,13 @@ class Backup {
         return true;
     }
 
+    /**
+     * is_mysql_num.
+     *
+     * @param mixed $type
+     *
+     * @return bool
+     */
     private function is_mysql_num($type) {
         //http://php.net/manual/en/mysqli-result.fetch-field.php
 
@@ -165,7 +232,6 @@ class Backup {
             case 246: //DECIMAL / NUMERIC / FIXED
                 return true;
 
-                break;
             default:
                 return false;
         }

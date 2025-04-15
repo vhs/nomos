@@ -14,6 +14,7 @@ use app\constants\StringLiterals;
 use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
+use app\dto\UserActiveEnum;
 use app\security\PasswordUtil;
 use app\services\EmailService;
 use app\services\UserService;
@@ -24,14 +25,30 @@ use vhs\security\SystemPrincipal;
 
 /** @typescript */
 class PaymentProcessor {
+    /** @var mixed */
     private $host;
-    /** @var Logger */
+
+    /** @var \vhs\Logger|null */
     private $logger;
 
-    public function __construct(Logger &$logger = null) {
+    /**
+     * __construct.
+     *
+     * @param \vhs\Logger|null $logger
+     *
+     * @return void
+     */
+    public function __construct(?Logger &$logger = null) {
         $this->logger = $logger;
     }
 
+    /**
+     * paymentCreated.
+     *
+     * @param mixed $id
+     *
+     * @return void
+     */
     public function paymentCreated($id) {
         $suspended_user = CurrentUser::getPrincipal();
         CurrentUser::setPrincipal(new SystemPrincipal());
@@ -51,7 +68,7 @@ class PaymentProcessor {
             return;
         }
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = null;
         $users = User::findByPaymentEmail($payment->payer_email);
 
@@ -78,20 +95,37 @@ class PaymentProcessor {
         CurrentUser::setPrincipal($suspended_user);
     }
 
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     private function log($message) {
         if (!is_null($this->logger)) {
             $this->logger->log("[PaymentMonitor] {$message}");
         }
     }
 
-    private function processDonationPayment(User $user = null, Payment $payment) {
+    /**
+     * processDonationPayment.
+     *
+     * @param \app\domain\User|null $user
+     * @param \app\domain\Payment   $payment
+     *
+     * @return void
+     *
+     * @phpstan-ignore parameter.requiredAfterOptional
+     */
+    private function processDonationPayment(?User $user = null, Payment $payment) {
         if (is_null($user)) {
             EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
                 'message' =>
-                    $payment->fname .
+                    $payment->payer_fname .
                     ' ' .
-                    $payment->lname .
+                    $payment->payer_lname .
                     ' with email ' .
                     $payment->payer_email .
                     ' made a donation but we ' .
@@ -131,8 +165,18 @@ class PaymentProcessor {
         $payment->save();
     }
 
-    private function processMemberPayment(User $user = null, Payment $payment) {
-        /** @var Membership $membership */
+    /**
+     * processMemberPayment.
+     *
+     * @param \app\domain\User|null $user
+     * @param \app\domain\Payment   $payment
+     *
+     * @return void
+     *
+     * @phpstan-ignore parameter.requiredAfterOptional
+     */
+    private function processMemberPayment(?User $user = null, Payment $payment) {
+        /** @var Membership|null $membership */
         $membership = null;
 
         $memberships = Membership::findByCode($payment->item_number);
@@ -182,20 +226,20 @@ class PaymentProcessor {
             if ($user->membership_id != $membership->id) {
                 $userService->UpdateMembership($user->id, $membership->id);
             } else {
-                if ($user->active == 'n') {
+                if ($user->active == UserActiveEnum::INACTIVE->value) {
                     $userService->UpdateStatus($user->id, 'active');
                 }
             }
 
             $user = User::find($user->id);
 
-            if ($user->active != 'y') {
+            if ($user->active != UserActiveEnum::ACTIVE->value) {
                 EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
+                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->payer_lname,
                     'message' =>
-                        $payment->fname .
+                        $payment->payer_fname .
                         ' ' .
-                        $payment->lname .
+                        $payment->payer_lname .
                         ' with email ' .
                         $payment->payer_email .
                         ' made a payment, but ' .
@@ -248,14 +292,24 @@ class PaymentProcessor {
         ]);
     }
 
-    private function processMembershipCardPayment(User $user = null, Payment $payment) {
+    /**
+     * processMembershipCardPayment.
+     *
+     * @param \app\domain\User|null $user
+     * @param \app\domain\Payment   $payment
+     *
+     * @return void
+     *
+     * @phpstan-ignore parameter.requiredAfterOptional
+     */
+    private function processMembershipCardPayment(?User $user = null, Payment $payment) {
         if (is_null($user)) {
             EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
-                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
+                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
                 'message' =>
-                    $payment->fname .
+                    $payment->payer_fname .
                     ' ' .
-                    $payment->lname .
+                    $payment->payer_lname .
                     ' with email ' .
                     $payment->payer_email .
                     ' purchased a membership card but we ' .
@@ -282,6 +336,13 @@ class PaymentProcessor {
         $payment->save();
     }
 
+    /**
+     * resolveLegacyPayments.
+     *
+     * @param \app\domain\Payment $payment
+     *
+     * @return \app\domain\Payment
+     */
     private function resolveLegacyPayments(Payment $payment) {
         /*
          * select distinct item_name, item_number, rate_amount from payments where date > '2016-05-01';

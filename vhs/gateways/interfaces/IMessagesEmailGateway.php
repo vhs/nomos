@@ -3,7 +3,26 @@
 namespace vhs\gateways\interfaces;
 
 interface IMessagesEmailGateway extends IGateway {
-    public function sendRichEmail(string|array $to, string $subject, $textContent, $htmlContent): bool;
+    /**
+     * sendRichEmail.
+     *
+     * @param string|string[] $to
+     * @param string          $subject
+     * @param string          $textContent
+     * @param string          $htmlContent
+     *
+     * @return bool
+     */
+    public function sendRichEmail(string|array $to, string $subject, string $textContent, string $htmlContent): bool;
 
-    public function sendSimpleEmail(string|array $to, string $subject, $textContent): bool;
+    /**
+     * sendSimpleEmail.
+     *
+     * @param string|string[] $to
+     * @param string          $subject
+     * @param string          $textContent
+     *
+     * @return bool
+     */
+    public function sendSimpleEmail(string|array $to, string $subject, string $textContent): bool;
 }

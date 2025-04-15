@@ -11,9 +11,28 @@ namespace vhs\domain;
 
 /** @typescript */
 class Notifier {
+    /**
+     * __staticListeners.
+     *
+     * @var mixed[]
+     */
     private static $__staticListeners;
+
+    /**
+     * __listeners.
+     *
+     * @var mixed[]
+     */
     private $__listeners;
 
+    /**
+     * staticOn.
+     *
+     * @param string   $event
+     * @param callable $listener
+     *
+     * @return void
+     */
     protected static function staticOn($event, callable $listener) {
         self::__ensureStaticListeners($event);
 
@@ -22,12 +41,28 @@ class Notifier {
         array_push(self::$__staticListeners[$class][$event], $listener);
     }
 
+    /**
+     * on.
+     *
+     * @param string   $event
+     * @param callable $listener
+     *
+     * @return void
+     */
     protected function on($event, callable $listener) {
         $this->__ensureListeners($event);
 
         array_push($this->__listeners[$event], $listener);
     }
 
+    /**
+     * raise.
+     *
+     * @param mixed $event
+     * @param mixed ...$args
+     *
+     * @return void
+     */
     protected function raise($event, ...$args) {
         $this->__ensureListeners($event);
 
@@ -36,6 +71,14 @@ class Notifier {
         }
     }
 
+    /**
+     * staticRaise.
+     *
+     * @param mixed $event
+     * @param mixed ...$args
+     *
+     * @return void
+     */
     protected function staticRaise($event, ...$args) {
         self::__ensureStaticListeners($event);
 
@@ -46,6 +89,13 @@ class Notifier {
         }
     }
 
+    /**
+     * __ensureListeners.
+     *
+     * @param mixed $event
+     *
+     * @return void
+     */
     private function __ensureListeners($event) {
         if (is_null($this->__listeners)) {
             $this->__listeners = [];
@@ -56,6 +106,13 @@ class Notifier {
         }
     }
 
+    /**
+     * __ensureStaticListeners.
+     *
+     * @param mixed $event
+     *
+     * @return void
+     */
     private static function __ensureStaticListeners($event) {
         if (is_null(self::$__staticListeners)) {
             self::$__staticListeners = [];

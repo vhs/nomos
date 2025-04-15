@@ -14,13 +14,53 @@ use vhs\loggers\SilentLogger;
 
 /** @typescript */
 class Migrator {
+    /**
+     * database.
+     *
+     * @var string
+     */
     private $database;
+
+    /**
+     * logger.
+     *
+     * @var \vhs\Logger
+     */
     private $logger;
+
+    /**
+     * password.
+     *
+     * @var string
+     */
     private $password;
+
+    /**
+     * server.
+     *
+     * @var string
+     */
     private $server;
+
+    /**
+     * user.
+     *
+     * @var string
+     */
     private $user;
 
-    public function __construct($server, $user, $password, $database, Logger $logger = null) {
+    /**
+     * __construct.
+     *
+     * @param string      $server
+     * @param string      $user
+     * @param string      $password
+     * @param string      $database
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
+    public function __construct($server, $user, $password, $database, ?Logger $logger = null) {
         $this->server = $server;
         $this->user = $user;
         $this->password = $password;
@@ -33,6 +73,14 @@ class Migrator {
         }
     }
 
+    /**
+     * migrate.
+     *
+     * @param string $toVersion
+     * @param string $migrationsPath
+     *
+     * @return bool
+     */
     public function migrate($toVersion = null, $migrationsPath = '.') {
         $this->logger->log('Starting migration');
 

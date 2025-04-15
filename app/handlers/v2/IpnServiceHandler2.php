@@ -4,6 +4,7 @@ namespace app\handlers\v2;
 
 use app\contracts\v2\IIpnService2;
 use app\domain\Ipn;
+use vhs\domain\exceptions\DomainException;
 use vhs\services\Service;
 
 /** @typescript */
@@ -12,8 +13,6 @@ class IpnServiceHandler2 extends Service implements IIpnService2 {
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -26,18 +25,23 @@ class IpnServiceHandler2 extends Service implements IIpnService2 {
      *
      * @param int $ipnId
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
      *
-     * @return \app\domain\Ipn
+     * @return \app\domain\Ipn|null
      */
-    public function Get($ipnId): Ipn {
-        return Ipn::find($ipnId);
+    public function Get($ipnId): Ipn|null {
+        /** @var \app\domain\Ipn|null */
+        $result = Ipn::find($ipnId);
+
+        if (is_null($result)) {
+            throw new DomainException('Transaction not found!');
+        }
+
+        return $result;
     }
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Ipn[]
      */
@@ -54,11 +58,10 @@ class IpnServiceHandler2 extends Service implements IIpnService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Ipn[]
      */
     public function ListRecords($page, $size, $columns, $order, $filters): array {
+        /** @var \app\domain\Ipn[] */
         return Ipn::page($page, $size, $columns, $order, $filters);
     }
 }

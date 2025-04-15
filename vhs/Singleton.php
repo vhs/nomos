@@ -11,8 +11,18 @@ namespace vhs;
 
 /** @typescript */
 abstract class Singleton {
+    /**
+     * protected skeleton constructor.
+     *
+     * @return void
+     */
     protected function __construct() {}
 
+    /**
+     * get instance.
+     *
+     * @return \vhs\Singleton
+     */
     final public static function getInstance() {
         static $aoInstance = [];
 
@@ -25,5 +35,10 @@ abstract class Singleton {
         return $aoInstance[$class];
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     private function __clone() {}
 }

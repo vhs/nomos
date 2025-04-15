@@ -26,21 +26,59 @@ use vhs\loggers\SilentLogger;
 
 /** @typescript */
 class InMemoryEngine extends Engine {
+    /**
+     * datastore.
+     *
+     * @var array<mixed,mixed>
+     */
     private $datastore = [];
+
+    /**
+     * generator.
+     *
+     * @var mixed
+     */
     private $generator;
+
+    /**
+     * keyIncrementors.
+     *
+     * @var array<string,int>
+     */
     private $keyIncrementors = [];
+
+    /**
+     * logger.
+     *
+     * @var \vhs\Logger
+     */
     private $logger;
 
+    /**
+     * __construct.
+     *
+     * @return void
+     */
     public function __construct() {
         $this->logger = new SilentLogger();
 
         $this->generator = new InMemoryGenerator();
     }
 
+    /**
+     * connect.
+     *
+     * @return bool
+     */
     public function connect() {
         return true; //if we can't "connect" to memory but got this far, I don't know whatever
     }
 
+    /**
+     * disconnect.
+     *
+     * @return bool
+     */
     public function disconnect() {
         $this->keyIncrementors = [];
         $this->datastore = [];
@@ -49,14 +87,33 @@ class InMemoryEngine extends Engine {
         return true; // ha
     }
 
+    /**
+     * DateFormat.
+     *
+     * @return string
+     */
     public static function DateFormat() {
         return 'Y-m-d H:i:s';
     }
 
+    /**
+     * arbitrary.
+     *
+     * @param mixed $command
+     *
+     * @return bool
+     */
     public function arbitrary($command) {
         return false;
     }
 
+    /**
+     * count.
+     *
+     * @param \vhs\database\queries\QueryCount $query
+     *
+     * @return bool|int
+     */
     public function count(QueryCount $query) {
         $this->logger->log('count ' . $query->table->name . ' ' . $query->where);
         if (!array_key_exists($query->table->name, $this->datastore)) {
@@ -69,9 +126,10 @@ class InMemoryEngine extends Engine {
                 return true;
             };
 
-        if (isset($orderBy) || isset($limit)) {
-            throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
-        }
+        // TODO currently not in use, always false: remove or implement
+        // if (isset($orderBy) || isset($limit)) {
+        //     throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
+        // }
 
         $count = 0;
 
@@ -84,6 +142,13 @@ class InMemoryEngine extends Engine {
         return $count;
     }
 
+    /**
+     * delete.
+     *
+     * @param \vhs\database\queries\QueryDelete $query
+     *
+     * @return bool
+     */
     public function delete(QueryDelete $query) {
         $this->logger->log('delete ' . $query->table->name . ' ' . $query->where);
         if (!array_key_exists($query->table->name, $this->datastore)) {
@@ -105,12 +170,26 @@ class InMemoryEngine extends Engine {
         return true;
     }
 
+    /**
+     * exists.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @return bool
+     */
     public function exists(QuerySelect $query) {
         $this->logger->log('exists: ');
 
         return $this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0;
     }
 
+    /**
+     * insert.
+     *
+     * @param \vhs\database\queries\QueryInsert $query
+     *
+     * @return mixed
+     */
     public function insert(QueryInsert $query) {
         $this->logger->log('insert ' . $query->table->name . ' ' . var_export($query->values, true));
         if (!array_key_exists($query->table->name, $this->datastore)) {
@@ -139,6 +218,13 @@ class InMemoryEngine extends Engine {
         return $pks;
     }
 
+    /**
+     * scalar.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @return mixed
+     */
     public function scalar(QuerySelect $query) {
         $this->logger->log('scalar: ');
 
@@ -151,6 +237,13 @@ class InMemoryEngine extends Engine {
         }
     }
 
+    /**
+     * select.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @return mixed
+     */
     public function select(QuerySelect $query) {
         $this->logger->log('select ' . $query->table->name . ' ' . implode(', ', $query->columns->names()) . ' ' . $query->where);
 
@@ -164,9 +257,10 @@ class InMemoryEngine extends Engine {
                 return true;
             };
 
-        if (isset($orderBy) || isset($limit)) {
-            throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
-        }
+        // TODO currently not in use, always false: remove or implement
+        // if (isset($orderBy) || isset($limit)) {
+        //     throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
+        // }
 
         $results = [];
 
@@ -187,10 +281,24 @@ class InMemoryEngine extends Engine {
         return $results;
     }
 
+    /**
+     * setLogger.
+     *
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
     public function setLogger(Logger $logger) {
         $this->logger = $logger;
     }
 
+    /**
+     * update.
+     *
+     * @param \vhs\database\queries\QueryUpdate $query
+     *
+     * @return bool
+     */
     public function update(QueryUpdate $query) {
         $this->logger->log('update ' . $query->table->name . ' ' . var_export($query->values, true) . ' ' . $query->where);
         if (!array_key_exists($query->table->name, $this->datastore)) {

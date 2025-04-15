@@ -17,29 +17,42 @@ use vhs\database\types\Type;
 
 /** @typescript */
 class Table extends Element {
-    /** @var int */
+    /**
+     * cloneIndex.
+     *
+     * @var int
+     */
     private static $cloneIndex = 0;
-    /** @var string|null */
+
+    /**
+     * alias.
+     *
+     * @var string|null
+     */
     public $alias;
 
     /** @var string */
     public $aliasPrefix;
-    /** @var IAccess[] */
+
+    /** @var \vhs\database\access\IAccess[] */
     public $checks;
-    /** @var Columns */
+
+    /** @var \vhs\database\Columns */
     public $columns;
-    /** @var Constraint[] */
+
+    /** @var \vhs\database\constraints\Constraint[] */
     public $constraints;
-    /** @var Join[] */
+
+    /** @var \vhs\database\joins\Join[] */
     public $joins;
 
     /** @var string */
     public $name;
 
     /**
-     * @param string            $name
-     * @param string            $alias
-     * @param Join|joins\Join[] $join
+     * @param string                   $name
+     * @param string|null              $alias
+     * @param \vhs\database\joins\Join ...$join
      */
     public function __construct($name, $alias = null, Join ...$join) {
         $this->name = $name;
@@ -63,13 +76,22 @@ class Table extends Element {
         $this->columns = new Columns();
     }
 
+    /**
+     * add a column.
+     *
+     * @param string                   $name
+     * @param \vhs\database\types\Type $type
+     * @param bool                     $serializable
+     *
+     * @return \vhs\database\Column|null
+     */
     public function addColumn($name, Type $type, $serializable = true) {
         return $this->columns->add(new Column($this, $name, $type, $serializable));
     }
 
     /**
-     * @param IGenerator $generator
-     * @param mixed|null $value
+     * @param \vhs\database\IGenerator $generator
+     * @param mixed|null               $value
      *
      * @return mixed
      */
@@ -101,10 +123,24 @@ class Table extends Element {
         return $pks;
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @param \vhs\database\access\IAccess ...$checks
+     *
+     * @return void
+     */
     public function setAccess(IAccess ...$checks) {
         $this->checks = $checks;
     }
 
+    /**
+     * set constraints.
+     *
+     * @param \vhs\database\constraints\Constraint ...$constraints
+     *
+     * @return void
+     */
     public function setConstraints(Constraint ...$constraints) {
         $this->constraints = $constraints;
     }

@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/../vhs/vhs.php';
 
 define('ROOT_NAMESPACE_PATH', dirname(dirname(__FILE__)));
 
+// @phpstan-ignore ternary.alwaysFalse
 $sqlLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/sql.log') : new \vhs\loggers\SilentLogger();
 
 \vhs\database\Database::setLogger($sqlLog);
@@ -26,13 +27,14 @@ $mySqlEngine->setLogger($sqlLog);
 
 \vhs\database\Database::setEngine($mySqlEngine);
 
+// @phpstan-ignore ternary.alwaysFalse
 $rabbitLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/rabbit.log') : new \vhs\loggers\SilentLogger();
 
 \vhs\messaging\MessageQueue::setLogger($rabbitLog);
 \vhs\messaging\MessageQueue::setRethrow(true);
 
 $rabbitMQ = new \vhs\messaging\engines\RabbitMQ\RabbitMQEngine(
-    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VHOST)
+    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(RABBITMQ_HOST, (int) RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VHOST)
 );
 
 $rabbitMQ->setLogger($rabbitLog);
@@ -41,6 +43,7 @@ $rabbitMQ->setLogger($rabbitLog);
 
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', ROOT_NAMESPACE_PATH));
 
+// @phpstan-ignore ternary.alwaysFalse
 $serviceLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/service.log') : new \vhs\loggers\SilentLogger();
 
 \vhs\services\ServiceRegistry::register($serviceLog, 'native', 'app\\endpoints\\native', ROOT_NAMESPACE_PATH);

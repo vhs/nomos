@@ -16,7 +16,7 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -25,10 +25,8 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
-     *
-     * @throws \Exception
+     * @param int   $userid
+     * @param mixed $filters
      *
      * @return mixed
      * @return mixed
@@ -38,7 +36,7 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param mixed $key
      *
      * @return mixed
      */
@@ -47,10 +45,8 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $email
-     * @param $key
-     *
-     * @throws \Exception
+     * @param string $email
+     * @param string $key
      *
      * @return mixed
      */
@@ -59,11 +55,11 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -72,14 +68,12 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     *
-     * @throws \Exception
+     * @param int   $userid
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -88,20 +82,18 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $notes
+     * @param string $key
+     * @param string $notes
      *
-     * @throws \Exception
-     *
-     * @return GenuineCard
+     * @return \app\domain\GenuineCard
      */
     public function RegisterGenuineCard($key, $notes);
 
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $active
+     * @param string $key
+     * @param bool   $active
      *
      * @return mixed
      */
@@ -110,7 +102,7 @@ interface IMemberCardService1 extends IContract {
     /**
      * @permission authenticated
      *
-     * @param $key
+     * @param string $key
      *
      * @return bool
      */

@@ -13,7 +13,7 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -22,12 +22,12 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $title
-     * @param $description
-     * @param $price
-     * @param $code
-     * @param $days
-     * @param $period
+     * @param string $title
+     * @param string $description
+     * @param float  $price
+     * @param string $code
+     * @param int    $days
+     * @param mixed  $period
      *
      * @return mixed
      */
@@ -36,7 +36,7 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
+     * @param int $membershipId
      *
      * @return mixed
      */
@@ -52,11 +52,11 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -65,21 +65,23 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $privileges
+     * @param int   $membershipId
+     * @param mixed $privileges
+     *
+     * @return mixed
      */
     public function PutPrivileges($membershipId, $privileges);
 
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $title
-     * @param $description
-     * @param $price
-     * @param $code
-     * @param $days
-     * @param $period
+     * @param int    $membershipId
+     * @param string $title
+     * @param string $description
+     * @param float  $price
+     * @param string $code
+     * @param int    $days
+     * @param mixed  $period
      *
      * @return mixed
      */
@@ -88,8 +90,8 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $active
+     * @param int  $membershipId
+     * @param bool $active
      *
      * @return mixed
      */
@@ -98,8 +100,8 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $private
+     * @param int  $membershipId
+     * @param bool $private
      *
      * @return mixed
      */
@@ -108,8 +110,8 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $recurring
+     * @param int  $membershipId
+     * @param bool $recurring
      *
      * @return mixed
      */
@@ -118,8 +120,8 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $trial
+     * @param int  $membershipId
+     * @param bool $trial
      *
      * @return mixed
      */

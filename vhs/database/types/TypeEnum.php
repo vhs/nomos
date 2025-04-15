@@ -13,25 +13,25 @@ use vhs\database\exceptions\InvalidSchemaException;
 
 /** @typescript */
 class TypeEnum extends Type {
-    /** @var \string[] */
-    public $values;
+    /** @var string[] */
+    public array $values;
 
     /**
-     * @param \string[] ...$values
+     * @param string ...$values
      *
-     * @throws InvalidSchemaException
+     * @throws \vhs\database\exceptions\InvalidSchemaException
      */
-    public function __construct(...$values) {
-        if (is_null($values) || count($values) <= 0) {
+    public function __construct(string ...$values) {
+        if (gettype($values) !== 'array' || empty($values)) {
             throw new InvalidSchemaException('Enums must have at least one value');
         }
 
         parent::__construct(false, $values[0]); //default value for Enums will also be the first value
 
-        $this->values = $values;
+        $this->values = array_values($values);
     }
 
-    public function covertType(ITypeConverter $converter, $value = null) {
+    public function convertType(ITypeConverter $converter, $value = null) {
         return $converter->convertEnum($this, $value);
     }
 

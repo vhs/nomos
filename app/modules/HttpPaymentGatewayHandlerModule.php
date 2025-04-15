@@ -29,6 +29,14 @@ class HttpPaymentGatewayHandlerModule extends HttpRequestHandlerModule {
         return $aoInstance[$class];
     }
 
+    /**
+     * register.
+     *
+     * @param \app\gateways\IPaymentGateway $gateway
+     * @param string|null                   $url
+     *
+     * @return void
+     */
     public static function register(IPaymentGateway $gateway, $url = null) {
         $path = '/services/gateways/' . $gateway->Name();
         if (!is_null($url)) {

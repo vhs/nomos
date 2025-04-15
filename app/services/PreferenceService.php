@@ -20,9 +20,9 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
-     * @return array
+     * @return int
      */
     public function CountSystemPreferences($filters) {
         return SystemPreference::count($filters);
@@ -36,6 +36,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function DeleteSystemPreference($key) {
+        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key);
 
         if (is_null($prefs) || count($prefs) <= 0) {
@@ -64,21 +65,23 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function GetSystemPreference($id) {
+        /** @var \app\domain\SystemPreference */
         return SystemPreference::find($id);
     }
 
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
-     * @return array
+     * @return mixed[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters) {
+        /** @var \app\domain\SystemPreference[] */
         return SystemPreference::page($page, $size, $columns, $order, $filters);
     }
 
@@ -93,6 +96,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function PutSystemPreference($key, $value, $enabled, $notes) {
+        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
@@ -122,6 +126,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function PutSystemPreferencePrivileges($id, $privileges) {
+        /** @var \app\domain\SystemPreference */
         $pref = SystemPreference::find($id);
 
         if (is_null($pref)) {
@@ -155,6 +160,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function SystemPreference($key) {
+        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key, function ($privileges) {
             $codes = [];
             foreach ($privileges->all() as $priv) {
@@ -183,6 +189,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes) {
+        /** @var \app\domain\SystemPreference */
         $pref = SystemPreference::find($id);
 
         if (is_null($pref)) {
@@ -208,6 +215,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
      * @return mixed
      */
     public function UpdateSystemPreferenceEnabled($key, $enabled) {
+        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;

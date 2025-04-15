@@ -19,8 +19,6 @@ interface IPrivilegeService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountPrivileges($filters): int;
@@ -34,8 +32,6 @@ interface IPrivilegeService2 extends IContract {
      * @param string $icon
      * @param bool   $enabled
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege
      */
     public function CreatePrivilege($name, $code, $description, $icon, $enabled): Privilege;
@@ -45,8 +41,6 @@ interface IPrivilegeService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeletePrivilege($id): void;
@@ -54,16 +48,12 @@ interface IPrivilegeService2 extends IContract {
     /**
      * @permission administrator|user|grants
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege[]
      */
     public function GetAllPrivileges(): array;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return string[]
      */
@@ -74,8 +64,6 @@ interface IPrivilegeService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege
      */
     public function GetPrivilege($id): Privilege;
@@ -84,8 +72,6 @@ interface IPrivilegeService2 extends IContract {
      * @permission administrator|user|grants
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\Privilege[]
      */
@@ -100,8 +86,6 @@ interface IPrivilegeService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege[]
      */
     public function ListPrivileges($page, $size, $columns, $order, $filters): array;
@@ -111,8 +95,6 @@ interface IPrivilegeService2 extends IContract {
      *
      * @param int    $id
      * @param string $description
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -124,8 +106,6 @@ interface IPrivilegeService2 extends IContract {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeEnabled($id, $enabled): bool;
@@ -136,8 +116,6 @@ interface IPrivilegeService2 extends IContract {
      * @param int    $id
      * @param string $icon
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeIcon($id, $icon): bool;
@@ -147,8 +125,6 @@ interface IPrivilegeService2 extends IContract {
      *
      * @param int    $id
      * @param string $name
-     *
-     * @throws string
      *
      * @return bool
      */

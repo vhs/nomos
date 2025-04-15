@@ -18,11 +18,13 @@ use app\exceptions\MemberCardException;
 use vhs\database\Columns;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\exceptions\UnauthorizedException;
+use vhs\services\Service;
 
 /** @typescript */
-class MemberCardService implements IMemberCardService1 {
+class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
@@ -65,7 +67,8 @@ class MemberCardService implements IMemberCardService1 {
      * @param $email
      * @param $key
      *
-     * @throws \Exception
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \app\exceptions\MemberCardException
      *
      * @return mixed
      */
@@ -143,7 +146,7 @@ class MemberCardService implements IMemberCardService1 {
      * @param $order
      * @param $filters
      *
-     * @throws \Exception
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
@@ -151,10 +154,7 @@ class MemberCardService implements IMemberCardService1 {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -177,7 +177,7 @@ class MemberCardService implements IMemberCardService1 {
      * @param $key
      * @param $notes
      *
-     * @throws \Exception
+     * @throws \app\exceptions\MemberCardException
      *
      * @return GenuineCard
      */
@@ -204,7 +204,7 @@ class MemberCardService implements IMemberCardService1 {
      * @param $key
      * @param $active
      *
-     * @throws \Exception
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return mixed
      */
@@ -235,14 +235,21 @@ class MemberCardService implements IMemberCardService1 {
         return !is_null($keys) && count($keys) == 1;
     }
 
+    /**
+     * addUserIDToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function addUserIDToFilters($userid, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');

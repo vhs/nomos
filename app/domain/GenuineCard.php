@@ -14,14 +14,26 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $key
+ * @property string $created
+ * @property string $issued
+ * @property bool   $active
+ * @property int    $paymentid
+ * @property int    $userid
+ * @property string $owneremail
+ * @property string $notes
+ *
+ * @typescript
+ */
 class GenuineCard extends Domain {
     public static function Define() {
         GenuineCard::Schema(GenuineCardSchema::Type());
     }
 
     /**
-     * @param $key
+     * @param string $key
      *
      * @return GenuineCard[]
      */
@@ -29,6 +41,13 @@ class GenuineCard extends Domain {
         return GenuineCard::where(Where::Equal(GenuineCardSchema::Columns()->key, $key));
     }
 
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }
