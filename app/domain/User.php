@@ -9,6 +9,7 @@
 
 namespace app\domain;
 
+use app\dto\UserActiveEnum;
 use app\schema\UserPrivilegeSchema;
 use app\schema\UserSchema;
 use DateTime;
@@ -19,8 +20,46 @@ use vhs\domain\Domain;
 use vhs\domain\validations\ValidationFailure;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ *  User domain implementation.
+ *
+ * @method static \app\domain\User|null find(int $primaryKeyValues)
+ *
+ * @property int              $id
+ * @property string           $username
+ * @property string           $password
+ * @property int              $membership_id
+ * @property \DateTime|string $mem_expire
+ * @property bool             $trial_used
+ * @property string           $email
+ * @property string           $fname
+ * @property string           $lname
+ * @property string|null      $token
+ * @property string           $cookie_id
+ * @property bool             $newsletter
+ * @property bool             $cash
+ * @property int              $userlevel
+ * @property string           $notes
+ * @property \DateTime|string $created
+ * @property \DateTime|string $lastlogin
+ * @property string           $lastip
+ * @property string           $avatar
+ * @property string           $active
+ * @property string           $paypal_id
+ * @property string           $payment_email
+ * @property string           $stripe_id
+ * @property string           $stripe_email
+ * @property bool             $valid
+ * @property object           $membership
+ * @property object           $privileges
+ * @property object           $keys
+ *
+ * @typescript
+ */
 class User extends Domain {
+    /**
+     * @return void
+     */
     public static function Define() {
         User::Schema(UserSchema::Type());
         User::Relationship('keys', Key::Type());
@@ -51,31 +90,38 @@ class User extends Domain {
     }
 
     /**
-     * @param $email
+     * @param string $email
      *
-     * @return User[]
+     * @return User[]|null
      */
     public static function findByEmail($email) {
         return User::where(Where::Equal(UserSchema::Columns()->email, $email));
     }
 
     /**
-     * @param $email
+     * @param string $email
      *
-     * @return User[]
+     * @return User[]|null
      */
     public static function findByPaymentEmail($email) {
         return User::where(Where::Equal(UserSchema::Columns()->payment_email, $email));
     }
 
+    /**
+     * findByToken.
+     *
+     * @param mixed $token
+     *
+     * @return User[]|null
+     */
     public static function findByToken($token) {
         return User::where(Where::Equal(UserSchema::Columns()->token, $token));
     }
 
     /**
-     * @param $username
+     * @param string $username
      *
-     * @return User[]
+     * @return User[]|null
      */
     public static function findByUsername($username) {
         return User::where(Where::Equal(UserSchema::Columns()->username, $username));
@@ -88,7 +134,7 @@ class User extends Domain {
      */
     public function get_valid() {
         // Check if account is active
-        if ($this->active != 'y') {
+        if ($this->active != UserActiveEnum::ACTIVE->value) {
             return false;
         }
 
@@ -104,9 +150,16 @@ class User extends Domain {
         return !$this->hasExpired();
     }
 
+    /**
+     * getGrantCodes.
+     *
+     * @return array<string>
+     */
     public function getGrantCodes() {
         $grants = [];
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($this->privileges->all() as $priv) {
             if (strpos($priv->code, 'grant:') === 0) {
                 array_push($grants, substr($priv->code, 6));
@@ -127,7 +180,7 @@ class User extends Domain {
         }
 
         // Check if account is active
-        if ($this->active != 'y') {
+        if ($this->active != UserActiveEnum::ACTIVE->value) {
             return 'Account is not active';
         }
 
@@ -139,9 +192,16 @@ class User extends Domain {
         return 'Unknown error';
     }
 
+    /**
+     * getPrivilegeCodes.
+     *
+     * @return string[]
+     */
     public function getPrivilegeCodes() {
         $codes = [];
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($this->privileges->all() as $priv) {
             array_push($codes, $priv->code);
         }
@@ -162,6 +222,14 @@ class User extends Domain {
         return new DateTime($this->mem_expire) < new DateTime();
     }
 
+    /**
+     * validateEmail.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
+    // @phpstan-ignore method.unused
     private function validateEmail(ValidationResults &$results) {
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $results->add(new ValidationFailure('Invalid e-mail address'));

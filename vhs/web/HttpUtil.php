@@ -12,7 +12,7 @@ namespace vhs\web;
 /** @typescript */
 class HttpUtil {
     /**
-     * @returns HttpRequest
+     * @return \vhs\web\HttpRequest
      */
     public static function getCurrentRequest() {
         $req = new HttpRequest();
@@ -24,16 +24,32 @@ class HttpUtil {
         return $req;
     }
 
+    /**
+     * getRequestMethod.
+     *
+     * @return string
+     */
     public static function getRequestMethod() {
         return $_SERVER['REQUEST_METHOD'];
     }
 
+    /**
+     * getRequestUrl.
+     *
+     * @return string
+     */
     public static function getRequestUrl() {
         return $_SERVER['SCRIPT_NAME'];
     }
 
+    /**
+     * parseRequestHeaders.
+     *
+     * @return array<string,string>
+     */
     public static function parseRequestHeaders() {
         $headers = [];
+
         foreach ($_SERVER as $key => $value) {
             if (substr($key, 0, 5) != 'HTTP_') {
                 continue;

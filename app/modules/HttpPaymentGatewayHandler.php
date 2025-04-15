@@ -22,6 +22,13 @@ class HttpPaymentGatewayHandler extends HttpRequestHandler {
         $this->gateway = $gateway;
     }
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         $server->clear();
         $server->code(200);

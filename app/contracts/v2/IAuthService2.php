@@ -18,6 +18,7 @@ use app\dto\TrimmedUser;
 use app\security\UserPrincipal;
 use app\utils\AuthCheckResult;
 use vhs\security\AnonPrincipal;
+use vhs\security\IPrincipal;
 use vhs\services\IContract;
 
 /** @typescript */
@@ -29,8 +30,6 @@ interface IAuthService2 extends IContract {
      *
      * @param string $pin
      *
-     * @throws string
-     *
      * @return \app\utils\AuthCheckResult
      */
     public function CheckPin($pin): AuthCheckResult;
@@ -39,8 +38,6 @@ interface IAuthService2 extends IContract {
      * @permission administrator|rfid-auth
      *
      * @param string $rfid
-     *
-     * @throws string
      *
      * @return \app\utils\AuthCheckResult
      */
@@ -54,8 +51,6 @@ interface IAuthService2 extends IContract {
      * @param string $service
      * @param string $id
      *
-     * @throws string
-     *
      * @return \app\utils\AuthCheckResult
      */
     public function CheckService($service, $id): AuthCheckResult;
@@ -64,8 +59,6 @@ interface IAuthService2 extends IContract {
      * @permission anonymous
      *
      * @param string $username
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -76,8 +69,6 @@ interface IAuthService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountAccessLog($filters): int;
@@ -86,8 +77,6 @@ interface IAuthService2 extends IContract {
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -99,8 +88,6 @@ interface IAuthService2 extends IContract {
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUserAccessLog($userid, $filters): int;
@@ -111,8 +98,6 @@ interface IAuthService2 extends IContract {
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUserClients($userid, $filters): int;
@@ -120,18 +105,14 @@ interface IAuthService2 extends IContract {
     /**
      * @permission anonymous
      *
-     * @throws string
-     *
-     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal
+     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal|\vhs\security\IPrincipal
      */
-    public function CurrentUser(): UserPrincipal|AnonPrincipal;
+    public function CurrentUser(): IPrincipal|UserPrincipal|AnonPrincipal;
 
     /**
      * @permission administrator|user
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return void
      */
@@ -143,8 +124,6 @@ interface IAuthService2 extends IContract {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function EnableClient($id, $enabled): bool;
@@ -154,8 +133,6 @@ interface IAuthService2 extends IContract {
      *
      * @param string $bearerToken
      *
-     * @throws string
-     *
      * @return \app\domain\AccessToken
      */
     public function GetAccessToken($bearerToken): AccessToken;
@@ -163,22 +140,18 @@ interface IAuthService2 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param string $clientId
+     * @param int    $clientId
      * @param string $clientSecret
      *
-     * @throws string
-     *
-     * @return \app\domain\AppClient|null
+     * @return \app\dto\TrimmedAppClient|null
      */
-    public function GetClient($clientId, $clientSecret): AppClient|null;
+    public function GetClient($clientId, $clientSecret): TrimmedAppClient|null;
 
     /**
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string $clientId
-     *
-     * @throws string
+     * @param int $clientId
      *
      * @return \app\dto\TrimmedAppClient|null
      */
@@ -189,8 +162,6 @@ interface IAuthService2 extends IContract {
      *
      * @param string $refreshToken
      *
-     * @throws string
-     *
      * @return \app\domain\RefreshToken
      */
     public function GetRefreshToken($refreshToken): RefreshToken;
@@ -200,8 +171,6 @@ interface IAuthService2 extends IContract {
      *
      * @param string $username
      * @param string $password
-     *
-     * @throws string
      *
      * @return \app\dto\TrimmedUser|null
      */
@@ -216,8 +185,6 @@ interface IAuthService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\AccessLog[]
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters): array;
@@ -230,8 +197,6 @@ interface IAuthService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\AppClient[]
      */
@@ -247,9 +212,6 @@ interface IAuthService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     * @throws \Exception
-     *
      * @return \app\domain\AccessLog[]
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters): array;
@@ -264,9 +226,6 @@ interface IAuthService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     * @throws \Exception
-     *
      * @return \app\domain\AppClient[]
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters): array;
@@ -277,16 +236,12 @@ interface IAuthService2 extends IContract {
      * @param string $username
      * @param string $password
      *
-     * @throws string
-     *
      * @return string
      */
     public function Login($username, $password): string;
 
     /**
      * @permission user
-     *
-     * @throws string
      *
      * @return void
      */
@@ -296,8 +251,6 @@ interface IAuthService2 extends IContract {
      * @permission anonymous
      *
      * @param string $pin
-     *
-     * @throws string
      *
      * @return string
      */
@@ -311,8 +264,6 @@ interface IAuthService2 extends IContract {
      * @param string $url
      * @param string $redirecturi
      *
-     * @throws string
-     *
      * @return \app\domain\AppClient
      */
     public function RegisterClient($name, $description, $url, $redirecturi): AppClient;
@@ -322,11 +273,9 @@ interface IAuthService2 extends IContract {
      *
      * @param string $refreshToken
      *
-     * @throws string
-     *
-     * @return bool
+     * @return void
      */
-    public function RevokeRefreshToken($refreshToken): bool;
+    public function RevokeRefreshToken($refreshToken): void;
 
     /**
      * @permission oauth-provider
@@ -335,8 +284,6 @@ interface IAuthService2 extends IContract {
      * @param string $accessToken
      * @param int    $clientId
      * @param string $expires
-     *
-     * @throws string
      *
      * @return \app\domain\User|false
      */
@@ -350,9 +297,7 @@ interface IAuthService2 extends IContract {
      * @param int    $clientId
      * @param string $expires
      *
-     * @throws string
-     *
-     * @return \app\dto\RefreshToken|false|null
+     * @return \app\dto\TrimmedUser
      */
-    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): array|bool|null;
+    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): TrimmedUser;
 }

@@ -12,6 +12,7 @@ namespace app\handlers\v2;
 use app\contracts\v2\IWebHookService2;
 use app\domain\Privilege;
 use app\domain\WebHook;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -24,8 +25,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountHooks($filters): int {
@@ -37,8 +36,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -60,8 +57,8 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @param string $method
      * @param int    $eventid
      *
-     * @throws string
-     * @throws UnauthorizedException
+
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\WebHook
      */
@@ -73,7 +70,7 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
             array_push($codes, $priv->code);
         }
 
-        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions($codes))) {
+        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions(...$codes))) {
             throw new UnauthorizedException('Insufficient privileges to subscribe to event');
         }
 
@@ -99,8 +96,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteHook($id): void {
@@ -115,8 +110,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function EnableHook($id, $enabled): bool {
@@ -130,8 +123,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * @permission webhook|administrator
      *
-     * @throws string
-     *
      * @return \app\domain\WebHook[]
      */
     public function GetAllHooks(): array {
@@ -142,8 +133,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @permission user|administrator
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return \app\domain\WebHook|null
      */
@@ -156,8 +145,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param string $domain
      * @param string $event
-     *
-     * @throws string
      *
      * @return \app\domain\WebHook[]
      */
@@ -174,8 +161,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\WebHook[]
      */
     public function ListHooks($page, $size, $columns, $order, $filters): array {
@@ -191,9 +176,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
-     * @throws \Exception
      *
      * @return \app\domain\WebHook[]
      */
@@ -214,8 +196,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param int             $id
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -256,8 +236,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @param string $method
      * @param int    $eventid
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateHook($id, $name, $description, $enabled, $url, $translation, $headers, $method, $eventid): bool {
@@ -277,15 +255,22 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
         return $hook->save();
     }
 
+    /**
+     * addUserIDToFilters.
+     *
+     * @param mixed $userid
+     * @param mixed $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return \vhs\domain\Filter
+     */
     private function addUserIDToFilters($userid, $filters): Filter {
         $userService2 = new UserServiceHandler2();
 
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -307,15 +292,14 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      *
      * @param mixed $id
      *
-     * @throws string
-     *
      * @return \app\domain\WebHook
      */
     private function getWebHookById($id): WebHook {
+        /** @var \app\domain\WebHook|null $pref */
         $pref = WebHook::find($id);
 
         if (is_null($pref)) {
-            $this->throwNotFound('WebHook');
+            $this->throwNotFound();
         }
 
         return $pref;

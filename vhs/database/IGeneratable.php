@@ -12,8 +12,8 @@ namespace vhs\database;
 /** @typescript */
 interface IGeneratable {
     /**
-     * @param IGenerator $generator
-     * @param mixed      $value
+     * @param \vhs\database\IGenerator $generator
+     * @param mixed                    $value
      *
      * @return mixed
      */

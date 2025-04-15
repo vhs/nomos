@@ -5,12 +5,13 @@ namespace app\utils;
 use app\domain\Privilege;
 
 /** @typescript */
-class AuthCheckResult {
+class AuthCheckResult extends \stdClass {
     /** @var Privilege[] */
     public ?array $privileges = null;
     public ?string $type = null;
     public bool $valid = false;
 
+    /** @var array<string,mixed> */
     private array $store = [];
 
     public function __get(string $name): mixed {

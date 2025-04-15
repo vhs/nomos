@@ -40,6 +40,8 @@ class EventService extends Service implements IEventService1 {
      * @param $description
      * @param $enabled
      *
+     * @throws \app\exceptions\InvalidInputException
+     *
      * @return mixed
      */
     public function CreateEvent($name, $domain, $event, $description, $enabled) {
@@ -153,6 +155,8 @@ class EventService extends Service implements IEventService1 {
      * @permission administrator
      *
      * @param $id
+     *
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return mixed
      */

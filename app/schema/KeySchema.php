@@ -30,6 +30,7 @@ class KeySchema extends Schema {
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
         );
 

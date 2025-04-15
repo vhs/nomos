@@ -39,6 +39,8 @@ class PinService extends Service implements IPinService1 {
      *
      * @param $userid
      *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
      * @return mixed
      */
     public function GeneratePin($userid) {
@@ -61,6 +63,8 @@ class PinService extends Service implements IPinService1 {
 
             $priv = Privilege::findByCode('inherit');
             if (!is_null($priv)) {
+                // TODO fix typing
+                /** @disregard P1006 override */
                 $pin->privileges->add($priv);
             }
         }
@@ -107,6 +111,8 @@ class PinService extends Service implements IPinService1 {
         if (!is_null($privs) && is_array($privs)) {
             foreach ($privs as $priv) {
                 if (CurrentUser::hasAllPermissions($priv->code)) {
+                    // TODO fix typing
+                    /** @disregard P1006 override */
                     $pin->privileges->add($priv);
                 }
             }
@@ -121,6 +127,8 @@ class PinService extends Service implements IPinService1 {
      * @permission administrator|user
      *
      * @param $userid
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
@@ -144,9 +152,12 @@ class PinService extends Service implements IPinService1 {
      * @param $keyid
      * @param $pin
      *
-     * @return mixed
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return void
      */
     public function UpdatePin($keyid, $pin) {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
@@ -167,6 +178,8 @@ class PinService extends Service implements IPinService1 {
      *
      * @param $userid
      * @param $pin
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */

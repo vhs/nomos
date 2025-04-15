@@ -13,5 +13,10 @@ use vhs\web\HttpRequestHandler;
 
 /** @typescript */
 abstract class OAuthHandler extends HttpRequestHandler {
+    /**
+     * getUrl.
+     *
+     * @return string
+     */
     abstract public function getUrl();
 }

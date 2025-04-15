@@ -7,10 +7,10 @@ use app\utils\DTO;
 /**
  * MetricServiceGetCreatedDatesResult Data Transfer Object.
  *
- * @property string                                                                                                      $start_range
- * @property string                                                                                                      $end_range
- * @property array<"0"|"1"|"2"|"3"|"4"|"5"|"6",array<"1"|"10"|"11"|"12"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|"total",number>> $byDowHour
- * @property array<"1"|"10"|"11"|"12"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9",array<"0"|"1"|"2"|"3"|"4"|"5"|"6"|"total",number>> $byMonthDow
+ * @property string                                                                                                   $start_range
+ * @property string                                                                                                   $end_range
+ * @property array<"0"|"1"|"2"|"3"|"4"|"5"|"6",array<"1"|"10"|"11"|"12"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|'total',int>> $byDowHour
+ * @property array<"1"|"10"|"11"|"12"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9",array<"0"|"1"|"2"|"3"|"4"|"5"|"6"|"total",int>> $byMonthDow
  *
  * @typescript
  */

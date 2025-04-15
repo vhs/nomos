@@ -11,9 +11,31 @@ namespace vhs\web;
 
 /** @typescript */
 interface IHttpModule {
+    /**
+     * endResponse.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function endResponse(HttpServer $server);
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function handle(HttpServer $server);
 
+    /**
+     * handleException.
+     *
+     * @param \vhs\web\HttpServer $server
+     * @param \Exception          $ex
+     *
+     * @return void
+     */
     public function handleException(HttpServer $server, \Exception $ex);
 }

@@ -9,7 +9,9 @@ namespace app\handlers\v2;
 
 use app\contracts\v2\IStripeEventService2;
 use app\domain\StripeEvent;
+use vhs\domain\exceptions\DomainException;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class StripeEventServiceHandler2 extends Service implements IStripeEventService2 {
@@ -17,8 +19,6 @@ class StripeEventServiceHandler2 extends Service implements IStripeEventService2
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -31,18 +31,23 @@ class StripeEventServiceHandler2 extends Service implements IStripeEventService2
      *
      * @param int $eventId
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
      *
      * @return \app\domain\StripeEvent
      */
     public function Get($eventId): StripeEvent {
-        return StripeEvent::find($eventId);
+        /** @var StripeEvent|null */
+        $stripeEvent = StripeEvent::find($eventId);
+
+        if (is_null($stripeEvent)) {
+            throw new DomainException(sprintf('StripeEvent with id [%s] not found!', $eventId), HttpStatusCodes::Client_Error_Not_Found->value);
+        }
+
+        return $stripeEvent;
     }
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\StripeEvent[]
      */
@@ -58,8 +63,6 @@ class StripeEventServiceHandler2 extends Service implements IStripeEventService2
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\StripeEvent[]
      */

@@ -16,7 +16,7 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @return mixed
      */
@@ -25,10 +25,10 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $type
-     * @param $value
-     * @param $notes
+     * @param int    $userid
+     * @param mixed  $type
+     * @param mixed  $value
+     * @param string $notes
      *
      * @return mixed
      */
@@ -44,7 +44,7 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @return mixed
      */
@@ -60,8 +60,8 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $types
+     * @param int   $userid
+     * @param mixed $types
      *
      * @return mixed
      */
@@ -70,8 +70,8 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $privileges
+     * @param int   $keyid
+     * @param mixed $privileges
      *
      * @return mixed
      */
@@ -80,9 +80,9 @@ interface IKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $notes
-     * @param $expires
+     * @param int    $keyid
+     * @param string $notes
+     * @param mixed  $expires
      *
      * @return mixed
      */

@@ -15,7 +15,22 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int               $id
+ * @property string            $name
+ * @property string            $description
+ * @property bool              $enabled
+ * @property int               $userid
+ * @property string            $url
+ * @property string            $translation
+ * @property string            $headers
+ * @property string            $method
+ * @property int               $eventid
+ * @property \app\domain\Event $event
+ * @property object            $privileges
+ *
+ *  @typescript
+ */
 class WebHook extends Domain {
     public static function Define() {
         WebHook::Schema(WebHookSchema::Type());
@@ -24,6 +39,14 @@ class WebHook extends Domain {
         WebHook::Relationship('event', Event::Type());
     }
 
+    /**
+     * findByDomainEvent.
+     *
+     * @param string $domain
+     * @param string $event
+     *
+     * @return WebHook[]|null
+     */
     public static function findByDomainEvent($domain, $event) {
         return WebHook::where(
             Where::_And(Where::Equal(WebHook::Schema()->Columns()->domain, $domain), Where::Equal(WebHook::Schema()->Columns()->event, $event))
@@ -31,9 +54,11 @@ class WebHook extends Domain {
     }
 
     /**
-     * @param ValidationResults $results
+     * validate.
      *
-     * @return bool
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
      */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.

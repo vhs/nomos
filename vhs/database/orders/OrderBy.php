@@ -21,19 +21,48 @@ abstract class OrderBy extends Element {
     /** @var OrderBy[] */
     public $orderBy = [];
 
+    /**
+     * constructor.
+     *
+     * @param Column  $column
+     * @param OrderBy ...$orderBy
+     */
     public function __construct(Column $column, OrderBy ...$orderBy) {
         $this->column = $column;
         $this->orderBy = $orderBy;
     }
 
+    /**
+     * Ascending.
+     *
+     * @param Column  $column
+     * @param OrderBy ...$orderBy
+     *
+     * @return OrderByAscending
+     */
     public static function Ascending(Column $column, OrderBy ...$orderBy) {
         return new OrderByAscending($column, ...$orderBy);
     }
 
+    /**
+     * Descending.
+     *
+     * @param Column  $column
+     * @param OrderBy ...$orderBy
+     *
+     * @return OrderByDescending
+     */
     public static function Descending(Column $column, OrderBy ...$orderBy) {
         return new OrderByDescending($column, ...$orderBy);
     }
 
+    /**
+     * generateOrderBy.
+     *
+     * @param IOrderByGenerator $generator
+     *
+     * @return mixed
+     */
     abstract public function generateOrderBy(IOrderByGenerator $generator);
 
     public function generate(IGenerator $generator, $value = null) {

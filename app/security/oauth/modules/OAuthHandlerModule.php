@@ -28,6 +28,13 @@ class OAuthHandlerModule extends HttpRequestHandlerModule {
         return $aoInstance[$class];
     }
 
+    /**
+     * register.
+     *
+     * @param \app\security\oauth\modules\OAuthHandler $handler
+     *
+     * @return void
+     */
     public static function register(OAuthHandler $handler) {
         $url = $handler->getUrl();
 
@@ -37,5 +44,10 @@ class OAuthHandlerModule extends HttpRequestHandlerModule {
         self::getInstance()->register_internal('PUT', $url, $handler);
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     private function __clone() {}
 }

@@ -11,12 +11,29 @@ namespace vhs\security;
 
 /** @typescript */
 class BearerTokenCredentials implements ICredentials {
+    /**
+     * token.
+     *
+     * @var string
+     */
     private $token;
 
+    /**
+     * __construct.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
     public function __construct($token) {
         $this->token = $token;
     }
 
+    /**
+     * getToken.
+     *
+     * @return string
+     */
     public function getToken() {
         return $this->token;
     }

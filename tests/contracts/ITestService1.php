@@ -38,8 +38,8 @@ interface ITestService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $a
-     * @param $b
+     * @param mixed $a
+     * @param mixed $b
      *
      * @return mixed
      */
@@ -77,7 +77,7 @@ interface ITestService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $a
+     * @param mixed $a
      *
      * @return mixed
      */

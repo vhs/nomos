@@ -27,7 +27,9 @@ class MembershipPrivilegeSchema extends Schema {
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->membershipid),
             Constraint::PrimaryKey($table->columns->privilegeid),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->membershipid, MembershipSchema::Table(), MembershipSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 

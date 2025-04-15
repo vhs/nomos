@@ -19,6 +19,7 @@ namespace vhs;
 trait Cloneable {
     private function __arrayCopy(array $array) {
         $result = [];
+
         foreach ($array as $key => $val) {
             if (is_array($val)) {
                 $result[$key] = $this->__arrayCopy($val);

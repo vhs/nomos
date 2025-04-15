@@ -19,8 +19,6 @@ interface IApiKeyService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteApiKey($id): void;
@@ -29,8 +27,6 @@ interface IApiKeyService2 extends IContract {
      * @permission administrator
      *
      * @param string $notes
-     *
-     * @throws string
      *
      * @return \app\domain\Key
      */
@@ -42,8 +38,6 @@ interface IApiKeyService2 extends IContract {
      * @param int    $userid
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GenerateUserApiKey($userid, $notes): Key;
@@ -53,16 +47,12 @@ interface IApiKeyService2 extends IContract {
      *
      * @param int $keyid
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GetApiKey($keyid): Key;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Key[]
      */
@@ -72,8 +62,6 @@ interface IApiKeyService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\Key[]
      */
@@ -85,8 +73,6 @@ interface IApiKeyService2 extends IContract {
      * @param int             $keyid
      * @param string|string[] $privileges
      *
-     * @throws string
-     *
      * @return bool
      */
     public function PutApiKeyPrivileges($keyid, $privileges): bool;
@@ -97,8 +83,6 @@ interface IApiKeyService2 extends IContract {
      * @param int         $keyid
      * @param string      $notes
      * @param string|null $expires
-     *
-     * @throws string
      *
      * @return bool
      */

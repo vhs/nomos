@@ -13,16 +13,22 @@ use vhs\Singleton;
 
 /** @typescript */
 class HttpContext extends Singleton {
-    private static $server;
+    /** @var \vhs\web\HttpServer|null */
+    private static $server = null;
 
+    /**
+     * Init.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public static function Init(HttpServer $server) {
         HttpContext::$server = $server;
     }
 
     /**
-     * @throws \Exception
-     *
-     * @return HttpServer
+     * @return \vhs\web\HttpServer
      */
     public static function Server() {
         if (!isset(HttpContext::$server)) {

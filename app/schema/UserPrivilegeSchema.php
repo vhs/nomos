@@ -27,7 +27,9 @@ class UserPrivilegeSchema extends Schema {
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->userid),
             Constraint::PrimaryKey($table->columns->privilegeid),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 

@@ -18,16 +18,51 @@ use vhs\domain\exceptions\DomainException;
 
 /** @typescript */
 class ChildDomainCollection extends DomainCollection {
-    /** @var Column $childColumn */
+    /**
+     * childColumn.
+     *
+     * @var \vhs\database\Column
+     */
     private $childColumn;
-    /** @var PrimaryKey $childKey */
+
+    /**
+     * childKey.
+     *
+     * @var \vhs\database\constraints\PrimaryKey
+     */
     private $childKey;
+
+    /**
+     * childType.
+     *
+     * @var mixed
+     */
     private $childType;
-    /** @var Domain $parent */
+
+    /**
+     * parent.
+     *
+     * @var \vhs\domain\Domain
+     */
     private $parent;
-    /** @var Column $parentColumn */
+
+    /**
+     * parentColumn.
+     *
+     * @var Column $parentColumn
+     */
     private $parentColumn;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\domain\Domain $parent
+     * @param mixed              $childType
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     public function __construct(Domain $parent, $childType) {
         $this->parent = $parent;
         $this->childType = $childType;
@@ -61,6 +96,13 @@ class ChildDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    /**
+     * add.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @return void
+     */
     public function add(Domain $item) {
         $this->raiseBeforeAdd();
         if ($this->contains($item)) {
@@ -81,6 +123,11 @@ class ChildDomainCollection extends DomainCollection {
         $this->raiseAdded();
     }
 
+    /**
+     * all.
+     *
+     * @return string[]
+     */
     public function all() {
         $childPkName = $this->childKey->column->name;
 
@@ -93,24 +140,49 @@ class ChildDomainCollection extends DomainCollection {
         return $all;
     }
 
+    /**
+     * clear.
+     *
+     * @return void
+     */
     public function clear() {
         $this->__existing = [];
         $this->__new = [];
         $this->__removed = [];
     }
 
+    /**
+     * compare.
+     *
+     * @param \vhs\domain\Domain $a
+     * @param \vhs\domain\Domain $b
+     *
+     * @return bool
+     */
     public function compare(Domain $a, Domain $b) {
         $childPkName = $this->childKey->column->name;
 
         return $a->$childPkName === $b->$childPkName;
     }
 
+    /**
+     * contains.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @return bool
+     */
     public function contains(Domain $item) {
         $childPkName = $this->childKey->column->name;
 
         return $this->containsKey($item->$childPkName);
     }
 
+    /**
+     * hydrate.
+     *
+     * @return void
+     */
     public function hydrate() {
         $this->clear();
 
@@ -125,6 +197,13 @@ class ChildDomainCollection extends DomainCollection {
         }
     }
 
+    /**
+     * remove.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @return void
+     */
     public function remove(Domain $item) {
         $this->raiseBeforeRemove();
         if ($this->contains($item)) {
@@ -143,6 +222,11 @@ class ChildDomainCollection extends DomainCollection {
         }
     }
 
+    /**
+     * save.
+     *
+     * @return void
+     */
     public function save() {
         $this->raiseBeforeSave();
 

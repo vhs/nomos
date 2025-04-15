@@ -11,5 +11,12 @@ namespace vhs\web;
 
 /** @typescript */
 abstract class HttpRequestHandler {
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     abstract public function handle(HttpServer $server);
 }

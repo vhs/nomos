@@ -17,11 +17,9 @@ interface IPinService2 extends IContract {
     /**
      * @permission door
      *
-     * @throws string
-     *
-     * @return string
+     * @return void
      */
-    public function AccessInstructions(): string;
+    public function AccessInstructions(): void;
 
     /**
      * Automatically generates a pin for a specified user.
@@ -29,8 +27,6 @@ interface IPinService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\Key|null
      */
@@ -43,8 +39,6 @@ interface IPinService2 extends IContract {
      * @param string $privileges
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GenerateTemporaryPin($expires, $privileges, $notes): Key;
@@ -53,8 +47,6 @@ interface IPinService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\Key|null
      */
@@ -65,8 +57,6 @@ interface IPinService2 extends IContract {
      *
      * @param int    $keyid
      * @param string $pin
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -79,8 +69,6 @@ interface IPinService2 extends IContract {
      *
      * @param int    $userid
      * @param string $pin
-     *
-     * @throws string
      *
      * @return bool
      */

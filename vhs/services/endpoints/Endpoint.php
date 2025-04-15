@@ -18,17 +18,31 @@ use vhs\services\IContract;
 
 /** @typescript */
 abstract class Endpoint implements IEndpoint {
-    /** @var Logger $logger */
+    /** @var \vhs\Logger $logger */
     public $logger;
 
+    /**
+     * internal_service.
+     *
+     * @var mixed
+     */
     protected $internal_service;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\services\IContract $service
+     *
+     * @return void
+     */
     protected function __construct(IContract $service) {
         $this->internal_service = $service;
     }
 
     /**
-     * @return Endpoint
+     * getInstance.
+     *
+     * @return \vhs\services\endpoints\Endpoint
      */
     final public static function getInstance() {
         static $aoInstance = [];
@@ -42,6 +56,11 @@ abstract class Endpoint implements IEndpoint {
         return $aoInstance[$class];
     }
 
+    /**
+     * discover.
+     *
+     * @return mixed
+     */
     final public function discover() {
         $contract = $this->getContract();
 
@@ -60,6 +79,11 @@ abstract class Endpoint implements IEndpoint {
         return $this->serializeOutput((object) $out);
     }
 
+    /**
+     * getAllPermissions.
+     *
+     * @return array<string,string[][]>
+     */
     final public function getAllPermissions() {
         $contract = $this->getContract();
 
@@ -72,6 +96,18 @@ abstract class Endpoint implements IEndpoint {
         return $allPermissions;
     }
 
+    /**
+     * handleRequest.
+     *
+     * @param mixed $method
+     * @param mixed $data
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     * @throws \vhs\services\exceptions\InvalidContractException
+     * @throws \vhs\services\exceptions\InvalidRequestException
+     *
+     * @return mixed
+     */
     final public function handleRequest($method, $data) {
         $args = $this->deserializeInput($data);
 
@@ -142,15 +178,19 @@ abstract class Endpoint implements IEndpoint {
     }
 
     /**
-     * @throws \Exception
+     * getContract.
      *
-     * @return \ReflectionClass
+
+     * @throws \vhs\services\exceptions\InvalidContractException
+     *
+     * @return mixed
      */
     private function getContract() {
         //TODO this would be a good place to implement a memcache registry of permissions & service endpoints
         $serviceClass = new \ReflectionClass($this->internal_service);
 
         $contract = null;
+
         foreach ($serviceClass->getInterfaces() as $interface) {
             if (array_key_exists('vhs\\services\\IContract', $interface->getInterfaces())) {
                 $contract = $interface;
@@ -164,6 +204,13 @@ abstract class Endpoint implements IEndpoint {
         return $contract;
     }
 
+    /**
+     * getMethodPermissions.
+     *
+     * @param \ReflectionMethod $method
+     *
+     * @return string[][]
+     */
     private function getMethodPermissions(\ReflectionMethod $method) {
         $comments = $method->getDocComment();
 
@@ -180,5 +227,10 @@ abstract class Endpoint implements IEndpoint {
         return $permissions;
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     private function __clone() {}
 }

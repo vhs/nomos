@@ -27,7 +27,9 @@ class EventPrivilegeSchema extends Schema {
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->eventid),
             Constraint::PrimaryKey($table->columns->privilegeid),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->eventid, EventSchema::Table(), EventSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
         );
 

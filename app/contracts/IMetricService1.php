@@ -13,8 +13,8 @@ interface IMetricService1 extends IContract {
     /**
      * @permission user
      *
-     * @param $start_range
-     * @param $end_range
+     * @param mixed $start_range
+     * @param mixed $end_range
      *
      * @return mixed
      */
@@ -30,9 +30,9 @@ interface IMetricService1 extends IContract {
     /**
      * @permission user
      *
-     * @param $start_range
-     * @param $end_range
-     * @param $group
+     * @param mixed $start_range
+     * @param mixed $end_range
+     * @param mixed $group
      *
      * @return mixed
      */

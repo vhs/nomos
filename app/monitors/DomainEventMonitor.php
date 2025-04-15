@@ -17,11 +17,26 @@ use vhs\monitors\Monitor;
 
 /** @typescript */
 class DomainEventMonitor extends Monitor {
+    /**
+     * fireEvent.
+     *
+     * @param mixed $event
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function fireEvent($event, $data) {
         MessageQueue::publish($event->domain, $event->event, json_encode($data));
     }
 
-    public function Init(Logger &$logger = null) {
+    /**
+     * Init.
+     *
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
+    public function Init(?Logger &$logger = null) {
         $events = Event::findAll();
 
         foreach ($events as $event) {
@@ -29,7 +44,11 @@ class DomainEventMonitor extends Monitor {
                 continue;
             }
 
-            /** @var Domain $domainClass */
+            /**
+             * @var string $domainClass
+             *
+             * @phpstan-ignore varTag.nativeType
+             */
             $domainClass = '\\app\\domain\\' . $event->domain;
 
             /**

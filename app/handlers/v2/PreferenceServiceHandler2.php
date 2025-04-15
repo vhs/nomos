@@ -12,8 +12,11 @@ namespace app\handlers\v2;
 use app\contracts\v2\IPreferenceService2;
 use app\domain\Privilege;
 use app\domain\SystemPreference;
+use vhs\domain\exceptions\DomainException;
+use vhs\exceptions\HttpException;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
@@ -21,8 +24,6 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -34,8 +35,6 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @permission administrator
      *
      * @param string $key
-     *
-     * @throws string
      *
      * @return void
      */
@@ -54,8 +53,6 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function GetAllSystemPreferences(): array {
@@ -67,12 +64,19 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      *
      * @param int $id
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
      *
      * @return \app\domain\SystemPreference
      */
     public function GetSystemPreference($id): SystemPreference {
-        return SystemPreference::find($id);
+        /** @var SystemPreference|null */
+        $systemPreference = SystemPreference::find($id);
+
+        if (is_null($systemPreference)) {
+            throw new DomainException(sprintf('SystemPreference with id [%s] not found!', $id));
+        }
+
+        return $systemPreference;
     }
 
     /**
@@ -84,11 +88,10 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters): array {
+        /** @var SystemPreference[] */
         return SystemPreference::page($page, $size, $columns, $order, $filters);
     }
 
@@ -99,8 +102,6 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param string $value
      * @param bool   $enabled
      * @param string $notes
-     *
-     * @throws string
      *
      * @return \app\domain\SystemPreference
      */
@@ -131,11 +132,10 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param int             $id
      * @param string|string[] $privileges
      *
-     * @throws string
-     *
      * @return bool
      */
     public function PutSystemPreferencePrivileges($id, $privileges): bool {
+        /** @var \app\domain\SystemPreference */
         $pref = SystemPreference::find($id);
 
         if (is_null($pref)) {
@@ -166,8 +166,6 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      *
      * @param string $key
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference|null
      */
     public function SystemPreference($key): SystemPreference|null {
@@ -196,15 +194,16 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return bool
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes): bool {
+        /** @var \app\domain\SystemPreference */
         $pref = SystemPreference::find($id);
 
         if (is_null($pref)) {
-            throw new \vhs\domain\exceptions\DomainException('SystemPreference not found', 404);
+            throw new HttpException('SystemPreference not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         $pref->key = $key;
@@ -221,17 +220,18 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      * @param string $key
      * @param bool   $enabled
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return bool
      */
     public function UpdateSystemPreferenceEnabled($key, $enabled): bool {
+        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
 
         if (count($prefs) != 1) {
-            throw new \vhs\domain\exceptions\DomainException('SystemPreference not found', 404);
+            throw new HttpException('SystemPreference not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         $pref = $prefs[0];

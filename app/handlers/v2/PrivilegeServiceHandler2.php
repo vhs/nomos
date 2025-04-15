@@ -13,10 +13,12 @@ use app\contracts\v2\IPrivilegeService2;
 use app\domain\Privilege;
 use app\exceptions\InvalidInputException;
 use app\exceptions\MemberCardException;
+use vhs\domain\exceptions\DomainException;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\endpoints\Endpoint;
 use vhs\services\Service;
 use vhs\services\ServiceRegistry;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
@@ -24,8 +26,6 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @permission administrator|user|grants
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -42,7 +42,7 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param string $icon
      * @param bool   $enabled
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return \app\domain\Privilege
      */
@@ -71,11 +71,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeletePrivilege($id): void {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->delete();
@@ -84,18 +83,15 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege[]
      */
     public function GetAllPrivileges(): array {
+        /** @var \app\domain\Privilege[] */
         return Privilege::findAll();
     }
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return string[]
      */
@@ -129,20 +125,25 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      *
      * @param int $id
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
      *
      * @return \app\domain\Privilege
      */
     public function GetPrivilege($id): Privilege {
-        return Privilege::find($id);
+        /** @var \app\domain\Privilege */
+        $privilege = Privilege::find($id);
+
+        if (is_null($privilege)) {
+            throw new DomainException(sprintf('Privilege with id [%s] not found!', $id), HttpStatusCodes::Client_Error_Not_Found->value);
+        }
+
+        return $privilege;
     }
 
     /**
      * @permission administrator|user|grants
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\Privilege[]
      */
@@ -153,6 +154,8 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
         $user = $userService2->GetUser($userid);
 
         if (!is_null($user)) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             foreach ($user->privileges->all() as $privilege) {
                 array_push($privileges, $privilege);
             }
@@ -174,11 +177,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Privilege[]
      */
     public function ListPrivileges($page, $size, $columns, $order, $filters): array {
+        /** @var Privilege[] */
         return Privilege::page($page, $size, $columns, $order, $filters);
     }
 
@@ -188,11 +190,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param int    $id
      * @param string $description
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeDescription($id, $description): bool {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->description = $description;
@@ -206,11 +207,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeEnabled($id, $enabled): bool {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->enabled = $enabled;
@@ -224,11 +224,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param int    $id
      * @param string $icon
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeIcon($id, $icon): bool {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->icon = $icon;
@@ -242,11 +241,10 @@ class PrivilegeServiceHandler2 extends Service implements IPrivilegeService2 {
      * @param int    $id
      * @param string $name
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivilegeName($id, $name): bool {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->name = $name;

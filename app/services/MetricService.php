@@ -18,8 +18,8 @@ class MetricService extends Service implements IMetricService1 {
     /**
      * Get the total new members recorded in the date range.
      *
-     * @param $start int unixtime
-     * @param $end   int unixtime
+     * @param int $start int unixtime
+     * @param int $end   int unixtime
      *
      * @return int
      */
@@ -40,9 +40,9 @@ class MetricService extends Service implements IMetricService1 {
     /**
      * Get the total new memberships of a type recorded in the date range.
      *
-     * @param $membership_id int
-     * @param $start         int unixtime
-     * @param $end           int unixtime
+     * @param int $membership_id int
+     * @param int $start         int unixtime
+     * @param int $end           int unixtime
      *
      * @return int
      */
@@ -64,9 +64,6 @@ class MetricService extends Service implements IMetricService1 {
     /**
      * Get the total members.
      *
-     * @param $start int unixtime
-     * @param $end   int unixtime
-     *
      * @return int
      */
     protected static function TotalMemberCount() {
@@ -81,6 +78,13 @@ class MetricService extends Service implements IMetricService1 {
         );
     }
 
+    /**
+     * TotalMembershipByIdCount.
+     *
+     * @param int $membership_id
+     *
+     * @return int
+     */
     protected static function TotalMembershipByIdCount($membership_id) {
         return Database::count(
             Query::count(
@@ -366,6 +370,15 @@ class MetricService extends Service implements IMetricService1 {
         ];
     }
 
+    /**
+     * countByDate.
+     *
+     * @param mixed[] $arr
+     * @param mixed   $date
+     * @param mixed   $group
+     *
+     * @return mixed[]
+     */
     private function countByDate($arr, $date, $group) {
         if (is_null($date)) {
             return $arr;

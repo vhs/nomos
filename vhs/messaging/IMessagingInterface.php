@@ -11,13 +11,53 @@ namespace vhs\messaging;
 
 /** @typescript */
 interface IMessagingInterface {
+    /**
+     * consume.
+     *
+     * @param mixed    $channel
+     * @param mixed    $queue
+     * @param callable $callback
+     *
+     * @return string
+     */
     public function consume($channel, $queue, callable $callback);
 
+    /**
+     * ensure.
+     *
+     * @param mixed $channel
+     * @param mixed $queue
+     *
+     * @return void
+     */
     public function ensure($channel, $queue);
 
+    /**
+     * hasCallbacks.
+     *
+     * @param mixed $channel
+     *
+     * @return void
+     */
     public function hasCallbacks($channel);
 
+    /**
+     * publish.
+     *
+     * @param mixed $channel
+     * @param mixed $queue
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function publish($channel, $queue, $message);
 
+    /**
+     * wait.
+     *
+     * @param mixed $channel
+     *
+     * @return void
+     */
     public function wait($channel);
 }

@@ -15,6 +15,7 @@ use app\domain\Membership;
 use app\domain\PasswordResetRequest;
 use app\domain\Privilege;
 use app\domain\User;
+use app\dto\UserActiveEnum;
 use app\exceptions\InvalidInputException;
 use app\exceptions\InvalidPasswordHashException;
 use app\exceptions\UserAlreadyExistsException;
@@ -46,6 +47,9 @@ class UserService extends Service implements IUserService1 {
      * @param $lname
      * @param $membershipid
      *
+     * @throws \app\exceptions\InvalidPasswordHashException
+     * @throws \app\exceptions\UserAlreadyExistsException
+     *
      * @return mixed
      */
     public function Create($username, $password, $email, $fname, $lname, $membershipid) {
@@ -69,7 +73,7 @@ class UserService extends Service implements IUserService1 {
         $user->stripe_email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
-        $user->active = 't';
+        $user->active = UserActiveEnum::PENDING->value;
         $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
@@ -154,7 +158,7 @@ class UserService extends Service implements IUserService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -201,12 +205,16 @@ class UserService extends Service implements IUserService1 {
             return;
         }
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $p) {
             if ($p->code == $priv->code) {
                 return;
             }
         }
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         $user->privileges->add($priv);
         $user->save();
     }
@@ -243,11 +251,17 @@ class UserService extends Service implements IUserService1 {
 
         $privs = Privilege::findByCodes(...$privArray);
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $user->privileges->remove($priv);
         }
 
         foreach ($privs as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $user->privileges->add($priv);
         }
 
@@ -262,6 +276,9 @@ class UserService extends Service implements IUserService1 {
      * @param $email
      * @param $fname
      * @param $lname
+     *
+     * @throws \app\exceptions\InvalidPasswordHashException
+     * @throws \app\exceptions\UserAlreadyExistsException
      *
      * @return mixed
      */
@@ -283,7 +300,7 @@ class UserService extends Service implements IUserService1 {
         $user->email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
-        $user->active = 't';
+        $user->active = UserActiveEnum::PENDING->value;
         $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
@@ -357,14 +374,13 @@ class UserService extends Service implements IUserService1 {
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Connection: Close']);
-
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+        
         $error = null;
         $response = curl_exec($ch);
 
@@ -410,6 +426,8 @@ class UserService extends Service implements IUserService1 {
      *
      * @param $token
      * @param $password
+     *
+     * @throws \app\exceptions\InvalidPasswordHashException
      *
      * @return mixed
      */
@@ -492,6 +510,8 @@ class UserService extends Service implements IUserService1 {
 
         $remove = null;
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $p) {
             if ($p->code == $priv->code) {
                 $remove = $p;
@@ -499,6 +519,8 @@ class UserService extends Service implements IUserService1 {
         }
 
         if (!is_null($remove)) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $user->privileges->remove($remove);
             $user->save();
         }
@@ -567,14 +589,18 @@ class UserService extends Service implements IUserService1 {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $membershipid
+     * @param int $userid
+     * @param int $membershipid
+     *
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return mixed
      */
     public function UpdateMembership($userid, $membershipid) {
+        /** @var User|null */
         $user = User::find($userid);
 
+        /** @var Membership|null */
         $membership = Membership::find($membershipid);
 
         if (is_null($user) || is_null($membership)) {
@@ -631,6 +657,8 @@ class UserService extends Service implements IUserService1 {
      *
      * @param $userid
      * @param $password
+     *
+     * @throws \app\exceptions\InvalidPasswordHashException
      */
     public function UpdatePassword($userid, $password) {
         $user = $this->GetUser($userid);
@@ -751,6 +779,11 @@ class UserService extends Service implements IUserService1 {
         $user->save();
     }
 
+    /**
+     * AllowedColumns.
+     *
+     * @return string[]|null
+     */
     protected function AllowedColumns() {
         if (CurrentUser::hasAnyPermissions('grants') && !CurrentUser::hasAnyPermissions('administrator')) {
             return ['id', 'username', 'fname', 'lname', 'email'];

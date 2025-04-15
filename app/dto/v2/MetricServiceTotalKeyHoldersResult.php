@@ -7,7 +7,7 @@ use app\utils\DTO;
 /**
  * MetricServiceTotalKeyHoldersResult Data Transfer Object.
  *
- * @property number $value
+ * @property int $value
  *
  * @typescript
  */

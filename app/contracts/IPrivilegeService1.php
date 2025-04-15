@@ -16,7 +16,7 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator|user|grants
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -25,11 +25,11 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $name
-     * @param $code
-     * @param $description
-     * @param $icon
-     * @param $enabled
+     * @param string $name
+     * @param string $code
+     * @param string $description
+     * @param string $icon
+     * @param bool   $enabled
      *
      * @return mixed
      */
@@ -38,7 +38,7 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -61,7 +61,7 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -70,7 +70,7 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -79,11 +79,11 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator|user|grants
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -92,8 +92,8 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $description
+     * @param int    $id
+     * @param string $description
      *
      * @return mixed
      */
@@ -102,8 +102,8 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -112,8 +112,8 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $icon
+     * @param int    $id
+     * @param string $icon
      *
      * @return mixed
      */
@@ -122,8 +122,8 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
+     * @param int    $id
+     * @param string $name
      *
      * @return mixed
      */

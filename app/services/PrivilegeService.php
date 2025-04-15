@@ -39,6 +39,8 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
      * @param $icon
      * @param $enabled
      *
+     * @throws \app\exceptions\InvalidInputException
+     *
      * @return mixed
      */
     public function CreatePrivilege($name, $code, $description, $icon, $enabled) {
@@ -66,7 +68,7 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
      *
      * @param $id
      *
-     * @return mixed
+     * @return void
      */
     public function DeletePrivilege($id) {
         $priv = Privilege::find($id);
@@ -77,9 +79,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator|user|grants
      *
-     * @return mixed
+     * @return \app\domain\Privilege[]
      */
     public function GetAllPrivileges() {
+        /** @var \app\domain\Privilege[] */
         return Privilege::findAll();
     }
 
@@ -118,9 +121,10 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
      *
      * @param $id
      *
-     * @return mixed
+     * @return \app\domain\Privilege
      */
     public function GetPrivilege($id) {
+        /** @var \app\domain\Privilege */
         return Privilege::find($id);
     }
 
@@ -168,12 +172,13 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $description
+     * @param int    $id
+     * @param string $description
      *
      * @return mixed
      */
     public function UpdatePrivilegeDescription($id, $description) {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->description = $description;
@@ -184,12 +189,13 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
     public function UpdatePrivilegeEnabled($id, $enabled) {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->enabled = $enabled;
@@ -200,12 +206,13 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $icon
+     * @param int    $id
+     * @param string $icon
      *
      * @return mixed
      */
     public function UpdatePrivilegeIcon($id, $icon) {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->icon = $icon;
@@ -216,12 +223,13 @@ class PrivilegeService extends Service implements IPrivilegeService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
+     * @param int    $id
+     * @param string $name
      *
      * @return mixed
      */
     public function UpdatePrivilegeName($id, $name) {
+        /** @var \app\domain\Privilege */
         $priv = Privilege::find($id);
 
         $priv->name = $name;

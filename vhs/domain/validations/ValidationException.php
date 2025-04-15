@@ -11,8 +11,20 @@ namespace vhs\domain\validations;
 
 /** @typescript */
 class ValidationException extends \Exception {
+    /**
+     * results.
+     *
+     * @var \vhs\domain\validations\ValidationResults
+     */
     private $results;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function __construct(ValidationResults $results) {
         $this->results = $results;
 
@@ -26,6 +38,8 @@ class ValidationException extends \Exception {
     }
 
     /**
+     * getResults.
+     *
      * @return ValidationResults
      */
     public function getResults() {

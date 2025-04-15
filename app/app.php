@@ -10,7 +10,7 @@
 require_once '../conf/config.ini.php';
 
 //Debug defined in /conf/config.ini.php
-if (DEBUG) {
+if (defined('DEBUG')) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 }

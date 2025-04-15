@@ -11,15 +11,23 @@ namespace vhs\database\types;
 
 /** @typescript */
 class TypeString extends Type {
+    /** @var int */
     public $length;
 
+    /**
+     * constructor.
+     *
+     * @param bool  $nullable
+     * @param mixed $default
+     * @param int   $length
+     */
     public function __construct($nullable = true, $default = null, $length = 255) {
         parent::__construct($nullable, $default);
 
         $this->length = $length;
     }
 
-    public function covertType(ITypeConverter $converter, $value = null) {
+    public function convertType(ITypeConverter $converter, $value = null) {
         return $converter->convertString($this, $value);
     }
 

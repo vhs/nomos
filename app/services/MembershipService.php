@@ -5,7 +5,9 @@ namespace app\services;
 use app\contracts\IMembershipService1;
 use app\domain\Membership;
 use app\domain\Privilege;
+use vhs\exceptions\HttpException;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class MembershipService extends Service implements IMembershipService1 {
@@ -30,10 +32,12 @@ class MembershipService extends Service implements IMembershipService1 {
      * @param $days
      * @param $period
      *
+     * @throws \vhs\exceptions\HttpException
+     *
      * @return mixed
      */
     public function Create($title, $description, $price, $code, $days, $period) {
-        return [];
+        throw new HttpException('Sorry, no dice!', HttpStatusCodes::Server_Error_Not_Implemented);
     }
 
     /**

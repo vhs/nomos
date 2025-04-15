@@ -16,7 +16,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|grants
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -25,12 +25,12 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $username
-     * @param $password
-     * @param $email
-     * @param $fname
-     * @param $lname
-     * @param $membershipid
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @param string $fname
+     * @param string $lname
+     * @param int    $membershipid
      *
      * @return mixed
      */
@@ -39,7 +39,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission grants
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -48,7 +48,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission user|administrator
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -64,7 +64,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -80,8 +80,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission grants
      *
-     * @param $userid
-     * @param $privilege
+     * @param int   $userid
+     * @param mixed $privilege
      *
      * @return mixed
      */
@@ -90,11 +90,11 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|grants
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -103,19 +103,21 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $privileges
+     * @param int   $userid
+     * @param mixed $privileges
+     *
+     * @return mixed
      */
     public function PutUserPrivileges($userid, $privileges);
 
     /**
      * @permission anonymous
      *
-     * @param $username
-     * @param $password
-     * @param $email
-     * @param $fname
-     * @param $lname
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @param string $fname
+     * @param string $lname
      *
      * @return mixed
      */
@@ -124,7 +126,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $email
+     * @param string $email
      *
      * @return mixed
      */
@@ -133,7 +135,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission user
      *
-     * @param $email
+     * @param string $email
      *
      * @return mixed
      */
@@ -142,8 +144,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $token
-     * @param $password
+     * @param string $token
+     * @param string $password
      *
      * @return mixed
      */
@@ -152,8 +154,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission grants
      *
-     * @param $userid
-     * @param $privilege
+     * @param int   $userid
+     * @param mixed $privilege
      *
      * @return mixed
      */
@@ -162,8 +164,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $cash
+     * @param int  $userid
+     * @param bool $cash
      *
      * @return mixed
      */
@@ -172,8 +174,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|full-profile
      *
-     * @param $userid
-     * @param $email
+     * @param int    $userid
+     * @param string $email
      *
      * @return mixed
      */
@@ -182,8 +184,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $date
+     * @param int   $userid
+     * @param mixed $date
      *
      * @return mixed
      */
@@ -192,8 +194,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $membershipid
+     * @param int $userid
+     * @param int $membershipid
      *
      * @return mixed
      */
@@ -202,9 +204,9 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|full-profile
      *
-     * @param $userid
-     * @param $fname
-     * @param $lname
+     * @param int    $userid
+     * @param string $fname
+     * @param string $lname
      *
      * @return mixed
      */
@@ -213,24 +215,28 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $subscribe
+     * @param int  $userid
+     * @param bool $subscribe
+     *
+     * @return mixed
      */
     public function UpdateNewsletter($userid, $subscribe);
 
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $password
+     * @param int    $userid
+     * @param string $password
+     *
+     * @return mixed
      */
     public function UpdatePassword($userid, $password);
 
     /**
      * @permission administrator|full-profile
      *
-     * @param $userid
-     * @param $email
+     * @param int    $userid
+     * @param string $email
      *
      * @return void
      */
@@ -239,8 +245,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $status
+     * @param int   $userid
+     * @param mixed $status
      *
      * @return mixed
      */
@@ -249,8 +255,8 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|full-profile
      *
-     * @param $userid
-     * @param $email
+     * @param int    $userid
+     * @param string $email
      *
      * @return void
      */
@@ -259,8 +265,10 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $username
+     * @param int    $userid
+     * @param string $username
+     *
+     * @return mixed
      */
     public function UpdateUsername($userid, $username);
 }

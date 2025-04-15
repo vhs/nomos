@@ -14,15 +14,31 @@ use vhs\services\endpoints\Endpoint;
 use vhs\services\exceptions\InvalidRequestException;
 use vhs\SplClassLoader;
 use vhs\SplClassLoaderItem;
+use vhs\web\enums\HttpStatusCodes;
 
-/** @typescript */
+/**
+ * ServiceHandler.
+ *
+ * @typescript
+ */
 class ServiceHandler {
+    /** @var string */
     private $endpointNamespace;
     /** @var Logger */
     private $logger;
+    /** @var string */
     private $rootNamespacePath;
+    /** @var string|null */
     private $uriPrefixPath;
 
+    /**
+     * constructor.
+     *
+     * @param \vhs\Logger &$logger
+     * @param string      $endpointNamespace
+     * @param string|null $rootNamespacePath
+     * @param string|null $uriPrefixPath
+     */
     public function __construct(Logger &$logger, $endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
         $this->logger = &$logger;
         $this->endpointNamespace = $endpointNamespace;
@@ -32,6 +48,14 @@ class ServiceHandler {
         SplClassLoader::getInstance()->add(new SplClassLoaderItem($this->endpointNamespace, $this->rootNamespacePath, '.svc.php'));
     }
 
+    /**
+     * discover.
+     *
+     * @param string $uri
+     * @param bool   $isNative
+     *
+     * @return mixed
+     */
     public function discover($uri, $isNative = false) {
         /** @var Endpoint $endpoint */
         $endpoint = $this->getEndpoint($uri);
@@ -46,7 +70,9 @@ class ServiceHandler {
     }
 
     /**
-     * @return Endpoint[]
+     * Get all endpoints.
+     *
+     * @return string[]
      */
     public function getAllEndpoints() {
         $files = scandir($this->rootNamespacePath . '/' . str_replace('\\', '/', $this->endpointNamespace));
@@ -55,7 +81,7 @@ class ServiceHandler {
 
         foreach ($files as $file) {
             if (preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
-                /** @var Endpoint $endpoint */
+                /** @var class-string $endpoint */
                 $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
                 array_push($endpoints, $endpoint::getInstance());
             }
@@ -64,6 +90,17 @@ class ServiceHandler {
         return $endpoints;
     }
 
+    /**
+     * handle.
+     *
+     * @param string $uri
+     * @param mixed  $data
+     * @param bool   $isNative
+     *
+     * @throws \vhs\services\exceptions\InvalidRequestException
+     *
+     * @return mixed
+     */
     public function handle($uri, $data = null, $isNative = false) {
         /** @var Endpoint[] $endpoints */
         $endpoints = [];
@@ -83,7 +120,7 @@ class ServiceHandler {
                 } else {
                     $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('did not find match for: %s', $uri));
 
-                    throw new InvalidRequestException('Invalid service request', 409);
+                    throw new InvalidRequestException('Invalid service request', HttpStatusCodes::Client_Error_Misdirected_Request);
                 }
             }
         }
@@ -94,7 +131,7 @@ class ServiceHandler {
             $discovery = [];
 
             foreach ($endpoints as $class) {
-                /** @var Endpoint $endpoint */
+                /** @var class-string $endpoint */
                 $endpoint = $this->endpointNamespace . '\\' . $class;
 
                 $discovery[$class . '.svc'] = $endpoint::getInstance()->deserializeOutput($endpoint::getInstance()->discover());
@@ -107,7 +144,7 @@ class ServiceHandler {
              */
             return json_encode($discovery);
         } else {
-            /** @var Endpoint $endpoint */
+            /** @var class-string $endpoint */
             $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
 
             if (array_key_exists('method', $regs)) {
@@ -133,15 +170,17 @@ class ServiceHandler {
     }
 
     /**
-     * @param $uri
+     * getEndpoint.
      *
-     * @throws InvalidRequestException
+     * @param string $uri
+     *
+     * @throws \vhs\services\exceptions\InvalidRequestException
      *
      * @return string
      */
     private function getEndpoint($uri) {
         if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
-            throw new InvalidRequestException('Invalid endpoint request', 418);
+            throw new InvalidRequestException('Invalid endpoint request', HttpStatusCodes::Client_Error_Im_a_teapot);
         }
 
         return $this->endpointNamespace . '\\' . $regs['endpoint'];

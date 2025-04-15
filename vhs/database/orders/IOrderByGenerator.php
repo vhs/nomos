@@ -13,7 +13,21 @@ use vhs\database\IGenerator;
 
 /** @typescript */
 interface IOrderByGenerator extends IGenerator {
+    /**
+     * generateAscending.
+     *
+     * @param \vhs\database\orders\OrderByAscending $ascending
+     *
+     * @return mixed
+     */
     public function generateAscending(OrderByAscending $ascending);
 
+    /**
+     * generateDescending.
+     *
+     * @param \vhs\database\orders\OrderByDescending $descending
+     *
+     * @return mixed
+     */
     public function generateDescending(OrderByDescending $descending);
 }

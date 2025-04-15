@@ -16,8 +16,6 @@ interface IIpnService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountRecords($filters): int;
@@ -27,16 +25,12 @@ interface IIpnService2 extends IContract {
      *
      * @param int $ipnId
      *
-     * @throws string
-     *
-     * @return \app\domain\Ipn
+     * @return \app\domain\Ipn|null
      */
-    public function Get($ipnId): Ipn;
+    public function Get($ipnId): Ipn|null;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Ipn[]
      */
@@ -50,8 +44,6 @@ interface IIpnService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\Ipn[]
      */

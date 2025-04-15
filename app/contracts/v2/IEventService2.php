@@ -19,8 +19,6 @@ interface IEventService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountEvents($filters): int;
@@ -34,8 +32,6 @@ interface IEventService2 extends IContract {
      * @param string $description
      * @param bool   $enabled
      *
-     * @throws string
-     *
      * @return \app\domain\Event
      */
     public function CreateEvent($name, $domain, $event, $description, $enabled): Event;
@@ -44,8 +40,6 @@ interface IEventService2 extends IContract {
      * @permission administrator
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return void
      */
@@ -57,16 +51,12 @@ interface IEventService2 extends IContract {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function EnableEvent($id, $enabled): bool;
 
     /**
      * @permission user
-     *
-     * @throws string
      *
      * @return \app\domain\Event[]
      */
@@ -77,16 +67,12 @@ interface IEventService2 extends IContract {
      *
      * @param string $domain
      *
-     * @throws string
-     *
      * @return void
      */
     public function GetDomainDefinition($domain): void;
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws string
      *
      * @return mixed
      */
@@ -97,8 +83,6 @@ interface IEventService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return \app\domain\Event
      */
     public function GetEvent($id): Event;
@@ -106,16 +90,12 @@ interface IEventService2 extends IContract {
     /**
      * @permission webhook|administrator
      *
-     * @throws string
-     *
      * @return \app\domain\Event[]
      */
     public function GetEvents(): array;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return string[]
      */
@@ -130,8 +110,6 @@ interface IEventService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Event[]
      */
     public function ListEvents($page, $size, $columns, $order, $filters): array;
@@ -141,8 +119,6 @@ interface IEventService2 extends IContract {
      *
      * @param int             $id
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -157,8 +133,6 @@ interface IEventService2 extends IContract {
      * @param string $event
      * @param string $description
      * @param bool   $enabled
-     *
-     * @throws string
      *
      * @return bool
      */

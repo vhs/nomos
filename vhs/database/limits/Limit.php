@@ -8,12 +8,25 @@ use vhs\database\IGenerator;
 
 /** @typescript */
 class Limit extends Element implements IGeneratable {
+    /** @var int|null $limit */
     public $limit;
 
+    /**
+     * constructor.
+     *
+     * @param int $limit
+     */
     public function __construct($limit) {
         $this->limit = $limit;
     }
 
+    /**
+     * Static Limit instantiator.
+     *
+     * @param int|null $limit
+     *
+     * @return Limit
+     */
     public static function Limit($limit) {
         return new Limit($limit);
     }
@@ -23,6 +36,13 @@ class Limit extends Element implements IGeneratable {
         return $this->generateLimit($generator);
     }
 
+    /**
+     * generateLimit.
+     *
+     * @param \vhs\database\limits\ILimitGenerator $generator
+     *
+     * @return int
+     */
     private function generateLimit(ILimitGenerator $generator) {
         return $generator->generateLimit($this);
     }

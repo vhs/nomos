@@ -24,9 +24,12 @@ class ApiKeyService extends Service implements IApiKeyService1 {
      *
      * @param $keyid
      *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
      * @return mixed
      */
     public function DeleteApiKey($keyid) {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
@@ -44,7 +47,9 @@ class ApiKeyService extends Service implements IApiKeyService1 {
      * @return mixed
      */
     public function GenerateSystemApiKey($notes) {
+        /** @var \app\domain\Key */
         $apiKey = new Key();
+
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
         $apiKey->type = 'api';
         $apiKey->notes = $notes;
@@ -58,6 +63,9 @@ class ApiKeyService extends Service implements IApiKeyService1 {
      *
      * @param $userid
      * @param $notes
+     *
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
@@ -73,11 +81,13 @@ class ApiKeyService extends Service implements IApiKeyService1 {
         }
 
         $apiKey = new Key();
+
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
         $apiKey->type = 'api';
         $apiKey->notes = $notes;
 
         $user->keys->add($apiKey);
+
         $user->save();
 
         return $apiKey;
@@ -88,9 +98,13 @@ class ApiKeyService extends Service implements IApiKeyService1 {
      *
      * @param $keyid
      *
-     * @return mixed
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return \app\domain\Key
      */
     public function GetApiKey($keyid) {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (is_null($key)) {
@@ -119,6 +133,8 @@ class ApiKeyService extends Service implements IApiKeyService1 {
      * @permission administrator|user
      *
      * @param $userid
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
