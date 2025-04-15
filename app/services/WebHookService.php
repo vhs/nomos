@@ -13,6 +13,7 @@ use app\contracts\IWebHookService1;
 use app\domain\Privilege;
 use app\domain\WebHook;
 use app\exceptions\MemberCardException;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -57,7 +58,7 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $method
      * @param $eventid
      *
-     * @throws UnauthorizedException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
@@ -69,7 +70,7 @@ class WebHookService extends Service implements IWebHookService1 {
             array_push($codes, $priv->code);
         }
 
-        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions($codes))) {
+        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions(...$codes))) {
             throw new UnauthorizedException('Insufficient privileges to subscribe to event');
         }
 
@@ -139,9 +140,10 @@ class WebHookService extends Service implements IWebHookService1 {
      *
      * @param $id
      *
-     * @return mixed
+     * @return \app\domain\WebHook|null
      */
     public function GetHook($id) {
+        /** @var \app\domain\WebHook */
         $hook = WebHook::find($id);
 
         if (is_null($hook)) {
@@ -191,8 +193,6 @@ class WebHookService extends Service implements IWebHookService1 {
      * @param $columns
      * @param $order
      * @param $filters
-     *
-     * @throws \Exception
      *
      * @return mixed
      */
@@ -280,14 +280,21 @@ class WebHookService extends Service implements IWebHookService1 {
         $hook->save();
     }
 
+    /**
+     * AddUserIDToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function AddUserIDToFilters($userid, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');

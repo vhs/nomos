@@ -7,6 +7,7 @@ use app\contracts\v2\IMetricService2;
 use app\domain\Membership;
 use app\domain\Payment;
 use app\domain\User;
+use app\dto\UserActiveEnum;
 use app\dto\v2\MetricServiceGetCreatedDatesResult;
 use app\dto\v2\MetricServiceGetMembersResult;
 use app\dto\v2\MetricServiceGetRevenueResult;
@@ -24,97 +25,10 @@ use vhs\services\Service;
 /** @typescript */
 class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
-     * Get the total new members recorded in the date range.
-     *
-     * @param string $start int unixtime
-     * @param string $end   int unixtime
-     *
-     * @throws string
-     *
-     * @return int
-     */
-    protected static function NewMemberCount($start, $end): int {
-        $query = Query::count(
-            UserSchema::Table(),
-            Where::_And(
-                Where::Equal(UserSchema::Columns()->active, 'y'),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
-                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
-            )
-        );
-
-        return Database::count($query);
-    }
-
-    /**
-     * Get the total new memberships of a type recorded in the date range.
-     *
-     * @param int    $membership_id int
-     * @param string $start         int unixtime
-     * @param string $end           int unixtime
-     *
-     * @throws string
-     *
-     * @return int
-     */
-    protected static function NewMembershipByIdCount($membership_id, $start, $end): int {
-        $query = Query::count(
-            UserSchema::Table(),
-            Where::_And(
-                Where::Equal(UserSchema::Columns()->active, 'y'),
-                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
-                Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
-                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
-                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
-            )
-        );
-
-        return Database::count($query);
-    }
-
-    /**
-     * Get the total members.
-     *
-     * @param string $start int unixtime
-     * @param string $end   int unixtime
-     *
-     * @throws string
-     *
-     * @return int
-     */
-    protected static function TotalMemberCount(): int {
-        return Database::count(
-            Query::count(
-                UserSchema::Table(),
-                Where::_And(
-                    Where::Equal(UserSchema::Columns()->active, 'y'),
-                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL))
-                )
-            )
-        );
-    }
-
-    protected static function TotalMembershipByIdCount($membership_id): int {
-        return Database::count(
-            Query::count(
-                UserSchema::Table(),
-                Where::_And(
-                    Where::Equal(UserSchema::Columns()->active, 'y'),
-                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
-                    Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
-                )
-            )
-        );
-    }
-
-    /**
      * @permission user
      *
      * @param string $start_range
      * @param string $end_range
-     *
-     * @throws string
      *
      * @return \app\dto\v2\MetricServiceGetCreatedDatesResult
      */
@@ -177,8 +91,6 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\Payment[]
      */
     public function GetExceptionPayments(): array {
@@ -191,8 +103,6 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @param string                            $start_range
      * @param string                            $end_range
      * @param \app\enums\MetricServiceGroupType $group
-     *
-     * @throws string
      *
      * @return \app\dto\v2\MetricServiceGetMembersResult
      */
@@ -217,8 +127,8 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
         $expired = [];
 
         foreach ($users as $user) {
-            $created = $this->countByDate($created, $user->created, $group);
-            $expired = $this->countByDate($expired, $user->mem_expire, $group);
+            $created[] = $this->countByDate($created, $user->created, $group);
+            $expired[] = $this->countByDate($expired, $user->mem_expire, $group);
         }
 
         $total = [];
@@ -248,15 +158,13 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @param string $start_range string iso date in UTC, if empty is start of today
      * @param string $end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceNewKeyholdersResult
      */
     public function GetNewKeyHolders($start_range, $end_range): MetricServiceNewKeyholdersResult {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
         $membership = Membership::findByCode(Membership::KEYHOLDER);
-        $count = self::NewMembershipByIdCount($membership[0]->id, $start, $end);
+        $count = $this->NewMembershipByIdCount($membership[0]->id, $start, $end);
 
         return new MetricServiceNewKeyholdersResult([
             'value' => $count
@@ -269,14 +177,12 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @param string $start_range string iso date in UTC, if empty is start of today
      * @param string $end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceNewMembersResult
      */
     public function GetNewMembers($start_range, $end_range): MetricServiceNewMembersResult {
         $start = strtotime($start_range);
         $end = strtotime($end_range);
-        $count = self::NewMemberCount($start, $end);
+        $count = $this->NewMemberCount($start, $end);
 
         return new MetricServiceNewMembersResult([
             'start_range' => $start_range,
@@ -290,12 +196,10 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\User[]
      */
     public function GetPendingAccounts(): mixed {
-        return User::where(Where::Equal(User::Schema()->Columns()->active, 't'));
+        return User::where(Where::Equal(User::Schema()->Columns()->active, UserActiveEnum::PENDING->value));
     }
 
     /**
@@ -304,8 +208,6 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @param string                            $start_range string iso date in UTC, if empty is end of today
      * @param string                            $end_range   string iso date in UTC, if empty is end of today
      * @param \app\enums\MetricServiceGroupType $group       group by month, day, year
-     *
-     * @throws string
      *
      * @return \app\dto\v2\MetricServiceGetRevenueResult
      */
@@ -372,13 +274,11 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceTotalKeyHoldersResult
      */
     public function GetTotalKeyHolders(): MetricServiceTotalKeyHoldersResult {
         $membership = Membership::findByCode(Membership::KEYHOLDER);
-        $count = self::TotalMembershipByIdCount($membership[0]->id);
+        $count = $this->TotalMembershipByIdCount($membership[0]->id);
 
         return new MetricServiceTotalKeyHoldersResult([
             'value' => $count
@@ -388,18 +288,25 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     /**
      * @permission user
      *
-     * @throws string
-     *
      * @return \app\dto\v2\MetricServiceTotalMembersResult
      */
     public function GetTotalMembers(): MetricServiceTotalMembersResult {
-        $count = self::TotalMemberCount();
+        $count = $this->TotalMemberCount();
 
         return new MetricServiceTotalMembersResult([
             'value' => $count
         ]);
     }
 
+    /**
+     * countByDate.
+     *
+     * @param mixed[] $arr
+     * @param mixed   $date
+     * @param mixed   $group
+     *
+     * @return mixed[]
+     */
     private function countByDate($arr, $date, $group): mixed {
         if (is_null($date)) {
             return $arr;
@@ -437,5 +344,88 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
         $arr[$grouping] += 1;
 
         return $arr;
+    }
+
+    /**
+     * Get the total new members recorded in the date range.
+     *
+     * @param int $start int unixtime
+     * @param int $end   int unixtime
+     *
+     * @return int
+     */
+    private function NewMemberCount($start, $end): int {
+        $query = Query::count(
+            UserSchema::Table(),
+            Where::_And(
+                Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
+            )
+        );
+
+        return Database::count($query);
+    }
+
+    /**
+     * Get the total new memberships of a type recorded in the date range.
+     *
+     * @param int $membership_id int
+     * @param int $start         int unixtime
+     * @param int $end           int unixtime
+     *
+     * @return int
+     */
+    private function NewMembershipByIdCount($membership_id, $start, $end): int {
+        $query = Query::count(
+            UserSchema::Table(),
+            Where::_And(
+                Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
+                Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
+            )
+        );
+
+        return Database::count($query);
+    }
+
+    /**
+     * Get the total members.
+     *
+     * @return int
+     */
+    private function TotalMemberCount(): int {
+        return Database::count(
+            Query::count(
+                UserSchema::Table(),
+                Where::_And(
+                    Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL))
+                )
+            )
+        );
+    }
+
+    /**
+     * TotalMembershipByIdCount.
+     *
+     * @param int $membership_id
+     *
+     * @return int
+     */
+    private function TotalMembershipByIdCount($membership_id): int {
+        return Database::count(
+            Query::count(
+                UserSchema::Table(),
+                Where::_And(
+                    Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                    Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                    Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
+                )
+            )
+        );
     }
 }

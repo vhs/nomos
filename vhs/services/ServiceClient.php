@@ -11,6 +11,14 @@ namespace vhs\services;
 
 /** @typescript */
 class ServiceClient {
+    /**
+     * __callStatic.
+     *
+     * @param string $name
+     * @param mixed  $arguments
+     *
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments) {
         $uri = explode('_', $name);
 
@@ -18,7 +26,7 @@ class ServiceClient {
         $service = $uri[1];
         $method = $uri[2];
 
-        $uri = '/services/' . $namespace . '/' . $service . '.svc';
+        $uri = "/services/$namespace/$service.svc";
 
         $contract = ServiceRegistry::get($namespace)->discover($uri, true);
 

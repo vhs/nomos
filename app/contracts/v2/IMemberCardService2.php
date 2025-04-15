@@ -19,8 +19,6 @@ interface IMemberCardService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountGenuineCards($filters): int;
@@ -31,9 +29,6 @@ interface IMemberCardService2 extends IContract {
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws \Exception
-     * @throws string
-     *
      * @return int
      */
     public function CountGenuineUserCards($userid, $filters): int;
@@ -42,8 +37,6 @@ interface IMemberCardService2 extends IContract {
      * @permission administrator
      *
      * @param string $key
-     *
-     * @throws string
      *
      * @return \app\domain\GenuineCard
      */
@@ -54,9 +47,6 @@ interface IMemberCardService2 extends IContract {
      *
      * @param string $email
      * @param string $key
-     *
-     * @throws \Exception
-     * @throws string
      *
      * @return \app\domain\GenuineCard
      */
@@ -70,8 +60,6 @@ interface IMemberCardService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\GenuineCard[]
      */
@@ -87,9 +75,6 @@ interface IMemberCardService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws \Exception
-     * @throws string
-     *
      * @return \app\domain\GenuineCard[]
      */
     public function ListUserGenuineCards($userid, $page, $size, $columns, $order, $filters): array;
@@ -100,9 +85,6 @@ interface IMemberCardService2 extends IContract {
      * @param string $key
      * @param string $notes
      *
-     * @throws \Exception
-     * @throws string
-     *
      * @return \app\domain\GenuineCard
      */
     public function RegisterGenuineCard($key, $notes): GenuineCard;
@@ -111,10 +93,7 @@ interface IMemberCardService2 extends IContract {
      * @permission administrator
      *
      * @param string $key
-     * @param string $active
-     *
-     * @throws \Exception
-     * @throws string
+     * @param bool   $active
      *
      * @return bool
      */
@@ -124,8 +103,6 @@ interface IMemberCardService2 extends IContract {
      * @permission authenticated
      *
      * @param string $key
-     *
-     * @throws string
      *
      * @return bool
      */

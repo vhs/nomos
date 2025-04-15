@@ -14,7 +14,25 @@ use vhs\database\Table;
 
 /** @typescript */
 interface IAccess extends \Serializable, \JsonSerializable {
+    /**
+     * CanRead.
+     *
+     * @param mixed                $record
+     * @param \vhs\database\Table  $table
+     * @param \vhs\database\Column $column
+     *
+     * @return bool
+     */
     public function CanRead($record, Table $table, Column $column);
 
+    /**
+     * CanWrite.
+     *
+     * @param mixed                $record
+     * @param \vhs\database\Table  $table
+     * @param \vhs\database\Column $column
+     *
+     * @return bool
+     */
     public function CanWrite($record, Table $table, Column $column);
 }

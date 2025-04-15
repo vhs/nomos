@@ -25,7 +25,7 @@ interface IPinService1 extends IContract {
      *
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -34,9 +34,9 @@ interface IPinService1 extends IContract {
     /**
      * @permission gen-temp-pin|administrator
      *
-     * @param $expires
-     * @param $privileges
-     * @param $notes
+     * @param mixed  $expires
+     * @param mixed  $privileges
+     * @param string $notes
      *
      * @return mixed
      */
@@ -45,7 +45,7 @@ interface IPinService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -54,8 +54,8 @@ interface IPinService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $pin
+     * @param int   $keyid
+     * @param mixed $pin
      *
      * @return mixed
      */
@@ -66,8 +66,8 @@ interface IPinService1 extends IContract {
      *
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $pin
+     * @param int   $userid
+     * @param mixed $pin
      *
      * @return mixed
      */

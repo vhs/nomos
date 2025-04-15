@@ -21,8 +21,6 @@ interface IUserService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUsers($filters): int;
@@ -37,8 +35,6 @@ interface IUserService2 extends IContract {
      * @param string $lname
      * @param int    $membershipid
      *
-     * @throws string
-     *
      * @return \app\domain\User
      */
     public function Create($username, $password, $email, $fname, $lname, $membershipid): User;
@@ -48,16 +44,12 @@ interface IUserService2 extends IContract {
      *
      * @param int $userid
      *
-     * @throws string
-     *
      * @return bool
      */
     public function GetStanding($userid): bool;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return mixed [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
      */
@@ -67,8 +59,6 @@ interface IUserService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\User|null
      */
@@ -81,16 +71,12 @@ interface IUserService2 extends IContract {
      *
      * @param int $userid
      *
-     * @throws string
-     *
-     * @return array<string,string>|array
+     * @return array<string,string>|array<string>
      */
     public function GetUserGrantablePrivileges($userid): array;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\User[]
      */
@@ -101,8 +87,6 @@ interface IUserService2 extends IContract {
      *
      * @param int    $userid
      * @param string $privilege
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -117,8 +101,6 @@ interface IUserService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\User[]
      */
     public function ListUsers($page, $size, $columns, $order, $filters): array;
@@ -128,8 +110,6 @@ interface IUserService2 extends IContract {
      *
      * @param int             $userid
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -144,8 +124,6 @@ interface IUserService2 extends IContract {
      * @param string $fname
      * @param string $lname
      *
-     * @throws string
-     *
      * @return \app\domain\User
      */
     public function Register($username, $password, $email, $fname, $lname): User;
@@ -155,8 +133,6 @@ interface IUserService2 extends IContract {
      *
      * @param string $email
      *
-     * @throws string
-     *
      * @return \app\dto\ServiceResponseError|\app\dto\ServiceResponseSuccess
      */
     public function RequestPasswordReset($email): ServiceResponseSuccess|ServiceResponseError;
@@ -165,8 +141,6 @@ interface IUserService2 extends IContract {
      * @permission user
      *
      * @param string $email
-     *
-     * @throws string
      *
      * @return bool|string|null
      */
@@ -178,8 +152,6 @@ interface IUserService2 extends IContract {
      * @param string $token
      * @param string $password
      *
-     * @throws string
-     *
      * @return \app\dto\ServiceResponseError|\app\dto\ServiceResponseSuccess
      */
     public function ResetPassword($token, $password): ServiceResponseSuccess|ServiceResponseError;
@@ -189,8 +161,6 @@ interface IUserService2 extends IContract {
      *
      * @param int    $userid
      * @param string $privilege
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -202,8 +172,6 @@ interface IUserService2 extends IContract {
      * @param int         $userid
      * @param bool|string $cash
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateCash($userid, $cash): bool;
@@ -213,8 +181,6 @@ interface IUserService2 extends IContract {
      *
      * @param int    $userid
      * @param string $email
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -226,8 +192,6 @@ interface IUserService2 extends IContract {
      * @param int    $userid
      * @param string $date
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateExpiry($userid, $date): bool;
@@ -237,8 +201,6 @@ interface IUserService2 extends IContract {
      *
      * @param int $userid
      * @param int $membershipid
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -251,8 +213,6 @@ interface IUserService2 extends IContract {
      * @param string $fname
      * @param string $lname
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateName($userid, $fname, $lname): bool;
@@ -262,8 +222,6 @@ interface IUserService2 extends IContract {
      *
      * @param int  $userid
      * @param bool $subscribe
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -275,8 +233,6 @@ interface IUserService2 extends IContract {
      * @param int    $userid
      * @param string $password
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePassword($userid, $password): bool;
@@ -286,8 +242,6 @@ interface IUserService2 extends IContract {
      *
      * @param int    $userid
      * @param string $email
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -299,8 +253,6 @@ interface IUserService2 extends IContract {
      * @param int    $userid
      * @param string $status
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateStatus($userid, $status): bool;
@@ -311,8 +263,6 @@ interface IUserService2 extends IContract {
      * @param int    $userid
      * @param string $email
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateStripeEmail($userid, $email): bool;
@@ -322,8 +272,6 @@ interface IUserService2 extends IContract {
      *
      * @param int    $userid
      * @param string $username
-     *
-     * @throws string
      *
      * @return bool
      */

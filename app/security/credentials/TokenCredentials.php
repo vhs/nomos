@@ -13,14 +13,31 @@ use vhs\security\ICredentials;
 
 /** @typescript */
 abstract class TokenCredentials implements ICredentials {
-    private $token;
+    private string $token;
 
+    /**
+     * __construct.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
     public function __construct($token) {
         $this->token = $token;
     }
 
+    /**
+     * getType.
+     *
+     * @return string
+     */
     abstract public function getType();
 
+    /**
+     * getToken.
+     *
+     * @return string
+     */
     public function getToken() {
         return $this->token;
     }

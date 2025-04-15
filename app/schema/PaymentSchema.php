@@ -40,7 +40,9 @@ class PaymentSchema extends Schema {
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->user_id, UserSchema::Table(), UserSchema::Columns()->id)
         );
 

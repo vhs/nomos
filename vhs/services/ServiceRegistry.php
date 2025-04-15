@@ -12,8 +12,13 @@ namespace vhs\services;
 use vhs\Logger;
 use vhs\Singleton;
 
-/** @typescript */
+/**
+ * @method static \vhs\services\ServiceRegistry getInstance()
+ *
+ * @typescript
+ */
 class ServiceRegistry extends Singleton {
+    /** @var array<string, \vhs\services\ServiceHandler> */
     private $services = [];
 
     /**
@@ -26,10 +31,12 @@ class ServiceRegistry extends Singleton {
     }
 
     /**
-     * @param Logger $logger
-     * @param string $key
-     * @param string $namespace
-     * @param string $path
+     * @param \vhs\Logger $logger
+     * @param string      $key
+     * @param string      $namespace
+     * @param string      $path
+     *
+     * @return void
      */
     final public static function register(Logger &$logger, $key, $namespace, $path) {
         ServiceRegistry::getInstance()->services[$key] = new ServiceHandler($logger, $namespace, $path, $key . '/');

@@ -11,5 +11,12 @@ namespace vhs\database;
 
 /** @typescript */
 interface ITableGenerator extends IGenerator {
-    public function generateTable(Table $ascending);
+    /**
+     * generateTable.
+     *
+     * @param \vhs\database\Table $table
+     *
+     * @return mixed
+     */
+    public function generateTable(Table $table);
 }

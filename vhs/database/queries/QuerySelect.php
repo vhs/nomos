@@ -9,6 +9,7 @@
 
 namespace vhs\database\queries;
 
+use vhs\database\Column;
 use vhs\database\Columns;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
@@ -18,7 +19,7 @@ use vhs\database\wheres\Where;
 
 /** @typescript */
 class QuerySelect extends Query {
-    /** @var Columns */
+    /** @var \vhs\database\Column[]|\vhs\database\Columns */
     public $columns;
     /** @var Limit */
     public $limit;
@@ -27,13 +28,23 @@ class QuerySelect extends Query {
     /** @var OrderBy */
     public $orderBy;
 
+    /**
+     * constructor.
+     *
+     * @param Table               $table
+     * @param Column|Columns|null $columns
+     * @param Where|null          $where
+     * @param OrderBy|null        $orderBy
+     * @param Limit|null          $limit
+     * @param Offset|null         $offset
+     */
     public function __construct(
         Table $table,
-        Columns $columns = null,
-        Where $where = null,
-        OrderBy $orderBy = null,
-        Limit $limit = null,
-        Offset $offset = null
+        mixed $columns = null,
+        ?Where $where = null,
+        ?OrderBy $orderBy = null,
+        ?Limit $limit = null,
+        ?Offset $offset = null
     ) {
         parent::__construct($table, $where);
 
@@ -43,6 +54,13 @@ class QuerySelect extends Query {
         $this->offset = $offset;
     }
 
+    /**
+     * generateQuery.
+     *
+     * @param \vhs\database\queries\IQueryGenerator $generator
+     *
+     * @return mixed
+     */
     public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateSelect($this);
     }

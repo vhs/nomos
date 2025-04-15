@@ -6,6 +6,7 @@ use app\contracts\IPaymentService1;
 use app\domain\Payment;
 use app\processors\PaymentProcessor;
 use Aws\CloudFront\Exception\Exception;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\loggers\StringLogger;
 use vhs\security\CurrentUser;
@@ -46,6 +47,7 @@ class PaymentService extends Service implements IPaymentService1 {
      * @return mixed
      */
     public function GetPayment($id) {
+        /** @var \app\domain\Payment */
         $payment = Payment::find($id);
 
         if (is_null($payment)) {
@@ -100,6 +102,7 @@ class PaymentService extends Service implements IPaymentService1 {
      * @return mixed
      */
     public function ReplayPaymentProcessing($paymentid) {
+        /** @var StringLogger */
         $log = new StringLogger();
 
         $log->log('Attempting a reply of payment id: ' . $paymentid);
@@ -115,17 +118,25 @@ class PaymentService extends Service implements IPaymentService1 {
 
         $log->log('Replay complete.');
 
+        // @phpstan-ignore method.notFound
         return $log->fullText();
     }
 
+    /**
+     * AddUserIDOrEMailToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function AddUserIDOrEMailToFilters($userid, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');

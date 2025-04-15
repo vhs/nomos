@@ -11,7 +11,19 @@ namespace app\gateways;
 
 /** @typescript */
 interface IPaymentGateway {
+    /**
+     * Name.
+     *
+     * @return string
+     */
     public function Name();
 
+    /**
+     * Process.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     */
     public function Process($data);
 }

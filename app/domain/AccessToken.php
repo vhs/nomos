@@ -15,14 +15,38 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * AccessToken domain implementation.
+ *
+ * @property int                   $id
+ * @property string                $token
+ * @property \DateTime|string      $expires
+ * @property int                   $userid
+ * @property int                   $appclientid
+ * @property \app\domain\User      $user
+ * @property \app\domain\AppClient $client
+ *
+ * @typescript
+ */
 class AccessToken extends Domain {
+    /**
+     * Define.
+     *
+     * @return void
+     */
     public static function Define() {
         AccessToken::Schema(AccessTokenSchema::Type());
         AccessToken::Relationship('user', User::Type());
         AccessToken::Relationship('client', AppClient::Type());
     }
 
+    /**
+     * findByToken.
+     *
+     * @param string $token
+     *
+     * @return AccessToken|null
+     */
     public static function findByToken($token) {
         $tokens = self::where(
             Where::Equal(AccessTokenSchema::Columns()->token, $token),

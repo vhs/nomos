@@ -28,18 +28,67 @@ use vhs\domain\validations\ValidationResults;
 
 /** @typescript */
 interface IDomain {
+    /**
+     * Define.
+     *
+     * @return void
+     */
     public static function Define();
 }
 
-/** @typescript */
+/**
+ * @typescript
+ */
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
+    /**
+     * __definition.
+     *
+     * @var mixed
+     */
     private static $__definition = [];
+
+    /**
+     * __cache.
+     *
+     * @var mixed
+     */
     private $__cache;
+
+    /**
+     * __collections.
+     *
+     * @var mixed
+     */
     private $__collections;
+
+    /**
+     * __dirtyChildren.
+     *
+     * @var bool
+     */
     private $__dirtyChildren = false;
+
+    /**
+     * __parentRelationships.
+     *
+     * @var mixed
+     */
     private $__parentRelationships;
+
+    /**
+     * __parentRelationshipsColumnMap.
+     *
+     * @var mixed
+     */
     private $__parentRelationshipsColumnMap;
 
+    /**
+     * __construct.
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     public function __construct() {
         $schema = self::Schema();
 
@@ -112,6 +161,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
+    /**
+     * AccessDefinition.
+     *
+     * @return void
+     */
     public static function AccessDefinition() {
         $checks = self::Schema()->Table()->checks;
 
@@ -120,20 +174,51 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
-    public static function count($filters, array $allowed_columns = null) {
+    /**
+     * Coerce filters value from string.
+     *
+     * @param string|\vhs\domain\Filter|null $filters
+     *
+     * @return void
+     */
+    public static function coerceFilters(&$filters) {
+        if (is_string($filters)) {
+            // TODO total hack.. this is to support GET params
+            $filters = json_decode($filters);
+        }
+    }
+
+    /**
+     * count.
+     *
+     * @param string|\vhs\domain\Filter|null $filters
+     * @param string[]|null                  $allowed_columns
+     *
+     * @return int
+     */
+    public static function count($filters, ?array $allowed_columns = null) {
+        Domain::coerceFilters($filters);
+
         $where = self::constructFilterWhere($filters, $allowed_columns);
 
         return self::doCount($where);
     }
 
-    public static function doCount(Where $where = null) {
+    /**
+     * doCount.
+     *
+     * @param \vhs\database\wheres\Where|null $where
+     *
+     * @return int
+     */
+    public static function doCount(?Where $where = null) {
         $records = Database::count(Query::Count(self::Schema()->Table(), $where));
 
         return (int) $records;
     }
 
     /**
-     * @param int $primaryKeyValues
+     * @param array{id:int}|int $primaryKeyValues
      *
      * @return Domain|null
      */
@@ -151,48 +236,120 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @return array
+     * findAll.
+     *
+     * @return object[]
      */
     public static function findAll() {
         return self::hydrateMany();
     }
 
+    /**
+     * onAnyBeforeChange.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyBeforeChange(callable $listener) {
         self::staticOn('BeforeChange', $listener);
     }
 
+    /**
+     * onAnyBeforeCreate.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyBeforeCreate(callable $listener) {
         self::staticOn('BeforeCreate', $listener);
     }
 
+    /**
+     * onAnyBeforeDelete.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyBeforeDelete(callable $listener) {
         self::staticOn('BeforeDelete', $listener);
     }
 
+    /**
+     * onAnyBeforeSave.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyBeforeSave(callable $listener) {
         self::staticOn('BeforeSave', $listener);
     }
 
+    /**
+     * onAnyBeforeUpdate.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyBeforeUpdate(callable $listener) {
         self::staticOn('BeforeUpdate', $listener);
     }
 
+    /**
+     * onAnyChanged.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyChanged(callable $listener) {
         self::staticOn('Changed', $listener);
     }
 
+    /**
+     * onAnyCreated.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyCreated(callable $listener) {
         self::staticOn('Created', $listener);
     }
 
+    /**
+     * onAnyDeleted.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyDeleted(callable $listener) {
         self::staticOn('Deleted', $listener);
     }
 
+    /**
+     * onAnySaved.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnySaved(callable $listener) {
         self::staticOn('Saved', $listener);
     }
 
+    /**
+     * onAnyUpdated.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public static function onAnyUpdated(callable $listener) {
         self::staticOn('Updated', $listener);
     }
@@ -200,20 +357,22 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * Returns a key value pair of data from this domain.
      *
-     * @param       $page
-     * @param       $size
-     * @param       $columns
-     * @param       $order
-     * @param       $filters
-     * @param array $allowed_columns
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
+     * @param string[]|null                  $allowed_columns
      *
-     * @return array
+     * @return object[]
      */
-    public static function page($page, $size, $columns, $order, $filters, array $allowed_columns = null) {
+    public static function page($page, $size, $columns, $order, $filters, ?array $allowed_columns = null) {
+        Domain::coerceFilters($filters);
+
         $columnNames = explode(',', $columns);
         $orders = explode(',', $order);
 
-        if ($allowed_columns != null && !empty($allowed_columns)) {
+        if (is_array($allowed_columns) && !empty($allowed_columns)) {
             $columnNames = array_intersect($allowed_columns, $columnNames);
         }
 
@@ -255,6 +414,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
         $objects = self::where($where, $orderBy, $size, $page);
 
+        /** @var object[] */
         $retval = [];
 
         foreach ($objects as $object) {
@@ -275,11 +435,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param Schema $schema
+     * @param Schema|null $schema
      *
      * @return Schema
      */
-    public static function Schema(Schema $schema = null) {
+    public static function Schema(?Schema $schema = null) {
         self::ensureDefined();
 
         $class = get_called_class();
@@ -299,22 +459,39 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param Where   $where
-     * @param OrderBy $orderBy
-     * @param null    $limit
-     * @param null    $offset
+     * @param \vhs\database\wheres\Where|null   $where
+     * @param \vhs\database\orders\OrderBy|null $orderBy
+     * @param mixed                             $limit
+     * @param mixed                             $offset
      *
-     * @return array
+     * @return object[]
      */
-    public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
+    public static function where(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
         return self::hydrateMany($where, $orderBy, $limit, $offset);
     }
 
+    /**
+     * arbitraryFind.
+     *
+     * @param mixed $sql
+     *
+     * @return object[]
+     */
     protected static function arbitraryFind($sql) {
         return self::arbitraryHydrate($sql);
     }
 
-    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
+    /**
+     * hydrateMany.
+     *
+     * @param \vhs\database\wheres\Where|null   $where
+     * @param \vhs\database\orders\OrderBy|null $orderBy
+     * @param int                               $limit
+     * @param int                               $offset
+     *
+     * @return object[]
+     */
+    protected static function hydrateMany(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
         $class = get_called_class();
 
         $records = Database::select(
@@ -333,8 +510,10 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         foreach ($records as $row) {
             /** @var Domain $obj */
             $obj = new $class();
+
             $obj->setValues($row);
             $obj->hydrateRelationships();
+
             array_push($items, $obj);
         }
 
@@ -342,11 +521,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     }
 
     /**
-     * @param string $as
-     * @param string $domain
-     * @param Schema $joinTable
+     * @param string                  $as
+     * @param string                  $domain
+     * @param \vhs\domain\Schema|null $joinTable
+     *
+     * @return void
      */
-    protected static function Relationship($as, $domain, Schema $joinTable = null) {
+    protected static function Relationship($as, $domain, ?Schema $joinTable = null) {
         self::ensureDefined();
 
         $class = get_called_class();
@@ -356,6 +537,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         self::$__definition[$class]['Relationships'][$as]['JoinTable'] = $joinTable;
     }
 
+    /**
+     * Relationships.
+     *
+     * @return mixed
+     */
     protected static function Relationships() {
         self::ensureDefined();
 
@@ -364,17 +550,27 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return self::$__definition[$class]['Relationships'];
     }
 
+    /**
+     * arbitrary hydrate.
+     *
+     * @param mixed $sql
+     *
+     * @return object[]
+     */
     private static function arbitraryHydrate($sql) {
         $class = get_called_class();
 
         $records = Database::arbitrary($sql);
 
         $items = [];
+
         foreach ($records as $row) {
             /** @var Domain $obj */
             $obj = new $class();
+
             $obj->setValues($row);
             $obj->hydrateRelationships();
+
             array_push($items, $obj);
         }
 
@@ -392,9 +588,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * }
      *
      * @param Columns $columns the filters that are allowed to be used in the filter
-     * @param         $filter
+     * @param mixed   $filter
      *
-     * @return Where|null
+     * @return void|Where|null
      */
     private static function constructFilter(Columns $columns, $filter) {
         if (is_object($filter)) {
@@ -436,12 +632,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * Constructs the WHERE clause for a filter expression.
      *
-     * @param       $filters
-     * @param array $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
+     * @param mixed         $filters
+     * @param string[]|null $allowed_columns either an array of strings containing the list of columns allowed in a filter expression or null which means al columns are allowed
      *
      * @return Where|null
      */
-    private static function constructFilterWhere($filters, array $allowed_columns = null) {
+    private static function constructFilterWhere($filters, ?array $allowed_columns = null) {
         $actualColumns = new Columns();
 
         if ($allowed_columns == null) {
@@ -459,6 +655,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return self::constructFilter($actualColumns, $filters);
     }
 
+    /**
+     * ensureDefined.
+     *
+     * @return void
+     */
     private static function ensureDefined() {
         $class = get_called_class();
 
@@ -473,10 +674,15 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * @param ValidationResults $results
      *
-     * @return bool
+     * @return bool|void
      */
     abstract public function validate(ValidationResults &$results);
 
+    /**
+     * delete.
+     *
+     * @return void
+     */
     public function delete() {
         $this->raiseBeforeDelete();
 
@@ -490,6 +696,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $this->raiseDeleted();
     }
 
+    /**
+     * getInternalData.
+     *
+     * @return array<mixed,mixed>
+     */
     public function getInternalData() {
         $cols = self::Schema()->Columns()->all();
         $data = [];
@@ -518,46 +729,121 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return $data;
     }
 
+    /**
+     * jsonSerialize.
+     *
+     * @return mixed
+     */
     public function jsonSerialize(): mixed {
         return $this->getInternalData();
     }
 
+    /**
+     * onBeforeChange.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onBeforeChange(callable $listener) {
         $this->on('BeforeChange', $listener);
     }
 
+    /**
+     * onBeforeCreate.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onBeforeCreate(callable $listener) {
         $this->on('BeforeCreate', $listener);
     }
 
+    /**
+     * onBeforeDelete.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onBeforeDelete(callable $listener) {
         $this->on('BeforeDelete', $listener);
     }
 
+    /**
+     * onBeforeSave.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onBeforeSave(callable $listener) {
         $this->on('BeforeSave', $listener);
     }
 
+    /**
+     * onBeforeUpdate.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onBeforeUpdate(callable $listener) {
         $this->on('BeforeUpdate', $listener);
     }
 
+    /**
+     * onChanged.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onChanged(callable $listener) {
         $this->on('Changed', $listener);
     }
 
+    /**
+     * onCreated.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onCreated(callable $listener) {
         $this->on('Created', $listener);
     }
 
+    /**
+     * onDeleted.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onDeleted(callable $listener) {
         $this->on('Deleted', $listener);
     }
 
+    /**
+     * onSaved.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onSaved(callable $listener) {
         $this->on('Saved', $listener);
     }
 
+    /**
+     * onUpdated.
+     *
+     * @param callable $listener
+     *
+     * @return void
+     */
     public function onUpdated(callable $listener) {
         $this->on('Updated', $listener);
     }
@@ -565,9 +851,8 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * @param ValidationResults|null $validationResults
      *
-     * @throws DomainException
-     * @throws ValidationException
-     * @throws \Exception
+     * @throws \vhs\domain\exceptions\DomainException
+     * @throws \vhs\domain\validations\ValidationException
      *
      * @return bool
      */
@@ -636,14 +921,33 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return true;
     }
 
+    /**
+     * serialize.
+     *
+     * @return string
+     */
     public function serialize() {
         return serialize($this->getInternalData());
     }
 
+    /**
+     * unserialize.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function unserialize($data) {
         //TODO implement
     }
 
+    /**
+     * getValue.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     protected function getValue($name) {
         if (self::Schema()->Columns()->contains($name)) {
             return $this->$name;
@@ -652,6 +956,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return null;
     }
 
+    /**
+     * getValues.
+     *
+     * @param mixed $excludePrimaryKeys
+     *
+     * @return mixed[]
+     */
     protected function getValues($excludePrimaryKeys = false) {
         $data = [];
 
@@ -682,6 +993,15 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return $data;
     }
 
+    /**
+     * hydrate.
+     *
+     * @param mixed $pk
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return bool
+     */
     protected function hydrate($pk = null) {
         $record = Database::select(Query::Select(self::Schema()->Table(), self::Schema()->Columns(), $this->pkWhere($pk)));
 
@@ -700,56 +1020,117 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return true;
     }
 
+    /**
+     * raiseBeforeChange.
+     *
+     * @param \vhs\database\Column ...$columns
+     *
+     * @return void
+     */
     protected function raiseBeforeChange(Column ...$columns) {
         $this->raise('BeforeChange', ...$columns);
         self::staticRaise('BeforeChange', $this, ...$columns);
     }
 
+    /**
+     * raiseBeforeCreate.
+     *
+     * @return void
+     */
     protected function raiseBeforeCreate() {
         $this->raise('BeforeCreate');
         self::staticRaise('BeforeCreate', $this);
     }
 
+    /**
+     * raiseBeforeDelete.
+     *
+     * @return void
+     */
     protected function raiseBeforeDelete() {
         $this->raise('BeforeDelete');
         self::staticRaise('BeforeDelete', $this);
     }
 
+    /**
+     * raiseBeforeSave.
+     *
+     * @return void
+     */
     protected function raiseBeforeSave() {
         $this->raise('BeforeSave');
         self::staticRaise('BeforeSave', $this);
     }
 
+    /**
+     * raiseBeforeUpdate.
+     *
+     * @return void
+     */
     protected function raiseBeforeUpdate() {
         $this->raise('BeforeUpdate');
         self::staticRaise('BeforeUpdate', $this);
     }
 
+    /**
+     * raiseChanged.
+     *
+     * @param \vhs\database\Column ...$columns
+     *
+     * @return void
+     */
     protected function raiseChanged(Column ...$columns) {
         $this->raise('Changed', ...$columns);
         self::staticRaise('Changed', $this, ...$columns);
     }
 
+    /**
+     * raiseCreated.
+     *
+     * @return void
+     */
     protected function raiseCreated() {
         $this->raise('Created');
         self::staticRaise('Created', $this);
     }
 
+    /**
+     * raiseDeleted.
+     *
+     * @return void
+     */
     protected function raiseDeleted() {
         $this->raise('Deleted');
         self::staticRaise('Deleted', $this);
     }
 
+    /**
+     * raiseSaved.
+     *
+     * @return void
+     */
     protected function raiseSaved() {
         $this->raise('Saved');
         self::staticRaise('Saved', $this);
     }
 
+    /**
+     * raiseUpdated.
+     *
+     * @return void
+     */
     protected function raiseUpdated() {
         $this->raise('Updated');
         self::staticRaise('Updated', $this);
     }
 
+    /**
+     * setValues.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     protected function setValues($data) {
         $cols = [];
         foreach (self::Schema()->Columns()->all() as $col) {
@@ -767,10 +1148,20 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $this->raiseChanged(...$cols);
     }
 
+    /**
+     * checkIsDirty.
+     *
+     * @return bool
+     */
     private function checkIsDirty() {
         return $this->__cache->hasChanged() || $this->__dirtyChildren;
     }
 
+    /**
+     * checkIsNew.
+     *
+     * @return bool
+     */
     private function checkIsNew() {
         $pks = self::Schema()->PrimaryKeys();
 
@@ -782,6 +1173,15 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return $isNew;
     }
 
+    /**
+     * extractPkValues.
+     *
+     * @param mixed $primaryKeyValues
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return string[]
+     */
     private function extractPkValues($primaryKeyValues = null) {
         $pks = self::Schema()->PrimaryKeys();
 
@@ -808,6 +1208,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return $values;
     }
 
+    /**
+     * hydrateRelationships.
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     private function hydrateRelationships() {
         /** @var DomainCollection $collection */
         foreach ($this->__collections as $collection) {
@@ -835,6 +1242,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
+    /**
+     * pkWhere.
+     *
+     * @param mixed $primaryKeyValues
+     *
+     * @return \vhs\database\wheres\Where|null
+     */
     private function pkWhere($primaryKeyValues = null) {
         $values = $this->extractPkValues($primaryKeyValues);
 
@@ -855,6 +1269,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return null;
     }
 
+    /**
+     * __get.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     public function __get($name) {
         $internal = 0 === strpos($name, 'internal_');
         if ($internal) {
@@ -876,10 +1297,25 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return null;
     }
 
+    /**
+     * __serialize.
+     *
+     * @return array<mixed, mixed>
+     */
     public function __serialize() {
-        return serialize($this->getInternalData());
+        return $this->getInternalData();
     }
 
+    /**
+     * __set.
+     *
+     * @param mixed $name
+     * @param mixed $value
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     public function __set($name, $value) {
         $internal = 0 === strpos($name, 'internal_');
         if ($internal) {
@@ -902,6 +1338,11 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         }
     }
 
+    /**
+     * __toString.
+     *
+     * @return string
+     */
     public function __toString() {
         //TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
         $cols = self::Schema()->Columns()->all();
@@ -915,6 +1356,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         return json_encode($data);
     }
 
+    /**
+     * __unserialize.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function __unserialize($data) {
         //TODO implement
     }

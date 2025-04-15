@@ -16,12 +16,29 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $key
+ * @property string $type
+ * @property bool   $authorized
+ * @property string $from_ip
+ * @property string $time
+ * @property int    $userid
+ *
+ * @typescript
+ */
 class AccessLog extends Domain {
     public static function Define() {
         AccessLog::Schema(AccessLogSchema::Type());
     }
 
+    /**
+     * findLatest.
+     *
+     * @param int $limit
+     *
+     * @return AccessLog[]
+     */
     public static function findLatest($limit = 5) {
         return self::where(
             Where::Equal(AccessLogSchema::Columns()->authorized, false),
@@ -30,6 +47,17 @@ class AccessLog extends Domain {
         );
     }
 
+    /**
+     * log.
+     *
+     * @param string $key
+     * @param string $type
+     * @param bool   $authorized
+     * @param string $from_ip
+     * @param int    $userid
+     *
+     * @return AccessLog
+     */
     public static function log($key, $type, $authorized, $from_ip, $userid = null) {
         $entry = new AccessLog();
 

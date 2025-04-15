@@ -19,8 +19,6 @@ interface IEmailService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountTemplates($filters): int;
@@ -29,8 +27,6 @@ interface IEmailService2 extends IContract {
      * @permission administrator
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return void
      */
@@ -41,12 +37,10 @@ interface IEmailService2 extends IContract {
      *
      * @permission administrator
      *
-     * @param string               $email
-     * @param string               $tmpl
-     * @param array<string, mixed> $context
-     * @param string|null          $subject
-     *
-     * @throws string
+     * @param string              $email
+     * @param string              $tmpl
+     * @param array<string,mixed> $context
+     * @param string|null         $subject
      *
      * @return void
      */
@@ -57,12 +51,10 @@ interface IEmailService2 extends IContract {
      *
      * @permission administrator
      *
-     * @param \app\domain\User     $user    email address
-     * @param string               $tmpl
-     * @param array<string, mixed> $context
-     * @param string|null          $subject
-     *
-     * @throws string
+     * @param \app\domain\User    $user    email address
+     * @param string              $tmpl
+     * @param array<string,mixed> $context
+     * @param string|null         $subject
      *
      * @return void
      */
@@ -73,11 +65,9 @@ interface IEmailService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
-     * @return \app\domain\EmailTemplate
+     * @return \app\domain\EmailTemplate|null
      */
-    public function GetTemplate($id): EmailTemplate;
+    public function GetTemplate($id): EmailTemplate|null;
 
     /**
      * @permission administrator
@@ -87,8 +77,6 @@ interface IEmailService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\EmailTemplate[]
      */
@@ -104,19 +92,15 @@ interface IEmailService2 extends IContract {
      * @param string $body
      * @param string $html
      *
-     * @throws string
-     *
-     * @return \app\domain\EmailTemplate
+     * @return bool
      */
-    public function PutTemplate($name, $code, $subject, $help, $body, $html): EmailTemplate;
+    public function PutTemplate($name, $code, $subject, $help, $body, $html): bool;
 
     /**
      * @permission administrator
      *
      * @param int    $id
      * @param string $body
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -128,8 +112,6 @@ interface IEmailService2 extends IContract {
      * @param int    $id
      * @param string $code
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateCode($id, $code): bool;
@@ -139,8 +121,6 @@ interface IEmailService2 extends IContract {
      *
      * @param int    $id
      * @param string $help
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -152,8 +132,6 @@ interface IEmailService2 extends IContract {
      * @param int    $id
      * @param string $html
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateHtml($id, $html): bool;
@@ -164,8 +142,6 @@ interface IEmailService2 extends IContract {
      * @param int    $id
      * @param string $name
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateTemplateName($id, $name): bool;
@@ -175,8 +151,6 @@ interface IEmailService2 extends IContract {
      *
      * @param int    $id
      * @param string $subject
-     *
-     * @throws string
      *
      * @return bool
      */

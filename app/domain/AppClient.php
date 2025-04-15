@@ -13,8 +13,28 @@ use app\schema\AppClientSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * AppClient domain implementation.
+ *
+ * @method static \app\domain\AppClient|null find(int $primaryKeyValues)
+ *
+ * @property int              $id
+ * @property string           $secret
+ * @property string           $expires
+ * @property string           $name
+ * @property int              $userid
+ * @property \app\domain\User $owner
+ * @property string           $description
+ * @property string           $url
+ * @property string           $redirecturi
+ * @property bool             $enabled
+ *
+ * @typescript
+ */
 class AppClient extends Domain {
+    /**
+     * @return void
+     */
     public static function Define() {
         AppClient::Schema(AppClientSchema::Type());
         AppClient::Relationship('owner', User::Type());

@@ -4,8 +4,24 @@ namespace vhs\gateways;
 
 use vhs\Loggington;
 
+/**
+ * Gateways Engine.
+ *
+ * @method static \vhs\gateways\Engine getInstance()
+ */
 class Engine extends Loggington {
+    /**
+     * gatewayInstances.
+     *
+     * @var array<string,array<string,array<string,object|string>>>
+     */
     private $gatewayInstances = [];
+
+    /**
+     * gatewaysPrefix.
+     *
+     * @var string
+     */
     private $gatewaysPrefix = 'vhs\gateways';
 
     protected function __construct() {
@@ -21,8 +37,6 @@ class Engine extends Loggington {
      *
      * @param string $gatewayCategory
      * @param string $gatewayType
-     *
-     * @throws \Exception
      *
      * @return object
      */
@@ -43,8 +57,6 @@ class Engine extends Loggington {
      * @param string $gatewayType
      * @param string $className
      *
-     * @throws \Exception
-     *
      * @return object
      */
     public function getNamedGateway($gatewayCategory, $gatewayType, $className): object {
@@ -64,8 +76,6 @@ class Engine extends Loggington {
      * @param string $gatewayType
      * @param string $className
      *
-     * @throws \Exception
-     *
      * @return void
      */
     public function setDefaultGateway($gatewayCategory, $gatewayType, $className): void {
@@ -82,26 +92,7 @@ class Engine extends Loggington {
      * @return void
      */
     protected function discover(): void {
-        function scanAllDir($scanDir) {
-            $result = [];
-            foreach (scandir($scanDir) as $fileName) {
-                if (!preg_match('/^(\.\.?|interfaces|Engine.php)/', $fileName)) {
-                    $filePath = $scanDir . DIRECTORY_SEPARATOR . $fileName;
-
-                    if (is_dir($filePath)) {
-                        foreach (scanAllDir($filePath) as $childFilename) {
-                            $result[] = $fileName . DIRECTORY_SEPARATOR . $childFilename;
-                        }
-                    } else {
-                        $result[] = $fileName;
-                    }
-                }
-            }
-
-            return $result;
-        }
-
-        $gatewayFiles = scanAllDir(__DIR__);
+        $gatewayFiles = $this->scanAllDir(__DIR__);
 
         foreach ($gatewayFiles as $gatewayFile) {
             $gatewayDefinition = explode(DIRECTORY_SEPARATOR, str_replace('.php', '', $gatewayFile));
@@ -117,8 +108,6 @@ class Engine extends Loggington {
      * @param mixed $gatewayType     The sub-level type. E.g. 'email'
      * @param mixed $className       The class name of the actual implementation. E.g. 'AWSSESClient'
      * @param bool  $autoDefault     Whether to automatically set the class as the default handler for that category/type. Defaults to true.
-     *
-     * @throws \Exception
      *
      * @return void
      */
@@ -155,5 +144,32 @@ class Engine extends Loggington {
         if ($autoDefault && !isset($this->gatewayInstances[$gatewayCategory][$gatewayType]['default'])) {
             $this->gatewayInstances[$gatewayCategory][$gatewayType]['default'] = $className;
         }
+    }
+
+    /**
+     * scanAllDir.
+     *
+     * @param string $scanDir
+     *
+     * @return string[]
+     */
+    private function scanAllDir($scanDir) {
+        $result = [];
+
+        foreach (scandir($scanDir) as $fileName) {
+            if (!preg_match('/^(\.\.?|interfaces|Engine.php)/', $fileName)) {
+                $filePath = $scanDir . DIRECTORY_SEPARATOR . $fileName;
+
+                if (is_dir($filePath)) {
+                    foreach ($this->scanAllDir($filePath) as $childFilename) {
+                        $result[] = $fileName . DIRECTORY_SEPARATOR . $childFilename;
+                    }
+                } else {
+                    $result[] = $fileName;
+                }
+            }
+        }
+
+        return $result;
     }
 }

@@ -14,7 +14,7 @@ use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class InvalidCredentials extends HttpException {
-    public function __construct($message = 'Access denied') {
-        parent::__construct($message, HttpStatusCodes::Client_Error_Forbidden);
+    public function __construct($message = 'Access denied', $code = HttpStatusCodes::Client_Error_Unauthorized) {
+        parent::__construct($message, $code);
     }
 }

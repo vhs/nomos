@@ -11,5 +11,12 @@ namespace vhs\database;
 
 /** @typescript */
 interface IOnGenerator extends IGenerator {
+    /**
+     * generateOn.
+     *
+     * @param \vhs\database\On $on
+     *
+     * @return mixed
+     */
     public function generateOn(On $on);
 }

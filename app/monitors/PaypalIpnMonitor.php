@@ -20,6 +20,13 @@ class PaypalIpnMonitor extends Monitor {
     /** @var Logger */
     private $logger;
 
+    /**
+     * handleCreated.
+     *
+     * @param mixed $args
+     *
+     * @return void
+     */
     public function handleCreated($args) {
         /** @var Ipn $ipn */
         $ipn = $args[0];
@@ -84,7 +91,14 @@ class PaypalIpnMonitor extends Monitor {
         }
     }
 
-    public function Init(Logger &$logger = null) {
+    /**
+     * Init.
+     *
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
+    public function Init(?Logger &$logger = null) {
         $this->logger = &$logger;
         Ipn::onAnyCreated([$this, 'handleCreated']);
     }

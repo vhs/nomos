@@ -6,11 +6,13 @@
 
 namespace app\dto;
 
+use app\utils\EnumMapper;
+
 /** @typescript */
 class StripeEvent {
     public string $api_version;
 
-    public int $created;
+    public string $created;
 
     public string $event_id;
     public int $id;
@@ -30,7 +32,7 @@ class StripeEvent {
     public function __construct(\app\domain\StripeEvent $stripeEvent) {
         $this->id = $stripeEvent->id;
         $this->ts = $stripeEvent->ts;
-        $this->status = StripeEventStatusEnum::tryFrom($stripeEvent->status);
+        $this->status = EnumMapper::tryFrom(StripeEventStatusEnum::cases(), $stripeEvent->status);
         $this->created = $stripeEvent->created;
         $this->event_id = $stripeEvent->event_id;
         $this->type = $stripeEvent->type;

@@ -9,16 +9,35 @@
 
 namespace vhs\services;
 
+use vhs\exceptions\HttpException;
+use vhs\web\enums\HttpStatusCodes;
+
 /** @typescript */
 abstract class Service {
     /** @var ServiceContext $context */
     protected $context;
 
-    public function __construct(ServiceContext $context = null) {
+    /**
+     * __construct.
+     *
+     * @param \vhs\services\ServiceContext|null $context
+     *
+     * @return void
+     */
+    public function __construct(?ServiceContext $context = null) {
         $this->context = $context;
     }
 
-    protected function throwNotFound(string $className) {
-        throw new \vhs\domain\exceptions\DomainException($className + ' not found', 404);
+    /**
+     * Shared wrapper to throw a DomainException when a service handler domain class is not found.
+     *
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return void
+     */
+    protected function throwNotFound() {
+        $className = get_called_class();
+
+        throw new HttpException(sprintf('%s not found', $className), HttpStatusCodes::Client_Error_Not_Found);
     }
 }

@@ -27,7 +27,16 @@ class QueryCount extends Query {
     /** @var OrderBy */
     public $orderBy;
 
-    public function __construct(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
+    /**
+     * |null.
+     *
+     * @param Table   $table
+     * @param Where   $where
+     * @param OrderBy $orderBy
+     * @param Limit   $limit
+     * @param Offset  $offset
+     */
+    public function __construct(Table $table, ?Where $where = null, ?OrderBy $orderBy = null, ?Limit $limit = null, ?Offset $offset = null) {
         parent::__construct($table, $where);
 
         $this->orderBy = $orderBy;

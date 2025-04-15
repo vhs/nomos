@@ -20,8 +20,6 @@ interface IWebHookService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountHooks($filters): int;
@@ -31,8 +29,6 @@ interface IWebHookService2 extends IContract {
      *
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -50,8 +46,7 @@ interface IWebHookService2 extends IContract {
      * @param string $method
      * @param int    $eventid
      *
-     * @throws string
-     * @throws UnauthorizedException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\WebHook
      */
@@ -61,8 +56,6 @@ interface IWebHookService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return void
      */
@@ -74,16 +67,12 @@ interface IWebHookService2 extends IContract {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function EnableHook($id, $enabled): bool;
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws string
      *
      * @return \app\domain\WebHook[]
      */
@@ -94,8 +83,6 @@ interface IWebHookService2 extends IContract {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return \app\domain\WebHook|null
      */
     public function GetHook($id): WebHook|null;
@@ -105,8 +92,6 @@ interface IWebHookService2 extends IContract {
      *
      * @param string $domain
      * @param string $event
-     *
-     * @throws string
      *
      * @return \app\domain\WebHook[]
      */
@@ -120,8 +105,6 @@ interface IWebHookService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\WebHook[]
      */
@@ -137,9 +120,6 @@ interface IWebHookService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     * @throws \Exception
-     *
      * @return \app\domain\WebHook[]
      */
     public function ListUserHooks($userid, $page, $size, $columns, $order, $filters): array;
@@ -149,8 +129,6 @@ interface IWebHookService2 extends IContract {
      *
      * @param int             $id
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -168,8 +146,6 @@ interface IWebHookService2 extends IContract {
      * @param string $headers
      * @param string $method
      * @param int    $eventid
-     *
-     * @throws string
      *
      * @return bool
      */

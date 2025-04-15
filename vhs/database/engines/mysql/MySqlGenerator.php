@@ -66,6 +66,13 @@ class MySqlGenerator implements
     /** @var \mysqli */
     private $conn = null;
 
+    /**
+     * generateAnd.
+     *
+     * @param \vhs\database\wheres\WhereAnd $where
+     *
+     * @return string
+     */
     public function generateAnd(WhereAnd $where) {
         $sql = '(';
 
@@ -81,10 +88,25 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateAscending.
+     *
+     * @param \vhs\database\orders\OrderByAscending $ascending
+     *
+     * @return string
+     */
     public function generateAscending(OrderByAscending $ascending) {
         return $this->gen($ascending, 'ASC');
     }
 
+    /**
+     * generateBool.
+     *
+     * @param \vhs\database\types\TypeBool $type
+     * @param bool|null                    $value
+     *
+     * @return string
+     */
     public function generateBool(TypeBool $type, $value = null) {
         return $this->genVal(
             function ($val) {
@@ -99,10 +121,24 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateColumn.
+     *
+     * @param \vhs\database\Column $column
+     *
+     * @return string
+     */
     public function generateColumn(Column $column) {
         return "{$column->table->alias}.`{$column->name}`";
     }
 
+    /**
+     * generateComparator.
+     *
+     * @param \vhs\database\wheres\WhereComparator $where
+     *
+     * @return string
+     */
     public function generateComparator(WhereComparator $where) {
         if ($where->isArray || (is_object($where->value) && get_class($where->value) == 'vhs\\database\\queries\\QuerySelect')) {
             $sql = $where->column->generate($this);
@@ -168,10 +204,25 @@ class MySqlGenerator implements
         }
     }
 
+    /**
+     * generateCross.
+     *
+     * @param \vhs\database\joins\JoinCross $join
+     *
+     * @return string
+     */
     public function generateCross(JoinCross $join) {
         return "CROSS JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
+    /**
+     * generateDate.
+     *
+     * @param \vhs\database\types\TypeDate $type
+     * @param string|null                  $value
+     *
+     * @return string
+     */
     public function generateDate(TypeDate $type, $value = null) {
         return $this->genVal(
             function ($val) {
@@ -182,6 +233,14 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateDateTime.
+     *
+     * @param \vhs\database\types\TypeDateTime $type
+     * @param string|null                      $value
+     *
+     * @return string
+     */
     public function generateDateTime(TypeDateTime $type, $value = null) {
         return $this->genVal(
             function ($val) {
@@ -192,6 +251,13 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateDelete.
+     *
+     * @param \vhs\database\queries\QueryDelete $query
+     *
+     * @return string
+     */
     public function generateDelete(QueryDelete $query) {
         $clause = !is_null($query->where) ? $query->where->generate($this) : '';
 
@@ -204,10 +270,27 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateDescending.
+     *
+     * @param \vhs\database\orders\OrderByDescending $descending
+     *
+     * @return string
+     */
     public function generateDescending(OrderByDescending $descending) {
         return $this->gen($descending, 'DESC');
     }
 
+    /**
+     * generateEnum.
+     *
+     * @param \vhs\database\types\TypeEnum $type
+     * @param string|null                  $value
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return string
+     */
     public function generateEnum(TypeEnum $type, $value = null) {
         return $this->genVal(
             function ($val) use ($type) {
@@ -224,6 +307,14 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateFloat.
+     *
+     * @param \vhs\database\types\TypeFloat $type
+     * @param float|null                    $value
+     *
+     * @return string
+     */
     public function generateFloat(TypeFloat $type, $value = null) {
         return $this->genVal(
             function ($val) {
@@ -234,10 +325,24 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateInner.
+     *
+     * @param \vhs\database\joins\JoinInner $join
+     *
+     * @return string
+     */
     public function generateInner(JoinInner $join) {
         return "INNER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
+    /**
+     * generateInsert.
+     *
+     * @param \vhs\database\queries\QueryInsert $query
+     *
+     * @return string
+     */
     public function generateInsert(QueryInsert $query) {
         $columns = [];
         $values = [];
@@ -256,6 +361,14 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateInt.
+     *
+     * @param \vhs\database\types\TypeInt $type
+     * @param mixed                       $value
+     *
+     * @return string
+     */
     public function generateInt(TypeInt $type, $value = null) {
         return $this->genVal(
             function ($val) {
@@ -266,10 +379,24 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateLeft.
+     *
+     * @param \vhs\database\joins\JoinLeft $join
+     *
+     * @return string
+     */
     public function generateLeft(JoinLeft $join) {
         return "LEFT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
+    /**
+     * generateLimit.
+     *
+     * @param \vhs\database\limits\Limit $limit
+     *
+     * @return string
+     */
     public function generateLimit(Limit $limit) {
         $clause = '';
         if (isset($limit->limit) && is_numeric($limit->limit)) {
@@ -279,6 +406,13 @@ class MySqlGenerator implements
         return $clause;
     }
 
+    /**
+     * generateOffset.
+     *
+     * @param \vhs\database\offsets\Offset $offset
+     *
+     * @return string
+     */
     public function generateOffset(Offset $offset) {
         $clause = '';
         if (isset($offset->offset) && is_numeric($offset->offset)) {
@@ -288,10 +422,24 @@ class MySqlGenerator implements
         return $clause;
     }
 
+    /**
+     * generateOn.
+     *
+     * @param \vhs\database\On $on
+     *
+     * @return string
+     */
     public function generateOn(On $on) {
         return '(' . $on->where->generate($this) . ')';
     }
 
+    /**
+     * generateOr.
+     *
+     * @param \vhs\database\wheres\WhereOr $where
+     *
+     * @return string
+     */
     public function generateOr(WhereOr $where) {
         $sql = '(';
 
@@ -307,14 +455,35 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateOuter.
+     *
+     * @param \vhs\database\joins\JoinOuter $join
+     *
+     * @return string
+     */
     public function generateOuter(JoinOuter $join) {
         return "OUTER JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
+    /**
+     * generateRight.
+     *
+     * @param \vhs\database\joins\JoinRight $join
+     *
+     * @return string
+     */
     public function generateRight(JoinRight $join) {
         return "RIGHT JOIN {$join->table->name} {$join->table->alias} ON " . $join->on->generate($this);
     }
 
+    /**
+     * generateSelect.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @return string
+     */
     public function generateSelect(QuerySelect $query) {
         $selector = implode(
             ', ',
@@ -330,7 +499,7 @@ class MySqlGenerator implements
         $sql = "SELECT {$selector} FROM `{$query->table->name}` AS {$query->table->alias}";
 
         if (!is_null($query->joins)) {
-            /** @var Join $join */
+            /** @var \vhs\database\joins\Join $join */
             foreach ($query->joins as $join) {
                 $sql .= ' ' . $join->generate($this);
             }
@@ -355,6 +524,13 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateSelectCount.
+     *
+     * @param \vhs\database\queries\QueryCount $query
+     *
+     * @return string
+     */
     public function generateSelectCount(QueryCount $query) {
         $clause = !is_null($query->where) ? $query->where->generate($this) : '';
         $orderClause = !is_null($query->orderBy) ? $query->orderBy->generate($this) : '';
@@ -389,10 +565,21 @@ class MySqlGenerator implements
         return $sql;
     }
 
+    /**
+     * generateString.
+     *
+     * @param \vhs\database\types\TypeString $type
+     * @param mixed                          $value
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return string
+     */
     public function generateString(TypeString $type, $value = null) {
         return $this->genVal(
             function ($val) use ($type) {
                 $v = (string) $val;
+
                 if (strlen($v) > $type->length) {
                     throw new DatabaseException("Value of Type::String exceeds defined length of {$type->length}");
                 }
@@ -404,8 +591,17 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateText.
+     *
+     * @param \vhs\database\types\TypeText $type
+     * @param mixed                        $value
+     *
+     * @return string
+     */
     public function generateText(TypeText $type, $value = null) {
         return $this->genVal(
+            // @phpstan-ignore closure.unusedUse
             function ($val) use ($type) {
                 return (string) $val;
             },
@@ -414,6 +610,13 @@ class MySqlGenerator implements
         );
     }
 
+    /**
+     * generateUpdate.
+     *
+     * @param \vhs\database\queries\QueryUpdate $query
+     *
+     * @return string
+     */
     public function generateUpdate(QueryUpdate $query) {
         $clause = !is_null($query->where) ? $query->where->generate($this) : '';
         $setsql = implode(
@@ -444,11 +647,21 @@ class MySqlGenerator implements
      *  is on the db to figure escaping.
      *
      * @param \mysqli $conn
+     *
+     * @return void
      */
     public function SetMySqli(\mysqli $conn) {
         $this->conn = $conn;
     }
 
+    /**
+     * gen.
+     *
+     * @param OrderBy $orderBy
+     * @param mixed   $type
+     *
+     * @return string
+     */
     private function gen(OrderBy $orderBy, $type) {
         $clause = $orderBy->column->generate($this) . " {$type}, ";
 
@@ -462,6 +675,15 @@ class MySqlGenerator implements
         return $clause;
     }
 
+    /**
+     * genVal.
+     *
+     * @param callable $gen
+     * @param Type     $type
+     * @param mixed    $value
+     *
+     * @return string
+     */
     private function genVal(callable $gen, Type $type, $value = null) {
         if (is_null($value)) {
             if ($type->nullable) {

@@ -19,8 +19,6 @@ interface IPreferenceService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountSystemPreferences($filters): int;
@@ -30,16 +28,12 @@ interface IPreferenceService2 extends IContract {
      *
      * @param string $key
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteSystemPreference($key): void;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\SystemPreference[]
      */
@@ -49,8 +43,6 @@ interface IPreferenceService2 extends IContract {
      * @permission administrator
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return \app\domain\SystemPreference
      */
@@ -65,8 +57,6 @@ interface IPreferenceService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters): array;
@@ -79,8 +69,6 @@ interface IPreferenceService2 extends IContract {
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference
      */
     public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference;
@@ -91,8 +79,6 @@ interface IPreferenceService2 extends IContract {
      * @param int             $id
      * @param string|string[] $privileges
      *
-     * @throws string
-     *
      * @return bool
      */
     public function PutSystemPreferencePrivileges($id, $privileges): bool;
@@ -101,8 +87,6 @@ interface IPreferenceService2 extends IContract {
      * @permission anonymous
      *
      * @param string $key
-     *
-     * @throws string
      *
      * @return \app\domain\SystemPreference|null
      */
@@ -117,8 +101,6 @@ interface IPreferenceService2 extends IContract {
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateSystemPreference($id, $key, $value, $enabled, $notes): bool;
@@ -128,8 +110,6 @@ interface IPreferenceService2 extends IContract {
      *
      * @param string $key
      * @param bool   $enabled
-     *
-     * @throws string
      *
      * @return bool
      */

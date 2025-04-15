@@ -12,7 +12,18 @@ namespace vhs\monitors;
 use vhs\Logger;
 use vhs\Singleton;
 
-/** @typescript */
+/**
+ * @method static \vhs\monitors\Monitor getInstance()
+ *
+ * @typescript
+ */
 abstract class Monitor extends Singleton {
-    abstract public function Init(Logger &$logger = null);
+    /**
+     * Init.
+     *
+     * @param \vhs\Logger|null $logger
+     *
+     * @return void
+     */
+    abstract public function Init(?Logger &$logger = null);
 }

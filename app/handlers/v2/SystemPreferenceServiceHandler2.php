@@ -12,8 +12,10 @@ namespace app\handlers\v2;
 use app\contracts\v2\ISystemPreferenceService2;
 use app\domain\Privilege;
 use app\domain\SystemPreference;
+use vhs\exceptions\HttpException;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferenceService2 {
@@ -21,8 +23,6 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -35,13 +35,13 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @param string|string[] $keys
      *
-     * @throws string
+     * @return void
      */
     public function DeleteSystemPreference($keys): void {
         $prefs = $this->getSystemPreferencesByKey($keys);
 
-        if (is_null($prefs) || empty($prefs)) {
-            return;
+        if (count($prefs) === 0) {
+            $this->throwNotFound();
         }
 
         foreach ($prefs as $pref) {
@@ -52,8 +52,6 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function GetAllSystemPreferences(): array {
@@ -63,10 +61,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * @permission administrator
      *
-     * @param string $id
-     * @param SystemPreference['key'] $key
-     *
-     * @throws string
+     * @param int $id
      *
      * @return \app\domain\SystemPreference
      */
@@ -83,8 +78,6 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters): array {
@@ -99,14 +92,14 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      * @param bool   $enabled
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\SystemPreference
      */
     public function PutSystemPreference($key, $value, $enabled, $notes): SystemPreference {
-        $pref = $this->getSystemPreferencesByKey($key, true);
+        $pref = null;
 
-        if (is_null($pref)) {
+        try {
+            $pref = $this->getSystemPreferenceByKey($key);
+        } catch (\Exception $err) {
             $pref = new SystemPreference();
         }
 
@@ -125,8 +118,6 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @param int             $id
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -157,7 +148,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @param string $key
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return \app\domain\SystemPreference
      */
@@ -172,7 +163,7 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
         });
 
         if (count($prefs) != 1) {
-            throw new \vhs\domain\exceptions\DomainException('Invalid SystemPreference result', 401);
+            throw new HttpException('Invalid SystemPreference result', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         return $prefs[0];
@@ -186,8 +177,6 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      * @param string $value
      * @param bool   $enabled
      * @param string $notes
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -208,12 +197,10 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      * @param string $key
      * @param bool   $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateSystemPreferenceEnabled($key, $enabled): bool {
-        $pref = $this->getSystemPreferencesByKey($key);
+        $pref = $this->getSystemPreferenceByKey($key);
 
         $pref->key = $key;
         $pref->enabled = $enabled;
@@ -226,15 +213,14 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
      *
      * @param int $id
      *
-     * @throws string
-     *
-     * @return SystemPreference
+     * @return \app\domain\SystemPreference
      */
     private function getSystemPreferenceById($id): SystemPreference {
+        /** @var SystemPreference|null */
         $pref = SystemPreference::find($id);
 
         if (is_null($pref)) {
-            $this->throwNotFound('SystemPreference');
+            $this->throwNotFound();
         }
 
         return $pref;
@@ -243,20 +229,36 @@ class SystemPreferenceServiceHandler2 extends Service implements ISystemPreferen
     /**
      * getSystemPreferencesByKey.
      *
-     * @param string|string[] $keys
-     * @param bool            $single
+     * @param string $key
      *
-     * @throws string
-     *
-     * @return \app\domain\SystemPreference|SystemPreference[]
+     * @return \app\domain\SystemPreference
      */
-    private function getSystemPreferencesByKey($keys, $single = true): array|SystemPreference|null {
-        $prefs = SystemPreference::findByKey($keys);
+    private function getSystemPreferenceByKey($key): SystemPreference {
+        /** @var SystemPreference[]|null */
+        $prefs = SystemPreference::findByKey($key);
 
-        if ($single && count($prefs) != 1) {
-            $this->throwNotFound('SystemPreference');
+        if (is_null($prefs) || count($prefs) !== 1) {
+            $this->throwNotFound();
         }
 
-        return $single ? $prefs[0] : $prefs;
+        return $prefs[0];
+    }
+
+    /**
+     * getSystemPreferencesByKey.
+     *
+     * @param string ...$keys
+     *
+     * @return \app\domain\SystemPreference[]
+     */
+    private function getSystemPreferencesByKey(string ...$keys): array {
+        /** @var SystemPreference[]|null */
+        $prefs = SystemPreference::findByKey(...$keys);
+
+        if (is_null($prefs) || count($prefs) === 0) {
+            $this->throwNotFound();
+        }
+
+        return $prefs;
     }
 }

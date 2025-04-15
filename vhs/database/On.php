@@ -13,32 +13,60 @@ use vhs\database\wheres\Where;
 
 /** @typescript */
 class On extends Element {
-    /** @var Where */
+    /** @var \vhs\database\wheres\Where */
     public $where;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\database\wheres\Where $where
+     *
+     * @return void
+     */
     public function __construct(Where $where) {
         $this->where = $where;
     }
 
+    /**
+     * Where.
+     *
+     * @param \vhs\database\wheres\Where $where
+     *
+     * @return \vhs\database\On
+     */
     public static function Where(Where $where) {
         return new On($where);
     }
 
     /**
-     * @param IGenerator $generator
-     * @param null       $value
+     * @param \vhs\database\IGenerator $generator
+     * @param mixed                    $value
      *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {
-        /** @var IOnGenerator $generator */
+        /** @var \vhs\database\IOnGenerator $generator */
         return $this->generateOn($generator);
     }
 
+    /**
+     * generateOn.
+     *
+     * @param \vhs\database\IOnGenerator $generator
+     *
+     * @return mixed
+     */
     public function generateOn(IOnGenerator $generator) {
         return $generator->generateOn($this);
     }
 
+    /**
+     * __updateTable.
+     *
+     * @param \vhs\database\Table $table
+     *
+     * @return void
+     */
     public function __updateTable(Table &$table) {
         $this->where->__updateTable($table);
     }

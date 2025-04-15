@@ -16,7 +16,7 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @return mixed
      */
@@ -25,7 +25,7 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $notes
+     * @param string $notes
      *
      * @return mixed
      */
@@ -34,8 +34,8 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $notes
+     * @param int    $userid
+     * @param string $notes
      *
      * @return mixed
      */
@@ -44,7 +44,7 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @return mixed
      */
@@ -60,7 +60,7 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @return mixed
      */
@@ -69,8 +69,8 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $privileges
+     * @param int    $keyid
+     * @param string $privileges
      *
      * @return mixed
      */
@@ -79,9 +79,9 @@ interface IApiKeyService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $notes
-     * @param $expires
+     * @param int    $keyid
+     * @param string $notes
+     * @param string $expires
      *
      * @return mixed
      */

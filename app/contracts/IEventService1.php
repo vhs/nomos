@@ -16,7 +16,7 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return int
      */
@@ -25,11 +25,11 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $name
-     * @param $domain
-     * @param $event
-     * @param $description
-     * @param $enabled
+     * @param string $name
+     * @param string $domain
+     * @param mixed  $event
+     * @param string $description
+     * @param bool   $enabled
      *
      * @return mixed
      */
@@ -38,7 +38,7 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -47,8 +47,8 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -64,7 +64,7 @@ interface IEventService1 extends IContract {
     /**
      * @permission webhook|administrator
      *
-     * @param $domain
+     * @param string $domain
      *
      * @return mixed
      */
@@ -80,7 +80,7 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -103,11 +103,11 @@ interface IEventService1 extends IContract {
     /**
      * @permission webhook|administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -116,8 +116,8 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $privileges
+     * @param int   $id
+     * @param mixed $privileges
      *
      * @return mixed
      */
@@ -126,12 +126,12 @@ interface IEventService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
-     * @param $domain
-     * @param $event
-     * @param $description
-     * @param $enabled
+     * @param int    $id
+     * @param string $name
+     * @param string $domain
+     * @param mixed  $event
+     * @param string $description
+     * @param bool   $enabled
      *
      * @return mixed
      */

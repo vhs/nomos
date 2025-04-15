@@ -24,6 +24,7 @@ use DateTime;
 use vhs\database\Database;
 use vhs\database\queries\QuerySelect;
 use vhs\database\wheres\Where;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
@@ -35,9 +36,9 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * fill retVal from User result.
      *
-     * @param \app\domain\Key  &$key
-     * @param \app\domain\User &$user
-     * @param array            &$retval
+     * @param \app\domain\Key     &$key
+     * @param \app\domain\User    &$user
+     * @param array<string,mixed> &$retval
      *
      * @return bool
      */
@@ -286,11 +287,6 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed
      */
     public function CountAccessLog($filters) {
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
-
         return AccessLog::count($filters);
     }
 
@@ -364,10 +360,10 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
-     * @return mixed
+     * @return void
      */
     public function EnableClient($id, $enabled) {
         $client = $this->GetMyClient($id);
@@ -395,12 +391,13 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission anonymous
      *
-     * @param $clientId
-     * @param $clientSecret
+     * @param int    $clientId
+     * @param string $clientSecret
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function GetClient($clientId, $clientSecret) {
+        /** @var AppClient|null */
         $client = AppClient::find($clientId);
 
         if (!is_null($client) && $client->secret == $clientSecret) {
@@ -414,7 +411,7 @@ class AuthService extends Service implements IAuthService1 {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param $clientId
+     * @param int $clientId
      *
      * @return mixed
      */
@@ -460,25 +457,20 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @return mixed
+     * @return \app\domain\AccessLog[]
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters) {
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
-
         return AccessLog::page($page, $size, $columns, $order, $filters);
     }
 
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -496,8 +488,6 @@ class AuthService extends Service implements IAuthService1 {
      * @param $order
      * @param $filters
      *
-     * @throws \Exception
-     *
      * @return mixed
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters) {
@@ -509,25 +499,22 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $userid
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
-     * @throws \Exception
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
-     * @return array
+     * @return AppClient[]
      */
     public function ListUserClients($userid, $page, $size, $columns, $order, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -580,9 +567,9 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission anonymous
      *
-     * @param $pin
+     * @param string $pin
      *
-     * @return mixed
+     * @return string
      */
     public function PinLogin($pin) {
         try {
@@ -638,9 +625,9 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission anonymous
      *
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return string
      */
     public function RfidLogin($key) {
         try {
@@ -724,14 +711,21 @@ class AuthService extends Service implements IAuthService1 {
         return $this->trimUser($user);
     }
 
+    /**
+     * AddUserIDToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function AddUserIDToFilters($userid, $filters) {
         $userService = new UserService();
         $user = $userService->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -748,6 +742,13 @@ class AuthService extends Service implements IAuthService1 {
         return $filters;
     }
 
+    /**
+     * GetMyClient.
+     *
+     * @param int $id
+     *
+     * @return AppClient|null
+     */
     private function GetMyClient($id) {
         $client = AppClient::find($id);
 
@@ -762,6 +763,13 @@ class AuthService extends Service implements IAuthService1 {
         return null;
     }
 
+    /**
+     * trimClient.
+     *
+     * @param AppClient $client
+     *
+     * @return array<string,mixed>|null
+     */
     private function trimClient($client) {
         if (is_null($client)) {
             return null;
@@ -779,6 +787,13 @@ class AuthService extends Service implements IAuthService1 {
         ];
     }
 
+    /**
+     * trimClientInfo.
+     *
+     * @param AppClient|null $client
+     *
+     * @return array<string,mixed>|null
+     */
     private function trimClientInfo($client) {
         if (is_null($client)) {
             return null;
@@ -792,6 +807,13 @@ class AuthService extends Service implements IAuthService1 {
         ];
     }
 
+    /**
+     * trimUser.
+     *
+     * @param User|null $user
+     *
+     * @return array<string,mixed>|null
+     */
     private function trimUser($user) {
         if (is_null($user)) {
             return null;

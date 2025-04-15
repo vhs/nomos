@@ -31,15 +31,56 @@ use vhs\loggers\SilentLogger;
 
 /** @typescript */
 class MySqlEngine extends Engine {
+    /**
+     * autoCreateDatabase.
+     *
+     * @var bool
+     */
     private $autoCreateDatabase;
 
-    /** @var \mysqli */
+    /**
+     * conn.
+     *
+     * @var ?\mysqli
+     */
     private $conn;
+
+    /**
+     * converter.
+     *
+     * @var mixed
+     */
     private $converter;
+
+    /**
+     * generator.
+     *
+     * @var mixed
+     */
     private $generator;
+
+    /**
+     * info.
+     *
+     * @var mixed
+     */
     private $info;
+
+    /**
+     * logger.
+     *
+     * @var \vhs\Logger
+     */
     private $logger;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\database\engines\mysql\MySqlConnectionInfo $connectionInfo
+     * @param ?bool                                           $autoCreateDatabase
+     *
+     * @return void
+     */
     public function __construct(MySqlConnectionInfo $connectionInfo, $autoCreateDatabase = false) {
         $this->info = $connectionInfo;
         $this->autoCreateDatabase = $autoCreateDatabase;
@@ -50,6 +91,14 @@ class MySqlEngine extends Engine {
         $this->converter = new MySqlConverter();
     }
 
+    /**
+     * connect.
+     *
+     * @throws \vhs\database\exceptions\DatabaseConnectionException
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return bool
+     */
     public function connect() {
         if (isset($this->conn) && !is_null($this->conn)) {
             return true;
@@ -75,6 +124,11 @@ class MySqlEngine extends Engine {
         return true;
     }
 
+    /**
+     * disconnect.
+     *
+     * @return void
+     */
     public function disconnect() {
         if (isset($this->conn) && !is_null($this->conn)) {
             $this->conn->close();
@@ -83,10 +137,24 @@ class MySqlEngine extends Engine {
         unset($this->conn);
     }
 
+    /**
+     * DateFormat.
+     *
+     * @return string
+     */
     public static function DateFormat() {
         return 'Y-m-d H:i:s';
     }
 
+    /**
+     * arbitrary.
+     *
+     * @param mixed $command
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return mixed
+     */
     public function arbitrary($command) {
         $this->logger->log('[ARBITRARY] ' . $command);
 
@@ -101,6 +169,15 @@ class MySqlEngine extends Engine {
         throw new DatabaseException($this->conn->error);
     }
 
+    /**
+     * count.
+     *
+     * @param \vhs\database\queries\QueryCount $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return int|null
+     */
     public function count(QueryCount $query) {
         $sql = $query->generate($this->generator);
 
@@ -121,6 +198,15 @@ class MySqlEngine extends Engine {
         }
     }
 
+    /**
+     * delete.
+     *
+     * @param \vhs\database\queries\QueryDelete $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return bool
+     */
     public function delete(QueryDelete $query) {
         $sql = $query->generate($this->generator);
 
@@ -133,10 +219,28 @@ class MySqlEngine extends Engine {
         throw new DatabaseException($this->conn->error);
     }
 
+    /**
+     * exists.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return bool
+     */
     public function exists(QuerySelect $query) {
         return $this->count(new QueryCount($query->table, $query->where, $query->orderBy, $query->limit, $query->offset)) > 0;
     }
 
+    /**
+     * insert.
+     *
+     * @param \vhs\database\queries\QueryInsert $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return mixed
+     */
     public function insert(QueryInsert $query) {
         $sql = $query->generate($this->generator);
 
@@ -149,6 +253,15 @@ class MySqlEngine extends Engine {
         throw new DatabaseException($this->conn->error);
     }
 
+    /**
+     * scalar.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return mixed
+     */
     public function scalar(QuerySelect $query) {
         $row = $this->select($query);
 
@@ -159,6 +272,15 @@ class MySqlEngine extends Engine {
         return $row[0][$query->columns->all()[0]->name];
     }
 
+    /**
+     * select.
+     *
+     * @param \vhs\database\queries\QuerySelect $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return mixed
+     */
     public function select(QuerySelect $query) {
         $sql = $query->generate($this->generator);
 
@@ -194,10 +316,26 @@ class MySqlEngine extends Engine {
         return $records;
     }
 
+    /**
+     * setLogger.
+     *
+     * @param \vhs\Logger $logger
+     *
+     * @return void
+     */
     public function setLogger(Logger $logger) {
         $this->logger = $logger;
     }
 
+    /**
+     * update.
+     *
+     * @param \vhs\database\queries\QueryUpdate $query
+     *
+     * @throws \vhs\database\exceptions\DatabaseException
+     *
+     * @return bool
+     */
     public function update(QueryUpdate $query) {
         $sql = $query->generate($this->generator);
 

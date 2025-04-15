@@ -13,13 +13,31 @@ use vhs\services\endpoints\Endpoint;
 
 /** @typescript */
 class ServiceContext {
-    /** @var Endpoint $endpoint */
+    /**
+     * endpoint.
+     *
+     * @var \vhs\services\endpoints\Endpoint
+     */
     public $endpoint;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\services\endpoints\Endpoint $endpoint
+     *
+     * @return void
+     */
     public function __construct(Endpoint $endpoint) {
         $this->endpoint = $endpoint;
     }
 
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function log($message) {
         if (is_null($this->endpoint->logger)) {
             return;

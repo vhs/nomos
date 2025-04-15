@@ -2,17 +2,24 @@
 
 namespace app\dto;
 
+use app\domain\AppClient;
+
 /** @typescript */
-class TrimmedAppClient {
+class AppClientInfo {
     public ?string $description;
     public ?string $name;
     public ?string $redirecturi;
     public ?string $url;
 
-    public function __construct($name, $description, $redirecturi, $url) {
-        $this->name = $name;
-        $this->description = $description;
-        $this->redirecturi = $redirecturi;
-        $this->url = $url;
+    /**
+     * constructor.
+     *
+     * @param \app\domain\AppClient $clientInfo
+     */
+    public function __construct(AppClient $clientInfo) {
+        $this->name = $clientInfo->name;
+        $this->description = $clientInfo->description;
+        $this->redirecturi = $clientInfo->redirecturi;
+        $this->url = $clientInfo->url;
     }
 }

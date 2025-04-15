@@ -17,21 +17,23 @@ use vhs\database\Columns;
 use vhs\database\Database;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
+use vhs\exceptions\HttpException;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class PinServiceHandler2 extends Service implements IPinService2 {
     /**
      * @permission door
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return string
+     * @return void
      */
-    public function AccessInstructions(): string {
-        return 'asdf';
+    public function AccessInstructions(): void {
+        throw new HttpException('Sorry, no dice!', HttpStatusCodes::Server_Error_Not_Implemented);
     }
 
     /**
@@ -41,7 +43,7 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      *
      * @param int $userid
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key|null
      */
@@ -65,6 +67,8 @@ class PinServiceHandler2 extends Service implements IPinService2 {
 
             $priv = Privilege::findByCode('inherit');
             if (!is_null($priv)) {
+                // TODO fix typing
+                /** @disregard P1006 override */
                 $pin->privileges->add($priv);
             }
         }
@@ -85,8 +89,6 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      * @param string $expires
      * @param string $privileges
      * @param string $notes
-     *
-     * @throws string
      *
      * @return \app\domain\Key
      */
@@ -113,6 +115,8 @@ class PinServiceHandler2 extends Service implements IPinService2 {
         if (!is_null($privs) && is_array($privs)) {
             foreach ($privs as $priv) {
                 if (CurrentUser::hasAllPermissions($priv->code)) {
+                    // TODO fix typing
+                    /** @disregard P1006 override */
                     $pin->privileges->add($priv);
                 }
             }
@@ -128,8 +132,6 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      *
      * @param int $userid
      *
-     * @throws string
-     *
      * @return \app\domain\Key|null
      */
     public function GetUserPin($userid): Key|null {
@@ -142,11 +144,12 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      * @param int    $keyid
      * @param string $pin
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
     public function UpdatePin($keyid, $pin): bool {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
@@ -168,7 +171,7 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      * @param int    $userid
      * @param string $pin
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
@@ -196,7 +199,6 @@ class PinServiceHandler2 extends Service implements IPinService2 {
      * @param mixed $userid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
-     * @throws string
      *
      * @return \app\domain\Key|null
      */

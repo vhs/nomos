@@ -11,7 +11,7 @@ namespace vhs\web;
 
 /** @typescript */
 class HttpRequest {
-    /** @var array */
+    /** @var array<string,string> */
     public $headers;
 
     /** @var string */
@@ -20,5 +20,10 @@ class HttpRequest {
     /** @var string */
     public $url;
 
+    /**
+     * __construct.
+     *
+     * @return void
+     */
     public function __construct() {}
 }

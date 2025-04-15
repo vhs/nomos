@@ -17,7 +17,6 @@ use app\domain\AppClient;
 use app\domain\Key;
 use app\domain\RefreshToken;
 use app\domain\User;
-use app\dto\SavedRefreshToken;
 use app\dto\TrimmedAppClient;
 use app\dto\TrimmedUser;
 use app\schema\UserSchema;
@@ -29,12 +28,16 @@ use DateTime;
 use vhs\database\Database;
 use vhs\database\queries\QuerySelect;
 use vhs\database\wheres\Where;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
+use vhs\exceptions\HttpException;
 use vhs\security\AnonPrincipal;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
+use vhs\security\IPrincipal;
 use vhs\security\UserPassCredentials;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class AuthServiceHandler2 extends Service implements IAuthService2 {
@@ -42,7 +45,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * fill retVal from User result.
      *
      * @param \app\domain\Key            &$key
-     * @param \app\domain\User           &$user
+     * @param \app\domain\User|null      &$user
      * @param \app\utils\AuthCheckResult &$retval
      *
      * @return bool
@@ -74,8 +77,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $pin
      *
-     * @throws string
-     *
      * @return \app\utils\AuthCheckResult
      */
     public function CheckPin($pin): AuthCheckResult {
@@ -96,6 +97,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         $retval = new AuthCheckResult();
 
         // Find key by pin
+        /** @var \app\domain\Key[] */
         $keys = Key::findByPin($pinid . '|' . $pin);
 
         $logAccess = function ($granted, $userid = null) use ($pinid, $pin) {
@@ -147,8 +149,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission administrator|rfid-auth
      *
      * @param string $rfid
-     *
-     * @throws string
      *
      * @return \app\utils\AuthCheckResult
      */
@@ -212,8 +212,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string $service
      * @param string $id
      *
-     * @throws string
-     *
      * @return \app\utils\AuthCheckResult
      */
     public function CheckService($service, $id): AuthCheckResult {
@@ -276,8 +274,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $username
      *
-     * @throws string
-     *
      * @return bool
      */
     public function CheckUsername($username): bool {
@@ -289,18 +285,11 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
     public function CountAccessLog($filters): int {
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
-
         return AccessLog::count($filters);
     }
 
@@ -308,8 +297,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission administrator
      *
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -322,8 +309,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -339,8 +324,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUserClients($userid, $filters): int {
@@ -352,11 +335,9 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @throws string
-     *
-     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal
+     * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal|\vhs\security\IPrincipal
      */
-    public function CurrentUser(): UserPrincipal|AnonPrincipal {
+    public function CurrentUser(): IPrincipal|UserPrincipal|AnonPrincipal {
         return CurrentUser::getPrincipal();
     }
 
@@ -364,8 +345,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission administrator|user
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return void
      */
@@ -380,8 +359,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param int  $id
      * @param bool $enabled
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -398,8 +375,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $bearerToken
      *
-     * @throws string
-     *
      * @return \app\domain\AccessToken
      */
     public function GetAccessToken($bearerToken): AccessToken {
@@ -409,14 +384,12 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @param string $clientId
+     * @param int    $clientId
      * @param string $clientSecret
      *
-     * @throws string
-     *
-     * @return \app\domain\AppClient|null
+     * @return \app\dto\TrimmedAppClient|null
      */
-    public function GetClient($clientId, $clientSecret): AppClient|null {
+    public function GetClient($clientId, $clientSecret): TrimmedAppClient|null {
         $client = AppClient::find($clientId);
 
         if (!is_null($client) && $client->secret == $clientSecret) {
@@ -430,9 +403,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param string $clientId
-     *
-     * @throws string
+     * @param int $clientId
      *
      * @return \app\dto\TrimmedAppClient|null
      */
@@ -451,8 +422,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $refreshToken
      *
-     * @throws string
-     *
      * @return \app\domain\RefreshToken
      */
     public function GetRefreshToken($refreshToken): RefreshToken {
@@ -465,8 +434,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string $username
      * @param string $password
      *
-     * @throws string
-     *
      * @return \app\dto\TrimmedUser|null
      */
     public function GetUser($username, $password): TrimmedUser|null {
@@ -476,22 +443,15 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param int                     $page
-     * @param int                     $size
-     * @param string                  $columns
-     * @param string                  $order
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return \app\domain\AccessLog[]
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters): array {
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
-
         return AccessLog::page($page, $size, $columns, $order, $filters);
     }
 
@@ -503,8 +463,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\AppClient[]
      */
@@ -522,9 +480,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string             $order
      * @param \vhs\domain\Filter $filters
      *
-     * @throws string
-     * @throws \Exception
-     *
      * @return \app\domain\AccessLog[]
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters): array {
@@ -536,15 +491,15 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission administrator|user
      *
-     * @param int                     $userid
-     * @param int                     $page
-     * @param int                     $size
-     * @param string                  $columns
-     * @param string                  $order
-     * @param \vhs\domain\Filter|null $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
-     * @throws string
-     * @throws \Exception
+
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\AppClient[]
      */
@@ -552,10 +507,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         $userService2 = new UserServiceHandler2();
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        AppClient::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -584,8 +536,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string $username
      * @param string $password
      *
-     * @throws string
-     *
      * @return string
      */
     public function Login($username, $password): string {
@@ -601,8 +551,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * @permission user
      *
-     * @throws string
-     *
      * @return void
      */
     public function Logout(): void {
@@ -614,7 +562,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $pin
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return string
      */
@@ -622,7 +570,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($pin));
         } catch (\Exception $ex) {
-            return StringLiterals::AUTH_ACCESS_DENIED;
+            throw new HttpException(StringLiterals::AUTH_ACCESS_DENIED, HttpStatusCodes::Client_Error_Forbidden);
         }
 
         return StringLiterals::AUTH_ACCESS_GRANTED;
@@ -635,8 +583,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param string $description
      * @param string $url
      * @param string $redirecturi
-     *
-     * @throws string
      *
      * @return \app\domain\AppClient
      */
@@ -661,18 +607,18 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $refreshToken
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return bool
+     * @return void
      */
-    public function RevokeRefreshToken($refreshToken): bool {
+    public function RevokeRefreshToken($refreshToken): void {
         $token = RefreshToken::findByToken($refreshToken);
 
         if (is_null($token)) {
-            throw new \DomainException('RefreshToken token not found', 404);
+            throw new HttpException('RefreshToken token not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
-        return $token->delete();
+        $token->delete();
     }
 
     /**
@@ -680,7 +626,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param string $key
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return string
      */
@@ -688,7 +634,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         try {
             Authenticate::getInstance()->login(new PinCredentials($key));
         } catch (\Exception $ex) {
-            return StringLiterals::AUTH_ACCESS_DENIED;
+            throw new HttpException(StringLiterals::AUTH_ACCESS_DENIED, HttpStatusCodes::Client_Error_Forbidden);
         }
 
         return StringLiterals::AUTH_ACCESS_GRANTED;
@@ -702,22 +648,23 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param int    $clientId
      * @param string $expires
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
      * @return \app\domain\User|false
      */
     public function SaveAccessToken($userId, $accessToken, $clientId, $expires): User|false {
         $user = User::find($userId);
-        $client = AppClient::find($clientId);
 
         if (is_null($user)) {
-            return false;
+            throw new HttpException('User not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         $token = new AccessToken();
 
         $token->token = $accessToken;
         $token->user = $user;
+
+        $client = AppClient::find($clientId);
 
         if (!is_null($client)) {
             $token->client = $client;
@@ -740,16 +687,16 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param int    $clientId
      * @param string $expires
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return \app\dto\RefreshToken|false|null
+     * @return \app\dto\TrimmedUser
      */
-    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): array|bool|null {
+    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): TrimmedUser {
         $user = User::find($userId);
         $client = AppClient::find($clientId);
 
         if (is_null($user)) {
-            return false;
+            throw new HttpException('User not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         $token = new RefreshToken();
@@ -777,7 +724,6 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      * @param mixed $filters
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
-     * @throws string
      *
      * @return \vhs\domain\Filter
      */
@@ -785,10 +731,7 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
         $userService2 = new UserServiceHandler2();
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');
@@ -810,92 +753,72 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
      *
      * @param int $id
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return \app\domain\AppClient|null
+     * @return \app\domain\AppClient
      */
-    private function getMyClient($id): AppClient|null {
+    private function getMyClient($id): AppClient {
         $client = AppClient::find($id);
 
         if (is_null($client)) {
-            return null;
+            throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
         if (CurrentUser::getIdentity() == $client->userid || CurrentUser::hasAnyPermissions('administrator')) {
             return $client;
         }
 
-        return null;
+        throw new HttpException('Client is not accessible', HttpStatusCodes::Client_Error_Forbidden);
     }
 
     /**
      * Summary of trimClient.
      *
-     * @param mixed $client
+     * @param \app\domain\AppClient $client
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return \app\dto\TrimmedAppClient|null
+     * @return \app\dto\TrimmedAppClient
      */
-    private function trimClient($client): TrimmedAppClient|null {
+    private function trimClient($client): TrimmedAppClient {
         if (is_null($client)) {
-            return null;
+            throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
-        return new TrimmedAppClient([
-            'id' => $client->id,
-            'expires' => $client->expires,
-            'owner' => $this->trimUser($client->owner),
-            'name' => $client->name,
-            'description' => $client->description,
-            'url' => $client->url,
-            'redirecturi' => $client->redirecturi,
-            'enabled' => $client->enabled
-        ]);
+        return new TrimmedAppClient($client);
     }
 
     /**
      * Summary of trimClientInfo.
      *
-     * @param AppClient|null $client
+     * @param \app\domain\AppClient|null $client
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return \app\dto\TrimmedAppClient|null
+     * @return \app\dto\TrimmedAppClient
      */
-    private function trimClientInfo($client): TrimmedAppClient|null {
+    private function trimClientInfo($client): TrimmedAppClient {
         if (is_null($client)) {
-            return null;
+            throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
-        return new TrimmedAppClient($client->name, $client->description, $client->url, $client->redirecturi);
+        return new TrimmedAppClient($client);
     }
 
     /**
      * Summary of trimUser.
      *
-     * @param \app\domain\User $user
+     * @param \app\domain\User|null $user
      *
-     * @throws string
+     * @throws \vhs\exceptions\HttpException
      *
-     * @return \app\dto\TrimmedUser|null
+     * @return \app\dto\TrimmedUser
      */
-    private function trimUser($user): TrimmedUser|null {
+    private function trimUser($user): TrimmedUser {
         if (is_null($user)) {
-            return null;
+            throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
-        return new TrimmedUser([
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'fname' => $user->fname,
-            'lname' => $user->lname,
-            'membership' => $user->membership,
-            'expires' => $user->mem_expire,
-            'created' => $user->created,
-            'active' => $user->active,
-            'privileges' => $user->privileges
-        ]);
+        return new TrimmedUser($user);
     }
 }

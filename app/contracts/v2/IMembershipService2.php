@@ -16,8 +16,6 @@ interface IMembershipService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountMemberships($filters): int;
@@ -32,8 +30,6 @@ interface IMembershipService2 extends IContract {
      * @param string $days
      * @param string $period
      *
-     * @throws string
-     *
      * @return void
      */
     public function Create($title, $description, $price, $code, $days, $period): void;
@@ -43,16 +39,12 @@ interface IMembershipService2 extends IContract {
      *
      * @param int $membershipId
      *
-     * @throws string
-     *
      * @return \app\domain\Membership
      */
     public function Get($membershipId): Membership;
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return \app\domain\Membership[]
      */
@@ -67,8 +59,6 @@ interface IMembershipService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Membership[]
      */
     public function ListMemberships($page, $size, $columns, $order, $filters): array;
@@ -78,8 +68,6 @@ interface IMembershipService2 extends IContract {
      *
      * @param int             $membershipId
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -96,8 +84,6 @@ interface IMembershipService2 extends IContract {
      * @param int    $days
      * @param string $period
      *
-     * @throws string
-     *
      * @return bool
      */
     public function Update($membershipId, $title, $description, $price, $code, $days, $period): bool;
@@ -107,8 +93,6 @@ interface IMembershipService2 extends IContract {
      *
      * @param int  $membershipId
      * @param bool $active
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -120,8 +104,6 @@ interface IMembershipService2 extends IContract {
      * @param int  $membershipId
      * @param bool $privateVal
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePrivate($membershipId, $privateVal): bool;
@@ -132,8 +114,6 @@ interface IMembershipService2 extends IContract {
      * @param int  $membershipId
      * @param bool $recurring
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateRecurring($membershipId, $recurring): bool;
@@ -143,8 +123,6 @@ interface IMembershipService2 extends IContract {
      *
      * @param int  $membershipId
      * @param bool $trial
-     *
-     * @throws string
      *
      * @return bool
      */

@@ -18,15 +18,32 @@ use vhs\security\CurrentUser;
 class PrivilegedAccess implements IAccess {
     /** @var IAccess[] */
     protected $checks;
+
     /** @var Column */
     protected $ownerColumn;
 
-    public function __construct(Column $ownerColumn = null) {
+    /**
+     * __construct.
+     *
+     * @param \vhs\database\Column $ownerColumn
+     *
+     * @return void
+     */
+    public function __construct(?Column $ownerColumn = null) {
         $this->ownerColumn = $ownerColumn;
         $this->checks = [];
     }
 
-    public static function GenerateAccess($key, Table $table, Column $ownerColumn = null) {
+    /**
+     * GenerateAccess.
+     *
+     * @param mixed                $key
+     * @param \vhs\database\Table  $table
+     * @param \vhs\database\Column $ownerColumn
+     *
+     * @return \vhs\database\access\IAccess
+     */
+    public static function GenerateAccess($key, Table $table, ?Column $ownerColumn = null) {
         $access = null;
         $child = null;
 
@@ -44,6 +61,15 @@ class PrivilegedAccess implements IAccess {
         return $access;
     }
 
+    /**
+     * CanRead.
+     *
+     * @param mixed                $record
+     * @param \vhs\database\Table  $table
+     * @param \vhs\database\Column $column
+     *
+     * @return bool
+     */
     public function CanRead($record, Table $table, Column $column) {
         $access = false;
         foreach ($this->checks as $check) {
@@ -53,6 +79,15 @@ class PrivilegedAccess implements IAccess {
         return $access;
     }
 
+    /**
+     * CanWrite.
+     *
+     * @param mixed                $record
+     * @param \vhs\database\Table  $table
+     * @param \vhs\database\Column $column
+     *
+     * @return bool
+     */
     public function CanWrite($record, Table $table, Column $column) {
         $access = false;
         foreach ($this->checks as $check) {
@@ -62,13 +97,30 @@ class PrivilegedAccess implements IAccess {
         return $access;
     }
 
+    /**
+     * Column.
+     *
+     * @param \vhs\database\Column $column
+     * @param string               ...$privileges
+     *
+     * @return \vhs\database\access\IAccess
+     */
     public function Column(Column $column, ...$privileges) {
         $access = new ColumnPrivilegedAccess($this->ownerColumn, $column, ...$privileges);
+
         $this->Register($access);
 
         return $access;
     }
 
+    /**
+     * hasPrivilegedAccess.
+     *
+     * @param mixed  $record
+     * @param string ...$privileges
+     *
+     * @return bool
+     */
     public function hasPrivilegedAccess($record, ...$privileges) {
         if (CurrentUser::hasAnyPermissions('administrator')) {
             return true;
@@ -78,9 +130,16 @@ class PrivilegedAccess implements IAccess {
             return true;
         }
 
-        return CurrentUser::hasAnyPermissions($privileges);
+        return CurrentUser::hasAnyPermissions(...$privileges);
     }
 
+    /**
+     * IsOwner.
+     *
+     * @param mixed $record
+     *
+     * @return bool
+     */
     public function IsOwner($record) {
         return array_key_exists($this->ownerColumn->name, $record) && $record[$this->ownerColumn->name] === CurrentUser::getIdentity();
     }
@@ -107,6 +166,13 @@ class PrivilegedAccess implements IAccess {
         ];
     }
 
+    /**
+     * Register.
+     *
+     * @param \vhs\database\access\IAccess ...$checks
+     *
+     * @return void
+     */
     public function Register(IAccess ...$checks) {
         foreach ($checks as $check) {
             array_push($this->checks, $check);
@@ -122,20 +188,21 @@ class PrivilegedAccess implements IAccess {
      *
      * @since 5.1.0
      */
-    public function serialize(): mixed {
-        return [
-            'type' => 'ownership',
-            'ownership' => [
-                'table' => $this->ownerColumn->table->name,
-                'name' => $this->ownerColumn->name,
-                'type' => $this->ownerColumn->type
-            ],
-            'checks' => $this->checks
-        ];
+    public function serialize(): string {
+        return json_encode($this->__serialize());
     }
 
+    /**
+     * Table.
+     *
+     * @param \vhs\database\Table $table
+     * @param string              ...$privileges
+     *
+     * @return \app\security\TablePrivilegedAccess
+     */
     public function Table(Table $table, ...$privileges) {
         $access = new TablePrivilegedAccess($this->ownerColumn, $table, ...$privileges);
+
         $this->Register($access);
 
         return $access;
@@ -158,10 +225,30 @@ class PrivilegedAccess implements IAccess {
         // TODO: Implement unserialize() method.
     }
 
+    /**
+     * __serialize.
+     *
+     * @return array<string,mixed>
+     */
     public function __serialize() {
-        return $this->serialize();
+        return [
+            'type' => 'ownership',
+            'ownership' => [
+                'table' => $this->ownerColumn->table->name,
+                'name' => $this->ownerColumn->name,
+                'type' => $this->ownerColumn->type
+            ],
+            'checks' => $this->checks
+        ];
     }
 
+    /**
+     * __unserialize.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function __unserialize($data): void {
         // TODO: Implement __unserialize() method.
     }

@@ -26,8 +26,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountEvents($filters): int {
@@ -43,7 +41,7 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param string $description
      * @param bool   $enabled
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return \app\domain\Event
      */
@@ -70,8 +68,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteEvent($id): void {
@@ -86,8 +82,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param int  $id
      * @param bool $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function EnableEvent($id, $enabled): bool {
@@ -100,8 +94,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
 
     /**
      * @permission user
-     *
-     * @throws string
      *
      * @return \app\domain\Event[]
      */
@@ -133,8 +125,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @param string $domain
      *
-     * @throws string
-     *
      * @return void
      */
     public function GetDomainDefinition($domain): void {
@@ -143,8 +133,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws string
      *
      * @return mixed
      */
@@ -172,8 +160,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return \app\domain\Event
      */
     public function GetEvent($id): Event {
@@ -183,8 +169,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @throws string
-     *
      * @return \app\domain\Event[]
      */
     public function GetEvents(): array {
@@ -193,8 +177,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws string
      *
      * @return string[]
      */
@@ -217,11 +199,10 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Event[]
      */
     public function ListEvents($page, $size, $columns, $order, $filters): array {
+        /** @var \app\domain\Event[] */
         return Event::page($page, $size, $columns, $order, $filters);
     }
 
@@ -230,8 +211,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      *
      * @param int             $id
      * @param string|string[] $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -267,8 +246,6 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param string $description
      * @param bool   $enabled
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateEvent($id, $name, $domain, $event, $description, $enabled): bool {
@@ -289,11 +266,11 @@ class EventServiceHandler2 extends Service implements IEventService2 {
      * @param int $id
      *
      * @throws \app\exceptions\InvalidInputException
-     * @throws string
      *
      * @return \app\domain\Event
      */
     private function getEventById($id): Event {
+        /** @var \app\domain\Event|null */
         $evt = Event::find($id);
 
         if (is_null($evt)) {

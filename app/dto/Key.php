@@ -6,6 +6,8 @@
 
 namespace app\dto;
 
+use app\utils\EnumMapper;
+
 /** @typescript */
 class Key {
     public string $created;
@@ -24,7 +26,7 @@ class Key {
     public function __construct(\app\domain\Key $key) {
         $this->id = $key->id;
         $this->userid = $key->userid;
-        $this->type = KeyTypeEnum::tryFrom($key->type);
+        $this->type = EnumMapper::tryFrom(KeyTypeEnum::cases(), $key->type);
         $this->key = $key->key;
         $this->created = $key->created;
         $this->notes = $key->notes;

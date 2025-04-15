@@ -12,21 +12,76 @@ namespace vhs\web;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\services\exceptions\InvalidRequestException;
+use vhs\web\enums\HttpStatusCodes;
 use vhs\web\modules\HttpServerInfoModule;
 
 /** @typescript */
 class HttpServer {
+    /**
+     * logger.
+     *
+     * @var \vhs\Logger
+     */
     public $logger;
-    /** @var HttpRequest */
+
+    /**
+     * request.
+     *
+     * @var \vhs\web\HttpRequest
+     */
     public $request;
+
+    /**
+     * endset.
+     *
+     * @var bool
+     */
     private $endset = false;
+
+    /**
+     * handling.
+     *
+     * @var bool
+     */
     private $handling = false;
+
+    /**
+     * headerBuffer.
+     *
+     * @var callable[]
+     */
     private $headerBuffer = [];
+
+    /**
+     * http_response_code.
+     *
+     * @var mixed
+     */
     private $http_response_code;
+
+    /**
+     * modules.
+     *
+     * @var \vhs\web\IHttpModule[]
+     */
     private $modules = [];
+
+    /**
+     * outputBuffer.
+     *
+     * @var callable[]
+     */
     private $outputBuffer = [];
 
-    public function __construct(HttpServerInfoModule $infoModule = null, Logger &$logger = null) {
+    /**
+     * __construct.
+     *
+     * @param \vhs\web\modules\HttpServerInfoModule $infoModule
+     * @param \vhs\Logger                           $logger
+     *
+     * @return void
+     */
+    public function __construct(?HttpServerInfoModule $infoModule = null, ?Logger &$logger = null) {
         if (is_null($logger)) {
             $this->logger = new SilentLogger();
         } else {
@@ -40,6 +95,11 @@ class HttpServer {
         }
     }
 
+    /**
+     * clear.
+     *
+     * @return void
+     */
     public function clear() {
         if ($this->endset) {
             return;
@@ -52,6 +112,13 @@ class HttpServer {
         $this->http_response_code = 200;
     }
 
+    /**
+     * code.
+     *
+     * @param mixed $code
+     *
+     * @return void
+     */
     public function code($code) {
         if ($this->endset) {
             return;
@@ -60,6 +127,11 @@ class HttpServer {
         $this->http_response_code = $code;
     }
 
+    /**
+     * end.
+     *
+     * @return void
+     */
     public function end() {
         $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'trying end');
 
@@ -78,6 +150,11 @@ class HttpServer {
         });
     }
 
+    /**
+     * handle.
+     *
+     * @return void
+     */
     public function handle() {
         $this->handling = true;
         $this->clear();
@@ -88,8 +165,9 @@ class HttpServer {
         session_start();
 
         $exception = null;
-        /** @var IHttpModule $module */
         $index = 0;
+
+        /** @var IHttpModule $module */
         foreach ($this->modules as $module) {
             $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('trying module: %s', get_class($module)));
 
@@ -107,8 +185,8 @@ class HttpServer {
             $index += 1;
         }
 
-        if (!$this->endset) {
-            $exception = new InvalidRequestException('No valid service endpoint found', 503);
+        if (!$this->endset && is_null($exception)) {
+            $exception = new InvalidRequestException('No valid service endpoint found', HttpStatusCodes::Server_Error_Service_Unavailable);
         }
 
         $this->log($this->request->method . ' ' . $this->request->url . ' ' . json_encode($this->request->headers));
@@ -135,6 +213,15 @@ class HttpServer {
         $this->endResponse();
     }
 
+    /**
+     * header.
+     *
+     * @param mixed $string
+     * @param mixed $replace
+     * @param mixed $http_response_code
+     *
+     * @return void
+     */
     public function header($string, $replace = true, $http_response_code = 0) {
         if ($this->endset) {
             return;
@@ -142,17 +229,31 @@ class HttpServer {
 
         $self = $this;
 
-        array_push($this->headerBuffer, function () use ($self, $string, $replace, $http_response_code) {
+        array_push($this->headerBuffer, function () use ($string, $replace, $http_response_code) {
             if (headers_sent() === false) {
                 header($string, $replace, $http_response_code);
             }
         });
     }
 
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function log($message) {
         $this->logger->log($message);
     }
 
+    /**
+     * output.
+     *
+     * @param mixed $data
+     *
+     * @return void
+     */
     public function output($data) {
         if ($this->endset) {
             return;
@@ -163,6 +264,14 @@ class HttpServer {
         });
     }
 
+    /**
+     * redirect.
+     *
+     * @param string $url
+     * @param bool   $permanent
+     *
+     * @return void
+     */
     public function redirect($url, $permanent = false) {
         if ($this->endset) {
             return;
@@ -171,6 +280,13 @@ class HttpServer {
         $this->header('Location: ' . $url, true, $permanent ? 301 : 302);
     }
 
+    /**
+     * register.
+     *
+     * @param \vhs\web\IHttpModule $module
+     *
+     * @return void
+     */
     public function register(IHttpModule $module) {
         if ($this->handling) {
             $this->log('Failed to register module ' . get_class($module));
@@ -181,21 +297,32 @@ class HttpServer {
         array_push($this->modules, $module);
     }
 
+    /**
+     * sendOnlyHeaders.
+     *
+     * @return void
+     */
     public function sendOnlyHeaders() {
         if ($this->endset) {
             return;
         }
 
         $self = $this;
-        array_push($this->headerBuffer, function () use ($self) {
+        array_push($this->headerBuffer, function (): never {
             exit();
         });
     }
 
+    /**
+     * endResponse.
+     *
+     * @return void
+     */
     private function endResponse() {
         $exception = null;
-        /** @var IHttpModule $module */
         $index = 0;
+
+        /** @var IHttpModule $module */
         foreach ($this->modules as $module) {
             try {
                 $module->endResponse($this);

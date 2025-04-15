@@ -11,5 +11,12 @@ namespace vhs\database;
 
 /** @typescript */
 interface IColumnGenerator extends IGenerator {
+    /**
+     * generateColumn.
+     *
+     * @param \vhs\database\Column $column
+     *
+     * @return mixed
+     */
     public function generateColumn(Column $column);
 }

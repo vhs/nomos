@@ -13,6 +13,7 @@ use app\domain\AccessLog;
 use app\domain\AccessToken;
 use app\domain\Key;
 use app\domain\User;
+use app\dto\UserActiveEnum;
 use app\exceptions\InvalidAccessTokenCredentialsException;
 use app\exceptions\InvalidKeyCredentialsException;
 use app\security\credentials\ApiCredentials;
@@ -31,8 +32,20 @@ use vhs\security\IPrincipal;
 use vhs\security\UserPassCredentials;
 use vhs\Singleton;
 
-/** @typescript */
+/**
+ * @method static \app\security\Authenticate getInstance()
+ *
+ * @typescript
+ */
 class Authenticate extends Singleton implements IAuthenticate {
+    /**
+     * authenticateOnly.
+     *
+     * @param mixed $username
+     * @param mixed $password
+     *
+     * @return \app\domain\User
+     */
     public static function authenticateOnly($username, $password) {
         return self::userLogin($username, $password, true);
     }
@@ -51,6 +64,23 @@ class Authenticate extends Singleton implements IAuthenticate {
         return !CurrentUser::isAnon();
     }
 
+    /**
+     * login.
+     *
+     * @param ICredentials $credentials
+     *
+     * @throws \app\exceptions\InvalidAccessTokenCredentialsException
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \app\exceptions\InvalidKeyCredentialsException
+     * @throws \app\exceptions\InvalidPasswordHashException
+     * @throws \app\exceptions\UserAlreadyExistsException
+     * @throws \vhs\domain\exceptions\DomainException
+     * @throws \vhs\exceptions\HttpException
+     * @throws \vhs\security\exceptions\InvalidCredentials
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return void
+     */
     public static function login(ICredentials $credentials) {
         switch (get_class($credentials)) {
             case 'vhs\\security\\UserPassCredentials':
@@ -83,10 +113,24 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
     }
 
+    /**
+     * logout.
+     *
+     * @return void
+     */
     public static function logout() {
         CurrentUser::setPrincipal(new AnonPrincipal());
     }
 
+    /**
+     * bearerLogin.
+     *
+     * @param BearerTokenCredentials $credentials
+     *
+     * @throws \app\exceptions\InvalidAccessTokenCredentialsException
+     *
+     * @return void
+     */
     private static function bearerLogin(BearerTokenCredentials $credentials) {
         $ipaddr = self::getRemoteIP();
 
@@ -122,7 +166,7 @@ class Authenticate extends Singleton implements IAuthenticate {
     }
 
     /**
-     * @param $user
+     * @param \app\domain\User $user
      *
      * @return UserPrincipal
      */
@@ -140,9 +184,14 @@ class Authenticate extends Singleton implements IAuthenticate {
 
             $privileges = array_merge(
                 $membershipPrivs,
-                array_map(function ($privilege) {
-                    return $privilege->code;
-                }, $user->privileges->all())
+                array_map(
+                    function ($privilege) {
+                        return $privilege->code;
+                    },
+                    // TODO fix typing
+                    /** @disregard P1006 override */
+                    $user->privileges->all()
+                )
             );
 
             foreach ($privileges as $priv) {
@@ -162,9 +211,9 @@ class Authenticate extends Singleton implements IAuthenticate {
     }
 
     /**
-     * @param $username
+     * @param string $username
      *
-     * @throws InvalidCredentials
+     * @throws \vhs\security\exceptions\InvalidCredentials
      *
      * @return User
      */
@@ -183,30 +232,55 @@ class Authenticate extends Singleton implements IAuthenticate {
         return $users[0];
     }
 
+    /**
+     * getRemoteIP.
+     *
+     * @return string|null
+     */
     private static function getRemoteIP() {
         $ipaddr = null;
-        if (isset($_SERVER) && array_key_exists('REMOTE_ADDR', $_SERVER)) {
+
+        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
             $ipaddr = $_SERVER['REMOTE_ADDR'];
         }
 
         return $ipaddr;
     }
 
+    /**
+     * isUserValid.
+     *
+     * @param \app\domain\User $user
+     *
+     * @throws \vhs\security\exceptions\InvalidCredentials
+     *
+     * @return bool
+     */
     private static function isUserValid(User $user) {
         switch ($user->active) {
-            case 'n': //not active
+            case UserActiveEnum::INACTIVE->value: //not active
                 throw new InvalidCredentials('"Your account is not activated"');
-            case 'y': //yes they are active
+            case UserActiveEnum::ACTIVE->value: //yes they are active
                 return true;
-            case 't': //pending email verification
+            case UserActiveEnum::PENDING->value: //pending email verification
                 throw new InvalidCredentials('"You need to verify your email address"');
-            case 'b': //banned
+            case UserActiveEnum::BANNED->value: //banned
                 throw new InvalidCredentials('"Your account has been banned"');
             default:
                 return false;
         }
     }
 
+    /**
+     * keyLogin.
+     *
+     * @param mixed                                      $keys
+     * @param \app\security\credentials\TokenCredentials $credentials
+     *
+     * @throws \app\exceptions\InvalidKeyCredentialsException
+     *
+     * @return void
+     */
     private static function keyLogin($keys, TokenCredentials $credentials) {
         $ipaddr = self::getRemoteIP();
 
@@ -244,9 +318,14 @@ class Authenticate extends Singleton implements IAuthenticate {
                         array_map(function ($privilege) {
                             return $privilege->code;
                         }, $user->membership->privileges->all()),
-                        array_map(function ($privilege) {
-                            return $privilege->code;
-                        }, $user->privileges->all())
+                        array_map(
+                            function ($privilege) {
+                                return $privilege->code;
+                            },
+                            // TODO fix typing
+                            /** @disregard P1006 override */
+                            $user->privileges->all()
+                        )
                     );
                 }
             } else {
@@ -257,6 +336,7 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
 
         $grants = [];
+
         foreach ($privileges as $priv) {
             if (strpos($priv, 'grant:') === 0) {
                 array_push($grants, substr($priv, 6));
@@ -273,10 +353,12 @@ class Authenticate extends Singleton implements IAuthenticate {
     }
 
     /**
-     * @param $user
-     * @param $ipaddr
+     * record login.
      *
-     * @throws \Exception
+     * @param \app\domain\User $user
+     * @param string           $ipaddr
+     *
+     * @return void
      */
     private static function recordLogin($user, $ipaddr) {
         $user->lastlogin = date(Database::DateFormat());
@@ -291,6 +373,18 @@ class Authenticate extends Singleton implements IAuthenticate {
         }
     }
 
+    /**
+     * userLogin.
+     *
+     * @param string $username
+     * @param string $password
+     * @param bool   $authonly
+     *
+
+     * @throws \vhs\security\exceptions\InvalidCredentials
+     *
+     * @return \app\domain\User
+     */
     private static function userLogin($username, $password, $authonly = false) {
         $ipaddr = self::getRemoteIP();
 

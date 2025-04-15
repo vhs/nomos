@@ -27,7 +27,7 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @return mixed
      */
@@ -40,10 +40,12 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $type
-     * @param $value
-     * @param $notes
+     * @param int $userid
+     * @param     $type
+     * @param     $value
+     * @param     $notes
+     *
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return mixed
      */
@@ -60,8 +62,11 @@ class KeyService extends Service implements IKeyService1 {
 
                         break;
                     case 'pin':
+                        // @phpstan-ignore argument.type
                         $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
                         $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
+                        // TODO fix typing
+                        /** @disregard P1006 override */
                         $key->privileges->add(Privilege::findByCode('inherit'));
 
                         break;
@@ -89,6 +94,8 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator
      *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
      * @return mixed
      */
     public function GetAllKeys() {
@@ -102,11 +109,15 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
+     *
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
     public function GetKey($keyid) {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (is_null($key)) {
@@ -125,6 +136,8 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator
      *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
      * @return mixed
      */
     public function GetSystemKeys() {
@@ -138,8 +151,8 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $types
+     * @param int $userid
+     * @param     $types
      *
      * @return mixed
      */
@@ -164,8 +177,8 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $privileges
+     * @param int $keyid
+     * @param     $privileges
      *
      * @return mixed
      */
@@ -195,9 +208,9 @@ class KeyService extends Service implements IKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $notes
-     * @param $expires
+     * @param int $keyid
+     * @param     $notes
+     * @param     $expires
      *
      * @return mixed
      */

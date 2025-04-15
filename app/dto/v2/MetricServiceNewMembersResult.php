@@ -9,9 +9,9 @@ use app\utils\DTO;
  *
  * @property string $start_range
  * @property string $end_range
- * @property number $value
- * @property number $start
- * @property number $end
+ * @property int    $value
+ * @property int    $start
+ * @property int    $end
  *
  * @typescript
  */

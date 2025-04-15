@@ -5,6 +5,13 @@ namespace app\utils\converters;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 class PHP2TS {
+    /**
+     * convertDataType.
+     *
+     * @param string $dataType
+     *
+     * @return string
+     */
     public static function convertDataType(string $dataType): string {
         $result = $dataType;
         $result = preg_replace('/\barray\<\b/', 'Record<', $result);
@@ -25,6 +32,13 @@ class PHP2TS {
         return $result;
     }
 
+    /**
+     * convertDocComment.
+     *
+     * @param string $docComment
+     *
+     * @return string
+     */
     public static function convertDocComment($docComment) {
         $factory = DocBlockFactory::createInstance();
         $docblock = $factory->create($docComment);
@@ -44,19 +58,13 @@ class PHP2TS {
 
         $lastTag = '';
 
+        /** @var \phpDocumentor\Reflection\DocBlock\Tags\Param[]|\phpDocumentor\Reflection\DocBlock\Tags\Property[]|\phpDocumentor\Reflection\DocBlock\Tags\TagWithType[] */
         $tags = $docblock->getTags();
 
         /** @disregard P1013 manually checking */
-        $longestType = max(
-            array_map(
-                fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen(PHP2TS::convertDataType($tag->getType())) + 2,
-                $tags
-            )
-        );
+        $longestType = max(array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen(PHP2TS::convertDataType($tag->getType())) + 2, $tags));
         /** @disregard P1013 manually checking */
-        $longestVarName = max(
-            array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen($tag->getVariableName()), $tags)
-        );
+        $longestVarName = max(array_map(fn($tag): int => $tag->getName() === 'param' ? 0 : strlen($tag->getVariableName()), $tags));
 
         foreach ($tags as $tag) {
             if ($tag->getName() !== $lastTag) {
@@ -80,11 +88,7 @@ class PHP2TS {
                     break;
                 case 'throws':
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(
-                        sprintf('{%s}', PHP2TS::convertDataType($tag->getType())),
-                        $longestVarName + 2,
-                        ' '
-                    );
+                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 2, ' ');
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
@@ -92,11 +96,7 @@ class PHP2TS {
                 case 'return':
                     $tagRow[0] = '@returns';
                     /** @disregard P1013 manually checking */
-                    $tagRow[] = str_pad(
-                        sprintf('{%s}', PHP2TS::convertDataType($tag->getType())),
-                        $longestVarName + 1,
-                        ' '
-                    );
+                    $tagRow[] = str_pad(sprintf('{%s}', PHP2TS::convertDataType($tag->getType())), $longestVarName + 1, ' ');
                     /** @disregard P1013 manually checking */
                     $tagRow[] = $tag->getDescription();
 
@@ -121,6 +121,13 @@ class PHP2TS {
         return implode("\n", $output);
     }
 
+    /**
+     * generateContractMethodArgs.
+     *
+     * @param mixed $contractMethod
+     *
+     * @return string
+     */
     public static function generateContractMethodArgs($contractMethod): string {
         $params = $contractMethod->getParameters();
 
@@ -137,12 +144,26 @@ class PHP2TS {
         );
     }
 
+    /**
+     * generateContractMethodParams.
+     *
+     * @param mixed $contractMethod
+     *
+     * @return string
+     */
     public static function generateContractMethodParams($contractMethod): string {
         $params = $contractMethod->getParameters();
 
         return join(', ', array_map(fn($param): string => sprintf('%s', $param->getName()), $params));
     }
 
+    /**
+     * generateContractMethodReturnType.
+     *
+     * @param mixed $contractMethod
+     *
+     * @return string
+     */
     public static function generateContractMethodReturnType($contractMethod): string {
         $docComment = $contractMethod->getDocComment();
 
@@ -161,18 +182,29 @@ class PHP2TS {
         }
 
         throw new \Exception(
-            sprintf(
-                'Missing return statement for: %s->%s',
-                $contractMethod->getDeclaringClass()->getName(),
-                $contractMethod->getName()
-            )
+            sprintf('Missing return statement for: %s->%s', $contractMethod->getDeclaringClass()->getName(), $contractMethod->getName())
         );
     }
 
+    /**
+     * getBaseContractInterface.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
     public static function getBaseContractInterface(string $name): string {
         return substr($name, strrpos($name, '\\') + 1);
     }
 
+    /**
+     * getDocCommentParam.
+     *
+     * @param mixed  $contractMethod
+     * @param string $param
+     *
+     * @return mixed
+     */
     public static function getDocCommentParam($contractMethod, string $param): mixed {
         $docComment = $contractMethod->getDocComment();
 

@@ -6,6 +6,8 @@
 
 namespace app\dto;
 
+use app\utils\EnumMapper;
+
 /** @typescript */
 class Ipn {
     public string $created;
@@ -30,7 +32,7 @@ class Ipn {
     public function __construct(\app\domain\Ipn $ipn) {
         $this->id = $ipn->id;
         $this->created = $ipn->created;
-        $this->validation = IpnValidationEnum::tryFrom($ipn->validation);
+        $this->validation = EnumMapper::tryFrom(IpnValidationEnum::cases(), $ipn->validation);
         $this->payment_status = $ipn->payment_status;
         $this->payment_amount = $ipn->payment_amount;
         $this->payment_currency = $ipn->payment_currency;

@@ -16,7 +16,7 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|webhook
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return int
      */
@@ -25,8 +25,8 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int   $userid
+     * @param mixed $filters
      *
      * @return int
      */
@@ -35,16 +35,16 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission user
      *
-     * @param $name
-     * @param $description
-     * @param $enabled
-     * @param $url
-     * @param $translation
-     * @param $headers
-     * @param $method
-     * @param $eventid
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
      *
-     * @throws UnauthorizedException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -62,8 +62,8 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -79,7 +79,7 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission user|administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -88,8 +88,8 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission webhook|administrator
      *
-     * @param $domain
-     * @param $event
+     * @param string $domain
+     * @param mixed  $event
      *
      * @return mixed
      */
@@ -98,11 +98,11 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|webhook
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -111,14 +111,12 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
-     *
-     * @throws \Exception
+     * @param int   $userid
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -127,8 +125,8 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $privileges
+     * @param int   $id
+     * @param mixed $privileges
      *
      * @return mixed
      */
@@ -137,15 +135,15 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $name
-     * @param $description
-     * @param $enabled
-     * @param $url
-     * @param $translation
-     * @param $headers
-     * @param $method
-     * @param $eventid
+     * @param int    $id
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
      *
      * @return mixed
      */

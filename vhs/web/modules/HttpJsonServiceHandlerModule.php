@@ -16,14 +16,42 @@ use vhs\web\IHttpModule;
 
 /** @typescript */
 class HttpJsonServiceHandlerModule implements IHttpModule {
+    /**
+     * registryKey.
+     *
+     * @var mixed
+     */
     private $registryKey;
 
+    /**
+     * __construct.
+     *
+     * @param mixed $registryKey
+     *
+     * @return void
+     */
     public function __construct($registryKey) {
         $this->registryKey = $registryKey;
     }
 
+    /**
+     * endResponse.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function endResponse(HttpServer $server) {}
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @throws \vhs\services\exceptions\InvalidRequestException
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         $input = null;
 
@@ -59,8 +87,8 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
                 //case 'DELETE':
                 default:
                     throw new InvalidRequestException();
-
-                    break;
+                // TODO clean up
+                // break;
             }
 
             $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
@@ -79,5 +107,13 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
         }
     }
 
+    /**
+     * handleException.
+     *
+     * @param \vhs\web\HttpServer $server
+     * @param \Exception          $ex
+     *
+     * @return void
+     */
     public function handleException(HttpServer $server, \Exception $ex) {}
 }

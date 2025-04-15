@@ -9,19 +9,29 @@ use stdClass;
 /**
  * MetricServiceGetMembersResult Data Transfer Object.
  *
- * @property string               $start_range
- * @property string               $end_range
- * @property array<string,number> $created
- * @property array<string,number> $expired
- * @property array<string,number> $total
+ * @property string            $start_range
+ * @property string            $end_range
+ * @property array<string,int> $created
+ * @property array<string,int> $expired
+ * @property array<string,int> $total
  *
  * @typescript
  */
 class MetricServiceGetMembersResult extends DTO implements IDTO {
-    public function jsonSerialize(): array {
+    /**
+     * jsonSerialize.
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed {
         return $this->__serialize();
     }
 
+    /**
+     * __serialize.
+     *
+     * @return array{start_range: string, end_range: string, created: non-empty-array<string, int>|stdClass, expired: non-empty-array<string, int>|stdClass, total: non-empty-array<string, int>|stdClass}
+     */
     public function __serialize(): array {
         return [
             'start_range' => $this->start_range,
@@ -32,6 +42,11 @@ class MetricServiceGetMembersResult extends DTO implements IDTO {
         ];
     }
 
+    /**
+     * __toString.
+     *
+     * @return string
+     */
     public function __toString(): string {
         return json_encode($this->jsonSerialize());
     }

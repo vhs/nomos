@@ -15,10 +15,22 @@ use vhs\web\HttpServer;
 
 /** @typescript */
 class GithubOAuthHandler extends OAuthHandler {
+    /**
+     * getUrl.
+     *
+     * @return string
+     */
     public function getUrl() {
         return '/oauth/github.php';
     }
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         $host = OauthHelper::redirectHost();
 
@@ -38,11 +50,11 @@ class GithubOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
-            /** @var GithubResourceOwner|null */
+            /** @var \League\OAuth2\Client\Provider\GithubResourceOwner */
             $userDetails = $oauthHelper->processToken();
         }
 
-        if ($_GET['action'] == 'link' && !is_null($userDetails)) {
+        if ($_GET['action'] == 'link' && $userDetails !== null) {
             $oauthHelper->linkAccount($userDetails->getId(), 'github', 'GitHub Account for ' . $userDetails->getNickname());
 
             $server->clear();

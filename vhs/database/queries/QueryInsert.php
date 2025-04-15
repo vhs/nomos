@@ -15,10 +15,19 @@ use vhs\database\wheres\Where;
 
 /** @typescript */
 class QueryInsert extends Query {
+    /** @var Columns */
     public $columns;
+    /** @var mixed */
     public $values;
 
-    public function __construct(Table $table, Columns $columns, array $values) {
+    /**
+     * constructor.
+     *
+     * @param Table   $table
+     * @param Columns $columns
+     * @param mixed   $values
+     */
+    public function __construct(Table $table, Columns $columns, $values = null) {
         parent::__construct($table);
 
         $this->columns = $columns;

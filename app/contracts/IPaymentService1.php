@@ -16,7 +16,7 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -25,8 +25,8 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int   $userid
+     * @param mixed $filters
      *
      * @return int
      */
@@ -35,7 +35,7 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -44,11 +44,11 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -57,12 +57,12 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $userid
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */
@@ -71,7 +71,7 @@ interface IPaymentService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $paymentid
+     * @param int $paymentid
      *
      * @return mixed
      */

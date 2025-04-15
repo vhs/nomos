@@ -20,16 +20,31 @@ use vhs\monitors\Monitor;
 class PaymentMonitor extends Monitor {
     /** @var Logger */
     private $logger;
+
     /** @var PaymentProcessor */
     private $paymentProcessor;
 
-    public function Init(Logger &$logger = null) {
+    /**
+     * Init.
+     *
+     * @param \vhs\Logger|null $logger
+     *
+     * @return void
+     */
+    public function Init(?Logger &$logger = null) {
         $this->logger = $logger;
         $this->paymentProcessor = new PaymentProcessor($logger);
 
         Payment::onAnyCreated([$this, 'paymentCreated']);
     }
 
+    /**
+     * paymentCreated.
+     *
+     * @param mixed $args
+     *
+     * @return void
+     */
     public function paymentCreated($args) {
         try {
             $this->paymentProcessor->paymentCreated($args[0]->id);

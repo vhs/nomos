@@ -15,10 +15,22 @@ use vhs\web\HttpServer;
 
 /** @typescript */
 class GoogleOAuthHandler extends OAuthHandler {
+    /**
+     * getUrl.
+     *
+     * @return string
+     */
     public function getUrl() {
         return '/oauth/google.php';
     }
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         $host = OauthHelper::redirectHost();
 
@@ -38,7 +50,7 @@ class GoogleOAuthHandler extends OAuthHandler {
         if (!isset($_GET['code'])) {
             $oauthHelper->requestAuth();
         } else {
-            /** @var GoogleUser|null */
+            /** @var \League\OAuth2\Client\Provider\GoogleUser|null */
             $userDetails = $oauthHelper->processToken();
         }
 

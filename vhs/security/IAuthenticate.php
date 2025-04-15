@@ -12,7 +12,7 @@ namespace vhs\security;
 /** @typescript */
 interface IAuthenticate {
     /**
-     * @return IPrincipal
+     * @return \vhs\security\IPrincipal
      */
     public static function currentPrincipal();
 
@@ -21,7 +21,19 @@ interface IAuthenticate {
      */
     public static function isAuthenticated();
 
+    /**
+     * login.
+     *
+     * @param \vhs\security\ICredentials $credentials
+     *
+     * @return void
+     */
     public static function login(ICredentials $credentials);
 
+    /**
+     * logout.
+     *
+     * @return void
+     */
     public static function logout();
 }

@@ -13,8 +13,19 @@ use stdClass;
  * @param array<string,mixed> $data
  */
 class DTO extends stdClass {
-    public function __construct(array $data) {
-        if (empty($data) || count($data) === 0) {
+    /**
+     * __construct.
+     *
+     * @param array<string,mixed>|object $data
+     *
+     * @return void
+     */
+    public function __construct($data) {
+        if (
+            (gettype($data) !== 'array' && gettype($data) !== 'object') ||
+            (gettype($data) === 'array' && empty($data)) ||
+            (gettype($data) === 'object' && count(get_object_vars($data)) === 0)
+        ) {
             throw new Exception('Missing DTO construction argument!');
         }
 

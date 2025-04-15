@@ -46,8 +46,8 @@ class TestService extends Service implements ITestService1 {
     /**
      * @permission anonymous
      *
-     * @param $a
-     * @param $b
+     * @param mixed $a
+     * @param mixed $b
      *
      * @return mixed
      */
@@ -97,7 +97,7 @@ class TestService extends Service implements ITestService1 {
     /**
      * @permission anonymous
      *
-     * @param $a
+     * @param mixed $a
      *
      * @return mixed
      */

@@ -20,6 +20,7 @@ use app\dto\ServiceResponseError;
 use app\dto\ServiceResponseErrorInvalidToken;
 use app\dto\ServiceResponseErrorUserNotFoundByEmailAddress;
 use app\dto\ServiceResponseSuccess;
+use app\dto\UserActiveEnum;
 use app\exceptions\InvalidInputException;
 use app\exceptions\InvalidPasswordHashException;
 use app\exceptions\UserAlreadyExistsException;
@@ -37,8 +38,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUsers($filters): int {
@@ -55,7 +54,8 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param string $lname
      * @param int    $membershipid
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidPasswordHashException
+     * @throws \app\exceptions\UserAlreadyExistsException
      *
      * @return \app\domain\User
      */
@@ -79,7 +79,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
         $user->stripe_email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
-        $user->active = 't';
+        $user->active = UserActiveEnum::PENDING->value;
         $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
@@ -109,8 +109,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int $userid
      *
-     * @throws string
-     *
      * @return bool
      */
     public function GetStanding($userid): bool {
@@ -122,16 +120,16 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     /**
      * @permission administrator
      *
-     * @throws string
+     * @return array
      *
-     * @return mixed [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
+     * @phpstan-ignore missingType.iterableValue
      */
-    public function GetStatuses(): mixed {
+    public function GetStatuses(): array {
         return [
-            ['title' => 'Active', 'code' => 'y'],
-            ['title' => 'Pending', 'code' => 't'],
-            ['title' => 'Inactive', 'code' => 'n'],
-            ['title' => 'Banned', 'code' => 'b']
+            ['title' => 'Active', 'code' => UserActiveEnum::ACTIVE->value],
+            ['title' => 'Pending', 'code' => UserActiveEnum::PENDING->value],
+            ['title' => 'Inactive', 'code' => UserActiveEnum::INACTIVE->value],
+            ['title' => 'Banned', 'code' => UserActiveEnum::BANNED->value]
         ];
     }
 
@@ -139,8 +137,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @permission administrator|user
      *
      * @param int $userid
-     *
-     * @throws string
      *
      * @return \app\domain\User|null
      */
@@ -159,9 +155,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int $userid
      *
-     * @throws string
-     *
-     * @return array<string,string>|array
+     * @return array<string,string>|array<string>
      */
     public function GetUserGrantablePrivileges($userid): array {
         /** @var User $user */
@@ -179,8 +173,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\User[]
      */
     public function GetUsers(): array {
@@ -193,7 +185,8 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $privilege
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
@@ -205,26 +198,27 @@ class UserServiceHandler2 extends Service implements IUserService2 {
         /** @var User $user */
         $user = $this->getUserById($userid);
 
-        if ($user == null) {
+        if ($user === null) {
             throw new DomainException('User not found');
         }
 
         /** @var Privilege $priv */
         $priv = Privilege::findByCode($privilege);
 
-        if ($priv == null) {
+        if ($priv === null) {
             throw new DomainException('Privilege not found');
         }
 
-        // @phpstan-ignore property.notFound
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $p) {
-            // @phpstan-ignore property.notFound
             if ($p->code == $priv->code) {
                 throw new DomainException('Privilege already granted');
             }
         }
 
-        // @phpstan-ignore property.notFound
+        // TODO fix typing
+        /** @disregard P1006 override */
         $user->privileges->add($priv);
 
         return $user->save();
@@ -239,8 +233,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\User[]
      */
     public function ListUsers($page, $size, $columns, $order, $filters): array {
@@ -252,8 +244,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int    $userid
      * @param string $privileges
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -268,11 +258,17 @@ class UserServiceHandler2 extends Service implements IUserService2 {
 
         $privs = Privilege::findByCodes(...$privArray);
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $user->privileges->remove($priv);
         }
 
         foreach ($privs as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $user->privileges->add($priv);
         }
 
@@ -288,7 +284,8 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param string $fname
      * @param string $lname
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidPasswordHashException
+     * @throws \app\exceptions\UserAlreadyExistsException
      *
      * @return \app\domain\User
      */
@@ -310,7 +307,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
         $user->email = $email;
         $user->fname = $fname;
         $user->lname = $lname;
-        $user->active = 't';
+        $user->active = UserActiveEnum::PENDING->value;
         $user->token = bin2hex(openssl_random_pseudo_bytes(8));
 
         $user->save();
@@ -334,14 +331,12 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param string $email
      *
-     * @throws string
-     *
      * @return \app\dto\ServiceResponseError|\app\dto\ServiceResponseSuccess
      */
     public function RequestPasswordReset($email): ServiceResponseSuccess|ServiceResponseError {
         $user = User::findByEmail($email)[0];
 
-        if (is_null($user)) {
+        if ($user === null) {
             return new ServiceResponseErrorUserNotFoundByEmailAddress();
         }
 
@@ -371,19 +366,17 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param string $email
      *
-     * @throws string
-     *
      * @return bool|string|null
      */
     public function RequestSlackInvite($email): bool|string|null {
         $ch = curl_init('http://slack-invite:3000/invite');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, 'email=' . $email);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Connection: Close']);
 
         $error = null;
@@ -394,7 +387,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
 
         curl_close($ch);
 
-        if (!is_null($error)) {
+        if (!($error === null)) {
             // $this->context->log($error); NOSONAR
             return $error;
         }
@@ -408,14 +401,14 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param string $token
      * @param string $password
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidPasswordHashException
      *
      * @return \app\dto\ServiceResponseError|\app\dto\ServiceResponseSuccess
      */
     public function ResetPassword($token, $password): ServiceResponseSuccess|ServiceResponseError {
         $requests = PasswordResetRequest::findByToken($token);
 
-        if (!is_null($requests) && count($requests) == 1) {
+        if (!($requests === null) && count($requests) == 1) {
             /** @var PasswordResetRequest $request */
             $request = $requests[0];
             $created = new DateTime($request->created);
@@ -426,24 +419,22 @@ class UserServiceHandler2 extends Service implements IUserService2 {
             if ($created > new DateTime()) {
                 $user = $this->getUserById($userid);
 
-                if (!is_null($user)) {
-                    $hashedPassword = PasswordUtil::hash($password);
+                $hashedPassword = PasswordUtil::hash($password);
 
-                    if ($hashedPassword === null) {
-                        throw new InvalidPasswordHashException();
-                    }
-
-                    $user->password = $hashedPassword;
-
-                    $user->save();
-
-                    return new ServiceResponseSuccess();
+                if ($hashedPassword === null) {
+                    throw new InvalidPasswordHashException();
                 }
+
+                $user->password = $hashedPassword;
+
+                $user->save();
+
+                return new ServiceResponseSuccess();
             }
         } else {
             $users = User::findByToken($token);
 
-            if (!is_null($users) && count($users) == 1) {
+            if (!($users === null) && count($users) == 1) {
                 $user = $users[0];
 
                 $hashedPassword = PasswordUtil::hash($password);
@@ -470,7 +461,8 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $privilege
      *
-     * @throws string
+     * @throws \vhs\domain\exceptions\DomainException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
@@ -482,32 +474,33 @@ class UserServiceHandler2 extends Service implements IUserService2 {
         /** @var User $user */
         $user = $this->getUserById($userid);
 
-        if ($user == null) {
+        if ($user === null) {
             throw new DomainException('User not found');
         }
 
         /** @var Privilege $priv */
         $priv = Privilege::findByCode($privilege);
 
-        if ($priv == null) {
+        if ($priv === null) {
             throw new DomainException('Privilege not found');
         }
 
         $remove = null;
 
-        // @phpstan-ignore property.notFound
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($user->privileges->all() as $p) {
-            // @phpstan-ignore property.notFound
             if ($p->code == $priv->code) {
                 $remove = $p;
             }
         }
 
-        if (is_null($remove)) {
+        if ($remove === null) {
             throw new DomainException('Privilege instance not found');
         }
 
-        // @phpstan-ignore property.notFound
+        // TODO fix typing
+        /** @disregard P1006 override */
         $user->privileges->remove($remove);
 
         return $user->save();
@@ -518,8 +511,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int         $userid
      * @param bool|string $cash
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -537,15 +528,13 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $email
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateEmail($userid, $email): bool {
         $user = $this->getUserById($userid);
 
         if (CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
-            $this->throwNotFound('User');
+            $this->throwNotFound();
         }
 
         $user->email = $email;
@@ -558,8 +547,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int    $userid
      * @param string $date
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -577,16 +564,17 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int   $userid
      * @param mixed $membershipid
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return bool
      */
     public function UpdateMembership($userid, $membershipid): bool {
         $user = $this->getUserById($userid);
 
+        /** @var Membership|null */
         $membership = Membership::find($membershipid);
 
-        if (is_null($membership)) {
+        if ($membership === null) {
             throw new InvalidInputException('Invalid user or membership type');
         }
 
@@ -602,15 +590,13 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param string $fname
      * @param string $lname
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateName($userid, $fname, $lname): bool {
         $user = $this->getUserById($userid);
 
         if (CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
-            $this->throwNotFound('User');
+            $this->throwNotFound();
         }
 
         $user->fname = $fname;
@@ -624,8 +610,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param int  $userid
      * @param bool $subscribe
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -643,7 +627,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $password
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidPasswordHashException
      *
      * @return bool
      */
@@ -667,15 +651,13 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $email
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdatePaymentEmail($userid, $email): bool {
         $user = $this->getUserById($userid);
 
         if (CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
-            $this->throwNotFound('User');
+            $this->throwNotFound();
         }
 
         $user->payment_email = $email;
@@ -689,36 +671,34 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $status
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateStatus($userid, $status): bool {
         $user = $this->getUserById($userid);
 
         if (CurrentUser::hasAnyPermissions('administrator') !== true) {
-            $this->throwNotFound('User');
+            $this->throwNotFound();
         }
 
         switch ($status) {
             case 'active':
-            case 'y':
+            case UserActiveEnum::ACTIVE->value:
             case 'true':
-                $status = 'y';
+                $status = UserActiveEnum::ACTIVE->value;
 
                 break;
             case 'pending':
-            case 't':
-                $status = 't';
+            case UserActiveEnum::PENDING->value:
+                $status = UserActiveEnum::PENDING->value;
 
                 break;
             case 'banned':
-            case 'b':
-                $status = 'b';
+            case UserActiveEnum::BANNED->value:
+                $status = UserActiveEnum::BANNED->value;
 
                 break;
             default:
-                $status = 'n';
+                $status = UserActiveEnum::INACTIVE->value;
 
                 break;
         }
@@ -734,15 +714,13 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $email
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateStripeEmail($userid, $email): bool {
         $user = $this->getUserById($userid);
 
         if (CurrentUser::hasAnyPermissions('full-profile', 'administrator') !== true) {
-            $this->throwNotFound('User');
+            $this->throwNotFound();
         }
 
         $user->stripe_email = $email;
@@ -756,8 +734,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @param int    $userid
      * @param string $username
      *
-     * @throws string
-     *
      * @return bool
      */
     public function UpdateUsername($userid, $username): bool {
@@ -770,8 +746,6 @@ class UserServiceHandler2 extends Service implements IUserService2 {
 
     /**
      * Summary of AllowedColumns.
-     *
-     * @throws string
      *
      * @return string[]|null
      */
@@ -788,15 +762,13 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      *
      * @param mixed $id
      *
-     * @throws string
-     *
      * @return \app\domain\User
      */
     private function getUserById($id): User {
         $result = User::find($id);
 
-        if (is_null($result)) {
-            $this->throwNotFound('User');
+        if ($result === null) {
+            $this->throwNotFound();
         }
 
         return $result;

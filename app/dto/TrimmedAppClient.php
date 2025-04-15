@@ -2,6 +2,8 @@
 
 namespace app\dto;
 
+use app\domain\AppClient;
+
 /** @typescript */
 class TrimmedAppClient {
     public string $description;
@@ -11,12 +13,17 @@ class TrimmedAppClient {
     public string $name;
     public ?TrimmedUser $owner;
 
-    public function __construct(array $trimmedClientInfo) {
-        $this->id = $trimmedClientInfo['id'];
-        $this->name = $trimmedClientInfo['name'];
-        $this->description = $trimmedClientInfo['description'];
-        $this->enabled = $trimmedClientInfo['enabled'];
-        $this->expires = $trimmedClientInfo['expires'];
-        $this->owner = $trimmedClientInfo['owner'];
+    /**
+     * constructor.
+     *
+     * @param \app\domain\AppClient $clientInfo
+     */
+    public function __construct(AppClient $clientInfo) {
+        $this->id = $clientInfo->id;
+        $this->name = $clientInfo->name;
+        $this->description = $clientInfo->description;
+        $this->enabled = $clientInfo->enabled;
+        $this->expires = $clientInfo->expires;
+        $this->owner = new TrimmedUser($clientInfo->owner);
     }
 }

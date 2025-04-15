@@ -36,6 +36,13 @@ class WhereOr extends Where {
         return $s;
     }
 
+    /**
+     * __updateTable.
+     *
+     * @param Table $table
+     *
+     * @return void
+     */
     public function __updateTable(Table &$table) {
         foreach ($this->wheres as $where) {
             $where->__updateTable($table);

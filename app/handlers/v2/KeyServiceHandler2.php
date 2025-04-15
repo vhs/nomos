@@ -29,8 +29,6 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return void
      */
     public function DeleteKey($id): void {
@@ -47,7 +45,7 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      * @param string $value
      * @param string $notes
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
      *
      * @return \app\domain\Key|null
      */
@@ -64,8 +62,10 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
 
                         break;
                     case 'pin':
+                        // @phpstan-ignore argument.type
                         $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
                         $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
+                        /** @disregard P1006 override */
                         $key->privileges->add(Privilege::findByCode('inherit'));
 
                         break;
@@ -93,7 +93,7 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
     /**
      * @permission administrator
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key[]
      */
@@ -110,8 +110,6 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      *
      * @param int $keyid
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GetKey($keyid): Key {
@@ -121,7 +119,7 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
     /**
      * @permission administrator
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key[]
      */
@@ -138,8 +136,6 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      *
      * @param int      $userid
      * @param string[] $types
-     *
-     * @throws string
      *
      * @return \app\domain\Key[]
      */
@@ -167,8 +163,6 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      * @param int             $keyid
      * @param string|string[] $privileges
      *
-     * @throws string
-     *
      * @return bool
      */
     public function PutKeyPrivileges($keyid, $privileges): bool {
@@ -183,11 +177,17 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
 
         $privs = Privilege::findByCodes(...$privArray);
 
+        // TODO fix typing
+        /** @disregard P1006 override */
         foreach ($key->privileges->all() as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $key->privileges->remove($priv);
         }
 
         foreach ($privs as $priv) {
+            // TODO fix typing
+            /** @disregard P1006 override */
             $key->privileges->add($priv);
         }
 
@@ -200,8 +200,6 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      * @param int    $keyid
      * @param string $notes
      * @param string $expires
-     *
-     * @throws string
      *
      * @return bool
      */
@@ -221,11 +219,11 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws \vhs\security\exceptions\UnauthorizedException
-     * @throws string
      *
      * @return \app\domain\Key
      */
     private function getKeyById($keyid): Key {
+        /** @var \app\domain\Key|null */
         $key = Key::find($keyid);
 
         if (is_null($key)) {

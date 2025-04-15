@@ -25,11 +25,12 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      *
      * @param int $id
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return void
      */
     public function DeleteApiKey($id): void {
+        /** @var \app\domain\Key */
         $key = Key::find($id);
 
         if (!CurrentUser::hasAnyPermissions('administrator') && $key->userid != CurrentUser::getIdentity()) {
@@ -44,15 +45,15 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      *
      * @param string $notes
      *
-     * @throws string
-     *
      * @return \app\domain\Key
      */
     public function GenerateSystemApiKey($notes): Key {
         $apiKey = new Key();
+
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
         $apiKey->type = 'api';
         $apiKey->notes = $notes;
+
         $apiKey->save();
 
         return $apiKey;
@@ -64,7 +65,8 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      * @param int    $userid
      * @param string $notes
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key
      */
@@ -97,11 +99,13 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      *
      * @param int $keyid
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key
      */
     public function GetApiKey($keyid): Key {
+        /** @var \app\domain\Key|null $key */
         $key = Key::find($keyid);
 
         if (is_null($key)) {
@@ -120,8 +124,6 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
     /**
      * @permission administrator
      *
-     * @throws string
-     *
      * @return \app\domain\Key[]
      */
     public function GetSystemApiKeys(): array {
@@ -133,7 +135,7 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      *
      * @param int $userid
      *
-     * @throws string
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return \app\domain\Key[]
      */
@@ -151,11 +153,13 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      * @param int             $keyid
      * @param string|string[] $privileges
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
     public function PutApiKeyPrivileges($keyid, $privileges): bool {
+        /** @var \app\domain\Key */
         $keyid = Key::find($keyid);
 
         if (is_null($keyid)) {
@@ -194,11 +198,13 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      * @param string      $notes
      * @param string|null $expires
      *
-     * @throws string
+     * @throws \app\exceptions\InvalidInputException
+     * @throws \vhs\security\exceptions\UnauthorizedException
      *
      * @return bool
      */
     public function UpdateApiKey($keyid, $notes, $expires): bool {
+        /** @var \app\domain\Key */
         $key = Key::find($keyid);
 
         if (is_null($key)) {

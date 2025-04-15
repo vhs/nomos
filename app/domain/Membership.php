@@ -11,6 +11,7 @@ namespace app\domain;
 
 use app\schema\MembershipPrivilegeSchema;
 use app\schema\MembershipSchema;
+use SebastianBergmann\Type\ObjectType;
 use vhs\database\Columns;
 use vhs\database\Database;
 use vhs\database\orders\OrderBy;
@@ -19,7 +20,22 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $title
+ * @property string $code
+ * @property string $description
+ * @property float  $price
+ * @property int    $days
+ * @property string $period
+ * @property bool   $trial
+ * @property bool   $recurring
+ * @property bool   $private
+ * @property bool   $active
+ * @property object $privileges
+ *
+ * @typescript
+ */
 class Membership extends Domain {
     public const FRIEND = 'vhs_membership_friend';
     /* TODO HACK we should instead add privileges to the membership types and check those instead when checking types
@@ -30,6 +46,11 @@ class Membership extends Domain {
     public const KEYHOLDER = 'vhs_membership_keyholder';
     public const MEMBER = 'vhs_membership_member';
 
+    /**
+     * Get a map of all code IDs.
+     *
+     * @return array<string,string>
+     */
     public static function allCodeIdMap() {
         $rows = Database::select(
             Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column('id'), MembershipSchema::Column('code')))
@@ -44,6 +65,11 @@ class Membership extends Domain {
         return $values;
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @return string[]
+     */
     public static function allCodes() {
         $rows = Database::select(Query::Select(MembershipSchema::Table(), new Columns(MembershipSchema::Column('code'))));
 
@@ -56,6 +82,11 @@ class Membership extends Domain {
         return $values;
     }
 
+    /**
+     * Define.
+     *
+     * @return void
+     */
     public static function Define() {
         Membership::Schema(MembershipSchema::Type());
 
@@ -63,7 +94,9 @@ class Membership extends Domain {
     }
 
     /**
-     * @param $code
+     * Find membership by code.
+     *
+     * @param string $code
      *
      * @return Membership[]
      */
@@ -72,7 +105,7 @@ class Membership extends Domain {
     }
 
     /**
-     * @param $price
+     * @param float $price
      *
      * @return Membership|null
      */
@@ -90,6 +123,13 @@ class Membership extends Domain {
         return null;
     }
 
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }

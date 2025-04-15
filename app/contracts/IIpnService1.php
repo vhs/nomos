@@ -13,7 +13,7 @@ interface IIpnService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
      * @return int
      */
@@ -22,7 +22,7 @@ interface IIpnService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $ipnId
+     * @param mixed $ipnId
      *
      * @return mixed
      */
@@ -38,11 +38,11 @@ interface IIpnService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
      * @return mixed
      */

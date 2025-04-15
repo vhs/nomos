@@ -17,18 +17,35 @@ use vhs\web\IHttpModule;
 
 /** @typescript */
 class HttpApiAuthModule implements IHttpModule {
+    /** @var mixed */
     private $authorizer;
 
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
     }
 
+    /**
+     * endResponse.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
     public function endResponse(HttpServer $server) {
         if (array_key_exists('X-Api-Key', $server->request->headers) && $this->authorizer->isAuthenticated()) {
             $this->authorizer->logout();
         }
     }
 
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return void
+     */
     public function handle(HttpServer $server) {
         if (array_key_exists('X-Api-Key', $server->request->headers) && !$this->authorizer->isAuthenticated()) {
             try {
@@ -39,6 +56,14 @@ class HttpApiAuthModule implements IHttpModule {
         }
     }
 
+    /**
+     * handleException.
+     *
+     * @param \vhs\web\HttpServer $server
+     * @param \Exception          $ex
+     *
+     * @return void
+     */
     public function handleException(HttpServer $server, \Exception $ex) {
         if (get_class($ex) === 'vhs\\security\\exceptions\\UnauthorizedException') {
             $server->clear();

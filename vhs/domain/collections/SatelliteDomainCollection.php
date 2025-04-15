@@ -20,14 +20,52 @@ use vhs\domain\Schema;
 
 /** @typescript */
 class SatelliteDomainCollection extends DomainCollection {
-    /** @var ForeignKey */
+    /**
+     * childKey.
+     *
+     * @var \vhs\database\constraints\ForeignKey
+     */
     private $childKey;
+
+    /**
+     * childType.
+     *
+     * @var mixed
+     */
     private $childType;
+
+    /**
+     * joinTable.
+     *
+     * @var \vhs\domain\Schema
+     */
     private $joinTable;
+
+    /**
+     * parent.
+     *
+     * @var \vhs\domain\Domain
+     */
     private $parent;
-    /** @var ForeignKey */
+
+    /**
+     * parentKey.
+     *
+     * @var \vhs\database\constraints\ForeignKey
+     */
     private $parentKey;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\domain\Domain $parent
+     * @param mixed              $childType
+     * @param \vhs\domain\Schema $joinTable
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     public function __construct(Domain $parent, $childType, Schema $joinTable) {
         $this->parent = $parent;
         $this->childType = $childType;
@@ -60,6 +98,15 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->clear();
     }
 
+    /**
+     * add.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @throws \vhs\domain\exceptions\DomainException
+     *
+     * @return void
+     */
     public function add(Domain $item) {
         $this->raiseBeforeAdd();
 
@@ -77,6 +124,11 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->raiseAdded();
     }
 
+    /**
+     * all.
+     *
+     * @return string[]
+     */
     public function all() {
         $childOnCol = $this->childKey->on->name;
 
@@ -89,18 +141,38 @@ class SatelliteDomainCollection extends DomainCollection {
         return $all;
     }
 
+    /**
+     * compare.
+     *
+     * @param \vhs\domain\Domain $a
+     * @param \vhs\domain\Domain $b
+     *
+     * @return bool
+     */
     public function compare(Domain $a, Domain $b) {
         $childOnCol = $this->childKey->on->name;
 
         return $a->$childOnCol === $b->$childOnCol;
     }
 
+    /**
+     * contains.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @return bool
+     */
     public function contains(Domain $item) {
         $childOnCol = $this->childKey->on->name;
 
         return $this->containsKey($item->$childOnCol);
     }
 
+    /**
+     * hydrate.
+     *
+     * @return void
+     */
     public function hydrate() {
         $this->clear();
 
@@ -129,6 +201,13 @@ class SatelliteDomainCollection extends DomainCollection {
         $this->__existing = $childType::where(Where::In($this->childKey->on, $childIds));
     }
 
+    /**
+     * remove.
+     *
+     * @param \vhs\domain\Domain $item
+     *
+     * @return void
+     */
     public function remove(Domain $item) {
         $this->raiseBeforeRemove();
         if ($this->contains($item)) {
@@ -143,6 +222,11 @@ class SatelliteDomainCollection extends DomainCollection {
         }
     }
 
+    /**
+     * save.
+     *
+     * @return void
+     */
     public function save() {
         $this->raiseBeforeSave();
 

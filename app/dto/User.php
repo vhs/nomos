@@ -8,7 +8,7 @@ namespace app\dto;
 
 /** @typescript */
 class User {
-    public UserActiveEnum $active;
+    public string $active;
 
     public string $avatar;
 
@@ -75,7 +75,7 @@ class User {
         $this->lastlogin = $user->lastlogin;
         $this->lastip = $user->lastip;
         $this->avatar = $user->avatar;
-        $this->active = UserActiveEnum::tryFrom($user->active);
+        $this->active = $user->active;
         $this->paypal_id = $user->paypal_id;
         $this->payment_email = $user->payment_email;
         $this->stripe_id = $user->stripe_id;

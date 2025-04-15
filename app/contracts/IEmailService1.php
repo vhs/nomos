@@ -16,7 +16,7 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string $filters
      *
      * @return int
      */
@@ -25,20 +25,44 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
     public function DeleteTemplate($id);
 
+    /**
+     * Email.
+     *
+     * @permission authenticated
+     *
+     * @param mixed $email
+     * @param mixed $tmpl
+     * @param mixed $context
+     * @param mixed $subject
+     *
+     * @return mixed
+     */
     public function Email($email, $tmpl, $context, $subject = null);
 
+    /**
+     * EmailUser.
+     *
+     * @permission authenticated
+     *
+     * @param mixed $user
+     * @param mixed $tmpl
+     * @param mixed $context
+     * @param mixed $subject
+     *
+     * @return mixed
+     */
     public function EmailUser($user, $tmpl, $context, $subject = null);
 
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -47,11 +71,11 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int    $page
+     * @param int    $size
+     * @param string $columns
+     * @param string $order
+     * @param string $filters
      *
      * @return mixed
      */
@@ -60,12 +84,12 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $name
-     * @param $code
-     * @param $subject
-     * @param $help
-     * @param $body
-     * @param $html
+     * @param string $name
+     * @param string $code
+     * @param string $subject
+     * @param string $help
+     * @param string $body
+     * @param string $html
      *
      * @return mixed
      */
@@ -74,8 +98,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $body
+     * @param int    $id
+     * @param string $body
      *
      * @return mixed
      */
@@ -84,8 +108,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $code
+     * @param int    $id
+     * @param string $code
      *
      * @return mixed
      */
@@ -94,8 +118,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $help
+     * @param int    $id
+     * @param string $help
      *
      * @return mixed
      */
@@ -104,8 +128,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $html
+     * @param int    $id
+     * @param string $html
      *
      * @return mixed
      */
@@ -114,8 +138,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
+     * @param int    $id
+     * @param string $name
      *
      * @return mixed
      */
@@ -124,8 +148,8 @@ interface IEmailService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $subject
+     * @param int    $id
+     * @param string $subject
      *
      * @return mixed
      */

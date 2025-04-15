@@ -9,6 +9,7 @@
 
 namespace app\schema;
 
+use app\dto\UserActiveEnum;
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
@@ -39,7 +40,10 @@ class UserSchema extends Schema {
         $table->addColumn('lastlogin', Type::DateTime(true, date('Y-m-d H:i:s')));
         $table->addColumn('lastip', Type::String(true, '0', 16));
         $table->addColumn('avatar', Type::String(true, '0', 150));
-        $table->addColumn('active', Type::Enum('n', 'y', 't', 'b'));
+        $table->addColumn(
+            'active',
+            Type::Enum(UserActiveEnum::INACTIVE->value, UserActiveEnum::ACTIVE->value, UserActiveEnum::PENDING->value, UserActiveEnum::BANNED->value)
+        );
         $table->addColumn('paypal_id', Type::String(false, '', 255));
         $table->addColumn('payment_email', Type::String(false, '', 255));
         $table->addColumn('stripe_id', Type::String(false, '', 255));
@@ -47,6 +51,7 @@ class UserSchema extends Schema {
 
         $table->setConstraints(
             Constraint::PrimaryKey($table->columns->id),
+            // @phpstan-ignore argument.byRef
             Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
         );
 

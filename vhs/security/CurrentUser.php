@@ -9,55 +9,107 @@
 
 namespace vhs\security;
 
-use vhs\Singleton;
-
 /** @typescript */
 class CurrentUser {
-    /** @var IPrincipal $currentPrincipal */
-    private $currentPrincipal;
+    /** @var \vhs\security\IPrincipal $currentPrincipal */
+    public $currentPrincipal;
 
+    /**
+     * __construct.
+     *
+     * @return void
+     */
     protected function __construct() {
         $this->currentPrincipal = new AnonPrincipal();
     }
 
+    /**
+     * canGrantAllPermissions.
+     *
+     * @param string ...$permission
+     *
+     * @return bool
+     */
     final public static function canGrantAllPermissions(...$permission) {
         return CurrentUser::getPrincipal()->canGrantAllPermissions(...$permission);
     }
 
+    /**
+     * canGrantAnyPermissions.
+     *
+     * @param string ...$permission
+     *
+     * @return bool
+     */
     final public static function canGrantAnyPermissions(...$permission) {
         return CurrentUser::getPrincipal()->canGrantAnyPermissions(...$permission);
     }
 
+    /**
+     * getIdentity.
+     *
+     * @return mixed
+     */
     final public static function getIdentity() {
         return CurrentUser::getPrincipal()->getIdentity();
     }
 
     /**
-     * @return IPrincipal
+     * getPrincipal.
+     *
+     * @return \vhs\security\IPrincipal
      */
     final public static function getPrincipal() {
         return CurrentUser::getInstance()->currentPrincipal;
     }
 
+    /**
+     * hasAllPermissions.
+     *
+     * @param string ...$permission
+     *
+     * @return bool
+     */
     final public static function hasAllPermissions(...$permission) {
         return CurrentUser::getPrincipal()->hasAllPermissions(...$permission);
     }
 
+    /**
+     * hasAnyPermissions.
+     *
+     * @param string ...$permission
+     *
+     * @return bool
+     */
     final public static function hasAnyPermissions(...$permission) {
         return CurrentUser::getPrincipal()->hasAnyPermissions(...$permission);
     }
 
+    /**
+     * isAnon.
+     *
+     * @return bool
+     */
     final public static function isAnon() {
         return CurrentUser::getPrincipal()->isAnon();
     }
 
     /**
-     * @param IPrincipal $principal
+     * setPrincipal.
+     *
+     * @param \vhs\security\IPrincipal $principal
+     *
+     * @return void
      */
     final public static function setPrincipal($principal) {
         CurrentUser::getInstance()->currentPrincipal = $principal;
     }
 
+    /**
+     * getInstance.
+     *
+     * @return \vhs\security\CurrentUser
+     */
     final protected static function getInstance() {
         static $aoInstance = [];
 
@@ -76,5 +128,10 @@ class CurrentUser {
         }
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     private function __clone() {}
 }

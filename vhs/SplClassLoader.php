@@ -4,10 +4,36 @@ namespace vhs;
 
 /** @typescript */
 class SplClassLoaderItem {
+    /**
+     * file extension.
+     *
+     * @var mixed
+     */
     public $fileExtension;
+
+    /**
+     * include path.
+     *
+     * @var mixed
+     */
     public $includePath;
+
+    /**
+     * namespace.
+     *
+     * @var mixed
+     */
     public $namespace;
 
+    /**
+     * __construct.
+     *
+     * @param string|null $namespace
+     * @param string|null $includePath
+     * @param string      $fileExtension
+     *
+     * @return void
+     */
     public function __construct($namespace = null, $includePath = null, $fileExtension = '.php') {
         $this->namespace = $namespace;
         $this->includePath = $includePath;
@@ -17,11 +43,27 @@ class SplClassLoaderItem {
 
 /** @typescript */
 class SplClassLoader {
+    /**
+     * namespace items.
+     *
+     * @var array<string,mixed>
+     */
     private $_items = [];
+
+    /**
+     * namespace separator.
+     *
+     * @var string
+     */
     private $_namespaceSeparator = '\\';
 
     protected function __construct() {}
 
+    /**
+     * getInstance.
+     *
+     * @return \vhs\SplClassLoader
+     */
     final public static function getInstance() {
         static $aoInstance = [];
 
@@ -32,6 +74,13 @@ class SplClassLoader {
         return $aoInstance['SplClassLoader'];
     }
 
+    /**
+     * add a new item.
+     *
+     * @param \vhs\SplClassLoaderItem $item
+     *
+     * @return void
+     */
     public function add(SplClassLoaderItem $item) {
         $this->_items[$item->namespace] = $item;
         $this->register();
@@ -95,11 +144,20 @@ class SplClassLoader {
 
     /**
      * Installs this class loader on the SPL autoload stack.
+     *
+     * @return void
      */
     public function register() {
         spl_autoload_register([$this, 'loadClass']);
     }
 
+    /**
+     * remove an item.
+     *
+     * @param string $namespace
+     *
+     * @return void
+     */
     public function remove($namespace) {
         if (array_key_exists($namespace, $this->_items)) {
             unset($this->_items[$namespace]);
@@ -110,6 +168,8 @@ class SplClassLoader {
      * Sets the namespace separator used by classes in the namespace of this class loader.
      *
      * @param string $sep the separator to use
+     *
+     * @return void
      */
     public function setNamespaceSeparator($sep) {
         $this->_namespaceSeparator = $sep;
@@ -117,6 +177,8 @@ class SplClassLoader {
 
     /**
      * Uninstalls this class loader from the SPL autoloader stack.
+     *
+     * @return void
      */
     public function unregister() {
         spl_autoload_unregister([$this, 'loadClass']);

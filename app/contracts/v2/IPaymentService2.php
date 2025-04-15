@@ -19,8 +19,6 @@ interface IPaymentService2 extends IContract {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountPayments($filters): int;
@@ -31,8 +29,6 @@ interface IPaymentService2 extends IContract {
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountUserPayments($userid, $filters): int;
@@ -41,8 +37,6 @@ interface IPaymentService2 extends IContract {
      * @permission administrator|user
      *
      * @param int $id
-     *
-     * @throws string
      *
      * @return \app\domain\Payment|null
      */
@@ -56,8 +50,6 @@ interface IPaymentService2 extends IContract {
      * @param string                  $columns
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return \app\domain\Payment[]
      */
@@ -73,8 +65,6 @@ interface IPaymentService2 extends IContract {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Payment[]
      */
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters): array;
@@ -83,8 +73,6 @@ interface IPaymentService2 extends IContract {
      * @permission administrator
      *
      * @param int $paymentid
-     *
-     * @throws string
      *
      * @return string
      */

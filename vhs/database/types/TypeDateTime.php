@@ -11,7 +11,7 @@ namespace vhs\database\types;
 
 /** @typescript */
 class TypeDateTime extends Type {
-    public function covertType(ITypeConverter $converter, $value = null) {
+    public function convertType(ITypeConverter $converter, $value = null) {
         return $converter->convertDateTime($this, $value);
     }
 

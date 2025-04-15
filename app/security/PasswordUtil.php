@@ -19,6 +19,14 @@ if (!defined('PASSWORD_DEFAULT')) {
 
 /** @typescript */
 class PasswordUtil {
+    /**
+     * check.
+     *
+     * @param string $password
+     * @param string $hash
+     *
+     * @return bool
+     */
     public static function check($password, $hash) {
         return password_verify(sha1($password), $hash);
         // return self::password_verify(sha1($password), $hash);
@@ -27,22 +35,41 @@ class PasswordUtil {
     /**
      * check if a variable is a valid string.
      *
-     * @param any $testVal
+     * @param mixed $testVal
      *
      * @return bool
      */
     public static function checkValidString($testVal) {
-        gettype($testVal) === 'string' && $testVal !== '';
+        return gettype($testVal) === 'string' && $testVal !== '';
     }
 
+    /**
+     * generate.
+     *
+     * @return string
+     */
     public static function generate() {
         return self::hash(self::generateRandomString());
     }
 
+    /**
+     * hash.
+     *
+     * @param mixed $password
+     *
+     * @return string
+     */
     public static function hash($password) {
         return password_hash(sha1($password), PASSWORD_BCRYPT);
     }
 
+    /**
+     * generateRandomString.
+     *
+     * @param int $length
+     *
+     * @return string
+     */
     private static function generateRandomString($length = 16) {
         $randStr = str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', $length));
 

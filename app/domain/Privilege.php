@@ -16,12 +16,35 @@ use vhs\domain\validations\ValidationResults;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 
-/** @typescript */
+/**
+ * Privilege domain implementation.
+ *
+ * @property int    $id
+ * @property string $name
+ * @property string $code
+ * @property string $description
+ * @property string $icon
+ * @property bool   $enabled
+ *
+ * @typescript
+ */
 class Privilege extends Domain {
+    /**
+     * @return void
+     */
     public static function Define() {
         Privilege::Schema(PrivilegeSchema::Type());
     }
 
+    /**
+     * findByCode.
+     *
+     * @param string $code
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Privilege|null
+     */
     public static function findByCode($code) {
         if (!self::checkCodeAccess($code)) {
             throw new UnauthorizedException();
@@ -36,7 +59,16 @@ class Privilege extends Domain {
         return null;
     }
 
-    public static function findByCodes(...$codes) {
+    /**
+     * findByCodes.
+     *
+     * @param string ...$codes
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Privilege[]|null
+     */
+    public static function findByCodes(string ...$codes) {
         if (!self::checkCodeAccess(...$codes)) {
             throw new UnauthorizedException();
         }
@@ -44,7 +76,14 @@ class Privilege extends Domain {
         return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $codes));
     }
 
-    private static function checkCodeAccess(...$codes) {
+    /**
+     * checkCodeAccess.
+     *
+     * @param string ...$codes
+     *
+     * @return bool
+     */
+    private static function checkCodeAccess(string ...$codes) {
         foreach ($codes as $code) {
             if (
                 $code != 'inherit' &&
@@ -59,6 +98,13 @@ class Privilege extends Domain {
         return true;
     }
 
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }

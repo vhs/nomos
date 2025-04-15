@@ -7,6 +7,11 @@ use app\domain\User;
 use app\exceptions\InvalidInputException;
 use vhs\Loggington;
 
+/**
+ * EmailAdapter2.
+ *
+ * @method static \app\adapters\v2\EmailAdapter2 getInstance()
+ */
 class EmailAdapter2 extends Loggington {
     /**
      * Send the email.
@@ -28,12 +33,12 @@ class EmailAdapter2 extends Loggington {
         }
 
         if (is_null($subject)) {
-            $subject = $generated['subject'];
+            $subject = $generated->subject;
         }
 
         return \vhs\gateways\Engine::getInstance()
             ->getDefaultGateway('messages', 'email')
-            ->sendRichEmail($recipients, $subject, $generated['txt'], $generated['html']);
+            ->sendRichEmail($recipients, $subject, $generated->txt, $generated->html);
     }
 
     /**
@@ -42,7 +47,6 @@ class EmailAdapter2 extends Loggington {
      * @param mixed       $template
      * @param mixed       $context
      * @param string|null $subject
-     * @param mixed       $recipients
      *
      * @throws \app\exceptions\InvalidInputException
      *
@@ -56,11 +60,11 @@ class EmailAdapter2 extends Loggington {
         }
 
         if (is_null($subject)) {
-            $subject = $generated['subject'];
+            $subject = $generated->subject;
         }
 
         return \vhs\gateways\Engine::getInstance()
             ->getDefaultGateway('messages', 'email')
-            ->sendRichEmail($user->email, $subject, $generated['txt'], $generated['html']);
+            ->sendRichEmail($user->email, $subject, $generated->txt, $generated->html);
     }
 }

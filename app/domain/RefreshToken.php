@@ -15,7 +15,17 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int                   $id
+ * @property string                $token
+ * @property string                $expires
+ * @property int                   $userid
+ * @property \app\domain\User      $user
+ * @property int                   $appclientid
+ * @property \app\domain\AppClient $client
+ *
+ *  @typescript
+ */
 class RefreshToken extends Domain {
     public static function Define() {
         RefreshToken::Schema(RefreshTokenSchema::Type());
@@ -23,6 +33,13 @@ class RefreshToken extends Domain {
         RefreshToken::Relationship('client', AppClient::Type());
     }
 
+    /**
+     * findByToken.
+     *
+     * @param string $token
+     *
+     * @return \app\domain\RefreshToken|null
+     */
     public static function findByToken($token) {
         $tokens = self::where(
             Where::Equal(RefreshTokenSchema::Columns()->token, $token),
@@ -38,7 +55,9 @@ class RefreshToken extends Domain {
     }
 
     /**
-     * @param ValidationResults $results
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
      *
      * @return bool
      */

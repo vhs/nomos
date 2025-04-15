@@ -26,7 +26,7 @@ class Sword extends Domain {
     /**
      * @param ValidationResults $results
      *
-     * @return bool
+     * @return void
      */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.

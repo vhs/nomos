@@ -6,6 +6,7 @@ use app\contracts\v2\IPaymentService2;
 use app\domain\Payment;
 use app\processors\PaymentProcessor;
 use Aws\CloudFront\Exception\Exception;
+use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\loggers\StringLogger;
 use vhs\security\CurrentUser;
@@ -19,8 +20,6 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      *
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return int
      */
     public function CountPayments($filters): int {
@@ -32,8 +31,6 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      *
      * @param int                     $userid
      * @param \vhs\domain\Filter|null $filters
-     *
-     * @throws string
      *
      * @return int
      */
@@ -48,11 +45,10 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      *
      * @param int $id
      *
-     * @throws string
-     *
      * @return \app\domain\Payment|null
      */
     public function GetPayment($id): Payment|null {
+        /** @var Payment|null */
         $payment = Payment::find($id);
 
         if (is_null($payment)) {
@@ -75,8 +71,6 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Payment[]
      */
     public function ListPayments($page, $size, $columns, $order, $filters): array {
@@ -93,8 +87,6 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      * @param string                  $order
      * @param \vhs\domain\Filter|null $filters
      *
-     * @throws string
-     *
      * @return \app\domain\Payment[]
      */
     public function ListUserPayments($userid, $page, $size, $columns, $order, $filters): array {
@@ -107,8 +99,6 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
      * @permission administrator
      *
      * @param int $paymentid
-     *
-     * @throws string
      *
      * @return string
      */
@@ -128,17 +118,25 @@ class PaymentServiceHandler2 extends Service implements IPaymentService2 {
 
         $log->log('Replay complete.');
 
+        // @phpstan-ignore method.notFound
         return $log->fullText();
     }
 
+    /**
+     * addUserIDOrEMailToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
     private function addUserIDOrEMailToFilters($userid, $filters): Filter {
         $userService2 = new UserServiceHandler2();
         $user = $userService2->GetUser($userid);
 
-        if (is_string($filters)) {
-            //todo total hack.. this is to support GET params for downloading payments
-            $filters = json_decode($filters);
-        }
+        Domain::coerceFilters($filters);
 
         if (is_null($user)) {
             throw new UnauthorizedException('User not found or you do not have access');

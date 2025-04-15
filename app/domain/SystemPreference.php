@@ -15,7 +15,16 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $key
+ * @property string $value
+ * @property bool   $enabled
+ * @property string $notes
+ * @property object $privileges
+ *
+ *  @typescript
+ */
 class SystemPreference extends Domain {
     public static function Define() {
         SystemPreference::Schema(SystemPreferenceSchema::Type());
@@ -24,12 +33,12 @@ class SystemPreference extends Domain {
     }
 
     /**
-     * @param               $key
+     * @param string        $key
      * @param callable|null $accessCheck Privilege[] returns bool
      *
-     * @return array
+     * @return SystemPreference[]
      */
-    public static function findByKey($key, callable $accessCheck = null) {
+    public static function findByKey($key, ?callable $accessCheck = null) {
         $prefs = SystemPreference::where(Where::Equal(SystemPreferenceSchema::Columns()->key, $key));
 
         if (is_null($prefs) || count($prefs) == 0 || is_null($accessCheck)) {
@@ -49,9 +58,11 @@ class SystemPreference extends Domain {
     }
 
     /**
-     * @param ValidationResults $results
+     * validate.
      *
-     * @return bool
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
      */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.

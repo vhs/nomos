@@ -18,6 +18,13 @@ class StripeEventMonitor extends Monitor {
     /** @var Logger */
     private $logger;
 
+    /**
+     * handleCreated.
+     *
+     * @param mixed $args
+     *
+     * @return void
+     */
     public function handleCreated($args) {
         $this->logger->log(__METHOD__ . ': ' . json_encode($args, 1));
 
@@ -73,7 +80,7 @@ class StripeEventMonitor extends Monitor {
                     $item_name = !is_null($line_item->plan->nickname) ? $line_item->plan->nickname : $item_name;
                 }
                 if (isset($line_item->price)) {
-                    $item_amount = !is_null($line_item->price->unit_amount / 100) ? $line_item->price->unit_amount / 100 : $item_amount;
+                    $item_amount = !is_null($line_item->price->unit_amount) ? $line_item->price->unit_amount / 100 : $item_amount;
                 }
                 if (isset($line_item->price)) {
                     $item_number = !is_null($line_item->price->product) ? $line_item->price->product : $item_number;
@@ -106,7 +113,14 @@ class StripeEventMonitor extends Monitor {
         }
     }
 
-    public function Init(Logger &$logger = null) {
+    /**
+     * Init.
+     *
+     * @param \vhs\Logger|null $logger
+     *
+     * @return void
+     */
+    public function Init(?Logger &$logger = null) {
         $this->logger = &$logger;
         StripeEvent::onAnyCreated([$this, 'handleCreated']);
     }
@@ -115,6 +129,8 @@ class StripeEventMonitor extends Monitor {
      * Sourced from: https://stackoverflow.com/a/31330346.
      *
      * @param mixed $name
+     *
+     * @return array<string>
      */
     private function split_name($name) {
         $name = trim($name);

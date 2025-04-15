@@ -16,18 +16,50 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int              $id
+ * @property string           $txn_id
+ * @property int              $membership_id
+ * @property int              $user_id
+ * @property string           $payer_email
+ * @property string           $payer_fname
+ * @property string           $payer_lname
+ * @property float|int|string $rate_amount
+ * @property string           $currency
+ * @property string           $date
+ * @property string           $pp
+ * @property string           $ip
+ * @property int              $status
+ * @property string           $item_name
+ * @property string           $item_number
+ *
+ * @typescript
+ */
 class Payment extends Domain {
     public static function Define() {
         Payment::Schema(PaymentSchema::Type());
     }
 
+    /**
+     * exists.
+     *
+     * @param string $txn_id
+     *
+     * @return bool
+     */
     public static function exists($txn_id) {
         return Database::exists(
             Query::select(PaymentSchema::Table(), PaymentSchema::Columns(), Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id))
         );
     }
 
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }

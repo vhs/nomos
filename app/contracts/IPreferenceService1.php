@@ -16,16 +16,16 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param mixed $filters
      *
-     * @return array
+     * @return int
      */
     public function CountSystemPreferences($filters);
 
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param mixed $key
      *
      * @return mixed
      */
@@ -41,7 +41,7 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -50,23 +50,23 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int   $page
+     * @param int   $size
+     * @param mixed $columns
+     * @param mixed $order
+     * @param mixed $filters
      *
-     * @return array
+     * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters);
 
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $value
-     * @param $enabled
-     * @param $notes
+     * @param mixed $key
+     * @param mixed $value
+     * @param bool  $enabled
+     * @param mixed $notes
      *
      * @return mixed
      */
@@ -75,8 +75,8 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $privileges
+     * @param int   $id
+     * @param mixed $privileges
      *
      * @return mixed
      */
@@ -85,7 +85,7 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission anonymous
      *
-     * @param $key
+     * @param mixed $key
      *
      * @return mixed
      */
@@ -94,11 +94,11 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $key
-     * @param $value
-     * @param $enabled
-     * @param $notes
+     * @param int    $id
+     * @param mixed  $key
+     * @param mixed  $value
+     * @param bool   $enabled
+     * @param string $notes
      *
      * @return mixed
      */
@@ -107,8 +107,8 @@ interface IPreferenceService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $enabled
+     * @param mixed $key
+     * @param bool  $enabled
      *
      * @return mixed
      */

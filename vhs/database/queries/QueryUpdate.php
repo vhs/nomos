@@ -15,10 +15,28 @@ use vhs\database\wheres\Where;
 
 /** @typescript */
 class QueryUpdate extends Query {
+    /**
+     * columns.
+     *
+     * @var mixed
+     */
     public $columns;
+    /**
+     * values.
+     *
+     * @var mixed
+     */
     public $values;
 
-    public function __construct(Table $table, Columns $columns, Where $where = null, array $values) {
+    /**
+     * constructor.
+     *
+     * @param Table      $table
+     * @param Columns    $columns
+     * @param Where|null $where
+     * @param mixed      $values
+     */
+    public function __construct(Table $table, Columns $columns, ?Where $where = null, $values = null) {
         parent::__construct($table, $where);
 
         $this->columns = $columns;
