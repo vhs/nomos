@@ -29,9 +29,9 @@ class TablePrivilegedAccess extends PrivilegedAccess {
      *
      * @return void
      *
-     * @phpstan-ignore parameter.requiredAfterOptional
+     * @disregard P1078
      */
-    public function __construct(?Column $ownerColumn = null, Table $table, ...$privileges) {
+    public function __construct(Column $ownerColumn = null, Table $table, ...$privileges) {
         parent::__construct($ownerColumn);
         $this->table = $table;
         $this->privileges = $privileges;
