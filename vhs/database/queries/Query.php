@@ -24,10 +24,12 @@ use vhs\database\wheres\Where;
 /** @typescript */
 abstract class Query implements IGeneratable {
     /** @var \vhs\database\joins\Join[]|null */
-    public array|null $joins;
-    /** @var Table */
+    public array|null $joins = null;
+
+    /** @var \vhs\database\Table */
     public $table;
-    /** @var Where */
+
+    /** @var \vhs\database\wheres\Where */
     public $where;
 
     /**
@@ -116,9 +118,9 @@ abstract class Query implements IGeneratable {
      *
      * @return \vhs\database\queries\QueryUpdate
      *
-     * @phpstan-ignore parameter.requiredAfterOptional
+     * @disregard P1078
      */
-    public static function Update(Table $table, Columns $columns, ?Where $where = null, array $values) {
+    public static function Update(Table $table, Columns $columns, Where $where = null, array $values) {
         return new QueryUpdate($table, $columns, $where, $values);
     }
 

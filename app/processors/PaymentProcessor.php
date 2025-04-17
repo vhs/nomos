@@ -116,9 +116,9 @@ class PaymentProcessor {
      *
      * @return void
      *
-     * @phpstan-ignore parameter.requiredAfterOptional
+     * @disregard P1078
      */
-    private function processDonationPayment(?User $user = null, Payment $payment) {
+    private function processDonationPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
             EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
                 'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
@@ -173,9 +173,9 @@ class PaymentProcessor {
      *
      * @return void
      *
-     * @phpstan-ignore parameter.requiredAfterOptional
+     * @disregard P1078
      */
-    private function processMemberPayment(?User $user = null, Payment $payment) {
+    private function processMemberPayment(User $user = null, Payment $payment) {
         /** @var Membership|null $membership */
         $membership = null;
 
@@ -300,9 +300,9 @@ class PaymentProcessor {
      *
      * @return void
      *
-     * @phpstan-ignore parameter.requiredAfterOptional
+     * @disregard P1078
      */
-    private function processMembershipCardPayment(?User $user = null, Payment $payment) {
+    private function processMembershipCardPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
             EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
                 'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
