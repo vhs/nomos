@@ -50,6 +50,13 @@ class Migrator {
     private $user;
 
     /**
+     * command options
+     *
+     * @var string[]
+     */
+    private array $cmd_opts = [];
+
+    /**
      * __construct.
      *
      * @param string      $server
@@ -70,6 +77,10 @@ class Migrator {
             $this->logger = new SilentLogger();
         } else {
             $this->logger = $logger;
+        }
+
+        if (getenv('MIGRATOR_SKIP_SSL', true) !== false) {
+            array_push($this->cmd_opts, '--skip-ssl');
         }
     }
 
@@ -159,7 +170,15 @@ class Migrator {
 
             $script_path = $migrationsPath . '/' . $version . '/';
 
-            $command = 'mysql -u' . DB_USER . ' -p' . DB_PASS . ' ' . '-h ' . DB_SERVER . ' -D ' . DB_DATABASE . " --ssl=0 < {$script_path}";
+            $command = sprintf(
+                "mysql -u %s -p%s -h %s -D %s %s --ssl=0 < %s",
+                DB_USER,
+                DB_PASS,
+                DB_SERVER,
+                DB_DATABASE,
+                implode(' ', $this->cmd_opts),
+                $script_path
+            );
 
             foreach ($scripts as $script) {
                 $this->logger->log('Executing: ' . $script);
