@@ -13,7 +13,16 @@ use tests\schema\RingSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int                       $id
+ * @property string                    $name
+ * @property int                       $knightid
+ * @property int                       $enchantmentid
+ * @property \tests\domain\Knight      $knight
+ * @property \tests\domain\Enchantment $enchantment
+ *
+ * @typescript
+ */
 class Ring extends Domain {
     public static function Define() {
         Ring::Schema(RingSchema::Type());

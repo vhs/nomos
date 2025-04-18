@@ -72,7 +72,12 @@ interface ITestService1 extends IContract {
      */
     public function MultiPermMethod();
 
-    public function NoDocMethod();
+    /**
+     * NoDocMethod.
+     *
+     * @return string
+     */
+    public function NoDocMethod(): string;
 
     /**
      * @permission anonymous

@@ -21,11 +21,22 @@ use vhs\loggers\ConsoleLogger;
 class KeyDomainTest extends TestCase {
     /** @var InMemoryEngine */
     private static $engine;
+
     /** @var Logger */
     private static $logger;
 
+    /**
+     * ids.
+     *
+     * @var array<string,mixed>
+     */
     private $ids = [];
 
+    /**
+     * test_bullshitPhp.
+     *
+     * @return void
+     */
     public function test_bullshitPhp() {
         $service = new AuthService();
 
@@ -51,9 +62,19 @@ class KeyDomainTest extends TestCase {
         $this->assertTrue(is_array($obj->privileges), 'privileges must be an array');
     }
 
+    /**
+     * test_Privileges.
+     *
+     * @return void
+     */
     public function test_Privileges() {
+        /** @var \app\domain\Privilege */
         $inherit = Privilege::find($this->ids['inherit']);
+
+        /** @var \app\domain\Privilege */
         $membership_privilege = Privilege::find($this->ids['membership_privilege']);
+
+        /** @var \app\domain\Privilege */
         $user_privilege = Privilege::find($this->ids['user_privilege']);
 
         $service = new AuthService();
@@ -93,6 +114,11 @@ class KeyDomainTest extends TestCase {
         $this->assertTrue($user_privilegeFound);
     }
 
+    /**
+     * setUpBeforeClass.
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         self::$engine = new InMemoryEngine();
@@ -102,15 +128,27 @@ class KeyDomainTest extends TestCase {
         Database::setRethrow(true);
     }
 
+    /**
+     * tearDownAfterClass.
+     *
+     * @return void
+     */
     public static function tearDownAfterClass(): void {
         self::$engine->disconnect();
     }
 
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     public function setUp(): void {
         $inherit = new Privilege();
+
         $inherit->name = 'Inherit Privilege';
         $inherit->code = 'inherit';
         $inherit->enabled = true;
+
         $inherit->save();
 
         $this->ids['inherit'] = $inherit->id;
@@ -163,6 +201,11 @@ class KeyDomainTest extends TestCase {
         $this->ids['key'] = $key->id;
     }
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
     public function tearDown(): void {
         self::$engine->disconnect();
     }
