@@ -90,7 +90,12 @@ class TestService extends Service implements ITestService1 {
         return 'MultiPermMethod!';
     }
 
-    public function NoDocMethod() {
+    /**
+     * NoDocMethod.
+     *
+     * @return string
+     */
+    public function NoDocMethod(): string {
         return 'NoDocMethod!';
     }
 

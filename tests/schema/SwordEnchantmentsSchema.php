@@ -26,10 +26,34 @@ class SwordEnchantmentsSchema extends Schema {
         $table->addColumn('enchantmentid', Type::Int(false, 0));
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->swordid),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->enchantmentid),
-            Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id),
-            Constraint::ForeignKey($table->columns->enchantmentid, EnchantmentSchema::Table(), EnchantmentSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->swordid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                SwordSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                SwordSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->enchantmentid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                EnchantmentSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                EnchantmentSchema::Columns()->id
+            )
         );
 
         return $table;

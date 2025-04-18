@@ -13,7 +13,16 @@ use tests\schema\KnightSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int|\vhs\database\Column $id
+ * @property int                      $swordid
+ * @property string                   $name
+ * @property string                   $birthdate
+ * @property object                   $sword
+ * @property object                   $rings
+ *
+ * @typescript
+ */
 class Knight extends Domain {
     public static function Define() {
         Knight::Schema(KnightSchema::Type());

@@ -14,7 +14,11 @@ use vhs\database\Table;
 use vhs\database\types\Type;
 use vhs\domain\Schema;
 
-/** @typescript */
+/**
+ * @method static \tests\domain\Knight Columns()
+ *
+ * @typescript
+ */
 class KnightSchema extends Schema {
     /**
      * @return Table
@@ -27,8 +31,20 @@ class KnightSchema extends Schema {
         $table->addColumn('birthdate', Type::DateTime());
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->swordid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                SwordSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                SwordSchema::Columns()->id
+            )
         );
 
         return $table;

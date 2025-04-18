@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
 use vhs\database\Database;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
-use vhs\database\Table;
-use vhs\database\types\Type;
-use vhs\domain\Schema;
 use vhs\Logger;
 use vhs\loggers\ConsoleLogger;
 
@@ -21,10 +18,26 @@ use vhs\loggers\ConsoleLogger;
 class LimitTest extends TestCase {
     /** @var Logger */
     private static $logger;
+
+    /**
+     * inMemoryGenerator.
+     *
+     * @var mixed
+     */
     private $inMemoryGenerator;
 
+    /**
+     * mySqlGenerator.
+     *
+     * @var mixed
+     */
     private $mySqlGenerator;
 
+    /**
+     * test_EmptyLimit.
+     *
+     * @return void
+     */
     public function test_EmptyLimit() {
         $limit = Limit::Limit(null);
 
@@ -37,6 +50,11 @@ class LimitTest extends TestCase {
         $this->assertEquals('', $clause);
     }
 
+    /**
+     * test_EmptyOffset.
+     *
+     * @return void
+     */
     public function test_EmptyOffset() {
         $offset = Offset::Offset(null);
 
@@ -49,6 +67,11 @@ class LimitTest extends TestCase {
         $this->assertEquals('', $clause);
     }
 
+    /**
+     * test_HasLimit.
+     *
+     * @return void
+     */
     public function test_HasLimit() {
         $limit = Limit::Limit(1);
 
@@ -61,6 +84,11 @@ class LimitTest extends TestCase {
         $this->assertEquals('1', $clause);
     }
 
+    /**
+     * test_HasOffset.
+     *
+     * @return void
+     */
     public function test_HasOffset() {
         $offset = Offset::Offset(10);
 
@@ -73,6 +101,11 @@ class LimitTest extends TestCase {
         $this->assertEquals('10', $clause);
     }
 
+    /**
+     * setUpBeforeClass.
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         Database::setLogger(self::$logger);
@@ -80,12 +113,27 @@ class LimitTest extends TestCase {
         Database::setRethrow(true);
     }
 
+    /**
+     * tearDownAfterClass.
+     *
+     * @return void
+     */
     public static function tearDownAfterClass(): void {}
 
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
     public function tearDown(): void {}
 }

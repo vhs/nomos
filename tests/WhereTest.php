@@ -35,11 +35,27 @@ class TestSchema extends Schema {
 class WhereTest extends TestCase {
     /** @var Logger */
     private static $logger;
+
+    /**
+     * inMemoryGenerator.
+     *
+     * @var mixed
+     */
     private $inMemoryGenerator;
 
+    /**
+     * mySqlGenerator.
+     *
+     * @var mixed
+     */
     private $mySqlGenerator;
 
-    public function test_And() {
+    /**
+     * test_And.
+     *
+     * @return void
+     */
+    public function test_And(): void {
         $where = Where::_And(Where::Equal(TestSchema::Column('test1'), 'test2'), Where::Equal(TestSchema::Column('test3'), 'test4'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -63,7 +79,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_AndOr() {
+    /**
+     * test_AndOr.
+     *
+     * @return void
+     */
+    public function test_AndOr(): void {
         $where = Where::_And(
             Where::Equal(TestSchema::Column('test1'), 'test2'),
             Where::_Or(Where::Equal(TestSchema::Column('test3'), 'test4'), Where::Equal(TestSchema::Column('test5'), 'test6'))
@@ -113,7 +134,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data5));
     }
 
-    public function test_Equal() {
+    /**
+     * test_Equal.
+     *
+     * @return void
+     */
+    public function test_Equal(): void {
         $where = Where::Equal(TestSchema::Column('test1'), 'test2');
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -130,7 +156,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_Greater() {
+    /**
+     * test_Greater.
+     *
+     * @return void
+     */
+    public function test_Greater(): void {
         $where = Where::Greater(TestSchema::Column('test1'), 1);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -147,7 +178,12 @@ class WhereTest extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_GreaterEqual() {
+    /**
+     * test_GreaterEqual.
+     *
+     * @return void
+     */
+    public function test_GreaterEqual(): void {
         $where = Where::GreaterEqual(TestSchema::Column('test1'), 1);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -166,7 +202,12 @@ class WhereTest extends TestCase {
         $this->assertTrue($clause($data3));
     }
 
-    public function test_In() {
+    /**
+     * test_In.
+     *
+     * @return void
+     */
+    public function test_In(): void {
         $where = Where::In(TestSchema::Column('test1'), ['a', 'b', 'c']);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -187,7 +228,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data4));
     }
 
-    public function test_Lesser() {
+    /**
+     * test_Lesser.
+     *
+     * @return void
+     */
+    public function test_Lesser(): void {
         $where = Where::Lesser(TestSchema::Column('test1'), 2);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -204,7 +250,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data2));
     }
 
-    public function test_LesserEqual() {
+    /**
+     * test_LesserEqual.
+     *
+     * @return void
+     */
+    public function test_LesserEqual(): void {
         $where = Where::LesserEqual(TestSchema::Column('test1'), 2);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -223,7 +274,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data3));
     }
 
-    public function test_NotEqual() {
+    /**
+     * test_NotEqual.
+     *
+     * @return void
+     */
+    public function test_NotEqual(): void {
         $where = Where::NotEqual(TestSchema::Column('test1'), 'test2');
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -240,7 +296,12 @@ class WhereTest extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_NotIn() {
+    /**
+     * test_NotIn.
+     *
+     * @return void
+     */
+    public function test_NotIn(): void {
         $where = Where::NotIn(TestSchema::Column('test1'), ['a', 'b', 'c']);
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -261,7 +322,12 @@ class WhereTest extends TestCase {
         $this->assertTrue($clause($data4));
     }
 
-    public function test_NotNull() {
+    /**
+     * test_NotNull.
+     *
+     * @return void
+     */
+    public function test_NotNull(): void {
         $where = Where::NotNull(TestSchema::Column('test1'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -278,7 +344,12 @@ class WhereTest extends TestCase {
         $this->assertTrue($clause($data2));
     }
 
-    public function test_Null() {
+    /**
+     * test_Null.
+     *
+     * @return void
+     */
+    public function test_Null(): void {
         $where = Where::Null(TestSchema::Column('test1'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -295,7 +366,12 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data2), "failed by matching 'test3' as null");
     }
 
-    public function test_Or() {
+    /**
+     * test_Or.
+     *
+     * @return void
+     */
+    public function test_Or(): void {
         $where = Where::_Or(Where::Equal(TestSchema::Column('test1'), 'test2'), Where::Equal(TestSchema::Column('test3'), 'test4'));
 
         $clause = $where->generate($this->mySqlGenerator);
@@ -325,6 +401,11 @@ class WhereTest extends TestCase {
         $this->assertFalse($clause($data3));
     }
 
+    /**
+     * setUpBeforeClass.
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         Database::setLogger(self::$logger);
@@ -332,12 +413,27 @@ class WhereTest extends TestCase {
         Database::setRethrow(true);
     }
 
+    /**
+     * tearDownAfterClass.
+     *
+     * @return void
+     */
     public static function tearDownAfterClass(): void {}
 
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     public function setUp(): void {
         $this->mySqlGenerator = new \vhs\database\engines\mysql\MySqlGenerator();
         $this->inMemoryGenerator = new \vhs\database\engines\memory\InMemoryGenerator();
     }
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
     public function tearDown(): void {}
 }

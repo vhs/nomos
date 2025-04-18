@@ -13,7 +13,13 @@ use tests\schema\EnchantmentSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $name
+ * @property float  $bonus
+ *
+ * @typescript
+ */
 class Enchantment extends Domain {
     public static function Define() {
         Enchantment::Schema(EnchantmentSchema::Type());

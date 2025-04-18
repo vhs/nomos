@@ -20,8 +20,18 @@ class EmailTemplateDomainTest extends TestCase {
     /** @var Logger */
     private static $logger;
 
-    private $ids = [];
+    /**
+     * ids.
+     *
+     *  @ var array
+     */
+    // private $ids = [];
 
+    /**
+     * test_Service.
+     *
+     * @return void
+     */
     public function test_Service() {
         $service = new EmailService();
 
@@ -108,6 +118,11 @@ class EmailTemplateDomainTest extends TestCase {
         $this->assertEquals('qwer', $template->html);
     }
 
+    /**
+     * test_Template.
+     *
+     * @return void
+     */
     public function test_Template() {
         $generated = EmailTemplate::generate('some_random_name', [
             'a' => 'the value for a',
@@ -120,6 +135,11 @@ class EmailTemplateDomainTest extends TestCase {
         $this->assertEquals('<b>the value for a</b> some other value zxcv', $generated->html);
     }
 
+    /**
+     * setUpBeforeClass.
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void {
         self::$logger = new ConsoleLogger();
         self::$engine = new InMemoryEngine();
@@ -129,21 +149,38 @@ class EmailTemplateDomainTest extends TestCase {
         Database::setRethrow(true);
     }
 
+    /**
+     * tearDownAfterClass.
+     *
+     * @return void
+     */
     public static function tearDownAfterClass(): void {
         self::$engine->disconnect();
     }
 
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     public function setUp(): void {
         $template = new EmailTemplate();
+
         $template->name = 'This is the most random template, srsly';
         $template->code = 'some_random_name';
         $template->subject = '{{a}} {{other_value}} asdf';
         $template->help = 'some help text to describe whatever this is';
         $template->body = '{{a}} {{other_value}} qwer';
         $template->html = '<b>{{a}}</b> {{other_value}} zxcv';
+
         $template->save();
     }
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
     public function tearDown(): void {
         self::$engine->disconnect();
     }
