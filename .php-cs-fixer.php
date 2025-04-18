@@ -71,7 +71,7 @@ return (new PhpCsFixer\Config())
         // 'no_trailing_comma_in_list_call' => true,
         // 'no_trailing_comma_in_singleline_array' => true,
         // 'no_unneeded_control_parentheses' => true,
-        // 'no_unused_imports' => true,
+        'no_unused_imports' => true,
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
         // 'normalize_index_brace' => true,
