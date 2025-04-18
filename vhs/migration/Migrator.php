@@ -86,8 +86,8 @@ class Migrator {
     /**
      * migrate.
      *
-     * @param string $toVersion
-     * @param string $migrationsPath
+     * @param int|null $toVersion
+     * @param string   $migrationsPath
      *
      * @return bool
      */
