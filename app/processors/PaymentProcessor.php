@@ -16,7 +16,6 @@ use app\domain\Payment;
 use app\domain\User;
 use app\dto\UserActiveEnum;
 use app\security\PasswordUtil;
-use app\services\EmailService;
 use app\services\UserService;
 use DateTime;
 use vhs\Logger;
@@ -115,8 +114,6 @@ class PaymentProcessor {
      * @param \app\domain\Payment   $payment
      *
      * @return void
-     *
-     * @disregard P1078
      */
     private function processDonationPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {
@@ -172,8 +169,6 @@ class PaymentProcessor {
      * @param \app\domain\Payment   $payment
      *
      * @return void
-     *
-     * @disregard P1078
      */
     private function processMemberPayment(User $user = null, Payment $payment) {
         /** @var Membership|null $membership */
@@ -299,8 +294,6 @@ class PaymentProcessor {
      * @param \app\domain\Payment   $payment
      *
      * @return void
-     *
-     * @disregard P1078
      */
     private function processMembershipCardPayment(User $user = null, Payment $payment) {
         if (is_null($user)) {

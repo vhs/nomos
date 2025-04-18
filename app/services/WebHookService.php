@@ -12,7 +12,6 @@ namespace app\services;
 use app\contracts\IWebHookService1;
 use app\domain\Privilege;
 use app\domain\WebHook;
-use app\exceptions\MemberCardException;
 use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\CurrentUser;

@@ -9,7 +9,6 @@
 
 namespace app\security\oauth\providers\slack;
 
-use app\security\oauth\providers\slack\SlackProviderException;
 use League\OAuth2\Client\Grant\AbstractGrant;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;

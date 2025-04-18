@@ -30,7 +30,6 @@ use vhs\database\orders\OrderBy;
 use vhs\database\orders\OrderByAscending;
 use vhs\database\orders\OrderByDescending;
 use vhs\database\queries\IQueryGenerator;
-use vhs\database\queries\Query;
 use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
