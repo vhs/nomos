@@ -3,7 +3,6 @@
 namespace vhs\database\offsets;
 
 use vhs\database\Element;
-use vhs\database\IGenerator;
 
 /** @typescript */
 class Offset extends Element {

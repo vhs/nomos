@@ -10,7 +10,6 @@
 namespace app\contracts\v2;
 
 use app\domain\WebHook;
-use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\IContract;
 
 /** @typescript */

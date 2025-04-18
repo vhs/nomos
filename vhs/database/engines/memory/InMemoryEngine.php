@@ -9,18 +9,12 @@
 
 namespace vhs\database\engines\memory;
 
-use vhs\database\Column;
-use vhs\database\Columns;
 use vhs\database\Engine;
-use vhs\database\orders\OrderBy;
-use vhs\database\queries\Query;
 use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
 use vhs\database\queries\QuerySelect;
 use vhs\database\queries\QueryUpdate;
-use vhs\database\Table;
-use vhs\database\wheres\Where;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 

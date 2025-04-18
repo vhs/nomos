@@ -13,8 +13,6 @@ namespace vhs;
  * Class Cloneable
  * This will do deep object cloning but will choke on self references
  * you've been warned.
- *
- * @package vhs
  */
 trait Cloneable {
     private function __arrayCopy(array $array) {

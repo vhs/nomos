@@ -28,8 +28,6 @@ class TablePrivilegedAccess extends PrivilegedAccess {
      * @param string                    ...$privileges
      *
      * @return void
-     *
-     * @disregard P1078
      */
     public function __construct(Column $ownerColumn = null, Table $table, ...$privileges) {
         parent::__construct($ownerColumn);

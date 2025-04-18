@@ -11,8 +11,6 @@ namespace vhs\web\modules;
 
 use vhs\security\BearerTokenCredentials;
 use vhs\security\IAuthenticate;
-use vhs\security\UserPassCredentials;
-use vhs\web\HttpBasicCredentials;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 

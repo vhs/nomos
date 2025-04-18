@@ -15,7 +15,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
 use vhs\messaging\Engine;
-use vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo;
 
 /** @typescript */
 class RabbitMQEngine extends Engine {

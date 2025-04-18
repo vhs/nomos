@@ -2,8 +2,6 @@
 
 namespace vhs\security;
 
-use vhs\security\IPrincipal;
-
 /** @typescript */
 class SystemPrincipal implements IPrincipal, \JsonSerializable {
     public function __construct() {}

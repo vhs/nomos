@@ -10,9 +10,7 @@
 namespace app\monitors;
 
 use app\domain\Payment;
-use app\domain\User;
 use app\processors\PaymentProcessor;
-use Aws\CloudFront\Exception\Exception;
 use vhs\Logger;
 use vhs\monitors\Monitor;
 

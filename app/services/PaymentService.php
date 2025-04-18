@@ -5,7 +5,6 @@ namespace app\services;
 use app\contracts\IPaymentService1;
 use app\domain\Payment;
 use app\processors\PaymentProcessor;
-use Aws\CloudFront\Exception\Exception;
 use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\loggers\StringLogger;

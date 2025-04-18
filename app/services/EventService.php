@@ -13,8 +13,6 @@ use app\contracts\IEventService1;
 use app\domain\Event;
 use app\domain\Privilege;
 use app\exceptions\InvalidInputException;
-use Aws\CloudFront\Exception\Exception;
-use vhs\domain\Domain;
 use vhs\security\CurrentUser;
 use vhs\services\Service;
 
