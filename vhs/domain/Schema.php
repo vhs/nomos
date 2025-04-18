@@ -12,17 +12,6 @@ namespace vhs\domain;
 use vhs\database\Columns;
 use vhs\database\constraints\ForeignKey;
 use vhs\database\constraints\PrimaryKey;
-use vhs\database\Table;
-
-/** @typescript */
-interface ISchema {
-    /**
-     * init.
-     *
-     * @return Table
-     */
-    public static function init();
-}
 
 /** @typescript */
 abstract class Schema implements ISchema {
