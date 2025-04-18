@@ -15,6 +15,12 @@ use vhs\loggers\SilentLogger;
 /** @typescript */
 class Migrator {
     /**
+     * command options.
+     *
+     * @var string[]
+     */
+    private array $cmd_opts = [];
+    /**
      * database.
      *
      * @var string
@@ -48,13 +54,6 @@ class Migrator {
      * @var string
      */
     private $user;
-
-    /**
-     * command options
-     *
-     * @var string[]
-     */
-    private array $cmd_opts = [];
 
     /**
      * __construct.
@@ -163,7 +162,7 @@ class Migrator {
                 continue;
             }
 
-            //TODO these should prob be in a transaction to allow rollback in case a migration fails.
+            // TODO these should prob be in a transaction to allow rollback in case a migration fails.
             $this->logger->log('Upgrading to: ' . $version);
 
             $scripts = array_values(array_diff(scandir($migrationsPath . '/' . $version, SCANDIR_SORT_ASCENDING), ['..', '.']));
