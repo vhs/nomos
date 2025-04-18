@@ -15,6 +15,13 @@ namespace vhs;
  * you've been warned.
  */
 trait Cloneable {
+    /**
+     * __arrayCopy.
+     *
+     * @param array<mixed,mixed> $array
+     *
+     * @return array<mixed,mixed>
+     */
     private function __arrayCopy(array $array) {
         $result = [];
 
@@ -31,7 +38,13 @@ trait Cloneable {
         return $result;
     }
 
+    /**
+     * __clone.
+     *
+     * @return void
+     */
     public function __clone() {
+        // @phpstan-ignore foreach.nonIterable
         foreach ($this as $key => $val) {
             if (is_object($val)) {
                 $this->{$key} = clone $val;
