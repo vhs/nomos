@@ -26,6 +26,8 @@ class SwordSchema extends Schema {
         $table->addColumn('name', Type::String(false, 'Mystery Sword', 50));
         $table->addColumn('damage', Type::Int(false, 5));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         return $table;

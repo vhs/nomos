@@ -14,7 +14,14 @@ use tests\schema\SwordSchema;
 use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
-/** @typescript */
+/**
+ * @property int    $id
+ * @property string $name
+ * @property int    $damage
+ * @property object $enchantments
+ *
+ * @typescript
+ */
 class Sword extends Domain {
     public static function Define() {
         Sword::Schema(SwordSchema::Type());

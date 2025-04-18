@@ -26,6 +26,8 @@ class EnchantmentSchema extends Schema {
         $table->addColumn('name', Type::String(false, 'Mystery Enchament', 50));
         $table->addColumn('bonus', Type::Float(false, 1.1));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         return $table;

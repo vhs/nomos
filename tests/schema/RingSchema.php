@@ -28,9 +28,29 @@ class RingSchema extends Schema {
         $table->addColumn('enchantmentid', Type::Int(false, 0));
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            Constraint::ForeignKey($table->columns->enchantmentid, EnchantmentSchema::Table(), EnchantmentSchema::Columns()->id),
-            Constraint::ForeignKey($table->columns->knightid, KnightSchema::Table(), KnightSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->enchantmentid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                EnchantmentSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                EnchantmentSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->knightid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                KnightSchema::Table(),
+                KnightSchema::Columns()->id
+            )
         );
 
         return $table;

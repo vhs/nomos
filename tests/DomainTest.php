@@ -8,71 +8,36 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use vhs\database\constraints\Constraint;
-use vhs\database\Table;
-use vhs\database\types\Type;
+use tests\domain\ExampleDomain;
+use tests\schema\ExampleSchema;
 use vhs\database\wheres\Where;
-use vhs\domain\Domain;
-use vhs\domain\Schema;
-use vhs\domain\validations\ValidationFailure;
-use vhs\domain\validations\ValidationResults;
-
-/** @typescript */
-class ExampleSchema extends Schema {
-    /**
-     * @return Table
-     */
-    public static function init() {
-        $table = new Table('example', null);
-
-        $table->addColumn('id', Type::Int());
-        $table->addColumn('testA', Type::String(true));
-        $table->addColumn('testB', Type::String(true));
-        $table->addColumn('testC', Type::String(true));
-
-        $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
-
-        return $table;
-    }
-}
-
-/** @typescript */
-class ExampleDomain extends Domain {
-    public static function Define() {
-        ExampleDomain::Schema(ExampleSchema::Type());
-    }
-
-    public function get_magic() {
-        return 'magic field';
-    }
-
-    public function get_testC() {
-        return $this->internal_testC . 'fail';
-    }
-
-    public function set_magic($value) {
-        $this->testC = $value . 'magic';
-    }
-
-    public function set_testC($value) {
-        $this->internal_testC = $value . 'pass';
-    }
-
-    public function validate(ValidationResults &$results) {
-        if ($this->testA != 'pass') {
-            $results->add(new ValidationFailure('testA is not equal to pass'));
-        }
-    }
-}
 
 /** @typescript */
 class DomainTest extends TestCase {
+    /**
+     * inMemoryEngine.
+     *
+     * @var mixed
+     */
     private static $inMemoryEngine;
-    private static $logger;
-    private static $mySqlEngine;
 
-    public function stuff() {
+    /**
+     * $logger.
+     *
+     * @var \vhs\Logger
+     */
+    private static $logger;
+
+    // private static $mySqlEngine;
+
+    /**
+     * stuff.
+     *
+     * @return void
+     */
+    public function stuff(): void {
         $eg = new ExampleDomain();
+
         $eg->testA = 'pass';
         $eg->testB = 'blimey';
 
@@ -82,6 +47,7 @@ class DomainTest extends TestCase {
 
         unset($eg);
 
+        /** @var ExampleDomain */
         $eg = ExampleDomain::find(['id' => 1]);
 
         $this->assertEquals('blimey', $eg->testB);
@@ -109,6 +75,7 @@ class DomainTest extends TestCase {
         $eg3->testB = 'eg';
         $eg3->save();
 
+        /** @var ExampleDomain[] */
         $records = ExampleDomain::where(Where::Equal(ExampleSchema::Columns()->testB, 'eg1'));
 
         $this->assertEquals(1, sizeof($records));
@@ -130,7 +97,12 @@ class DomainTest extends TestCase {
         $this->assertEquals('eg', $records[1]->testB);
     }
 
-    public function test_childRelationship() {
+    /**
+     * test_childRelationship.
+     *
+     * @return void
+     */
+    public function test_childRelationship(): void {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
 
         $knight = new \tests\domain\Knight();
@@ -148,6 +120,7 @@ class DomainTest extends TestCase {
 
         unset($knight);
 
+        /** @var \tests\domain\Knight */
         $knight = \tests\domain\Knight::find($knightid);
 
         $this->assertEquals(1, count($knight->rings->all()));
@@ -161,12 +134,22 @@ class DomainTest extends TestCase {
     //\vhs\database\Database::arbitrary("DROP TABLE example;");
     //}
 
-    public function test_InMemoryDomainTest() {
+    /**
+     * test_InMemoryDomainTest.
+     *
+     * @return void
+     */
+    public function test_InMemoryDomainTest(): void {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
         $this->stuff();
     }
 
-    public function test_parentRelationship() {
+    /**
+     * test_parentRelationship.
+     *
+     * @return void
+     */
+    public function test_parentRelationship(): void {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
 
         $sword = new \tests\domain\Sword();
@@ -185,7 +168,11 @@ class DomainTest extends TestCase {
 
         unset($knight);
 
-        $knight = \tests\domain\Knight::where(Where::Equal(\tests\domain\Knight::Schema()->Columns()->name, 'Black Knight'));
+        $knight = \tests\domain\Knight::where(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
+            Where::Equal(\tests\domain\Knight::Schema()->Columns()->name, 'Black Knight')
+        );
 
         $this->assertEquals(1, count($knight));
 
@@ -197,7 +184,12 @@ class DomainTest extends TestCase {
         $this->assertEquals('Mighty Sword', $knight->sword->name);
     }
 
-    public function test_satelliteRelationship() {
+    /**
+     * test_satelliteRelationship.
+     *
+     * @return void
+     */
+    public function test_satelliteRelationship(): void {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
 
         $enchantment = new \tests\domain\Enchantment();
@@ -216,6 +208,7 @@ class DomainTest extends TestCase {
 
         unset($enchantment, $sword);
 
+        /** @var \tests\domain\Sword */
         $sword = \tests\domain\Sword::find($swordid);
 
         $enchants = $sword->enchantments->all();
@@ -228,6 +221,11 @@ class DomainTest extends TestCase {
         $enchants[$enchantmentid]->delete();
     }
 
+    /**
+     * setUpBeforeClass.
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void {
         self::$logger = new \vhs\loggers\ConsoleLogger();
         self::$inMemoryEngine = new \vhs\database\engines\memory\InMemoryEngine();
@@ -251,13 +249,28 @@ class DomainTest extends TestCase {
         \vhs\database\Database::setEngine(self::$inMemoryEngine);
     }
 
+    /**
+     * tearDownAfterClass.
+     *
+     * @return void
+     */
     public static function tearDownAfterClass(): void {
         //\vhs\database\Database::setEngine(self::$mySqlEngine);
 
         //\vhs\database\Database::arbitrary("DROP DATABASE " . DB_DATABASE);
     }
 
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     protected function setUp(): void {}
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
     protected function tearDown(): void {}
 }
