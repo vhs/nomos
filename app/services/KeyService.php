@@ -62,8 +62,11 @@ class KeyService extends Service implements IKeyService1 {
 
                         break;
                     case 'pin':
-                        // @phpstan-ignore argument.type
-                        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
+                        $nextpinid = Database::scalar(
+                            // TODO implement proper typing
+                            // @phpstan-ignore property.notFound
+                            Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid)
+                        );
                         $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
                         // TODO fix typing
                         /** @disregard P1006 override */
@@ -145,6 +148,8 @@ class KeyService extends Service implements IKeyService1 {
             throw new UnauthorizedException();
         }
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return Key::where(Where::Null(Key::Schema()->Columns()->userid));
     }
 

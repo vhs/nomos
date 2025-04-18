@@ -112,11 +112,11 @@ class InMemoryGenerator implements
      * generateBool.
      *
      * @param \vhs\database\types\TypeBool $type
-     * @param scalar                       $value
+     * @param mixed                        $value
      *
      * @return void
      */
-    public function generateBool(TypeBool $type, $value = null) {
+    public function generateBool(TypeBool $type, mixed $value = null) {
         // TODO: Implement generateBool() method.
     }
 
@@ -238,11 +238,11 @@ class InMemoryGenerator implements
      * generateDate.
      *
      * @param \vhs\database\types\TypeDate $type
-     * @param scalar                       $value
+     * @param mixed                        $value
      *
      * @return void
      */
-    public function generateDate(TypeDate $type, $value = null) {
+    public function generateDate(TypeDate $type, mixed $value = null) {
         // TODO: Implement generateDate() method.
     }
 
@@ -250,11 +250,11 @@ class InMemoryGenerator implements
      * generateDateTime.
      *
      * @param \vhs\database\types\TypeDateTime $type
-     * @param scalar                           $value
+     * @param mixed                            $value
      *
      * @return void
      */
-    public function generateDateTime(TypeDateTime $type, $value = null) {
+    public function generateDateTime(TypeDateTime $type, mixed $value = null) {
         // TODO: Implement generateDateTime() method.
     }
 
@@ -285,11 +285,11 @@ class InMemoryGenerator implements
      * generateEnum.
      *
      * @param \vhs\database\types\TypeEnum $type
-     * @param scalar                       $value
+     * @param mixed                        $value
      *
      * @return void
      */
-    public function generateEnum(TypeEnum $type, $value = null) {
+    public function generateEnum(TypeEnum $type, mixed $value = null) {
         // TODO: Implement generateEnum() method.
     }
 
@@ -297,11 +297,11 @@ class InMemoryGenerator implements
      * generateFloat.
      *
      * @param \vhs\database\types\TypeFloat $type
-     * @param scalar                        $value
+     * @param mixed                         $value
      *
      * @return void
      */
-    public function generateFloat(TypeFloat $type, $value = null) {
+    public function generateFloat(TypeFloat $type, mixed $value = null) {
         // TODO: Implement generateFloat() method.
     }
 
@@ -342,11 +342,11 @@ class InMemoryGenerator implements
      * generateInt.
      *
      * @param \vhs\database\types\TypeInt $type
-     * @param scalar                      $value
+     * @param mixed                       $value
      *
      * @return void
      */
-    public function generateInt(TypeInt $type, $value = null) {
+    public function generateInt(TypeInt $type, mixed $value = null) {
         // TODO: Implement generateInt() method.
     }
 
@@ -500,19 +500,19 @@ class InMemoryGenerator implements
     /**
      * generateText.
      *
-     * @param TypeText $type
-     * @param scalar   $value
+     * @param \vhs\database\types\TypeText $type
+     * @param mixed                        $value
      *
      * @return void
      */
-    public function generateText(TypeText $type, $value = null) {
+    public function generateText(TypeText $type, mixed $value = null) {
         // TODO: Implement generateText() method.
     }
 
     /**
      * generateUpdate.
      *
-     * @param QueryUpdate $query
+     * @param \vhs\database\queries\QueryUpdate $query
      *
      * @return void
      */

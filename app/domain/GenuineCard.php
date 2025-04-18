@@ -38,6 +38,8 @@ class GenuineCard extends Domain {
      * @return GenuineCard[]
      */
     public static function findByKey($key) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return GenuineCard::where(Where::Equal(GenuineCardSchema::Columns()->key, $key));
     }
 

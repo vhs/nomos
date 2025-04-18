@@ -39,6 +39,8 @@ class EmailTemplate extends Domain {
      * @return EmailTemplate|null
      */
     public static function findByCode($code) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $val = EmailTemplate::where(Where::Equal(EmailSchema::Columns()->code, $code));
 
         if (!empty($val)) {

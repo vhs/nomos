@@ -89,13 +89,31 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
 
         $payments = Payment::where(
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(Payment::Schema()->Columns()->status, 1),
-                Where::Equal(Payment::Schema()->Columns()->item_number, 'vhs_card_2015'), //TODO eventually put these into card campaigns or something
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                // TODO eventually put these into card campaigns or something
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Payment::Schema()->Columns()->item_number, 'vhs_card_2015'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(Payment::Schema()->Columns()->payer_email, $email),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(Payment::Schema()->Columns()->user_id, $user->id),
                 Where::NotIn(
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Payment::Schema()->Columns()->id,
-                    Query::Select(GenuineCard::Schema()->Table(), new Columns(GenuineCard::Schema()->Columns()->paymentid))
+                    Query::Select(
+                        GenuineCard::Schema()->Table(),
+                        // TODO implement proper typing
+                        // @phpstan-ignore property.notFound
+                        new Columns(GenuineCard::Schema()->Columns()->paymentid)
+                    )
                 )
             )
         );

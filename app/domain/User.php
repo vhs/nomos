@@ -74,7 +74,12 @@ class User extends Domain {
      * @return bool
      */
     public static function exists($username = null, $email = null) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $usernameWhere = Where::Equal(UserSchema::Columns()->username, $username);
+
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $emailWhere = Where::Equal(UserSchema::Columns()->email, $email);
         $where = null;
 
@@ -95,6 +100,8 @@ class User extends Domain {
      * @return User[]|null
      */
     public static function findByEmail($email) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return User::where(Where::Equal(UserSchema::Columns()->email, $email));
     }
 
@@ -104,6 +111,8 @@ class User extends Domain {
      * @return User[]|null
      */
     public static function findByPaymentEmail($email) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return User::where(Where::Equal(UserSchema::Columns()->payment_email, $email));
     }
 
@@ -115,6 +124,8 @@ class User extends Domain {
      * @return User[]|null
      */
     public static function findByToken($token) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return User::where(Where::Equal(UserSchema::Columns()->token, $token));
     }
 
@@ -124,6 +135,8 @@ class User extends Domain {
      * @return User[]|null
      */
     public static function findByUsername($username) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return User::where(Where::Equal(UserSchema::Columns()->username, $username));
     }
 

@@ -57,7 +57,7 @@ class MySqlConnectionInfo extends ConnectionInfo {
         $this->password = $password;
         $this->database = $database;
 
-        //TODO throw argument exceptions here if shit is rotten
+        // TODO throw argument exceptions here if shit is rotten
     }
 
     /**

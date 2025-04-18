@@ -17,7 +17,7 @@ class FileLogger extends Logger {
     /**
      * file.
      *
-     * @var resource|null
+     * @var mixed
      */
     private $file;
 
@@ -49,7 +49,6 @@ class FileLogger extends Logger {
     public function log($message) {
         $this->ensureFile();
         if (is_resource($this->file)) {
-            // @phpstan-ignore constant.notFound
             fwrite($this->file, '[' . date('Y-m-d H:i:s') . '] ' . INSTANCE_ID . ' ' . CurrentUser::getPrincipal() . ' ' . $message . PHP_EOL);
         }
     }

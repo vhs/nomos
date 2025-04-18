@@ -30,6 +30,8 @@ class EventSchema extends Schema {
         $table->addColumn('description', Type::Text());
         $table->addColumn('enabled', Type::Bool(false, false));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('event', $table));

@@ -31,6 +31,8 @@ class IpnSchema extends Schema {
         $table->addColumn('item_number', Type::String(false, '', 255));
         $table->addColumn('raw', Type::Text());
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('ipn', $table));

@@ -6,8 +6,8 @@
  * Date: 17/12/2014
  * Time: 10:06 AM.
  */
-//TODO support extra properties on satellite table in DomainCollection
-//TODO support other types of collections other than satellite joins
+// TODO support extra properties on satellite table in DomainCollection
+// TODO support other types of collections other than satellite joins
 
 namespace vhs\domain\collections;
 

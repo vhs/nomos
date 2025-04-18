@@ -11,10 +11,9 @@ namespace vhs\messaging;
 
 use vhs\Logger;
 use vhs\loggers\SilentLogger;
-use vhs\messaging\Engine;
 use vhs\Singleton;
 
-//TODO do this stuff in a thread prob, or at least in a non-blocking way maybe?
+// TODO do this stuff in a thread prob, or at least in a non-blocking way maybe?
 /**
  * @method static \vhs\messaging\MessageQueue getInstance()
  *

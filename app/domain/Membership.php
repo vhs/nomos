@@ -11,7 +11,6 @@ namespace app\domain;
 
 use app\schema\MembershipPrivilegeSchema;
 use app\schema\MembershipSchema;
-use SebastianBergmann\Type\ObjectType;
 use vhs\database\Columns;
 use vhs\database\Database;
 use vhs\database\orders\OrderBy;
@@ -101,6 +100,8 @@ class Membership extends Domain {
      * @return Membership[]
      */
     public static function findByCode($code) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return Membership::where(Where::Equal(MembershipSchema::Columns()->code, $code));
     }
 
@@ -111,7 +112,16 @@ class Membership extends Domain {
      */
     public static function findForPriceLevel($price) {
         $memberships = Membership::where(
-            Where::_And(Where::LesserEqual(MembershipSchema::Columns()->price, $price), Where::Equal(MembershipSchema::Columns()->active, true)),
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::LesserEqual(MembershipSchema::Columns()->price, $price),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(MembershipSchema::Columns()->active, true)
+            ),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             OrderBy::Descending(MembershipSchema::Columns()->price),
             1
         );

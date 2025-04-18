@@ -27,13 +27,35 @@ class RefreshTokenSchema extends Schema {
         $table->addColumn('appclientid', Type::Int());
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->appclientid, AppClientSchema::Table(), AppClientSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->userid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                UserSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                UserSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->appclientid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                AppClientSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                AppClientSchema::Columns()->id
+            )
         );
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('accesstoken', $table, $table->columns->userid));
 
         return $table;

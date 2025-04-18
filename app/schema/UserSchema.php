@@ -50,11 +50,24 @@ class UserSchema extends Schema {
         $table->addColumn('stripe_email', Type::String(false, '', 255));
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->membership_id,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                MembershipSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                MembershipSchema::Columns()->id
+            )
         );
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('user', $table, $table->columns->id));
 
         return $table;

@@ -55,7 +55,11 @@ class PinServiceHandler2 extends Service implements IPinService2 {
         $pin = $this->getUserPinByUserId($userid);
 
         if (is_null($pin)) {
-            $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
+            $nextpinid = Database::scalar(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid))
+            );
 
             $key = new Key();
             $key->userid = $userid;
@@ -95,7 +99,11 @@ class PinServiceHandler2 extends Service implements IPinService2 {
     public function GenerateTemporaryPin($expires, $privileges, $notes): Key {
         $userid = CurrentUser::getIdentity();
 
-        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
+        $nextpinid = Database::scalar(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
+            Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid))
+        );
 
         $pin = new Key();
         $pin->userid = $userid;
@@ -207,7 +215,16 @@ class PinServiceHandler2 extends Service implements IPinService2 {
             throw new UnauthorizedException();
         }
 
-        $keys = Key::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'pin'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
+        $keys = Key::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->type, 'pin'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->userid, $userid)
+            )
+        );
 
         return !empty($keys) ? $keys[0] : null;
     }

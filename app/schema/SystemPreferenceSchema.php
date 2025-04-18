@@ -26,6 +26,8 @@ class SystemPreferenceSchema extends Schema {
         $table->addColumn('enabled', Type::Bool(false, true));
         $table->addColumn('notes', Type::Text());
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('systempreference', $table));
