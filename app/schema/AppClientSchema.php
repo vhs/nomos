@@ -31,11 +31,24 @@ class AppClientSchema extends Schema {
         $table->addColumn('enabled', Type::Bool(false, false));
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->userid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                UserSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                UserSchema::Columns()->id
+            )
         );
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('appclient', $table, $table->columns->userid));
 
         return $table;

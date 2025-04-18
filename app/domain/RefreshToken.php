@@ -42,7 +42,11 @@ class RefreshToken extends Domain {
      */
     public static function findByToken($token) {
         $tokens = self::where(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Where::Equal(RefreshTokenSchema::Columns()->token, $token),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             OrderBy::Descending(RefreshTokenSchema::Columns()->expires),
             1
         );

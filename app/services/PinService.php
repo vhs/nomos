@@ -51,7 +51,11 @@ class PinService extends Service implements IPinService1 {
         $pin = $this->GetUserPin($userid);
 
         if (is_null($pin)) {
-            $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
+            $nextpinid = Database::scalar(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid))
+            );
 
             $key = new Key();
             $key->userid = $userid;
@@ -91,7 +95,14 @@ class PinService extends Service implements IPinService1 {
     public function GenerateTemporaryPin($expires, $privileges, $notes) {
         $userid = CurrentUser::getIdentity();
 
-        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
+        $nextpinid = Database::scalar(
+            Query::Select(
+                SettingsSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                new Columns(SettingsSchema::Columns()->nextpinid)
+            )
+        );
 
         $pin = new Key();
         $pin->userid = $userid;
@@ -137,7 +148,16 @@ class PinService extends Service implements IPinService1 {
             throw new UnauthorizedException();
         }
 
-        $keys = Key::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'pin'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
+        $keys = Key::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->type, 'pin'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->userid, $userid)
+            )
+        );
 
         if (count($keys) >= 1) {
             return $keys[0];

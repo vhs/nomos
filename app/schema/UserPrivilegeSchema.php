@@ -25,12 +25,34 @@ class UserPrivilegeSchema extends Schema {
         $table->addColumn('notes', Type::Text());
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->userid),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->privilegeid),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->userid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                UserSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                UserSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->privilegeid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                PrivilegeSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                PrivilegeSchema::Columns()->id
+            )
         );
 
         return $table;

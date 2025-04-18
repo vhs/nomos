@@ -35,7 +35,11 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     public function GetCreatedDates($start_range, $end_range): MetricServiceGetCreatedDatesResult {
         $users = User::where(
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
             )
         );
@@ -94,6 +98,8 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @return \app\domain\Payment[]
      */
     public function GetExceptionPayments(): array {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return Payment::where(Where::NotEqual(Payment::Schema()->Columns()->status, 1));
     }
 
@@ -109,16 +115,28 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     public function GetMembers($start_range, $end_range, $group): MetricServiceGetMembersResult {
         $users = User::where(
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(User::Schema()->Columns()->created, $start_range),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(User::Schema()->Columns()->created, $end_range)
             )
         );
 
         $payments = Payment::where(
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(Payment::Schema()->Columns()->status, 1),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Like(Payment::Schema()->Columns()->item_number, 'vhs_membership_%')
             )
         );
@@ -199,6 +217,8 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
      * @return \app\domain\User[]
      */
     public function GetPendingAccounts(): mixed {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return User::where(Where::Equal(User::Schema()->Columns()->active, UserActiveEnum::PENDING->value));
     }
 
@@ -214,8 +234,14 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
     public function GetRevenue($start_range, $end_range, $group): MetricServiceGetRevenueResult {
         $payments = Payment::where(
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(Payment::Schema()->Columns()->status, 1),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(Payment::Schema()->Columns()->date, $start_range),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(Payment::Schema()->Columns()->date, $end_range)
             )
         );
@@ -358,9 +384,17 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
             )
         );
@@ -381,10 +415,20 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
         $query = Query::count(
             UserSchema::Table(),
             Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::Equal(UserSchema::Columns()->membership_id, $membership_id),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::LesserEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $end)),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
                 Where::GreaterEqual(UserSchema::Columns()->created, date(Formats::DATE_TIME_ISO_SHORT_MIDNIGHT, $start))
             )
         );
@@ -402,7 +446,11 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             Query::count(
                 UserSchema::Table(),
                 Where::_And(
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL))
                 )
             )
@@ -421,8 +469,14 @@ class MetricServiceHandler2 extends Service implements IMetricService2 {
             Query::count(
                 UserSchema::Table(),
                 Where::_And(
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Where::Equal(UserSchema::Columns()->active, UserActiveEnum::ACTIVE->value),
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Where::GreaterEqual(UserSchema::Columns()->mem_expire, date(Formats::DATE_TIME_ISO_SHORT_FULL)),
+                    // TODO implement proper typing
+                    // @phpstan-ignore property.notFound
                     Where::Equal(UserSchema::Columns()->membership_id, $membership_id)
                 )
             )

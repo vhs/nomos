@@ -50,6 +50,8 @@ class Privilege extends Domain {
             throw new UnauthorizedException();
         }
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $privs = Privilege::where(Where::Equal(Privilege::Schema()->Columns()->code, $code));
 
         if (!empty($privs)) {
@@ -73,6 +75,8 @@ class Privilege extends Domain {
             throw new UnauthorizedException();
         }
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return Privilege::where(Where::In(Privilege::Schema()->Columns()->code, $codes));
     }
 

@@ -62,8 +62,11 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
 
                         break;
                     case 'pin':
-                        // @phpstan-ignore argument.type
-                        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
+                        $nextpinid = Database::scalar(
+                            // TODO implement proper typing
+                            // @phpstan-ignore property.notFound
+                            Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid)
+                        );
                         $key->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
                         /** @disregard P1006 override */
                         $key->privileges->add(Privilege::findByCode('inherit'));
@@ -128,6 +131,8 @@ class KeyServiceHandler2 extends Service implements IKeyService2 {
             throw new UnauthorizedException();
         }
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return Key::where(Where::Null(Key::Schema()->Columns()->userid));
     }
 

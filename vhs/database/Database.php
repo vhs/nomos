@@ -12,7 +12,6 @@ namespace vhs\database;
 use vhs\database\engines\memory\InMemoryEngine;
 use vhs\database\exceptions\DatabaseConnectionException;
 use vhs\database\exceptions\DatabaseException;
-use vhs\database\queries\Query;
 use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;
@@ -69,7 +68,7 @@ class Database extends Singleton {
         $db = self::getInstance();
 
         return $db->invokeEngine(function () use ($db, $command) {
-            //TODO warn that this is not ideal
+            // TODO warn that this is not ideal
             return $db->engine->arbitrary($command);
         });
     }

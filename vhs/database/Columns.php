@@ -12,7 +12,7 @@ namespace vhs\database;
 use vhs\Cloneable;
 
 /** @typescript */
-class Columns extends \stdClass {
+class Columns {
     use Cloneable;
 
     /** @var Column[] */

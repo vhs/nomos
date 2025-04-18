@@ -11,7 +11,6 @@ namespace vhs\domain\collections;
 
 use vhs\database\Column;
 use vhs\database\constraints\ForeignKey;
-use vhs\database\constraints\PrimaryKey;
 use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
@@ -91,7 +90,7 @@ class ChildDomainCollection extends DomainCollection {
             throw new DomainException('Child relationship incomplete - missing referenced child and/or parent column on joined tables');
         }
 
-        //TODO something with before deletes - maybe not because this is a direct relationship
+        // TODO something with before deletes - maybe not because this is a direct relationship
 
         $this->clear();
     }

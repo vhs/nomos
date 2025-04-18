@@ -43,7 +43,14 @@ class Event extends Domain {
      */
     public static function exists($domain, $event) {
         $events = Event::where(
-            Where::_And(Where::Equal(Event::Schema()->Columns()->domain, $domain), Where::Equal(Event::Schema()->Columns()->event, $event))
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Event::Schema()->Columns()->domain, $domain),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Event::Schema()->Columns()->event, $event)
+            )
         );
 
         return count($events) > 0;

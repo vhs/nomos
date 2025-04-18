@@ -66,7 +66,7 @@ class RabbitMQConnectionInfo extends ConnectionInfo {
         $this->password = $password;
         $this->vhost = $vhost;
 
-        //TODO throw argument exceptions here if shit is rotten
+        // TODO throw argument exceptions here if shit is rotten
     }
 
     /**

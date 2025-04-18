@@ -39,6 +39,8 @@ class SystemPreference extends Domain {
      * @return SystemPreference[]
      */
     public static function findByKey($key, ?callable $accessCheck = null) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $prefs = SystemPreference::where(Where::Equal(SystemPreferenceSchema::Columns()->key, $key));
 
         if (is_null($prefs) || count($prefs) == 0 || is_null($accessCheck)) {

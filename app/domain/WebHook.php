@@ -49,7 +49,14 @@ class WebHook extends Domain {
      */
     public static function findByDomainEvent($domain, $event) {
         return WebHook::where(
-            Where::_And(Where::Equal(WebHook::Schema()->Columns()->domain, $domain), Where::Equal(WebHook::Schema()->Columns()->event, $event))
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(WebHook::Schema()->Columns()->domain, $domain),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(WebHook::Schema()->Columns()->event, $event)
+            )
         );
     }
 

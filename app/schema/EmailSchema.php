@@ -28,6 +28,8 @@ class EmailSchema extends Schema {
         $table->addColumn('body', Type::Text());
         $table->addColumn('html', Type::Text());
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('emailtemplate', $table));

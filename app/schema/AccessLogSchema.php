@@ -28,8 +28,12 @@ class AccessLogSchema extends Schema {
         $table->addColumn('time', Type::DateTime(false, date('Y-m-d H:i:s')));
         $table->addColumn('userid', Type::Int());
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('accesslog', $table, $table->columns->userid));
 
         return $table;

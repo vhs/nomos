@@ -49,7 +49,13 @@ class Payment extends Domain {
      */
     public static function exists($txn_id) {
         return Database::exists(
-            Query::select(PaymentSchema::Table(), PaymentSchema::Columns(), Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id))
+            Query::select(
+                PaymentSchema::Table(),
+                PaymentSchema::Columns(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id)
+            )
         );
     }
 

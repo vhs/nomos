@@ -9,8 +9,6 @@
 
 namespace app\schema;
 
-use app\schema\MembershipSchema;
-use app\schema\UserSchema;
 use app\security\PrivilegedAccess;
 use vhs\database\constraints\Constraint;
 use vhs\database\Table;
@@ -39,13 +37,35 @@ class PaymentSchema extends Schema {
         $table->addColumn('item_number', Type::String(true, null, 255));
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->user_id, UserSchema::Table(), UserSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->membership_id,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                MembershipSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                MembershipSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->user_id,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                UserSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                UserSchema::Columns()->id
+            )
         );
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('payment', $table, $table->columns->user_id));
 
         return $table;

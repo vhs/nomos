@@ -9,7 +9,6 @@
 
 namespace vhs\services\endpoints;
 
-use vhs\Logger;
 use vhs\security\CurrentUser;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\exceptions\InvalidContractException;
@@ -186,7 +185,7 @@ abstract class Endpoint implements IEndpoint {
      * @return mixed
      */
     private function getContract() {
-        //TODO this would be a good place to implement a memcache registry of permissions & service endpoints
+        // TODO this would be a good place to implement a memcache registry of permissions & service endpoints
         $serviceClass = new \ReflectionClass($this->internal_service);
 
         $contract = null;

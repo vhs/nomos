@@ -41,7 +41,11 @@ class AccessLog extends Domain {
      */
     public static function findLatest($limit = 5) {
         return self::where(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Where::Equal(AccessLogSchema::Columns()->authorized, false),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             OrderBy::Descending(AccessLogSchema::Columns()->time),
             $limit
         );
