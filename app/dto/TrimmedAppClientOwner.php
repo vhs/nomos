@@ -2,8 +2,6 @@
 
 namespace app\dto;
 
-use app\domain\Membership;
-use app\domain\Privilege;
 use app\domain\User;
 
 /** @typescript */

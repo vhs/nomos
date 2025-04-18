@@ -13,7 +13,6 @@ use app\dto\v2\MetricServiceNewKeyholdersResult;
 use app\dto\v2\MetricServiceNewMembersResult;
 use app\dto\v2\MetricServiceTotalKeyHoldersResult;
 use app\dto\v2\MetricServiceTotalMembersResult;
-use app\enums\MetricServiceGroupType;
 use vhs\services\IContract;
 
 /** @typescript */

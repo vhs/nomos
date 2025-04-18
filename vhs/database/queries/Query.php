@@ -13,8 +13,6 @@ use vhs\database\Columns;
 use vhs\database\IGeneratable;
 use vhs\database\IGenerator;
 use vhs\database\joins\Join;
-use vhs\database\joins\JoinCross;
-use vhs\database\joins\JoinInner;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
@@ -117,8 +115,6 @@ abstract class Query implements IGeneratable {
      * @param mixed[]                         $values
      *
      * @return \vhs\database\queries\QueryUpdate
-     *
-     * @disregard P1078
      */
     public static function Update(Table $table, Columns $columns, Where $where = null, array $values) {
         return new QueryUpdate($table, $columns, $where, $values);

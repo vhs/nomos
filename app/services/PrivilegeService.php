@@ -12,8 +12,6 @@ namespace app\services;
 use app\contracts\IPrivilegeService1;
 use app\domain\Privilege;
 use app\exceptions\InvalidInputException;
-use app\exceptions\MemberCardException;
-use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\endpoints\Endpoint;
 use vhs\services\Service;
 use vhs\services\ServiceRegistry;

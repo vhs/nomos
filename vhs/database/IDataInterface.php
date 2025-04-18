@@ -9,7 +9,6 @@
 
 namespace vhs\database;
 
-use vhs\database\queries\Query;
 use vhs\database\queries\QueryCount;
 use vhs\database\queries\QueryDelete;
 use vhs\database\queries\QueryInsert;

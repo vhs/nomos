@@ -10,7 +10,6 @@
 namespace vhs\domain\collections;
 
 use vhs\database\Columns;
-use vhs\database\constraints\ForeignKey;
 use vhs\database\Database;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
