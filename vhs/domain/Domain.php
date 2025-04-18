@@ -16,7 +16,6 @@ use vhs\database\Database;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
-use vhs\database\orders\OrderByAscending;
 use vhs\database\queries\Query;
 use vhs\database\wheres\Where;
 use vhs\domain\collections\ChildDomainCollection;
@@ -25,16 +24,6 @@ use vhs\domain\collections\SatelliteDomainCollection;
 use vhs\domain\exceptions\DomainException;
 use vhs\domain\validations\ValidationException;
 use vhs\domain\validations\ValidationResults;
-
-/** @typescript */
-interface IDomain {
-    /**
-     * Define.
-     *
-     * @return void
-     */
-    public static function Define();
-}
 
 /**
  * @typescript
@@ -938,7 +927,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @return void
      */
     public function unserialize($data) {
-        //TODO implement
+        // TODO implement
     }
 
     /**
@@ -1344,7 +1333,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @return string
      */
     public function __toString() {
-        //TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
+        // TODO if the schema has primary keys we could likely simplify and use those. Or even use a hash of the record data
         $cols = self::Schema()->Columns()->all();
         $data = [];
         foreach ($cols as $col) {
@@ -1364,6 +1353,6 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @return void
      */
     public function __unserialize($data) {
-        //TODO implement
+        // TODO implement
     }
 }
