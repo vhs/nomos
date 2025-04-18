@@ -29,6 +29,8 @@ class StripeEventSchema extends Schema {
         $table->addColumn('api_version', Type::String(false, '', 255));
         $table->addColumn('raw', Type::Text());
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('stripe_events', $table));

@@ -30,8 +30,12 @@ class GenuineCardSchema extends Schema {
         $table->addColumn('owneremail', Type::String(true, '', 255));
         $table->addColumn('notes', Type::String(true, '', 255));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setAccess(PrivilegedAccess::GenerateAccess('genuinecard', $table, $table->columns->userid));
 
         return $table;

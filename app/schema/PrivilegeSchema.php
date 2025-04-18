@@ -27,6 +27,8 @@ class PrivilegeSchema extends Schema {
         $table->addColumn('icon', Type::String(false, '', 255));
         $table->addColumn('enabled', Type::Bool(false, false));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('privilege', $table));

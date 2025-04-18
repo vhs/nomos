@@ -49,7 +49,11 @@ class AccessToken extends Domain {
      */
     public static function findByToken($token) {
         $tokens = self::where(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Where::Equal(AccessTokenSchema::Columns()->token, $token),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             OrderBy::Descending(AccessTokenSchema::Columns()->expires),
             1
         );

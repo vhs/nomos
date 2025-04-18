@@ -25,12 +25,34 @@ class WebHookPrivilegeSchema extends Schema {
         $table->addColumn('notes', Type::Text());
 
         $table->setConstraints(
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->webhookid),
+            // TODO implement proper typing
+            // @phpstan-ignore property.notFound
             Constraint::PrimaryKey($table->columns->privilegeid),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->webhookid, WebHookSchema::Table(), WebHookSchema::Columns()->id),
-            // @phpstan-ignore argument.byRef
-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->webhookid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                WebHookSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                WebHookSchema::Columns()->id
+            ),
+            Constraint::ForeignKey(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                $table->columns->privilegeid,
+                // TODO implement proper typing
+                // @phpstan-ignore argument.byRef
+                PrivilegeSchema::Table(),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                PrivilegeSchema::Columns()->id
+            )
         );
 
         return $table;

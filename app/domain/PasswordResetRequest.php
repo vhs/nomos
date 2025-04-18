@@ -35,6 +35,8 @@ class PasswordResetRequest extends Domain {
      * @return PasswordResetRequest[]|null
      */
     public static function findByToken($token) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return PasswordResetRequest::where(Where::Equal(PasswordResetRequestSchema::Columns()->token, $token));
     }
 

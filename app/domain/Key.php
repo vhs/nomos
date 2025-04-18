@@ -48,7 +48,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findByApiKey($key) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'api'), Where::Equal(KeySchema::Columns()->key, $key)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, 'api'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->key, $key)
+            )
+        );
     }
 
     /**
@@ -59,7 +68,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findByPin($pin) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'pin'), Where::Equal(KeySchema::Columns()->key, $pin)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, 'pin'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->key, $pin)
+            )
+        );
     }
 
     /**
@@ -70,7 +88,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findByRfid($rfid) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'rfid'), Where::Equal(KeySchema::Columns()->key, $rfid)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, 'rfid'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->key, $rfid)
+            )
+        );
     }
 
     /**
@@ -82,7 +109,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findByService($service, $key) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $service), Where::Equal(KeySchema::Columns()->key, $key)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, $service),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->key, $key)
+            )
+        );
     }
 
     /**
@@ -93,6 +129,8 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findByTypes(...$types) {
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         return self::where(Where::In(KeySchema::Columns()->type, $types));
     }
 
@@ -105,7 +143,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function findKeyAndType($key, $type) {
-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $type), Where::Equal(KeySchema::Columns()->key, $key)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, $type),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->key, $key)
+            )
+        );
     }
 
     /**
@@ -114,7 +161,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function getSystemApiKeys() {
-        return self::where(Where::_And(Where::Null(KeySchema::Columns()->userid), Where::Equal(KeySchema::Columns()->type, 'api')));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Null(KeySchema::Columns()->userid),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(KeySchema::Columns()->type, 'api')
+            )
+        );
     }
 
     /**
@@ -125,7 +181,16 @@ class Key extends Domain {
      * @return Key[]|null
      */
     public static function getUserApiKeys($userid) {
-        return self::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'api'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
+        return self::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->type, 'api'),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Key::Schema()->Columns()->userid, $userid)
+            )
+        );
     }
 
     /**

@@ -34,6 +34,8 @@ class MembershipSchema extends Schema {
         $table->addColumn('private', Type::Bool(false, false));
         $table->addColumn('active', Type::Bool(false, false));
 
+        // TODO implement proper typing
+        // @phpstan-ignore property.notFound
         $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
 
         $table->setAccess(PrivilegedAccess::GenerateAccess('membership', $table));
