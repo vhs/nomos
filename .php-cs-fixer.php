@@ -70,7 +70,7 @@ return (new PhpCsFixer\Config())
         'no_spaces_around_offset' => true,
         // 'no_trailing_comma_in_list_call' => true,
         // 'no_trailing_comma_in_singleline_array' => true,
-        // 'no_unneeded_control_parentheses' => true,
+        'no_unneeded_control_parentheses' => true,
         'no_unused_imports' => true,
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
@@ -161,7 +161,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_no_empty_return' => false,
         // 'phpdoc_no_package' => true,
         // 'phpdoc_no_useless_inheritdoc' => true,
-        // 'phpdoc_return_self_reference' => true,
+        'phpdoc_return_self_reference' => true,
         'phpdoc_scalar' => true,
         'phpdoc_separation' => true,
         'phpdoc_single_line_var_spacing' => true,
@@ -172,7 +172,9 @@ return (new PhpCsFixer\Config())
         'phpdoc_order' => true,
         'phpdoc_param_order' => true,
         'phpdoc_to_comment' => false,
-        'phpdoc_trim_consecutive_blank_line_separation' => true
+        'phpdoc_trim_consecutive_blank_line_separation' => true,
+        'no_superfluous_phpdoc_tags' => false
+        // 'void_return' => true,
         // 'phpdoc_var_without_name' => true,
     ])
     ->setIndent('    ')
