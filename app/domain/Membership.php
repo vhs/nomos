@@ -33,6 +33,8 @@ use vhs\domain\validations\ValidationResults;
  * @property bool   $active
  * @property object $privileges
  *
+ * @extends Domain<Membership>
+ *
  * @typescript
  */
 class Membership extends Domain {
@@ -86,7 +88,7 @@ class Membership extends Domain {
      *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         Membership::Schema(MembershipSchema::Type());
 
         Membership::Relationship('privileges', Privilege::Type(), MembershipPrivilegeSchema::Type());

@@ -11,6 +11,13 @@ namespace vhs\database\orders;
 
 /** @typescript */
 class OrderByAscending extends OrderBy {
+    /**
+     * generateOrderBy.
+     *
+     * @param \vhs\database\orders\IOrderByGenerator $generator
+     *
+     * @return mixed
+     */
     public function generateOrderBy(IOrderByGenerator $generator) {
         return $generator->generateAscending($this);
     }

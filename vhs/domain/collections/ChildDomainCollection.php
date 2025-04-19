@@ -15,7 +15,13 @@ use vhs\database\wheres\Where;
 use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 
-/** @typescript */
+/**
+ * @template T of Domain
+ *
+ * @extends DomainCollection<T>
+ *
+ * @typescript
+ */
 class ChildDomainCollection extends DomainCollection {
     /**
      * childColumn.
@@ -41,7 +47,7 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * parent.
      *
-     * @var \vhs\domain\Domain
+     * @var \vhs\domain\Domain<T>
      */
     private $parent;
 
@@ -55,12 +61,10 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * __construct.
      *
-     * @param \vhs\domain\Domain $parent
-     * @param mixed              $childType
+     * @param \vhs\domain\Domain<T> $parent
+     * @param mixed                 $childType
      *
      * @throws \vhs\domain\exceptions\DomainException
-     *
-     * @return void
      */
     public function __construct(Domain $parent, $childType) {
         $this->parent = $parent;
@@ -98,7 +102,7 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * add.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */
@@ -125,7 +129,7 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * all.
      *
-     * @return string[]
+     * @return \vhs\domain\Domain<T>[]
      */
     public function all() {
         $childPkName = $this->childKey->column->name;
@@ -153,8 +157,8 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * compare.
      *
-     * @param \vhs\domain\Domain $a
-     * @param \vhs\domain\Domain $b
+     * @param \vhs\domain\Domain<T> $a
+     * @param \vhs\domain\Domain<T> $b
      *
      * @return bool
      */
@@ -167,7 +171,7 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * contains.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return bool
      */
@@ -199,7 +203,7 @@ class ChildDomainCollection extends DomainCollection {
     /**
      * remove.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */

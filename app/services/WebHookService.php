@@ -23,7 +23,7 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|webhook
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -34,8 +34,8 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -48,14 +48,14 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission user
      *
-     * @param $name
-     * @param $description
-     * @param $enabled
-     * @param $url
-     * @param $translation
-     * @param $headers
-     * @param $method
-     * @param $eventid
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -91,7 +91,7 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -108,8 +108,8 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -137,7 +137,7 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission user|administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return \app\domain\WebHook|null
      */
@@ -159,8 +159,8 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission webhook|administrator
      *
-     * @param $domain
-     * @param $event
+     * @param string $domain
+     * @param string $event
      *
      * @return mixed
      */
@@ -171,11 +171,11 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|webhook
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -186,12 +186,12 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -210,8 +210,8 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $privileges
+     * @param int    $id
+     * @param string $privileges
      *
      * @return mixed
      */
@@ -222,11 +222,7 @@ class WebHookService extends Service implements IWebHookService1 {
             return;
         }
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -246,15 +242,15 @@ class WebHookService extends Service implements IWebHookService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
-     * @param $name
-     * @param $description
-     * @param $enabled
-     * @param $url
-     * @param $translation
-     * @param $headers
-     * @param $method
-     * @param $eventid
+     * @param int    $id
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
      *
      * @return mixed
      */

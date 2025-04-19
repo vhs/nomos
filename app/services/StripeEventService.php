@@ -16,7 +16,7 @@ class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -27,7 +27,7 @@ class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
      *
-     * @param $eventId
+     * @param int $eventId
      *
      * @return mixed
      */
@@ -47,11 +47,11 @@ class StripeEventService extends Service implements IStripeEventService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */

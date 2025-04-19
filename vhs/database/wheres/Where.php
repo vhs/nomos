@@ -18,11 +18,11 @@ abstract class Where extends Element {
     /**
      * _And.
      *
-     * @param Where ...$where
+     * @param Where|null ...$where
      *
      * @return WhereAnd
      */
-    public static function _And(Where ...$where) {
+    public static function _And(Where|null ...$where) {
         return new WhereAnd(...$where);
     }
 

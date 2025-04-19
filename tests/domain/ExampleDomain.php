@@ -15,6 +15,8 @@ use vhs\domain\validations\ValidationResults;
  * @property string                      $internal_testC
  * @property string                      $magic
  *
+ * @extends Domain<ExampleDomain>
+ *
  * @typescript
  */
 class ExampleDomain extends Domain {
@@ -23,7 +25,7 @@ class ExampleDomain extends Domain {
      *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         ExampleDomain::Schema(ExampleSchema::Type());
     }
 

@@ -21,10 +21,17 @@ use vhs\domain\validations\ValidationResults;
  * @property \tests\domain\Knight      $knight
  * @property \tests\domain\Enchantment $enchantment
  *
+ * @extends Domain<Ring>
+ *
  * @typescript
  */
 class Ring extends Domain {
-    public static function Define() {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Ring::Schema(RingSchema::Type());
 
         Ring::Relationship('enchantment', Enchantment::Type()); //parent relationship Many to One

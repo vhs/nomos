@@ -13,7 +13,7 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param mixed $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -52,11 +52,11 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -65,10 +65,10 @@ interface IMembershipService1 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int   $membershipId
-     * @param mixed $privileges
+     * @param int             $membershipId
+     * @param string|string[] $privileges
      *
-     * @return mixed
+     * @return void
      */
     public function PutPrivileges($membershipId, $privileges);
 
@@ -93,7 +93,7 @@ interface IMembershipService1 extends IContract {
      * @param int  $membershipId
      * @param bool $active
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateActive($membershipId, $active);
 
@@ -103,7 +103,7 @@ interface IMembershipService1 extends IContract {
      * @param int  $membershipId
      * @param bool $private
      *
-     * @return mixed
+     * @return void
      */
     public function UpdatePrivate($membershipId, $private);
 
@@ -113,7 +113,7 @@ interface IMembershipService1 extends IContract {
      * @param int  $membershipId
      * @param bool $recurring
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateRecurring($membershipId, $recurring);
 
@@ -123,7 +123,7 @@ interface IMembershipService1 extends IContract {
      * @param int  $membershipId
      * @param bool $trial
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTrial($membershipId, $trial);
 }

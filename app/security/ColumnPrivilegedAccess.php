@@ -93,7 +93,7 @@ class ColumnPrivilegedAccess extends PrivilegedAccess {
      *
      * @return array<string,mixed>
      */
-    public function __serialize() {
+    public function __serialize(): array {
         return [
             'type' => 'column',
             'column' => [

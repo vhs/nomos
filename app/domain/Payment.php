@@ -33,10 +33,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string           $item_name
  * @property string           $item_number
  *
+ * @extends Domain<Payment>
+ *
  * @typescript
  */
 class Payment extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Payment::Schema(PaymentSchema::Type());
     }
 

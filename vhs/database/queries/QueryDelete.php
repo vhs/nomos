@@ -11,6 +11,13 @@ namespace vhs\database\queries;
 
 /** @typescript */
 class QueryDelete extends Query {
+    /**
+     * generateQuery.
+     *
+     * @param \vhs\database\queries\IQueryGenerator $generator
+     *
+     * @return mixed
+     */
     public function generateQuery(IQueryGenerator $generator) {
         return $generator->generateDelete($this);
     }

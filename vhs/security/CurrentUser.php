@@ -16,8 +16,6 @@ class CurrentUser {
 
     /**
      * __construct.
-     *
-     * @return void
      */
     protected function __construct() {
         $this->currentPrincipal = new AnonPrincipal();
@@ -133,5 +131,5 @@ class CurrentUser {
      *
      * @return void
      */
-    private function __clone() {}
+    public function __clone(): void {}
 }

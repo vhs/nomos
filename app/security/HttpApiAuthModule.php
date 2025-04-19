@@ -20,6 +20,11 @@ class HttpApiAuthModule implements IHttpModule {
     /** @var mixed */
     private $authorizer;
 
+    /**
+     * __construct.
+     *
+     * @param \vhs\security\IAuthenticate $authorizer
+     */
     public function __construct(IAuthenticate $authorizer) {
         $this->authorizer = $authorizer;
     }

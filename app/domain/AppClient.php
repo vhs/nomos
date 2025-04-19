@@ -29,13 +29,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string           $redirecturi
  * @property bool             $enabled
  *
+ * @extends Domain<AppClient>
+ *
  * @typescript
  */
 class AppClient extends Domain {
     /**
+     * Define
+     *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         AppClient::Schema(AppClientSchema::Type());
         AppClient::Relationship('owner', User::Type());
     }

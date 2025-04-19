@@ -129,8 +129,8 @@ class MetricService extends Service implements IMetricService1 {
     /**
      * @permission user
      *
-     * @param $start_range
-     * @param $end_range
+     * @param string $start_range
+     * @param string $end_range
      *
      * @return mixed
      */
@@ -206,9 +206,9 @@ class MetricService extends Service implements IMetricService1 {
     /**
      * @permission user
      *
-     * @param $start_range
-     * @param $end_range
-     * @param $group
+     * @param string $start_range
+     * @param string $end_range
+     * @param string $group
      *
      * @return mixed
      */

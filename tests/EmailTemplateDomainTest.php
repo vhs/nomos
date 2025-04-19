@@ -32,7 +32,7 @@ class EmailTemplateDomainTest extends TestCase {
      *
      * @return void
      */
-    public function test_Service() {
+    public function test_Service(): void {
         $service = new EmailService();
 
         $rows = array_map(fn($row): array => get_object_vars($row), array: json_decode(json_encode($service->ListTemplates(1, 1, 'id', 'id', ''))));
@@ -123,7 +123,7 @@ class EmailTemplateDomainTest extends TestCase {
      *
      * @return void
      */
-    public function test_Template() {
+    public function test_Template(): void {
         $generated = EmailTemplate::generate('some_random_name', [
             'a' => 'the value for a',
             'other_value' => 'some other value',

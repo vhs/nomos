@@ -29,7 +29,7 @@ class HttpPaymentGatewayHandler extends HttpRequestHandler {
      *
      * @return void
      */
-    public function handle(HttpServer $server) {
+    public function handle(HttpServer $server): void {
         $server->clear();
         $server->code(200);
 

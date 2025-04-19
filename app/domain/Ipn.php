@@ -25,10 +25,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $item_number
  * @property string $raw
  *
+ * @extends Domain<Ipn>
+ *
  * @typescript
  */
 class Ipn extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Ipn::Schema(IpnSchema::Type());
     }
 

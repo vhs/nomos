@@ -29,10 +29,17 @@ use vhs\domain\validations\ValidationResults;
  * @property \app\domain\Event $event
  * @property object            $privileges
  *
+ * @extends Domain<WebHook>
+ *
  *  @typescript
  */
 class WebHook extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         WebHook::Schema(WebHookSchema::Type());
 
         WebHook::Relationship('privileges', Privilege::Type(), WebHookPrivilegeSchema::Type());

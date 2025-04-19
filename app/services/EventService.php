@@ -21,7 +21,7 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -32,11 +32,11 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $name
-     * @param $domain
-     * @param $event
-     * @param $description
-     * @param $enabled
+     * @param string $name
+     * @param string $domain
+     * @param string $event
+     * @param string $description
+     * @param bool   $enabled
      *
      * @throws \app\exceptions\InvalidInputException
      *
@@ -61,7 +61,7 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -74,8 +74,8 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $enabled
+     * @param int  $id
+     * @param bool $enabled
      *
      * @return mixed
      */
@@ -118,7 +118,7 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission webhook|administrator
      *
-     * @param $domain
+     * @param string $domain
      *
      * @return mixed
      */
@@ -152,7 +152,7 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @throws \app\exceptions\InvalidInputException
      *
@@ -195,11 +195,11 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission webhook|administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -210,19 +210,15 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $privileges
+     * @param int    $id
+     * @param string $privileges
      *
-     * @return mixed
+     * @return void
      */
     public function PutEventPrivileges($id, $privileges) {
         $event = $this->GetEvent($id);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -240,12 +236,12 @@ class EventService extends Service implements IEventService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
-     * @param $domain
-     * @param $event
-     * @param $description
-     * @param $enabled
+     * @param int    $id
+     * @param string $name
+     * @param string $domain
+     * @param string $event
+     * @param string $description
+     * @param bool   $enabled
      *
      * @return mixed
      */

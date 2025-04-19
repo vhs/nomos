@@ -20,7 +20,7 @@ use vhs\domain\validations\ValidationResults;
  *
  * @property int              $id
  * @property int              $keyid
- * @property int              $userid
+ * @property int|null         $userid
  * @property string           $key
  * @property string           $type
  * @property \DateTime|string $created
@@ -28,13 +28,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string           $expires
  * @property object           $privileges
  *
+ * @extends Domain<Key>
+ *
  *  @typescript
  */
 class Key extends Domain {
     /**
+     * Define.
+     *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         Key::Schema(KeySchema::Type());
 
         Key::Relationship('privileges', Privilege::Type(), KeyPrivilegeSchema::Type());
@@ -45,7 +49,7 @@ class Key extends Domain {
      *
      * @param string $key
      *
-     * @return Key[]|null
+     * @return \app\domain\Key[]
      */
     public static function findByApiKey($key) {
         return self::where(

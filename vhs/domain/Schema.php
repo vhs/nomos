@@ -24,8 +24,6 @@ abstract class Schema implements ISchema {
 
     /**
      * __construct.
-     *
-     * @return void
      */
     protected function __construct() {
         $this->internal_table = $this->init();
@@ -136,5 +134,5 @@ abstract class Schema implements ISchema {
      *
      * @return void
      */
-    private function __clone() {}
+    public function __clone(): void {}
 }

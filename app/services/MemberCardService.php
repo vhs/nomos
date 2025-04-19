@@ -28,7 +28,7 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -39,8 +39,8 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $userid
-     * @param $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -64,8 +64,8 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $email
-     * @param $key
+     * @param string $email
+     * @param string $key
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws \app\exceptions\MemberCardException
@@ -140,11 +140,11 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -155,12 +155,12 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -190,8 +190,8 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $notes
+     * @param string $key
+     * @param string $notes
      *
      * @throws \app\exceptions\MemberCardException
      *
@@ -217,8 +217,8 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $active
+     * @param string $key
+     * @param bool   $active
      *
      * @throws \app\exceptions\InvalidInputException
      *
@@ -241,7 +241,7 @@ class MemberCardService extends Service implements IMemberCardService1 {
     /**
      * @permission user
      *
-     * @param $key
+     * @param string $key
      *
      * @return bool
      */

@@ -16,7 +16,7 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|grants
      *
-     * @param mixed $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -90,11 +90,11 @@ interface IUserService1 extends IContract {
     /**
      * @permission administrator|grants
      *
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -167,7 +167,7 @@ interface IUserService1 extends IContract {
      * @param int  $userid
      * @param bool $cash
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateCash($userid, $cash);
 
@@ -218,7 +218,7 @@ interface IUserService1 extends IContract {
      * @param int  $userid
      * @param bool $subscribe
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateNewsletter($userid, $subscribe);
 
@@ -248,7 +248,7 @@ interface IUserService1 extends IContract {
      * @param int   $userid
      * @param mixed $status
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateStatus($userid, $status);
 

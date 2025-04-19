@@ -7,6 +7,14 @@ if (preg_match('/tools$/', __DIR__)) {
 require_once 'conf/config.ini.php';
 require_once 'app/include.php';
 
+/**
+ * generateFieldDefinition.
+ *
+ * @param mixed $className
+ * @param mixed $column
+ *
+ * @return array{name:string,type:mixed}
+ */
 function generateFieldDefinition($className, $column) {
     $baseType = strtolower(str_replace('vhs\database\types\Type', '', get_class($column->type)));
 
@@ -37,6 +45,12 @@ function generateFieldDefinition($className, $column) {
     return $field;
 }
 
+/**
+ * generateDTOFile.
+ *
+ * @param string   $dtoFile
+ * @param string[] $content
+ */
 function generateDTOFile(string $dtoFile, array $content): void {
     printf("Writing %s...\n", $dtoFile);
     $output = [];
@@ -82,12 +96,15 @@ foreach ($domains as $className => $fields) {
 
     foreach ($fields as $field) {
         if ($field['type'] === 'enum') {
+            // @phpstan-ignore offsetAccess.notFound
             $enumFile = sprintf('app/dto/%s.php', $field['enum']['name']);
 
             $enumContent = [];
 
+            // @phpstan-ignore offsetAccess.notFound
             $enumContent[] = sprintf('enum %s {', $field['enum']['name']);
 
+            // @phpstan-ignore offsetAccess.notFound
             foreach ($field['enum']['values'] as $value) {
                 $enumContent[] = sprintf('    case %s;', $value);
             }
@@ -96,10 +113,9 @@ foreach ($domains as $className => $fields) {
 
             generateDTOFile($enumFile, $enumContent);
 
+            // @phpstan-ignore offsetAccess.notFound
             $classContent[] = sprintf('    public %s $%s;', $field['enum']['name'], $field['name']);
-        }
-
-        if ($field['type'] !== 'enum') {
+        } elseif ($field['type'] !== 'enum') {
             $classContent[] = sprintf('    public %s $%s;', $field['type'], $field['name']);
         }
 
@@ -113,6 +129,7 @@ foreach ($domains as $className => $fields) {
             $classContent[] = sprintf(
                 '        $this->%s = %s::tryFrom($%s->%s);',
                 $field['name'],
+                // @phpstan-ignore offsetAccess.notFound
                 $field['enum']['name'],
                 lcfirst($className),
                 $field['name']

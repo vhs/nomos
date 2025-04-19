@@ -13,6 +13,13 @@ use vhs\Logger;
 
 /** @typescript */
 class SilentLogger extends Logger {
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function log($message) {
         //stfu
     }

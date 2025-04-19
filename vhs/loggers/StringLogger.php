@@ -29,6 +29,13 @@ class StringLogger extends Logger {
         return implode("\n", $this->history);
     }
 
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function log($message) {
         array_push($this->history, $message);
     }

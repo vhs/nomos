@@ -9,5 +9,5 @@ interface IDomain {
      *
      * @return void
      */
-    public static function Define();
+    public static function Define(): void;
 }

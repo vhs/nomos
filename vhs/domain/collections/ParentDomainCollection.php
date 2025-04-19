@@ -11,12 +11,18 @@ namespace vhs\domain\collections;
 
 use vhs\domain\Domain;
 
-/** @typescript */
+/**
+ * @template T of Domain
+ *
+ * @extends DomainCollection<T>
+ *
+ * @typescript
+ */
 class ParentDomainCollection extends DomainCollection {
     /**
      * add.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */
@@ -29,7 +35,7 @@ class ParentDomainCollection extends DomainCollection {
     /**
      * all.
      *
-     * @return string[]
+     * @return \vhs\domain\Domain<T>[]
      */
     public function all() {
         // TODO: Implement all() method.
@@ -39,8 +45,8 @@ class ParentDomainCollection extends DomainCollection {
     /**
      * compare.
      *
-     * @param \vhs\domain\Domain $a
-     * @param \vhs\domain\Domain $b
+     * @param \vhs\domain\Domain<T> $a
+     * @param \vhs\domain\Domain<T> $b
      *
      * @return bool
      */
@@ -53,7 +59,7 @@ class ParentDomainCollection extends DomainCollection {
     /**
      * contains.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return bool
      */
@@ -88,7 +94,7 @@ class ParentDomainCollection extends DomainCollection {
     /**
      * remove.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */

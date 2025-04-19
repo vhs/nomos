@@ -159,36 +159,32 @@ class ApiKeyServiceHandler2 extends Service implements IApiKeyService2 {
      * @return bool
      */
     public function PutApiKeyPrivileges($keyid, $privileges): bool {
-        /** @var \app\domain\Key */
-        $keyid = Key::find($keyid);
+        /** @var \app\domain\Key|null */
+        $key = Key::find($keyid);
 
-        if (is_null($keyid)) {
+        if (is_null($key)) {
             throw new InvalidInputException(\app\constants\Errors::E_INVALID_KEY_INPUT);
         }
 
         if (!CurrentUser::hasAnyPermissions('administrator')) {
-            if (is_null($keyid->userid) || $keyid->userid != CurrentUser::getIdentity()) {
+            if (is_null($key->userid) || $key->userid != CurrentUser::getIdentity()) {
                 throw new UnauthorizedException();
             }
         }
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
-        foreach ($keyid->privileges->all() as $priv) {
-            $keyid->privileges->remove($priv);
+        foreach ($key->privileges->all() as $priv) {
+            $key->privileges->remove($priv);
         }
 
         foreach ($privs as $priv) {
-            $keyid->privileges->add($priv);
+            $key->privileges->add($priv);
         }
 
-        return $keyid->save();
+        return $key->save();
     }
 
     /**

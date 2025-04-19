@@ -17,7 +17,13 @@ use vhs\domain\Domain;
 use vhs\domain\exceptions\DomainException;
 use vhs\domain\Schema;
 
-/** @typescript */
+/**
+ * @template T of Domain
+ *
+ * @extends DomainCollection<T>
+ *
+ * @typescript
+ */
 class SatelliteDomainCollection extends DomainCollection {
     /**
      * childKey.
@@ -43,7 +49,7 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * parent.
      *
-     * @var \vhs\domain\Domain
+     * @var \vhs\domain\Domain<T>
      */
     private $parent;
 
@@ -57,13 +63,11 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * __construct.
      *
-     * @param \vhs\domain\Domain $parent
-     * @param mixed              $childType
-     * @param \vhs\domain\Schema $joinTable
+     * @param \vhs\domain\Domain<T> $parent
+     * @param mixed                 $childType
+     * @param \vhs\domain\Schema    $joinTable
      *
      * @throws \vhs\domain\exceptions\DomainException
-     *
-     * @return void
      */
     public function __construct(Domain $parent, $childType, Schema $joinTable) {
         $this->parent = $parent;
@@ -100,7 +104,7 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * add.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @throws \vhs\domain\exceptions\DomainException
      *
@@ -126,7 +130,7 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * all.
      *
-     * @return string[]
+     * @return \vhs\domain\Domain<T>[]
      */
     public function all() {
         $childOnCol = $this->childKey->on->name;
@@ -143,8 +147,8 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * compare.
      *
-     * @param \vhs\domain\Domain $a
-     * @param \vhs\domain\Domain $b
+     * @param \vhs\domain\Domain<T> $a
+     * @param \vhs\domain\Domain<T> $b
      *
      * @return bool
      */
@@ -157,7 +161,7 @@ class SatelliteDomainCollection extends DomainCollection {
     /**
      * contains.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return bool
      */
@@ -194,16 +198,16 @@ class SatelliteDomainCollection extends DomainCollection {
             array_push($childIds, $row[$this->childKey->column->name]);
         }
 
+        /** @var Domain<T> $childType */
         $childType = $this->childType;
 
-        /** @var Domain $childType */
         $this->__existing = $childType::where(Where::In($this->childKey->on, $childIds));
     }
 
     /**
      * remove.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */

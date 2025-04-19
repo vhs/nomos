@@ -22,11 +22,11 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
-     * @return mixed
+     * @return void
      */
     public function DeleteApiKey($keyid) {
         /** @var \app\domain\Key */
@@ -42,12 +42,11 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator
      *
-     * @param $notes
+     * @param string $notes
      *
      * @return mixed
      */
     public function GenerateSystemApiKey($notes) {
-        /** @var \app\domain\Key */
         $apiKey = new Key();
 
         $apiKey->key = bin2hex(openssl_random_pseudo_bytes(32));
@@ -61,8 +60,8 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $notes
+     * @param int    $userid
+     * @param string $notes
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws \vhs\security\exceptions\UnauthorizedException
@@ -96,7 +95,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
+     * @param int $keyid
      *
      * @throws \app\exceptions\InvalidInputException
      * @throws \vhs\security\exceptions\UnauthorizedException
@@ -132,7 +131,7 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -149,19 +148,15 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $privileges
+     * @param int             $keyid
+     * @param string|string[] $privileges
      *
-     * @return mixed
+     * @return void
      */
     public function PutApiKeyPrivileges($keyid, $privileges) {
         $key = $this->GetApiKey($keyid);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -169,8 +164,10 @@ class ApiKeyService extends Service implements IApiKeyService1 {
             $key->privileges->remove($priv);
         }
 
-        foreach ($privs as $priv) {
-            $key->privileges->add($priv);
+        if (!is_null($privs)) {
+            foreach ($privs as $priv) {
+                $key->privileges->add($priv);
+            }
         }
 
         $key->save();
@@ -179,11 +176,11 @@ class ApiKeyService extends Service implements IApiKeyService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $notes
-     * @param $expires
+     * @param int    $keyid
+     * @param string $notes
+     * @param string $expires
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateApiKey($keyid, $notes, $expires) {
         $key = $this->GetApiKey($keyid);

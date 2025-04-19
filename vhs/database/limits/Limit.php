@@ -31,8 +31,15 @@ class Limit extends Element implements IGeneratable {
         return new Limit($limit);
     }
 
+    /**
+     * generate.
+     *
+     * @param ILimitGenerator $generator
+     * @param mixed           $value
+     *
+     * @return mixed
+     */
     public function generate(IGenerator $generator, $value = null) {
-        /** @var ILimitGenerator $generator */
         return $this->generateLimit($generator);
     }
 
@@ -41,7 +48,7 @@ class Limit extends Element implements IGeneratable {
      *
      * @param \vhs\database\limits\ILimitGenerator $generator
      *
-     * @return int
+     * @return mixed
      */
     private function generateLimit(ILimitGenerator $generator) {
         return $generator->generateLimit($this);

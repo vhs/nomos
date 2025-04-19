@@ -16,7 +16,7 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator|user
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -27,8 +27,8 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -41,7 +41,7 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -63,11 +63,11 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -78,12 +78,12 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -96,7 +96,7 @@ class PaymentService extends Service implements IPaymentService1 {
     /**
      * @permission administrator
      *
-     * @param $paymentid
+     * @param int $paymentid
      *
      * @return mixed
      */

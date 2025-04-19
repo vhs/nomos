@@ -65,11 +65,25 @@ abstract class OrderBy extends Element {
      */
     abstract public function generateOrderBy(IOrderByGenerator $generator);
 
+    /**
+     * generate.
+     *
+     * @param IOrderByGenerator $generator
+     * @param mixed             $value
+     *
+     * @return mixed
+     */
     public function generate(IGenerator $generator, $value = null) {
-        /** @var IOrderByGenerator $generator */
         return $this->generateOrderBy($generator);
     }
 
+    /**
+     * __updateTable.
+     *
+     * @param \vhs\database\Table $table
+     *
+     * @return void
+     */
     public function __updateTable(Table &$table) {
         $this->column->__updateTable($table);
 

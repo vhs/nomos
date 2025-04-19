@@ -231,5 +231,5 @@ abstract class Endpoint implements IEndpoint {
      *
      * @return void
      */
-    private function __clone() {}
+    public function __clone(): void {}
 }

@@ -14,7 +14,7 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -25,12 +25,12 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $title
-     * @param $description
-     * @param $price
-     * @param $code
-     * @param $days
-     * @param $period
+     * @param string $title
+     * @param string $description
+     * @param float  $price
+     * @param string $code
+     * @param int    $days
+     * @param string $period
      *
      * @throws \vhs\exceptions\HttpException
      *
@@ -43,7 +43,7 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
+     * @param int $membershipId
      *
      * @return mixed
      */
@@ -63,11 +63,11 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -78,17 +78,15 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $privileges
+     * @param int             $membershipId
+     * @param string|string[] $privileges
+     *
+     * @return void
      */
     public function PutPrivileges($membershipId, $privileges) {
         $membership = $this->Get($membershipId);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -96,8 +94,10 @@ class MembershipService extends Service implements IMembershipService1 {
             $membership->privileges->remove($priv);
         }
 
-        foreach ($privs as $priv) {
-            $membership->privileges->add($priv);
+        if (!empty($privs)) {
+            foreach ($privs as $priv) {
+                $membership->privileges->add($priv);
+            }
         }
 
         $membership->save();
@@ -106,13 +106,13 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $title
-     * @param $description
-     * @param $price
-     * @param $code
-     * @param $days
-     * @param $period
+     * @param int    $membershipId
+     * @param string $title
+     * @param string $description
+     * @param float  $price
+     * @param string $code
+     * @param int    $days
+     * @param string $period
      *
      * @return mixed
      */
@@ -134,10 +134,10 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $active
+     * @param int  $membershipId
+     * @param bool $active
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateActive($membershipId, $active) {
         $membership = $this->Get($membershipId);
@@ -150,10 +150,10 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $private
+     * @param int  $membershipId
+     * @param bool $private
      *
-     * @return mixed
+     * @return void
      */
     public function UpdatePrivate($membershipId, $private) {
         $membership = $this->Get($membershipId);
@@ -166,10 +166,10 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $recurring
+     * @param int  $membershipId
+     * @param bool $recurring
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateRecurring($membershipId, $recurring) {
         $membership = $this->Get($membershipId);
@@ -182,10 +182,10 @@ class MembershipService extends Service implements IMembershipService1 {
     /**
      * @permission administrator
      *
-     * @param $membershipId
-     * @param $trial
+     * @param int  $membershipId
+     * @param bool $trial
      *
-     * @return mixed
+     * @return void
      */
     public function UpdateTrial($membershipId, $trial) {
         $membership = $this->Get($membershipId);

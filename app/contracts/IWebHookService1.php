@@ -16,7 +16,7 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|webhook
      *
-     * @param mixed $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -25,8 +25,8 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int   $userid
-     * @param mixed $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -98,11 +98,11 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|webhook
      *
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -111,12 +111,12 @@ interface IWebHookService1 extends IContract {
     /**
      * @permission administrator|user
      *
-     * @param int   $userid
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */

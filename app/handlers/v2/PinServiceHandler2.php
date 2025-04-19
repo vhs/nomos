@@ -112,11 +112,7 @@ class PinServiceHandler2 extends Service implements IPinService2 {
         $pin->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
         $pin->notes = $notes;
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

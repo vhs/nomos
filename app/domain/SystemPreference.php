@@ -23,10 +23,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $notes
  * @property object $privileges
  *
+ * @extends Domain<SystemPreference>
+ *
  *  @typescript
  */
 class SystemPreference extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         SystemPreference::Schema(SystemPreferenceSchema::Type());
 
         SystemPreference::Relationship('privileges', Privilege::Type(), SystemPreferencePrivilegeSchema::Type());

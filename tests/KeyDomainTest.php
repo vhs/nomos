@@ -37,7 +37,7 @@ class KeyDomainTest extends TestCase {
      *
      * @return void
      */
-    public function test_bullshitPhp() {
+    public function test_bullshitPhp(): void {
         $service = new AuthService();
 
         $result = $service->CheckPin('00011234');
@@ -67,7 +67,7 @@ class KeyDomainTest extends TestCase {
      *
      * @return void
      */
-    public function test_Privileges() {
+    public function test_Privileges(): void {
         /** @var \app\domain\Privilege */
         $inherit = Privilege::find($this->ids['inherit']);
 
