@@ -38,7 +38,7 @@ class LimitTest extends TestCase {
      *
      * @return void
      */
-    public function test_EmptyLimit() {
+    public function test_EmptyLimit(): void {
         $limit = Limit::Limit(null);
 
         $clause = $limit->generate($this->mySqlGenerator);
@@ -55,7 +55,7 @@ class LimitTest extends TestCase {
      *
      * @return void
      */
-    public function test_EmptyOffset() {
+    public function test_EmptyOffset(): void {
         $offset = Offset::Offset(null);
 
         $clause = $offset->generate($this->mySqlGenerator);

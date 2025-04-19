@@ -73,6 +73,7 @@ class OAuthHelper {
     public function linkAccount($serviceUID, $serviceType, $notes) {
         if (!Authenticate::isAuthenticated()) {
             print 'Not logged in';
+
             exit();
         }
 

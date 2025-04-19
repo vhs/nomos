@@ -14,7 +14,11 @@ namespace vhs\domain\collections;
 use vhs\domain\Domain;
 use vhs\domain\Notifier;
 
-/** @typescript */
+/**
+ * @template T of Domain
+ *
+ * @typescript
+ */
 abstract class DomainCollection extends Notifier {
     /**
      * __existing.
@@ -40,7 +44,7 @@ abstract class DomainCollection extends Notifier {
     /**
      * add.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */
@@ -49,15 +53,15 @@ abstract class DomainCollection extends Notifier {
     /**
      * all.
      *
-     * @return string[]
+     * @return \vhs\domain\Domain<T>[]
      */
     abstract public function all();
 
     /**
      * compare.
      *
-     * @param \vhs\domain\Domain $a
-     * @param \vhs\domain\Domain $b
+     * @param \vhs\domain\Domain<T> $a
+     * @param \vhs\domain\Domain<T> $b
      *
      * @return bool
      */
@@ -66,7 +70,7 @@ abstract class DomainCollection extends Notifier {
     /**
      * contains.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return bool
      */
@@ -82,7 +86,7 @@ abstract class DomainCollection extends Notifier {
     /**
      * remove.
      *
-     * @param \vhs\domain\Domain $item
+     * @param \vhs\domain\Domain<T> $item
      *
      * @return void
      */

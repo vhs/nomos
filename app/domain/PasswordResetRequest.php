@@ -20,10 +20,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $token
  * @property string $created
  *
+ * @extends Domain<PasswordResetRequest>
+ *
  * @typescript
  */
 class PasswordResetRequest extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         PasswordResetRequest::Schema(PasswordResetRequestSchema::Type());
     }
 

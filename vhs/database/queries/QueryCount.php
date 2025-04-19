@@ -10,6 +10,7 @@
 namespace vhs\database\queries;
 
 use vhs\database\Columns;
+use vhs\database\IGenerator;
 use vhs\database\limits\Limit;
 use vhs\database\offsets\Offset;
 use vhs\database\orders\OrderBy;
@@ -44,7 +45,14 @@ class QueryCount extends Query {
         $this->offset = $offset;
     }
 
-    public function generateQuery(IQueryGenerator $generator) {
+    /**
+     * generateQuery.
+     *
+     * @param \vhs\database\queries\IQueryGenerator $generator
+     *
+     * @return mixed
+     */
+    public function generateQuery(IGenerator $generator) {
         return $generator->generateSelectCount($this);
     }
 }

@@ -24,10 +24,17 @@ use vhs\domain\validations\ValidationResults;
  * @property int                   $appclientid
  * @property \app\domain\AppClient $client
  *
+ * @extends Domain<RefreshToken>
+ *
  *  @typescript
  */
 class RefreshToken extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         RefreshToken::Schema(RefreshTokenSchema::Type());
         RefreshToken::Relationship('user', User::Type());
         RefreshToken::Relationship('client', AppClient::Type());

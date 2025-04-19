@@ -10,7 +10,7 @@ class IpnService extends Service implements IIpnService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -21,7 +21,7 @@ class IpnService extends Service implements IIpnService1 {
     /**
      * @permission administrator
      *
-     * @param $ipnId
+     * @param int $ipnId
      *
      * @return mixed
      */
@@ -41,11 +41,11 @@ class IpnService extends Service implements IIpnService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */

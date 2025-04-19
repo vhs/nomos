@@ -43,7 +43,7 @@ trait Cloneable {
      *
      * @return void
      */
-    public function __clone() {
+    public function __clone(): void {
         // @phpstan-ignore foreach.nonIterable
         foreach ($this as $key => $val) {
             if (is_object($val)) {

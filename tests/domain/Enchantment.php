@@ -18,10 +18,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $name
  * @property float  $bonus
  *
+ * @extends Domain<Enchantment>
+ *
  * @typescript
  */
 class Enchantment extends Domain {
-    public static function Define() {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Enchantment::Schema(EnchantmentSchema::Type());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.

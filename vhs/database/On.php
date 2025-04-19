@@ -39,13 +39,12 @@ class On extends Element {
     }
 
     /**
-     * @param \vhs\database\IGenerator $generator
-     * @param mixed                    $value
+     * @param \vhs\database\IOnGenerator $generator
+     * @param mixed                      $value
      *
      * @return mixed
      */
     public function generate(IGenerator $generator, $value = null) {
-        /** @var \vhs\database\IOnGenerator $generator */
         return $this->generateOn($generator);
     }
 

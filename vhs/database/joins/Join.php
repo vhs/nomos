@@ -131,7 +131,7 @@ abstract class Join extends Element {
      *
      * @return void
      */
-    public function __clone() {
+    public function __clone(): void {
         $this->on = clone $this->on;
     }
 

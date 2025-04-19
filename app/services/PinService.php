@@ -37,7 +37,7 @@ class PinService extends Service implements IPinService1 {
      *
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -86,9 +86,9 @@ class PinService extends Service implements IPinService1 {
     /**
      * @permission gen-temp-pin|administrator
      *
-     * @param $expires
-     * @param $privileges
-     * @param $notes
+     * @param string $expires
+     * @param string $privileges
+     * @param string $notes
      *
      * @return mixed
      */
@@ -111,11 +111,7 @@ class PinService extends Service implements IPinService1 {
         $pin->key = sprintf('%04s', $nextpinid) . '|' . sprintf('%04s', rand(0, 9999));
         $pin->notes = $notes;
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -137,7 +133,7 @@ class PinService extends Service implements IPinService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
+     * @param int $userid
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -169,8 +165,8 @@ class PinService extends Service implements IPinService1 {
     /**
      * @permission administrator|user
      *
-     * @param $keyid
-     * @param $pin
+     * @param int    $keyid
+     * @param string $pin
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -196,8 +192,8 @@ class PinService extends Service implements IPinService1 {
      *
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $pin
+     * @param int    $userid
+     * @param string $pin
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *

@@ -17,18 +17,25 @@ use vhs\domain\Domain;
 use vhs\domain\validations\ValidationResults;
 
 /**
- * @property int    $id
- * @property string $key
- * @property string $type
- * @property bool   $authorized
- * @property string $from_ip
- * @property string $time
- * @property int    $userid
+ * @property int      $id
+ * @property string   $key
+ * @property string   $type
+ * @property bool     $authorized
+ * @property string   $from_ip
+ * @property string   $time
+ * @property int|null $userid
+ *
+ * @extends Domain<AccessLog>
  *
  * @typescript
  */
 class AccessLog extends Domain {
-    public static function Define() {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
         AccessLog::Schema(AccessLogSchema::Type());
     }
 
@@ -54,11 +61,11 @@ class AccessLog extends Domain {
     /**
      * log.
      *
-     * @param string $key
-     * @param string $type
-     * @param bool   $authorized
-     * @param string $from_ip
-     * @param int    $userid
+     * @param string   $key
+     * @param string   $type
+     * @param bool     $authorized
+     * @param string   $from_ip
+     * @param int|null $userid
      *
      * @return AccessLog
      */

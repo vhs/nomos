@@ -21,10 +21,17 @@ use vhs\domain\validations\ValidationResults;
  * @property object                   $sword
  * @property object                   $rings
  *
+ * @extends Domain<Knight>
+ *
  * @typescript
  */
 class Knight extends Domain {
-    public static function Define() {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Knight::Schema(KnightSchema::Type());
         Knight::Relationship('sword', Sword::Type()); //parent relationship aka Many to One
         Knight::Relationship('rings', Ring::Type()); //child relationship aka One to Many

@@ -190,12 +190,7 @@ class KeyService extends Service implements IKeyService1 {
     public function PutKeyPrivileges($keyid, $privileges) {
         $key = $this->GetKey($keyid);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = [];
-            array_push($privArray, $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

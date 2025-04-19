@@ -26,6 +26,8 @@ use vhs\domain\validations\ValidationResults;
  * @property \app\domain\User      $user
  * @property \app\domain\AppClient $client
  *
+ * @extends Domain<AccessToken>
+ *
  * @typescript
  */
 class AccessToken extends Domain {
@@ -34,7 +36,7 @@ class AccessToken extends Domain {
      *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         AccessToken::Schema(AccessTokenSchema::Type());
         AccessToken::Relationship('user', User::Type());
         AccessToken::Relationship('client', AppClient::Type());

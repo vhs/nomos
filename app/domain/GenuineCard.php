@@ -25,10 +25,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $owneremail
  * @property string $notes
  *
+ * @extends Domain<GenuineCard>
+ *
  * @typescript
  */
 class GenuineCard extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         GenuineCard::Schema(GenuineCardSchema::Type());
     }
 

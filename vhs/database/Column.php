@@ -138,18 +138,17 @@ class Column extends Element implements \Serializable, \JsonSerializable {
      *
      * @return void
      */
-    public function __clone() {
+    public function __clone(): void {
         $this->type = clone $this->type;
     }
 
     /**
      * __serialize.
      *
-     * @return string
+     * @return mixed[]
      */
-    public function __serialize() {
-        // @phpstan-ignore return.type
-        return $this->serialize();
+    public function __serialize(): array {
+        return [$this->serialize()];
     }
 
     /**

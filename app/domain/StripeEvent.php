@@ -23,13 +23,26 @@ use vhs\domain\validations\ValidationResults;
  * @property string $api_version
  * @property string $raw
  *
+ * @extends Domain<StripeEvent>
+ *
  *  @typescript
  */
 class StripeEvent extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         StripeEvent::Schema(StripeEventSchema::Type());
     }
 
+    /**
+     * validate
+     *
+     * @param  \vhs\domain\validations\ValidationResults $results
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }

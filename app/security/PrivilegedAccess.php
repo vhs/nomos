@@ -230,7 +230,7 @@ class PrivilegedAccess implements IAccess {
      *
      * @return array<string,mixed>
      */
-    public function __serialize() {
+    public function __serialize(): array {
         return [
             'type' => 'ownership',
             'ownership' => [

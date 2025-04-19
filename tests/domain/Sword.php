@@ -20,10 +20,17 @@ use vhs\domain\validations\ValidationResults;
  * @property int    $damage
  * @property object $enchantments
  *
+ * @extends Domain<Sword>
+ *
  * @typescript
  */
 class Sword extends Domain {
-    public static function Define() {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Sword::Schema(SwordSchema::Type());
 
         //NOTE don't setup the same relationships on the child of a previously defined parent, this will cause a hydrate loop.

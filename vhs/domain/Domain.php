@@ -26,6 +26,8 @@ use vhs\domain\validations\ValidationException;
 use vhs\domain\validations\ValidationResults;
 
 /**
+ * @template T of Domain
+ *
  * @typescript
  */
 abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonSerializable {
@@ -46,9 +48,9 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * __collections.
      *
-     * @var mixed
+     * @var array<string,\vhs\domain\collections\DomainCollection<T>>
      */
-    private $__collections;
+    private array $__collections;
 
     /**
      * __dirtyChildren.
@@ -209,12 +211,12 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * @param array{id:int}|int $primaryKeyValues
      *
-     * @return Domain|null
+     * @return T|null
      */
     public static function find($primaryKeyValues) {
+        /** @var class-string */
         $class = get_called_class();
 
-        /** @var Domain $obj */
         $obj = new $class();
 
         if (!$obj->hydrate($primaryKeyValues)) {
@@ -227,7 +229,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * findAll.
      *
-     * @return object[]
+     * @return T[]
      */
     public static function findAll() {
         return self::hydrateMany();
@@ -353,7 +355,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param string|\vhs\domain\Filter|null $filters
      * @param string[]|null                  $allowed_columns
      *
-     * @return object[]
+     * @return T[]
      */
     public static function page($page, $size, $columns, $order, $filters, ?array $allowed_columns = null) {
         Domain::coerceFilters($filters);
@@ -403,7 +405,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
 
         $objects = self::where($where, $orderBy, $size, $page);
 
-        /** @var object[] */
+        /** @var T[] */
         $retval = [];
 
         foreach ($objects as $object) {
@@ -453,7 +455,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param mixed                             $limit
      * @param mixed                             $offset
      *
-     * @return object[]
+     * @return T[]
      */
     public static function where(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
         return self::hydrateMany($where, $orderBy, $limit, $offset);
@@ -464,7 +466,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *
      * @param mixed $sql
      *
-     * @return object[]
+     * @return T[]
      */
     protected static function arbitraryFind($sql) {
         return self::arbitraryHydrate($sql);
@@ -478,7 +480,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @param int                               $limit
      * @param int                               $offset
      *
-     * @return object[]
+     * @return T[]
      */
     protected static function hydrateMany(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
         $class = get_called_class();
@@ -497,7 +499,6 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
         $items = [];
 
         foreach ($records as $row) {
-            /** @var Domain $obj */
             $obj = new $class();
 
             $obj->setValues($row);
@@ -544,17 +545,18 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *
      * @param mixed $sql
      *
-     * @return object[]
+     * @return T[]
      */
     private static function arbitraryHydrate($sql) {
+        /** @var class-string @class */
         $class = get_called_class();
 
         $records = Database::arbitrary($sql);
 
+        /** @var T[] */
         $items = [];
 
         foreach ($records as $row) {
-            /** @var Domain $obj */
             $obj = new $class();
 
             $obj->setValues($row);
@@ -884,7 +886,6 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
             Database::update(Query::Update(self::Schema()->Table(), self::Schema()->Columns(), $this->pkWhere(), $this->getValues(true)));
         }
 
-        /** @var DomainCollection $collection */
         foreach ($this->__collections as $collection) {
             $collection->save();
         }
@@ -915,7 +916,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *
      * @return string
      */
-    public function serialize() {
+    public function serialize(): string {
         return serialize($this->getInternalData());
     }
 
@@ -926,7 +927,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      *
      * @return void
      */
-    public function unserialize($data) {
+    public function unserialize($data): void {
         // TODO implement
     }
 
@@ -1205,7 +1206,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
      * @return void
      */
     private function hydrateRelationships() {
-        /** @var DomainCollection $collection */
+        /** @var DomainCollection<T> $collection */
         foreach ($this->__collections as $collection) {
             $collection->hydrate();
         }
@@ -1289,7 +1290,7 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
     /**
      * __serialize.
      *
-     * @return array<mixed, mixed>
+     * @return array<mixed,mixed>
      */
     public function __serialize() {
         return $this->getInternalData();
@@ -1342,7 +1343,13 @@ abstract class Domain extends Notifier implements IDomain, \Serializable, \JsonS
             }
         }
 
-        return json_encode($data);
+        $result = json_encode($data);
+
+        if (!is_string($result)) {
+            throw new \Exception('Failed to convert to string');
+        }
+
+        return $result;
     }
 
     /**

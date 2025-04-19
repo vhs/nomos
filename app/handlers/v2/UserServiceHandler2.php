@@ -250,11 +250,7 @@ class UserServiceHandler2 extends Service implements IUserService2 {
     public function PutUserPrivileges($userid, $privileges): bool {
         $user = $this->getUserById($userid);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

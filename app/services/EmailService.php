@@ -11,7 +11,7 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -22,7 +22,7 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return void
      */
@@ -108,7 +108,7 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return \app\domain\EmailTemplate
      */
@@ -120,11 +120,11 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return \app\domain\EmailTemplate[]
      */
@@ -136,12 +136,12 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $name
-     * @param $code
-     * @param $subject
-     * @param $help
-     * @param $body
-     * @param $html
+     * @param string $name
+     * @param string $code
+     * @param string $subject
+     * @param string $help
+     * @param string $body
+     * @param string $html
      *
      * @return void
      */
@@ -165,8 +165,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $body
+     * @param int    $id
+     * @param string $body
      *
      * @return void
      */
@@ -182,8 +182,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $code
+     * @param int    $id
+     * @param string $code
      *
      * @return void
      */
@@ -199,8 +199,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $help
+     * @param int    $id
+     * @param string $help
      *
      * @return void
      */
@@ -216,8 +216,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $html
+     * @param int    $id
+     * @param string $html
      *
      * @return void
      */
@@ -233,8 +233,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $name
+     * @param int    $id
+     * @param string $name
      *
      * @return void
      */
@@ -250,8 +250,8 @@ class EmailService extends Service implements IEmailService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $subject
+     * @param int    $id
+     * @param string $subject
      *
      * @return void
      */

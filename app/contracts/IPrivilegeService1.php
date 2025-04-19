@@ -16,7 +16,7 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator|user|grants
      *
-     * @param mixed $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -79,11 +79,11 @@ interface IPrivilegeService1 extends IContract {
     /**
      * @permission administrator|user|grants
      *
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
