@@ -19,5 +19,5 @@ parameters:
 
     excludePaths:
         - app/utils/converters/PHP2TS.php
-        - ~/.vscode-server/
+        - **/.vscode-server/
         - vendor/
