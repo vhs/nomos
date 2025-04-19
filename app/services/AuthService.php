@@ -64,7 +64,7 @@ class AuthService extends Service implements IAuthService1 {
      *
      * @permission administrator|pin-auth
      *
-     * @param $pin
+     * @param string $pin
      *
      * @return mixed
      */
@@ -139,7 +139,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|rfid-auth
      *
-     * @param $rfid
+     * @param string $rfid
      *
      * @return mixed
      */
@@ -203,8 +203,8 @@ class AuthService extends Service implements IAuthService1 {
      *
      * @permission administrator|service-auth
      *
-     * @param $service
-     * @param $id
+     * @param string $service
+     * @param string $id
      *
      * @return mixed
      */
@@ -269,7 +269,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission anonymous
      *
-     * @param $username
+     * @param string $username
      *
      * @return bool
      */
@@ -282,7 +282,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -293,7 +293,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator
      *
-     * @param $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -304,8 +304,8 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -318,8 +318,8 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $filters
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -343,7 +343,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -380,7 +380,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $bearerToken
+     * @param string $bearerToken
      *
      * @return mixed
      */
@@ -397,7 +397,6 @@ class AuthService extends Service implements IAuthService1 {
      * @return mixed|null
      */
     public function GetClient($clientId, $clientSecret) {
-        /** @var AppClient|null */
         $client = AppClient::find($clientId);
 
         if (!is_null($client) && $client->secret == $clientSecret) {
@@ -428,7 +427,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $refreshToken
+     * @param string $refreshToken
      *
      * @return mixed
      */
@@ -439,8 +438,8 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      *
      * @return mixed
      */
@@ -451,11 +450,11 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator
      *
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return \app\domain\AccessLog[]
      */
@@ -481,12 +480,12 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param $userid
-     * @param $page
-     * @param $size
-     * @param $columns
-     * @param $order
-     * @param $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return mixed
      */
@@ -499,12 +498,12 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission administrator|user
      *
-     * @param int   $userid
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
@@ -540,8 +539,8 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission anonymous
      *
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      *
      * @return mixed
      */
@@ -558,7 +557,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission user
      *
-     * @return mixed
+     * @return void
      */
     public function Logout() {
         Authenticate::getInstance()->logout();
@@ -584,10 +583,10 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission user
      *
-     * @param $name
-     * @param $description
-     * @param $url
-     * @param $redirecturi
+     * @param string $name
+     * @param string $description
+     * @param string $url
+     * @param string $redirecturi
      *
      * @return mixed
      */
@@ -610,7 +609,7 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $refreshToken
+     * @param string $refreshToken
      *
      * @return mixed
      */
@@ -642,10 +641,10 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $userId
-     * @param $accessToken
-     * @param $clientId
-     * @param $expires
+     * @param int    $userId
+     * @param string $accessToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @return mixed
      */
@@ -678,10 +677,10 @@ class AuthService extends Service implements IAuthService1 {
     /**
      * @permission oauth-provider
      *
-     * @param $userId
-     * @param $refreshToken
-     * @param $clientId
-     * @param $expires
+     * @param int    $userId
+     * @param string $refreshToken
+     * @param int    $clientId
+     * @param string $expires
      *
      * @return mixed
      */

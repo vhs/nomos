@@ -24,10 +24,17 @@ use vhs\domain\validations\ValidationResults;
  * @property string $body
  * @property string $html
  *
+ * @extends Domain<EmailTemplate>
+ *
  * @typescript
  */
 class EmailTemplate extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         EmailTemplate::Schema(EmailSchema::Type());
     }
 
@@ -76,6 +83,13 @@ class EmailTemplate extends Domain {
         return $ret;
     }
 
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
     public function validate(ValidationResults &$results) {
         // TODO: Implement validate() method.
     }

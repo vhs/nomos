@@ -88,11 +88,7 @@ class MembershipServiceHandler2 extends Service implements IMembershipService2 {
     public function PutPrivileges($membershipId, $privileges): bool {
         $membership = $this->getMembershipById($membershipId);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

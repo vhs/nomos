@@ -24,10 +24,17 @@ use vhs\domain\validations\ValidationResults;
  * @property bool   $enabled
  * @property object $privileges
  *
+ * @extends Domain<Event>
+ *
  *  @typescript
  */
 class Event extends Domain {
-    public static function Define() {
+    /**
+     * Define
+     *
+     * @return void
+     */
+    public static function Define(): void {
         Event::Schema(EventSchema::Type());
 
         Event::Relationship('privileges', Privilege::Type(), EventPrivilegeSchema::Type());

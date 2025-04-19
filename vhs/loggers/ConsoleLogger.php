@@ -13,6 +13,13 @@ use vhs\Logger;
 
 /** @typescript */
 class ConsoleLogger extends Logger {
+    /**
+     * log.
+     *
+     * @param mixed $message
+     *
+     * @return void
+     */
     public function log($message) {
         print '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
     }

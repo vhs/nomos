@@ -26,13 +26,17 @@ use vhs\security\exceptions\UnauthorizedException;
  * @property string $icon
  * @property bool   $enabled
  *
+ * @extends Domain<Privilege>
+ *
  * @typescript
  */
 class Privilege extends Domain {
     /**
+     * Define
+     *
      * @return void
      */
-    public static function Define() {
+    public static function Define(): void {
         Privilege::Schema(PrivilegeSchema::Type());
     }
 

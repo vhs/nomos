@@ -30,7 +30,12 @@ class ForeignKey extends Constraint {
         return $generator->generateForeignKey($this);
     }
 
-    public function __clone() {
+    /**
+     * __clone.
+     *
+     * @return void
+     */
+    public function __clone(): void {
         $this->on = clone $this->on;
     }
 

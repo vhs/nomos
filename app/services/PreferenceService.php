@@ -20,7 +20,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param mixed $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
@@ -31,7 +31,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -60,7 +60,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      */
@@ -72,13 +72,13 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param int   $page
-     * @param int   $size
-     * @param mixed $columns
-     * @param mixed $order
-     * @param mixed $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param mixed                          $columns
+     * @param mixed                          $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
-     * @return mixed[]
+     * @return \app\domain\SystemPreference[]
      */
     public function ListSystemPreferences($page, $size, $columns, $order, $filters) {
         /** @var \app\domain\SystemPreference[] */
@@ -88,15 +88,14 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $value
-     * @param $enabled
-     * @param $notes
+     * @param string $key
+     * @param string $value
+     * @param bool   $enabled
+     * @param string $notes
      *
      * @return mixed
      */
     public function PutSystemPreference($key, $value, $enabled, $notes) {
-        /** @var \app\domain\SystemPreference[] */
         $prefs = SystemPreference::findByKey($key);
 
         $pref = null;
@@ -120,8 +119,8 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $privileges
+     * @param int    $id
+     * @param string $privileges
      *
      * @return mixed
      */
@@ -133,11 +132,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
             return;
         }
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -155,7 +150,7 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission anonymous
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -180,11 +175,11 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $id
-     * @param $key
-     * @param $value
-     * @param $enabled
-     * @param $notes
+     * @param int    $id
+     * @param string $key
+     * @param string $value
+     * @param bool   $enabled
+     * @param string $notes
      *
      * @return mixed
      */
@@ -209,8 +204,8 @@ class PreferenceService extends Service implements IPreferenceService1 {
     /**
      * @permission administrator
      *
-     * @param $key
-     * @param $enabled
+     * @param string $key
+     * @param bool   $enabled
      *
      * @return mixed
      */

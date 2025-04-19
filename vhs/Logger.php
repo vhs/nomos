@@ -36,6 +36,11 @@ abstract class Logger {
         }
     }
 
+    /**
+     * __toString.
+     *
+     * @return string
+     */
     public function __toString() {
         return get_called_class();
     }

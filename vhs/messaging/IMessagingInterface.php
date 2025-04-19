@@ -37,7 +37,7 @@ interface IMessagingInterface {
      *
      * @param mixed $channel
      *
-     * @return void
+     * @return int
      */
     public function hasCallbacks($channel);
 
@@ -57,7 +57,7 @@ interface IMessagingInterface {
      *
      * @param mixed $channel
      *
-     * @return void
+     * @return mixed
      */
     public function wait($channel);
 }

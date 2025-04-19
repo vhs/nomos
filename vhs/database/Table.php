@@ -145,7 +145,12 @@ class Table extends Element {
         $this->constraints = $constraints;
     }
 
-    public function __clone() {
+    /**
+     * __clone.
+     *
+     * @return void
+     */
+    public function __clone(): void {
         parent::__clone();
 
         self::$cloneIndex += 1;

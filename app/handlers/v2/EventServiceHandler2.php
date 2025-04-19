@@ -215,11 +215,7 @@ class EventServiceHandler2 extends Service implements IEventService2 {
     public function PutEventPrivileges($id, $privileges): bool {
         $evt = $this->getEventById($id);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

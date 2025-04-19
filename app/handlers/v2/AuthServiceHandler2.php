@@ -720,8 +720,8 @@ class AuthServiceHandler2 extends Service implements IAuthService2 {
     /**
      * Summary of AddUserIDToFilters.
      *
-     * @param mixed $userid
-     * @param mixed $filters
+     * @param mixed                          $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *

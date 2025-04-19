@@ -142,11 +142,7 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
             return false;
         }
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 

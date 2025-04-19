@@ -184,5 +184,10 @@ class SplClassLoader {
         spl_autoload_unregister([$this, 'loadClass']);
     }
 
-    private function __clone() {}
+    /**
+     * __clone.
+     *
+     * @return void
+     */
+    public function __clone(): void {}
 }

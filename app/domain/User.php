@@ -54,13 +54,15 @@ use vhs\domain\validations\ValidationResults;
  * @property object           $privileges
  * @property object           $keys
  *
+ * @extends Domain<User>
+ *
  * @typescript
  */
 class User extends Domain {
     /**
-     * @return void
+     * Define.
      */
-    public static function Define() {
+    public static function Define(): void {
         User::Schema(UserSchema::Type());
         User::Relationship('keys', Key::Type());
         User::Relationship('membership', Membership::Type());
@@ -241,6 +243,8 @@ class User extends Domain {
      * @param \vhs\domain\validations\ValidationResults $results
      *
      * @return void
+     *
+     * @disregard
      */
     // @phpstan-ignore method.unused
     private function validateEmail(ValidationResults &$results) {

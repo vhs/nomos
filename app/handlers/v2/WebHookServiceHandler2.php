@@ -95,8 +95,6 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @permission administrator|user
      *
      * @param int $id
-     *
-     * @return void
      */
     public function DeleteHook($id): void {
         $hook = $this->getWebHookById($id);
@@ -202,11 +200,7 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     public function PutHookPrivileges($id, $privileges): bool {
         $hook = $this->getWebHookById($id);
 
-        $privArray = $privileges;
-
-        if (!is_array($privArray)) {
-            $privArray = explode(',', $privileges);
-        }
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 
         $privs = Privilege::findByCodes(...$privArray);
 
@@ -258,8 +252,8 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
     /**
      * addUserIDToFilters.
      *
-     * @param mixed $userid
-     * @param mixed $filters
+     * @param mixed                          $userid
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @throws \vhs\security\exceptions\UnauthorizedException
      *
