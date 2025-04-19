@@ -1,11 +1,14 @@
 parameters:
     level: 6
     paths:
-        - app
-        - vhs
+        - app/
+        - tests/
+        - tools/
+        - vhs/
 
     bootstrapFiles:
         - conf/config.ini.php
+        - app/include.php
 
     scanFiles:
         - conf/config.ini.php
@@ -16,6 +19,5 @@ parameters:
 
     excludePaths:
         - app/utils/converters/PHP2TS.php
-        - vhs/Cloneable.php
-        - /home/tyisi/.vscode-server/
+        - ~/.vscode-server/
         - vendor/
