@@ -10,17 +10,15 @@ import pluginStorybook from 'eslint-plugin-storybook'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
-// import jestPlugin from 'eslint-plugin-jest'
-
-// import { inspect } from 'node:util'
-
 function hoistConfig(config, withReact) {
     withReact ??= false
 
     config[0].languageOptions.parserOptions = {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: ['./tsconfig.eslint.json', './tsconfig.node.json'],
+        projectService: {
+            allowDefaultProject: ['src/', '.storybook/*.ts', '.storybook/*.tsx', 'fafo*.ts']
+        },
         tsconfigRootDir: process.cwd(),
         ecmaFeatures: {
             jsx: withReact
@@ -76,7 +74,12 @@ function hoistConfig(config, withReact) {
     config[0].rules['unused-imports/no-unused-imports'] = 'warn'
 
     config[0].rules['max-params'] = 'off'
-    config[0].rules['@typescript-eslint/max-params'] = ['error', { max: 8 }]
+    config[0].rules['@typescript-eslint/max-params'] = ['error', { max: 12 }]
+
+    config[0].rules['@typescript-eslint/triple-slash-reference'] = [
+        'error',
+        { lib: 'always', path: 'always', types: 'always' }
+    ]
 
     config.unshift({ ignores: ['src/routeTree.gen.ts', 'src/types/nomos.d.ts'] })
 }
