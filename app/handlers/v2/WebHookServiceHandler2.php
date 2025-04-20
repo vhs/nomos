@@ -95,6 +95,8 @@ class WebHookServiceHandler2 extends Service implements IWebHookService2 {
      * @permission administrator|user
      *
      * @param int $id
+     *
+     * @return void
      */
     public function DeleteHook($id): void {
         $hook = $this->getWebHookById($id);
