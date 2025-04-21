@@ -31,7 +31,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class Ipn extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

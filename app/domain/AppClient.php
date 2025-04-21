@@ -35,7 +35,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class AppClient extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

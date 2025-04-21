@@ -35,7 +35,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class WebHook extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

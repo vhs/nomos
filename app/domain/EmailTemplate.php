@@ -30,7 +30,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class EmailTemplate extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

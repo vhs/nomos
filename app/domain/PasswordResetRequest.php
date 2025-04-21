@@ -26,7 +26,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class PasswordResetRequest extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

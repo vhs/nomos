@@ -30,7 +30,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class Event extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

@@ -31,7 +31,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class GenuineCard extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */
