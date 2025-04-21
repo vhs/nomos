@@ -30,7 +30,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class RefreshToken extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

@@ -29,7 +29,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class SystemPreference extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

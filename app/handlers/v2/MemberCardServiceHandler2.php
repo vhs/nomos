@@ -120,10 +120,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
         );
 
         if (is_null($payments) || count($payments) < 1) {
-            throw new MemberCardException(
-                'User has not paid for a member card.',
-                HttpStatusCodes::Client_Error_Payment_Required
-            );
+            throw new MemberCardException('User has not paid for a member card.', HttpStatusCodes::Client_Error_Payment_Required);
         }
 
         $payment = $payments[0];
