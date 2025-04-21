@@ -3,7 +3,7 @@ import type { ReactNode, FC } from 'react'
 import type { TablePageSchema, AllowedPageSizes, TablePageSchemaType } from './TablePage.schema'
 import type { KeyedMutator } from 'swr'
 
-import type { FieldDefinitions, FilterDefinitions } from '@/lib/db/utils/query-filters'
+import type { FieldDefinitions, FilterDefinitions, Filters } from '@/lib/db/utils/query-filters'
 
 import type { DataRecord } from '@/types/validators/records'
 
@@ -56,8 +56,10 @@ export interface TablePageProps {
     user?: boolean
     fields: FieldDefinitions
     order: string | string[]
+    embedded?: boolean
 
     component: FC<{ data: DataRecord; mutate: KeyedMutator<DataRecord[]> }>
+    defaultFilters?: Filters
     primaryFilters?: FilterDefinitions
     secondaryFilters?: FilterDefinitions
     actions?: ReactNode[]

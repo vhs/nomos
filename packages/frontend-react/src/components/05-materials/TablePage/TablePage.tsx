@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FC } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Outlet } from '@tanstack/react-router'
+import { clsx } from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import useSWR from 'swr'
 
@@ -35,7 +36,7 @@ import {
 import type { DataRecord } from '@/types/validators/records'
 
 import { TablePageContext } from './TablePage.context'
-import { zTablePageSchema, isTablePageSchemaType, type AllowedPageSizes } from './TablePage.schema'
+import { isTablePageSchemaType, zTablePageSchema, type AllowedPageSizes } from './TablePage.schema'
 import { compileActiveFilters, getEnabledFieldsLabels, getMergedFieldNames, tablePageDefaults } from './TablePage.utils'
 
 const TablePage: FC<TablePageProps> = ({
@@ -43,6 +44,8 @@ const TablePage: FC<TablePageProps> = ({
     baseServiceMethod,
     children,
     component,
+    defaultFilters,
+    embedded,
     fields,
     label,
     order,
@@ -58,6 +61,8 @@ const TablePage: FC<TablePageProps> = ({
     order ??= []
     unsafeSearchColumns ??= []
     schema ??= zTablePageSchema
+    embedded ??= false
+    defaultFilters ??= []
 
     if (!isTablePageSchemaType(schema)) throw new Error('Invalid schema')
 
@@ -156,6 +161,10 @@ const TablePage: FC<TablePageProps> = ({
         [form, mergedFieldNames]
     )
 
+    const defaultSearchFilters = useMemo(() => {
+        return defaultFilters
+    }, [defaultFilters])
+
     const [compiledSearchFilters, setCompiledSearchFilters] = useState<Filter | null>(null)
 
     useEffect(() => {
@@ -165,7 +174,7 @@ const TablePage: FC<TablePageProps> = ({
 
         const primarySearchFilters = getActivePrimarySearchFilters()
 
-        const searchFilters = [...primarySearchFilters]
+        const searchFilters = [...defaultSearchFilters, ...primarySearchFilters]
 
         if (compiledSecondarySearchFilter != null && Object.keys(compiledSecondarySearchFilter).length > 0)
             searchFilters.push(compiledSecondarySearchFilter)
@@ -177,9 +186,13 @@ const TablePage: FC<TablePageProps> = ({
         } else {
             const compiledFilter = getCompiledSearchFilter(searchFilters)
 
-            setCompiledSearchFilters(compiledFilter)
+            if (JSON.stringify(compiledFilter) !== JSON.stringify(compiledSearchFilters)) {
+                setCompiledSearchFilters(compiledFilter)
+            }
         }
     }, [
+        compiledSearchFilters,
+        defaultSearchFilters,
         form,
         getActivePrimarySearchFilters,
         getActiveSecondarySearchFilters,
@@ -330,26 +343,28 @@ const TablePage: FC<TablePageProps> = ({
     return (
         <div data-testid='TablePage'>
             <TablePageContext.Provider value={contextValue}>
-                <BasePage title={title} actions={actions}>
+                <BasePage title={title} actions={actions} embedded={embedded}>
                     <FormProvider {...form}>
                         <Row>
                             <Col className='basis-full lg:basis-1/2'>
                                 <strong>Colums</strong>
                                 <br />
-                                {Object.keys(fieldStates).map((fieldName) => {
-                                    return (
-                                        <Button
-                                            key={fieldName}
-                                            className='btn-sm m-1'
-                                            variant={fieldStates[fieldName] ? 'success' : 'secondary'}
-                                            onClick={() => {
-                                                toggleField(fieldName)
-                                            }}
-                                        >
-                                            {fieldName}
-                                        </Button>
-                                    )
-                                })}
+                                <div className='inline-flex flex-wrap gap-2'>
+                                    {Object.keys(fieldStates).map((fieldName) => {
+                                        return (
+                                            <Button
+                                                key={fieldName}
+                                                small={embedded}
+                                                variant={fieldStates[fieldName] ? 'success' : 'secondary'}
+                                                onClick={() => {
+                                                    toggleField(fieldName)
+                                                }}
+                                            >
+                                                {fieldName}
+                                            </Button>
+                                        )
+                                    })}
+                                </div>
                             </Col>
 
                             <Col className='basis-full lg:basis-1/2'>
@@ -412,10 +427,15 @@ const TablePage: FC<TablePageProps> = ({
                             <Col className='basis-full'>
                                 <div className='grid w-full grid-flow-row justify-items-end'>
                                     <div className='flex flex-row'>
-                                        <Button className='mx-2' onClick={updateSearch}>
+                                        <Button className='mx-2' small={embedded} onClick={updateSearch}>
                                             Search
                                         </Button>
-                                        <Button className='mx-2' variant='danger' onClick={resetSearch}>
+                                        <Button
+                                            className='mx-2'
+                                            small={embedded}
+                                            variant='danger'
+                                            onClick={resetSearch}
+                                        >
                                             Reset
                                         </Button>
                                     </div>
@@ -424,7 +444,7 @@ const TablePage: FC<TablePageProps> = ({
                         </Row>
 
                         <Row>
-                            <Col className='basis-9/12'>
+                            <Col className={embedded ? 'basis-3/6' : 'basis-9/12'}>
                                 <Paginator
                                     count={itemCount}
                                     currentPage={searchPage}
@@ -435,16 +455,16 @@ const TablePage: FC<TablePageProps> = ({
                                 />
                             </Col>
 
-                            <Col className='basis-2/12'>
-                                <div className='text-center'>
+                            <Col className={clsx('relative', embedded ? 'basis-2/6' : 'basis-2/12')}>
+                                <div className='my-4 text-center'>
                                     {itemCount} {label}s found
                                 </div>
                             </Col>
 
-                            <Col className='basis-1/12'>
+                            <Col className={clsx('py-4', embedded ? 'basis-1/6' : 'basis-1/12')}>
                                 <select
                                     id='allow-page-sizes-select'
-                                    className='rounded-sm border-2 border-black'
+                                    className='pull-right rounded-sm border-2 border-black'
                                     onChange={(event) => {
                                         const requestedPageSize = Number(event.target.value) as AllowedPageSizes
 
