@@ -31,7 +31,7 @@ interface IMemberCardService2 extends IContract {
      *
      * @return int
      */
-    public function CountGenuineUserCards($userid, $filters): int;
+    public function CountUserGenuineCards($userid, $filters): int;
 
     /**
      * @permission administrator

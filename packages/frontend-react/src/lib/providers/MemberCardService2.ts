@@ -33,8 +33,8 @@ export default class MemberCardService2 implements IMemberCardService2 {
      *
      * @returns {number}
      */
-    async CountGenuineUserCards(userid: number, filters: Filter | null): BackendResult<number> {
-        return await backendCall('/services/v2/MemberCardService2.svc/CountGenuineUserCards', { userid, filters })
+    async CountUserGenuineCards(userid: number, filters: Filter | null): BackendResult<number> {
+        return await backendCall('/services/v2/MemberCardService2.svc/CountUserGenuineCards', { userid, filters })
     }
 
     /**
