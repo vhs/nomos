@@ -19,6 +19,7 @@ function hoistConfig(config, withReact) {
         projectService: {
             allowDefaultProject: ['src/', '.storybook/*.ts', '.storybook/*.tsx', 'fafo*.ts']
         },
+        // @ts-ignore
         tsconfigRootDir: process.cwd(),
         ecmaFeatures: {
             jsx: withReact
