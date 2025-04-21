@@ -65,4 +65,8 @@
         /* justify-self: end; */
         float: inline-end;
     }
+
+    .tight-vertical {
+        @apply py-1;
+    }
 }
