@@ -137,6 +137,8 @@ setup_husky:
 
     if [ ! -d .husky/_/ ]; then
         node_modules/.bin/husky
+    elif [ "$(grep 'hooksPath = .husky/_' .git/config)" = "" ] ; then
+        node_modules/.bin/husky
     else
         echo "husky has already been set up!"
     fi
