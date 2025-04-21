@@ -34,6 +34,7 @@ import type {
     zIpnValidationStates,
     zKeyType,
     zKeyTypes,
+    zMemberCardSerialNumber,
     zMinString,
     zMinStrings,
     zMoneyBookers,
@@ -165,6 +166,8 @@ export type IpnValidationStates = z.infer<typeof zIpnValidationStates>
 export type KeyType = z.infer<typeof zKeyType>
 
 export type KeyTypes = z.infer<typeof zKeyTypes>
+
+export type MemberCardSerialNumber = z.infer<typeof zMemberCardSerialNumber>
 
 export type MinString = z.infer<typeof zMinString>
 

@@ -204,3 +204,5 @@ export const zUserPendingStateTypes = zUserPendingStateType.array()
 export const zUserActiveStatuses = zUserActiveStatus.array()
 export const zUsernames = zUsername.array()
 export const zUserPins = zUserPin.array()
+
+export const zMemberCardSerialNumber = z.string().regex(/([0-9A-Za-z]{2}(:?[0-9A-Za-z]{2}){6})/)

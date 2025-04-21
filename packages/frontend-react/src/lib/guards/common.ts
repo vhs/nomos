@@ -32,6 +32,7 @@ import {
     zIpnValidationStates,
     zKeyType,
     zKeyTypes,
+    zMemberCardSerialNumber,
     zMinString,
     zMinStrings,
     zMoneyBookers,
@@ -136,6 +137,7 @@ import type {
     IpnValidationStates,
     KeyType,
     KeyTypes,
+    MemberCardSerialNumber,
     MinString,
     MinStrings,
     MoneyBookers,
@@ -274,6 +276,9 @@ export const isIpnValidationStates = (inp: unknown): inp is IpnValidationStates 
 export const isKeyType = (inp: unknown): inp is KeyType => zKeyType.safeParse(inp).success
 
 export const isKeyTypes = (inp: unknown): inp is KeyTypes => zKeyTypes.safeParse(inp).success
+
+export const isMemberCardSerialNumber = (inp: unknown): inp is MemberCardSerialNumber =>
+    zMemberCardSerialNumber.safeParse(inp).success
 
 export const isMinString = (inp: unknown): inp is MinString => zMinString.safeParse(inp).success
 
