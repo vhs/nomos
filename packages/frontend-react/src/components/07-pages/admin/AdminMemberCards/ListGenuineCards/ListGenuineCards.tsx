@@ -1,7 +1,9 @@
 import type { FC } from 'react'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
 import type { ListGenuineCardsProps } from './ListGenuineCards.types'
+
+import TablePage from '@/components/05-materials/TablePage/TablePage'
+
 import { ListGenuineCardsFields, PrimaryListGenuineCardsFilters } from './ListGenuineCards.utils'
 import ListGenuineCardsItem from './ListGenuineCardsItem/ListGenuineCardsItem'
 

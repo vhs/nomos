@@ -1,4 +1,4 @@
-import { FieldDefinitions, FilterDefinitions, Filters } from '@/lib/db/utils/query-filters'
+import type { FieldDefinitions, FilterDefinitions, Filters } from '@/lib/db/utils/query-filters'
 
 export const ListGenuineCardPurchasesFields: FieldDefinitions = [
     { field: 'date', title: 'Date' },

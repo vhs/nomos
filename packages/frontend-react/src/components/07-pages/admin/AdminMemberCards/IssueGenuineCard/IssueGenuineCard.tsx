@@ -1,17 +1,22 @@
 import { useMemo, type FC } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { mutate } from 'swr'
+
+import type { IssueGenuineCardForm } from '../AdminMemberCards.types'
+import type { IssueGenuineCardProps } from './IssueGenuineCard.types'
+
 import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
 import Card from '@/components/04-composites/Card/Card'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormProvider, useForm } from 'react-hook-form'
-import { IssueGenuineCardForm } from '../AdminMemberCards.types'
-import type { IssueGenuineCardProps } from './IssueGenuineCard.types'
-import { zIssueGenuineCardForm } from '../AdminMemberCards.schema'
+
+import type { HTTPException } from '@/lib/exceptions/HTTPException'
 import MemberCardService2 from '@/lib/providers/MemberCardService2'
-import { toast } from 'react-toastify'
-import { mutate } from 'swr'
+
+import { zIssueGenuineCardForm } from '../AdminMemberCards.schema'
 
 const IssueGenuineCard: FC<IssueGenuineCardProps> = () => {
     const form = useForm<IssueGenuineCardForm>({
@@ -40,7 +45,7 @@ const IssueGenuineCard: FC<IssueGenuineCardProps> = () => {
                 {
                     error: {
                         render({ data: err }: { data: HTTPException }) {
-                            return `Failed to issue this genuine member card: ${err.info != null ? err.info : err.message}`
+                            return `Failed to issue this genuine member card: ${err.info ?? err.message}`
                         }
                     },
                     pending: 'Issuing genuine member card',
@@ -55,10 +60,11 @@ const IssueGenuineCard: FC<IssueGenuineCardProps> = () => {
             <Card.Body>
                 <FormProvider {...form}>
                     <Row>
-                        <label>
+                        <label htmlFor='cardInput'>
                             <strong>Card Serial Number</strong>
                         </label>
                         <FormControl
+                            id='cardInput'
                             formKey='card'
                             formType='text'
                             placeholder='Card Serial Number'
@@ -67,10 +73,11 @@ const IssueGenuineCard: FC<IssueGenuineCardProps> = () => {
                         />
                     </Row>
                     <Row>
-                        <label>
+                        <label htmlFor='ownerEmailInput'>
                             <strong>Owner Email</strong>
                         </label>
                         <FormControl
+                            id='ownerEmailInput'
                             formKey='ownerEmail'
                             formType='email'
                             placeholder='Owner Email'
@@ -81,7 +88,13 @@ const IssueGenuineCard: FC<IssueGenuineCardProps> = () => {
                 </FormProvider>
             </Card.Body>
             <Card.Footer>
-                <Button small disabled={!isDirty || !isValid} onClick={submitHandler}>
+                <Button
+                    small
+                    disabled={!isDirty || !isValid}
+                    onClick={() => {
+                        void submitHandler()
+                    }}
+                >
                     Issue Genuine Card
                 </Button>
             </Card.Footer>

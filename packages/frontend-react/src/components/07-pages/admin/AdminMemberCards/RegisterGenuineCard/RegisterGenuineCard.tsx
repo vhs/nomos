@@ -1,17 +1,21 @@
 import { useMemo, type FC } from 'react'
 
-import Button from '@/components/01-atoms/Button/Button'
-import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card/Card'
-import FormControl from '@/components/04-composites/FormControl/FormControl'
-import MemberCardService2 from '@/lib/providers/MemberCardService2'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { mutate } from 'swr'
-import { zRegisterGenuineCardForm } from '../AdminMemberCards.schema'
-import { RegisterGenuineCardForm } from '../AdminMemberCards.types'
+
+import type { RegisterGenuineCardForm } from '../AdminMemberCards.types'
 import type { RegisterGenuineCardProps } from './RegisterGenuineCard.types'
+
+import Button from '@/components/01-atoms/Button/Button'
+import Row from '@/components/01-atoms/Row/Row'
+import Card from '@/components/04-composites/Card/Card'
+import FormControl from '@/components/04-composites/FormControl/FormControl'
+
+import MemberCardService2 from '@/lib/providers/MemberCardService2'
+
+import { zRegisterGenuineCardForm } from '../AdminMemberCards.schema'
 
 const RegisterGenuineCard: FC<RegisterGenuineCardProps> = () => {
     const form = useForm<RegisterGenuineCardForm>({
@@ -51,10 +55,11 @@ const RegisterGenuineCard: FC<RegisterGenuineCardProps> = () => {
             <Card.Body>
                 <FormProvider {...form}>
                     <Row>
-                        <label>
+                        <label htmlFor='cardInput'>
                             <strong>Card Serial Number</strong>
                         </label>
                         <FormControl
+                            id='cardInput'
                             formKey='card'
                             formType='text'
                             placeholder='Card Serial Number'
@@ -65,7 +70,13 @@ const RegisterGenuineCard: FC<RegisterGenuineCardProps> = () => {
                 </FormProvider>
             </Card.Body>
             <Card.Footer>
-                <Button small disabled={!isDirty || !isValid} onClick={submitHandler}>
+                <Button
+                    small
+                    disabled={!isDirty || !isValid}
+                    onClick={() => {
+                        void submitHandler()
+                    }}
+                >
                     Register Genuine Card
                 </Button>
             </Card.Footer>
