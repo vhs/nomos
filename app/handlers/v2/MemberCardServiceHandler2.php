@@ -22,6 +22,7 @@ use vhs\domain\Domain;
 use vhs\domain\Filter;
 use vhs\security\exceptions\UnauthorizedException;
 use vhs\services\Service;
+use vhs\web\enums\HttpStatusCodes;
 
 /** @typescript */
 class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
@@ -44,7 +45,7 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
      *
      * @return int
      */
-    public function CountGenuineUserCards($userid, $filters): int {
+    public function CountUserGenuineCards($userid, $filters): int {
         $filters = $this->addUserIDToFilters($userid, $filters);
 
         return GenuineCard::count($filters);
@@ -119,7 +120,10 @@ class MemberCardServiceHandler2 extends Service implements IMemberCardService2 {
         );
 
         if (is_null($payments) || count($payments) < 1) {
-            throw new MemberCardException('User has not paid for a member card.');
+            throw new MemberCardException(
+                'User has not paid for a member card.',
+                HttpStatusCodes::Client_Error_Payment_Required
+            );
         }
 
         $payment = $payments[0];

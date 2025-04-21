@@ -29,7 +29,7 @@ export interface IMemberCardService2 {
      *
      * @returns {number}
      */
-    CountGenuineUserCards: (userid: number, filters: Filter | null) => BackendResult<number>
+    CountUserGenuineCards: (userid: number, filters: Filter | null) => BackendResult<number>
 
     /**
      * @permission administrator
