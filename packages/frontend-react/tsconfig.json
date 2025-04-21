@@ -23,7 +23,7 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-        "types": ["node", "jest", "@testing-library/jest-dom"]
+        "types": ["@types/node", "jest", "@testing-library/jest-dom"]
     },
     "include": ["src"],
     "exclude": ["node_modules"],
