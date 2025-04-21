@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 
 import type { ListGenuineCardsItemProps } from './ListGenuineCardsItem.types'
+
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 

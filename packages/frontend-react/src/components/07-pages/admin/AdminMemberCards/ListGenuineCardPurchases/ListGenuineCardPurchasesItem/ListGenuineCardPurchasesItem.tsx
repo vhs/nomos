@@ -1,9 +1,10 @@
 import type { FC } from 'react'
 
 import type { ListGenuineCardPurchasesItemProps } from './ListGenuineCardPurchasesItem.types'
+
+import Popover from '@/components/01-atoms/Popover/Popover'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
-import Popover from '@/components/01-atoms/Popover/Popover'
 
 const ListGenuineCardPurchasesItem: FC<ListGenuineCardPurchasesItemProps> = ({ data }) => (
     <TablePageRow data-testid='ListGenuineCardPurchasesItem'>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
-import { z } from 'zod'
-import { zIssueGenuineCardForm, zRegisterGenuineCardForm } from './AdminMemberCards.schema'
+
+import type { zIssueGenuineCardForm, zRegisterGenuineCardForm } from './AdminMemberCards.schema'
+import type { z } from 'zod'
 
 export interface AdminMemberCardsProps {
     children?: ReactNode
