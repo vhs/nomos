@@ -32,7 +32,7 @@ use vhs\security\exceptions\UnauthorizedException;
  */
 class Privilege extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */

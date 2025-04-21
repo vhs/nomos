@@ -29,7 +29,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class StripeEvent extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */
@@ -38,9 +38,10 @@ class StripeEvent extends Domain {
     }
 
     /**
-     * validate
+     * validate.
      *
-     * @param  \vhs\domain\validations\ValidationResults $results
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
      * @return void
      */
     public function validate(ValidationResults &$results) {

@@ -39,7 +39,7 @@ use vhs\domain\validations\ValidationResults;
  */
 class Payment extends Domain {
     /**
-     * Define
+     * Define.
      *
      * @return void
      */
