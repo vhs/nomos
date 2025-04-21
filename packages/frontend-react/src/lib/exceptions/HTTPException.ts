@@ -1,4 +1,4 @@
 export class HTTPException extends Error {
-    info?: unknown
+    info?: string
     status?: Response['status']
 }
