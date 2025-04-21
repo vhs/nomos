@@ -3,6 +3,7 @@
 namespace app\exceptions;
 
 use vhs\security\exceptions\InvalidCredentials;
+use vhs\web\enums\HttpStatusCodes;
 
 class InvalidKeyCredentialsException extends InvalidCredentials {
     /**
@@ -11,6 +12,6 @@ class InvalidKeyCredentialsException extends InvalidCredentials {
      * @return void
      */
     public function __construct() {
-        parent::__construct('Invalid key');
+        parent::__construct('Invalid key', HttpStatusCodes::Client_Error_Unauthorized);
     }
 }
