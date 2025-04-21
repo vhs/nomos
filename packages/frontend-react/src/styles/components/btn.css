@@ -1,6 +1,6 @@
 @layer components {
     .btn {
-        @apply mb-0 inline-block h-10 min-w-fit cursor-pointer touch-manipulation select-none whitespace-nowrap rounded-lg border-solid bg-none px-3 text-center align-middle font-bold;
+        @apply mb-0 inline-block h-10 min-w-fit cursor-pointer touch-manipulation select-none whitespace-nowrap rounded-lg border-solid bg-none px-3 py-0.5 text-center align-middle font-bold;
     }
 
     .btn-primary {
@@ -96,7 +96,7 @@
     }
 
     .btn-sm {
-        @apply h-7 pt-0.5;
+        @apply h-7 px-1.5;
     }
 
     .btn-icon {
