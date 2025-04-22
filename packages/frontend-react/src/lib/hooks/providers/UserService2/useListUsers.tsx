@@ -56,7 +56,8 @@ const useListUsers = (
 
             if (!isPartialUsers(result)) {
                 const error = new HTTPException('Response is not PartialUsers')
-                error.info = result
+
+                error.data = result
                 error.status = 503
 
                 throw error

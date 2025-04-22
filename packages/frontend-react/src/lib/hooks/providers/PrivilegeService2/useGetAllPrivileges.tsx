@@ -13,8 +13,11 @@ const useGetAllPrivileges = (): SWRResponse<Privileges> => {
             const result = await PrivilegeService2.getInstance().GetAllPrivileges()
 
             if (!isPrivileges(result)) {
-                const error = new HTTPException('An error occurred while fetching the data.')
-                error.info = result
+                const error = new HTTPException('Invalid privilege data from server.')
+
+                error.data = result
+                error.status = 503
+
                 throw error
             }
 

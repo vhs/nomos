@@ -23,8 +23,9 @@ const useGetUser = (userId?: string | number): SWRResponse<User> => {
             const result = await UserService2.getInstance().GetUser(Number(userId))
 
             if (!isUser(result)) {
-                const error = new HTTPException('Not a number response')
-                error.info = result
+                const error = new HTTPException('Not a user response')
+
+                error.data = result
                 error.status = 503
 
                 throw error
