@@ -1,5 +1,5 @@
 {
     "extends": "./tsconfig.json",
-    "include": ["src/", ".storybook/*.ts", ".storybook/*.tsx", "fafo*.ts", "vite.config.ts"],
+    "include": ["src/", ".storybook/*.ts", ".storybook/*.tsx", "vite.config.ts"],
     "exclude": ["**/*.js"]
 }
