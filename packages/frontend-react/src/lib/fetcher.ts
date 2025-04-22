@@ -31,9 +31,11 @@ export const fetchEncode = (opts: FetchEncodeOpts): RequestInit => {
 export const fetcher = async <T = unknown>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
     const response = await fetch(input, init)
 
+    // eslint-disable-next-line @typescript-eslint/init-declarations
     let data
 
     if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         if (response.headers.get('Content-Type') === 'application/json') data = await response.json()
         else data = await response.text()
     } else {
@@ -41,10 +43,9 @@ export const fetcher = async <T = unknown>(input: RequestInfo | URL, init?: Requ
 
         const exceptionInfo = await response.text()
 
-        error.info =
-            exceptionInfo.indexOf('#0 /') > -1
-                ? exceptionInfo.substring(0, exceptionInfo.indexOf('#0 /'))
-                : exceptionInfo
+        error.info = exceptionInfo.includes('#0 /')
+            ? exceptionInfo.substring(0, exceptionInfo.indexOf('#0 /'))
+            : exceptionInfo
 
         error.status = response.status
 

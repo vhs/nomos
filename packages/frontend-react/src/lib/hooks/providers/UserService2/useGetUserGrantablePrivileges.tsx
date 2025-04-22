@@ -21,15 +21,16 @@ const useGetUserGrantablePrivileges = (userId: number | null | undefined): SWRRe
 
             const result = await UserService2.getInstance().GetUserGrantablePrivileges(userId)
 
-            if (isGetUserGrantablePrivilegesResult(result)) {
-                return isEmptyArray(result) ? {} : result
+            if (!isGetUserGrantablePrivilegesResult(result)) {
+                const error = new HTTPException('Invalid user grantable privileges result from server')
+
+                error.data = result
+                error.status = 503
+
+                throw error
             }
 
-            const error = new HTTPException('An error occurred while fetching the data: ' + JSON.stringify(result))
-
-            error.info = result
-
-            throw error
+            return isEmptyArray(result) ? {} : result
         }
     )
 }

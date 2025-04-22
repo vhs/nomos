@@ -27,7 +27,8 @@ const useCountUsers = (filters: Filter | null): SWRResponse<number> => {
 
             if (!isNumber(result)) {
                 const error = new HTTPException('Not a number response')
-                error.info = result
+
+                error.data = result
                 error.status = 503
 
                 throw error
