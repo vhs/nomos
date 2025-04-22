@@ -21,9 +21,10 @@ import type {
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 
-import { generateRangeArray } from '@/lib/utils'
+import { generatePageRangeArray } from '@/lib/utils'
 
 import styles from './Paginator.module.css'
+import { pageMargin } from './Paginator.utils'
 
 const PaginationItem: FC<PaginatorItemProps> = ({ variant, active, children, disabled, onClick }) => {
     active ??= false
@@ -83,9 +84,7 @@ const PaginationItem: FC<PaginatorItemProps> = ({ variant, active, children, dis
 const PaginatorItems: FC<PaginatorItemsProps> = (props) => {
     const { currentPage, pageSelectFn, totalPages } = props
 
-    const baseRange = Math.floor(currentPage / 10) * 10
-
-    const pageRange = generateRangeArray(baseRange, baseRange + 9).filter((e) => e > 0 && e <= totalPages)
+    const pageRange = generatePageRangeArray(currentPage, pageMargin, totalPages)
 
     const pagesResult = pageRange.map((page) => {
         return (
@@ -156,7 +155,7 @@ const Paginator: FC<PaginatorProps> = ({ currentPage, size, count, pageSelectFn 
     )
 
     return (
-        <Row className={clsx([styles.Container])}>
+        <Row noWrap className={clsx([styles.Container])}>
             <PaginationItem variant='first' disabled={disabledFeatures.first} onClick={handleFirstPage} />
             <PaginationItem variant='prev' disabled={disabledFeatures.previous} onClick={handlePreviousPage} />
             <PaginationItem variant='backward' disabled={disabledFeatures.backward} onClick={handleBackwardPages} />
