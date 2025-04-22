@@ -1,11 +1,7 @@
 @layer utilities {
     .data-field {
         @apply text-wrap text-center xl:text-nowrap;
-        @apply max-w-28;
-        @apply sm:max-w-36;
-        @apply md:max-w-28;
-        @apply 2md:max-w-36;
-        @apply lg:max-w-64;
+        @apply max-w-[5vw];
         @apply xl:max-w-[unset];
     }
 }

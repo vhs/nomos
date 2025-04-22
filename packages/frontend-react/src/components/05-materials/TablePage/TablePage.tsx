@@ -444,7 +444,7 @@ const TablePage: FC<TablePageProps> = ({
                         </Row>
 
                         <Row>
-                            <Col className={embedded ? 'basis-3/6' : 'basis-9/12'}>
+                            <Col className={'basis-full md:basis-4/6'}>
                                 <Paginator
                                     count={itemCount}
                                     currentPage={searchPage}
@@ -455,16 +455,16 @@ const TablePage: FC<TablePageProps> = ({
                                 />
                             </Col>
 
-                            <Col className={clsx('relative', embedded ? 'basis-2/6' : 'basis-2/12')}>
+                            <Col className={clsx('basis-1/2 md:basis-1/6')}>
                                 <div className='my-4 text-center'>
                                     {itemCount} {label}s found
                                 </div>
                             </Col>
 
-                            <Col className={clsx('py-4', embedded ? 'basis-1/6' : 'basis-1/12')}>
+                            <Col className={clsx('basis-1/2 md:basis-1/6')}>
                                 <select
                                     id='allow-page-sizes-select'
-                                    className='pull-right rounded-sm border-2 border-black'
+                                    className='pull-right my-4 rounded-sm border-2 border-black'
                                     onChange={(event) => {
                                         const requestedPageSize = Number(event.target.value) as AllowedPageSizes
 

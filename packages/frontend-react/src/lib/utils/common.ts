@@ -47,8 +47,32 @@ export const fallbackNestedNumberRecord = (inp: unknown): Record<string, Record<
     return fallback
 }
 
-export const generateRangeArray = (min: number, max: number): number[] =>
-    Array.from({ length: max - min + 1 }, (_, i) => min + i)
+/**
+ * Generate a page range array
+ *
+ * @param {number} page
+ * @param {number} margin
+ * @param {number} totalPages
+ *
+ * @returns {number[]}
+ *
+ * TODO optimize this
+ */
+export const generatePageRangeArray = (page: number, margin: number, totalPages: number): number[] => {
+    const pageNumbers = Array.from({ length: totalPages + 1 }, (_, i) => 0 + i).filter((e) => e > 0 && e <= totalPages)
+
+    const window = Math.floor(margin / 2)
+
+    const bottom = pageNumbers.indexOf(page) - window
+
+    const ceiling = pageNumbers.indexOf(page) + window
+
+    if (bottom < 0) return pageNumbers.slice(0, margin)
+
+    if (ceiling >= totalPages) return pageNumbers.slice(pageNumbers.length - margin, pageNumbers.length)
+
+    return pageNumbers.slice(bottom, ceiling + 1)
+}
 
 export const compareStringArray = <T extends string[] = string[]>(leftArray?: T, rightArray?: T): boolean => {
     if (!isStrings(leftArray) || !isStrings(rightArray)) return false
