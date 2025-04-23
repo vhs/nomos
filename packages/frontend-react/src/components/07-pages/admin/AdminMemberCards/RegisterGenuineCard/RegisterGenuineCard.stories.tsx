@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof RegisterGenuineCard>
 
 const meta: Meta<typeof RegisterGenuineCard> = {
     component: RegisterGenuineCard,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminMemberCards/RegisterGenuineCard',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
