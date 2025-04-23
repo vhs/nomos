@@ -22,16 +22,12 @@ export interface IMetricService2 {
      * @param {string} start_range
      * @param {string} end_range
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceGetCreatedDatesResult}
      */
     GetCreatedDates: (start_range: string, end_range: string) => BackendResult<MetricServiceGetCreatedDatesResult>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Payments}
      */
@@ -43,8 +39,6 @@ export interface IMetricService2 {
      * @param {string}                 start_range
      * @param {string}                 end_range
      * @param {MetricServiceGroupType} group
-     *
-     * @throws {string}
      *
      * @returns {MetricServiceGetMembersResult}
      */
@@ -60,8 +54,6 @@ export interface IMetricService2 {
      * @param {string} start_range string iso date in UTC, if empty is start of today
      * @param {string} end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceNewKeyholdersResult}
      */
     GetNewKeyHolders: (start_range: string, end_range: string) => BackendResult<MetricServiceNewKeyholdersResult>
@@ -72,16 +64,12 @@ export interface IMetricService2 {
      * @param {string} start_range string iso date in UTC, if empty is start of today
      * @param {string} end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceNewMembersResult}
      */
     GetNewMembers: (start_range: string, end_range: string) => BackendResult<MetricServiceNewMembersResult>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Users}
      */
@@ -94,8 +82,6 @@ export interface IMetricService2 {
      * @param {string}                 end_range   string iso date in UTC, if empty is end of today
      * @param {MetricServiceGroupType} group       group by month, day, year
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceGetRevenueResult}
      */
     GetRevenue: (
@@ -107,16 +93,12 @@ export interface IMetricService2 {
     /**
      * @permission user
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceTotalKeyHoldersResult}
      */
     GetTotalKeyHolders: () => BackendResult<MetricServiceTotalKeyHoldersResult>
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {MetricServiceTotalMembersResult}
      */

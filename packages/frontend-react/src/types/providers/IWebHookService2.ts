@@ -12,8 +12,6 @@ export interface IWebHookService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountHooks: (filters: Filter | null) => BackendResult<number>
@@ -23,8 +21,6 @@ export interface IWebHookService2 {
      *
      * @param {number}      userid
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {number}
      */
@@ -42,7 +38,6 @@ export interface IWebHookService2 {
      * @param {string}  method
      * @param {number}  eventid
      *
-     * @throws {string}
      * @throws {UnauthorizedException}
      *
      * @returns {WebHook}
@@ -63,8 +58,6 @@ export interface IWebHookService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     DeleteHook: (id: number) => BackendResult<void>
@@ -75,16 +68,12 @@ export interface IWebHookService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     EnableHook: (id: number, enabled: boolean) => BackendResult<boolean>
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -95,8 +84,6 @@ export interface IWebHookService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {WebHook|null}
      */
     GetHook: (id: number) => BackendResult<WebHook | null>
@@ -106,8 +93,6 @@ export interface IWebHookService2 {
      *
      * @param {string} domain
      * @param {string} event
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -121,8 +106,6 @@ export interface IWebHookService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -144,9 +127,6 @@ export interface IWebHookService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     * @throws {Exception}
-     *
      * @returns {WebHooks}
      */
     ListUserHooks: (
@@ -164,8 +144,6 @@ export interface IWebHookService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutHookPrivileges: (id: number, privileges: string | string[]) => BackendResult<boolean>
@@ -182,8 +160,6 @@ export interface IWebHookService2 {
      * @param {string}  headers
      * @param {string}  method
      * @param {number}  eventid
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

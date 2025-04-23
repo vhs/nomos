@@ -12,8 +12,6 @@ export interface IEmailService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountTemplates: (filters: Filter | null) => BackendResult<number>
@@ -22,8 +20,6 @@ export interface IEmailService2 {
      * @permission administrator
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -38,8 +34,6 @@ export interface IEmailService2 {
      * @param {string}                 tmpl
      * @param {Record<string,unknown>} context
      * @param {string|null}            subject
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -60,8 +54,6 @@ export interface IEmailService2 {
      * @param {Record<string,unknown>} context
      * @param {string|null}            subject
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     EmailUser: (
@@ -76,11 +68,9 @@ export interface IEmailService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
-     * @returns {EmailTemplate}
+     * @returns {EmailTemplate|null}
      */
-    GetTemplate: (id: number) => BackendResult<EmailTemplate>
+    GetTemplate: (id: number) => BackendResult<EmailTemplate | null>
 
     /**
      * @permission administrator
@@ -90,8 +80,6 @@ export interface IEmailService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {EmailTemplates}
      */
@@ -113,9 +101,7 @@ export interface IEmailService2 {
      * @param {string} body
      * @param {string} html
      *
-     * @throws {string}
-     *
-     * @returns {EmailTemplate}
+     * @returns {boolean}
      */
     PutTemplate: (
         name: string,
@@ -124,15 +110,36 @@ export interface IEmailService2 {
         help: string,
         body: string,
         html: string
-    ) => BackendResult<EmailTemplate>
+    ) => BackendResult<boolean>
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} code
+     * @param {string} subject
+     * @param {string} help
+     * @param {string} body
+     * @param {string} html
+     *
+     * @returns {boolean}
+     */
+    UpdateTemplate: (
+        id: number,
+        name: string,
+        code: string,
+        subject: string,
+        help: string,
+        body: string,
+        html: string
+    ) => BackendResult<boolean>
 
     /**
      * @permission administrator
      *
      * @param {number} id
      * @param {string} body
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -144,8 +151,6 @@ export interface IEmailService2 {
      * @param {number} id
      * @param {string} code
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateTemplateCode: (id: number, code: string) => BackendResult<boolean>
@@ -155,8 +160,6 @@ export interface IEmailService2 {
      *
      * @param {number} id
      * @param {string} help
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -168,8 +171,6 @@ export interface IEmailService2 {
      * @param {number} id
      * @param {string} html
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateTemplateHtml: (id: number, html: string) => BackendResult<boolean>
@@ -180,8 +181,6 @@ export interface IEmailService2 {
      * @param {number} id
      * @param {string} name
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateTemplateName: (id: number, name: string) => BackendResult<boolean>
@@ -191,8 +190,6 @@ export interface IEmailService2 {
      *
      * @param {number} id
      * @param {string} subject
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

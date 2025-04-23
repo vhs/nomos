@@ -14,8 +14,6 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountMemberships(filters: Filter | null): BackendResult<number> {
@@ -31,8 +29,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {string} code
      * @param {string} days
      * @param {string} period
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -59,8 +55,6 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @param {number} membershipId
      *
-     * @throws {string}
-     *
      * @returns {Membership}
      */
     async Get(membershipId: number): BackendResult<Membership> {
@@ -69,8 +63,6 @@ export default class MembershipService2 implements IMembershipService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Memberships}
      */
@@ -86,8 +78,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Memberships}
      */
@@ -113,8 +103,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {number}          membershipId
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutPrivileges(membershipId: number, privileges: string | string[]): BackendResult<boolean> {
@@ -131,8 +119,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {string} code
      * @param {number} days
      * @param {string} period
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -162,8 +148,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {number}  membershipId
      * @param {boolean} active
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdateActive(membershipId: number, active: boolean): BackendResult<boolean> {
@@ -175,8 +159,6 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @param {number}  membershipId
      * @param {boolean} privateVal
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -190,8 +172,6 @@ export default class MembershipService2 implements IMembershipService2 {
      * @param {number}  membershipId
      * @param {boolean} recurring
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdateRecurring(membershipId: number, recurring: boolean): BackendResult<boolean> {
@@ -203,8 +183,6 @@ export default class MembershipService2 implements IMembershipService2 {
      *
      * @param {number}  membershipId
      * @param {boolean} trial
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

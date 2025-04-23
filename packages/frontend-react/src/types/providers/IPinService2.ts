@@ -8,11 +8,9 @@ export interface IPinService2 {
     /**
      * @permission door
      *
-     * @throws {string}
-     *
-     * @returns {string}
+     * @returns {void}
      */
-    AccessInstructions: () => BackendResult<string>
+    AccessInstructions: () => BackendResult<void>
 
     /**
      * Automatically generates a pin for a specified user.
@@ -20,8 +18,6 @@ export interface IPinService2 {
      * @permission administrator|user
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Key|null}
      */
@@ -34,8 +30,6 @@ export interface IPinService2 {
      * @param {string} privileges
      * @param {string} notes
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     GenerateTemporaryPin: (expires: string, privileges: string, notes: string) => BackendResult<Key>
@@ -44,8 +38,6 @@ export interface IPinService2 {
      * @permission administrator|user
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Key|null}
      */
@@ -56,8 +48,6 @@ export interface IPinService2 {
      *
      * @param {number} keyid
      * @param {string} pin
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -70,8 +60,6 @@ export interface IPinService2 {
      *
      * @param {number} userid
      * @param {string} pin
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

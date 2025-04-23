@@ -12,8 +12,6 @@ export interface IIpnService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountRecords: (filters: Filter | null) => BackendResult<number>
@@ -23,16 +21,12 @@ export interface IIpnService2 {
      *
      * @param {number} ipnId
      *
-     * @throws {string}
-     *
-     * @returns {Ipn}
+     * @returns {Ipn|null}
      */
-    Get: (ipnId: number) => BackendResult<Ipn>
+    Get: (ipnId: number) => BackendResult<Ipn | null>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Ipns}
      */
@@ -46,8 +40,6 @@ export interface IIpnService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Ipns}
      */

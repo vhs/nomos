@@ -14,8 +14,6 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountTemplates(filters: Filter | null): BackendResult<number> {
@@ -26,8 +24,6 @@ export default class EmailService2 implements IEmailService2 {
      * @permission administrator
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -44,8 +40,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {string}                 tmpl
      * @param {Record<string,unknown>} context
      * @param {string|null}            subject
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -68,8 +62,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {Record<string,unknown>} context
      * @param {string|null}            subject
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async EmailUser(
@@ -86,11 +78,9 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
-     * @returns {EmailTemplate}
+     * @returns {EmailTemplate|null}
      */
-    async GetTemplate(id: number): BackendResult<EmailTemplate> {
+    async GetTemplate(id: number): BackendResult<EmailTemplate | null> {
         return await backendCall('/services/v2/EmailService2.svc/GetTemplate', { id })
     }
 
@@ -102,8 +92,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {EmailTemplates}
      */
@@ -133,9 +121,7 @@ export default class EmailService2 implements IEmailService2 {
      * @param {string} body
      * @param {string} html
      *
-     * @throws {string}
-     *
-     * @returns {EmailTemplate}
+     * @returns {boolean}
      */
     async PutTemplate(
         name: string,
@@ -144,8 +130,41 @@ export default class EmailService2 implements IEmailService2 {
         help: string,
         body: string,
         html: string
-    ): BackendResult<EmailTemplate> {
+    ): BackendResult<boolean> {
         return await backendCall('/services/v2/EmailService2.svc/PutTemplate', {
+            name,
+            code,
+            subject,
+            help,
+            body,
+            html
+        })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} code
+     * @param {string} subject
+     * @param {string} help
+     * @param {string} body
+     * @param {string} html
+     *
+     * @returns {boolean}
+     */
+    async UpdateTemplate(
+        id: number,
+        name: string,
+        code: string,
+        subject: string,
+        help: string,
+        body: string,
+        html: string
+    ): BackendResult<boolean> {
+        return await backendCall('/services/v2/EmailService2.svc/UpdateTemplate', {
+            id,
             name,
             code,
             subject,
@@ -161,8 +180,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {number} id
      * @param {string} body
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdateTemplateBody(id: number, body: string): BackendResult<boolean> {
@@ -174,8 +191,6 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @param {number} id
      * @param {string} code
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -189,8 +204,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {number} id
      * @param {string} help
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdateTemplateHelp(id: number, help: string): BackendResult<boolean> {
@@ -202,8 +215,6 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @param {number} id
      * @param {string} html
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -217,8 +228,6 @@ export default class EmailService2 implements IEmailService2 {
      * @param {number} id
      * @param {string} name
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdateTemplateName(id: number, name: string): BackendResult<boolean> {
@@ -230,8 +239,6 @@ export default class EmailService2 implements IEmailService2 {
      *
      * @param {number} id
      * @param {string} subject
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
