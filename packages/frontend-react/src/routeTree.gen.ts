@@ -74,6 +74,8 @@ import { Route as AdminAdminSystempreferencesNewImport } from './routes/_admin/a
 import { Route as AdminAdminSystempreferencesPreferenceIdImport } from './routes/_admin/admin.systempreferences.$preferenceId'
 import { Route as AdminAdminSystemkeysSplatImport } from './routes/_admin/admin.systemkeys.$'
 import { Route as AdminAdminMembershipsMembershipIdImport } from './routes/_admin/admin.memberships.$membershipId'
+import { Route as AdminAdminEmailtemplatesNewImport } from './routes/_admin/admin.emailtemplates.new'
+import { Route as AdminAdminEmailtemplatesTemplateIdImport } from './routes/_admin/admin.emailtemplates.$templateId'
 
 // Create/Update Routes
 
@@ -455,6 +457,20 @@ const AdminAdminMembershipsMembershipIdRoute =
     id: '/$membershipId',
     path: '/$membershipId',
     getParentRoute: () => AdminAdminMembershipsRoute,
+  } as any)
+
+const AdminAdminEmailtemplatesNewRoute =
+  AdminAdminEmailtemplatesNewImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AdminAdminEmailtemplatesRoute,
+  } as any)
+
+const AdminAdminEmailtemplatesTemplateIdRoute =
+  AdminAdminEmailtemplatesTemplateIdImport.update({
+    id: '/$templateId',
+    path: '/$templateId',
+    getParentRoute: () => AdminAdminEmailtemplatesRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -846,6 +862,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserApikeysIndexImport
       parentRoute: typeof UserImport
     }
+    '/_admin/admin/emailtemplates/$templateId': {
+      id: '/_admin/admin/emailtemplates/$templateId'
+      path: '/$templateId'
+      fullPath: '/admin/emailtemplates/$templateId'
+      preLoaderRoute: typeof AdminAdminEmailtemplatesTemplateIdImport
+      parentRoute: typeof AdminAdminEmailtemplatesImport
+    }
+    '/_admin/admin/emailtemplates/new': {
+      id: '/_admin/admin/emailtemplates/new'
+      path: '/new'
+      fullPath: '/admin/emailtemplates/new'
+      preLoaderRoute: typeof AdminAdminEmailtemplatesNewImport
+      parentRoute: typeof AdminAdminEmailtemplatesImport
+    }
     '/_admin/admin/memberships/$membershipId': {
       id: '/_admin/admin/memberships/$membershipId'
       path: '/$membershipId'
@@ -907,6 +937,23 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AdminAdminEmailtemplatesRouteChildren {
+  AdminAdminEmailtemplatesTemplateIdRoute: typeof AdminAdminEmailtemplatesTemplateIdRoute
+  AdminAdminEmailtemplatesNewRoute: typeof AdminAdminEmailtemplatesNewRoute
+}
+
+const AdminAdminEmailtemplatesRouteChildren: AdminAdminEmailtemplatesRouteChildren =
+  {
+    AdminAdminEmailtemplatesTemplateIdRoute:
+      AdminAdminEmailtemplatesTemplateIdRoute,
+    AdminAdminEmailtemplatesNewRoute: AdminAdminEmailtemplatesNewRoute,
+  }
+
+const AdminAdminEmailtemplatesRouteWithChildren =
+  AdminAdminEmailtemplatesRoute._addFileChildren(
+    AdminAdminEmailtemplatesRouteChildren,
+  )
+
 interface AdminAdminMembershipsRouteChildren {
   AdminAdminMembershipsMembershipIdRoute: typeof AdminAdminMembershipsMembershipIdRoute
 }
@@ -963,7 +1010,7 @@ interface AdminRouteChildren {
   AdminAdminDashboardRoute: typeof AdminAdminDashboardRoute
   AdminAdminDatabasebackupRoute: typeof AdminAdminDatabasebackupRoute
   AdminAdminEmailRoute: typeof AdminAdminEmailRoute
-  AdminAdminEmailtemplatesRoute: typeof AdminAdminEmailtemplatesRoute
+  AdminAdminEmailtemplatesRoute: typeof AdminAdminEmailtemplatesRouteWithChildren
   AdminAdminEventsRoute: typeof AdminAdminEventsRoute
   AdminAdminIpnrecordsRoute: typeof AdminAdminIpnrecordsRoute
   AdminAdminLogsRoute: typeof AdminAdminLogsRoute
@@ -997,7 +1044,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminDashboardRoute: AdminAdminDashboardRoute,
   AdminAdminDatabasebackupRoute: AdminAdminDatabasebackupRoute,
   AdminAdminEmailRoute: AdminAdminEmailRoute,
-  AdminAdminEmailtemplatesRoute: AdminAdminEmailtemplatesRoute,
+  AdminAdminEmailtemplatesRoute: AdminAdminEmailtemplatesRouteWithChildren,
   AdminAdminEventsRoute: AdminAdminEventsRoute,
   AdminAdminIpnrecordsRoute: AdminAdminIpnrecordsRoute,
   AdminAdminLogsRoute: AdminAdminLogsRoute,
@@ -1124,7 +1171,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminAdminDashboardRoute
   '/admin/databasebackup': typeof AdminAdminDatabasebackupRoute
   '/admin/email': typeof AdminAdminEmailRoute
-  '/admin/emailtemplates': typeof AdminAdminEmailtemplatesRoute
+  '/admin/emailtemplates': typeof AdminAdminEmailtemplatesRouteWithChildren
   '/admin/events': typeof AdminAdminEventsRoute
   '/admin/ipnrecords': typeof AdminAdminIpnrecordsRoute
   '/admin/logs': typeof AdminAdminLogsRoute
@@ -1146,6 +1193,8 @@ export interface FileRoutesByFullPath {
   '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
+  '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
+  '/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
@@ -1188,7 +1237,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminAdminDashboardRoute
   '/admin/databasebackup': typeof AdminAdminDatabasebackupRoute
   '/admin/email': typeof AdminAdminEmailRoute
-  '/admin/emailtemplates': typeof AdminAdminEmailtemplatesRoute
+  '/admin/emailtemplates': typeof AdminAdminEmailtemplatesRouteWithChildren
   '/admin/events': typeof AdminAdminEventsRoute
   '/admin/ipnrecords': typeof AdminAdminIpnrecordsRoute
   '/admin/logs': typeof AdminAdminLogsRoute
@@ -1210,6 +1259,8 @@ export interface FileRoutesByTo {
   '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
+  '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
+  '/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
@@ -1255,7 +1306,7 @@ export interface FileRoutesById {
   '/_admin/admin/dashboard': typeof AdminAdminDashboardRoute
   '/_admin/admin/databasebackup': typeof AdminAdminDatabasebackupRoute
   '/_admin/admin/email': typeof AdminAdminEmailRoute
-  '/_admin/admin/emailtemplates': typeof AdminAdminEmailtemplatesRoute
+  '/_admin/admin/emailtemplates': typeof AdminAdminEmailtemplatesRouteWithChildren
   '/_admin/admin/events': typeof AdminAdminEventsRoute
   '/_admin/admin/ipnrecords': typeof AdminAdminIpnrecordsRoute
   '/_admin/admin/logs': typeof AdminAdminLogsRoute
@@ -1277,6 +1328,8 @@ export interface FileRoutesById {
   '/_user/user/accesslogs': typeof UserUserAccesslogsRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_user/apikeys/': typeof UserApikeysIndexRoute
+  '/_admin/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
+  '/_admin/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/_admin/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
   '/_admin/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/_admin/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
@@ -1343,6 +1396,8 @@ export interface FileRouteTypes {
     | '/user/accesslogs'
     | '/admin'
     | '/apikeys'
+    | '/admin/emailtemplates/$templateId'
+    | '/admin/emailtemplates/new'
     | '/admin/memberships/$membershipId'
     | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
@@ -1406,6 +1461,8 @@ export interface FileRouteTypes {
     | '/user/accesslogs'
     | '/admin'
     | '/apikeys'
+    | '/admin/emailtemplates/$templateId'
+    | '/admin/emailtemplates/new'
     | '/admin/memberships/$membershipId'
     | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
@@ -1471,6 +1528,8 @@ export interface FileRouteTypes {
     | '/_user/user/accesslogs'
     | '/_admin/admin/'
     | '/_user/apikeys/'
+    | '/_admin/admin/emailtemplates/$templateId'
+    | '/_admin/admin/emailtemplates/new'
     | '/_admin/admin/memberships/$membershipId'
     | '/_admin/admin/systemkeys/$'
     | '/_admin/admin/systempreferences/$preferenceId'
@@ -1706,7 +1765,11 @@ export const routeTree = rootRoute
     },
     "/_admin/admin/emailtemplates": {
       "filePath": "_admin/admin.emailtemplates.tsx",
-      "parent": "/_admin"
+      "parent": "/_admin",
+      "children": [
+        "/_admin/admin/emailtemplates/$templateId",
+        "/_admin/admin/emailtemplates/new"
+      ]
     },
     "/_admin/admin/events": {
       "filePath": "_admin/admin.events.tsx",
@@ -1802,6 +1865,14 @@ export const routeTree = rootRoute
     "/_user/apikeys/": {
       "filePath": "_user/apikeys.index.tsx",
       "parent": "/_user"
+    },
+    "/_admin/admin/emailtemplates/$templateId": {
+      "filePath": "_admin/admin.emailtemplates.$templateId.tsx",
+      "parent": "/_admin/admin/emailtemplates"
+    },
+    "/_admin/admin/emailtemplates/new": {
+      "filePath": "_admin/admin.emailtemplates.new.tsx",
+      "parent": "/_admin/admin/emailtemplates"
     },
     "/_admin/admin/memberships/$membershipId": {
       "filePath": "_admin/admin.memberships.$membershipId.tsx",
