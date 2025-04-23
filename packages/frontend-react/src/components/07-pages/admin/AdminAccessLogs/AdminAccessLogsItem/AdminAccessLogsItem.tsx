@@ -5,11 +5,12 @@ import { clsx } from 'clsx'
 import type { AdminAccessLogsItemProps } from './AdminAccessLogsItem.types'
 
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 
 const AdminAccessLogsItem: FC<AdminAccessLogsItemProps> = ({ data }) => {
     return (
-        <tr key={JSON.stringify(data)} data-testid='AdminAccessLogsItem'>
+        <TablePageRow key={JSON.stringify(data)} data-testid='AdminAccessLogsItem'>
             <ConditionalTableCell condition={'time' in data} className='text-center'>
                 {data.time.toLocaleString()}
             </ConditionalTableCell>
@@ -32,7 +33,7 @@ const AdminAccessLogsItem: FC<AdminAccessLogsItemProps> = ({ data }) => {
             <ConditionalTableCell condition={'from_ip' in data} className='text-center'>
                 {data.from_ip}
             </ConditionalTableCell>
-        </tr>
+        </TablePageRow>
     )
 }
 export default AdminAccessLogsItem
