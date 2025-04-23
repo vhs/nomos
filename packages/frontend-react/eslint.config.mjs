@@ -82,6 +82,15 @@ function hoistConfig(config, withReact) {
         { lib: 'always', path: 'always', types: 'always' }
     ]
 
+    if (withReact)
+        config[0].rules['jsx-a11y/label-has-associated-control'] = [
+            'error',
+            {
+                controlComponents: ['FormControl'],
+                depth: 3
+            }
+        ]
+
     config.unshift({ ignores: ['src/routeTree.gen.ts', 'src/types/nomos.d.ts'] })
 }
 
