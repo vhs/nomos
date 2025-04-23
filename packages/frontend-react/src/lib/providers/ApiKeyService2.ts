@@ -13,8 +13,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeleteApiKey(id: number): BackendResult<void> {
@@ -25,8 +23,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @permission administrator
      *
      * @param {string} notes
-     *
-     * @throws {string}
      *
      * @returns {Key}
      */
@@ -40,8 +36,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @param {number} userid
      * @param {string} notes
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     async GenerateUserApiKey(userid: number, notes: string): BackendResult<Key> {
@@ -53,8 +47,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      *
      * @param {number} keyid
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     async GetApiKey(keyid: number): BackendResult<Key> {
@@ -63,8 +55,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -76,8 +66,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @permission administrator|user
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -91,8 +79,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @param {number}          keyid
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutApiKeyPrivileges(keyid: number, privileges: string | string[]): BackendResult<boolean> {
@@ -105,8 +91,6 @@ export default class ApiKeyService2 implements IApiKeyService2 {
      * @param {number}      keyid
      * @param {string}      notes
      * @param {string|null} expires
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

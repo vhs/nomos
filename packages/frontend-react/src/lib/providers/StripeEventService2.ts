@@ -14,8 +14,6 @@ export default class StripeEventService2 implements IStripeEventService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountRecords(filters: Filter | null): BackendResult<number> {
@@ -27,8 +25,6 @@ export default class StripeEventService2 implements IStripeEventService2 {
      *
      * @param {number} eventId
      *
-     * @throws {string}
-     *
      * @returns {StripeEvent}
      */
     async Get(eventId: number): BackendResult<StripeEvent> {
@@ -37,8 +33,6 @@ export default class StripeEventService2 implements IStripeEventService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {StripeEvents}
      */
@@ -54,8 +48,6 @@ export default class StripeEventService2 implements IStripeEventService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {StripeEvents}
      */

@@ -14,8 +14,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountSystemPreferences(filters: Filter | null): BackendResult<number> {
@@ -27,8 +25,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      *
      * @param {string} key
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeleteSystemPreference(key: string): BackendResult<void> {
@@ -37,8 +33,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -50,8 +44,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @permission administrator
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {SystemPreference}
      */
@@ -67,8 +59,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -96,8 +86,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @param {boolean} enabled
      * @param {string}  notes
      *
-     * @throws {string}
-     *
      * @returns {SystemPreference}
      */
     async PutSystemPreference(
@@ -120,8 +108,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutSystemPreferencePrivileges(id: number, privileges: string | string[]): BackendResult<boolean> {
@@ -135,8 +121,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @permission anonymous
      *
      * @param {string} key
-     *
-     * @throws {string}
      *
      * @returns {SystemPreference|null}
      */
@@ -152,8 +136,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      * @param {string}  value
      * @param {boolean} enabled
      * @param {string}  notes
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -178,8 +160,6 @@ export default class PreferenceService2 implements IPreferenceService2 {
      *
      * @param {string}  key
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

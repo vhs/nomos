@@ -25,8 +25,6 @@ export default class MetricService2 implements IMetricService2 {
      * @param {string} start_range
      * @param {string} end_range
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceGetCreatedDatesResult}
      */
     async GetCreatedDates(start_range: string, end_range: string): BackendResult<MetricServiceGetCreatedDatesResult> {
@@ -35,8 +33,6 @@ export default class MetricService2 implements IMetricService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Payments}
      */
@@ -50,8 +46,6 @@ export default class MetricService2 implements IMetricService2 {
      * @param {string}                 start_range
      * @param {string}                 end_range
      * @param {MetricServiceGroupType} group
-     *
-     * @throws {string}
      *
      * @returns {MetricServiceGetMembersResult}
      */
@@ -69,8 +63,6 @@ export default class MetricService2 implements IMetricService2 {
      * @param {string} start_range string iso date in UTC, if empty is start of today
      * @param {string} end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceNewKeyholdersResult}
      */
     async GetNewKeyHolders(start_range: string, end_range: string): BackendResult<MetricServiceNewKeyholdersResult> {
@@ -83,8 +75,6 @@ export default class MetricService2 implements IMetricService2 {
      * @param {string} start_range string iso date in UTC, if empty is start of today
      * @param {string} end_range   string iso date in UTC, if empty is end of today
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceNewMembersResult}
      */
     async GetNewMembers(start_range: string, end_range: string): BackendResult<MetricServiceNewMembersResult> {
@@ -93,8 +83,6 @@ export default class MetricService2 implements IMetricService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Users}
      */
@@ -109,8 +97,6 @@ export default class MetricService2 implements IMetricService2 {
      * @param {string}                 end_range   string iso date in UTC, if empty is end of today
      * @param {MetricServiceGroupType} group       group by month, day, year
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceGetRevenueResult}
      */
     async GetRevenue(
@@ -124,8 +110,6 @@ export default class MetricService2 implements IMetricService2 {
     /**
      * @permission user
      *
-     * @throws {string}
-     *
      * @returns {MetricServiceTotalKeyHoldersResult}
      */
     async GetTotalKeyHolders(): BackendResult<MetricServiceTotalKeyHoldersResult> {
@@ -134,8 +118,6 @@ export default class MetricService2 implements IMetricService2 {
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {MetricServiceTotalMembersResult}
      */

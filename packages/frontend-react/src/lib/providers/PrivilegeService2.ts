@@ -14,8 +14,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountPrivileges(filters: Filter | null): BackendResult<number> {
@@ -30,8 +28,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      * @param {string}  description
      * @param {string}  icon
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {Privilege}
      */
@@ -56,8 +52,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeletePrivilege(id: number): BackendResult<void> {
@@ -67,8 +61,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @throws {string}
-     *
      * @returns {Privileges}
      */
     async GetAllPrivileges(): BackendResult<Privileges> {
@@ -77,8 +69,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {string[]}
      */
@@ -91,8 +81,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {Privilege}
      */
     async GetPrivilege(id: number): BackendResult<Privilege> {
@@ -103,8 +91,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      * @permission administrator|user|grants
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Privileges}
      */
@@ -120,8 +106,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Privileges}
      */
@@ -147,8 +131,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      * @param {number} id
      * @param {string} description
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdatePrivilegeDescription(id: number, description: string): BackendResult<boolean> {
@@ -160,8 +142,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @param {number}  id
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -175,8 +155,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      * @param {number} id
      * @param {string} icon
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async UpdatePrivilegeIcon(id: number, icon: string): BackendResult<boolean> {
@@ -188,8 +166,6 @@ export default class PrivilegeService2 implements IPrivilegeService2 {
      *
      * @param {number} id
      * @param {string} name
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

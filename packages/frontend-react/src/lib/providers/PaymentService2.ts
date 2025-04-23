@@ -14,8 +14,6 @@ export default class PaymentService2 implements IPaymentService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountPayments(filters: Filter | null): BackendResult<number> {
@@ -28,8 +26,6 @@ export default class PaymentService2 implements IPaymentService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountUserPayments(userid: number, filters: Filter | null): BackendResult<number> {
@@ -40,8 +36,6 @@ export default class PaymentService2 implements IPaymentService2 {
      * @permission administrator|user
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {Payment|null}
      */
@@ -57,8 +51,6 @@ export default class PaymentService2 implements IPaymentService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Payments}
      */
@@ -88,8 +80,6 @@ export default class PaymentService2 implements IPaymentService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {Payments}
      */
     async ListUserPayments(
@@ -114,8 +104,6 @@ export default class PaymentService2 implements IPaymentService2 {
      * @permission administrator
      *
      * @param {number} paymentid
-     *
-     * @throws {string}
      *
      * @returns {string}
      */

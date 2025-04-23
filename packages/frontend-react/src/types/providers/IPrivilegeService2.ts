@@ -12,8 +12,6 @@ export interface IPrivilegeService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountPrivileges: (filters: Filter | null) => BackendResult<number>
@@ -26,8 +24,6 @@ export interface IPrivilegeService2 {
      * @param {string}  description
      * @param {string}  icon
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {Privilege}
      */
@@ -44,8 +40,6 @@ export interface IPrivilegeService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     DeletePrivilege: (id: number) => BackendResult<void>
@@ -53,16 +47,12 @@ export interface IPrivilegeService2 {
     /**
      * @permission administrator|user|grants
      *
-     * @throws {string}
-     *
      * @returns {Privileges}
      */
     GetAllPrivileges: () => BackendResult<Privileges>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {string[]}
      */
@@ -73,8 +63,6 @@ export interface IPrivilegeService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {Privilege}
      */
     GetPrivilege: (id: number) => BackendResult<Privilege>
@@ -83,8 +71,6 @@ export interface IPrivilegeService2 {
      * @permission administrator|user|grants
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Privileges}
      */
@@ -98,8 +84,6 @@ export interface IPrivilegeService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Privileges}
      */
@@ -117,8 +101,6 @@ export interface IPrivilegeService2 {
      * @param {number} id
      * @param {string} description
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdatePrivilegeDescription: (id: number, description: string) => BackendResult<boolean>
@@ -128,8 +110,6 @@ export interface IPrivilegeService2 {
      *
      * @param {number}  id
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -141,8 +121,6 @@ export interface IPrivilegeService2 {
      * @param {number} id
      * @param {string} icon
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdatePrivilegeIcon: (id: number, icon: string) => BackendResult<boolean>
@@ -152,8 +130,6 @@ export interface IPrivilegeService2 {
      *
      * @param {number} id
      * @param {string} name
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

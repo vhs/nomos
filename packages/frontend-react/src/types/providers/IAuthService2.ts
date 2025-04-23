@@ -11,6 +11,7 @@ import type {
     AppClient,
     AppClients,
     AuthCheckResult,
+    IPrincipal,
     RefreshToken,
     TrimmedAppClient,
     TrimmedUser,
@@ -26,8 +27,6 @@ export interface IAuthService2 {
      *
      * @param {string} pin
      *
-     * @throws {string}
-     *
      * @returns {AuthCheckResult}
      */
     CheckPin: (pin: string) => BackendResult<AuthCheckResult>
@@ -36,8 +35,6 @@ export interface IAuthService2 {
      * @permission administrator|rfid-auth
      *
      * @param {string} rfid
-     *
-     * @throws {string}
      *
      * @returns {AuthCheckResult}
      */
@@ -51,8 +48,6 @@ export interface IAuthService2 {
      * @param {string} service
      * @param {string} id
      *
-     * @throws {string}
-     *
      * @returns {AuthCheckResult}
      */
     CheckService: (service: string, id: string) => BackendResult<AuthCheckResult>
@@ -61,8 +56,6 @@ export interface IAuthService2 {
      * @permission anonymous
      *
      * @param {string} username
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -73,8 +66,6 @@ export interface IAuthService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountAccessLog: (filters: Filter | null) => BackendResult<number>
@@ -83,8 +74,6 @@ export interface IAuthService2 {
      * @permission administrator
      *
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {number}
      */
@@ -96,8 +85,6 @@ export interface IAuthService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountUserAccessLog: (userid: number, filters: Filter | null) => BackendResult<number>
@@ -108,8 +95,6 @@ export interface IAuthService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountUserClients: (userid: number, filters: Filter | null) => BackendResult<number>
@@ -117,18 +102,14 @@ export interface IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @throws {string}
-     *
-     * @returns {UserPrincipal|AnonPrincipal}
+     * @returns {UserPrincipal|AnonPrincipal|IPrincipal}
      */
-    CurrentUser: () => BackendResult<UserPrincipal | AnonPrincipal>
+    CurrentUser: () => BackendResult<UserPrincipal | AnonPrincipal | IPrincipal>
 
     /**
      * @permission administrator|user
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -140,8 +121,6 @@ export interface IAuthService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     EnableClient: (id: number, enabled: boolean) => BackendResult<boolean>
@@ -151,8 +130,6 @@ export interface IAuthService2 {
      *
      * @param {string} bearerToken
      *
-     * @throws {string}
-     *
      * @returns {AccessToken}
      */
     GetAccessToken: (bearerToken: string) => BackendResult<AccessToken>
@@ -160,33 +137,27 @@ export interface IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @param {string} clientId
+     * @param {number} clientId
      * @param {string} clientSecret
      *
-     * @throws {string}
-     *
-     * @returns {AppClient|null}
+     * @returns {TrimmedAppClient|null}
      */
-    GetClient: (clientId: string, clientSecret: string) => BackendResult<AppClient | null>
+    GetClient: (clientId: number, clientSecret: string) => BackendResult<TrimmedAppClient | null>
 
     /**
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param {string} clientId
-     *
-     * @throws {string}
+     * @param {number} clientId
      *
      * @returns {TrimmedAppClient|null}
      */
-    GetClientInfo: (clientId: string) => BackendResult<TrimmedAppClient | null>
+    GetClientInfo: (clientId: number) => BackendResult<TrimmedAppClient | null>
 
     /**
      * @permission oauth-provider
      *
      * @param {string} refreshToken
-     *
-     * @throws {string}
      *
      * @returns {RefreshToken}
      */
@@ -197,8 +168,6 @@ export interface IAuthService2 {
      *
      * @param {string} username
      * @param {string} password
-     *
-     * @throws {string}
      *
      * @returns {TrimmedUser|null}
      */
@@ -212,8 +181,6 @@ export interface IAuthService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {AccessLogs}
      */
@@ -234,8 +201,6 @@ export interface IAuthService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {AppClients}
      */
     ListClients: (
@@ -255,9 +220,6 @@ export interface IAuthService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
-     * @throws {Exception}
      *
      * @returns {AccessLogs}
      */
@@ -280,9 +242,6 @@ export interface IAuthService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     * @throws {Exception}
-     *
      * @returns {AppClients}
      */
     ListUserClients: (
@@ -300,16 +259,12 @@ export interface IAuthService2 {
      * @param {string} username
      * @param {string} password
      *
-     * @throws {string}
-     *
      * @returns {string}
      */
     Login: (username: string, password: string) => BackendResult<string>
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -319,8 +274,6 @@ export interface IAuthService2 {
      * @permission anonymous
      *
      * @param {string} pin
-     *
-     * @throws {string}
      *
      * @returns {string}
      */
@@ -334,8 +287,6 @@ export interface IAuthService2 {
      * @param {string} url
      * @param {string} redirecturi
      *
-     * @throws {string}
-     *
      * @returns {AppClient}
      */
     RegisterClient: (name: string, description: string, url: string, redirecturi: string) => BackendResult<AppClient>
@@ -345,11 +296,9 @@ export interface IAuthService2 {
      *
      * @param {string} refreshToken
      *
-     * @throws {string}
-     *
-     * @returns {boolean}
+     * @returns {void}
      */
-    RevokeRefreshToken: (refreshToken: string) => BackendResult<boolean>
+    RevokeRefreshToken: (refreshToken: string) => BackendResult<void>
 
     /**
      * @permission oauth-provider
@@ -358,8 +307,6 @@ export interface IAuthService2 {
      * @param {string} accessToken
      * @param {number} clientId
      * @param {string} expires
-     *
-     * @throws {string}
      *
      * @returns {User|false}
      */
@@ -378,14 +325,12 @@ export interface IAuthService2 {
      * @param {number} clientId
      * @param {string} expires
      *
-     * @throws {string}
-     *
-     * @returns {RefreshToken|false|null}
+     * @returns {TrimmedUser}
      */
     SaveRefreshToken: (
         userId: number,
         refreshToken: string,
         clientId: number,
         expires: string
-    ) => BackendResult<RefreshToken | false | null>
+    ) => BackendResult<TrimmedUser>
 }

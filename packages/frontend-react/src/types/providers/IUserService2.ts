@@ -12,8 +12,6 @@ export interface IUserService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountUsers: (filters: Filter | null) => BackendResult<number>
@@ -27,8 +25,6 @@ export interface IUserService2 {
      * @param {string} fname
      * @param {string} lname
      * @param {number} membershipid
-     *
-     * @throws {string}
      *
      * @returns {User}
      */
@@ -46,16 +42,12 @@ export interface IUserService2 {
      *
      * @param {number} userid
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     GetStanding: (userid: number) => BackendResult<boolean>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {unknown} [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
      */
@@ -65,8 +57,6 @@ export interface IUserService2 {
      * @permission administrator|user
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {User|null}
      */
@@ -79,16 +69,12 @@ export interface IUserService2 {
      *
      * @param {number} userid
      *
-     * @throws {string}
-     *
-     * @returns {Record<string,string>|unknown[]}
+     * @returns {Record<string,string>|string[]}
      */
-    GetUserGrantablePrivileges: (userid: number) => BackendResult<Record<string, string> | unknown[]>
+    GetUserGrantablePrivileges: (userid: number) => BackendResult<Record<string, string> | string[]>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Users}
      */
@@ -99,8 +85,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {string} privilege
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -114,8 +98,6 @@ export interface IUserService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Users}
      */
@@ -133,8 +115,6 @@ export interface IUserService2 {
      * @param {number}          userid
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutUserPrivileges: (userid: number, privileges: string | string[]) => BackendResult<boolean>
@@ -148,8 +128,6 @@ export interface IUserService2 {
      * @param {string} fname
      * @param {string} lname
      *
-     * @throws {string}
-     *
      * @returns {User}
      */
     Register: (username: string, password: string, email: string, fname: string, lname: string) => BackendResult<User>
@@ -159,8 +137,6 @@ export interface IUserService2 {
      *
      * @param {string} email
      *
-     * @throws {string}
-     *
      * @returns {ServiceResponseError|ServiceResponseSuccess}
      */
     RequestPasswordReset: (email: string) => BackendResult<ServiceResponseError | ServiceResponseSuccess>
@@ -169,8 +145,6 @@ export interface IUserService2 {
      * @permission user
      *
      * @param {string} email
-     *
-     * @throws {string}
      *
      * @returns {boolean|string|null}
      */
@@ -182,8 +156,6 @@ export interface IUserService2 {
      * @param {string} token
      * @param {string} password
      *
-     * @throws {string}
-     *
      * @returns {ServiceResponseError|ServiceResponseSuccess}
      */
     ResetPassword: (token: string, password: string) => BackendResult<ServiceResponseError | ServiceResponseSuccess>
@@ -193,8 +165,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {string} privilege
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -206,8 +176,6 @@ export interface IUserService2 {
      * @param {number}         userid
      * @param {boolean|string} cash
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateCash: (userid: number, cash: boolean | string) => BackendResult<boolean>
@@ -217,8 +185,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {string} email
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -230,8 +196,6 @@ export interface IUserService2 {
      * @param {number} userid
      * @param {string} date
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateExpiry: (userid: number, date: string) => BackendResult<boolean>
@@ -241,8 +205,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {number} membershipid
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -255,8 +217,6 @@ export interface IUserService2 {
      * @param {string} fname
      * @param {string} lname
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateName: (userid: number, fname: string, lname: string) => BackendResult<boolean>
@@ -266,8 +226,6 @@ export interface IUserService2 {
      *
      * @param {number}  userid
      * @param {boolean} subscribe
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -279,8 +237,6 @@ export interface IUserService2 {
      * @param {number} userid
      * @param {string} password
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdatePassword: (userid: number, password: string) => BackendResult<boolean>
@@ -290,8 +246,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {string} email
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -303,8 +257,6 @@ export interface IUserService2 {
      * @param {number} userid
      * @param {string} status
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateStatus: (userid: number, status: string) => BackendResult<boolean>
@@ -315,8 +267,6 @@ export interface IUserService2 {
      * @param {number} userid
      * @param {string} email
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateStripeEmail: (userid: number, email: string) => BackendResult<boolean>
@@ -326,8 +276,6 @@ export interface IUserService2 {
      *
      * @param {number} userid
      * @param {string} username
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

@@ -14,8 +14,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountSystemPreferences(filters: Filter | null): BackendResult<number> {
@@ -25,20 +23,16 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
     /**
      * @permission administrator
      *
-     * @param {string} key
-     *
-     * @throws {string}
+     * @param {string|string[]} keys
      *
      * @returns {void}
      */
-    async DeleteSystemPreference(key: string): BackendResult<void> {
-        return await backendCall('/services/v2/SystemPreferenceService2.svc/DeleteSystemPreference', { key })
+    async DeleteSystemPreference(keys: string | string[]): BackendResult<void> {
+        return await backendCall('/services/v2/SystemPreferenceService2.svc/DeleteSystemPreference', { keys })
     }
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -49,13 +43,11 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
     /**
      * @permission administrator
      *
-     * @param {string} id
-     *
-     * @throws {string}
+     * @param {number} id
      *
      * @returns {SystemPreference}
      */
-    async GetSystemPreference(id: string): BackendResult<SystemPreference> {
+    async GetSystemPreference(id: number): BackendResult<SystemPreference> {
         return await backendCall('/services/v2/SystemPreferenceService2.svc/GetSystemPreference', { id })
     }
 
@@ -67,8 +59,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -96,8 +86,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      * @param {boolean} enabled
      * @param {string}  notes
      *
-     * @throws {string}
-     *
      * @returns {SystemPreference}
      */
     async PutSystemPreference(
@@ -120,8 +108,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutSystemPreferencePrivileges(id: number, privileges: string | string[]): BackendResult<boolean> {
@@ -136,7 +122,7 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      *
      * @param {string} key
      *
-     * @throws {string}
+     * @throws {HttpException}
      *
      * @returns {SystemPreference}
      */
@@ -152,8 +138,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      * @param {string}  value
      * @param {boolean} enabled
      * @param {string}  notes
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -178,8 +162,6 @@ export default class SystemPreferenceService2 implements ISystemPreferenceServic
      *
      * @param {string}  key
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

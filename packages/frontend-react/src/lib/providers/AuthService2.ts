@@ -13,6 +13,7 @@ import type {
     AppClient,
     AppClients,
     AuthCheckResult,
+    IPrincipal,
     RefreshToken,
     TrimmedAppClient,
     TrimmedUser,
@@ -28,8 +29,6 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {string} pin
      *
-     * @throws {string}
-     *
      * @returns {AuthCheckResult}
      */
     async CheckPin(pin: string): BackendResult<AuthCheckResult> {
@@ -40,8 +39,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission administrator|rfid-auth
      *
      * @param {string} rfid
-     *
-     * @throws {string}
      *
      * @returns {AuthCheckResult}
      */
@@ -57,8 +54,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string} service
      * @param {string} id
      *
-     * @throws {string}
-     *
      * @returns {AuthCheckResult}
      */
     async CheckService(service: string, id: string): BackendResult<AuthCheckResult> {
@@ -69,8 +64,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission anonymous
      *
      * @param {string} username
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -83,8 +76,6 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountAccessLog(filters: Filter | null): BackendResult<number> {
@@ -95,8 +86,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission administrator
      *
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {number}
      */
@@ -110,8 +99,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountUserAccessLog(userid: number, filters: Filter | null): BackendResult<number> {
@@ -124,8 +111,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountUserClients(userid: number, filters: Filter | null): BackendResult<number> {
@@ -135,11 +120,9 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @throws {string}
-     *
-     * @returns {UserPrincipal|AnonPrincipal}
+     * @returns {UserPrincipal|AnonPrincipal|IPrincipal}
      */
-    async CurrentUser(): BackendResult<UserPrincipal | AnonPrincipal> {
+    async CurrentUser(): BackendResult<UserPrincipal | AnonPrincipal | IPrincipal> {
         return await backendCall('/services/v2/AuthService2.svc/CurrentUser', {})
     }
 
@@ -147,8 +130,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission administrator|user
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -162,8 +143,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async EnableClient(id: number, enabled: boolean): BackendResult<boolean> {
@@ -175,8 +154,6 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {string} bearerToken
      *
-     * @throws {string}
-     *
      * @returns {AccessToken}
      */
     async GetAccessToken(bearerToken: string): BackendResult<AccessToken> {
@@ -186,14 +163,12 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission anonymous
      *
-     * @param {string} clientId
+     * @param {number} clientId
      * @param {string} clientSecret
      *
-     * @throws {string}
-     *
-     * @returns {AppClient|null}
+     * @returns {TrimmedAppClient|null}
      */
-    async GetClient(clientId: string, clientSecret: string): BackendResult<AppClient | null> {
+    async GetClient(clientId: number, clientSecret: string): BackendResult<TrimmedAppClient | null> {
         return await backendCall('/services/v2/AuthService2.svc/GetClient', { clientId, clientSecret })
     }
 
@@ -201,13 +176,11 @@ export default class AuthService2 implements IAuthService2 {
      * @permission oauth-provider
      * @permission authenticated
      *
-     * @param {string} clientId
-     *
-     * @throws {string}
+     * @param {number} clientId
      *
      * @returns {TrimmedAppClient|null}
      */
-    async GetClientInfo(clientId: string): BackendResult<TrimmedAppClient | null> {
+    async GetClientInfo(clientId: number): BackendResult<TrimmedAppClient | null> {
         return await backendCall('/services/v2/AuthService2.svc/GetClientInfo', { clientId })
     }
 
@@ -215,8 +188,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission oauth-provider
      *
      * @param {string} refreshToken
-     *
-     * @throws {string}
      *
      * @returns {RefreshToken}
      */
@@ -229,8 +200,6 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {string} username
      * @param {string} password
-     *
-     * @throws {string}
      *
      * @returns {TrimmedUser|null}
      */
@@ -246,8 +215,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {AccessLogs}
      */
@@ -270,8 +237,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {AppClients}
      */
     async ListClients(
@@ -293,9 +258,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
-     * @throws {Exception}
      *
      * @returns {AccessLogs}
      */
@@ -327,9 +289,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     * @throws {Exception}
-     *
      * @returns {AppClients}
      */
     async ListUserClients(
@@ -356,8 +315,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string} username
      * @param {string} password
      *
-     * @throws {string}
-     *
      * @returns {string}
      */
     async Login(username: string, password: string): BackendResult<string> {
@@ -366,8 +323,6 @@ export default class AuthService2 implements IAuthService2 {
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -379,8 +334,6 @@ export default class AuthService2 implements IAuthService2 {
      * @permission anonymous
      *
      * @param {string} pin
-     *
-     * @throws {string}
      *
      * @returns {string}
      */
@@ -395,8 +348,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string} description
      * @param {string} url
      * @param {string} redirecturi
-     *
-     * @throws {string}
      *
      * @returns {AppClient}
      */
@@ -419,11 +370,9 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {string} refreshToken
      *
-     * @throws {string}
-     *
-     * @returns {boolean}
+     * @returns {void}
      */
-    async RevokeRefreshToken(refreshToken: string): BackendResult<boolean> {
+    async RevokeRefreshToken(refreshToken: string): BackendResult<void> {
         return await backendCall('/services/v2/AuthService2.svc/RevokeRefreshToken', { refreshToken })
     }
 
@@ -434,8 +383,6 @@ export default class AuthService2 implements IAuthService2 {
      * @param {string} accessToken
      * @param {number} clientId
      * @param {string} expires
-     *
-     * @throws {string}
      *
      * @returns {User|false}
      */
@@ -461,16 +408,14 @@ export default class AuthService2 implements IAuthService2 {
      * @param {number} clientId
      * @param {string} expires
      *
-     * @throws {string}
-     *
-     * @returns {RefreshToken|false|null}
+     * @returns {TrimmedUser}
      */
     async SaveRefreshToken(
         userId: number,
         refreshToken: string,
         clientId: number,
         expires: string
-    ): BackendResult<RefreshToken | false | null> {
+    ): BackendResult<TrimmedUser> {
         return await backendCall('/services/v2/AuthService2.svc/SaveRefreshToken', {
             userId,
             refreshToken,

@@ -14,8 +14,6 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountHooks(filters: Filter | null): BackendResult<number> {
@@ -27,8 +25,6 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @param {number}      userid
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {number}
      */
@@ -48,7 +44,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {string}  method
      * @param {number}  eventid
      *
-     * @throws {string}
      * @throws {UnauthorizedException}
      *
      * @returns {WebHook}
@@ -80,8 +75,6 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeleteHook(id: number): BackendResult<void> {
@@ -94,8 +87,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async EnableHook(id: number, enabled: boolean): BackendResult<boolean> {
@@ -104,8 +95,6 @@ export default class WebHookService2 implements IWebHookService2 {
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -118,8 +107,6 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {WebHook|null}
      */
     async GetHook(id: number): BackendResult<WebHook | null> {
@@ -131,8 +118,6 @@ export default class WebHookService2 implements IWebHookService2 {
      *
      * @param {string} domain
      * @param {string} event
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -148,8 +133,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {WebHooks}
      */
@@ -172,9 +155,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
-     * @throws {Exception}
      *
      * @returns {WebHooks}
      */
@@ -202,8 +182,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutHookPrivileges(id: number, privileges: string | string[]): BackendResult<boolean> {
@@ -222,8 +200,6 @@ export default class WebHookService2 implements IWebHookService2 {
      * @param {string}  headers
      * @param {string}  method
      * @param {number}  eventid
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

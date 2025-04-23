@@ -12,8 +12,6 @@ export interface ISystemPreferenceService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountSystemPreferences: (filters: Filter | null) => BackendResult<number>
@@ -21,18 +19,14 @@ export interface ISystemPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} key
-     *
-     * @throws {string}
+     * @param {string|string[]} keys
      *
      * @returns {void}
      */
-    DeleteSystemPreference: (key: string) => BackendResult<void>
+    DeleteSystemPreference: (keys: string | string[]) => BackendResult<void>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -41,13 +35,11 @@ export interface ISystemPreferenceService2 {
     /**
      * @permission administrator
      *
-     * @param {string} id
-     *
-     * @throws {string}
+     * @param {number} id
      *
      * @returns {SystemPreference}
      */
-    GetSystemPreference: (id: string) => BackendResult<SystemPreference>
+    GetSystemPreference: (id: number) => BackendResult<SystemPreference>
 
     /**
      * @permission administrator
@@ -57,8 +49,6 @@ export interface ISystemPreferenceService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {SystemPreferences}
      */
@@ -78,8 +68,6 @@ export interface ISystemPreferenceService2 {
      * @param {boolean} enabled
      * @param {string}  notes
      *
-     * @throws {string}
-     *
      * @returns {SystemPreference}
      */
     PutSystemPreference: (
@@ -95,8 +83,6 @@ export interface ISystemPreferenceService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutSystemPreferencePrivileges: (id: number, privileges: string | string[]) => BackendResult<boolean>
@@ -106,7 +92,7 @@ export interface ISystemPreferenceService2 {
      *
      * @param {string} key
      *
-     * @throws {string}
+     * @throws {HttpException}
      *
      * @returns {SystemPreference}
      */
@@ -120,8 +106,6 @@ export interface ISystemPreferenceService2 {
      * @param {string}  value
      * @param {boolean} enabled
      * @param {string}  notes
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -138,8 +122,6 @@ export interface ISystemPreferenceService2 {
      *
      * @param {string}  key
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

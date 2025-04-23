@@ -14,8 +14,6 @@ export default class IpnService2 implements IIpnService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountRecords(filters: Filter | null): BackendResult<number> {
@@ -27,18 +25,14 @@ export default class IpnService2 implements IIpnService2 {
      *
      * @param {number} ipnId
      *
-     * @throws {string}
-     *
-     * @returns {Ipn}
+     * @returns {Ipn|null}
      */
-    async Get(ipnId: number): BackendResult<Ipn> {
+    async Get(ipnId: number): BackendResult<Ipn | null> {
         return await backendCall('/services/v2/IpnService2.svc/Get', { ipnId })
     }
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Ipns}
      */
@@ -54,8 +48,6 @@ export default class IpnService2 implements IIpnService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Ipns}
      */

@@ -14,8 +14,6 @@ export default class EventService2 implements IEventService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     async CountEvents(filters: Filter | null): BackendResult<number> {
@@ -30,8 +28,6 @@ export default class EventService2 implements IEventService2 {
      * @param {string}  event
      * @param {string}  description
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {Event}
      */
@@ -56,8 +52,6 @@ export default class EventService2 implements IEventService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeleteEvent(id: number): BackendResult<void> {
@@ -70,8 +64,6 @@ export default class EventService2 implements IEventService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async EnableEvent(id: number, enabled: boolean): BackendResult<boolean> {
@@ -80,8 +72,6 @@ export default class EventService2 implements IEventService2 {
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {Events}
      */
@@ -94,8 +84,6 @@ export default class EventService2 implements IEventService2 {
      *
      * @param {string} domain
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async GetDomainDefinition(domain: string): BackendResult<void> {
@@ -104,8 +92,6 @@ export default class EventService2 implements IEventService2 {
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws {string}
      *
      * @returns {unknown}
      */
@@ -118,8 +104,6 @@ export default class EventService2 implements IEventService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {Event}
      */
     async GetEvent(id: number): BackendResult<Event> {
@@ -129,8 +113,6 @@ export default class EventService2 implements IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @throws {string}
-     *
      * @returns {Events}
      */
     async GetEvents(): BackendResult<Events> {
@@ -139,8 +121,6 @@ export default class EventService2 implements IEventService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {string[]}
      */
@@ -156,8 +136,6 @@ export default class EventService2 implements IEventService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Events}
      */
@@ -177,8 +155,6 @@ export default class EventService2 implements IEventService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     async PutEventPrivileges(id: number, privileges: string | string[]): BackendResult<boolean> {
@@ -194,8 +170,6 @@ export default class EventService2 implements IEventService2 {
      * @param {string}  event
      * @param {string}  description
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

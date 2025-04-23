@@ -12,8 +12,6 @@ export interface IMembershipService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountMemberships: (filters: Filter | null) => BackendResult<number>
@@ -27,8 +25,6 @@ export interface IMembershipService2 {
      * @param {string} code
      * @param {string} days
      * @param {string} period
-     *
-     * @throws {string}
      *
      * @returns {void}
      */
@@ -46,16 +42,12 @@ export interface IMembershipService2 {
      *
      * @param {number} membershipId
      *
-     * @throws {string}
-     *
      * @returns {Membership}
      */
     Get: (membershipId: number) => BackendResult<Membership>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Memberships}
      */
@@ -69,8 +61,6 @@ export interface IMembershipService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Memberships}
      */
@@ -88,8 +78,6 @@ export interface IMembershipService2 {
      * @param {number}          membershipId
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutPrivileges: (membershipId: number, privileges: string | string[]) => BackendResult<boolean>
@@ -104,8 +92,6 @@ export interface IMembershipService2 {
      * @param {string} code
      * @param {number} days
      * @param {string} period
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -125,8 +111,6 @@ export interface IMembershipService2 {
      * @param {number}  membershipId
      * @param {boolean} active
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateActive: (membershipId: number, active: boolean) => BackendResult<boolean>
@@ -136,8 +120,6 @@ export interface IMembershipService2 {
      *
      * @param {number}  membershipId
      * @param {boolean} privateVal
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -149,8 +131,6 @@ export interface IMembershipService2 {
      * @param {number}  membershipId
      * @param {boolean} recurring
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     UpdateRecurring: (membershipId: number, recurring: boolean) => BackendResult<boolean>
@@ -160,8 +140,6 @@ export interface IMembershipService2 {
      *
      * @param {number}  membershipId
      * @param {boolean} trial
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
