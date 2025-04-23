@@ -135,6 +135,37 @@ class EmailServiceHandler2 extends Service implements IEmailService2 {
      * @permission administrator
      *
      * @param int    $id
+     * @param string $name
+     * @param string $code
+     * @param string $subject
+     * @param string $help
+     * @param string $body
+     * @param string $html
+     *
+     * @return bool
+     */
+    public function UpdateTemplate($id, $name, $code, $subject, $help, $body, $html): bool {
+        /** @var EmailTemplate|null */
+        $template = EmailTemplate::find($id);
+
+        if (is_null($template)) {
+            throw new HttpException('Invalid or missing template id.', HttpStatusCodes::Client_Error_Not_Found);
+        }
+
+        $template->name = $name;
+        $template->code = $code;
+        $template->subject = $subject;
+        $template->help = $help;
+        $template->body = $body;
+        $template->html = $html;
+
+        return $template->save();
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param int    $id
      * @param string $body
      *
      * @return bool
