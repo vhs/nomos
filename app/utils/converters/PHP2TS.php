@@ -61,10 +61,8 @@ class PHP2TS {
         /** @var \phpDocumentor\Reflection\DocBlock\Tags\Param[]|\phpDocumentor\Reflection\DocBlock\Tags\Property[]|\phpDocumentor\Reflection\DocBlock\Tags\TagWithType[] */
         $tags = $docblock->getTags();
 
-        /** @disregard P1013 manually checking */
-        $longestType = max(array_map(fn($tag): int => $tag->getName() !== 'param' ? 0 : strlen(PHP2TS::convertDataType($tag->getType())) + 2, $tags));
-        /** @disregard P1013 manually checking */
-        $longestVarName = max(array_map(fn($tag): int => $tag->getName() === 'param' ? 0 : strlen($tag->getVariableName()), $tags));
+        $longestType = max(array_map(fn($tag): int => $tag->getName() === 'param' ? strlen(PHP2TS::convertDataType($tag->getType())) + 2 : 0, $tags));
+        $longestVarName = max(array_map(fn($tag): int => $tag->getName() === 'param' ? strlen($tag->getVariableName()) : 0, $tags));
 
         foreach ($tags as $tag) {
             if ($tag->getName() !== $lastTag) {
