@@ -43,3 +43,4 @@ web/components/bower/datatables/media/images/Sorting
 icons.psd
 pnpm-lock.yaml
 packages/webhooker/webhooker.service
+web/
