@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof ListGenuineCardsItem>
 
 const meta: Meta<typeof ListGenuineCardsItem> = {
     component: ListGenuineCardsItem,
-    title: '99-Templates/default',
+    title: '07-Pages/Admin/AdminMemberCards/ListGenuineCards/ListGenuineCardsItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
