@@ -13,6 +13,7 @@ import {
     zHumanName,
     zIpnValidationState,
     zKeyType,
+    zNormativeString,
     zNumber,
     zPaymentProvider,
     zSpreadString,
@@ -95,12 +96,12 @@ export const zEmail = zCommon.extend({
 
 export const zEmailTemplate = z.object({
     id: zNumber,
-    name: zString,
-    code: zString,
-    subject: zString,
-    help: zString,
-    body: zString,
-    html: zString
+    name: zNormativeString,
+    code: zNormativeString,
+    subject: zNormativeString,
+    help: zNormativeString.or(z.literal('')),
+    body: zNormativeString,
+    html: zNormativeString
 })
 
 export const zEvent = zCommon.extend({
@@ -147,7 +148,7 @@ export const zIpnRequest = zCommon.extend({
     raw: zString
 })
 
-export const zIPrincipal = z.object({
+export const zIPrincipal = zCommon.extend({
     canGrantAllPermissions: zFunctionBoolResultFromStringArraySpread,
     canGrantAnyPermissions: zFunctionBoolResultFromStringArraySpread,
     getIdentity: z.function().returns(zBoolean),
