@@ -40,6 +40,7 @@ import {
     zNonEmptyStrings,
     zNonNegativeNumber,
     zNonNegativeNumbers,
+    zNormativeString,
     zNumber,
     zNumberRecord,
     zNumbers,
@@ -145,6 +146,7 @@ import type {
     NonEmptyStrings,
     NonNegativeNumber,
     NonNegativeNumbers,
+    NormativeString,
     Number,
     NumberRecord,
     Numbers,
@@ -294,6 +296,8 @@ export const isNonNegativeNumber = (inp: unknown): inp is NonNegativeNumber => z
 
 export const isNonNegativeNumbers = (inp: unknown): inp is NonNegativeNumbers =>
     zNonNegativeNumbers.safeParse(inp).success
+
+export const isNormativeString = (inp: unknown): inp is NormativeString => zNormativeString.safeParse(inp).success
 
 export const isNumber = (inp: unknown): inp is Number => zNumber.safeParse(inp).success
 
