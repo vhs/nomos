@@ -46,6 +46,8 @@ export const zHumanName = zString.min(1)
 
 export const zMinString = zString.min(1)
 
+export const zNormativeString = zString.min(3)
+
 export const zEmptyOrMinString = z.union([z.literal(''), zMinString])
 
 export const zNonEmptyStrings = zString.array().min(1)

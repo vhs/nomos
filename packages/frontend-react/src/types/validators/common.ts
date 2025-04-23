@@ -42,6 +42,7 @@ import type {
     zNonEmptyStrings,
     zNonNegativeNumber,
     zNonNegativeNumbers,
+    zNormativeString,
     zNumber,
     zNumberRecord,
     zNumbers,
@@ -182,6 +183,8 @@ export type NonEmptyStrings = z.infer<typeof zNonEmptyStrings>
 export type NonNegativeNumber = z.infer<typeof zNonNegativeNumber>
 
 export type NonNegativeNumbers = z.infer<typeof zNonNegativeNumbers>
+
+export type NormativeString = z.infer<typeof zNormativeString>
 
 export type Number = z.infer<typeof zNumber>
 
