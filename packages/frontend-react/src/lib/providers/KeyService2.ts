@@ -13,8 +13,6 @@ export default class KeyService2 implements IKeyService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     async DeleteKey(id: number): BackendResult<void> {
@@ -29,8 +27,6 @@ export default class KeyService2 implements IKeyService2 {
      * @param {string} value
      * @param {string} notes
      *
-     * @throws {string}
-     *
      * @returns {Key|null}
      */
     async GenerateUserKey(userid: number, type: string, value: string, notes: string): BackendResult<Key | null> {
@@ -39,8 +35,6 @@ export default class KeyService2 implements IKeyService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -53,8 +47,6 @@ export default class KeyService2 implements IKeyService2 {
      *
      * @param {number} keyid
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     async GetKey(keyid: number): BackendResult<Key> {
@@ -63,8 +55,6 @@ export default class KeyService2 implements IKeyService2 {
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -78,8 +68,6 @@ export default class KeyService2 implements IKeyService2 {
      * @param {number}   userid
      * @param {string[]} types
      *
-     * @throws {string}
-     *
      * @returns {Keys}
      */
     async GetUserKeys(userid: number, types: string[]): BackendResult<Keys> {
@@ -91,8 +79,6 @@ export default class KeyService2 implements IKeyService2 {
      *
      * @param {number}          keyid
      * @param {string|string[]} privileges
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
@@ -106,8 +92,6 @@ export default class KeyService2 implements IKeyService2 {
      * @param {number} keyid
      * @param {string} notes
      * @param {string} expires
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

@@ -12,8 +12,6 @@ export interface IStripeEventService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountRecords: (filters: Filter | null) => BackendResult<number>
@@ -23,16 +21,12 @@ export interface IStripeEventService2 {
      *
      * @param {number} eventId
      *
-     * @throws {string}
-     *
      * @returns {StripeEvent}
      */
     Get: (eventId: number) => BackendResult<StripeEvent>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {StripeEvents}
      */
@@ -46,8 +40,6 @@ export interface IStripeEventService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {StripeEvents}
      */

@@ -10,8 +10,6 @@ export interface IApiKeyService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     DeleteApiKey: (id: number) => BackendResult<void>
@@ -20,8 +18,6 @@ export interface IApiKeyService2 {
      * @permission administrator
      *
      * @param {string} notes
-     *
-     * @throws {string}
      *
      * @returns {Key}
      */
@@ -33,8 +29,6 @@ export interface IApiKeyService2 {
      * @param {number} userid
      * @param {string} notes
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     GenerateUserApiKey: (userid: number, notes: string) => BackendResult<Key>
@@ -44,16 +38,12 @@ export interface IApiKeyService2 {
      *
      * @param {number} keyid
      *
-     * @throws {string}
-     *
      * @returns {Key}
      */
     GetApiKey: (keyid: number) => BackendResult<Key>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -63,8 +53,6 @@ export interface IApiKeyService2 {
      * @permission administrator|user
      *
      * @param {number} userid
-     *
-     * @throws {string}
      *
      * @returns {Keys}
      */
@@ -76,8 +64,6 @@ export interface IApiKeyService2 {
      * @param {number}          keyid
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutApiKeyPrivileges: (keyid: number, privileges: string | string[]) => BackendResult<boolean>
@@ -88,8 +74,6 @@ export interface IApiKeyService2 {
      * @param {number}      keyid
      * @param {string}      notes
      * @param {string|null} expires
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

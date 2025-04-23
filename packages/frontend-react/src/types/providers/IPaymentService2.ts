@@ -12,8 +12,6 @@ export interface IPaymentService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountPayments: (filters: Filter | null) => BackendResult<number>
@@ -24,8 +22,6 @@ export interface IPaymentService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountUserPayments: (userid: number, filters: Filter | null) => BackendResult<number>
@@ -34,8 +30,6 @@ export interface IPaymentService2 {
      * @permission administrator|user
      *
      * @param {number} id
-     *
-     * @throws {string}
      *
      * @returns {Payment|null}
      */
@@ -49,8 +43,6 @@ export interface IPaymentService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Payments}
      */
@@ -72,8 +64,6 @@ export interface IPaymentService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {Payments}
      */
     ListUserPayments: (
@@ -89,8 +79,6 @@ export interface IPaymentService2 {
      * @permission administrator
      *
      * @param {number} paymentid
-     *
-     * @throws {string}
      *
      * @returns {string}
      */

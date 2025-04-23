@@ -12,8 +12,6 @@ export interface IEventService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountEvents: (filters: Filter | null) => BackendResult<number>
@@ -26,8 +24,6 @@ export interface IEventService2 {
      * @param {string}  event
      * @param {string}  description
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {Event}
      */
@@ -44,8 +40,6 @@ export interface IEventService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     DeleteEvent: (id: number) => BackendResult<void>
@@ -56,16 +50,12 @@ export interface IEventService2 {
      * @param {number}  id
      * @param {boolean} enabled
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     EnableEvent: (id: number, enabled: boolean) => BackendResult<boolean>
 
     /**
      * @permission user
-     *
-     * @throws {string}
      *
      * @returns {Events}
      */
@@ -76,16 +66,12 @@ export interface IEventService2 {
      *
      * @param {string} domain
      *
-     * @throws {string}
-     *
      * @returns {void}
      */
     GetDomainDefinition: (domain: string) => BackendResult<void>
 
     /**
      * @permission webhook|administrator
-     *
-     * @throws {string}
      *
      * @returns {unknown}
      */
@@ -96,8 +82,6 @@ export interface IEventService2 {
      *
      * @param {number} id
      *
-     * @throws {string}
-     *
      * @returns {Event}
      */
     GetEvent: (id: number) => BackendResult<Event>
@@ -105,16 +89,12 @@ export interface IEventService2 {
     /**
      * @permission webhook|administrator
      *
-     * @throws {string}
-     *
      * @returns {Events}
      */
     GetEvents: () => BackendResult<Events>
 
     /**
      * @permission administrator
-     *
-     * @throws {string}
      *
      * @returns {string[]}
      */
@@ -128,8 +108,6 @@ export interface IEventService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {Events}
      */
@@ -147,8 +125,6 @@ export interface IEventService2 {
      * @param {number}          id
      * @param {string|string[]} privileges
      *
-     * @throws {string}
-     *
      * @returns {boolean}
      */
     PutEventPrivileges: (id: number, privileges: string | string[]) => BackendResult<boolean>
@@ -162,8 +138,6 @@ export interface IEventService2 {
      * @param {string}  event
      * @param {string}  description
      * @param {boolean} enabled
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */

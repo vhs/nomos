@@ -12,8 +12,6 @@ export interface IMemberCardService2 {
      *
      * @param {Filter|null} filters
      *
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountGenuineCards: (filters: Filter | null) => BackendResult<number>
@@ -24,9 +22,6 @@ export interface IMemberCardService2 {
      * @param {number}      userid
      * @param {Filter|null} filters
      *
-     * @throws {Exception}
-     * @throws {string}
-     *
      * @returns {number}
      */
     CountUserGenuineCards: (userid: number, filters: Filter | null) => BackendResult<number>
@@ -35,8 +30,6 @@ export interface IMemberCardService2 {
      * @permission administrator
      *
      * @param {string} key
-     *
-     * @throws {string}
      *
      * @returns {GenuineCard}
      */
@@ -47,9 +40,6 @@ export interface IMemberCardService2 {
      *
      * @param {string} email
      * @param {string} key
-     *
-     * @throws {Exception}
-     * @throws {string}
      *
      * @returns {GenuineCard}
      */
@@ -63,8 +53,6 @@ export interface IMemberCardService2 {
      * @param {string}      columns
      * @param {string}      order
      * @param {Filter|null} filters
-     *
-     * @throws {string}
      *
      * @returns {GenuineCards}
      */
@@ -86,9 +74,6 @@ export interface IMemberCardService2 {
      * @param {string}      order
      * @param {Filter|null} filters
      *
-     * @throws {Exception}
-     * @throws {string}
-     *
      * @returns {GenuineCards}
      */
     ListUserGenuineCards: (
@@ -106,9 +91,6 @@ export interface IMemberCardService2 {
      * @param {string} key
      * @param {string} notes
      *
-     * @throws {Exception}
-     * @throws {string}
-     *
      * @returns {GenuineCard}
      */
     RegisterGenuineCard: (key: string, notes: string) => BackendResult<GenuineCard>
@@ -116,22 +98,17 @@ export interface IMemberCardService2 {
     /**
      * @permission administrator
      *
-     * @param {string} key
-     * @param {string} active
-     *
-     * @throws {Exception}
-     * @throws {string}
+     * @param {string}  key
+     * @param {boolean} active
      *
      * @returns {boolean}
      */
-    UpdateGenuineCardActive: (key: string, active: string) => BackendResult<boolean>
+    UpdateGenuineCardActive: (key: string, active: boolean) => BackendResult<boolean>
 
     /**
      * @permission authenticated
      *
      * @param {string} key
-     *
-     * @throws {string}
      *
      * @returns {boolean}
      */
