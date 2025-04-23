@@ -100,6 +100,21 @@ interface IEmailService2 extends IContract {
      * @permission administrator
      *
      * @param int    $id
+     * @param string $name
+     * @param string $code
+     * @param string $subject
+     * @param string $help
+     * @param string $body
+     * @param string $html
+     *
+     * @return bool
+     */
+    public function UpdateTemplate($id, $name, $code, $subject, $help, $body, $html): bool;
+
+    /**
+     * @permission administrator
+     *
+     * @param int    $id
      * @param string $body
      *
      * @return bool
