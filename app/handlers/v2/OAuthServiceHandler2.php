@@ -60,7 +60,7 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
      * @return void
      */
     public function DeleteClient($id): void {
-        $client = $this->getMyClient($id);
+        $client = $this->getOAuthClient($id);
 
         $client->delete();
     }
@@ -74,7 +74,7 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
      * @return bool
      */
     public function EnableClient($id, $enabled): bool {
-        $client = $this->getMyClient($id);
+        $client = $this->getOAuthClient($id);
 
         $client->enabled = $enabled;
 
@@ -214,9 +214,11 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
         $client->redirecturi = $redirecturi;
         $client->secret = bin2hex(openssl_random_pseudo_bytes(32));
         $client->owner = User::find(CurrentUser::getIdentity());
-        $client->expires = '2020-01-01';
+        $client->expires = date('Y-m-d', strtotime('+1 year'));
 
-        $client->save();
+        if (!$client->save()) {
+            throw new HttpException('Failed to save new client!', HttpStatusCodes::Server_Error_Internal_Service_Error);
+        }
 
         return $client;
     }
@@ -318,6 +320,52 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
     }
 
     /**
+     * @permission administrator|user
+     *
+     * @param int    $id
+     * @param string $name
+     * @param string $description
+     * @param string $url
+     * @param string $redirecturi
+     *
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return bool
+     */
+    public function UpdateClient($id, $name, $description, $url, $redirecturi): bool {
+        $client = $this->getOAuthClient($id);
+
+        $client->name = $name;
+        $client->description = $description;
+        $client->url = $url;
+        $client->redirecturi = $redirecturi;
+
+        return $client->save();
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param int    $id
+     * @param string $expires
+     *
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return bool
+     */
+    public function UpdateClientExpiry($id, $expires): bool {
+        $client = AppClient::find($id);
+
+        if (is_null($client)) {
+            throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
+        }
+
+        $client->expires = $expires;
+
+        return $client->save();
+    }
+
+    /**
      * Summary of AddUserIDToFilters.
      *
      * @param mixed                          $userid
@@ -349,7 +397,7 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
     }
 
     /**
-     * Summary of getMyClient.
+     * getOAuthClient.
      *
      * @param int $id
      *
@@ -357,18 +405,18 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
      *
      * @return \app\domain\AppClient
      */
-    private function getMyClient($id): AppClient {
+    private function getOAuthClient($id): AppClient {
         $client = AppClient::find($id);
 
         if (is_null($client)) {
             throw new HttpException('Client not found', HttpStatusCodes::Client_Error_Not_Found);
         }
 
-        if (CurrentUser::getIdentity() == $client->userid || CurrentUser::hasAnyPermissions('administrator')) {
-            return $client;
+        if (CurrentUser::getIdentity() != $client->userid && !CurrentUser::hasAnyPermissions('administrator')) {
+            throw new HttpException('Client is not accessible', HttpStatusCodes::Client_Error_Forbidden);
         }
 
-        throw new HttpException('Client is not accessible', HttpStatusCodes::Client_Error_Forbidden);
+        return $client;
     }
 
     /**
