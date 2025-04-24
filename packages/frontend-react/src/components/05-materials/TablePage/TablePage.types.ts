@@ -17,6 +17,7 @@ export type ValidServiceEndpoints =
     | 'MemberCardService2'
     | 'MembershipService2'
     | 'MetricService2'
+    | 'OAuthService2'
     | 'PaymentService2'
     | 'PinService2'
     | 'PreferenceService2'
