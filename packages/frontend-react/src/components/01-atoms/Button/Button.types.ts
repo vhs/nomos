@@ -16,6 +16,7 @@ export type ButtonVariantTypes =
 
 export interface ButtonProps extends CastReactElement<'button'> {
     children?: ReactNode
-    variant?: ButtonVariantTypes
+    circle?: boolean
     small?: boolean
+    variant?: ButtonVariantTypes
 }
