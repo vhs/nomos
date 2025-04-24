@@ -5,6 +5,7 @@ import type { KeyedMutator } from 'swr'
 
 import type { FieldDefinitions, FilterDefinitions, Filters } from '@/lib/db/utils/query-filters'
 
+import type { BooleanRecord } from '@/types/validators/common'
 import type { DataRecord } from '@/types/validators/records'
 
 export type ValidServiceEndpoints =
@@ -59,7 +60,7 @@ export interface TablePageProps {
     order: string | string[]
     embedded?: boolean
 
-    component: FC<{ data: DataRecord; mutate: KeyedMutator<DataRecord[]> }>
+    component: FC<{ fields: BooleanRecord; data: DataRecord; mutate: KeyedMutator<DataRecord[]> }>
     defaultFilters?: Filters
     primaryFilters?: FilterDefinitions
     secondaryFilters?: FilterDefinitions
