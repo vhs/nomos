@@ -8,16 +8,10 @@ import type { BackendResult } from '@/types/api'
 import type { IAuthService2 } from '@/types/providers/IAuthService2'
 import type {
     AccessLogs,
-    AccessToken,
     AnonPrincipal,
-    AppClient,
-    AppClients,
     AuthCheckResult,
     IPrincipal,
-    RefreshToken,
-    TrimmedAppClient,
     TrimmedUser,
-    User,
     UserPrincipal
 } from '@/types/validators/records'
 
@@ -74,23 +68,12 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {Filter|null} filters
+     * @param {string|Filter|null} filters
      *
      * @returns {number}
      */
-    async CountAccessLog(filters: Filter | null): BackendResult<number> {
+    async CountAccessLog(filters: string | Filter | null): BackendResult<number> {
         return await backendCall('/services/v2/AuthService2.svc/CountAccessLog', { filters })
-    }
-
-    /**
-     * @permission administrator
-     *
-     * @param {Filter|null} filters
-     *
-     * @returns {number}
-     */
-    async CountClients(filters: Filter | null): BackendResult<number> {
-        return await backendCall('/services/v2/AuthService2.svc/CountClients', { filters })
     }
 
     /**
@@ -106,93 +89,12 @@ export default class AuthService2 implements IAuthService2 {
     }
 
     /**
-     * @permission administrator|user
-     *
-     * @param {number}      userid
-     * @param {Filter|null} filters
-     *
-     * @returns {number}
-     */
-    async CountUserClients(userid: number, filters: Filter | null): BackendResult<number> {
-        return await backendCall('/services/v2/AuthService2.svc/CountUserClients', { userid, filters })
-    }
-
-    /**
      * @permission anonymous
      *
      * @returns {UserPrincipal|AnonPrincipal|IPrincipal}
      */
     async CurrentUser(): BackendResult<UserPrincipal | AnonPrincipal | IPrincipal> {
         return await backendCall('/services/v2/AuthService2.svc/CurrentUser', {})
-    }
-
-    /**
-     * @permission administrator|user
-     *
-     * @param {number} id
-     *
-     * @returns {void}
-     */
-    async DeleteClient(id: number): BackendResult<void> {
-        return await backendCall('/services/v2/AuthService2.svc/DeleteClient', { id })
-    }
-
-    /**
-     * @permission administrator|user
-     *
-     * @param {number}  id
-     * @param {boolean} enabled
-     *
-     * @returns {boolean}
-     */
-    async EnableClient(id: number, enabled: boolean): BackendResult<boolean> {
-        return await backendCall('/services/v2/AuthService2.svc/EnableClient', { id, enabled })
-    }
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param {string} bearerToken
-     *
-     * @returns {AccessToken}
-     */
-    async GetAccessToken(bearerToken: string): BackendResult<AccessToken> {
-        return await backendCall('/services/v2/AuthService2.svc/GetAccessToken', { bearerToken })
-    }
-
-    /**
-     * @permission anonymous
-     *
-     * @param {number} clientId
-     * @param {string} clientSecret
-     *
-     * @returns {TrimmedAppClient|null}
-     */
-    async GetClient(clientId: number, clientSecret: string): BackendResult<TrimmedAppClient | null> {
-        return await backendCall('/services/v2/AuthService2.svc/GetClient', { clientId, clientSecret })
-    }
-
-    /**
-     * @permission oauth-provider
-     * @permission authenticated
-     *
-     * @param {number} clientId
-     *
-     * @returns {TrimmedAppClient|null}
-     */
-    async GetClientInfo(clientId: number): BackendResult<TrimmedAppClient | null> {
-        return await backendCall('/services/v2/AuthService2.svc/GetClientInfo', { clientId })
-    }
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param {string} refreshToken
-     *
-     * @returns {RefreshToken}
-     */
-    async GetRefreshToken(refreshToken: string): BackendResult<RefreshToken> {
-        return await backendCall('/services/v2/AuthService2.svc/GetRefreshToken', { refreshToken })
     }
 
     /**
@@ -210,11 +112,11 @@ export default class AuthService2 implements IAuthService2 {
     /**
      * @permission administrator
      *
-     * @param {number}      page
-     * @param {number}      size
-     * @param {string}      columns
-     * @param {string}      order
-     * @param {Filter|null} filters
+     * @param {number}             page
+     * @param {number}             size
+     * @param {string}             columns
+     * @param {string}             order
+     * @param {string|Filter|null} filters
      *
      * @returns {AccessLogs}
      */
@@ -223,30 +125,9 @@ export default class AuthService2 implements IAuthService2 {
         size: number,
         columns: string,
         order: string,
-        filters: Filter | null
+        filters: string | Filter | null
     ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListAccessLog', { page, size, columns, order, filters })
-    }
-
-    /**
-     * @permission administrator
-     *
-     * @param {number}      page
-     * @param {number}      size
-     * @param {string}      columns
-     * @param {string}      order
-     * @param {Filter|null} filters
-     *
-     * @returns {AppClients}
-     */
-    async ListClients(
-        page: number,
-        size: number,
-        columns: string,
-        order: string,
-        filters: Filter | null
-    ): BackendResult<AppClients> {
-        return await backendCall('/services/v2/AuthService2.svc/ListClients', { page, size, columns, order, filters })
     }
 
     /**
@@ -270,36 +151,6 @@ export default class AuthService2 implements IAuthService2 {
         filters: Filter | null
     ): BackendResult<AccessLogs> {
         return await backendCall('/services/v2/AuthService2.svc/ListUserAccessLog', {
-            userid,
-            page,
-            size,
-            columns,
-            order,
-            filters
-        })
-    }
-
-    /**
-     * @permission administrator|user
-     *
-     * @param {number}      userid
-     * @param {number}      page
-     * @param {number}      size
-     * @param {string}      columns
-     * @param {string}      order
-     * @param {Filter|null} filters
-     *
-     * @returns {AppClients}
-     */
-    async ListUserClients(
-        userid: number,
-        page: number,
-        size: number,
-        columns: string,
-        order: string,
-        filters: Filter | null
-    ): BackendResult<AppClients> {
-        return await backendCall('/services/v2/AuthService2.svc/ListUserClients', {
             userid,
             page,
             size,
@@ -335,6 +186,8 @@ export default class AuthService2 implements IAuthService2 {
      *
      * @param {string} pin
      *
+     * @throws {HttpException}
+     *
      * @returns {string}
      */
     async PinLogin(pin: string): BackendResult<string> {
@@ -342,86 +195,16 @@ export default class AuthService2 implements IAuthService2 {
     }
 
     /**
-     * @permission administrator|user
+     * @permission anonymous
      *
-     * @param {string} name
-     * @param {string} description
-     * @param {string} url
-     * @param {string} redirecturi
+     * @param {string} key
      *
-     * @returns {AppClient}
+     * @throws {HttpException}
+     *
+     * @returns {string}
      */
-    async RegisterClient(
-        name: string,
-        description: string,
-        url: string,
-        redirecturi: string
-    ): BackendResult<AppClient> {
-        return await backendCall('/services/v2/AuthService2.svc/RegisterClient', {
-            name,
-            description,
-            url,
-            redirecturi
-        })
-    }
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param {string} refreshToken
-     *
-     * @returns {void}
-     */
-    async RevokeRefreshToken(refreshToken: string): BackendResult<void> {
-        return await backendCall('/services/v2/AuthService2.svc/RevokeRefreshToken', { refreshToken })
-    }
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param {number} userId
-     * @param {string} accessToken
-     * @param {number} clientId
-     * @param {string} expires
-     *
-     * @returns {User|false}
-     */
-    async SaveAccessToken(
-        userId: number,
-        accessToken: string,
-        clientId: number,
-        expires: string
-    ): BackendResult<User | false> {
-        return await backendCall('/services/v2/AuthService2.svc/SaveAccessToken', {
-            userId,
-            accessToken,
-            clientId,
-            expires
-        })
-    }
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param {number} userId
-     * @param {string} refreshToken
-     * @param {number} clientId
-     * @param {string} expires
-     *
-     * @returns {TrimmedUser}
-     */
-    async SaveRefreshToken(
-        userId: number,
-        refreshToken: string,
-        clientId: number,
-        expires: string
-    ): BackendResult<TrimmedUser> {
-        return await backendCall('/services/v2/AuthService2.svc/SaveRefreshToken', {
-            userId,
-            refreshToken,
-            clientId,
-            expires
-        })
+    async RfidLogin(key: string): BackendResult<string> {
+        return await backendCall('/services/v2/AuthService2.svc/RfidLogin', { key })
     }
 
     private static _instance: AuthService2
