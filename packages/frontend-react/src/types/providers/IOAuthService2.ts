@@ -191,4 +191,37 @@ export interface IOAuthService2 {
         clientId: number,
         expires: string
     ) => BackendResult<TrimmedUser>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} description
+     * @param {string} url
+     * @param {string} redirecturi
+     *
+     * @throws {HttpException}
+     *
+     * @returns {boolean}
+     */
+    UpdateClient: (
+        id: number,
+        name: string,
+        description: string,
+        url: string,
+        redirecturi: string
+    ) => BackendResult<boolean>
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} id
+     * @param {string} expires
+     *
+     * @throws {HttpException}
+     *
+     * @returns {boolean}
+     */
+    UpdateClientExpiry: (id: number, expires: string) => BackendResult<boolean>
 }
