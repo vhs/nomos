@@ -2,18 +2,13 @@ import type { FC } from 'react'
 
 import type { AdminTemplateNameItemProps } from './AdminTemplateNameItem.types'
 
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 
-const AdminTemplateNameItem: FC<AdminTemplateNameItemProps> = ({ data }) => (
-    <tr data-testid='AdminTemplateNameItem'>
-        {Object.entries(data)
-            .filter(([k, _v]) => k !== 'id')
-            .map(([k, v]) => (
-                <ConditionalTableCell condition={k in data} key={k}>
-                    {v != null && typeof v === 'object' ? <pre>{JSON.stringify(v)}</pre> : String(v)}
-                </ConditionalTableCell>
-            ))}
-    </tr>
+const AdminTemplateNameItem: FC<AdminTemplateNameItemProps> = ({ fields, data }) => (
+    <TablePageRow data-testid='AdminTemplateNameItem'>
+        <ConditionalTableCell condition={fields.Field}>{JSON.stringify(data.field)}</ConditionalTableCell>
+    </TablePageRow>
 )
 
 export default AdminTemplateNameItem

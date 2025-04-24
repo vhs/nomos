@@ -21,7 +21,5 @@ const meta: Meta<typeof AdminPayPalPaymentItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'AdminPayPalPaymentItem'
-    }
+    args: {}
 }

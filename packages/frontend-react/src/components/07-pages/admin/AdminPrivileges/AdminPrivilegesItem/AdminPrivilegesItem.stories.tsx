@@ -21,7 +21,5 @@ const meta: Meta<typeof AdminPrivilegesItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'AdminPrivilegesItem'
-    }
+    args: {}
 }

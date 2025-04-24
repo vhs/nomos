@@ -21,7 +21,5 @@ const meta: Meta<typeof ListGenuineCardsItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'ListGenuineCardsItem'
-    }
+    args: {}
 }

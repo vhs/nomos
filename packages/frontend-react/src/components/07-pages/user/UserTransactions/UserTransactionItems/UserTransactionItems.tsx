@@ -4,7 +4,7 @@ import type { UserTransactionItemsProps } from './UserTransactionItems.types'
 
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 
-const UserTransactionItems: FC<UserTransactionItemsProps> = ({ data }) => {
+const UserTransactionItems: FC<UserTransactionItemsProps> = ({ fields, data }) => {
     let status = `Unknown (${data.status})`
 
     if (data.status === 1) status = 'Completed'
@@ -12,17 +12,17 @@ const UserTransactionItems: FC<UserTransactionItemsProps> = ({ data }) => {
 
     return (
         <tr key={JSON.stringify(data)}>
-            <ConditionalTableCell condition={'date' in data}>{data.date?.toLocaleString()}</ConditionalTableCell>
-            <ConditionalTableCell condition={'txn_id' in data}>{data.txn_id}</ConditionalTableCell>
-            <ConditionalTableCell condition={'payer_fname' in data && 'payer_lname' in data}>
+            <ConditionalTableCell condition={fields.Date}>{data.date?.toLocaleString()}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields['Transaction ID']}>{data.txn_id}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields['Payer Name']}>
                 {data.payer_fname} {data.payer_lname}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'payer_email' in data}>{data.payer_email}</ConditionalTableCell>
-            <ConditionalTableCell condition={'pp' in data}>{data.pp}</ConditionalTableCell>
-            <ConditionalTableCell condition={'rate_amount' in data && 'currency' in data}>
+            <ConditionalTableCell condition={fields['Payer Email']}>{data.payer_email}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.PayPal}>{data.pp}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.Amount}>
                 ${data.rate_amount} {data.currency}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'status' in data}>
+            <ConditionalTableCell condition={fields.Status}>
                 <span>{status} </span>
             </ConditionalTableCell>
         </tr>

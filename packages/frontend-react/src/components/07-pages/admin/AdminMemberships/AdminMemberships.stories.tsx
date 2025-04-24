@@ -23,7 +23,5 @@ const meta: Meta<typeof AdminMemberships> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'AdminMemberships'
-    }
+    args: {}
 }

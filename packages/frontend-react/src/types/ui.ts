@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react'
 
 import type { CastReactElement } from './utils'
+import type { BooleanRecord } from './validators/common'
 
 import type { FontAwesomeIconProps, IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
 
@@ -25,5 +26,6 @@ export type ReactAction<T> = Dispatch<SetStateAction<T>>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface TablePageItemComponent<T = any> {
+    fields: BooleanRecord
     data: T
 }

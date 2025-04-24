@@ -1,8 +1,4 @@
-import type { ReactNode } from 'react'
-
+import type { TablePageItemComponent } from '@/types/ui'
 import type { Payment } from '@/types/validators/records'
 
-export interface ListGenuineCardPurchasesItemProps {
-    children?: ReactNode
-    data: Payment
-}
+export interface ListGenuineCardPurchasesItemProps extends TablePageItemComponent<Payment> {}

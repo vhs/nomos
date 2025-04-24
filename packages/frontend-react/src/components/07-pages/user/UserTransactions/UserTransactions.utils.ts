@@ -6,7 +6,8 @@ export const UserTransactionFields: FieldDefinitions = [
     { title: 'Payer Name', field: 'payer_fname,payer_lname' },
     { title: 'Payer Email', field: 'payer_email' },
     { title: 'PayPal', field: 'pp' },
-    { title: 'Amount', field: 'amount' }
+    { title: 'Amount', field: 'amount' },
+    { title: 'Status', field: 'status' }
 ]
 
 export const UserTransactionFilters: FilterDefinitions = [

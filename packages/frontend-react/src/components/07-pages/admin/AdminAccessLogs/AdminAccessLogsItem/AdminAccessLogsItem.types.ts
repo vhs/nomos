@@ -1,5 +1,4 @@
+import type { TablePageItemComponent } from '@/types/ui'
 import type { AccessLog } from '@/types/validators/records'
 
-export interface AdminAccessLogsItemProps {
-    data: AccessLog
-}
+export interface AdminAccessLogsItemProps extends TablePageItemComponent<AccessLog> {}

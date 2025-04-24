@@ -14,6 +14,7 @@ import AccountStatusBadge from '@/components/01-atoms/AccountStatusBadge/Account
 import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Popover from '@/components/01-atoms/Popover/Popover'
+import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import Loading from '@/components/02-molecules/Loading/Loading'
@@ -22,7 +23,7 @@ import { convertUserStatus } from '@/lib/nomos'
 
 import type { UserActiveStates } from '@/types/validators/common'
 
-const AdminUsersItem: FC<AdminUsersItemProps> = ({ data }) => {
+const AdminUsersItem: FC<AdminUsersItemProps> = ({ fields, data }) => {
     const router = useRouter()
 
     const { data: statuses, isLoading: isStatusesLoading } = useSWR<UserActiveStates>(
@@ -54,7 +55,7 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ data }) => {
 
     return (
         <TablePageRow data-testid='AdminUsersItem'>
-            <ConditionalTableCell className='data-field' condition={'username' in data}>
+            <ConditionalTableCell className='data-field' condition={fields.Username}>
                 <Popover className='shortened' content={user.username} popover={user.username} />
             </ConditionalTableCell>
             <ConditionalTableCell
@@ -63,45 +64,43 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ data }) => {
             >
                 {user.fname} {data.lname}
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={'email' in data}>
+            <ConditionalTableCell className='data-field' condition={fields.Email}>
                 <Popover className='shortened' content={user.email} popover={user.email} />
             </ConditionalTableCell>
             <ConditionalTableCell className='data-field' condition={userStatus != null}>
                 <AccountStatusBadge status={userStatus} />
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={'cash' in data}>
+            <ConditionalTableCell className='data-field' condition={fields.Cash}>
                 <CheckCircleIcon
                     className={clsx(['mx-auto max-h-5 max-w-5', user.cash ? 'text-primary' : 'text-gray-400/50'])}
                 />
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={'created' in data}>
+            <ConditionalTableCell className='data-field' condition={fields.Created}>
                 {user.member_since_month} {user.member_since_rest} ({user.member_for})
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={'mem_expire' in data}>
+            <ConditionalTableCell className='data-field' condition={fields.Mem_expire}>
                 {user.expiry_date_month} {user.expiry_date_rest} ({user.expiry})
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field text-balance' condition={'privileges' in data}>
+            <ConditionalTableCell className='data-field text-balance' condition={fields.Privileges}>
                 {user.privileges != null &&
                     Object.values(user.privileges)
                         .map((p) => p.code)
                         .join(', ')}
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field break-all' condition={'lastlogin' in data}>
+            <ConditionalTableCell className='data-field break-all' condition={fields.Lastlogin}>
                 {user.lastlogin != null ? user.lastlogin.toLocaleString() : null}
             </ConditionalTableCell>
-            <td>
-                <div className='grid w-full grid-flow-row justify-around'>
-                    <Button
-                        variant='link'
-                        className='btn-icon m-auto'
-                        onClick={() => {
-                            void router.navigate({ to: `/admin/users/${user.id}` }) // NOSONAR
-                        }}
-                    >
-                        <FontAwesomeIcon icon='edit' />
-                    </Button>
-                </div>
-            </td>
+            <TableActionsCell>
+                <Button
+                    variant='link'
+                    className='btn-icon m-auto'
+                    onClick={() => {
+                        void router.navigate({ to: `/admin/users/${user.id}` }) // NOSONAR
+                    }}
+                >
+                    <FontAwesomeIcon icon='edit' />
+                </Button>
+            </TableActionsCell>
         </TablePageRow>
     )
 }

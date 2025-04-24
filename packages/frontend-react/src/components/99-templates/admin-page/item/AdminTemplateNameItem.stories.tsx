@@ -21,7 +21,5 @@ const meta: Meta<typeof AdminTemplateNameItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        data: [{ id: 1, title: 'AdminTemplateNameItem' }]
-    }
+    args: {}
 }

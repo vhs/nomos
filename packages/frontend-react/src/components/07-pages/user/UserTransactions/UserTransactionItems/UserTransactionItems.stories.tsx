@@ -21,7 +21,5 @@ const meta: Meta<typeof UserTransactionItems> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'UserTransactionItems'
-    }
+    args: {}
 }

@@ -21,7 +21,5 @@ const meta: Meta<typeof AdminUsersItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'AdminUsersItem'
-    }
+    args: {}
 }

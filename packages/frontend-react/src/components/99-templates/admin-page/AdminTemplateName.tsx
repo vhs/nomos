@@ -16,7 +16,6 @@ const AdminTemplateName: FC<AdminTemplateNameProps> = () => (
         baseServiceMethod={'TemplateName'}
         fields={AdminTemplateNameFields}
         order={'field'}
-        // @ts-expect-error props
         component={AdminTemplateNameItem}
     />
 )

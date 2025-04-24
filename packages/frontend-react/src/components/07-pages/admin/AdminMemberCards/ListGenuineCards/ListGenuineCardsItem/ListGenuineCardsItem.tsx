@@ -5,21 +5,19 @@ import type { ListGenuineCardsItemProps } from './ListGenuineCardsItem.types'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 
-const ListGenuineCardsItem: FC<ListGenuineCardsItemProps> = ({ data }) => {
+const ListGenuineCardsItem: FC<ListGenuineCardsItemProps> = ({ fields, data }) => {
     return (
         <TablePageRow data-testid='ListGenuineCardsItem'>
-            <ConditionalTableCell condition={'key' in data}>{data.key}</ConditionalTableCell>
-            <ConditionalTableCell condition={'created' in data}>{data.created.toString()}</ConditionalTableCell>
-            <ConditionalTableCell condition={'issued' in data}>
+            <ConditionalTableCell condition={fields.Card}>{data.key}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.Created}>{data.created.toString()}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.Issued}>
                 {(data.issued ?? '').toLocaleString()}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'active' in data}>
-                {data.active ? 'Active' : 'Inactive'}
-            </ConditionalTableCell>
-            <ConditionalTableCell condition={'paymentid' in data}>{data.paymentid}</ConditionalTableCell>
-            <ConditionalTableCell condition={'userid' in data}>{data.userid}</ConditionalTableCell>
-            <ConditionalTableCell condition={'owneremail' in data}>{data.owneremail}</ConditionalTableCell>
-            <ConditionalTableCell condition={'notes' in data}>{data.notes}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.Active}>{data.active ? 'Active' : 'Inactive'}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields['Payment Id']}>{data.paymentid}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields['User Id']}>{data.userid}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields['Owner Email']}>{data.owneremail}</ConditionalTableCell>
+            <ConditionalTableCell condition={fields.Notes}>{data.notes}</ConditionalTableCell>
         </TablePageRow>
     )
 }
