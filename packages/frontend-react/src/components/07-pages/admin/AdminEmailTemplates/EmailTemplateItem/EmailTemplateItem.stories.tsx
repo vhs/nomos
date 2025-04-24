@@ -21,7 +21,5 @@ const meta: Meta<typeof EmailTemplateItem> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'EmailTemplateItem'
-    }
+    args: {}
 }

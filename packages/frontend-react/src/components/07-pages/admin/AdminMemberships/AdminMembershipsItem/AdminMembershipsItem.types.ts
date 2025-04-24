@@ -1,8 +1,4 @@
-import type { ReactNode } from 'react'
-
+import type { TablePageItemComponent } from '@/types/ui'
 import type { Membership } from '@/types/validators/records'
 
-export interface AdminMembershipsItemProps {
-    children?: ReactNode
-    data: Membership
-}
+export interface AdminMembershipsItemProps extends TablePageItemComponent<Membership> {}

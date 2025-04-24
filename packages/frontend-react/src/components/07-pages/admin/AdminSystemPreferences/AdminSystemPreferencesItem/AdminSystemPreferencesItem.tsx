@@ -15,7 +15,7 @@ import { useTablePageContext } from '@/components/05-materials/TablePage/TablePa
 
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
 
-const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ data }) => {
+const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ fields, data }) => {
     const router = useRouter()
 
     const { mutate } = useTablePageContext()
@@ -51,16 +51,16 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ data 
 
     return (
         <tr data-testid='AdminSystemPreferencesItem'>
-            <ConditionalTableCell key={'key'} condition={'key' in data}>
+            <ConditionalTableCell key={'key'} condition={fields.Key}>
                 {String(data.key)}
             </ConditionalTableCell>
-            <ConditionalTableCell key={'value'} condition={'value' in data}>
+            <ConditionalTableCell key={'value'} condition={fields.Value}>
                 {String(data.value)}
             </ConditionalTableCell>
-            <ConditionalTableCell key={'enabled'} condition={'enabled' in data}>
+            <ConditionalTableCell key={'enabled'} condition={fields.Enabled}>
                 {String(data.enabled ? 'Yes' : 'No')}
             </ConditionalTableCell>
-            <ConditionalTableCell key={'notes'} condition={'notes' in data}>
+            <ConditionalTableCell key={'notes'} condition={fields.Notes}>
                 {String(data.notes)}
             </ConditionalTableCell>
             <TableActionsCell>

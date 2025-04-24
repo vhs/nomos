@@ -8,6 +8,7 @@ import type { EmailTemplateItemProps } from './EmailTemplateItem.types'
 import Button from '@/components/01-atoms/Button/Button'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
@@ -15,7 +16,7 @@ import { useTablePageContext } from '@/components/05-materials/TablePage/TablePa
 
 import EmailService2 from '@/lib/providers/EmailService2'
 
-const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ data }) => {
+const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ fields, data }) => {
     const router = useRouter()
     const { mutate } = useTablePageContext()
 
@@ -39,37 +40,35 @@ const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ data }) => {
     return (
         <>
             <TablePageRow data-testid='EmailTemplateItem' fields={8}>
-                <ConditionalTableCell condition={'name' in data}>{data.name}</ConditionalTableCell>
-                <ConditionalTableCell condition={'code' in data}>{data.code}</ConditionalTableCell>
-                <ConditionalTableCell condition={'subject' in data}>{data.subject}</ConditionalTableCell>
-                <ConditionalTableCell condition={'help' in data}>{data.help}</ConditionalTableCell>
-                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={'body' in data}>
+                <ConditionalTableCell condition={fields.Name}>{data.name}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Code}>{data.code}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Subject}>{data.subject}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Help}>{data.help}</ConditionalTableCell>
+                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={fields['Text Body']}>
                     {data.body}
                 </ConditionalTableCell>
-                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={'html' in data}>
+                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={fields['HTML Body']}>
                     {data.html}
                 </ConditionalTableCell>
-                <td>
-                    <div className='grid w-full grid-flow-col justify-around gap-x-0.5'>
-                        <Button
-                            className='btn-circle'
-                            onClick={() => {
-                                void router.navigate({ to: `/admin/emailtemplates/${data.id}` }) // NOSONAR
-                            }}
-                        >
-                            <FontAwesomeIcon icon='edit' />
-                        </Button>
-                        <Button
-                            className='btn-circle'
-                            variant='danger'
-                            onClick={() => {
-                                setShowDeleteModal(true)
-                            }}
-                        >
-                            <FontAwesomeIcon icon='times' />
-                        </Button>
-                    </div>
-                </td>
+                <TableActionsCell>
+                    <Button
+                        className='btn-circle'
+                        onClick={() => {
+                            void router.navigate({ to: `/admin/emailtemplates/${data.id}` }) // NOSONAR
+                        }}
+                    >
+                        <FontAwesomeIcon icon='edit' />
+                    </Button>
+                    <Button
+                        className='btn-circle'
+                        variant='danger'
+                        onClick={() => {
+                            setShowDeleteModal(true)
+                        }}
+                    >
+                        <FontAwesomeIcon icon='times' />
+                    </Button>
+                </TableActionsCell>
             </TablePageRow>
             <Conditional condition={showDeleteModal}>
                 <OverlayCard
