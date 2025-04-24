@@ -532,7 +532,14 @@ const TablePage: FC<TablePageProps> = ({
 
                                         <tbody>
                                             {(data ?? []).map((d) => {
-                                                return <Component key={d.id} data={d} mutate={mutate} />
+                                                return (
+                                                    <Component
+                                                        key={d.id}
+                                                        fields={fieldStates}
+                                                        data={d}
+                                                        mutate={mutate}
+                                                    />
+                                                )
                                             })}
                                         </tbody>
                                     </table>
@@ -551,7 +558,7 @@ const TablePage: FC<TablePageProps> = ({
                         </Conditional>
                     </Conditional>
                 </BasePage>
-                <Outlet />
+                {!embedded && <Outlet />}
                 {children}
             </TablePageContext.Provider>
         </div>
