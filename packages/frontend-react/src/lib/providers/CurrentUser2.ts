@@ -6,7 +6,7 @@ import AuthService2 from './AuthService2'
 import UserService2 from './UserService2'
 
 export default class CurrentUser {
-    public async GetCurrentUser(): Promise<PrincipalUserObject> {
+    async GetCurrentUser(): Promise<PrincipalUserObject> {
         const principal = await AuthService2.getInstance().CurrentUser()
 
         if (typeof principal !== 'string' && principal?.id != null) {
