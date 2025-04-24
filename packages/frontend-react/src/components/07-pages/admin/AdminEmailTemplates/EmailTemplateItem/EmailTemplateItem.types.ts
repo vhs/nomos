@@ -1,8 +1,4 @@
-import type { ReactNode } from 'react'
-
+import type { TablePageItemComponent } from '@/types/ui'
 import type { EmailTemplate } from '@/types/validators/records'
 
-export interface EmailTemplateItemProps {
-    children?: ReactNode
-    data: EmailTemplate
-}
+export interface EmailTemplateItemProps extends TablePageItemComponent<EmailTemplate> {}

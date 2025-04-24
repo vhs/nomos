@@ -13,6 +13,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
+import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
@@ -30,7 +31,7 @@ import type { Privilege } from '@/types/validators/records'
 
 import { zAdminPrivilegeItemSchema } from '../AdminPrivileges.schema'
 
-const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
+const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ fields, data }) => {
     const { mutate } = useTablePageContext()
 
     const privilegeId = Number(data.id)
@@ -157,10 +158,10 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
     return (
         <>
             <TablePageRow data-testid='AdminPrivilegesItem'>
-                <ConditionalTableCell condition={'name' in data}>{privilege?.name}</ConditionalTableCell>
-                <ConditionalTableCell condition={'code' in data}>{privilege?.code}</ConditionalTableCell>
-                <ConditionalTableCell condition={'description' in data}>{privilege?.description}</ConditionalTableCell>
-                <ConditionalTableCell condition={'icon' in data}>
+                <ConditionalTableCell condition={fields.Name}>{privilege?.name}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Code}>{privilege?.code}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Description}>{privilege?.description}</ConditionalTableCell>
+                <ConditionalTableCell condition={fields.Icon}>
                     <Popover
                         content={
                             <PrivilegeIcon
@@ -176,7 +177,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                         popover={isString(privilege?.icon) ? privilege?.icon.toString() : 'Not set'}
                     />
                 </ConditionalTableCell>
-                <ConditionalTableCell condition={'enabled' in data}>
+                <ConditionalTableCell condition={fields.Enabled}>
                     <Toggle
                         checked={privilege?.enabled}
                         onChange={() => {
@@ -184,7 +185,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                         }}
                     />
                 </ConditionalTableCell>
-                <td className='max-w-16'>
+                <TableActionsCell className='max-w-16'>
                     <Button
                         className='mx-1 h-10 w-10 rounded-3xl'
                         onClick={() => {
@@ -290,7 +291,7 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ data }) => {
                             </OverlayCard>
                         </FormProvider>
                     </Conditional>
-                </td>
+                </TableActionsCell>
             </TablePageRow>
         </>
     )

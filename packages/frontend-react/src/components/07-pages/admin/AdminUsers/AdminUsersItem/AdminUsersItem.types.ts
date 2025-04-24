@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { ReactNode } from 'react'
-
+import type { TablePageItemComponent } from '@/types/ui'
 import type { User } from '@/types/validators/records'
 
-export interface AdminUsersItemProps {
-    children?: ReactNode
-    data: User
-}
+export interface AdminUsersItemProps extends TablePageItemComponent<User> {}
 
 export interface AdminUsersItemData extends User {
     member_since_month: string

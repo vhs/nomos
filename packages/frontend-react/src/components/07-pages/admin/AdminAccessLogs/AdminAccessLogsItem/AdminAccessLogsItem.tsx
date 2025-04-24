@@ -8,29 +8,29 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 
-const AdminAccessLogsItem: FC<AdminAccessLogsItemProps> = ({ data }) => {
+const AdminAccessLogsItem: FC<AdminAccessLogsItemProps> = ({ fields, data }) => {
     return (
         <TablePageRow key={JSON.stringify(data)} data-testid='AdminAccessLogsItem'>
-            <ConditionalTableCell condition={'time' in data} className='text-center'>
+            <ConditionalTableCell condition={fields.Time} className='text-center'>
                 {data.time.toLocaleString()}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'key' in data} className='shortened text-center'>
+            <ConditionalTableCell condition={fields.Key} className='shortened text-center'>
                 {data.key}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'type' in data} className='text-center'>
+            <ConditionalTableCell condition={fields.Type} className='text-center'>
                 {data.type}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'userid' in data} className='text-center'>
+            <ConditionalTableCell condition={fields['User ID']} className='text-center'>
                 {data.userid}
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'authorized' in data} className='text-center'>
+            <ConditionalTableCell condition={fields.Authorized} className='text-center'>
                 <FontAwesomeIcon
                     className={clsx(['h-5 w-5', data.authorized ? 'text-green-500' : 'text-red-500'])}
                     icon={data.authorized ? 'check-circle' : 'close'}
                     size='2x'
                 />
             </ConditionalTableCell>
-            <ConditionalTableCell condition={'from_ip' in data} className='text-center'>
+            <ConditionalTableCell condition={fields['From IP']} className='text-center'>
                 {data.from_ip}
             </ConditionalTableCell>
         </TablePageRow>
