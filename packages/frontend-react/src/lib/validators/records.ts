@@ -59,14 +59,14 @@ export const zAccessToken = zCommon.extend({
 })
 
 export const zAppClient = zCommon.extend({
-    secret: zString,
+    description: zNormativeString,
+    enabled: zBoolean,
     expires: zDateTime,
-    userid: zNumber,
-    name: zString,
-    description: zString,
-    url: zString,
-    redirecturi: zString,
-    enabled: zBoolean
+    name: zNormativeString,
+    redirecturi: zUrl,
+    secret: zNormativeString,
+    url: zUrl,
+    userid: zNumber
 })
 
 export const zAuthCheckResult = z
