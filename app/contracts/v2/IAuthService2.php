@@ -9,11 +9,7 @@
 
 namespace app\contracts\v2;
 
-use app\domain\AccessToken;
-use app\domain\AppClient;
-use app\domain\RefreshToken;
 use app\domain\User;
-use app\dto\TrimmedAppClient;
 use app\dto\TrimmedUser;
 use app\security\UserPrincipal;
 use app\utils\AuthCheckResult;
@@ -67,20 +63,11 @@ interface IAuthService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param \vhs\domain\Filter|null $filters
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return int
      */
     public function CountAccessLog($filters): int;
-
-    /**
-     * @permission administrator
-     *
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @return int
-     */
-    public function CountClients($filters): int;
 
     /**
      * @permission administrator|user
@@ -93,78 +80,11 @@ interface IAuthService2 extends IContract {
     public function CountUserAccessLog($userid, $filters): int;
 
     /**
-     * @permission administrator|user
-     *
-     * @param int                     $userid
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @return int
-     */
-    public function CountUserClients($userid, $filters): int;
-
-    /**
      * @permission anonymous
      *
      * @return \app\security\UserPrincipal|\vhs\security\AnonPrincipal|\vhs\security\IPrincipal
      */
     public function CurrentUser(): IPrincipal|UserPrincipal|AnonPrincipal;
-
-    /**
-     * @permission administrator|user
-     *
-     * @param int $id
-     *
-     * @return void
-     */
-    public function DeleteClient($id): void;
-
-    /**
-     * @permission administrator|user
-     *
-     * @param int  $id
-     * @param bool $enabled
-     *
-     * @return bool
-     */
-    public function EnableClient($id, $enabled): bool;
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param string $bearerToken
-     *
-     * @return \app\domain\AccessToken
-     */
-    public function GetAccessToken($bearerToken): AccessToken;
-
-    /**
-     * @permission anonymous
-     *
-     * @param int    $clientId
-     * @param string $clientSecret
-     *
-     * @return \app\dto\TrimmedAppClient|null
-     */
-    public function GetClient($clientId, $clientSecret): TrimmedAppClient|null;
-
-    /**
-     * @permission oauth-provider
-     * @permission authenticated
-     *
-     * @param int $clientId
-     *
-     * @return \app\dto\TrimmedAppClient|null
-     */
-    public function GetClientInfo($clientId): TrimmedAppClient|null;
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param string $refreshToken
-     *
-     * @return \app\domain\RefreshToken
-     */
-    public function GetRefreshToken($refreshToken): RefreshToken;
 
     /**
      * @permission oauth-provider
@@ -179,28 +99,15 @@ interface IAuthService2 extends IContract {
     /**
      * @permission administrator
      *
-     * @param int                     $page
-     * @param int                     $size
-     * @param string                  $columns
-     * @param string                  $order
-     * @param \vhs\domain\Filter|null $filters
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
      *
      * @return \app\domain\AccessLog[]
      */
     public function ListAccessLog($page, $size, $columns, $order, $filters): array;
-
-    /**
-     * @permission administrator
-     *
-     * @param int                     $page
-     * @param int                     $size
-     * @param string                  $columns
-     * @param string                  $order
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @return \app\domain\AppClient[]
-     */
-    public function ListClients($page, $size, $columns, $order, $filters): array;
 
     /**
      * @permission administrator|user
@@ -215,20 +122,6 @@ interface IAuthService2 extends IContract {
      * @return \app\domain\AccessLog[]
      */
     public function ListUserAccessLog($userid, $page, $size, $columns, $order, $filters): array;
-
-    /**
-     * @permission administrator|user
-     *
-     * @param int                     $userid
-     * @param int                     $page
-     * @param int                     $size
-     * @param string                  $columns
-     * @param string                  $order
-     * @param \vhs\domain\Filter|null $filters
-     *
-     * @return \app\domain\AppClient[]
-     */
-    public function ListUserClients($userid, $page, $size, $columns, $order, $filters): array;
 
     /**
      * @permission anonymous
@@ -252,52 +145,20 @@ interface IAuthService2 extends IContract {
      *
      * @param string $pin
      *
+     * @throws \vhs\exceptions\HttpException
+     *
      * @return string
      */
     public function PinLogin($pin): string;
 
     /**
-     * @permission administrator|user
+     * @permission anonymous
      *
-     * @param string $name
-     * @param string $description
-     * @param string $url
-     * @param string $redirecturi
+     * @param string $key
      *
-     * @return \app\domain\AppClient
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return string
      */
-    public function RegisterClient($name, $description, $url, $redirecturi): AppClient;
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param string $refreshToken
-     *
-     * @return void
-     */
-    public function RevokeRefreshToken($refreshToken): void;
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param int    $userId
-     * @param string $accessToken
-     * @param int    $clientId
-     * @param string $expires
-     *
-     * @return \app\domain\User|false
-     */
-    public function SaveAccessToken($userId, $accessToken, $clientId, $expires): User|false;
-
-    /**
-     * @permission oauth-provider
-     *
-     * @param int    $userId
-     * @param string $refreshToken
-     * @param int    $clientId
-     * @param string $expires
-     *
-     * @return \app\dto\TrimmedUser
-     */
-    public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): TrimmedUser;
+    public function RfidLogin($key): string;
 }
