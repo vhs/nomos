@@ -98,8 +98,8 @@ EOF
             fi
         done
     done && {
-    echo "Linting files..." && pnpm exec eslint --quiet -o /dev/null --fix "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Formatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Relinting files..." && pnpm exec eslint --quiet -o /dev/null --fix "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Reformatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
+    echo "Linting files..." && pnpm exec eslint -o /dev/null --fix ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
+    echo "Formatting files..." && pnpm exec prettier --log-level=silent -w ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
+    echo "Relinting files..." && pnpm exec eslint -o /dev/null --fix ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
+    echo "Reformatting files..." && pnpm exec prettier --log-level=silent -w ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
 }
