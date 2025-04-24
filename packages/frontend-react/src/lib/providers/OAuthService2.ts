@@ -249,6 +249,49 @@ export default class OAuthService2 implements IOAuthService2 {
         })
     }
 
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} description
+     * @param {string} url
+     * @param {string} redirecturi
+     *
+     * @throws {HttpException}
+     *
+     * @returns {boolean}
+     */
+    async UpdateClient(
+        id: number,
+        name: string,
+        description: string,
+        url: string,
+        redirecturi: string
+    ): BackendResult<boolean> {
+        return await backendCall('/services/v2/OAuthService2.svc/UpdateClient', {
+            id,
+            name,
+            description,
+            url,
+            redirecturi
+        })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} id
+     * @param {string} expires
+     *
+     * @throws {HttpException}
+     *
+     * @returns {boolean}
+     */
+    async UpdateClientExpiry(id: number, expires: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/OAuthService2.svc/UpdateClientExpiry', { id, expires })
+    }
+
     private static _instance: OAuthService2
 
     public static getInstance(): OAuthService2 {

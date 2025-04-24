@@ -172,4 +172,31 @@ interface IOAuthService2 extends IContract {
      * @return \app\dto\TrimmedUser
      */
     public function SaveRefreshToken($userId, $refreshToken, $clientId, $expires): TrimmedUser;
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int    $id
+     * @param string $name
+     * @param string $description
+     * @param string $url
+     * @param string $redirecturi
+     *
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return bool
+     */
+    public function UpdateClient($id, $name, $description, $url, $redirecturi): bool;
+
+    /**
+     * @permission administrator
+     *
+     * @param int    $id
+     * @param string $expires
+     *
+     * @throws \vhs\exceptions\HttpException
+     *
+     * @return bool
+     */
+    public function UpdateClientExpiry($id, $expires): bool;
 }
