@@ -37,7 +37,7 @@ import RFIDKeysCard from '@/components/07-pages/user/UserProfile/RFIDKeysCard'
 import UserObject from '@/lib/db/models/User'
 import { postWithParams } from '@/lib/fetcher'
 import { isMemberships } from '@/lib/guards/records'
-import useGetAllMemberships from '@/lib/hooks/providers/MembershipService2/useGetAllMemberships'
+import useGetAll from '@/lib/hooks/providers/MembershipService2/useGetAll'
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useGetUser from '@/lib/hooks/providers/UserService2/useGetUser'
 import useAuth from '@/lib/hooks/useAuth'
@@ -62,7 +62,7 @@ const AdminUsersEdit: FC<AdminUsersEditProps> = () => {
     const { currentUser } = useAuth()
 
     const { data: allPrivileges } = useGetAllPrivileges()
-    const { data: allMemberships } = useGetAllMemberships()
+    const { data: allMemberships } = useGetAll()
 
     const membershipTypes = useMemo(() => {
         return isMemberships(allMemberships)
