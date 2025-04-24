@@ -6,13 +6,20 @@ import type { ButtonProps } from './Button.types'
 
 import styles from './Button.styles'
 
-const Button: FC<ButtonProps> = ({ children, className, small, variant, ...restProps }) => {
+const Button: FC<ButtonProps> = ({ children, circle, className, small, variant, ...restProps }) => {
     variant ??= 'primary'
     small ??= false
+    circle ??= false
 
     return (
         <button
-            className={clsx([className, styles.variants[variant], small ? 'btn-sm' : null, 'btn'])}
+            className={clsx([
+                className,
+                styles.variants[variant],
+                circle ? 'btn-circle' : null,
+                small ? 'btn-sm' : null,
+                'btn'
+            ])}
             data-testid='Button'
             {...restProps}
         >
