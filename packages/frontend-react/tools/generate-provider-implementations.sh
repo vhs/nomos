@@ -1,5 +1,6 @@
 #!/bin/bash
 
+PROVIDER_HOOKS_PATH=src/lib/hooks/providers
 PROVIDER_LIB_PATH=src/lib/providers
 PROVIDER_TYPES_PATH=src/types/providers
 
@@ -71,9 +72,34 @@ EOF
 }
 EOF
         } | perl -pe 's/\\?(app|vhs)(\\\w+)+\\//g' > "${TS_FILE}"
+    done \
+    && echo "Generating hooks files..." \
+    && find "${PROVIDER_LIB_PATH}" -name '*.ts' | while read -r PROVIDER_FILE; do
+        PROVIDER_NAME=$(basename "${PROVIDER_FILE}" | cut -f1 -d.)
+
+        grep -w 'async' "${PROVIDER_FILE}" | awk '{ print $2 }' | cut -f1 -d'(' | while read -r PROVIDER_METHOD; do
+            PROVIDER_HOOK="use${PROVIDER_METHOD^}"
+
+            # echo "${PROVIDER_NAME} ${PROVIDER_PREFIX} ${PROVIDER_METHOD} ${PROVIDER_HOOK}"
+
+            HOOK_DIR="${PROVIDER_HOOKS_PATH}/${PROVIDER_NAME}/"
+
+            HOOK_FILE="${PROVIDER_HOOKS_PATH}/${PROVIDER_NAME}/${PROVIDER_HOOK}.tsx"
+
+            mkdir -p "${HOOK_DIR}"
+
+            if [ ! -f "${HOOK_FILE}" ]; then
+                echo "Creating ${HOOK_FILE}..."
+
+                cat << EOF > "${HOOK_FILE}"
+/* eslint-disable */
+export const ${PROVIDER_HOOK} = () => {}
+EOF
+            fi
+        done
     done && {
-    echo "Linting files..." && pnpm exec eslint --fix "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Formatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Relinting files..." && pnpm exec eslint --fix "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
-    echo "Reformatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
+    echo "Linting files..." && pnpm exec eslint --quiet -o /dev/null --fix "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
+    echo "Formatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
+    echo "Relinting files..." && pnpm exec eslint --quiet -o /dev/null --fix "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
+    echo "Reformatting files..." && pnpm exec prettier --log-level=silent -w "${PROVIDER_HOOKS_PATH}" "${PROVIDER_LIB_PATH}" "${PROVIDER_TYPES_PATH}"
 }
