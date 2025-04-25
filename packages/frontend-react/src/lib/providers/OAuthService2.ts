@@ -91,12 +91,12 @@ export default class OAuthService2 implements IOAuthService2 {
      *
      * @permission administrator|user
      *
-     * @param {number} clientId
+     * @param {number} id
      *
-     * @returns {TrimmedAppClient|null}
+     * @returns {AppClient|null}
      */
-    async GetClientDetails(clientId: number): BackendResult<TrimmedAppClient | null> {
-        return await backendCall('/services/v2/OAuthService2.svc/GetClientDetails', { clientId })
+    async GetClientDetails(id: number): BackendResult<AppClient | null> {
+        return await backendCall('/services/v2/OAuthService2.svc/GetClientDetails', { id })
     }
 
     /**

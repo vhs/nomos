@@ -81,11 +81,11 @@ interface IOAuthService2 extends IContract {
      *
      * @permission administrator|user
      *
-     * @param int $clientId
+     * @param int $id
      *
      * @return \app\domain\AppClient|null
      */
-    public function GetClientDetails($clientId): AppClient|null;
+    public function GetClientDetails($id): AppClient|null;
 
     /**
      * @permission oauth-provider
