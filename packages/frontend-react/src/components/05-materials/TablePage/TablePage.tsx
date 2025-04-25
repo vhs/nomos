@@ -14,6 +14,7 @@ import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
@@ -503,7 +504,7 @@ const TablePage: FC<TablePageProps> = ({
                                 <Col>
                                     <table className='w-full table-auto rounded-lg'>
                                         <thead>
-                                            <tr>
+                                            <TablePageRow>
                                                 {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
                                                     <th key={fieldLabel} className='tablepage-header-field px-1'>
                                                         <Popover
@@ -513,11 +514,11 @@ const TablePage: FC<TablePageProps> = ({
                                                         />
                                                     </th>
                                                 ))}
-                                            </tr>
+                                            </TablePageRow>
                                         </thead>
 
                                         <tfoot>
-                                            <tr>
+                                            <TablePageRow>
                                                 {getEnabledFieldsLabels(fieldStates).map((fieldLabel) => (
                                                     <th key={fieldLabel} className='tablepage-header-field px-1'>
                                                         <Popover
@@ -527,7 +528,7 @@ const TablePage: FC<TablePageProps> = ({
                                                         />
                                                     </th>
                                                 ))}
-                                            </tr>
+                                            </TablePageRow>
                                         </tfoot>
 
                                         <tbody>

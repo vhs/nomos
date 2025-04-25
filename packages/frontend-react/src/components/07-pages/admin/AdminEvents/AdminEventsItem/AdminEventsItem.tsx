@@ -3,18 +3,18 @@ import type { FC } from 'react'
 import type { AdminEventsItemProps } from './AdminEventsItem.types'
 
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 const AdminEventsItem: FC<AdminEventsItemProps> = ({ fields, data }) => (
     <TablePageRow data-testid='AdminEventsItem'>
-        <ConditionalTableCell condition={fields.Name}>{data.name.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Domain}>{data.domain.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Event}>{data.event.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Description}>{data.description.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Enabled}>{data.enabled ? 'Yes' : 'No'}</ConditionalTableCell>
-        {/* <ConditionalTableCell condition={fields['Privileges']}>
+        <TableDataCell condition={fields.Name}>{data.name.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Domain}>{data.domain.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Event}>{data.event.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Description}>{data.description.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Enabled}>{data.enabled ? 'Yes' : 'No'}</TableDataCell>
+        {/* <TableDataCell condition={fields['Privileges']}>
             {data.privileges.toLocaleString()}
-        </ConditionalTableCell> */}
+        </TableDataCell> */}
     </TablePageRow>
 )
 

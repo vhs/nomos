@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import type { UserGrantingItemProps } from './UserGrantingItem.types'
 
 import Button from '@/components/01-atoms/Button/Button'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
 
@@ -68,13 +70,13 @@ const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, grantablePrivileges
 
     return (
         <>
-            <tr data-testid='UserGrantingItem'>
-                <td className='text-center'>{username}</td>
-                <td className='text-center'>
+            <TablePageRow data-testid='UserGrantingItem'>
+                <TableDataCell className='text-center'>{username}</TableDataCell>
+                <TableDataCell className='text-center'>
                     {fname} {lname}
-                </td>
-                <td className='text-center'>{email}</td>
-                <td className='text-center'>
+                </TableDataCell>
+                <TableDataCell className='text-center'>{email}</TableDataCell>
+                <TableDataCell className='text-center'>
                     <Button
                         variant='primary'
                         className='btn-circle h-10 w-10 text-white'
@@ -84,8 +86,8 @@ const UserGrantingItem: FC<UserGrantingItemProps> = ({ user, grantablePrivileges
                     >
                         <PencilSquareIcon className='h-4 w-4' />
                     </Button>
-                </td>
-            </tr>
+                </TableDataCell>
+            </TablePageRow>
             <OverlayCard
                 title={`Grant Privileges for ${fname} ${lname}`}
                 show={showModal}

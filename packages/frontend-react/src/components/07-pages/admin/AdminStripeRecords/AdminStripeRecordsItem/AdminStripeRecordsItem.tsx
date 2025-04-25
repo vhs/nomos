@@ -3,21 +3,19 @@ import type { FC } from 'react'
 import type { AdminStripeRecordsItemProps } from './AdminStripeRecordsItem.types'
 
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 const AdminStripeRecordsItem: FC<AdminStripeRecordsItemProps> = ({ fields, data }) => (
     <TablePageRow data-testid='AdminStripeRecordsItem'>
-        <ConditionalTableCell condition={fields.Timestamp}>{data.ts.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Status}>{data.status.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Created}>{data.created.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields['Event Id']}>{data.event_id.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Type}>{data.type.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Object}>{data.object.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Request}>{data.request.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields['API Version']}>
-            {data.api_version.toLocaleString()}
-        </ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Raw}>{data.raw.toLocaleString()}</ConditionalTableCell>
+        <TableDataCell condition={fields.Timestamp}>{data.ts.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Status}>{data.status.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Created}>{data.created.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields['Event Id']}>{data.event_id.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Type}>{data.type.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Object}>{data.object.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Request}>{data.request.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields['API Version']}>{data.api_version.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Raw}>{data.raw.toLocaleString()}</TableDataCell>
     </TablePageRow>
 )
 

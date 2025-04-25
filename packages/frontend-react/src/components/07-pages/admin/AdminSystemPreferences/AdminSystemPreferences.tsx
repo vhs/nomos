@@ -19,7 +19,7 @@ const AdminSystemPreferences: FC<AdminSystemPreferencesProps> = () => {
             fields={AdminSystemPreferencesFields}
             primaryFilters={AdminSystemPreferencesFilters}
             order={'key'}
-            // @ts-expect-error wibbly wobbly
+            // @ts-expect-error This is fucky. Technical term.
             component={AdminSystemPreferencesItem}
             unsafeSearchColumns={['privileges']}
             actions={[<CreateSystemPreferenceButton key='CreateSystemPreferenceButton' />]}

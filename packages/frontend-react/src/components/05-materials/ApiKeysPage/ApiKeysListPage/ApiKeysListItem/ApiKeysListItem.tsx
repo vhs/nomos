@@ -10,7 +10,9 @@ import type { ApiKeysListItemProps } from './ApiKeysListItem.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Popover from '@/components/01-atoms/Popover/Popover'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import useAuth from '@/lib/hooks/useAuth'
@@ -64,54 +66,54 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
 
     return (
         <>
-            <tr className='data-row'>
-                <ConditionalTableCell
+            <TablePageRow>
+                <TableDataCell
                     condition={'key' in apiKey}
                     className={clsx([styles.DataField])}
                     onClick={openEditModal}
                     onKeyUp={openEditModal}
                 >
                     <Popover content={apiKey.key} popover={apiKey.key} />
-                </ConditionalTableCell>
-                <ConditionalTableCell className={styles.DataField} condition={'notes' in apiKey}>
+                </TableDataCell>
+                <TableDataCell className={styles.DataField} condition={'notes' in apiKey}>
                     {apiKey.notes}
-                </ConditionalTableCell>
-                <ConditionalTableCell className={styles.DataField} condition={'created' in apiKey}>
+                </TableDataCell>
+                <TableDataCell className={styles.DataField} condition={'created' in apiKey}>
                     {apiKey.created?.toLocaleString()}
-                </ConditionalTableCell>
-                <ConditionalTableCell className={styles.DataField} condition={'expires' in apiKey}>
+                </TableDataCell>
+                <TableDataCell className={styles.DataField} condition={'expires' in apiKey}>
                     {apiKey.expires?.toLocaleString()}
-                </ConditionalTableCell>
-                <td className={styles.DataField}>
+                </TableDataCell>
+                <TableActionsCell className={styles.DataField}>
                     <Button variant='primary' className='btn-circle h-10 w-10 text-white' onClick={openEditModal}>
                         <PencilSquareIcon className='h-4 w-4' />
                     </Button>
                     <Button variant='danger' className='btn-circle mx-auto' onClick={openDeleteModal}>
                         <XMarkIcon className='h-4 w-4 font-bold' />
                     </Button>
-                    <OverlayCard
-                        show={showDeleteModal}
-                        title='Confirm Delete'
-                        actions={[
-                            <Button
-                                key='Delete'
-                                variant='primary'
-                                onClick={() => {
-                                    void deleteAPIKey()
-                                }}
-                            >
-                                Delete
-                            </Button>
-                        ]}
-                        onClose={() => {
-                            closeDeleteModal()
-                            return false
+                </TableActionsCell>
+            </TablePageRow>
+            <OverlayCard
+                show={showDeleteModal}
+                title='Confirm Delete'
+                actions={[
+                    <Button
+                        key='Delete'
+                        variant='primary'
+                        onClick={() => {
+                            void deleteAPIKey()
                         }}
                     >
-                        Are you sure you want to delete this API Key?
-                    </OverlayCard>
-                </td>
-            </tr>
+                        Delete
+                    </Button>
+                ]}
+                onClose={() => {
+                    closeDeleteModal()
+                    return false
+                }}
+            >
+                Are you sure you want to delete this API Key?
+            </OverlayCard>
         </>
     )
 }
