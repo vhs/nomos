@@ -77,6 +77,17 @@ interface IOAuthService2 extends IContract {
     public function GetClient($clientId, $clientSecret): TrimmedAppClient|null;
 
     /**
+     * GetClientDetails.
+     *
+     * @permission administrator|user
+     *
+     * @param int $clientId
+     *
+     * @return \app\domain\AppClient|null
+     */
+    public function GetClientDetails($clientId): AppClient|null;
+
+    /**
      * @permission oauth-provider
      * @permission authenticated
      *
