@@ -55,19 +55,16 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ fields, data }) => {
 
     return (
         <TablePageRow data-testid='AdminUsersItem'>
-            <ConditionalTableCell className='data-field' condition={fields.Username}>
+            <ConditionalTableCell className='data-field' condition={fields['User Name']}>
                 <Popover className='shortened' content={user.username} popover={user.username} />
             </ConditionalTableCell>
-            <ConditionalTableCell
-                className='data-field break-words'
-                condition={user.fname != null && user.lname != null}
-            >
+            <ConditionalTableCell className='data-field break-words' condition={fields['Real Name']}>
                 {user.fname} {data.lname}
             </ConditionalTableCell>
             <ConditionalTableCell className='data-field' condition={fields.Email}>
                 <Popover className='shortened' content={user.email} popover={user.email} />
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={userStatus != null}>
+            <ConditionalTableCell className='data-field' condition={fields.Status}>
                 <AccountStatusBadge status={userStatus} />
             </ConditionalTableCell>
             <ConditionalTableCell className='data-field' condition={fields.Cash}>
@@ -78,7 +75,7 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ fields, data }) => {
             <ConditionalTableCell className='data-field' condition={fields.Created}>
                 {user.member_since_month} {user.member_since_rest} ({user.member_for})
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Mem_expire}>
+            <ConditionalTableCell className='data-field' condition={fields.Expiry}>
                 {user.expiry_date_month} {user.expiry_date_rest} ({user.expiry})
             </ConditionalTableCell>
             <ConditionalTableCell className='data-field text-balance' condition={fields.Privileges}>
@@ -87,7 +84,7 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ fields, data }) => {
                         .map((p) => p.code)
                         .join(', ')}
             </ConditionalTableCell>
-            <ConditionalTableCell className='data-field break-all' condition={fields.Lastlogin}>
+            <ConditionalTableCell className='data-field break-all' condition={fields['Last Login']}>
                 {user.lastlogin != null ? user.lastlogin.toLocaleString() : null}
             </ConditionalTableCell>
             <TableActionsCell>
