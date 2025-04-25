@@ -73,6 +73,7 @@ import { Route as AdminAdminUsersUserIdImport } from './routes/_admin/admin.user
 import { Route as AdminAdminSystempreferencesNewImport } from './routes/_admin/admin.systempreferences.new'
 import { Route as AdminAdminSystempreferencesPreferenceIdImport } from './routes/_admin/admin.systempreferences.$preferenceId'
 import { Route as AdminAdminSystemkeysSplatImport } from './routes/_admin/admin.systemkeys.$'
+import { Route as AdminAdminOauthSplatImport } from './routes/_admin/admin.oauth.$'
 import { Route as AdminAdminMembershipsMembershipIdImport } from './routes/_admin/admin.memberships.$membershipId'
 import { Route as AdminAdminEmailtemplatesNewImport } from './routes/_admin/admin.emailtemplates.new'
 import { Route as AdminAdminEmailtemplatesTemplateIdImport } from './routes/_admin/admin.emailtemplates.$templateId'
@@ -450,6 +451,12 @@ const AdminAdminSystemkeysSplatRoute = AdminAdminSystemkeysSplatImport.update({
   id: '/admin/systemkeys/$',
   path: '/admin/systemkeys/$',
   getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminAdminOauthSplatRoute = AdminAdminOauthSplatImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AdminAdminOauthRoute,
 } as any)
 
 const AdminAdminMembershipsMembershipIdRoute =
@@ -883,6 +890,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminMembershipsMembershipIdImport
       parentRoute: typeof AdminAdminMembershipsImport
     }
+    '/_admin/admin/oauth/$': {
+      id: '/_admin/admin/oauth/$'
+      path: '/$'
+      fullPath: '/admin/oauth/$'
+      preLoaderRoute: typeof AdminAdminOauthSplatImport
+      parentRoute: typeof AdminAdminOauthImport
+    }
     '/_admin/admin/systemkeys/$': {
       id: '/_admin/admin/systemkeys/$'
       path: '/admin/systemkeys/$'
@@ -968,6 +982,18 @@ const AdminAdminMembershipsRouteWithChildren =
     AdminAdminMembershipsRouteChildren,
   )
 
+interface AdminAdminOauthRouteChildren {
+  AdminAdminOauthSplatRoute: typeof AdminAdminOauthSplatRoute
+}
+
+const AdminAdminOauthRouteChildren: AdminAdminOauthRouteChildren = {
+  AdminAdminOauthSplatRoute: AdminAdminOauthSplatRoute,
+}
+
+const AdminAdminOauthRouteWithChildren = AdminAdminOauthRoute._addFileChildren(
+  AdminAdminOauthRouteChildren,
+)
+
 interface AdminAdminSystempreferencesRouteChildren {
   AdminAdminSystempreferencesPreferenceIdRoute: typeof AdminAdminSystempreferencesPreferenceIdRoute
   AdminAdminSystempreferencesNewRoute: typeof AdminAdminSystempreferencesNewRoute
@@ -1017,7 +1043,7 @@ interface AdminRouteChildren {
   AdminAdminMembercardsRoute: typeof AdminAdminMembercardsRoute
   AdminAdminMembershipsRoute: typeof AdminAdminMembershipsRouteWithChildren
   AdminAdminNewsletterRoute: typeof AdminAdminNewsletterRoute
-  AdminAdminOauthRoute: typeof AdminAdminOauthRoute
+  AdminAdminOauthRoute: typeof AdminAdminOauthRouteWithChildren
   AdminAdminPaymentgatewaysRoute: typeof AdminAdminPaymentgatewaysRoute
   AdminAdminPaymentsRoute: typeof AdminAdminPaymentsRoute
   AdminAdminPrivilegesRoute: typeof AdminAdminPrivilegesRoute
@@ -1051,7 +1077,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminMembercardsRoute: AdminAdminMembercardsRoute,
   AdminAdminMembershipsRoute: AdminAdminMembershipsRouteWithChildren,
   AdminAdminNewsletterRoute: AdminAdminNewsletterRoute,
-  AdminAdminOauthRoute: AdminAdminOauthRoute,
+  AdminAdminOauthRoute: AdminAdminOauthRouteWithChildren,
   AdminAdminPaymentgatewaysRoute: AdminAdminPaymentgatewaysRoute,
   AdminAdminPaymentsRoute: AdminAdminPaymentsRoute,
   AdminAdminPrivilegesRoute: AdminAdminPrivilegesRoute,
@@ -1178,7 +1204,7 @@ export interface FileRoutesByFullPath {
   '/admin/membercards': typeof AdminAdminMembercardsRoute
   '/admin/memberships': typeof AdminAdminMembershipsRouteWithChildren
   '/admin/newsletter': typeof AdminAdminNewsletterRoute
-  '/admin/oauth': typeof AdminAdminOauthRoute
+  '/admin/oauth': typeof AdminAdminOauthRouteWithChildren
   '/admin/paymentgateways': typeof AdminAdminPaymentgatewaysRoute
   '/admin/payments': typeof AdminAdminPaymentsRoute
   '/admin/privileges': typeof AdminAdminPrivilegesRoute
@@ -1196,6 +1222,7 @@ export interface FileRoutesByFullPath {
   '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
   '/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
+  '/admin/oauth/$': typeof AdminAdminOauthSplatRoute
   '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
@@ -1244,7 +1271,7 @@ export interface FileRoutesByTo {
   '/admin/membercards': typeof AdminAdminMembercardsRoute
   '/admin/memberships': typeof AdminAdminMembershipsRouteWithChildren
   '/admin/newsletter': typeof AdminAdminNewsletterRoute
-  '/admin/oauth': typeof AdminAdminOauthRoute
+  '/admin/oauth': typeof AdminAdminOauthRouteWithChildren
   '/admin/paymentgateways': typeof AdminAdminPaymentgatewaysRoute
   '/admin/payments': typeof AdminAdminPaymentsRoute
   '/admin/privileges': typeof AdminAdminPrivilegesRoute
@@ -1262,6 +1289,7 @@ export interface FileRoutesByTo {
   '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
   '/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
+  '/admin/oauth/$': typeof AdminAdminOauthSplatRoute
   '/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
@@ -1313,7 +1341,7 @@ export interface FileRoutesById {
   '/_admin/admin/membercards': typeof AdminAdminMembercardsRoute
   '/_admin/admin/memberships': typeof AdminAdminMembershipsRouteWithChildren
   '/_admin/admin/newsletter': typeof AdminAdminNewsletterRoute
-  '/_admin/admin/oauth': typeof AdminAdminOauthRoute
+  '/_admin/admin/oauth': typeof AdminAdminOauthRouteWithChildren
   '/_admin/admin/paymentgateways': typeof AdminAdminPaymentgatewaysRoute
   '/_admin/admin/payments': typeof AdminAdminPaymentsRoute
   '/_admin/admin/privileges': typeof AdminAdminPrivilegesRoute
@@ -1331,6 +1359,7 @@ export interface FileRoutesById {
   '/_admin/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
   '/_admin/admin/emailtemplates/new': typeof AdminAdminEmailtemplatesNewRoute
   '/_admin/admin/memberships/$membershipId': typeof AdminAdminMembershipsMembershipIdRoute
+  '/_admin/admin/oauth/$': typeof AdminAdminOauthSplatRoute
   '/_admin/admin/systemkeys/$': typeof AdminAdminSystemkeysSplatRoute
   '/_admin/admin/systempreferences/$preferenceId': typeof AdminAdminSystempreferencesPreferenceIdRoute
   '/_admin/admin/systempreferences/new': typeof AdminAdminSystempreferencesNewRoute
@@ -1399,6 +1428,7 @@ export interface FileRouteTypes {
     | '/admin/emailtemplates/$templateId'
     | '/admin/emailtemplates/new'
     | '/admin/memberships/$membershipId'
+    | '/admin/oauth/$'
     | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
@@ -1464,6 +1494,7 @@ export interface FileRouteTypes {
     | '/admin/emailtemplates/$templateId'
     | '/admin/emailtemplates/new'
     | '/admin/memberships/$membershipId'
+    | '/admin/oauth/$'
     | '/admin/systemkeys/$'
     | '/admin/systempreferences/$preferenceId'
     | '/admin/systempreferences/new'
@@ -1531,6 +1562,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/emailtemplates/$templateId'
     | '/_admin/admin/emailtemplates/new'
     | '/_admin/admin/memberships/$membershipId'
+    | '/_admin/admin/oauth/$'
     | '/_admin/admin/systemkeys/$'
     | '/_admin/admin/systempreferences/$preferenceId'
     | '/_admin/admin/systempreferences/new'
@@ -1800,7 +1832,10 @@ export const routeTree = rootRoute
     },
     "/_admin/admin/oauth": {
       "filePath": "_admin/admin.oauth.tsx",
-      "parent": "/_admin"
+      "parent": "/_admin",
+      "children": [
+        "/_admin/admin/oauth/$"
+      ]
     },
     "/_admin/admin/paymentgateways": {
       "filePath": "_admin/admin.paymentgateways.tsx",
@@ -1877,6 +1912,10 @@ export const routeTree = rootRoute
     "/_admin/admin/memberships/$membershipId": {
       "filePath": "_admin/admin.memberships.$membershipId.tsx",
       "parent": "/_admin/admin/memberships"
+    },
+    "/_admin/admin/oauth/$": {
+      "filePath": "_admin/admin.oauth.$.tsx",
+      "parent": "/_admin/admin/oauth"
     },
     "/_admin/admin/systemkeys/$": {
       "filePath": "_admin/admin.systemkeys.$.tsx",
