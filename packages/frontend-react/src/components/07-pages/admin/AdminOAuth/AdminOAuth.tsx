@@ -2,13 +2,10 @@ import type { FC } from 'react'
 
 import type { AdminOAuthProps } from './AdminOAuth.types'
 
-import UnderConstructionBanner from '@/components/01-atoms/UnderConstructionBanner/UnderConstructionBanner'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import OAuthPage from '@/components/05-materials/OAuthPage/OAuthPage'
 
 const AdminOAuth: FC<AdminOAuthProps> = () => (
-    <BasePage data-testid='AdminOAuth' title='OAuth'>
-        <UnderConstructionBanner />
-    </BasePage>
+    <OAuthPage data-testid='AdminOAuth' basePath='/admin/oauth' scope='system' />
 )
 
 export default AdminOAuth
