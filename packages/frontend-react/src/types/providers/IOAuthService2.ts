@@ -77,11 +77,11 @@ export interface IOAuthService2 {
      *
      * @permission administrator|user
      *
-     * @param {number} clientId
+     * @param {number} id
      *
-     * @returns {TrimmedAppClient|null}
+     * @returns {AppClient|null}
      */
-    GetClientDetails: (clientId: number) => BackendResult<TrimmedAppClient | null>
+    GetClientDetails: (id: number) => BackendResult<AppClient | null>
 
     /**
      * @permission oauth-provider
