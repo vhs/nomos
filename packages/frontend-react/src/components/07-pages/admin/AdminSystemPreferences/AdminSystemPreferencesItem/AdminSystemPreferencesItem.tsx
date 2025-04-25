@@ -6,12 +6,11 @@ import { toast } from 'react-toastify'
 import type { AdminSystemPreferencesItemProps } from './AdminSystemPreferencesItem.types'
 
 import Button from '@/components/01-atoms/Button/Button'
-import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
 import PreferenceService2 from '@/lib/providers/PreferenceService2'
@@ -31,7 +30,7 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ field
         setShowDeleteModal(true)
     }
 
-    const deleteSystemPreference = async (): Promise<void> => {
+    const deleteHandler = async (): Promise<void> => {
         await toast
             .promise(
                 async (): Promise<void> => {
@@ -40,7 +39,7 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ field
                     await mutate()
                 },
                 {
-                    error: 'Failed to update this API key. Please contact your administrators',
+                    error: 'Failed to delete this API key. Please contact your administrators',
                     pending: 'Deleting API key',
                     success: 'Deleted API key'
                 }
@@ -79,28 +78,19 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ field
                     </Button>
                 </TableActionsCell>
             </TablePageRow>
-            <Conditional condition={showDeleteModal}>
-                <OverlayCard
-                    title='Confirm Delete'
-                    actions={[
-                        <Button
-                            key='Delete'
-                            variant='primary'
-                            onClick={() => {
-                                void deleteSystemPreference()
-                            }}
-                        >
-                            Delete
-                        </Button>
-                    ]}
-                    onClose={() => {
-                        closeDeleteModal()
-                        return false
-                    }}
-                >
-                    Are you sure you want to delete this System Preference?
-                </OverlayCard>
-            </Conditional>
+
+            <ItemDeleteModal
+                show={showDeleteModal}
+                actionHandler={() => {
+                    void deleteHandler()
+                }}
+                closeHandler={() => {
+                    closeDeleteModal()
+                    return false
+                }}
+            >
+                Are you sure you want to delete this System Preference?
+            </ItemDeleteModal>
         </>
     )
 }

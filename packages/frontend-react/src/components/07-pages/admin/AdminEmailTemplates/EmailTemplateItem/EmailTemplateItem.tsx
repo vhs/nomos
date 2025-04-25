@@ -6,12 +6,11 @@ import { toast } from 'react-toastify'
 import type { EmailTemplateItemProps } from './EmailTemplateItem.types'
 
 import Button from '@/components/01-atoms/Button/Button'
-import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
 import EmailService2 from '@/lib/providers/EmailService2'
@@ -22,19 +21,31 @@ const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ fields, data }) => {
 
     const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    const deleteHandler = async (): Promise<void> => {
-        await toast.promise(
-            async (): Promise<void> => {
-                await EmailService2.getInstance().DeleteTemplate(data.id)
+    const closeDeleteModal = (): void => {
+        setShowDeleteModal(false)
+    }
 
-                await mutate()
-            },
-            {
-                error: 'Failed to delete email template',
-                pending: 'Deleting email template',
-                success: 'Deleted email template'
-            }
-        )
+    const openDeleteModal = (): void => {
+        setShowDeleteModal(true)
+    }
+
+    const deleteHandler = async (): Promise<void> => {
+        await toast
+            .promise(
+                async (): Promise<void> => {
+                    await EmailService2.getInstance().DeleteTemplate(data.id)
+
+                    await mutate()
+                },
+                {
+                    error: 'Failed to delete email template',
+                    pending: 'Deleting email template',
+                    success: 'Deleted email template'
+                }
+            )
+            .then(() => {
+                closeDeleteModal()
+            })
     }
 
     return (
@@ -63,35 +74,27 @@ const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ fields, data }) => {
                         className='btn-circle'
                         variant='danger'
                         onClick={() => {
-                            setShowDeleteModal(true)
+                            openDeleteModal()
                         }}
                     >
                         <FontAwesomeIcon icon='times' />
                     </Button>
                 </TableActionsCell>
             </TablePageRow>
-            <Conditional condition={showDeleteModal}>
-                <OverlayCard
-                    title='Delete email template?'
-                    onClose={() => {
-                        setShowDeleteModal(false)
-                        return false
-                    }}
-                    actions={[
-                        <Button
-                            key='Delete!'
-                            variant='danger'
-                            onClick={() => {
-                                void deleteHandler()
-                            }}
-                        >
-                            Delete
-                        </Button>
-                    ]}
-                >
-                    Do you want to delete email template &apos;{data.name}&apos;?
-                </OverlayCard>
-            </Conditional>
+
+            <ItemDeleteModal
+                show={showDeleteModal}
+                actionHandler={() => {
+                    void deleteHandler()
+                }}
+                closeHandler={() => {
+                    closeDeleteModal()
+                    return false
+                }}
+                title='Delete email template?'
+            >
+                Do you want to delete email template &apos;{data.name}&apos;?
+            </ItemDeleteModal>
         </>
     )
 }

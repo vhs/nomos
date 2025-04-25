@@ -12,7 +12,7 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 
 import OAuthService2 from '@/lib/providers/OAuthService2'
 
@@ -44,22 +44,24 @@ const OAuthPageClientItem: FC<OAuthPageClientItemProps> = ({ fields, data }) => 
         void router.navigate({ to, params: { id: id.toString() } })
     }
 
-    const deleteOAuthClient = async (): Promise<void> => {
-        await toast.promise(OAuthService2.getInstance().DeleteClient(id), {
-            error: getOAuthTermByScope('deleteOAuthError', scope),
-            pending: getOAuthTermByScope('deleteOAuthPending', scope),
-            success: getOAuthTermByScope('deleteOAuthSuccess', scope)
-        })
+    const deleteHandler = async (): Promise<void> => {
+        await toast
+            .promise(OAuthService2.getInstance().DeleteClient(id), {
+                error: getOAuthTermByScope('deleteOAuthError', scope),
+                pending: getOAuthTermByScope('deleteOAuthPending', scope),
+                success: getOAuthTermByScope('deleteOAuthSuccess', scope)
+            })
+            .then(async (): Promise<void> => {
+                scope === 'system'
+                    ? await mutate('/services/v2/OAuthService2.svc/CountClients')
+                    : await mutate(`/services/v2/OAuthService2.svc/CountUserClients`)
 
-        scope === 'system'
-            ? await mutate('/services/v2/OAuthService2.svc/CountClients')
-            : await mutate(`/services/v2/OAuthService2.svc/CountUserClients`)
+                scope === 'system'
+                    ? await mutate('/services/v2/OAuthService2.svc/ListClients')
+                    : await mutate(`/services/v2/OAuthService2.svc/ListUserClients`)
 
-        scope === 'system'
-            ? await mutate('/services/v2/OAuthService2.svc/ListClients')
-            : await mutate(`/services/v2/OAuthService2.svc/ListUserClients`)
-
-        closeDeleteModal()
+                closeDeleteModal()
+            })
     }
 
     return (
@@ -88,27 +90,20 @@ const OAuthPageClientItem: FC<OAuthPageClientItemProps> = ({ fields, data }) => 
                     </Button>
                 </TableActionsCell>
             </TablePageRow>
-            <OverlayCard
+
+            <ItemDeleteModal
                 show={showDeleteModal}
                 title='Confirm Delete'
-                actions={[
-                    <Button
-                        key='Delete'
-                        variant='primary'
-                        onClick={() => {
-                            void deleteOAuthClient()
-                        }}
-                    >
-                        Delete
-                    </Button>
-                ]}
-                onClose={() => {
+                actionHandler={() => {
+                    void deleteHandler()
+                }}
+                closeHandler={() => {
                     closeDeleteModal()
                     return false
                 }}
             >
                 Are you sure you want to delete this OAuth client?
-            </OverlayCard>
+            </ItemDeleteModal>
         </>
     )
 }

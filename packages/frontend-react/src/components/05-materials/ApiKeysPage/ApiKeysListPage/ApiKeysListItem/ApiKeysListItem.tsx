@@ -13,7 +13,7 @@ import Popover from '@/components/01-atoms/Popover/Popover'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 
 import useAuth from '@/lib/hooks/useAuth'
 import ApiKeyService2 from '@/lib/providers/ApiKeyService2'
@@ -46,22 +46,24 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
         void router.navigate({ to, params: { keyId: apiKey.id.toString() } })
     }
 
-    const deleteAPIKey = async (): Promise<void> => {
-        await toast.promise(ApiKeyService2.getInstance().DeleteApiKey(apiKey.id), {
-            error: getApiKeysTermByScope('deleteApiKeysError', scope),
-            pending: getApiKeysTermByScope('deleteApiKeysPending', scope),
-            success: getApiKeysTermByScope('deleteApiKeysSuccess', scope)
-        })
+    const deleteHandler = async (): Promise<void> => {
+        await toast
+            .promise(ApiKeyService2.getInstance().DeleteApiKey(apiKey.id), {
+                error: getApiKeysTermByScope('deleteApiKeysError', scope),
+                pending: getApiKeysTermByScope('deleteApiKeysPending', scope),
+                success: getApiKeysTermByScope('deleteApiKeysSuccess', scope)
+            })
+            .then(async () => {
+                scope === 'system'
+                    ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
+                    : await mutate(`/services/v2/ApiKeyService2.svc/GetUserAPIKeys?userid=${currentUser?.id}`)
 
-        scope === 'system'
-            ? await mutate('/services/v2/ApiKeyService2.svc/GetSystemApiKeys')
-            : await mutate(`/services/v2/ApiKeyService2.svc/GetUserAPIKeys?userid=${currentUser?.id}`)
+                scope === 'system'
+                    ? await mutate('/services/v2/VirtualService1.svc/GetScopedKeys?scope=system')
+                    : await mutate(`/services/v2/VirtualService1.svc/GetScopedKeys?scope=user&id=${currentUser?.id}`)
 
-        scope === 'system'
-            ? await mutate('/services/v2/VirtualService1.svc/GetScopedKeys?scope=system')
-            : await mutate(`/services/v2/VirtualService1.svc/GetScopedKeys?scope=user&id=${currentUser?.id}`)
-
-        closeDeleteModal()
+                closeDeleteModal()
+            })
     }
 
     return (
@@ -93,27 +95,19 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
                     </Button>
                 </TableActionsCell>
             </TablePageRow>
-            <OverlayCard
+
+            <ItemDeleteModal
                 show={showDeleteModal}
-                title='Confirm Delete'
-                actions={[
-                    <Button
-                        key='Delete'
-                        variant='primary'
-                        onClick={() => {
-                            void deleteAPIKey()
-                        }}
-                    >
-                        Delete
-                    </Button>
-                ]}
-                onClose={() => {
+                actionHandler={() => {
+                    void deleteHandler()
+                }}
+                closeHandler={() => {
                     closeDeleteModal()
                     return false
                 }}
             >
                 Are you sure you want to delete this API Key?
-            </OverlayCard>
+            </ItemDeleteModal>
         </>
     )
 }
