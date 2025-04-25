@@ -10,6 +10,7 @@ import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import Row from '@/components/01-atoms/Row/Row'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import PrivilegePill from '@/components/02-molecules/PrivilegePill/PrivilegePill'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
@@ -194,7 +195,7 @@ const UserGranting: FC<UserGrantingProps> = () => {
                             <Col>
                                 <table className='w-full table-auto rounded-lg'>
                                     <thead>
-                                        <tr>
+                                        <TablePageRow>
                                             <th className='tablepage-header-field px-1'>
                                                 <Popover
                                                     className='tablepage-header'
@@ -212,11 +213,11 @@ const UserGranting: FC<UserGrantingProps> = () => {
                                             <th className='tablepage-header-field px-1'>
                                                 <Popover className='tablepage-header' content='Email' popover='Email' />
                                             </th>
-                                        </tr>
+                                        </TablePageRow>
                                     </thead>
 
                                     <tfoot>
-                                        <tr>
+                                        <TablePageRow>
                                             <th className='tablepage-header-field px-1'>
                                                 <Popover
                                                     className='tablepage-header'
@@ -234,7 +235,7 @@ const UserGranting: FC<UserGrantingProps> = () => {
                                             <th className='tablepage-header-field px-1'>
                                                 <Popover className='tablepage-header' content='Email' popover='Email' />
                                             </th>
-                                        </tr>
+                                        </TablePageRow>
                                     </tfoot>
 
                                     <tbody>

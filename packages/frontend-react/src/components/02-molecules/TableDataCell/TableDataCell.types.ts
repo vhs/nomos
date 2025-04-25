@@ -2,4 +2,4 @@ import type { ConditionalProps } from '@/components/01-atoms/Conditional/Conditi
 
 import type { CastReactElement } from '@/types/utils'
 
-export type ConditionalTableCellProps = CastReactElement<'td'> & ConditionalProps
+export type TableDataCellProps = CastReactElement<'td'> & Partial<ConditionalProps>

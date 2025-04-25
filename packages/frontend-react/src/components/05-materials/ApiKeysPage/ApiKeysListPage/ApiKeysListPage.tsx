@@ -5,6 +5,7 @@ import type { ApiKeysListPageProps } from './ApiKeysListPage.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
@@ -50,30 +51,30 @@ const ApiKeysListPage: FC<ApiKeysListPageProps> = () => {
                         <div>
                             <table>
                                 <thead>
-                                    <tr>
+                                    <TablePageRow>
                                         <th className='text-center'>API Key</th>
                                         <th className='text-center'>Notes</th>
                                         <th className='text-center'>Created</th>
                                         <th className='text-center'>Expires</th>
                                         <th className='text-center'>Actions</th>
-                                    </tr>
+                                    </TablePageRow>
                                 </thead>
+
+                                <tfoot>
+                                    <TablePageRow>
+                                        <th className='text-center'>API Key</th>
+                                        <th className='text-center'>Notes</th>
+                                        <th className='text-center'>Created</th>
+                                        <th className='text-center'>Expires</th>
+                                        <th className='text-center'>Actions</th>
+                                    </TablePageRow>
+                                </tfoot>
 
                                 <tbody>
                                     {availableKeys.map((key) => {
                                         return <ApiKeysListItem key={key.key} apiKey={key} />
                                     })}
                                 </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        <th className='text-center'>API Key</th>
-                                        <th className='text-center'>Notes</th>
-                                        <th className='text-center'>Created</th>
-                                        <th className='text-center'>Expires</th>
-                                        <th className='text-center'>Actions</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </Col>

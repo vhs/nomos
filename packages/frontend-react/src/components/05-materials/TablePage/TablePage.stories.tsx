@@ -3,6 +3,8 @@ import type { FC } from 'react'
 import type { MockServiceData } from './TablePage.types'
 import type { Meta, StoryObj } from '@storybook/react'
 
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
 import { mockHandlers } from '@/lib/mocking/handlers'
@@ -12,10 +14,10 @@ import TablePage from './TablePage'
 type StoryType = StoryObj<typeof TablePage>
 
 const MockDataComponent: FC<{ data: MockServiceData }> = ({ data: { id, color } }) => (
-    <tr>
-        <td>{id}</td>
-        <td>{color}</td>
-    </tr>
+    <TablePageRow>
+        <TableDataCell>{id}</TableDataCell>
+        <TableDataCell>{color}</TableDataCell>
+    </TablePageRow>
 )
 
 const meta: Meta<typeof TablePage> = {

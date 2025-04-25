@@ -16,8 +16,8 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import Popover from '@/components/01-atoms/Popover/Popover'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import Loading from '@/components/02-molecules/Loading/Loading'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 import { convertUserStatus } from '@/lib/nomos'
 
@@ -44,55 +44,55 @@ const AdminUsersItem: FC<AdminUsersItemProps> = ({ fields, data }) => {
 
     if (isStatusesLoading)
         return (
-            <tr>
-                <td colSpan={9}>
+            <TablePageRow>
+                <TableDataCell colSpan={9}>
                     <Loading height={5} margin={2} width={2} radius={2} />
-                </td>
-            </tr>
+                </TableDataCell>
+            </TablePageRow>
         )
 
     const userStatus = user.active != null ? convertUserStatus(statuses, user.active) : null
 
     return (
         <TablePageRow data-testid='AdminUsersItem'>
-            <ConditionalTableCell className='data-field' condition={fields['User Name']}>
+            <TableDataCell className='data-field' condition={fields['User Name']}>
                 <Popover className='shortened' content={user.username} popover={user.username} />
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field break-words' condition={fields['Real Name']}>
+            </TableDataCell>
+            <TableDataCell className='data-field break-words' condition={fields['Real Name']}>
                 {user.fname} {data.lname}
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Email}>
+            </TableDataCell>
+            <TableDataCell className='data-field' condition={fields.Email}>
                 <Popover className='shortened' content={user.email} popover={user.email} />
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Status}>
+            </TableDataCell>
+            <TableDataCell className='data-field' condition={fields.Status}>
                 <AccountStatusBadge status={userStatus} />
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Cash}>
+            </TableDataCell>
+            <TableDataCell className='data-field' condition={fields.Cash}>
                 <CheckCircleIcon
                     className={clsx(['mx-auto max-h-5 max-w-5', user.cash ? 'text-primary' : 'text-gray-400/50'])}
                 />
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Created}>
+            </TableDataCell>
+            <TableDataCell className='data-field' condition={fields.Created}>
                 {user.member_since_month} {user.member_since_rest} ({user.member_for})
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field' condition={fields.Expiry}>
+            </TableDataCell>
+            <TableDataCell className='data-field' condition={fields.Expiry}>
                 {user.expiry_date_month} {user.expiry_date_rest} ({user.expiry})
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field text-balance' condition={fields.Privileges}>
+            </TableDataCell>
+            <TableDataCell className='data-field text-balance' condition={fields.Privileges}>
                 {user.privileges != null &&
                     Object.values(user.privileges)
                         .map((p) => p.code)
                         .join(', ')}
-            </ConditionalTableCell>
-            <ConditionalTableCell className='data-field break-all' condition={fields['Last Login']}>
+            </TableDataCell>
+            <TableDataCell className='data-field break-all' condition={fields['Last Login']}>
                 {user.lastlogin != null ? user.lastlogin.toLocaleString() : null}
-            </ConditionalTableCell>
+            </TableDataCell>
             <TableActionsCell>
                 <Button
                     variant='link'
                     className='btn-icon m-auto'
                     onClick={() => {
-                        void router.navigate({ to: `/admin/users/${user.id}` }) // NOSONAR
+                        void router.navigate({ to: `/admin/users/${user.id}` })
                     }}
                 >
                     <FontAwesomeIcon icon='edit' />
