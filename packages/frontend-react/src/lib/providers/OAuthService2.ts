@@ -87,6 +87,19 @@ export default class OAuthService2 implements IOAuthService2 {
     }
 
     /**
+     * GetClientDetails.
+     *
+     * @permission administrator|user
+     *
+     * @param {number} clientId
+     *
+     * @returns {TrimmedAppClient|null}
+     */
+    async GetClientDetails(clientId: number): BackendResult<TrimmedAppClient | null> {
+        return await backendCall('/services/v2/OAuthService2.svc/GetClientDetails', { clientId })
+    }
+
+    /**
      * @permission oauth-provider
      * @permission authenticated
      *

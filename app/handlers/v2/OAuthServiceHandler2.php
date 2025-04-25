@@ -111,6 +111,19 @@ class OAuthServiceHandler2 extends Service implements IOAuthService2 {
     }
 
     /**
+     * GetClientDetails.
+     *
+     * @permission administrator|user
+     *
+     * @param int $clientId
+     *
+     * @return \app\domain\AppClient
+     */
+    public function GetClientDetails($clientId): AppClient {
+        return $this->getOAuthClient($clientId);
+    }
+
+    /**
      * @permission oauth-provider
      * @permission authenticated
      *
