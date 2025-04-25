@@ -98,8 +98,8 @@ EOF
             fi
         done
     done && {
-    echo "Linting files..." && pnpm exec eslint -o /dev/null --fix ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
-    echo "Formatting files..." && pnpm exec prettier --log-level=silent -w ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
-    echo "Relinting files..." && pnpm exec eslint -o /dev/null --fix ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
-    echo "Reformatting files..." && pnpm exec prettier --log-level=silent -w ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH}
+    echo "Linting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec eslint -o /dev/null --fix
+    echo "Formatting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
+    echo "Relinting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n1 -P4 pnpm exec eslint -o /dev/null --fix
+    echo "Reformatting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
 }
