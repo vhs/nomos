@@ -7,9 +7,10 @@ import type { LinkButtonProps } from './LinkButton.types'
 
 import styles from '@/components/01-atoms/Button/Button.styles'
 
-const LinkButton: FC<LinkButtonProps> = ({ children, className, small, variant, to }) => {
-    variant ??= 'primary'
+const LinkButton: FC<LinkButtonProps> = ({ children, circle, className, small, variant, to }) => {
+    circle ??= false
     small ??= false
+    variant ??= 'primary'
 
     return (
         <div data-testid='LinkButton'>
@@ -17,6 +18,7 @@ const LinkButton: FC<LinkButtonProps> = ({ children, className, small, variant, 
                 className={clsx([
                     className,
                     styles.variants[variant],
+                    circle ? 'btn-circle' : null,
                     small ? 'btn-sm' : null,
                     'btn pt-1.5 align-middle'
                 ])}
