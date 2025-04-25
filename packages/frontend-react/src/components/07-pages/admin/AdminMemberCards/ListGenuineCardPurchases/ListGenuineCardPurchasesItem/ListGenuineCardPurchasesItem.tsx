@@ -4,16 +4,16 @@ import type { ListGenuineCardPurchasesItemProps } from './ListGenuineCardPurchas
 
 import Popover from '@/components/01-atoms/Popover/Popover'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 const ListGenuineCardPurchasesItem: FC<ListGenuineCardPurchasesItemProps> = ({ fields, data }) => (
     <TablePageRow data-testid='ListGenuineCardPurchasesItem'>
-        <ConditionalTableCell condition={fields.Date}>{data.date.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Status}>{data.status.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell className='xl:max-w-auto max-w-[5vw] text-ellipsis' condition={fields['TXN ID']}>
+        <TableDataCell condition={fields.Date}>{data.date.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Status}>{data.status.toLocaleString()}</TableDataCell>
+        <TableDataCell className='xl:max-w-auto max-w-[5vw] text-ellipsis' condition={fields['TXN ID']}>
             <Popover content={data.txn_id.toLocaleString()} popover={data.txn_id.toLocaleString()} />
-        </ConditionalTableCell>
-        <ConditionalTableCell className='xl:max-w-auto max-w-[10vw] text-ellipsis' condition={fields.User}>
+        </TableDataCell>
+        <TableDataCell className='xl:max-w-auto max-w-[10vw] text-ellipsis' condition={fields.User}>
             <Popover
                 content={
                     <>
@@ -28,14 +28,12 @@ const ListGenuineCardPurchasesItem: FC<ListGenuineCardPurchasesItemProps> = ({ f
                     </>
                 }
             />
-        </ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Processor}>{data.pp.toLocaleString()}</ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Item && fields.Item_number}>
-            {data.item_name.toLocaleString()}
-        </ConditionalTableCell>
-        <ConditionalTableCell condition={fields.Price && fields.Currency}>
+        </TableDataCell>
+        <TableDataCell condition={fields.Processor}>{data.pp.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Item && fields.Item_number}>{data.item_name.toLocaleString()}</TableDataCell>
+        <TableDataCell condition={fields.Price && fields.Currency}>
             {parseFloat(data.rate_amount).toPrecision(4)} {data.currency.toUpperCase()}
-        </ConditionalTableCell>
+        </TableDataCell>
     </TablePageRow>
 )
 

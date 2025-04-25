@@ -10,7 +10,7 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
@@ -40,16 +40,16 @@ const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ fields, data }) => {
     return (
         <>
             <TablePageRow data-testid='EmailTemplateItem' fields={8}>
-                <ConditionalTableCell condition={fields.Name}>{data.name}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Code}>{data.code}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Subject}>{data.subject}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Help}>{data.help}</ConditionalTableCell>
-                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={fields['Text Body']}>
+                <TableDataCell condition={fields.Name}>{data.name}</TableDataCell>
+                <TableDataCell condition={fields.Code}>{data.code}</TableDataCell>
+                <TableDataCell condition={fields.Subject}>{data.subject}</TableDataCell>
+                <TableDataCell condition={fields.Help}>{data.help}</TableDataCell>
+                <TableDataCell className='text-nowrap lg:text-wrap' condition={fields['Text Body']}>
                     {data.body}
-                </ConditionalTableCell>
-                <ConditionalTableCell className='text-nowrap lg:text-wrap' condition={fields['HTML Body']}>
+                </TableDataCell>
+                <TableDataCell className='text-nowrap lg:text-wrap' condition={fields['HTML Body']}>
                     {data.html}
-                </ConditionalTableCell>
+                </TableDataCell>
                 <TableActionsCell>
                     <Button
                         className='btn-circle'

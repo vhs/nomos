@@ -16,9 +16,9 @@ import Row from '@/components/01-atoms/Row/Row'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import Toggle from '@/components/01-atoms/Toggle/Toggle'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
@@ -148,20 +148,20 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ fields, data }) => 
 
     if (isLoading || privilege == null)
         return (
-            <tr>
+            <TablePageRow>
                 {Object.keys(data).map((field) => (
-                    <td key={field}>&nbsp;</td>
+                    <TableDataCell key={field}>&nbsp;</TableDataCell>
                 ))}
-            </tr>
+            </TablePageRow>
         )
 
     return (
         <>
             <TablePageRow data-testid='AdminPrivilegesItem'>
-                <ConditionalTableCell condition={fields.Name}>{privilege?.name}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Code}>{privilege?.code}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Description}>{privilege?.description}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Icon}>
+                <TableDataCell condition={fields.Name}>{privilege?.name}</TableDataCell>
+                <TableDataCell condition={fields.Code}>{privilege?.code}</TableDataCell>
+                <TableDataCell condition={fields.Description}>{privilege?.description}</TableDataCell>
+                <TableDataCell condition={fields.Icon}>
                     <Popover
                         content={
                             <PrivilegeIcon
@@ -176,15 +176,15 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ fields, data }) => 
                         }
                         popover={isString(privilege?.icon) ? privilege?.icon.toString() : 'Not set'}
                     />
-                </ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Enabled}>
+                </TableDataCell>
+                <TableDataCell condition={fields.Enabled}>
                     <Toggle
                         checked={privilege?.enabled}
                         onChange={() => {
                             void togglePrivilegeEnabled()
                         }}
                     />
-                </ConditionalTableCell>
+                </TableDataCell>
                 <TableActionsCell className='max-w-16'>
                     <Button
                         className='mx-1 h-10 w-10 rounded-3xl'
@@ -197,102 +197,102 @@ const AdminPrivilegesItem: FC<AdminPrivilegesItemProps> = ({ fields, data }) => 
                     <Button className='mx-1 h-10 w-10 rounded-3xl' variant='danger'>
                         <FontAwesomeIcon icon='times' />
                     </Button>
-                    <Conditional condition={showModal}>
-                        <FormProvider {...form}>
-                            <OverlayCard
-                                title={`Edit Privilege - ${privilege.name} (${privilege.code})`}
-                                onClose={() => {
-                                    setShowModal(false)
-                                    return false
-                                }}
-                                closeLabel='Close'
-                                actions={[
-                                    <Button
-                                        key='Save'
-                                        variant='success'
-                                        className='btn-success'
-                                        disabled={!isDirty}
-                                        onClick={(event) => {
-                                            void submitHandler(event)
-                                        }}
-                                    >
-                                        Save
-                                    </Button>,
-                                    <Button
-                                        key='Reset'
-                                        variant='primary'
-                                        disabled={!isDirty}
-                                        onClick={() => {
-                                            hydrateDefaults()
-                                        }}
-                                    >
-                                        Reset
-                                    </Button>
-                                ]}
-                            >
-                                <Row>
-                                    <FormCol error={errors.name}>
-                                        <label htmlFor='name'>
-                                            <strong>Name</strong>
-                                            <FormControl formKey='name' formType='text' />
-                                        </label>
-                                    </FormCol>
-                                </Row>
-
-                                <Row>
-                                    <FormCol error={errors.description}>
-                                        <label htmlFor='description'>
-                                            <strong>Description</strong>
-                                            <FormControl formKey='description' formType='text' />
-                                        </label>
-                                    </FormCol>
-                                </Row>
-
-                                <Row>
-                                    <FormCol error={errors.icon}>
-                                        <label htmlFor='icon'>
-                                            <div className='inline'>
-                                                <Popover
-                                                    className='inline'
-                                                    content={<strong>Icon</strong>}
-                                                    popover={'This is the FontAwesome icon name.'}
-                                                />{' '}
-                                            </div>
-
-                                            <FormControl
-                                                formKey='icon'
-                                                formType='text'
-                                                className={!checkValidIcon(icon) ? 'border-orange-500' : undefined}
-                                                errorMessage={errors.icon?.message}
-                                            />
-                                        </label>
-                                    </FormCol>
-                                </Row>
-
-                                <Row>
-                                    <FormCol error={errors.enabled}>
-                                        <Toggle
-                                            checked={enabled}
-                                            onChange={(change) => {
-                                                form.setValue('enabled', change, {
-                                                    shouldValidate: true,
-                                                    shouldDirty: true
-                                                })
-                                            }}
-                                        >
-                                            Enabled
-                                        </Toggle>
-                                    </FormCol>
-                                </Row>
-
-                                <Row>
-                                    <Col></Col>
-                                </Row>
-                            </OverlayCard>
-                        </FormProvider>
-                    </Conditional>
                 </TableActionsCell>
             </TablePageRow>
+            <Conditional condition={showModal}>
+                <FormProvider {...form}>
+                    <OverlayCard
+                        title={`Edit Privilege - ${privilege.name} (${privilege.code})`}
+                        onClose={() => {
+                            setShowModal(false)
+                            return false
+                        }}
+                        closeLabel='Close'
+                        actions={[
+                            <Button
+                                key='Save'
+                                variant='success'
+                                className='btn-success'
+                                disabled={!isDirty}
+                                onClick={(event) => {
+                                    void submitHandler(event)
+                                }}
+                            >
+                                Save
+                            </Button>,
+                            <Button
+                                key='Reset'
+                                variant='primary'
+                                disabled={!isDirty}
+                                onClick={() => {
+                                    hydrateDefaults()
+                                }}
+                            >
+                                Reset
+                            </Button>
+                        ]}
+                    >
+                        <Row>
+                            <FormCol error={errors.name}>
+                                <label htmlFor='name'>
+                                    <strong>Name</strong>
+                                    <FormControl formKey='name' formType='text' />
+                                </label>
+                            </FormCol>
+                        </Row>
+
+                        <Row>
+                            <FormCol error={errors.description}>
+                                <label htmlFor='description'>
+                                    <strong>Description</strong>
+                                    <FormControl formKey='description' formType='text' />
+                                </label>
+                            </FormCol>
+                        </Row>
+
+                        <Row>
+                            <FormCol error={errors.icon}>
+                                <label htmlFor='icon'>
+                                    <div className='inline'>
+                                        <Popover
+                                            className='inline'
+                                            content={<strong>Icon</strong>}
+                                            popover={'This is the FontAwesome icon name.'}
+                                        />{' '}
+                                    </div>
+
+                                    <FormControl
+                                        formKey='icon'
+                                        formType='text'
+                                        className={!checkValidIcon(icon) ? 'border-orange-500' : undefined}
+                                        errorMessage={errors.icon?.message}
+                                    />
+                                </label>
+                            </FormCol>
+                        </Row>
+
+                        <Row>
+                            <FormCol error={errors.enabled}>
+                                <Toggle
+                                    checked={enabled}
+                                    onChange={(change) => {
+                                        form.setValue('enabled', change, {
+                                            shouldValidate: true,
+                                            shouldDirty: true
+                                        })
+                                    }}
+                                >
+                                    Enabled
+                                </Toggle>
+                            </FormCol>
+                        </Row>
+
+                        <Row>
+                            <Col></Col>
+                        </Row>
+                    </OverlayCard>
+                </FormProvider>
+            </Conditional>
         </>
     )
 }

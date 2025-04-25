@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 
@@ -19,12 +19,12 @@ export default meta
 export const Default: StoryType = {
     args: {
         children: [
-            <ConditionalTableCell key='Cell1' condition={true}>
+            <TableDataCell key='Cell1' condition={true}>
                 Cell1
-            </ConditionalTableCell>,
-            <ConditionalTableCell key='Cell2' condition={true}>
+            </TableDataCell>,
+            <TableDataCell key='Cell2' condition={true}>
                 Cell2
-            </ConditionalTableCell>
+            </TableDataCell>
         ]
     }
 }

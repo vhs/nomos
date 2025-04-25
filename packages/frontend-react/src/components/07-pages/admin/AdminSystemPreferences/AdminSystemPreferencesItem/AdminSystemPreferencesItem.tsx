@@ -9,7 +9,8 @@ import Button from '@/components/01-atoms/Button/Button'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
@@ -50,55 +51,57 @@ const AdminSystemPreferencesItem: FC<AdminSystemPreferencesItemProps> = ({ field
     }
 
     return (
-        <tr data-testid='AdminSystemPreferencesItem'>
-            <ConditionalTableCell key={'key'} condition={fields.Key}>
-                {String(data.key)}
-            </ConditionalTableCell>
-            <ConditionalTableCell key={'value'} condition={fields.Value}>
-                {String(data.value)}
-            </ConditionalTableCell>
-            <ConditionalTableCell key={'enabled'} condition={fields.Enabled}>
-                {String(data.enabled ? 'Yes' : 'No')}
-            </ConditionalTableCell>
-            <ConditionalTableCell key={'notes'} condition={fields.Notes}>
-                {String(data.notes)}
-            </ConditionalTableCell>
-            <TableActionsCell>
-                <Button
-                    className='btn-circle'
-                    onClick={() => {
-                        void router.navigate({ to: `/admin/systempreferences/${data.id}` })
-                    }}
-                >
-                    <FontAwesomeIcon icon='edit' />
-                </Button>
-                <Button variant='danger' className='btn-circle' onClick={openDeleteModal}>
-                    <FontAwesomeIcon icon='times' />
-                </Button>
-                <Conditional condition={showDeleteModal}>
-                    <OverlayCard
-                        title='Confirm Delete'
-                        actions={[
-                            <Button
-                                key='Delete'
-                                variant='primary'
-                                onClick={() => {
-                                    void deleteSystemPreference()
-                                }}
-                            >
-                                Delete
-                            </Button>
-                        ]}
-                        onClose={() => {
-                            closeDeleteModal()
-                            return false
+        <>
+            <TablePageRow data-testid='AdminSystemPreferencesItem'>
+                <TableDataCell key={'key'} condition={fields.Key}>
+                    {String(data.key)}
+                </TableDataCell>
+                <TableDataCell key={'value'} condition={fields.Value}>
+                    {String(data.value)}
+                </TableDataCell>
+                <TableDataCell key={'enabled'} condition={fields.Enabled}>
+                    {String(data.enabled ? 'Yes' : 'No')}
+                </TableDataCell>
+                <TableDataCell key={'notes'} condition={fields.Notes}>
+                    {String(data.notes)}
+                </TableDataCell>
+                <TableActionsCell>
+                    <Button
+                        className='btn-circle'
+                        onClick={() => {
+                            void router.navigate({ to: `/admin/systempreferences/${data.id}` })
                         }}
                     >
-                        Are you sure you want to delete this System Preference?
-                    </OverlayCard>
-                </Conditional>
-            </TableActionsCell>
-        </tr>
+                        <FontAwesomeIcon icon='edit' />
+                    </Button>
+                    <Button variant='danger' className='btn-circle' onClick={openDeleteModal}>
+                        <FontAwesomeIcon icon='times' />
+                    </Button>
+                </TableActionsCell>
+            </TablePageRow>
+            <Conditional condition={showDeleteModal}>
+                <OverlayCard
+                    title='Confirm Delete'
+                    actions={[
+                        <Button
+                            key='Delete'
+                            variant='primary'
+                            onClick={() => {
+                                void deleteSystemPreference()
+                            }}
+                        >
+                            Delete
+                        </Button>
+                    ]}
+                    onClose={() => {
+                        closeDeleteModal()
+                        return false
+                    }}
+                >
+                    Are you sure you want to delete this System Preference?
+                </OverlayCard>
+            </Conditional>
+        </>
     )
 }
 

@@ -11,7 +11,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import ConditionalTableCell from '@/components/02-molecules/ConditionalTableCell/ConditionalTableCell'
+import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import OAuthService2 from '@/lib/providers/OAuthService2'
@@ -65,20 +65,20 @@ const OAuthPageClientItem: FC<OAuthPageClientItemProps> = ({ fields, data }) => 
     return (
         <>
             <TablePageRow data-testid='OAuthPageClientItem' fields={Object.keys(fields).length + 1}>
-                <ConditionalTableCell condition={fields.Name}>{name}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Description}>{description}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Url}>{url}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Redirecturi}>{redirecturi}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Owner}>{userid ?? ''}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields['Client Id']}>{id}</ConditionalTableCell>
-                <ConditionalTableCell condition={fields['Client Secret']}>{secret}</ConditionalTableCell>
-                <ConditionalTableCell className='text-nowrap' condition={fields.Header}>
+                <TableDataCell condition={fields.Name}>{name}</TableDataCell>
+                <TableDataCell condition={fields.Description}>{description}</TableDataCell>
+                <TableDataCell condition={fields.Url}>{url}</TableDataCell>
+                <TableDataCell condition={fields.Redirecturi}>{redirecturi}</TableDataCell>
+                <TableDataCell condition={fields.Owner}>{userid ?? ''}</TableDataCell>
+                <TableDataCell condition={fields['Client Id']}>{id}</TableDataCell>
+                <TableDataCell condition={fields['Client Secret']}>{secret}</TableDataCell>
+                <TableDataCell className='text-nowrap' condition={fields.Header}>
                     {`Authorization: Basic ${window.btoa(`${id}:${secret}`)}`}
-                </ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Expires}>
+                </TableDataCell>
+                <TableDataCell condition={fields.Expires}>
                     {moment(expires).format('MMMM Do YYYY')} ({moment(expires).fromNow()})
-                </ConditionalTableCell>
-                <ConditionalTableCell condition={fields.Enabled}>{enabled ? 'Yes' : 'No'}</ConditionalTableCell>
+                </TableDataCell>
+                <TableDataCell condition={fields.Enabled}>{enabled ? 'Yes' : 'No'}</TableDataCell>
                 <TableActionsCell>
                     <Button circle onClick={openEditModal}>
                         <FontAwesomeIcon icon='edit' />
