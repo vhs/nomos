@@ -1,11 +1,11 @@
 import type { FC } from 'react'
 
-import type { WebHooksComponentProps } from './WebHooksComponent.types'
+import type { WebHooksItemProps } from './WebHooksItem.types'
 
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
-const WebHooksComponent: FC<WebHooksComponentProps> = ({ fields, data }) => (
+const WebHooksItem: FC<WebHooksItemProps> = ({ fields, data }) => (
     <TablePageRow key={data.id}>
         <TableDataCell condition={fields.Name}>{data.name}</TableDataCell>
         <TableDataCell condition={fields.Method}>{data.method}</TableDataCell>
@@ -15,4 +15,4 @@ const WebHooksComponent: FC<WebHooksComponentProps> = ({ fields, data }) => (
     </TablePageRow>
 )
 
-export default WebHooksComponent
+export default WebHooksItem
