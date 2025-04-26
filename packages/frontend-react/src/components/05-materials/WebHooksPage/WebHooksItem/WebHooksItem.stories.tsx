@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import WebHooksComponent from './WebHooksComponent'
+import WebHooksItem from './WebHooksItem'
 
-type StoryType = StoryObj<typeof WebHooksComponent>
+type StoryType = StoryObj<typeof WebHooksItem>
 
-const meta: Meta<typeof WebHooksComponent> = {
-    component: WebHooksComponent,
-    title: '05-Materials/WebHooksPage/WebHooksComponent',
+const meta: Meta<typeof WebHooksItem> = {
+    component: WebHooksItem,
+    title: '05-Materials/WebHooksPage/WebHooksItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
