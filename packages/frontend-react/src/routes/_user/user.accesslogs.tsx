@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import UserAccessHistory from '@/components/07-pages/user/UserAccessHistory/UserAccessHistory.lazy'
+import AccessHistory from '@/components/07-pages/user/AccessHistory/AccessHistory.lazy'
 
 export const Route = createFileRoute('/_user/user/accesslogs')({
-    component: UserAccessHistory
+    component: AccessHistory
 })

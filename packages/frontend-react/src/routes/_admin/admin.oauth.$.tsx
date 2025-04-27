@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import AdminOAuth from '@/components/07-pages/admin/AdminOAuth/AdminOAuth.lazy'
+import OAuth from '@/components/07-pages/admin/OAuth/OAuth.lazy'
 
 export const Route = createFileRoute('/_admin/admin/oauth/$')({
-    component: AdminOAuth
+    component: OAuth
 })

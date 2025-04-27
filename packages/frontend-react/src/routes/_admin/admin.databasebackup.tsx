@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import AdminDatabaseBackup from '@/components/07-pages/admin/AdminDatabaseBackup/AdminDatabaseBackup.lazy'
+import DatabaseBackup from '@/components/07-pages/admin/DatabaseBackup/DatabaseBackup.lazy'
 
 export const Route = createFileRoute('/_admin/admin/databasebackup')({
-    component: AdminDatabaseBackup
+    component: DatabaseBackup
 })
