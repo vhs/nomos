@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import AdminEmailTemplates from '@/components/07-pages/admin/AdminEmailTemplates/AdminEmailTemplates.lazy'
+import EmailTemplates from '@/components/07-pages/admin/EmailTemplates/EmailTemplates.lazy'
 
 export const Route = createFileRoute('/_admin/admin/emailtemplates')({
-    component: AdminEmailTemplates
+    component: EmailTemplates
 })
