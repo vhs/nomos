@@ -4,13 +4,13 @@ import type { ListGenuineCardPurchasesItemProps } from './ListGenuineCardPurchas
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyListGenuineCardPurchasesItem = lazy(async () => await import('./ListGenuineCardPurchasesItem'))
+const ListGenuineCardPurchasesItemLazy = lazy(async () => await import('./ListGenuineCardPurchasesItem'))
 
 const ListGenuineCardPurchasesItem = (
     props: JSX.IntrinsicAttributes & ListGenuineCardPurchasesItemProps
 ): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyListGenuineCardPurchasesItem {...props} />
+        <ListGenuineCardPurchasesItemLazy {...props} />
     </Suspense>
 )
 

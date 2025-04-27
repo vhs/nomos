@@ -4,11 +4,11 @@ import type { AdminIPNRecordsProps } from './AdminIPNRecords.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminIPNRecords = lazy(async () => await import('./AdminIPNRecords'))
+const AdminIPNRecordsLazy = lazy(async () => await import('./AdminIPNRecords'))
 
 const AdminIPNRecords = (props: JSX.IntrinsicAttributes & AdminIPNRecordsProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminIPNRecords {...props} />
+        <AdminIPNRecordsLazy {...props} />
     </Suspense>
 )
 

@@ -4,11 +4,11 @@ import type { LoginProps } from './Login.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyLogin = lazy(async () => await import('./Login'))
+const LoginLazy = lazy(async () => await import('./Login'))
 
 const Login = (props: JSX.IntrinsicAttributes & LoginProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyLogin {...props} />
+        <LoginLazy {...props} />
     </Suspense>
 )
 

@@ -4,11 +4,11 @@ import type { UserDoorAccessProps } from './UserDoorAccess.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyUserDoorAccess = lazy(async () => await import('./UserDoorAccess'))
+const UserDoorAccessLazy = lazy(async () => await import('./UserDoorAccess'))
 
 const UserDoorAccess = (props: JSX.IntrinsicAttributes & UserDoorAccessProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyUserDoorAccess {...props} />
+        <UserDoorAccessLazy {...props} />
     </Suspense>
 )
 
