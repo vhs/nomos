@@ -4,11 +4,11 @@ import type { AdminSystemPreferencesItemProps } from './AdminSystemPreferencesIt
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminSystemPreferencesItem = lazy(async () => await import('./AdminSystemPreferencesItem'))
+const AdminSystemPreferencesItemLazy = lazy(async () => await import('./AdminSystemPreferencesItem'))
 
 const AdminSystemPreferencesItem = (props: JSX.IntrinsicAttributes & AdminSystemPreferencesItemProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminSystemPreferencesItem {...props} />
+        <AdminSystemPreferencesItemLazy {...props} />
     </Suspense>
 )
 

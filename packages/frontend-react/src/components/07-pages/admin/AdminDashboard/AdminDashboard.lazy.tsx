@@ -4,11 +4,11 @@ import type { AdminDashboardProps } from './AdminDashboard.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminDashboard = lazy(async () => await import('./AdminDashboard'))
+const AdminDashboardLazy = lazy(async () => await import('./AdminDashboard'))
 
 const AdminDashboard = (props: JSX.IntrinsicAttributes & AdminDashboardProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminDashboard {...props} />
+        <AdminDashboardLazy {...props} />
     </Suspense>
 )
 
