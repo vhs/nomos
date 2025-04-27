@@ -4,11 +4,11 @@ import type { UserTransactionItemsProps } from './UserTransactionItems.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyUserTransactionItems = lazy(async () => await import('./UserTransactionItems'))
+const UserTransactionItemsLazy = lazy(async () => await import('./UserTransactionItems'))
 
 const UserTransactionItems = (props: JSX.IntrinsicAttributes & UserTransactionItemsProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyUserTransactionItems {...props} />
+        <UserTransactionItemsLazy {...props} />
     </Suspense>
 )
 

@@ -4,11 +4,11 @@ import type { AdminPayPalPaymentItemProps } from './AdminPayPalPaymentItem.types
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminPayPalPaymentItem = lazy(async () => await import('./AdminPayPalPaymentItem'))
+const AdminPayPalPaymentItemLazy = lazy(async () => await import('./AdminPayPalPaymentItem'))
 
 const AdminPayPalPaymentItem = (props: JSX.IntrinsicAttributes & AdminPayPalPaymentItemProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminPayPalPaymentItem {...props} />
+        <AdminPayPalPaymentItemLazy {...props} />
     </Suspense>
 )
 

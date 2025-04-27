@@ -4,11 +4,11 @@ import type { AdminMemberCardsProps } from './AdminMemberCards.types'
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminMemberCards = lazy(async () => await import('./AdminMemberCards'))
+const AdminMemberCardsLazy = lazy(async () => await import('./AdminMemberCards'))
 
 const AdminMemberCards = (props: JSX.IntrinsicAttributes & AdminMemberCardsProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminMemberCards {...props} />
+        <AdminMemberCardsLazy {...props} />
     </Suspense>
 )
 

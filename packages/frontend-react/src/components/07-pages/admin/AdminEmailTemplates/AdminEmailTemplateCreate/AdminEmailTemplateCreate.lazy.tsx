@@ -4,11 +4,11 @@ import type { AdminEmailTemplateCreateProps } from './AdminEmailTemplateCreate.t
 
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 
-const LazyAdminEmailTemplateCreate = lazy(async () => await import('./AdminEmailTemplateCreate'))
+const AdminEmailTemplateCreateLazy = lazy(async () => await import('./AdminEmailTemplateCreate'))
 
 const AdminEmailTemplateCreate = (props: JSX.IntrinsicAttributes & AdminEmailTemplateCreateProps): JSX.Element => (
     <Suspense fallback={<LoadingOverlay show={true} />}>
-        <LazyAdminEmailTemplateCreate {...props} />
+        <AdminEmailTemplateCreateLazy {...props} />
     </Suspense>
 )
 
