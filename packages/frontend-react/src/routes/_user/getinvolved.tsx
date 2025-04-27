@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import UserGetInvolved from '@/components/07-pages/user/UserGetInvolved/UserGetInvolved.lazy'
+import GetInvolved from '@/components/07-pages/user/GetInvolved/GetInvolved.lazy'
 
 export const Route = createFileRoute('/_user/getinvolved')({
-    component: UserGetInvolved
+    component: GetInvolved
 })

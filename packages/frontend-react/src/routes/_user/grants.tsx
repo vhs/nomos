@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import UserGranting from '@/components/07-pages/user/UserGranting/UserGranting.lazy'
+import Granting from '@/components/07-pages/user/Granting/Granting.lazy'
 
 export const Route = createFileRoute('/_user/grants')({
-    component: UserGranting
+    component: Granting
 })

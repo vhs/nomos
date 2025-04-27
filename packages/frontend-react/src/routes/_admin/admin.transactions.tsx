@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import AdminPayments from '@/components/07-pages/admin/AdminPayments/AdminPayments.lazy'
+import Payments from '@/components/07-pages/admin/Payments/Payments.lazy'
 
 export const Route = createFileRoute('/_admin/admin/transactions')({
-    component: AdminPayments
+    component: Payments
 })

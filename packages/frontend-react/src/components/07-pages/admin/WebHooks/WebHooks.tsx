@@ -1,0 +1,9 @@
+import type { FC } from 'react'
+
+import type { WebHooksProps } from './WebHooks.types'
+
+import WebHooksPage from '@/components/05-materials/WebHooksPage/WebHooksPage'
+
+const WebHooks: FC<WebHooksProps> = () => <WebHooksPage data-testid='WebHooks' />
+
+export default WebHooks
