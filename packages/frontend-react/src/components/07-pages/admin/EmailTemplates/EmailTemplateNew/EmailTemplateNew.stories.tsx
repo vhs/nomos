@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import EmailTemplateCreate from './EmailTemplateCreate'
+import EmailTemplateNew from './EmailTemplateNew'
 
-type StoryType = StoryObj<typeof EmailTemplateCreate>
+type StoryType = StoryObj<typeof EmailTemplateNew>
 
-const meta: Meta<typeof EmailTemplateCreate> = {
-    component: EmailTemplateCreate,
-    title: '07-Pages/Admin/EmailTemplates/EmailTemplateCreate',
+const meta: Meta<typeof EmailTemplateNew> = {
+    component: EmailTemplateNew,
+    title: '07-Pages/Admin/EmailTemplates/EmailTemplateNew',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -22,6 +22,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'EmailTemplateCreate'
+        children: 'EmailTemplateNew'
     }
 }
