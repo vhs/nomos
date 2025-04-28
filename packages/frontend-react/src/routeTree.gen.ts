@@ -30,6 +30,7 @@ import { Route as UserGrantsImport } from './routes/_user/grants'
 import { Route as UserGetinvolvedImport } from './routes/_user/getinvolved'
 import { Route as UserDooraccessImport } from './routes/_user/dooraccess'
 import { Route as UserDashboardImport } from './routes/_user/dashboard'
+import { Route as UserAccesslogsImport } from './routes/_user/accesslogs'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicRecoveryImport } from './routes/_public/recovery'
 import { Route as PublicLoginImport } from './routes/_public/login'
@@ -41,7 +42,6 @@ import { Route as AdminConfigImport } from './routes/_admin/config'
 import { Route as AdminBackupImport } from './routes/_admin/backup'
 import { Route as UserApikeysIndexImport } from './routes/_user/apikeys.index'
 import { Route as AdminAdminIndexImport } from './routes/_admin/admin.index'
-import { Route as UserUserAccesslogsImport } from './routes/_user/user.accesslogs'
 import { Route as UserApikeysSplatImport } from './routes/_user/apikeys.$'
 import { Route as AdminAdminWebhooksImport } from './routes/_admin/admin.webhooks'
 import { Route as AdminAdminUsersImport } from './routes/_admin/admin.users'
@@ -192,6 +192,12 @@ const UserDashboardRoute = UserDashboardImport.update({
   getParentRoute: () => UserRoute,
 } as any)
 
+const UserAccesslogsRoute = UserAccesslogsImport.update({
+  id: '/accesslogs',
+  path: '/accesslogs',
+  getParentRoute: () => UserRoute,
+} as any)
+
 const PublicRegisterRoute = PublicRegisterImport.update({
   id: '/register',
   path: '/register',
@@ -256,12 +262,6 @@ const AdminAdminIndexRoute = AdminAdminIndexImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => AdminRoute,
-} as any)
-
-const UserUserAccesslogsRoute = UserUserAccesslogsImport.update({
-  id: '/user/accesslogs',
-  path: '/user/accesslogs',
-  getParentRoute: () => UserRoute,
 } as any)
 
 const UserApikeysSplatRoute = UserApikeysSplatImport.update({
@@ -576,6 +576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRegisterImport
       parentRoute: typeof PublicImport
     }
+    '/_user/accesslogs': {
+      id: '/_user/accesslogs'
+      path: '/accesslogs'
+      fullPath: '/accesslogs'
+      preLoaderRoute: typeof UserAccesslogsImport
+      parentRoute: typeof UserImport
+    }
     '/_user/dashboard': {
       id: '/_user/dashboard'
       path: '/dashboard'
@@ -854,13 +861,6 @@ declare module '@tanstack/react-router' {
       path: '/apikeys/$'
       fullPath: '/apikeys/$'
       preLoaderRoute: typeof UserApikeysSplatImport
-      parentRoute: typeof UserImport
-    }
-    '/_user/user/accesslogs': {
-      id: '/_user/user/accesslogs'
-      path: '/user/accesslogs'
-      fullPath: '/user/accesslogs'
-      preLoaderRoute: typeof UserUserAccesslogsImport
       parentRoute: typeof UserImport
     }
     '/_admin/admin/': {
@@ -1152,6 +1152,7 @@ const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
 interface UserRouteChildren {
+  UserAccesslogsRoute: typeof UserAccesslogsRoute
   UserDashboardRoute: typeof UserDashboardRoute
   UserDooraccessRoute: typeof UserDooraccessRoute
   UserGetinvolvedRoute: typeof UserGetinvolvedRoute
@@ -1166,11 +1167,11 @@ interface UserRouteChildren {
   UserWebhooksRoute: typeof UserWebhooksRoute
   UserIndexRoute: typeof UserIndexRoute
   UserApikeysSplatRoute: typeof UserApikeysSplatRoute
-  UserUserAccesslogsRoute: typeof UserUserAccesslogsRoute
   UserApikeysIndexRoute: typeof UserApikeysIndexRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
+  UserAccesslogsRoute: UserAccesslogsRoute,
   UserDashboardRoute: UserDashboardRoute,
   UserDooraccessRoute: UserDooraccessRoute,
   UserGetinvolvedRoute: UserGetinvolvedRoute,
@@ -1185,7 +1186,6 @@ const UserRouteChildren: UserRouteChildren = {
   UserWebhooksRoute: UserWebhooksRoute,
   UserIndexRoute: UserIndexRoute,
   UserApikeysSplatRoute: UserApikeysSplatRoute,
-  UserUserAccesslogsRoute: UserUserAccesslogsRoute,
   UserApikeysIndexRoute: UserApikeysIndexRoute,
 }
 
@@ -1202,6 +1202,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
+  '/accesslogs': typeof UserAccesslogsRoute
   '/dashboard': typeof UserDashboardRoute
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
@@ -1242,7 +1243,6 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
   '/apikeys/$': typeof UserApikeysSplatRoute
-  '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
   '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
@@ -1270,6 +1270,7 @@ export interface FileRoutesByTo {
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
+  '/accesslogs': typeof UserAccesslogsRoute
   '/dashboard': typeof UserDashboardRoute
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
@@ -1310,7 +1311,6 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin/webhooks': typeof AdminAdminWebhooksRoute
   '/apikeys/$': typeof UserApikeysSplatRoute
-  '/user/accesslogs': typeof UserUserAccesslogsRoute
   '/admin': typeof AdminAdminIndexRoute
   '/apikeys': typeof UserApikeysIndexRoute
   '/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
@@ -1341,6 +1341,7 @@ export interface FileRoutesById {
   '/_public/login': typeof PublicLoginRoute
   '/_public/recovery': typeof PublicRecoveryRouteWithChildren
   '/_public/register': typeof PublicRegisterRoute
+  '/_user/accesslogs': typeof UserAccesslogsRoute
   '/_user/dashboard': typeof UserDashboardRoute
   '/_user/dooraccess': typeof UserDooraccessRoute
   '/_user/getinvolved': typeof UserGetinvolvedRoute
@@ -1381,7 +1382,6 @@ export interface FileRoutesById {
   '/_admin/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/_admin/admin/webhooks': typeof AdminAdminWebhooksRoute
   '/_user/apikeys/$': typeof UserApikeysSplatRoute
-  '/_user/user/accesslogs': typeof UserUserAccesslogsRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_user/apikeys/': typeof UserApikeysIndexRoute
   '/_admin/admin/emailtemplates/$templateId': typeof AdminAdminEmailtemplatesTemplateIdRoute
@@ -1411,6 +1411,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery'
     | '/register'
+    | '/accesslogs'
     | '/dashboard'
     | '/dooraccess'
     | '/getinvolved'
@@ -1451,7 +1452,6 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/webhooks'
     | '/apikeys/$'
-    | '/user/accesslogs'
     | '/admin'
     | '/apikeys'
     | '/admin/emailtemplates/$templateId'
@@ -1478,6 +1478,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery'
     | '/register'
+    | '/accesslogs'
     | '/dashboard'
     | '/dooraccess'
     | '/getinvolved'
@@ -1518,7 +1519,6 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/webhooks'
     | '/apikeys/$'
-    | '/user/accesslogs'
     | '/admin'
     | '/apikeys'
     | '/admin/emailtemplates/$templateId'
@@ -1547,6 +1547,7 @@ export interface FileRouteTypes {
     | '/_public/login'
     | '/_public/recovery'
     | '/_public/register'
+    | '/_user/accesslogs'
     | '/_user/dashboard'
     | '/_user/dooraccess'
     | '/_user/getinvolved'
@@ -1587,7 +1588,6 @@ export interface FileRouteTypes {
     | '/_admin/admin/users'
     | '/_admin/admin/webhooks'
     | '/_user/apikeys/$'
-    | '/_user/user/accesslogs'
     | '/_admin/admin/'
     | '/_user/apikeys/'
     | '/_admin/admin/emailtemplates/$templateId'
@@ -1689,6 +1689,7 @@ export const routeTree = rootRoute
     "/_user": {
       "filePath": "_user.tsx",
       "children": [
+        "/_user/accesslogs",
         "/_user/dashboard",
         "/_user/dooraccess",
         "/_user/getinvolved",
@@ -1703,7 +1704,6 @@ export const routeTree = rootRoute
         "/_user/webhooks",
         "/_user/",
         "/_user/apikeys/$",
-        "/_user/user/accesslogs",
         "/_user/apikeys/"
       ]
     },
@@ -1745,6 +1745,10 @@ export const routeTree = rootRoute
     "/_public/register": {
       "filePath": "_public/register.tsx",
       "parent": "/_public"
+    },
+    "/_user/accesslogs": {
+      "filePath": "_user/accesslogs.tsx",
+      "parent": "/_user"
     },
     "/_user/dashboard": {
       "filePath": "_user/dashboard.tsx",
@@ -1922,10 +1926,6 @@ export const routeTree = rootRoute
     },
     "/_user/apikeys/$": {
       "filePath": "_user/apikeys.$.tsx",
-      "parent": "/_user"
-    },
-    "/_user/user/accesslogs": {
-      "filePath": "_user/user.accesslogs.tsx",
       "parent": "/_user"
     },
     "/_admin/admin/": {
