@@ -7,8 +7,8 @@ import type { EmailTemplatesProps } from './EmailTemplates.types'
 import Button from '@/components/01-atoms/Button/Button'
 import TablePage from '@/components/05-materials/TablePage/TablePage'
 
-import { EmailTemplatesFields } from './EmailTemplates.utils'
 import EmailTemplateItem from './EmailTemplateItem/EmailTemplateItem'
+import { EmailTemplatesFields } from './EmailTemplates.utils'
 
 const EmailTemplates: FC<EmailTemplatesProps> = () => {
     const router = useRouter()
