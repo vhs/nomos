@@ -9,6 +9,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
@@ -59,7 +60,7 @@ const SystemPreferencesItem: FC<SystemPreferencesItemProps> = ({ fields, data })
                     {String(data.value)}
                 </TableDataCell>
                 <TableDataCell key={'enabled'} condition={fields.Enabled}>
-                    {String(data.enabled ? 'Yes' : 'No')}
+                    <EnabledCheckMark checked={data.enabled} />
                 </TableDataCell>
                 <TableDataCell key={'notes'} condition={fields.Notes}>
                     {String(data.notes)}

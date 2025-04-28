@@ -2,8 +2,8 @@ import type { FC } from 'react'
 
 import type { AccessHistoryItemProps } from './AccessHistoryItem.types'
 
-import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 const AccessHistoryItem: FC<AccessHistoryItemProps> = ({ fields, data }) => {
@@ -22,7 +22,7 @@ const AccessHistoryItem: FC<AccessHistoryItemProps> = ({ fields, data }) => {
                 {data.userid}
             </TableDataCell>
             <TableDataCell className='text-center' condition={fields.Authorized}>
-                <FontAwesomeIcon className='h-5 w-5' icon={data.authorized ? 'check-circle' : 'close'} size='2x' />
+                <EnabledCheckMark checked={data.authorized} negativeIcon='close' negativeHighlight />
             </TableDataCell>
             <TableDataCell className='text-center' condition={fields['From IP']}>
                 {data.from_ip}

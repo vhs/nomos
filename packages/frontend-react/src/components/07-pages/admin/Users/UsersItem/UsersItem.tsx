@@ -2,9 +2,7 @@
 
 import type { FC } from 'react'
 
-import { CheckCircleIcon } from '@heroicons/react/16/solid'
 import { useRouter } from '@tanstack/react-router'
-import clsx from 'clsx'
 import moment from 'moment'
 import useSWR from 'swr'
 
@@ -16,6 +14,7 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import Popover from '@/components/01-atoms/Popover/Popover'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
@@ -68,9 +67,7 @@ const UsersItem: FC<UsersItemProps> = ({ fields, data }) => {
                 <AccountStatusBadge status={userStatus} />
             </TableDataCell>
             <TableDataCell className='data-field' condition={fields.Cash}>
-                <CheckCircleIcon
-                    className={clsx(['mx-auto max-h-5 max-w-5', user.cash ? 'text-primary' : 'text-gray-400/50'])}
-                />
+                <EnabledCheckMark checked={user.cash} positiveIconColour='text-primary' />
             </TableDataCell>
             <TableDataCell className='data-field' condition={fields.Created}>
                 {user.member_since_month} {user.member_since_rest} ({user.member_for})

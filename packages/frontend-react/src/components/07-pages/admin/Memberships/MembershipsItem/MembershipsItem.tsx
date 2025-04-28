@@ -8,6 +8,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
 const MembershipsItem: FC<MembershipsItemProps> = ({ fields, data }) => {
@@ -28,10 +29,10 @@ const MembershipsItem: FC<MembershipsItemProps> = ({ fields, data }) => {
                 {data.price}
             </TableDataCell>
             <TableDataCell className='text-center' condition={fields.Active}>
-                {data.active ? 'Yes' : 'No'}
+                <EnabledCheckMark checked={data.active} />
             </TableDataCell>
             <TableDataCell className='text-center' condition={fields.Private}>
-                {data.private ? 'Yes' : 'No'}
+                <EnabledCheckMark checked={data.private} />
             </TableDataCell>
             <TableActionsCell>
                 <Button
