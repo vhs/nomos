@@ -48,7 +48,8 @@ class HttpBearerTokenAuthModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {}
+    public function endResponse(HttpServer $server) {
+    }
 
     /**
      * handle.
@@ -87,5 +88,6 @@ class HttpBearerTokenAuthModule implements IHttpModule {
      *
      * @return void
      */
-    public function handleException(HttpServer $server, \Exception $ex) {}
+    public function handleException(HttpServer $server, \Exception $ex) {
+    }
 }
