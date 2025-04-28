@@ -11,6 +11,7 @@ import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
 
@@ -80,7 +81,9 @@ const OAuthPageClientItem: FC<OAuthPageClientItemProps> = ({ fields, data }) => 
                 <TableDataCell condition={fields.Expires}>
                     {moment(expires).format('MMMM Do YYYY')} ({moment(expires).fromNow()})
                 </TableDataCell>
-                <TableDataCell condition={fields.Enabled}>{enabled ? 'Yes' : 'No'}</TableDataCell>
+                <TableDataCell condition={fields.Enabled}>
+                    <EnabledCheckMark checked={enabled} />
+                </TableDataCell>
                 <TableActionsCell>
                     <Button circle onClick={openEditModal}>
                         <FontAwesomeIcon icon='edit' />

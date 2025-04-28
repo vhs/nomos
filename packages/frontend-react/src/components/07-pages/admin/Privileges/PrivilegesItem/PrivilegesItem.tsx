@@ -12,7 +12,7 @@ import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIc
 import Popover from '@/components/01-atoms/Popover/Popover'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
-import Toggle from '@/components/01-atoms/Toggle/Toggle'
+import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
@@ -81,7 +81,7 @@ const PrivilegesItem: FC<PrivilegesItemProps> = ({ fields, data }) => {
                     />
                 </TableDataCell>
                 <TableDataCell condition={fields.Enabled}>
-                    <Toggle checked={privilege?.enabled} disabled />
+                    <EnabledCheckMark checked={privilege?.enabled} />
                 </TableDataCell>
                 <TableActionsCell className='max-w-16'>
                     <Button
