@@ -8,7 +8,7 @@ export const UserMenuItems: MenuItems = [
     { path: '/purchase', icon: 'user', name: 'Purchase' },
     { path: '/transactions', icon: 'user', name: 'Payment History' },
     { path: '/dooraccess', icon: 'key', name: 'Door Access' },
-    { path: '/user/accesslogs', icon: 'key', name: 'Access History' },
+    { path: '/accesslogs', icon: 'key', name: 'Access History' },
     { path: '/apikeys', icon: 'cubes', name: 'Manage API Keys' },
     { path: '/webhooks', icon: 'cubes', name: 'Web Hooks' },
     { path: '/getinvolved', icon: 'tasks', name: 'Get Involved!' },
