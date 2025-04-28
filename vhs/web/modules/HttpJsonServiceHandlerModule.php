@@ -41,7 +41,8 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {}
+    public function endResponse(HttpServer $server) {
+    }
 
     /**
      * handle.
@@ -83,12 +84,12 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
                     $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
 
                     break;
-                //case 'PUT':
-                //case 'DELETE':
+                    //case 'PUT':
+                    //case 'DELETE':
                 default:
                     throw new InvalidRequestException();
-                // TODO clean up
-                // break;
+                    // TODO clean up
+                    // break;
             }
 
             $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
@@ -115,5 +116,6 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function handleException(HttpServer $server, \Exception $ex) {}
+    public function handleException(HttpServer $server, \Exception $ex) {
+    }
 }
