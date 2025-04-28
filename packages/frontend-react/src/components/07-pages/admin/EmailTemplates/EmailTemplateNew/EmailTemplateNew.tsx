@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import type { EmailTemplateCreateProps } from './EmailTemplateCreate.types'
+import type { EmailTemplateNewProps } from './EmailTemplateNew.types'
 
 import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
@@ -17,7 +17,7 @@ import EmailService2 from '@/lib/providers/EmailService2'
 
 import { zEmailTemplateForm } from '../EmailTemplates.schema'
 
-const EmailTemplateCreate: FC<EmailTemplateCreateProps> = () => {
+const EmailTemplateNew: FC<EmailTemplateNewProps> = () => {
     const { mutate } = useTablePageContext()
 
     const form = useForm({
@@ -72,7 +72,7 @@ const EmailTemplateCreate: FC<EmailTemplateCreateProps> = () => {
 
     return (
         <OverlayCard
-            data-testid='EmailTemplateCreate'
+            data-testid='EmailTemplateNew'
             title={`Create Email Template`}
             actions={[
                 <Button
@@ -168,4 +168,4 @@ const EmailTemplateCreate: FC<EmailTemplateCreateProps> = () => {
     )
 }
 
-export default EmailTemplateCreate
+export default EmailTemplateNew

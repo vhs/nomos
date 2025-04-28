@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
 
-export interface EmailTemplateCreateProps {
+export interface EmailTemplateNewProps {
     children?: ReactNode
 }
