@@ -6,12 +6,12 @@ import { z } from 'zod'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
+import Col from '@/components/01-atoms/Col/Col'
+import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
+import Row from '@/components/01-atoms/Row/Row'
+
 import { CenteredContentStorybookDecorator } from '@/lib/ui/storybook'
 import { zEmailAddress, zPasswordField, zString, zUserPin } from '@/lib/validators/common'
-
-import Col from '../../01-atoms/Col/Col'
-import FontAwesomeIcon from '../../01-atoms/FontAwesomeIcon/FontAwesomeIcon'
-import Row from '../../01-atoms/Row/Row'
 
 import FormControl from './FormControl'
 
