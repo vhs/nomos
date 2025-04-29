@@ -1,13 +1,13 @@
 services:
-    nomos-frontend:
+    frontend:
         networks:
             - proxy
 
-    nomos-backend:
+    backend:
         networks:
             - proxy
 
-    nomos-webhooker:
+    webhooker:
         networks:
             - proxy
 

@@ -1,5 +1,5 @@
 services:
-    nomos-backend:
+    backend:
         build:
             context: ..
             dockerfile: docker-compose/Dockerfile

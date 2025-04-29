@@ -1,5 +1,5 @@
 services:
-    nomos-webhooker:
+    webhooker:
         networks:
             - proxy
 

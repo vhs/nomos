@@ -1,9 +1,9 @@
 services:
-    nomos-backend:
+    backend:
         networks:
             - mysql
 
-    nomos-mysql:
+    mysql:
         networks:
             - mysql
 

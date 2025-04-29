@@ -1,9 +1,9 @@
 services:
-    nomos-frontend:
+    frontend:
         networks:
             - rabbitmq
 
-    nomos-webhooker:
+    webhooker:
         networks:
             - rabbitmq
 
