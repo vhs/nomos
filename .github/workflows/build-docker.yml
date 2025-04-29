@@ -19,7 +19,7 @@ jobs:
     build:
         strategy:
             matrix:
-                component: [backend, frontend, webhooker]
+                component: [backend, frontend-react, frontend-web, webhooker]
 
         runs-on: ubuntu-latest
 

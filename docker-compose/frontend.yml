@@ -1,0 +1,7 @@
+services:
+    frontend:
+        depends_on:
+            - backend
+        restart: always
+        links:
+            - backend:backend
