@@ -1,7 +1,7 @@
 services:
-    nomos-rabbitmq:
+    rabbitmq:
         image: rabbitmq:3-management
-        container_name: nomos-rabbitmq
+        container_name: rabbitmq
         restart: always
         env_file:
             - ../docker/nomos.env
@@ -12,10 +12,10 @@ services:
         volumes:
             - ../data/rabbitmq:/var/lib/rabbitmq
 
-    nomos-webhooker:
+    webhooker:
         depends_on:
-            - nomos-rabbitmq
+            - rabbitmq
 
-    nomos-backend:
+    backend:
         depends_on:
-            - nomos-rabbitmq
+            - rabbitmq

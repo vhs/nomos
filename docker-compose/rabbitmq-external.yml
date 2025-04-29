@@ -1,13 +1,13 @@
 services:
-    nomos-webhooker:
+    webhooker:
         external_links:
-            - rabbitmq:nomos-rabbitmq
+            - rabbitmq:rabbitmq
         networks:
             - rabbitmq
 
-    nomos-backend:
+    backend:
         external_links:
-            - rabbitmq:nomos-rabbitmq
+            - rabbitmq:rabbitmq
         networks:
             - rabbitmq
 
