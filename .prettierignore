@@ -44,3 +44,5 @@ icons.psd
 pnpm-lock.yaml
 packages/webhooker/webhooker.service
 web/
+docker-compose.dev.conf
+docker-compose.sample.conf
