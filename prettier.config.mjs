@@ -62,6 +62,18 @@ const config = {
             }
         },
         {
+            files: ['docker/nomos.env.template'],
+            options: {
+                parser: 'sh'
+            }
+        },
+        {
+            files: ['conf/php/*.ini', 'conf/php-fpm/*.conf', '.editorconfig'],
+            options: {
+                parser: 'ini'
+            }
+        },
+        {
             files: ['conf/nginx-*.conf'],
             options: {
                 parser: 'nginx'
