@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-container_name=nomos-frontend
+container_name=$(docker container ls --filter ancestor=vanhack/nomos-frontend --format '{{.ID}}')
 # evil villainy to get the IP from the host
 frontend_addr="$(docker inspect "$container_name" | jq -r '.[0].NetworkSettings.Networks | to_entries | .[0].value.IPAddress')"
 frontend_base_uri="http://vhs:password@${frontend_addr}/services/web"

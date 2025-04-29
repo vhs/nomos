@@ -1,4 +1,4 @@
 services:
-    nomos-backend:
+    backend:
         env_file:
             - ../docker/nomos.env

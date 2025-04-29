@@ -1,5 +1,5 @@
 services:
-    nomos-backend:
+    backend:
         volumes:
             - ../app:/var/www/html/app
             - ../migrations:/var/www/html/migrations

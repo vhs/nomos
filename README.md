@@ -57,7 +57,7 @@ then run `./docker-compose.sh up` again.
 You're all set! You can get the address to access the Nomos service from your docker host system by running the following in a separate terminal as `docker-compose.sh`:
 
 ```
-$ docker inspect nomos-frontend | jq -r '.[0].NetworkSettings.Networks | to_entries | .[0].value.IPAddress'
+$ ./docker-compose.sh ps frontend -q | xargs docker inspect  | jq -r '.[0].NetworkSettings.Networks | to_entries | .[0].value.IPAddress'
 ```
 
 Or make your docker-compose.conf include `docker-compose/core.ports.yml`, to proxy port 80 of your docker network to port 80 on your host machine.

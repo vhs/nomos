@@ -1,13 +1,13 @@
 services:
-    nomos-rabbitmq:
+    rabbitmq:
         networks:
             - rabbitmq
 
-    nomos-webhooker:
+    webhooker:
         networks:
             - rabbitmq
 
-    nomos-backend:
+    backend:
         networks:
             - rabbitmq
 

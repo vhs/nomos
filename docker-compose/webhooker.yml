@@ -1,9 +1,9 @@
 services:
-    nomos-webhooker:
-        image: vanhack/nomos-webhooker
-        container_name: nomos-webhooker
+    webhooker:
+        image: vanhack/webhooker
+        container_name: webhooker
         restart: always
 
-    nomos-backend:
+    backend:
         depends_on:
-            - nomos-webhooker
+            - webhooker

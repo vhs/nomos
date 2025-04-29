@@ -1,12 +1,11 @@
 services:
     # backend needs the db started first
-    nomos-backend:
+    backend:
         depends_on:
-            nomos-mysql:
+            mysql:
                 condition: service_started
-    nomos-mysql:
-        image: mysql:5.7
-        container_name: nomos-mysql
+    mysql:
+        image: mysql:8.0
         environment:
             - MYSQL_USER=${NOMOS_DB_USER}
             - MYSQL_PASSWORD=${NOMOS_DB_PASSWORD}

@@ -1,5 +1,5 @@
 services:
-    nomos-frontend:
+    frontend:
         labels:
             - 'traefik.enable=true'
             - 'traefik.http.routers.nomos-devtest.rule=Host(`membership.test.vanhack.ca`) || Host(`membership.devtest.vanhack.ca`)'

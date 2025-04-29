@@ -1,9 +1,9 @@
 services:
-    nomos-frontend:
+    frontend:
         networks:
             - proxy
 
-    nomos-backend:
+    backend:
         networks:
             - proxy
 

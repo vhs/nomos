@@ -1,16 +1,14 @@
 services:
-    nomos-frontend:
+    frontend:
         image: vanhack/nomos-frontend
-        container_name: nomos-frontend
         depends_on:
-            - nomos-backend
+            - backend
         restart: always
         links:
-            - nomos-backend:nomos-backend
+            - backend:backend
 
-    nomos-backend:
+    backend:
         image: vanhack/nomos-backend
-        container_name: nomos-backend
         restart: always
         volumes:
             - ../data/backup:/var/www/html/backup
