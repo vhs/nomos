@@ -1,0 +1,6 @@
+services:
+    frontend:
+        build:
+            context: ..
+            dockerfile: docker-compose/Dockerfile
+            target: frontend-react

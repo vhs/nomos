@@ -32,7 +32,7 @@ WORKDIR /build/
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store,uid=1000,gid=1000 pnpm install --frozen-lockfile
 
-FROM build AS build-frontend
+FROM build AS build-frontend-react
 
 WORKDIR /build/
 
@@ -76,15 +76,21 @@ COPY --from=build /build/conf/config.docker.ini.php /var/www/html/conf/config.in
 COPY --from=build /build/conf/php/*.ini /etc/php83/conf.d/
 COPY --from=build /build/conf/php-fpm/*.conf /etc/php83/php-fpm.d/
 
-FROM nginx:stable-alpine AS frontend
+FROM nginx:stable-alpine AS frontend-web
+
+COPY conf/nginx-vhost-docker-compose.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build /build/web/ /var/www/html/
+
+FROM nginx:stable-alpine AS frontend-react
 
 COPY conf/nginx-react-docker-compose.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build-frontend /build/packages/frontend-react/dist/assets/ /var/www/html/assets/
-COPY --from=build-frontend /build/packages/frontend-react/dist/badges/ /var/www/html/badges/
-COPY --from=build-frontend /build/packages/frontend-react/dist/images/ /var/www/html/images/
-COPY --from=build-frontend /build/packages/frontend-react/dist/favicon.ico /var/www/html/
-COPY --from=build-frontend /build/packages/frontend-react/dist/index.html /var/www/html/
+COPY --from=build-frontend-react /build/packages/frontend-react/dist/assets/ /var/www/html/assets/
+COPY --from=build-frontend-react /build/packages/frontend-react/dist/badges/ /var/www/html/badges/
+COPY --from=build-frontend-react /build/packages/frontend-react/dist/images/ /var/www/html/images/
+COPY --from=build-frontend-react /build/packages/frontend-react/dist/favicon.ico /var/www/html/
+COPY --from=build-frontend-react /build/packages/frontend-react/dist/index.html /var/www/html/
 
 FROM base AS webhooker-base
 
