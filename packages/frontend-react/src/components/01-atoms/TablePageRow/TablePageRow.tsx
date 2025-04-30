@@ -4,10 +4,10 @@ import { clsx } from 'clsx'
 
 import type { TablePageRowProps } from './TablePageRow.types'
 
-import { TablePageRowFieldsClasses } from './TablePageRow.utils'
+import { TablePageRowFieldsClasses } from './TablePageRow.settings'
 
-const TablePageRow: FC<TablePageRowProps> = ({ fields, children }) => {
-    fields ??= 0
+const TablePageRow: FC<TablePageRowProps> = ({ children }) => {
+    const fields = Array.isArray(children) ? children.length : 0
 
     const cssClass = TablePageRowFieldsClasses[fields] ?? 'data-fields-default'
 

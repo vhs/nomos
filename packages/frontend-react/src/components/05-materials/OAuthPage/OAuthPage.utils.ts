@@ -28,11 +28,6 @@ export const getParsedOAuthPath = (basePath: string, pathname: string): ParsedOA
     const editModal = appClientId != null
     const createModal = !editModal && pathChunks.includes('new')
 
-    console.debug('getParsedOAuthPath - pathChunks:', pathChunks)
-    console.debug('getParsedOAuthPath - appClientId:', appClientId)
-    console.debug('getParsedOAuthPath - activeView:', activeView)
-    console.debug('getParsedOAuthPath - editModal:', editModal)
-
     return {
         createModal,
         editModal,
