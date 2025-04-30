@@ -8,10 +8,10 @@ import UserService2 from '@/lib/providers/UserService2'
 
 import type { User } from '@/types/validators/records'
 
-export const useGetUserUrl = (userId?: string | number): string | null =>
+export const useGetUserUrl = (userId?: string | number | null): string | null =>
     useMemo(() => (userId != null ? `/services/v2/UserService2.svc/GetUser?userid=${userId}` : null), [userId])
 
-const useGetUser = (userId?: string | number): SWRResponse<User> => {
+const useGetUser = (userId: string | number | undefined | null): SWRResponse<User> => {
     const getUserUrl = useGetUserUrl(userId)
 
     return useSWR<User>(

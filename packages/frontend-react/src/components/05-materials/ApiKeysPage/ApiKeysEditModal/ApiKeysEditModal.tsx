@@ -15,7 +15,6 @@ import Card from '@/components/04-composites/Card/Card'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
-import { backendCurrentUserUrl } from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider.utils'
 
 import useGetApiKey from '@/lib/hooks/providers/ApiKeyService2/useGetApiKey'
 import useAuth from '@/lib/hooks/useAuth'
@@ -27,7 +26,7 @@ import { useApiKeysPageContext } from '../ApiKeysPage.context'
 import { zApiKeysEditSchema } from '../ApiKeysPage.schemas'
 
 const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
-    const { currentUser } = useAuth()
+    const { currentUser, mutateUser } = useAuth()
     const { availablePrivileges, scope } = useApiKeysPageContext()
 
     const { data: apiKey } = useGetApiKey(keyId)
@@ -120,7 +119,7 @@ const ApiKeysEditModal: FC<ApiKeysEditModalProps> = ({ keyId }) => {
                     })
                 }
 
-                await mutate(backendCurrentUserUrl)
+                await mutateUser()
             },
             {
                 error: 'Failed to update this API key. Please contact your administrators',

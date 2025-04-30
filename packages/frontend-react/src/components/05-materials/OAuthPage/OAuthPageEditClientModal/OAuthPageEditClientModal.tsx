@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, type FC } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { mutate } from 'swr'
 
 import type { OAuthPageEditSchema } from '../OAuthPage.types'
 import type { OAuthPageEditClientModalProps } from './OAuthPageEditClientModal.types'
@@ -12,7 +11,6 @@ import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
-import { backendCurrentUserUrl } from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider.utils'
 
 import { useGetClientDetails } from '@/lib/hooks/providers/OAuthService2/useGetClientDetails'
 import useAuth from '@/lib/hooks/useAuth'
@@ -22,10 +20,8 @@ import OverlayCard from '../../OverlayCard/OverlayCard'
 import { zOAuthPageEditSchema } from '../OAuthPage.schemas'
 
 const OAuthPageEditClientModal: FC<OAuthPageEditClientModalProps> = ({ appClientId }) => {
-    const { currentUser } = useAuth()
+    const { currentUser, mutateUser } = useAuth()
     // const { scope } = useOAuthPageContext()
-
-    console.debug('OAuthPageEditClientModal - appClientId:', appClientId)
 
     const { data: appClient } = useGetClientDetails(appClientId)
 
@@ -93,7 +89,7 @@ const OAuthPageEditClientModal: FC<OAuthPageEditClientModalProps> = ({ appClient
 
                         form.reset({ name, description, url, redirecturi, expires })
 
-                        await mutate(backendCurrentUserUrl)
+                        await mutateUser()
                     },
                     {
                         error: 'Failed to update this client. Please contact your administrators',

@@ -1,26 +1,28 @@
 import { useEffect, useMemo, useState, type FC } from 'react'
 
 import { toast } from 'react-toastify'
-import useSWR from 'swr'
 
-import type { AuthenticationProviderProps, AuthenticationStates } from './AuthenticationProvider.types'
+import type { AuthenticationProviderProps } from './AuthenticationProvider.types'
 
+import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+
+import useCurrentUser from '@/lib/hooks/providers/AuthService2/useCurrentUser'
 import AuthService2 from '@/lib/providers/AuthService2'
 import { stripResultMessageQuotes } from '@/lib/utils'
 
+import type { AuthenticationStates } from '@/types/common'
+
+import { useConfigProviderContext } from '../ConfigProvider/ConfigProvider.hook'
+
 import { AuthenticationContext } from './AuthenticationProvider.context'
-import { backendCurrentUserUrl, currentUserFetchConfig, currentUserFetcher } from './AuthenticationProvider.utils'
 
 const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) => {
+    const { state } = useConfigProviderContext()
+
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-    const [pollUser, setPollUser] = useState<boolean>(false)
     const [authenticationState, setAuthenticationState] = useState<AuthenticationStates>(-1)
 
-    const {
-        data: currentUser
-        // isLoading: isCurrentUserLoading,
-        // error: isCurrentUserError
-    } = useSWR(pollUser ? backendCurrentUserUrl : null, currentUserFetcher, currentUserFetchConfig)
+    const { currentUser, mutateUser } = useCurrentUser()
 
     const login = async (username: string, password: string): Promise<void> => {
         const loginResult = await AuthService2.getInstance().Login(username, password)
@@ -33,7 +35,6 @@ const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) =
 
         setAuthenticationState(loggedIn)
         setIsAuthenticated(Boolean(loggedIn))
-        setPollUser(true)
     }
 
     const logout = async (): Promise<void> => {
@@ -41,7 +42,6 @@ const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) =
 
         setAuthenticationState(0)
         setIsAuthenticated(false)
-        setPollUser(false)
     }
 
     const authenticationContextValue = useMemo(
@@ -50,34 +50,23 @@ const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) =
             currentUser,
             isAuthenticated,
             login,
-            logout
+            logout,
+            mutateUser
         }),
-        [authenticationState, currentUser, isAuthenticated]
+        [authenticationState, currentUser, isAuthenticated, mutateUser]
     )
 
     useEffect(() => {
-        const initialCurrectUserFetch = async (): Promise<void> => {
-            try {
-                const initialCurrentUserResult = await currentUserFetcher()
-
-                if (typeof initialCurrentUserResult?.id === 'number') {
-                    setPollUser(true)
-                    setAuthenticationState(1)
-                    setIsAuthenticated(true)
-                } else {
-                    setAuthenticationState(0)
-                }
-            } catch (err) {
-                console.error('initialCurrentUserFetch', err)
-            }
+        if (currentUser != null) {
+            setIsAuthenticated(true)
+            setAuthenticationState(1)
+        } else {
+            setIsAuthenticated(false)
+            setAuthenticationState(0)
         }
-
-        void initialCurrectUserFetch()
-    }, [])
-
-    useEffect(() => {
-        setIsAuthenticated(currentUser != null)
     }, [currentUser])
+
+    if (state === 'loading') <LoadingOverlay />
 
     return (
         <AuthenticationContext.Provider value={authenticationContextValue}>{children}</AuthenticationContext.Provider>
