@@ -8,6 +8,7 @@ import {
     zDateTime,
     zEmailAddress,
     zEmptyArray,
+    zEmptyString,
     zFunctionBoolResultFromStringArraySpread,
     zHTTPMethod,
     zHumanName,
@@ -99,7 +100,7 @@ export const zEmailTemplate = z.object({
     name: zNormativeString,
     code: zNormativeString,
     subject: zNormativeString,
-    help: zNormativeString.or(z.literal('')),
+    help: zNormativeString.or(zEmptyString),
     body: zNormativeString,
     html: zNormativeString
 })

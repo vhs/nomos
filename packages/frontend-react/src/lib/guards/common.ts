@@ -22,6 +22,7 @@ import {
     zEmptyArray,
     zEmptyOrMinString,
     zEmptyOrMinStrings,
+    zEmptyString,
     zFunctionBoolResultFromStringArraySpread,
     zFunctionBoolResultFromStringArraySpreads,
     zHTTPMethod,
@@ -128,6 +129,7 @@ import type {
     EmptyArray,
     EmptyOrMinString,
     EmptyOrMinStrings,
+    EmptyString,
     FunctionBoolResultFromStringArraySpread,
     FunctionBoolResultFromStringArraySpreads,
     HTTPMethod,
@@ -252,6 +254,8 @@ export const isEmptyArray = (inp: unknown): inp is EmptyArray => zEmptyArray.saf
 export const isEmptyOrMinString = (inp: unknown): inp is EmptyOrMinString => zEmptyOrMinString.safeParse(inp).success
 
 export const isEmptyOrMinStrings = (inp: unknown): inp is EmptyOrMinStrings => zEmptyOrMinStrings.safeParse(inp).success
+
+export const isEmptyString = (inp: unknown): inp is EmptyString => zEmptyString.safeParse(inp).success
 
 export const isFunctionBoolResultFromStringArraySpread = (
     inp: unknown
