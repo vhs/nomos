@@ -2,7 +2,6 @@ import { useState, type FC } from 'react'
 
 import { PencilSquareIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useRouter } from '@tanstack/react-router'
-import { clsx } from 'clsx'
 import { toast } from 'react-toastify'
 import { mutate } from 'swr'
 
@@ -22,8 +21,6 @@ import type { ValidRoutePath } from '@/types/routing'
 
 import { useApiKeysPageContext } from '../../ApiKeysPage.context'
 import { getApiKeysTermByScope } from '../../ApiKeysPage.utils'
-
-import styles from './ApiKeysListItem.module.css'
 
 const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
     const { currentUser } = useAuth()
@@ -69,24 +66,13 @@ const ApiKeysListItem: FC<ApiKeysListItemProps> = ({ apiKey }) => {
     return (
         <>
             <TablePageRow>
-                <TableDataCell
-                    condition={'key' in apiKey}
-                    className={clsx([styles.DataField])}
-                    onClick={openEditModal}
-                    onKeyUp={openEditModal}
-                >
+                <TableDataCell condition={'key' in apiKey} onClick={openEditModal} onKeyUp={openEditModal}>
                     <Popover content={apiKey.key} popover={apiKey.key} />
                 </TableDataCell>
-                <TableDataCell className={styles.DataField} condition={'notes' in apiKey}>
-                    {apiKey.notes}
-                </TableDataCell>
-                <TableDataCell className={styles.DataField} condition={'created' in apiKey}>
-                    {apiKey.created?.toLocaleString()}
-                </TableDataCell>
-                <TableDataCell className={styles.DataField} condition={'expires' in apiKey}>
-                    {apiKey.expires?.toLocaleString()}
-                </TableDataCell>
-                <TableActionsCell className={styles.DataField}>
+                <TableDataCell condition={'notes' in apiKey}>{apiKey.notes}</TableDataCell>
+                <TableDataCell condition={'created' in apiKey}>{apiKey.created?.toLocaleString()}</TableDataCell>
+                <TableDataCell condition={'expires' in apiKey}>{apiKey.expires?.toLocaleString()}</TableDataCell>
+                <TableActionsCell>
                     <Button variant='primary' className='btn-circle h-10 w-10 text-white' onClick={openEditModal}>
                         <PencilSquareIcon className='h-4 w-4' />
                     </Button>
