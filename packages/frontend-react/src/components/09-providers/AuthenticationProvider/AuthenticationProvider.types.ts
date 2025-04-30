@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react'
 
+import type { SWRResponse } from 'swr'
+
 import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
+
+import type { AuthenticationStates } from '@/types/common'
+import type { User } from '@/types/validators/records'
 
 export interface AuthenticationProviderProps {
     children?: ReactNode
 }
-
-export type AuthenticationStates = -1 | 0 | 1
 
 export interface AuthenticationContextProps {
     authenticationState: AuthenticationStates
@@ -14,4 +17,5 @@ export interface AuthenticationContextProps {
     isAuthenticated: boolean
     login: (username: string, password: string) => Promise<void>
     logout: () => void
+    mutateUser: SWRResponse<User>['mutate']
 }

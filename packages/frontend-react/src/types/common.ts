@@ -13,3 +13,5 @@ export interface PrivilegeMutation {
     privilege: string
     state: boolean
 }
+
+export type AuthenticationStates = -1 | 0 | 1
