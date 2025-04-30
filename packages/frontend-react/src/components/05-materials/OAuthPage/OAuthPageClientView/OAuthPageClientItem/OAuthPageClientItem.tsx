@@ -67,7 +67,7 @@ const OAuthPageClientItem: FC<OAuthPageClientItemProps> = ({ fields, data }) => 
 
     return (
         <>
-            <TablePageRow data-testid='OAuthPageClientItem' fields={Object.keys(fields).length + 1}>
+            <TablePageRow data-testid='OAuthPageClientItem'>
                 <TableDataCell condition={fields.Name}>{name}</TableDataCell>
                 <TableDataCell condition={fields.Description}>{description}</TableDataCell>
                 <TableDataCell condition={fields.Url}>{url}</TableDataCell>

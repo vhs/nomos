@@ -3,7 +3,7 @@
         @apply odd:bg-white even:bg-slate-200;
 
         &.data-fields-default > TD {
-            @apply max-w-[5vw];
+            @apply max-w-[10vw];
         }
 
         &.data-fields-1 > TD {
@@ -23,7 +23,7 @@
         }
 
         &.data-fields-5 > TD {
-            @apply max-w-[15vw];
+            @apply max-w-[20vw];
         }
 
         &.data-fields-6 > TD {
@@ -54,7 +54,7 @@
             @apply max-w-[7vw];
         }
 
-        & > TD {
+        & > TD.data-field-reset {
             @apply overflow-hidden overflow-ellipsis;
             @apply xl:max-w-[unset];
         }

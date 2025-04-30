@@ -12,7 +12,7 @@ const TableDataCell: FC<TableDataCellProps> = ({ className, children, condition 
 
     return (
         <Conditional condition={condition}>
-            <td className={clsx([className, 'px-1 text-center'])} data-testid='TableDataCell'>
+            <td className={clsx([className, 'px-1 text-center', 'data-field-reset'])} data-testid='TableDataCell'>
                 {(typeof children === 'string' && children.length < 16) || typeof children !== 'string' ? (
                     children
                 ) : (

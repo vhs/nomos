@@ -50,7 +50,7 @@ const EmailTemplateItem: FC<EmailTemplateItemProps> = ({ fields, data }) => {
 
     return (
         <>
-            <TablePageRow data-testid='EmailTemplateItem' fields={8}>
+            <TablePageRow data-testid='EmailTemplateItem'>
                 <TableDataCell condition={fields.Name}>{data.name}</TableDataCell>
                 <TableDataCell condition={fields.Code}>{data.code}</TableDataCell>
                 <TableDataCell condition={fields.Subject}>{data.subject}</TableDataCell>
