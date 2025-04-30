@@ -5,6 +5,7 @@ import { SWRConfig } from 'swr'
 
 import WaitingRoom from '@/components/02-molecules/WaitingRoom/WaitingRoom'
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
+import ConfigProvider from '@/components/09-providers/ConfigProvider/ConfigProvider'
 
 import { fetcher } from '@/lib/fetcher'
 import useAuth from '@/lib/hooks/useAuth'
@@ -24,11 +25,13 @@ const App: FC = () => {
                 fetcher
             }}
         >
-            <AuthenticationProvider>
-                <WaitingRoom>
-                    <InnerApp />
-                </WaitingRoom>
-            </AuthenticationProvider>
+            <ConfigProvider>
+                <AuthenticationProvider>
+                    <WaitingRoom>
+                        <InnerApp />
+                    </WaitingRoom>
+                </AuthenticationProvider>
+            </ConfigProvider>
         </SWRConfig>
     )
 }

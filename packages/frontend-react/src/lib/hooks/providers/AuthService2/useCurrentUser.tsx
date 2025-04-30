@@ -1,53 +1,50 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useMemo } from 'react'
 
 import useSWR, { type SWRResponse } from 'swr'
 
+import { useConfigProviderContext } from '@/components/09-providers/ConfigProvider/ConfigProvider.hook'
+
 import PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 import { fetcher } from '@/lib/fetcher'
+import { isCurrentUser } from '@/lib/guards/records'
 
-import type { NOMOSResponse } from '@/types/api'
-import type { ReactAction } from '@/types/ui'
-import type { User } from '@/types/validators/records'
+import type { CurrentUser, User } from '@/types/validators/records'
 
 import useGetUser from '../UserService2/useGetUser'
 
-interface UserHookData {
-    currentUser?: PrincipalUserObject
+export const currentUserFetchConfig = {
+    refreshInterval: 15000,
+    revalidateOnFocus: true,
+    revalidateIfStale: true,
+    revalidateOnMount: true,
+    revalidateOnReconnect: true
+}
+
+interface CurrentUserHookData {
+    currentUser: PrincipalUserObject | null | undefined
     isUserError?: unknown
     isUserLoading: boolean
     mutateUser: SWRResponse<User>['mutate']
-    pollUser: boolean
-    setPollUser: ReactAction<boolean>
 }
 
-const backendCurrentUserUrl = '/services/v2/AuthService2.svc/CurrentUser'
+export const useCurrentUserUrl = (): string | null => {
+    const { getFullUri } = useConfigProviderContext()
 
-const useCurrentUser = (): UserHookData => {
-    const [pollUser, setPollUser] = useState<boolean>(false)
+    const currentUserUrl = useMemo(() => getFullUri(`/services/v2/AuthService2.svc/CurrentUser`), [getFullUri])
 
-    const currentUserUrl = useMemo(() => (pollUser ? backendCurrentUserUrl : null), [pollUser])
+    return currentUserUrl
+}
+
+const useCurrentUser = (): CurrentUserHookData => {
+    const currentUserUrl = useCurrentUserUrl()
 
     const {
         data: currentUserData,
         error: currentUserError,
         isLoading: isCurrentUserLoading
-    } = useSWR<User, Error>(
-        currentUserUrl,
-        async (url: string): Promise<User> => {
-            const result: NOMOSResponse<User> = await fetcher(url)
+    } = useSWR<CurrentUser, Error>(currentUserUrl, fetcher, currentUserFetchConfig)
 
-            return result
-        },
-        {
-            refreshInterval: 15000,
-            revalidateOnFocus: true,
-            revalidateIfStale: true,
-            revalidateOnMount: true,
-            revalidateOnReconnect: true
-        }
-    )
-
-    const principalUserResult = useGetUser(currentUserData?.id)
+    const principalUserResult = useGetUser(isCurrentUser(currentUserData) ? currentUserData.id : null)
 
     const principalUser = useMemo(() => {
         return principalUserResult.data != null ? new PrincipalUserObject(principalUserResult.data) : undefined
@@ -58,29 +55,11 @@ const useCurrentUser = (): UserHookData => {
         if (principalUserResult.error != null) return principalUserResult.error
     }, [currentUserError, principalUserResult])
 
-    useEffect(() => {
-        const initialCurrectUserFetch = async (): Promise<void> => {
-            try {
-                const initialCurrentUserResult = await fetcher<User>(backendCurrentUserUrl)
-
-                if (typeof initialCurrentUserResult.id === 'number') {
-                    setPollUser(true)
-                }
-            } catch (err) {
-                console.error('initialCurrentUserFetch', err)
-            }
-        }
-
-        void initialCurrectUserFetch()
-    }, [])
-
     return {
         currentUser: principalUser,
         isUserError: error,
         isUserLoading: isCurrentUserLoading || principalUserResult.isLoading,
-        mutateUser: principalUserResult.mutate,
-        pollUser,
-        setPollUser
+        mutateUser: principalUserResult.mutate
     }
 }
 
