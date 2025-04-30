@@ -24,6 +24,7 @@ import type {
     zEmptyArray,
     zEmptyOrMinString,
     zEmptyOrMinStrings,
+    zEmptyString,
     zFunctionBoolResultFromStringArraySpread,
     zFunctionBoolResultFromStringArraySpreads,
     zHTTPMethod,
@@ -147,6 +148,8 @@ export type EmptyArray = z.infer<typeof zEmptyArray>
 export type EmptyOrMinString = z.infer<typeof zEmptyOrMinString>
 
 export type EmptyOrMinStrings = z.infer<typeof zEmptyOrMinStrings>
+
+export type EmptyString = z.infer<typeof zEmptyString>
 
 export type FunctionBoolResultFromStringArraySpread = z.infer<typeof zFunctionBoolResultFromStringArraySpread>
 
