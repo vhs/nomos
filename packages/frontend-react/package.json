@@ -115,25 +115,24 @@
     "type": "module",
     "version": "0.0.0",
     "wireit": {
-        "bower:install": {
-            "command": "bower install"
-        },
         "build": {
             "command": "vite build",
             "dependencies": [
-                "clean:dist:assets",
+                "clean:build:assets",
                 "compile",
-                "generate:fontawesome"
+                "generate:fontawesome",
+                "install:dependencies"
             ]
         },
         "build:storybook": {
             "command": "storybook build"
         },
-        "clean:dist:assets": {
-            "command": "tools/clean-dist-assets.sh",
+        "clean:build:assets": {
+            "command": "tools/clean-build-assets.sh",
             "dependencies": [
-                "bower:install",
-                "compile"
+                "compile",
+                "generate:fontawesome",
+                "install:bower"
             ]
         },
         "compile": {
@@ -154,21 +153,28 @@
         "generate:fontawesome:names": {
             "command": "./tools/generate-fa-names.sh",
             "dependencies": [
-                "bower:install"
+                "install:bower"
             ]
         },
         "generate:fontawesome:types": {
             "command": "./tools/generate-fa-types.sh",
             "dependencies": [
-                "bower:install"
+                "install:bower"
             ]
         },
         "generate:validator:implementations": {
             "command": "./tools/generate-validator-implementations.sh"
         },
+        "install:bower": {
+            "command": "bower install"
+        },
+        "install:config": {
+            "command": "./tools/bootstrap-config.sh"
+        },
         "install:dependencies": {
             "dependencies": [
-                "bower:install"
+                "install:bower",
+                "install:config"
             ]
         },
         "lint": {
@@ -180,10 +186,10 @@
             ]
         },
         "storybook": {
+            "command": "storybook dev -p 6006 --https --ssl-ca ./certs/ca.crt --ssl-key ./certs/localhost.key --ssl-cert ./certs/localhost.crt",
             "dependencies": [
                 "fix:storybook:titles"
             ],
-            "command": "storybook dev -p 6006 --https --ssl-ca ./certs/ca.crt --ssl-key ./certs/localhost.key --ssl-cert ./certs/localhost.crt",
             "service": true
         },
         "type-check": {

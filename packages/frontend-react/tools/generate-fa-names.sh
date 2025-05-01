@@ -4,6 +4,8 @@ cd "$(dirname "$(realpath "$0")")/../" || exit 255
 
 NAMES_FILE="src/lib/ui/fontawesome/generated.ts"
 
+echo "Generating FontAwesome names..."
+
 {
     cat << EOF
 // WARNING:

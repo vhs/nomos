@@ -7,7 +7,7 @@ cd "$(dirname "$(realpath "$0")")/../" || exit 255
 OUTPUT_FILES=""
 VALIDATORS="common records"
 
-echo "Generating types..."
+echo "Generating validator types..."
 for VALIDATOR in ${VALIDATORS}; do
     VALIDATOR_FILE="./src/lib/validators/${VALIDATOR}.ts"
     VALIDATOR_IMPORT="@/lib/validators/${VALIDATOR}.ts"
@@ -36,7 +36,7 @@ EOF
     OUTPUT_FILES="${OUTPUT_FILES} ${TYPE_FILE}"
 done
 
-echo "Generating guards..."
+echo "Generating validator guards..."
 for VALIDATOR in ${VALIDATORS}; do
     VALIDATOR_IMPORT="@/lib/validators/${VALIDATOR}.ts"
     TYPE_FILE="./src/types/validators/${VALIDATOR}.ts"
@@ -70,7 +70,7 @@ EOF
 done
 
 # shellcheck disable=SC2086
-echo "Formatting output files..." \
+echo "Formatting validator output files..." \
     && pnpm exec eslint --fix ${OUTPUT_FILES} \
     && pnpm exec prettier -w ${OUTPUT_FILES}
 
