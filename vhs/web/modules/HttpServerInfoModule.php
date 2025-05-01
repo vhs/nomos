@@ -39,8 +39,7 @@ class HttpServerInfoModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     /**
      * handle.
@@ -61,6 +60,5 @@ class HttpServerInfoModule implements IHttpModule {
      *
      * @return void
      */
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }
