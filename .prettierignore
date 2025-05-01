@@ -43,6 +43,6 @@ web/components/bower/datatables/media/images/Sorting
 icons.psd
 pnpm-lock.yaml
 packages/webhooker/webhooker.service
-web/
+/web/
 docker-compose.dev.conf
 docker-compose.sample.conf
