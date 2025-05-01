@@ -12,6 +12,11 @@
 !public/**/
 !public/**/*
 public/assets/
+public/config.json
+
+!skel/
+!skel/**/
+!skel/**/*
 
 !src/
 !src/**/
