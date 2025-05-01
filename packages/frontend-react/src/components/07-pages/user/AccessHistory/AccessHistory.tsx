@@ -17,6 +17,7 @@ const AccessHistory: FC<AccessHistoryProps> = () => {
                 baseServiceMethod={'AccessLog'}
                 user={true}
                 fields={AccessHistoryFields}
+                // TODO fix this
                 // @ts-expect-error This is fucky. Technical term.
                 component={AccessHistoryItem}
                 order={['time desc']}

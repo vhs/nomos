@@ -16,6 +16,7 @@ const Payments: FC<PaymentsProps> = () => (
             baseServiceMethod={'Records'}
             fields={PaymentsFields}
             order={'created desc'}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={PayPalPaymentItem}
         />

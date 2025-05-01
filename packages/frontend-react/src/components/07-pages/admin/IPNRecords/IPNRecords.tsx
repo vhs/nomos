@@ -17,6 +17,7 @@ const IPNRecords: FC<IPNRecordsProps> = () => (
         fields={IPNRecordsFields}
         primaryFilters={IPNRecordsFilters}
         order={'created desc'}
+        // TODO fix this
         // @ts-expect-error This is fucky. Technical term.
         component={IPNRecordsItem}
     />

@@ -17,6 +17,7 @@ const Transactions: FC<TransactionsProps> = () => {
                 baseServiceMethod={'Payments'}
                 user={true}
                 fields={TransactionFields}
+                // TODO fix this
                 // @ts-expect-error This is fucky. Technical term.
                 component={TransactionItems}
                 order={['date desc']}

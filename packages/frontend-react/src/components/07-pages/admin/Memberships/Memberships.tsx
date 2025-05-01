@@ -17,6 +17,7 @@ const Memberships: FC<MembershipsProps> = () => (
             fields={AdminMembershipFields}
             primaryFilters={AdminMembershipFilters}
             order={'title'}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={MembershipsItem}
         />

@@ -22,6 +22,7 @@ const EmailTemplates: FC<EmailTemplatesProps> = () => {
             baseServiceMethod={'Templates'}
             fields={EmailTemplatesFields}
             order={'id desc'}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={EmailTemplateItem}
             actions={[

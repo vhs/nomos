@@ -18,6 +18,7 @@ const WebHooksPage: FC<WebHooksPageProps> = ({ user }) => {
             baseServiceMethod={'Hooks'}
             user={user}
             fields={webhookFields}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={WebHooksItem}
             order={['id']}
