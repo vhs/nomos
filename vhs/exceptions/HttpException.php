@@ -19,7 +19,7 @@ class HttpException extends \Exception {
      * @param \vhs\web\enums\HttpStatusCodes $code     [optional] The Exception code
      * @param \Throwable|null                $previous [optional] The previous throwable used for the exception chaining
      */
-    public function __construct($message = '', $code = HttpStatusCodes::Server_Error_Bad_Gateway, $previous = null) {
+    public function __construct($message = '', HttpStatusCodes $code = HttpStatusCodes::Server_Error_Bad_Gateway, $previous = null) {
         parent::__construct($message, $code->value, $previous);
     }
 }
