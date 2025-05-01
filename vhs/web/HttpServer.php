@@ -109,7 +109,7 @@ class HttpServer {
         $this->headerBuffer = [];
         unset($this->outputBuffer);
         $this->outputBuffer = [];
-        $this->http_response_code = 200;
+        $this->http_response_code = HttpStatusCodes::Success_Ok;
     }
 
     /**
