@@ -50,8 +50,7 @@ class HttpBasicAuthModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     /**
      * handle.

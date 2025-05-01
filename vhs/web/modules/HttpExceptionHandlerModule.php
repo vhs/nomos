@@ -52,8 +52,7 @@ class HttpExceptionHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     /**
      * handle.
@@ -62,8 +61,7 @@ class HttpExceptionHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function handle(HttpServer $server) {
-    }
+    public function handle(HttpServer $server) {}
 
     /**
      * handleException.

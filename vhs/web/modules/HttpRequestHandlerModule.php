@@ -27,8 +27,7 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function __construct() {
-    }
+    public function __construct() {}
 
     /**
      * endResponse.
@@ -37,8 +36,7 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     /**
      * handle.
@@ -63,8 +61,7 @@ abstract class HttpRequestHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 
     /**
      * register_internal.
