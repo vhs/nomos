@@ -3,4 +3,4 @@ services:
         build:
             context: ..
             dockerfile: docker-compose/Dockerfile
-            target: frontend
+            target: frontend-web
