@@ -15,6 +15,7 @@ const AccessLogs: FC<AccessLogsProps> = () => (
             serviceEndpoint={'AuthService2'}
             baseServiceMethod={'AccessLog'}
             fields={AccessLogsFields}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={AccessLogsItem}
             order={['time desc']}

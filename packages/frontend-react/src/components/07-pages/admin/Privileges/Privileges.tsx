@@ -16,6 +16,7 @@ const Privileges: FC<PrivilegesProps> = () => (
             baseServiceMethod={'Privileges'}
             fields={PrivilegesFields}
             order={'name'}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={PrivilegesItem}
         />
