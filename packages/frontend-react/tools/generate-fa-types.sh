@@ -4,6 +4,8 @@ cd "$(dirname "$(realpath "$0")")/../" || exit 255
 
 TYPES_FILE="src/types/fontawesome/generated.ts"
 
+echo "Generating FontAwesome types..."
+
 (
     cat << EOF
 // WARNING:
