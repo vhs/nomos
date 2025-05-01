@@ -17,6 +17,7 @@ const StripeRecords: FC<StripeRecordsProps> = () => (
         fields={StripeRecordsFields}
         primaryFilters={StripeRecordsFilters}
         order={'created desc'}
+        // TODO fix this
         // @ts-expect-error This is fucky. Technical term.
         component={StripeRecordsItem}
     />

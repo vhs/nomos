@@ -17,6 +17,7 @@ const OAuthPageClientView: FC<OAuthPageClientViewProps> = () => (
         fields={OAuthPageClientViewFields}
         order={'id'}
         primaryFilters={OAuthPageClientViewFilters}
+        // TODO fix this
         // @ts-expect-error This is fucky. Technical term.
         component={OAuthPageClientItem}
         embedded

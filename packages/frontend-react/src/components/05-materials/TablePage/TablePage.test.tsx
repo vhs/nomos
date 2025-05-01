@@ -13,6 +13,7 @@ it('It should mount', () => {
             baseServiceMethod={''}
             fields={[]}
             order={'id'}
+            // TODO fix this
             // @ts-expect-error This is fucky. Technical term.
             component={undefined}
         />

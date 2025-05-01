@@ -18,8 +18,10 @@ const Users: FC<UsersProps> = () => {
                 serviceEndpoint={'UserService2'}
                 baseServiceMethod={'Users'}
                 fields={AdminUserFields}
+                // TODO fix this
                 // @ts-expect-error This is fucky. Technical term.
                 schema={zAdminUsersTablePageSchema}
+                // TODO fix this
                 // @ts-expect-error This is fucky. Technical term.
                 component={UsersItem}
                 order={['created desc']}

@@ -16,6 +16,7 @@ const Events: FC<EventsProps> = () => (
         baseServiceMethod={'Events'}
         fields={EventsFields}
         order={'domain'}
+        // TODO fix this
         // @ts-expect-error This is fucky. Technical term.
         component={EventsItem}
     />
