@@ -11,7 +11,7 @@ BASEDIR=${1:-../..}
 # shellcheck disable=SC2001
 BASEDIR=$(echo "${BASEDIR}" | sed 's:/$::g')
 
-echo "Generating types files..." \
+echo "Generating provider types files..." \
     && find "${BASEDIR}/app/handlers/v2/" -type f | sort | while read -r SERVICE_FILE; do
         TS_FILE="${PROVIDER_TYPES_PATH}/I$(basename "${SERVICE_FILE/Handler2.php/2}").ts"
 
@@ -31,7 +31,7 @@ EOF
             php "${BASEDIR}/tools/generate-ts-contract-interface.php" "${SERVICE_FILE}"
         } | perl -pe 's/\\?(app|vhs)(\\\w+)+\\//g' > "${TS_FILE}"
     done \
-    && echo "Generating implementation files..." \
+    && echo "Generating provider implementation files..." \
     && find "${BASEDIR}/app/handlers/v2/" -type f | sort | while read -r SERVICE_FILE; do
 
         SERVICE_ENDPOINT=$(basename "${SERVICE_FILE/Handler2.php/2}")
@@ -73,7 +73,7 @@ EOF
 EOF
         } | perl -pe 's/\\?(app|vhs)(\\\w+)+\\//g' > "${TS_FILE}"
     done \
-    && echo "Generating hooks files..." \
+    && echo "Generating provider hooks files..." \
     && find "${PROVIDER_LIB_PATH}" -name '*.ts' | while read -r PROVIDER_FILE; do
         PROVIDER_NAME=$(basename "${PROVIDER_FILE}" | cut -f1 -d.)
 
@@ -98,8 +98,8 @@ EOF
             fi
         done
     done && {
-    echo "Linting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec eslint -o /dev/null --fix
-    echo "Formatting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
-    echo "Relinting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n1 -P4 pnpm exec eslint -o /dev/null --fix
-    echo "Reformatting files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
+    echo "Linting provider files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec eslint -o /dev/null --fix
+    echo "Formatting provider files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
+    echo "Relinting provider files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n1 -P4 pnpm exec eslint -o /dev/null --fix
+    echo "Reformatting provider files..." && find ${PROVIDER_HOOKS_PATH} ${PROVIDER_LIB_PATH} ${PROVIDER_TYPES_PATH} -type f -name '*.ts' -mmin -5 -print0 | xargs -0 -r -n4 -P4 pnpm exec prettier --log-level=silent -w
 }
