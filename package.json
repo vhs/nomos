@@ -3,7 +3,7 @@
     "dependencies": {
         "@types/lodash": "^4.17.13",
         "just-install": "^2.0.2",
-        "wireit": "^0.14.9"
+        "wireit": "^0.14.12"
     },
     "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "devDependencies": {

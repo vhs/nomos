@@ -19,7 +19,7 @@
         "react-spinners": "0.15.0",
         "react-toastify": "11.0.3",
         "swr": "2.3.2",
-        "wireit": "0.14.11",
+        "wireit": "0.14.12",
         "zod": "3.24.1"
     },
     "devDependencies": {
@@ -86,6 +86,7 @@
     "scripts": {
         "build": "wireit",
         "build:storybook": "wireit",
+        "clean:dist": "wireit",
         "create:atom": "generate-react c --type=atom",
         "create:composite": "generate-react c --type=composite",
         "create:layout": "generate-react c --type=layout",
@@ -106,6 +107,7 @@
         "generate:fontawesome:names": "wireit",
         "generate:fontawesome:types": "wireit",
         "generate:validator:implementations": "wireit",
+        "install:dependencies": "wireit",
         "lint": "wireit",
         "prepare": "wireit",
         "preview": "vite preview",
@@ -118,26 +120,33 @@
         "build": {
             "command": "vite build",
             "dependencies": [
-                "clean:build:assets",
-                "compile",
+                "install:dependencies",
                 "generate:fontawesome",
-                "install:dependencies"
+                "compile",
+                "clean:build:assets"
             ]
         },
         "build:storybook": {
             "command": "storybook build"
         },
+        "clean:bower:assets": {
+            "command": "rm -fR ./public/assets/*"
+        },
+        "clean:dist": {
+            "command": "rm -fR dist/*"
+        },
         "clean:build:assets": {
             "command": "tools/clean-build-assets.sh",
             "dependencies": [
+                "install:dependencies",
                 "compile",
-                "generate:fontawesome",
-                "install:bower"
+                "generate:fontawesome"
             ]
         },
         "compile": {
             "command": "tsc",
             "dependencies": [
+                "install:dependencies",
                 "generate:fontawesome"
             ]
         },
@@ -146,6 +155,7 @@
         },
         "generate:fontawesome": {
             "dependencies": [
+                "install:dependencies",
                 "generate:fontawesome:names",
                 "generate:fontawesome:types"
             ]
@@ -153,20 +163,24 @@
         "generate:fontawesome:names": {
             "command": "./tools/generate-fa-names.sh",
             "dependencies": [
-                "install:bower"
+                "install:dependencies"
             ]
         },
         "generate:fontawesome:types": {
             "command": "./tools/generate-fa-types.sh",
             "dependencies": [
-                "install:bower"
+                "install:dependencies"
             ]
         },
         "generate:validator:implementations": {
             "command": "./tools/generate-validator-implementations.sh"
         },
         "install:bower": {
-            "command": "bower install"
+            "command": "bower install --force",
+            "files": [
+                "public/assets/**"
+            ],
+            "clean": true
         },
         "install:config": {
             "command": "./tools/bootstrap-config.sh"
