@@ -11,6 +11,7 @@ namespace vhs\web\modules;
 
 use vhs\services\exceptions\InvalidRequestException;
 use vhs\services\ServiceRegistry;
+use vhs\web\enums\HttpStatusCodes;
 use vhs\web\HttpServer;
 use vhs\web\IHttpModule;
 
@@ -41,8 +42,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function endResponse(HttpServer $server) {
-    }
+    public function endResponse(HttpServer $server) {}
 
     /**
      * handle.
@@ -84,17 +84,17 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
                     $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
 
                     break;
-                    //case 'PUT':
-                    //case 'DELETE':
+                //case 'PUT':
+                //case 'DELETE':
                 default:
                     throw new InvalidRequestException();
-                    // TODO clean up
-                    // break;
+                // TODO clean up
+                // break;
             }
 
             $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
             $server->end();
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $server->logger->debug(
                 __FILE__,
                 __LINE__,
@@ -102,7 +102,7 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
                 sprintf('caught exception: %s(%s)', $exception->getMessage(), $exception->getCode())
             );
 
-            if ($exception->getCode() !== 409 && $exception->getCode() !== 418) {
+            if ($exception->getCode() !== HttpStatusCodes::Client_Error_Misdirected_Request->value) {
                 throw $exception;
             }
         }
@@ -116,6 +116,5 @@ class HttpJsonServiceHandlerModule implements IHttpModule {
      *
      * @return void
      */
-    public function handleException(HttpServer $server, \Exception $ex) {
-    }
+    public function handleException(HttpServer $server, \Exception $ex) {}
 }
