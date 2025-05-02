@@ -1,0 +1,13 @@
+*
+!.gitignore
+
+!base.yml
+!build.yml
+!files-local.yml
+!nginx-proxy-devtest.yml
+!nginx-proxy-prod.yml
+!ports.yml
+!traefik-devtest-new.yml
+!traefik-devtest.yml
+!traefik-prod-new.yml
+!traefik-prod.yml
