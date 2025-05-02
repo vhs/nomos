@@ -1,0 +1,11 @@
+services:
+    frontend-web:
+        networks:
+            - proxy
+
+    backend:
+        networks:
+            - proxy
+
+networks:
+    proxy:

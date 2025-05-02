@@ -1,4 +1,0 @@
-services:
-    webhooker:
-        volumes:
-            - ../logs:/app/logs

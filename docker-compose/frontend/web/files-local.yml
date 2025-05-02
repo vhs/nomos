@@ -1,0 +1,5 @@
+services:
+    frontend-web:
+        volumes:
+            - ../../web:/var/www/html
+            - ../../conf/nginx-vhost-docker-compose.conf:/etc/nginx/conf.d/default.conf

@@ -1,0 +1,7 @@
+services:
+    webhooker:
+        networks:
+            - proxy
+
+networks:
+    proxy:

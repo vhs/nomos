@@ -1,3 +1,0 @@
-services:
-    frontend:
-        image: vanhack/nomos-frontend-web

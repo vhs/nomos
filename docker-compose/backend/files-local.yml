@@ -1,0 +1,7 @@
+services:
+    backend:
+        volumes:
+            - ../../app:/var/www/html/app
+            - ../../migrations:/var/www/html/migrations
+            - ../../vhs:/var/www/html/vhs
+            - ../../logs:/var/www/html/logs

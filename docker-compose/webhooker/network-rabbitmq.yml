@@ -1,0 +1,12 @@
+services:
+    backend:
+        networks:
+            - rabbitmq
+
+    webhooker:
+        networks:
+            - rabbitmq
+
+networks:
+    rabbitmq:
+        external: true

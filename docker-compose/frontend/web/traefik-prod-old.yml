@@ -1,0 +1,12 @@
+services:
+    frontend-web:
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.docker.network=proxy'
+            - 'traefik.http.services.svc-nomos-prod-old.loadbalancer.server.port=80'
+            - 'traefik.http.services.svc-nomos-prod-old.loadbalancer.sticky.cookie=true'
+            - 'traefik.http.routers.nomos-prod-old.rule=Host(`membership-old.vanhack.ca`)'
+            - 'traefik.http.routers.nomos-prod-old.tls=true'
+            - 'traefik.http.routers.nomos-prod-old.tls.certresolver=lets-encrypt'
+            - 'traefik.http.routers.nomos-prod-old.entryPoints=websecure'
+            - 'traefik.http.routers.nomos-prod-old.service=svc-nomos-prod-old'

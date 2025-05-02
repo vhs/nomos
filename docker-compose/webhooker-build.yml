@@ -1,7 +1,0 @@
-services:
-    webhooker:
-        build:
-            context: ..
-            dockerfile: docker-compose/Dockerfile
-            target: webhooker
-        env_file: ../docker/nomos.env

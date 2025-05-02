@@ -1,0 +1,8 @@
+services:
+    frontend-web:
+        image: vanhack/nomos-frontend-web
+        depends_on:
+            - backend
+        restart: always
+        links:
+            - backend:backend

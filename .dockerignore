@@ -1,4 +1,4 @@
-.phpunit.cache/
+.phpunit.cache
 data/
 logs/
 node_modules/
@@ -8,3 +8,6 @@ web/components/
 .php*.cache
 .env*
 *.log
+.git/
+.wireit/
+docs/
