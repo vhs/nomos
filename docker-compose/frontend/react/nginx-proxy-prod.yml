@@ -1,0 +1,5 @@
+services:
+    frontend-react:
+        environment:
+            VIRTUAL_HOST: membership.vanhack.ca
+            LETSENCRYPT_HOST: membership.vanhack.ca

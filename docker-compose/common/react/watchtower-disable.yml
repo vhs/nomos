@@ -1,13 +1,16 @@
 services:
-    rabbitmq:
-        labels:
-            - 'com.centurylinklabs.watchtower.enable=false'
-    webhooker:
-        labels:
-            - 'com.centurylinklabs.watchtower.enable=false'
     backend:
         labels:
             - 'com.centurylinklabs.watchtower.enable=false'
+
     frontend-react:
+        labels:
+            - 'com.centurylinklabs.watchtower.enable=false'
+
+    rabbitmq:
+        labels:
+            - 'com.centurylinklabs.watchtower.enable=false'
+
+    webhooker:
         labels:
             - 'com.centurylinklabs.watchtower.enable=false'

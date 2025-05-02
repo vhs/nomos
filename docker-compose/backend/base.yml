@@ -1,0 +1,6 @@
+services:
+    backend:
+        image: vanhack/nomos-backend
+        restart: always
+        volumes:
+            - ../../data/backup:/var/www/html/backup

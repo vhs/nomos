@@ -1,0 +1,7 @@
+*
+!.gitignore
+
+!base.yml
+!build.yml
+!files-local-nomos-env.yml
+!files-local.yml

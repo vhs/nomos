@@ -1,0 +1,4 @@
+services:
+    frontend-web:
+        ports:
+            - 80:80

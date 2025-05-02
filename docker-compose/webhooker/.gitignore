@@ -1,0 +1,10 @@
+*
+!.gitignore
+
+!base.yml
+!build.yml
+!logs-local.yml
+!network-bridge.yml
+!network-proxy-internal.yml
+!network-proxy.yml
+!network-rabbitmq.yml

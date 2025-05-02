@@ -1,0 +1,6 @@
+services:
+    backend:
+        build:
+            context: ../..
+            dockerfile: docker-compose/Dockerfile
+            target: backend
