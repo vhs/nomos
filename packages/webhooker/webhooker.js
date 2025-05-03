@@ -3,9 +3,11 @@
  */
 
 const bunyan = require('bunyan')
-const program = require('commander')
+const { Command } = require('commander')
 
 const { settings: config } = require('./config.js')
+
+const program = new Command()
 
 program.version('1.0.0').option('-c, --console', 'Run in non-daemon mode and output log to console').parse(process.argv)
 
@@ -14,14 +16,14 @@ program.version('1.0.0').option('-c, --console', 'Run in non-daemon mode and out
 
 const logStreams = []
 
-if (program.console) {
+if (Boolean(process.stdout.isTTY)) {
     logStreams.push({
         stream: process.stdout
     })
 } else {
     logStreams.push({
         type: 'rotating-file',
-        path: '../logs/webhooker.log',
+        path: '/app/logs/webhooker.log',
         period: '1d',
         count: 5
     })
