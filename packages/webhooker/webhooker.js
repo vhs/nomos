@@ -16,7 +16,8 @@ program.version('1.0.0').option('-c, --console', 'Run in non-daemon mode and out
 
 const logStreams = []
 
-if (Boolean(process.stdout.isTTY)) {
+// @ts-expect-error console is an option
+if (program.console) {
     logStreams.push({
         stream: process.stdout
     })
