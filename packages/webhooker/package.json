@@ -1,16 +1,20 @@
 {
     "author": "Thomas LaFreniere <thomas@lafreniere.co>",
     "dependencies": {
-        "amqplib": "^0.10.5",
+        "amqplib": "^0.10.7",
         "bunyan": "^1.8.15",
-        "commander": "^12.1.0",
+        "commander": "^13.1.0",
         "daemon": "^1.1.0"
     },
     "description": "Nomos WebHook Broker",
     "devDependencies": {
+        "@tyisi/config-eslint": "^4.0.0",
+        "@tyisi/config-prettier": "^1.0.1",
+        "@types/node": "^22.15.3",
         "chai": "^4.5.0",
+        "eslint": "^9.26.0",
         "mocha": "^10.8.2",
-        "prettier-plugin-tailwindcss": "^0.6.11"
+        "prettier": "^3.5.3"
     },
     "license": "MIT",
     "main": "webhooker.js",
