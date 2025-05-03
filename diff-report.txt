@@ -8,81 +8,9 @@
 +\vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule('v2'));
 +\vhs\gateways\Engine::getInstance()->setLogger($serverLog);
 ============================================================
-========== app/contracts/IApiKeyService1.php
-============================================================
-No functional changes
-============================================================
 ========== app/contracts/IAuthService1.php
 ============================================================
 +use app\domain\AppClient;
-============================================================
-========== app/contracts/IEmailService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IEventService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IIpnService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IKeyService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IMemberCardService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IMembershipService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IMetricService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IPaymentService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IPinService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IPreferenceService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IPrivilegeService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IStripeEventService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IUserService1.php
-============================================================
-No functional changes
-============================================================
-========== app/contracts/IWebHookService1.php
-============================================================
-No functional changes
-============================================================
-========== app/domain/AccessLog.php
-============================================================
-No functional changes
-============================================================
-========== app/domain/AccessToken.php
-============================================================
-No functional changes
-============================================================
-========== app/domain/AppClient.php
-============================================================
-No functional changes
 ============================================================
 ========== app/domain/EmailTemplate.php
 ============================================================
@@ -103,14 +31,6 @@ No functional changes
 +                Where::Equal(Event::Schema()->Columns()->domain, $domain),
 +                Where::Equal(Event::Schema()->Columns()->event, $event)
 +            )
-============================================================
-========== app/domain/GenuineCard.php
-============================================================
-No functional changes
-============================================================
-========== app/domain/Ipn.php
-============================================================
-No functional changes
 ============================================================
 ========== app/domain/Key.php
 ============================================================
@@ -172,10 +92,6 @@ No functional changes
 +                Where::Equal(MembershipSchema::Columns()->active, true)
 +            ),
 ============================================================
-========== app/domain/PasswordResetRequest.php
-============================================================
-No functional changes
-============================================================
 ========== app/domain/Payment.php
 ============================================================
 -            Query::select(PaymentSchema::Table(), PaymentSchema::Columns(), Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id))
@@ -191,14 +107,6 @@ No functional changes
 +    public static function findByCodes(string ...$codes) {
 -    private static function checkCodeAccess(...$codes) {
 +    private static function checkCodeAccess(string ...$codes) {
-============================================================
-========== app/domain/RefreshToken.php
-============================================================
-No functional changes
-============================================================
-========== app/domain/StripeEvent.php
-============================================================
-No functional changes
 ============================================================
 ========== app/domain/SystemPreference.php
 ============================================================
@@ -727,19 +635,11 @@ No functional changes
 -        if ($_GET['action'] == 'link' && !is_null($userDetails)) {
 +        if ($_GET['action'] == 'link' && $userDetails !== null) {
 ============================================================
-========== app/security/oauth/modules/GoogleOAuthHandler.php
-============================================================
-No functional changes
-============================================================
 ========== app/security/oauth/modules/OAuthHandlerModule.php
 ============================================================
 -    private function __clone() {
 -    }
 +    public function __clone(): void {}
-============================================================
-========== app/security/oauth/modules/SlackOAuthHandler.php
-============================================================
-No functional changes
 ============================================================
 ========== app/security/oauth/providers/slack/Slack.php
 ============================================================
@@ -876,10 +776,6 @@ No functional changes
 -        }
 +        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
 ============================================================
-========== app/services/IpnService.php
-============================================================
-No functional changes
-============================================================
 ========== app/services/KeyService.php
 ============================================================
 -                        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
@@ -933,10 +829,6 @@ No functional changes
 +                $membership->privileges->add($priv);
 +            }
 ============================================================
-========== app/services/MetricService.php
-============================================================
-No functional changes
-============================================================
 ========== app/services/PaymentService.php
 ============================================================
 -use Aws\CloudFront\Exception\Exception;
@@ -984,10 +876,6 @@ No functional changes
 ============================================================
 -use app\exceptions\MemberCardException;
 -use vhs\security\exceptions\UnauthorizedException;
-============================================================
-========== app/services/StripeEventService.php
-============================================================
-No functional changes
 ============================================================
 ========== app/services/UserService.php
 ============================================================
@@ -1255,22 +1143,6 @@ No functional changes
 -    public function NoDocMethod();
 +    public function NoDocMethod(): string;
 ============================================================
-========== tests/domain/Enchantment.php
-============================================================
-No functional changes
-============================================================
-========== tests/domain/Knight.php
-============================================================
-No functional changes
-============================================================
-========== tests/domain/Ring.php
-============================================================
-No functional changes
-============================================================
-========== tests/domain/Sword.php
-============================================================
-No functional changes
-============================================================
 ========== tests/schema/KnightSchema.php
 ============================================================
 -            Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id)
@@ -1367,10 +1239,6 @@ No functional changes
 ============================================================
 -use vhs\database\queries\Query;
 ============================================================
-========== vhs/database/IGeneratable.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/database/IGenerator.php
 ============================================================
 -interface IGenerator {
@@ -1382,10 +1250,6 @@ No functional changes
 -    public function generateTable(Table $ascending);
 +    public function generateTable(Table $table);
 ============================================================
-========== vhs/database/On.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/database/Table.php
 ============================================================
 -    public function __clone() {
@@ -1396,10 +1260,6 @@ No functional changes
 -interface IAccessGenerator {
 -}
 +interface IAccessGenerator {}
-============================================================
-========== vhs/database/constraints/Constraint.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/database/constraints/ForeignKey.php
 ============================================================
@@ -1439,10 +1299,6 @@ No functional changes
 +    public function generateTable(Table $table) {
 -    public function generateText(TypeText $type, $value = null) {
 +    public function generateText(TypeText $type, mixed $value = null) {
-============================================================
-========== vhs/database/engines/mysql/MySqlConnectionInfo.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/database/engines/mysql/MySqlConverter.php
 ============================================================
@@ -1487,10 +1343,6 @@ No functional changes
 -    public function __clone() {
 +    public function __clone(): void {
 ============================================================
-========== vhs/database/limits/Limit.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/database/offsets/Offset.php
 ============================================================
 -use vhs\database\IGenerator;
@@ -1498,10 +1350,6 @@ No functional changes
 +    public function generate($generator, $value = null) {
 -    private function generateOffset(IOffsetGenerator $generator) {
 +    private function generateOffset($generator) {
-============================================================
-========== vhs/database/orders/OrderBy.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/database/queries/Query.php
 ============================================================
@@ -1564,28 +1412,6 @@ No functional changes
 -    public function __construct(Table $table, Columns $columns, Where $where = null, array $values) {
 +    public function __construct(Table $table, Columns $columns, ?Where $where = null, $values = null) {
 ============================================================
-========== vhs/database/types/Type.php
-============================================================
--    abstract public function covertType(ITypeConverter $converter, $value = null);
-+    abstract public function convertType(ITypeConverter $converter, $value = null);
--        return $this->covertType($converter, $value);
-+        return $this->convertType($converter, $value);
-============================================================
-========== vhs/database/types/TypeBool.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeDate.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeDateTime.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
 ========== vhs/database/types/TypeEnum.php
 ============================================================
 -    public $values;
@@ -1596,28 +1422,6 @@ No functional changes
 +        if (gettype($values) !== 'array' || empty($values)) {
 -        $this->values = $values;
 +        $this->values = array_values($values);
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeFloat.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeInt.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeString.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
-============================================================
-========== vhs/database/types/TypeText.php
-============================================================
--    public function covertType(ITypeConverter $converter, $value = null) {
-+    public function convertType(ITypeConverter $converter, $value = null) {
 ============================================================
 ========== vhs/database/wheres/Where.php
 ============================================================
@@ -1629,10 +1433,6 @@ No functional changes
 ============================================================
 -    public function __construct(Where ...$where) {
 +    public function __construct(Where|null ...$where) {
-============================================================
-========== vhs/database/wheres/WhereComparator.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/domain/Domain.php
 ============================================================
@@ -1696,10 +1496,6 @@ No functional changes
 ============================================================
 -use vhs\database\constraints\PrimaryKey;
 ============================================================
-========== vhs/domain/collections/DomainCollection.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/domain/collections/SatelliteDomainCollection.php
 ============================================================
 -use vhs\database\constraints\ForeignKey;
@@ -1716,10 +1512,6 @@ No functional changes
 -}
 +class InvalidColumnDefinitionException extends DomainException {}
 ============================================================
-========== vhs/domain/validations/ValidationResults.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/loggers/StringLogger.php
 ============================================================
 -    public $history;
@@ -1734,10 +1526,6 @@ No functional changes
 +            $mq->engine->ensure($channel, $queue);
 -            return $mq->engine->publish($channel, $queue, $message);
 +            $mq->engine->publish($channel, $queue, $message);
-============================================================
-========== vhs/messaging/engines/RabbitMQ/RabbitMQConnectionInfo.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/messaging/engines/RabbitMQ/RabbitMQEngine.php
 ============================================================
@@ -1814,10 +1602,6 @@ No functional changes
 -    }
 +    public function __clone(): void {}
 ============================================================
-========== vhs/security/IAuthenticate.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/security/ICredentials.php
 ============================================================
 -interface ICredentials {
@@ -1872,10 +1656,6 @@ No functional changes
 -        $uri = '/services/' . $namespace . '/' . $service . '.svc';
 +        $uri = "/services/$namespace/$service.svc";
 ============================================================
-========== vhs/services/ServiceContext.php
-============================================================
-No functional changes
-============================================================
 ========== vhs/services/ServiceHandler.php
 ============================================================
 +use vhs\web\enums\HttpStatusCodes;
@@ -1889,10 +1669,6 @@ No functional changes
 -        $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
 -        return $endpoint;
 +        return $this->endpointNamespace . '\\' . $regs['endpoint'];
-============================================================
-========== vhs/services/ServiceRegistry.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/services/endpoints/Endpoint.php
 ============================================================
@@ -1955,10 +1731,6 @@ No functional changes
 +        array_push($this->headerBuffer, function () use ($string, $replace, $http_response_code) {
 -        array_push($this->headerBuffer, function () use ($self) {
 +        array_push($this->headerBuffer, function (): never {
-============================================================
-========== vhs/web/HttpUtil.php
-============================================================
-No functional changes
 ============================================================
 ========== vhs/web/modules/HttpBasicAuthModule.php
 ============================================================
