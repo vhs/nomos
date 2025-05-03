@@ -8,6 +8,8 @@
 !nginx-proxy-devtest.yml
 !nginx-proxy-prod.yml
 !ports.yml
+!traefik-devtest-http-only.yml
+!traefik-devtest-old-http-only.yml
 !traefik-devtest-old.yml
 !traefik-devtest.yml
 !traefik-prod-old.yml
