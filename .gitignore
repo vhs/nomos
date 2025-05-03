@@ -96,3 +96,6 @@ nomos.d.ts
 !psalm.xml
 !prettier.config.mjs
 !tsconfig.json
+
+!diff-report.txt
+!generate-diff-report.sh
