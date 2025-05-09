@@ -1,0 +1,3 @@
+services:
+    backend-php:
+        network_mode: bridge

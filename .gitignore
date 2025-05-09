@@ -25,10 +25,10 @@ conf/config.ini.php
 !docker-compose/*.yml
 
 !docker/
+!docker/dct/
+!docker/dct/**/
+!docker/dct/**/*.ts
 !docker/*
-!docker/docker_compose_run.sh
-!docker/docker_env_config.sh
-!docker/docker_run.sh
 !docker/nomos.env.template
 docker/nomos.env
 
@@ -49,6 +49,7 @@ docker/nomos.env
 !tools/**/*.md
 !tools/**/*.php
 !tools/**/*.sh
+!tools/**/*.ts
 tools/composer.phar
 
 !vhs/

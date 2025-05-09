@@ -7,7 +7,7 @@ services:
         networks:
             - rabbitmq
 
-    backend:
+    backend-php:
         networks:
             - rabbitmq
 

@@ -1,0 +1,65 @@
+{
+    "author": "",
+    "dependencies": {
+        "just-install": "^2.0.2",
+        "wireit": "^0.14.12"
+    },
+    "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.22.2",
+        "@prettier/plugin-xml": "^3.4.1",
+        "@tyisi/config-eslint": "^4.0.0",
+        "@tyisi/config-prettier": "^1.0.1",
+        "@types/node": "^22.13.1",
+        "bower": "^1.8.14",
+        "eslint": "^9.15.0",
+        "prettier": "^3.0.3",
+        "prettier-plugin-ini": "^1.3.0",
+        "prettier-plugin-nginx": "^1.0.3",
+        "prettier-plugin-sh": "^0.14.0",
+        "prettier-plugin-sql": "^0.18.1",
+        "prettier-plugin-tailwindcss": "^0.6.11"
+    },
+    "keywords": [],
+    "license": "ISC",
+    "main": "index.js",
+    "name": "@vhs/nomos-backend-php",
+    "private": true,
+    "scripts": {
+        "format:php": "wireit",
+        "prepare": "wireit",
+        "test": "wireit",
+        "test:php": "wireit"
+    },
+    "version": "1.0.0",
+    "wireit": {
+        "format:php": {
+            "command": "just format php"
+        },
+        "prepare": {
+            "dependencies": [
+                "prepare:vendor"
+            ]
+        },
+        "prepare:vendor": {
+            "command": "just setup vendor"
+        },
+        "test": {
+            "dependencies": [
+                "test:php"
+            ]
+        },
+        "test:php": {
+            "command": "just test php"
+        }
+    },
+    "files": [
+        "app/**/*.php",
+        "conf/**/*",
+        "docker/*.sh",
+        "vhs/**/*.php",
+        "justfile",
+        "tools/*",
+        "composer.*"
+    ]
+}

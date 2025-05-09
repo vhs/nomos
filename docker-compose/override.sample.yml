@@ -5,7 +5,7 @@ services:
     webhooker:
         labels:
             - 'com.centurylinklabs.watchtower.enable=false'
-    backend:
+    backend-php:
         labels:
             - 'com.centurylinklabs.watchtower.enable=false'
     frontend-react:

@@ -5,7 +5,7 @@ services:
         networks:
             - rabbitmq
 
-    backend:
+    backend-php:
         external_links:
             - rabbitmq:rabbitmq
         networks:

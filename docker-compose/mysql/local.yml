@@ -1,6 +1,6 @@
 services:
     # backend needs the db started first
-    backend:
+    backend-php:
         depends_on:
             mysql:
                 condition: service_started
@@ -12,7 +12,7 @@ services:
             - MYSQL_DATABASE=${NOMOS_DB_DATABASE}
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
-            - ../../data/mysql:/var/lib/mysql
+            - ${PWD}/data/mysql:/var/lib/mysql
         # Workaround this bug in the mysql image: https://github.com/docker-library/mysql/issues/579
         ulimits:
             nproc: 65535

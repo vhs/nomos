@@ -1,0 +1,4 @@
+services:
+    frontend-react:
+        labels:
+            - 'com.centurylinklabs.watchtower.enable=false'

@@ -1,0 +1,4 @@
+services:
+    backend-php:
+        labels:
+            - 'com.centurylinklabs.watchtower.enable=false'

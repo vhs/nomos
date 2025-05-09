@@ -1,8 +1,0 @@
-*
-!.gitignore
-
-!network-bridge.yml
-!network-proxy-internal.yml
-!network-proxy.yml
-!ports.yml
-!watchtower-disable.yml

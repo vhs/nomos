@@ -2,28 +2,24 @@ set export
 
 
 help:
-    just -l
+    @just -l
 
 format target:
     @echo 'Formatting {{target}}…'
-    just "format_{{target}}"
+    @just "format_{{target}}"
 
 format_all:
     #!/usr/bin/env bash
-    set -eo pipefail
 
-    node_modules/.bin/prettier -w ${FILES:-.}
+    echo ${FILES:-.} | xargs -n1 | grep -v -E $(find . -type l | grep -vw node_modules | cut -f2- -d/  | xargs | tr ' ' '|') | xargs pnpm exec prettier -w
 
 format_php:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
+    @pnpm -r run format:php
 
 git_hooks:
     #!/usr/bin/env bash
     echo "Available git hooks:"
-    just --summary | xargs -d' ' -I% echo '- %' | grep 'git_hook_'
+    @just --summary | xargs -d' ' -I% echo '- %' | grep 'git_hook_'
 
 git_hook_pre_commit:
     #!/usr/bin/env bash
@@ -76,7 +72,7 @@ git_hook_pre_push:
 
 install target:
     @echo 'Installing {{target}}…'
-    just "install_{{target}}"
+    @just "install_{{target}}"
 
 install_composer:
     #!/usr/bin/env bash
@@ -128,7 +124,7 @@ run_composer:
 
 setup target:
     @echo 'Setting up {{target}}…'
-    just "setup_{{target}}"
+    @just "setup_{{target}}"
 
 setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower
 
@@ -154,13 +150,15 @@ setup_webhooker:
 
 test target:
     @echo 'Testing {{target}}…'
-    just "test_{{target}}"
+    @just "test_{{target}}"
+
+test_all:
+    @echo "Testing all packages..."
+    @pnpm -r test
 
 test_php:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    vendor/bin/phpunit ${FILES:-app/ tests/ tools/ vhs/}
+    @echo "Testing all packages..."
+    @pnpm -r test:php
 
 test_webhooker:
     #!/usr/bin/env bash
@@ -172,4 +170,4 @@ test_webhooker:
 
 update target:
     @echo 'Updating {{target}}…'
-    just "update_{{target}}"
+    @just "update_{{target}}"

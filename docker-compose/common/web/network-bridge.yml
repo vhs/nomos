@@ -1,6 +1,0 @@
-services:
-    frontend-web:
-        network_mode: bridge
-
-    backend:
-        network_mode: bridge

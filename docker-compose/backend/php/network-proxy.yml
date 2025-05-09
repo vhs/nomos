@@ -1,0 +1,4 @@
+services:
+    backend-php:
+        networks:
+            - proxy

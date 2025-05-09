@@ -4,6 +4,6 @@ services:
         container_name: webhooker
         restart: always
 
-    backend:
+    backend-php:
         depends_on:
             - webhooker

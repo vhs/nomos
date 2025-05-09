@@ -1,0 +1,4 @@
+services:
+    backend-php:
+        volumes:
+            - ${PWD}/logs:/var/www/html/logs
