@@ -1,0 +1,40 @@
+{
+    "author": "",
+    "dependencies": {
+        "@types/lodash": "^4.17.13",
+        "just-install": "^2.0.2",
+        "wireit": "^0.14.12"
+    },
+    "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
+    "devDependencies": {
+        "@tyisi/config-eslint": "^4.0.0",
+        "@tyisi/config-prettier": "^1.0.1",
+        "@types/angular": "^1.8.9",
+        "@types/bootstrap": "^5.2.10",
+        "@types/jquery": "^3.5.32",
+        "@types/node": "^22.13.1",
+        "bower": "^1.8.14",
+        "eslint": "^9.15.0",
+        "prettier": "^3.0.3"
+    },
+    "keywords": [],
+    "license": "ISC",
+    "name": "@vhs/nomos-frontend-web",
+    "private": true,
+    "scripts": {},
+    "version": "1.0.0",
+    "wireit": {
+        "prepare": {
+            "dependencies": [
+                "prepare:webcomponents"
+            ]
+        },
+        "prepare:webcomponents": {
+            "command": "just setup webcomponents"
+        }
+    },
+    "files": [
+        "conf/**",
+        "web/**"
+    ]
+}

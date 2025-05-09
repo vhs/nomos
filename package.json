@@ -11,6 +11,7 @@
         "@prettier/plugin-xml": "^3.4.1",
         "@tyisi/config-eslint": "^4.0.0",
         "@tyisi/config-prettier": "^1.0.1",
+        "@tyisi/docker-config-tool-js": "^1.3.0",
         "@types/angular": "^1.8.9",
         "@types/bootstrap": "^5.2.10",
         "@types/jquery": "^3.5.32",
@@ -43,27 +44,18 @@
         "prepare": {
             "dependencies": [
                 "prepare:husky",
-                "prepare:vendor",
-                "prepare:webcomponents"
+                "./packages/backend-php:prepare",
+                "./packages/frontend-web:prepare"
             ]
         },
         "prepare:husky": {
             "command": "just setup husky"
         },
-        "prepare:vendor": {
-            "command": "just setup vendor"
-        },
-        "prepare:webcomponents": {
-            "command": "just setup webcomponents"
-        },
         "test": {
             "dependencies": [
-                "test:php",
+                "./packages/backend-php:test",
                 "test:webhooker"
             ]
-        },
-        "test:php": {
-            "command": "just test php"
         },
         "test:webhooker": {
             "command": "just test php"

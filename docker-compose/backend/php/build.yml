@@ -1,0 +1,11 @@
+services:
+    backend-php:
+        build:
+            context: ${PWD}
+            dockerfile: docker-compose/Dockerfile
+            target: backend-php
+            cache_from:
+                - type=local,src=./build-cache
+            cache_to:
+                - type=local,dest=./build-cache
+        image: localhost.localdomain/vanhack/nomos/backend-php

@@ -1,4 +1,4 @@
 services:
     webhooker:
         volumes:
-            - ../../logs:/app/logs
+            - ${PWD}/logs:/app/logs

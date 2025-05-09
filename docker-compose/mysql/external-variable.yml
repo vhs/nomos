@@ -1,4 +1,4 @@
 services:
-    backend:
+    backend-php:
         external_links:
             - ${EXTERNAL_MYSQL_HOST}:mysql
