@@ -1,6 +1,9 @@
 *
 !.gitignore
 
+!conf/
+!conf/*
+
 !web/
 !web/**/*
 web/components/

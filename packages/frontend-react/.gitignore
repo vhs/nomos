@@ -5,6 +5,9 @@
 !.storybook/*
 !.storybook/
 
+!conf/
+!conf/*
+
 !docs/
 !docs/*.md
 
