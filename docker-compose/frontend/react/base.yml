@@ -2,7 +2,7 @@ services:
     frontend-react:
         image: vanhack/nomos-frontend-react
         depends_on:
-            - backend
+            - backend-php
         restart: always
         links:
-            - backend:backend
+            - backend-php:backend-php

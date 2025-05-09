@@ -1,4 +1,0 @@
-services:
-    backend:
-        volumes:
-            - ../../logs:/var/www/html/logs

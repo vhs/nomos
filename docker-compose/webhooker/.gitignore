@@ -4,6 +4,7 @@
 !base.yml
 !build.yml
 !logs-local.yml
+!network-backend.yml
 !network-bridge.yml
 !network-proxy-internal.yml
 !network-proxy.yml
