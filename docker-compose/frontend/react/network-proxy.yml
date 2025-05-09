@@ -1,4 +1,4 @@
 services:
-    frontend-web:
+    frontend-react:
         networks:
             - proxy
