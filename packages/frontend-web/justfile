@@ -30,4 +30,4 @@ setup target:
     @echo 'Setting up {{target}}…'
     just "setup_{{target}}"
 
-setup_webcomponents: make_webcomponents_directories install_webcomponents
+setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower

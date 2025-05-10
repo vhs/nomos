@@ -4,6 +4,9 @@
 !conf/
 !conf/*
 
+!tools/
+!tools/*
+
 !web/
 !web/**/*
 web/components/
