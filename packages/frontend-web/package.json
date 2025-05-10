@@ -21,9 +21,17 @@
     "license": "ISC",
     "name": "@vhs/nomos-frontend-web",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build": "wireit",
+        "prepare": "wireit"
+    },
     "version": "1.0.0",
     "wireit": {
+        "build": {
+            "dependencies": [
+                "prepare"
+            ]
+        },
         "prepare": {
             "dependencies": [
                 "prepare:webcomponents"
