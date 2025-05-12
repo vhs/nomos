@@ -1,7 +1,6 @@
 import type { FC } from 'react'
 
 import PacmanLoader from 'react-spinners/PacmanLoader'
-import useSWR from 'swr'
 
 import type { DoorAccessProps } from './DoorAccess.types'
 
@@ -10,17 +9,14 @@ import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 import BasePage from '@/components/05-materials/BasePage/BasePage'
 
+import useGetSystemPreference from '@/lib/hooks/providers/PreferenceService2/useGetSystemPreference'
 import useAuth from '@/lib/hooks/useAuth'
-
-import type { SystemPreference } from '@/types/validators/records'
 
 const DoorAccess: FC<DoorAccessProps> = () => {
     const { currentUser } = useAuth()
 
-    const { data: innerdoor, isLoading } = useSWR<SystemPreference>(
-        currentUser?.id != null && currentUser?.hasPrivilege('vetted')
-            ? `/services/v2/PreferenceService2.svc/SystemPreference?key=innerdoor`
-            : null
+    const { data: innerdoor, isLoading } = useGetSystemPreference(
+        currentUser?.id != null && currentUser?.hasPrivilege('vetted') ? `innerdoor` : undefined
     )
 
     if (currentUser == null || isLoading)
@@ -65,17 +61,12 @@ const DoorAccess: FC<DoorAccessProps> = () => {
                             </p>
                         </Conditional>
 
-                        <h3> Temporary Booking System </h3>
-
-                        <p>Due to COVID-19, VHS is currently operating at a lower capacity.</p>
+                        <h3>Booking System</h3>
 
                         <p>
-                            Please follow policies outlined in the{' '}
-                            <a href='https://r.vanhack.ca/covid-plan'>COVID-19 Safety Plan</a> and book using the system
-                            below.
+                            While initially introduce over the COVID-19 pandemic, select tools and areas use the booking
+                            system.
                         </p>
-
-                        <p>For easy access, you can also bookmark this through:</p>
 
                         <p>
                             <a href='https://booking.vanhack.ca/index.php/appointments'>
@@ -83,23 +74,9 @@ const DoorAccess: FC<DoorAccessProps> = () => {
                             </a>
                         </p>
 
-                        <iframe
-                            className='w-full max-w-[768px] border-0 bg-transparent'
-                            src='https://booking.vanhack.ca/index.php/appointments'
-                            title='VHS Booking System'
-                            height='760px'
-                        ></iframe>
-
-                        <p>
-                            When you get to the space, all users (members and guests) must sign in through the
-                            contactless sign in system:
-                        </p>
-
-                        <p>
-                            <a href='https://r.vanhack.ca/covid-signin'>https://r.vanhack.ca/covid-signin</a>
-                        </p>
-
-                        <Conditional condition={currentUser.hasPrivilege('vetted') && innerdoor != null}>
+                        <Conditional
+                            condition={currentUser.valid && currentUser.hasPrivilege('vetted') && innerdoor != null}
+                        >
                             <h3>Keyholders</h3>
 
                             <p>
