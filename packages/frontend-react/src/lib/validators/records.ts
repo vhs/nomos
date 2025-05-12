@@ -302,7 +302,8 @@ export const zPartialUser = zUser.omit({ id: true }).partial().merge(zCommon)
 
 export const zPrincipalUser = zUser.extend({
     principal: zUser,
-    hasPermission: z.function().args(zString).returns(z.boolean())
+    hasPermission: z.function().args(zString).returns(z.boolean()),
+    valid: zBoolean
 })
 
 export const zRefreshToken = z.object({
