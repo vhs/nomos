@@ -34,6 +34,7 @@ export default class UserObject implements User, IUserObject {
     privileges: Privileges
     membership: Membership | null | undefined
     protected privilegeCache: string[] = []
+    valid: boolean
 
     constructor(userData: User, permissions?: string[]) {
         zUser.parse(userData)
@@ -65,6 +66,7 @@ export default class UserObject implements User, IUserObject {
         this.keys = userData.keys
         this.privileges = userData.privileges
         this.membership = userData.membership
+        this.valid = userData.active === 'y' && new Date(userData.mem_expire) > new Date()
 
         this.keys.forEach((key) => {
             if (key.type === 'pin') {
@@ -96,8 +98,9 @@ export default class UserObject implements User, IUserObject {
                     this.privilegeCache.push(privilegeCode)
                 }
             })
+
+        if (this.privilegeCache.filter((p) => p.startsWith('grant:')).length > 0) this.privilegeCache.push('grants')
     }
-    [k: string]: unknown
 
     hasPrivilege(priv: string): boolean {
         return this.privilegeCache.includes(priv)
