@@ -7,7 +7,7 @@ import type { DoorAccessProps } from './DoorAccess.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 
 import useGetSystemPreference from '@/lib/hooks/providers/PreferenceService2/useGetSystemPreference'
 import useAuth from '@/lib/hooks/useAuth'

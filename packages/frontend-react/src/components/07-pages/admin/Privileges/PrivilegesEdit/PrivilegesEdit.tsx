@@ -17,7 +17,7 @@ import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
-import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
+import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
 
 import { isString } from '@/lib/guards/common'
 import useGetPrivilege from '@/lib/hooks/providers/PrivilegeService2/useGetPrivilege'

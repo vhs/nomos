@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { PrivilegesProps } from './Privileges.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import { PrivilegesFields } from './Privileges.utils'
 import PrivilegesItem from './PrivilegesItem/PrivilegesItem'

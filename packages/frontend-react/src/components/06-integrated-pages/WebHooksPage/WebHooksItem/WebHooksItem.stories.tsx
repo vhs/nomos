@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof WebHooksItem>
 
 const meta: Meta<typeof WebHooksItem> = {
     component: WebHooksItem,
-    title: '05-Materials/WebHooksPage/WebHooksItem',
+    title: '06-integrated-Pages/WebHooksPage/WebHooksItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

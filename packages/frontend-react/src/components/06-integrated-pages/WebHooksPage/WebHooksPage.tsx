@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { WebHooksPageProps } from './WebHooksPage.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import CreateWebHookForm from './CreateWebHookForm/CreateWebHookForm'
 import WebHooksItem from './WebHooksItem/WebHooksItem'

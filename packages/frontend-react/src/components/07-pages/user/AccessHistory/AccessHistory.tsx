@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { AccessHistoryProps } from './AccessHistory.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import { AccessHistoryFields, AccessHistoryFilters } from './AccessHistory.utils'
 import AccessHistoryItem from './AccessHistoryItem/AccessHistoryItem'

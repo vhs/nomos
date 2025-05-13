@@ -4,7 +4,7 @@ import type { MemberCardsProps } from './MemberCards.types'
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 
 import IssueGenuineCard from './IssueGenuineCard/IssueGenuineCard'
 import ListGenuineCardPurchases from './ListGenuineCardPurchases/ListGenuineCardPurchases'

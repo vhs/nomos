@@ -4,13 +4,13 @@ import AuthenticationProvider from '@/components/09-providers/AuthenticationProv
 
 // import { mockHandlers } from '@/lib/mocking/handlers'
 
-import ApiKeysHelpPage from './ApiKeysHelpPage'
+import ApiKeysUsagePage from './ApiKeysUsagePage'
 
-type StoryType = StoryObj<typeof ApiKeysHelpPage>
+type StoryType = StoryObj<typeof ApiKeysUsagePage>
 
-const meta: Meta<typeof ApiKeysHelpPage> = {
-    component: ApiKeysHelpPage,
-    title: '05-Materials/ApiKeysPage/ApiKeysHelpPage',
+const meta: Meta<typeof ApiKeysUsagePage> = {
+    component: ApiKeysUsagePage,
+    title: '06-integrated-Pages/ApiKeysPage/ApiKeysUsagePage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -24,6 +24,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'ApiKeysHelp'
+        children: 'ApiKeysUsagePage'
     }
 }

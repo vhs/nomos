@@ -17,7 +17,7 @@ import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOver
 import Card from '@/components/04-composites/Card/Card'
 import CurrentUserPrivilegesCard from '@/components/04-composites/CurrentUserPrivilegesCard/CurrentUserPrivilegesCard'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import useGetStanding from '@/lib/hooks/providers/UserService2/useGetStanding'

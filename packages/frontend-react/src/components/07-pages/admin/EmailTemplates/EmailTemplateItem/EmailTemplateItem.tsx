@@ -11,7 +11,7 @@ import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableAction
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
-import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
+import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
 
 import EmailService2 from '@/lib/providers/EmailService2'
 

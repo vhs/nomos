@@ -11,7 +11,7 @@ import Row from '@/components/01-atoms/Row/Row'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
-import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
+import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
 
 import EmailService2 from '@/lib/providers/EmailService2'
 

@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import type { PaymentGatewaysProps } from './PaymentGateways.types'
 
 import UnderConstructionBanner from '@/components/01-atoms/UnderConstructionBanner/UnderConstructionBanner'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 
 const PaymentGateways: FC<PaymentGatewaysProps> = () => (
     <BasePage data-testid='PaymentGateways' title='Payment Gateways'>

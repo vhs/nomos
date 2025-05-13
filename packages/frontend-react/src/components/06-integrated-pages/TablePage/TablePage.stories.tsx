@@ -22,7 +22,7 @@ const MockDataComponent: FC<{ data: MockServiceData }> = ({ data: { id, color } 
 
 const meta: Meta<typeof TablePage> = {
     component: TablePage,
-    title: '05-Materials/TablePage',
+    title: '06-integrated-Pages/TablePage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -39,7 +39,7 @@ const meta: Meta<typeof TablePage> = {
 
 export const Default: StoryType = {
     args: {
-        title: '05-Materials/TablePage',
+        title: '06-integrated-Pages/TablePage',
         label: 'storybook',
         serviceEndpoint: 'MockService2',
         baseServiceMethod: 'Mock',

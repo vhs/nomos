@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof ApiKeysPageContainer>
 
 const meta: Meta<typeof ApiKeysPageContainer> = {
     component: ApiKeysPageContainer,
-    title: '05-Materials/ApiKeysPage/ApiKeysPageContainer',
+    title: '06-integrated-Pages/ApiKeysPage/ApiKeysPageContainer',
     decorators: [
         (Story) => (
             <AuthenticationProvider>

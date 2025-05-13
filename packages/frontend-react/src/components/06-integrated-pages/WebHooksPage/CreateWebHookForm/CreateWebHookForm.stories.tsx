@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import ApiKeysCreateNewButton from './ApiKeysCreateNewButton'
+import CreateWebHookForm from './CreateWebHookForm'
 
-type StoryType = StoryObj<typeof ApiKeysCreateNewButton>
+type StoryType = StoryObj<typeof CreateWebHookForm>
 
-const meta: Meta<typeof ApiKeysCreateNewButton> = {
-    component: ApiKeysCreateNewButton,
-    title: '05-Materials/ApiKeysPage/ApiKeysCreateNewButton',
+const meta: Meta<typeof CreateWebHookForm> = {
+    component: CreateWebHookForm,
+    title: '06-integrated-Pages/WebHooksPage/CreateWebHookForm',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -22,6 +22,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'ApiKeysCreateNewButton'
+        children: 'CreateWebHookForm'
     }
 }

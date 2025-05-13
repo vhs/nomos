@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zAllowedPageSizes } from '@/components/05-materials/TablePage/TablePage.schema'
+import { zAllowedPageSizes } from '@/components/06-integrated-pages/TablePage/TablePage.schema'
 
 import { zPositiveNumber, zString } from '@/lib/validators/common'
 
