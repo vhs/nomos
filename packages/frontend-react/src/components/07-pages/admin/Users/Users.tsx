@@ -2,12 +2,12 @@ import type { FC } from 'react'
 
 import type { UsersProps } from './Users.types'
 
-import CreateUserButton from '@/components/01-atoms/CreateUserButton/CreateUserButton'
 import TablePage from '@/components/05-materials/TablePage/TablePage'
-import UsersItem from '@/components/07-pages/admin/Users/UsersItem/UsersItem'
 
+import CreateUserButton from './CreateUserButton/CreateUserButton'
 import { zAdminUsersTablePageSchema } from './Users.schema'
 import { AdminUserFields, PrimaryAdminUserFilters, SecondaryAdminUserFilters } from './Users.utils'
+import UsersItem from './UsersItem/UsersItem'
 
 const Users: FC<UsersProps> = () => {
     return (
