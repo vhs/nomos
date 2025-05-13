@@ -8,7 +8,7 @@ type StoryType = StoryObj<typeof CreateUserButton>
 
 const meta: Meta<typeof CreateUserButton> = {
     component: CreateUserButton,
-    title: '01-Atoms/CreateUserButton',
+    title: '07-Pages/Admin/Users/CreateUserButton',
     decorators: [CenteredContentStorybookDecorator]
 }
 
