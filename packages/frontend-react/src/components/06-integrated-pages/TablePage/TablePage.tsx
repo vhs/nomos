@@ -19,7 +19,7 @@ import Toggle from '@/components/01-atoms/Toggle/Toggle'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import Paginator from '@/components/04-composites/Paginator/Paginator'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 
 import type { Filter, Filters } from '@/lib/db/utils/query-filters'

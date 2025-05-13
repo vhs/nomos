@@ -8,7 +8,7 @@ import type { DashboardProps } from './Dashboard.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
 import AdminStatusWidget from '@/components/03-particles/AdminStatusWidget/AdminStatusWidget'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 
 import type { Payments, Users } from '@/types/validators/records'
 

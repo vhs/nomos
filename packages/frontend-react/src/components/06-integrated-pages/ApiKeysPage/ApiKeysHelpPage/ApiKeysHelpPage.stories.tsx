@@ -2,13 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import CreateWebHookForm from './CreateWebHookForm'
+// import { mockHandlers } from '@/lib/mocking/handlers'
 
-type StoryType = StoryObj<typeof CreateWebHookForm>
+import ApiKeysHelpPage from './ApiKeysHelpPage'
 
-const meta: Meta<typeof CreateWebHookForm> = {
-    component: CreateWebHookForm,
-    title: '05-Materials/WebHooksPage/CreateWebHookForm',
+type StoryType = StoryObj<typeof ApiKeysHelpPage>
+
+const meta: Meta<typeof ApiKeysHelpPage> = {
+    component: ApiKeysHelpPage,
+    title: '06-integrated-Pages/ApiKeysPage/ApiKeysHelpPage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -22,6 +24,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        children: 'CreateWebHookForm'
+        children: 'ApiKeysHelp'
     }
 }

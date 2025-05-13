@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { OAuthPageClientViewProps } from './OAuthPageClientView.types'
 
-import TablePage from '../../TablePage/TablePage'
+import TablePage from '../../../06-integrated-pages/TablePage/TablePage'
 
 import OAuthPageClientItem from './OAuthPageClientItem/OAuthPageClientItem'
 import { OAuthPageClientViewFields, OAuthPageClientViewFilters } from './OAuthPageClientView.utils'

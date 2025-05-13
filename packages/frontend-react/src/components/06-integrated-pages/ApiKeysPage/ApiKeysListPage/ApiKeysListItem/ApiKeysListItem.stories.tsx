@@ -7,23 +7,23 @@ import { mockPrincipalUserData } from '@/lib/mocking/data'
 
 import type { Key } from '@/types/validators/records'
 
-import ApiKeysEditModal from './ApiKeysEditModal'
+import ApiKeysListItem from './ApiKeysListItem'
 
-const mockApiKeysEdit: Key = {
+const mockApiKeysListItem: Key = {
     id: 1,
     created: new Date(),
     key: crypto.randomUUID(),
     type: 'api',
     userid: 1,
-    notes: 'mockApiKeysEdit',
+    notes: 'mockApiKeysListItem',
     privileges: mockPrincipalUserData.privileges
 }
 
-type StoryType = StoryObj<typeof ApiKeysEditModal>
+type StoryType = StoryObj<typeof ApiKeysListItem>
 
-const meta: Meta<typeof ApiKeysEditModal> = {
-    component: ApiKeysEditModal,
-    title: '05-Materials/ApiKeysPage/ApiKeysEditModal',
+const meta: Meta<typeof ApiKeysListItem> = {
+    component: ApiKeysListItem,
+    title: '06-integrated-Pages/ApiKeysPage/ApiKeysListPage/ApiKeysListItem',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -37,6 +37,6 @@ export default meta
 
 export const Default: StoryType = {
     args: {
-        keyId: mockApiKeysEdit.id
+        apiKey: mockApiKeysListItem
     }
 }

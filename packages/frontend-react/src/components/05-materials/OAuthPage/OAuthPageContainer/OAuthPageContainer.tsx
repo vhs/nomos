@@ -8,7 +8,7 @@ import type { OAuthPageActiveView } from '../OAuthPage.types'
 
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 
-import BasePage from '../../BasePage/BasePage'
+import BasePage from '../../../06-integrated-pages/BasePage/BasePage'
 import { OAuthPageContext } from '../OAuthPage.context'
 import { OAuthMenu } from '../OAuthPage.settings'
 import { getOAuthTermByScope, getOAuthViewPath } from '../OAuthPage.utils'
