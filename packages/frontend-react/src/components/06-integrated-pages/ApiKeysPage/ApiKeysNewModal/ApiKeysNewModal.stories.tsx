@@ -2,15 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-// import { mockHandlers } from '@/lib/mocking/handlers'
+import ApiKeysNewModal from './ApiKeysNewModal'
 
-import ApiKeysUsagePage from './ApiKeysUsagePage'
+type StoryType = StoryObj<typeof ApiKeysNewModal>
 
-type StoryType = StoryObj<typeof ApiKeysUsagePage>
-
-const meta: Meta<typeof ApiKeysUsagePage> = {
-    component: ApiKeysUsagePage,
-    title: '05-Materials/ApiKeysPage/ApiKeysUsagePage',
+const meta: Meta<typeof ApiKeysNewModal> = {
+    component: ApiKeysNewModal,
+    title: '06-integrated-Pages/ApiKeysPage/ApiKeysNewModal',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -23,7 +21,5 @@ const meta: Meta<typeof ApiKeysUsagePage> = {
 export default meta
 
 export const Default: StoryType = {
-    args: {
-        children: 'ApiKeysUsagePage'
-    }
+    args: {}
 }

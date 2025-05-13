@@ -2,13 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 
-import WebHooksPage from './WebHooksPage'
+// import { mockHandlers } from '@/lib/mocking/handlers'
 
-type StoryType = StoryObj<typeof WebHooksPage>
+import BasePage from './BasePage'
 
-const meta: Meta<typeof WebHooksPage> = {
-    component: WebHooksPage,
-    title: '05-Materials/WebHooksPage',
+type StoryType = StoryObj<typeof BasePage>
+
+const meta: Meta<typeof BasePage> = {
+    component: BasePage,
+    title: '06-integrated-Pages/BasePage',
     decorators: [
         (Story) => (
             <AuthenticationProvider>
@@ -20,14 +22,9 @@ const meta: Meta<typeof WebHooksPage> = {
 
 export default meta
 
-export const Admin: StoryType = {
+export const Default: StoryType = {
     args: {
-        user: false
-    }
-}
-
-export const User: StoryType = {
-    args: {
-        user: true
+        children: 'BasePage',
+        title: '06-integrated-Pages/BasePage'
     }
 }

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { SystemPreferencesProps } from './SystemPreferences.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import CreateSystemPreferenceButton from './CreateSystemPreferenceButton/CreateSystemPreferenceButton'
 import { SystemPreferencesFields, SystemPreferencesFilters } from './SystemPreferences.utils'

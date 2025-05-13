@@ -16,7 +16,7 @@ import FormRow from '@/components/02-molecules/FormRow/FormRow'
 import Loading from '@/components/02-molecules/Loading/Loading'
 import Card from '@/components/04-composites/Card/Card'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
-import BasePage from '@/components/05-materials/BasePage/BasePage'
+import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
 
 import useAuth from '@/lib/hooks/useAuth'
 import UserService2 from '@/lib/providers/UserService2'

@@ -14,7 +14,7 @@ import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
-import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
+import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
 
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
 import useToggleReducer from '@/lib/hooks/useToggleReducer'

@@ -5,7 +5,7 @@ import { useRouter } from '@tanstack/react-router'
 import type { EmailTemplatesProps } from './EmailTemplates.types'
 
 import Button from '@/components/01-atoms/Button/Button'
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import EmailTemplateItem from './EmailTemplateItem/EmailTemplateItem'
 import { EmailTemplatesFields } from './EmailTemplates.utils'

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { UsersProps } from './Users.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import CreateUserButton from './CreateUserButton/CreateUserButton'
 import { zAdminUsersTablePageSchema } from './Users.schema'

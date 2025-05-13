@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { PaymentsProps } from './Payments.types'
 
-import TablePage from '@/components/05-materials/TablePage/TablePage'
+import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
 
 import { PaymentsFields } from './Payments.utils'
 import PayPalPaymentItem from './PayPalPaymentItem/PayPalPaymentItem'

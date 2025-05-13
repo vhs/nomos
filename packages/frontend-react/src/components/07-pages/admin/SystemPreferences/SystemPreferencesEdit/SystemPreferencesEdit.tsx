@@ -16,7 +16,7 @@ import Card from '@/components/04-composites/Card/Card'
 import FormControl from '@/components/04-composites/FormControl/FormControl'
 import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
 import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
-import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
+import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
 
 import useGetSystemPreference from '@/lib/hooks/providers/PreferenceService2/useGetSystemPreference'
 import useGetAllPrivileges from '@/lib/hooks/providers/PrivilegeService2/useGetAllPrivileges'
