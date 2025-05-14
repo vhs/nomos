@@ -88,6 +88,7 @@
         "build:storybook": "wireit",
         "clean:dist": "wireit",
         "create:atom": "generate-react c --type=atom",
+        "create:component": "generate-react c --type=component",
         "create:composite": "generate-react c --type=composite",
         "create:layout": "generate-react c --type=layout",
         "create:material": "generate-react c --type=material",
