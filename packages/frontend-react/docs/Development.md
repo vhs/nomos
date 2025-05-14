@@ -16,9 +16,16 @@ This project uses the following levels to achieve this:
 - _Composites_ are re-usable (template) components
 - _Materials_ are fully re-usable complex modules/components
 
+Notes:
+
+- A good way to look at classification is that Atoms may only use plain HTML (and not include other components), and every layer beyond an Atom is determined by the highest layer included. E.g. a Molecule component will always include at least one (1) Atom or external component, and a Particle component will at least include one (1) Molecule component.
+- External components always count as Atoms.
+- If a component has integrated sub-components, count this as one complexity layer and count from there. E.g. if a sub-component includes a Molecule, then the main component will be a Composite level component. (Molecule->Particle->Composite). See the Menu component as an example.
+
 In addition to the "basic" components above, this project separates the following types of components:
 
 - _Layouts_
+- _Integrated Pages_ (i.e. one-size fits all pages that will adapt based on props passed - e.g. from routes)
 - _Pages_
     - _Admin_
     - _Common_
