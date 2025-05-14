@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { EmailTemplateEditProps } from './EmailTemplateEdit.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const EmailTemplateEditLazy = lazy(async () => await import('./EmailTemplateEdit'))
 

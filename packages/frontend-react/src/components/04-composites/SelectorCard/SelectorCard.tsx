@@ -8,7 +8,7 @@ import type { SelectorCardProps } from './SelectorCard.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card/Card'
+import Card from '@/components/03-particles/Card/Card'
 
 import { getObjectKeyByPath } from './SelectorCard.utils'
 

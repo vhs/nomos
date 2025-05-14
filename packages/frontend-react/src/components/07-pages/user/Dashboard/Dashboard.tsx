@@ -9,8 +9,8 @@ import Col from '@/components/01-atoms/Col/Col'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Row from '@/components/01-atoms/Row/Row'
 import Loading from '@/components/02-molecules/Loading/Loading'
-import Card from '@/components/04-composites/Card/Card'
-import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
+import Card from '@/components/03-particles/Card/Card'
+import BasePage from '@/components/04-composites/BasePage/BasePage'
 
 import 'chart.js/auto'
 

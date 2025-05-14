@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import type { TabsProps } from './Tabs.types'
 
-import Button from '@/components/01-atoms/Button/Button'
+import Button from '@/components/02-molecules/Button/Button'
 
 const Tabs: FC<TabsProps> = ({ children, defaultTab }) => {
     defaultTab ??= ''

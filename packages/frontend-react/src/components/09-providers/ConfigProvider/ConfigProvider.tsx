@@ -10,7 +10,7 @@ import type {
     SiteConfig
 } from './ConfigProvider.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 import { ConfigProviderContext } from './ConfigProvider.context'
 import { isSiteConfig } from './ConfigProvider.guards'

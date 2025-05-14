@@ -5,13 +5,13 @@ import { toast } from 'react-toastify'
 
 import type { EmailTemplateItemProps } from './EmailTemplateItem.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import Button from '@/components/02-molecules/Button/Button'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import ItemDeleteModal from '@/components/03-particles/ItemDeleteModal/ItemDeleteModal'
-import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
+import ItemDeleteModal from '@/components/05-materials/ItemDeleteModal/ItemDeleteModal'
+import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
 import EmailService2 from '@/lib/providers/EmailService2'
 

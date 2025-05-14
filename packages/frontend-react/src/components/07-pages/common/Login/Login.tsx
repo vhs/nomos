@@ -8,14 +8,14 @@ import { toast } from 'react-toastify'
 
 import type { LoginSchema, LoginProps } from './Login.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
-import RedirectUserDashboard from '@/components/01-atoms/RedirectUserDashboard/RedirectUserDashboard'
 import Row from '@/components/01-atoms/Row/Row'
+import Button from '@/components/02-molecules/Button/Button'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
 import Loading from '@/components/02-molecules/Loading/Loading'
-import Card from '@/components/04-composites/Card/Card'
-import FormControl from '@/components/04-composites/FormControl/FormControl'
+import RedirectUserDashboard from '@/components/02-molecules/RedirectUserDashboard/RedirectUserDashboard'
+import Card from '@/components/03-particles/Card/Card'
+import FormControl from '@/components/03-particles/FormControl/FormControl'
 
 import useAuth from '@/lib/hooks/useAuth'
 

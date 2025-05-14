@@ -6,7 +6,7 @@ import type { CurrentUserPrivilegesListProps } from './CurrentUserPrivilegesList
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import PrivilegePill from '@/components/02-molecules/PrivilegePill/PrivilegePill'
+import PrivilegePill from '@/components/03-particles/PrivilegePill/PrivilegePill'
 
 const CurrentUserPrivilegesList: FC<CurrentUserPrivilegesListProps> = ({ className, privileges }) => {
     if (!Array.isArray(privileges) || privileges.length === 0) return <>No privileges found</>

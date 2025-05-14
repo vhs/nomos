@@ -2,7 +2,7 @@ import { type JSX, lazy, Suspense } from 'react'
 
 import type { LandingPageProps } from './LandingPage.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const LandingPageLazy = lazy(async () => await import('./LandingPage'))
 

@@ -1,11 +1,11 @@
 import { type FC, useState, useMemo } from 'react'
 
-import Button from '@/components/01-atoms/Button/Button'
 import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Pill from '@/components/01-atoms/Pill/Pill'
 import Row from '@/components/01-atoms/Row/Row'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
+import Button from '@/components/02-molecules/Button/Button'
+import OverlayCard from '@/components/04-composites/OverlayCard/OverlayCard'
 
 import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 import type UserObject from '@/lib/db/models/User'

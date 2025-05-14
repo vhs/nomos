@@ -5,8 +5,8 @@ import type { PurchasesProps } from './Purchases.types'
 import Col from '@/components/01-atoms/Col/Col'
 import Container from '@/components/01-atoms/Container/Container'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card/Card'
-import BasePage from '@/components/06-integrated-pages/BasePage/BasePage'
+import Card from '@/components/03-particles/Card/Card'
+import BasePage from '@/components/04-composites/BasePage/BasePage'
 
 const Purchases: FC<PurchasesProps> = () => (
     <BasePage title='Purchase'>

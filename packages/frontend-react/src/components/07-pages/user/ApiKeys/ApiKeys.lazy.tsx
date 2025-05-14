@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { ApiKeysProps } from './ApiKeys.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const ApiKeysLazy = lazy(async () => await import('./ApiKeys'))
 

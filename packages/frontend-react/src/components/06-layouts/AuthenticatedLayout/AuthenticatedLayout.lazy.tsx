@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { AuthenticatedLayoutProps } from './AuthenticatedLayout.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const LazyAuthenticatedLayout = lazy(async () => await import('./AuthenticatedLayout'))
 

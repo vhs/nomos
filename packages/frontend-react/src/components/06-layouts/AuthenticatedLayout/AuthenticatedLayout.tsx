@@ -6,8 +6,8 @@ import clsx from 'clsx'
 import type { AuthenticatedLayoutProps } from './AuthenticatedLayout.types'
 
 import Container from '@/components/01-atoms/Container/Container'
-import Menu from '@/components/05-materials/Menu/Menu'
-import MobileMenu from '@/components/05-materials/MobileMenu/MobileMenu'
+import Menu from '@/components/03-particles/Menu/Menu'
+import MobileMenu from '@/components/04-composites/MobileMenu/MobileMenu'
 
 const AuthenticatedLayout: FC<AuthenticatedLayoutProps> = ({ admin, guardComponent: GuardComponent, menuItems }) => {
     admin ??= false

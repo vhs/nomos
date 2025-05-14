@@ -4,7 +4,7 @@ import type { StandingCardProps } from './Profile.types'
 
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import type { IconProp } from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon.types'
-import Card from '@/components/04-composites/Card/Card'
+import Card from '@/components/03-particles/Card/Card'
 
 type StyleKeys = 'default' | 'expired' | 'valid'
 interface StyleItem {

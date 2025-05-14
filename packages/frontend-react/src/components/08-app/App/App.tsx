@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { RouterProvider } from '@tanstack/react-router'
 import { SWRConfig } from 'swr'
 
-import WaitingRoom from '@/components/02-molecules/WaitingRoom/WaitingRoom'
+import WaitingRoom from '@/components/04-composites/WaitingRoom/WaitingRoom'
 import AuthenticationProvider from '@/components/09-providers/AuthenticationProvider/AuthenticationProvider'
 import ConfigProvider from '@/components/09-providers/ConfigProvider/ConfigProvider'
 

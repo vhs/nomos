@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import type { AccessLogsProps } from './AccessLogs.types'
 
-import TablePage from '@/components/06-integrated-pages/TablePage/TablePage'
+import TablePage from '@/components/05-materials/TablePage/TablePage'
 
 import { AccessLogsFields, AccessLogsFilters } from './AccessLogs.utils'
 import AccessLogsItem from './AccessLogsItem/AccessLogsItem'

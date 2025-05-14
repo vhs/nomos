@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 
 import type { AuthenticationProviderProps } from './AuthenticationProvider.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 import useCurrentUser from '@/lib/hooks/providers/AuthService2/useCurrentUser'
 import AuthService2 from '@/lib/providers/AuthService2'

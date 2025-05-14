@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { SystemPreferencesItemProps } from './SystemPreferencesItem.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const SystemPreferencesItemLazy = lazy(async () => await import('./SystemPreferencesItem'))
 

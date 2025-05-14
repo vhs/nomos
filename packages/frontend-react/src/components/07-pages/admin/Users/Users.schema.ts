@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zTablePageSchema } from '@/components/06-integrated-pages/TablePage/TablePage.schema'
+import { zTablePageSchema } from '@/components/05-materials/TablePage/TablePage.schema'
 
 import {
     zBoolean,
