@@ -6,7 +6,7 @@
     "testLibrary": "Testing Library",
     "component": {
         "default": {
-            "path": "src/components/01-atoms",
+            "path": "src/components/00-components",
             "withLazy": false,
             "withStory": true,
             "withStyle": false,
