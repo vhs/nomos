@@ -7,13 +7,13 @@ import { toast } from 'react-toastify'
 
 import type { EmailTemplateEditProps } from './EmailTemplateEdit.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
+import Button from '@/components/02-molecules/Button/Button'
 import FormCol from '@/components/02-molecules/FormCol/FormCol'
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
-import FormControl from '@/components/04-composites/FormControl/FormControl'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
-import { useTablePageContext } from '@/components/06-integrated-pages/TablePage/TablePage.context'
+import FormControl from '@/components/03-particles/FormControl/FormControl'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
+import OverlayCard from '@/components/04-composites/OverlayCard/OverlayCard'
+import { useTablePageContext } from '@/components/05-materials/TablePage/TablePage.context'
 
 import useGetTemplate from '@/lib/hooks/providers/EmailService2/useGetTemplate'
 import EmailService2 from '@/lib/providers/EmailService2'

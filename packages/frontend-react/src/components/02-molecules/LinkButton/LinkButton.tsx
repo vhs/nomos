@@ -5,7 +5,7 @@ import { clsx } from 'clsx'
 
 import type { LinkButtonProps } from './LinkButton.types'
 
-import styles from '@/components/01-atoms/Button/Button.styles'
+import styles from '@/components/02-molecules/Button/Button.styles'
 
 const LinkButton: FC<LinkButtonProps> = ({ children, circle, className, small, variant, to }) => {
     circle ??= false

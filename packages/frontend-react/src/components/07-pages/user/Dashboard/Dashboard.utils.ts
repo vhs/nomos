@@ -3,7 +3,7 @@ import moment from 'moment'
 import type { DashboardDataState } from './Dashboard.types'
 import type { ChartData, Point } from 'chart.js'
 
-import type { GridChartProps } from '@/components/04-composites/GridChart/GridChart.types'
+import type { GridChartProps } from '@/components/03-particles/GridChart/GridChart.types'
 
 import {
     isMetricServiceGetCreatedDatesResult,

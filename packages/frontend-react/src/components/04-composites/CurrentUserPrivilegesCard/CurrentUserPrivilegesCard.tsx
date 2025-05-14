@@ -4,7 +4,7 @@ import type { CurrentUserPrivilegesCardProps } from './CurrentUserPrivilegesCard
 
 import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card/Card'
+import Card from '@/components/03-particles/Card/Card'
 
 import type UserObject from '@/lib/db/models/User'
 
@@ -22,7 +22,6 @@ const CurrentUserPrivilegesCard: FC<CurrentUserPrivilegesCardProps> = ({ classNa
 
     return (
         <div data-testid='CurrentUserPrivilegesCard'>
-            {' '}
             <Card>
                 <Card.Header>Privileges</Card.Header>
                 <Card.Body>

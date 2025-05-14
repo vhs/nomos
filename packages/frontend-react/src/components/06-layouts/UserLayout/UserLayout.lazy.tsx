@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { UserLayoutProps } from './UserLayout.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const LazyUserLayout = lazy(async () => await import('./UserLayout'))
 

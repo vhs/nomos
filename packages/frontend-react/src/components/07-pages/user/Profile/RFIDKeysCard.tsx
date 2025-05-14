@@ -2,8 +2,8 @@ import type { FC } from 'react'
 
 import type { RFIDKeysProps, RFIDKeysCardProps } from './Profile.types'
 
-import Card from '@/components/04-composites/Card/Card'
-import FormControl from '@/components/04-composites/FormControl/FormControl'
+import Card from '@/components/03-particles/Card/Card'
+import FormControl from '@/components/03-particles/FormControl/FormControl'
 
 import { KeyInfo } from './Profile.ui'
 

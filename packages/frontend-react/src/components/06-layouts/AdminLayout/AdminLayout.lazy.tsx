@@ -2,7 +2,7 @@ import { lazy, Suspense, type JSX } from 'react'
 
 import type { AdminLayoutProps } from './AdminLayout.types'
 
-import LoadingOverlay from '@/components/02-molecules/LoadingOverlay/LoadingOverlay'
+import LoadingOverlay from '@/components/03-particles/LoadingOverlay/LoadingOverlay'
 
 const LazyAdminLayout = lazy(async () => await import('./AdminLayout'))
 

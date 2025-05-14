@@ -5,11 +5,11 @@ import { toast } from 'react-toastify'
 
 import type { GrantingItemProps } from './GrantingItem.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import Button from '@/components/02-molecules/Button/Button'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
-import OverlayCard from '@/components/05-materials/OverlayCard/OverlayCard'
-import PrivilegesSelectorCard from '@/components/05-materials/PrivilegesSelectorCard/PrivilegesSelectorCard'
+import OverlayCard from '@/components/04-composites/OverlayCard/OverlayCard'
+import PrivilegesSelectorCard from '@/components/04-composites/PrivilegesSelectorCard/PrivilegesSelectorCard'
 
 import { isStrings, isStringStringRecord } from '@/lib/guards/common'
 import useGetUserGrantablePrivileges from '@/lib/hooks/providers/UserService2/useGetUserGrantablePrivileges'

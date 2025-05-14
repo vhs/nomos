@@ -7,11 +7,11 @@ import useSWR from 'swr'
 
 import type { AdminPrivilegeItemSchema, PrivilegesItemProps } from './PrivilegesItem.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import Popover from '@/components/01-atoms/Popover/Popover'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import Button from '@/components/02-molecules/Button/Button'
 import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import PrivilegeIcon from '@/components/02-molecules/PrivilegeIcon/PrivilegeIcon'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'

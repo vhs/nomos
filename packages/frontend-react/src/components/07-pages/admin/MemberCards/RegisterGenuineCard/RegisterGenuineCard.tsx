@@ -8,10 +8,10 @@ import { mutate } from 'swr'
 import type { RegisterGenuineCardForm } from '../MemberCards.types'
 import type { RegisterGenuineCardProps } from './RegisterGenuineCard.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import Row from '@/components/01-atoms/Row/Row'
-import Card from '@/components/04-composites/Card/Card'
-import FormControl from '@/components/04-composites/FormControl/FormControl'
+import Button from '@/components/02-molecules/Button/Button'
+import Card from '@/components/03-particles/Card/Card'
+import FormControl from '@/components/03-particles/FormControl/FormControl'
 
 import MemberCardService2 from '@/lib/providers/MemberCardService2'
 
