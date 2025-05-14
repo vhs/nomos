@@ -3,6 +3,13 @@ set export := true
 help:
     @just -l
 
+build target:
+    @echo 'Building {{target}}…'
+    @just "build_{{target}}"
+
+build_all:
+    pnpm --filter "./packages/*/" build
+
 format target:
     @echo 'Formatting {{target}}…'
     @just "format_{{target}}"
@@ -13,7 +20,7 @@ format_all:
     echo ${FILES:-.} | xargs -n1 | grep -v -E $(find . -type l | grep -vw node_modules | cut -f2- -d/  | xargs | tr ' ' '|') | xargs pnpm exec prettier -w
 
 format_php:
-    @pnpm -r run format:php
+    @pnpm --filter "./packages/*-php/" format:php
 
 git_hooks:
     #!/usr/bin/env bash
@@ -39,15 +46,15 @@ git_hook_pre_commit:
         fi
 
         if [ "${STORYBOOK_FILES}" != "" ]; then
-            pnpm --filter @vhs/nomos-frontend-react run fix:storybook:titles
+            pnpm --filter @vhs/nomos-frontend-react fix:storybook:titles
         fi
 
         if [ "${VALIDATOR_FILES}" != "" ]; then
-            pnpm --filter @vhs/nomos-frontend-react run generate:validator:implementations
+            pnpm --filter @vhs/nomos-frontend-react generate:validator:implementations
         fi
 
         if [ "${WEBHOOKER_FILES}" != "" ]; then
-            pnpm exec just test webhooker
+            pnpm --filter="@vhs/webhooker" test
         fi
 
         FILES=$(echo "${FILES}" | xargs) pnpm exec just format all
@@ -63,69 +70,20 @@ git_hook_pre_push:
     set -e
 
     if git show-ref "$(git branch --show-current)" | awk '{ print $2 }' | xargs | sed 's/ /../g' | xargs git diff --numstat | grep packages/frontend-react > /dev/null; then
-        pnpm run -r build
+        pnpm --filter @vhs/nomos-frontend-react build
     fi
 
     exit 0
-
 
 install target:
     @echo 'Installing {{target}}…'
     @just "install_{{target}}"
 
-install_composer:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    if [ ! -f ./tools/composer.phar ]; then
-        TMPFILE=$(mktemp)
-
-        EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
-        php -r "copy('https://getcomposer.org/installer', '${TMPFILE}');"
-        ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', '${TMPFILE}');")"
-
-        if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
-            echo >&2 'ERROR: Invalid installer checksum'
-            rm "${TMPFILE}"
-            exit 1
-        fi
-
-        php "${TMPFILE}" --install-dir ./tools --quiet
-        rm "${TMPFILE}"
-    else
-        echo "composer has already been set up!"
-    fi
-
-    ./tools/composer.sh install ${COMPOSER_INSTALL_OPT:-}
-
-install_angular_ui_bootstrap:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    mkdir -p web/components/custom/angular-ui/ \
-    && cd web/components/custom/angular-ui/ \
-    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.js \
-    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.min.js
-
-install_webcomponents: install_angular_ui_bootstrap
-
-make_webcomponents_directories:
-    mkdir -p web/components/bower
-    mkdir -p web/components/custom
-
-run_bower:
-    echo "Running bower"
-    ./tools/bower.sh install
-
-run_composer:
-    echo "Running composer"
-    ./tools/composer.sh install
+prepare: setup_husky
 
 setup target:
     @echo 'Setting up {{target}}…'
     @just "setup_{{target}}"
-
-setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower
 
 setup_husky:
     #!/usr/bin/env bash
@@ -139,28 +97,14 @@ setup_husky:
         echo "husky has already been set up!"
     fi
 
-setup_vendor: install_composer run_composer
-
 test target:
     @echo 'Testing {{target}}…'
     @just "test_{{target}}"
 
 test_all:
     @echo "Testing all packages..."
-    @pnpm -r test
+    @pnpm --filter "./packages/*/" test:php
 
 test_php:
-    @echo "Testing all packages..."
-    @pnpm -r test:php
-
-test_webhooker:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    if [ "${FILES}" != "" ] ; then
-       pnpm --filter="@vhs/webhooker" run test
-    fi
-
-update target:
-    @echo 'Updating {{target}}…'
-    @just "update_{{target}}"
+    @echo "Testing all php packages..."
+    @pnpm --filter "./packages/*-php/" test:php
