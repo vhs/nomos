@@ -4,10 +4,10 @@ import { useRouter } from '@tanstack/react-router'
 
 import type { MembershipsItemProps } from './MembershipsItem.types'
 
-import Button from '@/components/01-atoms/Button/Button'
 import FontAwesomeIcon from '@/components/01-atoms/FontAwesomeIcon/FontAwesomeIcon'
 import TableActionsCell from '@/components/01-atoms/TableActionsCell/TableActionsCell'
 import TablePageRow from '@/components/01-atoms/TablePageRow/TablePageRow'
+import Button from '@/components/02-molecules/Button/Button'
 import EnabledCheckMark from '@/components/02-molecules/EnabledCheckMark/EnabledCheckMark'
 import TableDataCell from '@/components/02-molecules/TableDataCell/TableDataCell'
 
