@@ -55,7 +55,7 @@ jobs:
 
             - run:
                   name: Run tests
-                  command: pnpm run test
+                  command: pnpm exec just test php
 
             - save_cache:
                   key: v1-dep-{{ .Branch }}-{{ epoch }}

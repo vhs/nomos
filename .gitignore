@@ -1,6 +1,9 @@
 *
 !.gitignore
 
+!.circleci/
+!.circleci/config.yml
+
 !.github/
 !.github/**/
 !.github/**/*
