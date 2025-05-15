@@ -1,9 +1,6 @@
 *
 !.gitignore
 
-!.circleci/
-!.circleci/config.yml
-
 !.github/
 !.github/**/
 !.github/**/*
@@ -78,7 +75,6 @@ web/components/
 !Vagrantfile
 
 !bower.json
-!circle.yml
 !composer.json
 !composer.lock
 

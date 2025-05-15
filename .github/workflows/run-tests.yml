@@ -1,0 +1,46 @@
+name: Run Tests
+
+on:
+    push:
+        branches:
+            - 'main'
+            - 'master'
+            - 'trunk'
+        tags:
+            - 'v*'
+    pull_request:
+        branches:
+            - 'main'
+            - 'master'
+            - 'trunk'
+    workflow_dispatch:
+
+jobs:
+    test-php:
+        strategy:
+            matrix:
+                package: [backend-php]
+                node-version: ['22', 'lts']
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+
+            - name: Use Node.js ${{matrix.node-version}}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{matrix.node-version}}
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Test ${{matrix.package}}
+              run: pnpm --filter "./packages/${{matrix.package}}/" test
