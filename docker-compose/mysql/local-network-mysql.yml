@@ -1,0 +1,11 @@
+services:
+    backend-php:
+        networks:
+            - mysql
+
+    mysql:
+        networks:
+            - mysql
+
+networks:
+    mysql:

@@ -1,0 +1,280 @@
+{
+    "usesTypeScript": true,
+    "usesStyledComponents": false,
+    "usesCssModule": true,
+    "cssPreprocessor": "scss",
+    "testLibrary": "Testing Library",
+    "component": {
+        "default": {
+            "path": "src/components/00-components",
+            "withLazy": false,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": false,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "atom": {
+            "path": "src/components/01-atoms",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": false,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "molecule": {
+            "path": "src/components/02-molecules",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "particle": {
+            "path": "src/components/03-particles",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "composite": {
+            "path": "src/components/04-composites",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "material": {
+            "path": "src/components/05-materials",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "layout": {
+            "path": "src/components/06-layouts",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "page": {
+            "path": "src/components/07-pages",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "page:admin": {
+            "path": "src/components/07-pages/admin",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customDirectory": "AdminTemplateName",
+            "customTemplates": {
+                "component": "src/components/99-templates/admin-page/AdminTemplateName.tsx",
+                "lazy": "src/components/99-templates/admin-page/AdminTemplateName.lazy.tsx",
+                "story": "src/components/99-templates/admin-page/AdminTemplateName.stories.tsx",
+                "style": "src/components/99-templates/admin-page/AdminTemplateName.module.css",
+                "test": "src/components/99-templates/admin-page/AdminTemplateName.test.tsx",
+                "types": "src/components/99-templates/admin-page/AdminTemplateName.types.ts",
+                "utils": "src/components/99-templates/admin-page/AdminTemplateName.utils.ts"
+            }
+        },
+        "page:admin:item": {
+            "path": "src/components/07-pages/admin",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": false,
+            "withTypes": true,
+            "withUtils": true,
+            "customDirectory": "AdminTemplateName/item",
+            "customTemplates": {
+                "component": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.tsx",
+                "lazy": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.lazy.tsx",
+                "story": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.stories.tsx",
+                "test": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.test.ts",
+                "types": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.types.ts",
+                "utils": "src/components/99-templates/admin-page/item/AdminTemplateNameItem.utils.ts"
+            }
+        },
+        "page:common": {
+            "path": "src/components/07-pages/common",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/page/TemplateName.tsx",
+                "lazy": "src/components/99-templates/page/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/page/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/page/TemplateName.module.css",
+                "test": "src/components/99-templates/page/TemplateName.test.tsx",
+                "types": "src/components/99-templates/page/TemplateName.types.ts",
+                "utils": "src/components/99-templates/page/TemplateName.utils.ts"
+            }
+        },
+        "page:public": {
+            "path": "src/components/07-pages/public",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/page/TemplateName.tsx",
+                "lazy": "src/components/99-templates/page/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/page/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/page/TemplateName.module.css",
+                "test": "src/components/99-templates/page/TemplateName.test.tsx",
+                "types": "src/components/99-templates/page/TemplateName.types.ts",
+                "utils": "src/components/99-templates/page/TemplateName.utils.ts"
+            }
+        },
+        "page:user": {
+            "path": "src/components/07-pages/user",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/page/TemplateName.tsx",
+                "lazy": "src/components/99-templates/page/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/page/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/page/TemplateName.module.css",
+                "test": "src/components/99-templates/page/TemplateName.test.tsx",
+                "types": "src/components/99-templates/page/TemplateName.types.ts",
+                "utils": "src/components/99-templates/page/TemplateName.utils.ts"
+            }
+        },
+        "app": {
+            "path": "src/components/08-app",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        },
+        "provider": {
+            "path": "src/components/09-providers",
+            "withLazy": true,
+            "withStory": true,
+            "withStyle": false,
+            "withTest": true,
+            "withTypes": true,
+            "withUtils": true,
+            "customTemplates": {
+                "component": "src/components/99-templates/default/TemplateName.tsx",
+                "lazy": "src/components/99-templates/default/TemplateName.lazy.tsx",
+                "story": "src/components/99-templates/default/TemplateName.stories.tsx",
+                "style": "src/components/99-templates/default/TemplateName.module.css",
+                "test": "src/components/99-templates/default/TemplateName.test.tsx",
+                "types": "src/components/99-templates/default/TemplateName.types.ts",
+                "utils": "src/components/99-templates/default/TemplateName.utils.ts"
+            }
+        }
+    }
+}

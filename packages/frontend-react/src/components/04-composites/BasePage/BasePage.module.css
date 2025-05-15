@@ -1,0 +1,3 @@
+.BasePageContainer {
+    @apply max-w-[96vw] xs:max-w-[unset];
+}

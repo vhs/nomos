@@ -1,0 +1,21 @@
+services:
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq
+        restart: always
+        env_file:
+            - ${PWD}/docker/nomos.env
+        environment:
+            - RABBITMQ_DEFAULT_USER=${NOMOS_RABBITMQ_USER}
+            - RABBITMQ_DEFAULT_PASS=${NOMOS_RABBITMQ_PASSWORD}
+            - RABBITMQ_DEFAULT_VHOST=${NOMOS_RABBITMQ_VHOST}
+        volumes:
+            - ${PWD}/data/rabbitmq:/var/lib/rabbitmq
+
+    webhooker:
+        depends_on:
+            - rabbitmq
+
+    backend-php:
+        depends_on:
+            - rabbitmq

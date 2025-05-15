@@ -1,0 +1,11 @@
+services:
+    frontend-web:
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.docker.network=proxy'
+            - 'traefik.http.services.svc-nomos-devtest.loadbalancer.server.port=80'
+            - 'traefik.http.services.svc-nomos-devtest.loadbalancer.server.scheme=http'
+            - 'traefik.http.services.svc-nomos-devtest.loadbalancer.sticky.cookie=true'
+            - 'traefik.http.routers.nomos-devtest.rule=Host(`membership.test.vanhack.ca`) || Host(`membership.devtest.vanhack.ca`)'
+            - 'traefik.http.routers.nomos-devtest.entryPoints=web'
+            - 'traefik.http.routers.nomos-devtest.service=svc-nomos-devtest'

@@ -1,0 +1,6 @@
+services:
+    rabbitmq:
+        network_mode: bridge
+
+    webhooker:
+        network_mode: bridge

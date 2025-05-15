@@ -1,0 +1,72 @@
+@layer utilities {
+    .shortened {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .spacious {
+        @apply my-2;
+    }
+
+    .huge {
+        @apply text-5xl;
+    }
+
+    .nav {
+        @apply z-auto border border-nav bg-nav;
+    }
+
+    .privilege-card {
+        @apply rounded-lg p-1;
+    }
+
+    .page-title {
+        @apply text-3xl;
+    }
+
+    .no-truncate {
+        white-space: unset;
+        overflow: auto;
+        text-overflow: unset;
+        word-wrap: break-word;
+        max-width: fit-content;
+    }
+
+    .scrollbar-gutter-auto {
+        scrollbar-gutter: auto;
+    }
+
+    .scrollbar-gutter-stable {
+        scrollbar-gutter: stable;
+    }
+
+    .tablepage-header {
+        @apply break-words;
+    }
+
+    .row {
+        @apply my-2 flex flex-row gap-y-2;
+
+        &.hide {
+            @apply hidden;
+        }
+    }
+
+    .col {
+        @apply px-1;
+    }
+
+    .pull-left {
+        /* justify-self: start; */
+        float: inline-start;
+    }
+
+    .pull-right {
+        /* justify-self: end; */
+        float: inline-end;
+    }
+
+    .tight-vertical {
+        @apply py-1;
+    }
+}

@@ -1,0 +1,9 @@
+*
+!.gitignore
+
+!external.yml
+!local-management.yml
+!local-network-bridge.yml
+!local-network-internal.yml
+!local-network-rabbitmq.yml
+!local.yml

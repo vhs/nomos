@@ -1,0 +1,308 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 3/7/2016
+ * Time: 12:02 PM.
+ */
+
+namespace app\services;
+
+use app\contracts\IWebHookService1;
+use app\domain\Privilege;
+use app\domain\WebHook;
+use vhs\domain\Domain;
+use vhs\domain\Filter;
+use vhs\security\CurrentUser;
+use vhs\security\exceptions\UnauthorizedException;
+use vhs\services\Service;
+
+/** @typescript */
+class WebHookService extends Service implements IWebHookService1 {
+    /**
+     * @permission administrator|webhook
+     *
+     * @param string|\vhs\domain\Filter|null $filters
+     *
+     * @return int
+     */
+    public function CountHooks($filters) {
+        return WebHook::count($filters);
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int                            $userid
+     * @param string|\vhs\domain\Filter|null $filters
+     *
+     * @return int
+     */
+    public function CountUserHooks($userid, $filters) {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        return WebHook::count($filters);
+    }
+
+    /**
+     * @permission user
+     *
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return mixed
+     */
+    public function CreateHook($name, $description, $enabled, $url, $translation, $headers, $method, $eventid) {
+        $event = (new EventService($this->context))->GetEvent($eventid);
+
+        $codes = [];
+        foreach ($event->privileges->all() as $priv) {
+            array_push($codes, $priv->code);
+        }
+
+        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions(...$codes))) {
+            throw new UnauthorizedException('Insufficient privileges to subscribe to event');
+        }
+
+        $hook = new WebHook();
+
+        $hook->name = $name;
+        $hook->description = $description;
+        $hook->enabled = $enabled;
+        $hook->url = $url;
+        $hook->translation = $translation;
+        $hook->headers = $headers;
+        $hook->method = $method;
+        $hook->event = $event;
+        $hook->userid = CurrentUser::getIdentity();
+
+        return $hook->save();
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function DeleteHook($id) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $hook->delete();
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int  $id
+     * @param bool $enabled
+     *
+     * @return mixed
+     */
+    public function EnableHook($id, $enabled) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $hook->enabled = $enabled;
+
+        $hook->save();
+    }
+
+    /**
+     * @permission webhook|administrator
+     *
+     * @return mixed
+     */
+    public function GetAllHooks() {
+        return WebHook::findAll();
+    }
+
+    /**
+     * @permission user|administrator
+     *
+     * @param int $id
+     *
+     * @return \app\domain\WebHook|null
+     */
+    public function GetHook($id) {
+        /** @var \app\domain\WebHook */
+        $hook = WebHook::find($id);
+
+        if (is_null($hook)) {
+            return null;
+        }
+
+        if (CurrentUser::getIdentity() == $hook->userid || CurrentUser::hasAnyPermissions('administrator')) {
+            return $hook;
+        }
+
+        return null;
+    }
+
+    /**
+     * @permission webhook|administrator
+     *
+     * @param string $domain
+     * @param string $event
+     *
+     * @return mixed
+     */
+    public function GetHooks($domain, $event) {
+        return WebHook::findByDomainEvent($domain, $event);
+    }
+
+    /**
+     * @permission administrator|webhook
+     *
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
+     *
+     * @return mixed
+     */
+    public function ListHooks($page, $size, $columns, $order, $filters) {
+        return WebHook::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int                            $userid
+     * @param int                            $page
+     * @param int                            $size
+     * @param string                         $columns
+     * @param string                         $order
+     * @param string|\vhs\domain\Filter|null $filters
+     *
+     * @return mixed
+     */
+    public function ListUserHooks($userid, $page, $size, $columns, $order, $filters) {
+        $filters = $this->AddUserIDToFilters($userid, $filters);
+
+        $cols = explode(',', $columns);
+
+        array_push($cols, 'userid');
+
+        $columns = implode(',', array_unique($cols));
+
+        return WebHook::page($page, $size, $columns, $order, $filters);
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int    $id
+     * @param string $privileges
+     *
+     * @return mixed
+     */
+    public function PutHookPrivileges($id, $privileges) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+
+        $privs = Privilege::findByCodes(...$privArray);
+
+        foreach ($hook->privileges->all() as $priv) {
+            $hook->privileges->remove($priv);
+        }
+
+        foreach ($privs as $priv) {
+            if (CurrentUser::hasAnyPermissions('administrator') || CurrentUser::hasAnyPermissions($priv->code)) {
+                $hook->privileges->add($priv);
+            }
+        }
+
+        $hook->save();
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param int    $id
+     * @param string $name
+     * @param string $description
+     * @param bool   $enabled
+     * @param string $url
+     * @param string $translation
+     * @param string $headers
+     * @param string $method
+     * @param int    $eventid
+     *
+     * @return mixed
+     */
+    public function UpdateHook($id, $name, $description, $enabled, $url, $translation, $headers, $method, $eventid) {
+        $hook = $this->GetHook($id);
+
+        if (is_null($hook)) {
+            return;
+        }
+
+        $event = (new EventService($this->context))->GetEvent($eventid);
+
+        $hook->name = $name;
+        $hook->description = $description;
+        $hook->enabled = $enabled;
+        $hook->url = $url;
+        $hook->translation = $translation;
+        $hook->headers = $headers;
+        $hook->method = $method;
+        $hook->event = $event;
+
+        $hook->save();
+    }
+
+    /**
+     * AddUserIDToFilters.
+     *
+     * @param int           $userid
+     * @param Filter|string $filters
+     *
+     * @throws \vhs\security\exceptions\UnauthorizedException
+     *
+     * @return Filter
+     */
+    private function AddUserIDToFilters($userid, $filters) {
+        $userService = new UserService();
+        $user = $userService->GetUser($userid);
+
+        Domain::coerceFilters($filters);
+
+        if (is_null($user)) {
+            throw new UnauthorizedException('User not found or you do not have access');
+        }
+
+        $userFilter = Filter::Equal('userid', $user->id);
+
+        if (is_null($filters) || $filters == '') {
+            $filters = $userFilter;
+        } else {
+            $filters = Filter::_And($userFilter, $filters);
+        }
+
+        return $filters;
+    }
+}

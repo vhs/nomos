@@ -1,0 +1,11 @@
+.TableContainer {
+    @apply max-w-[26rem];
+    overflow-x: auto;
+    width: auto;
+}
+
+@media (min-width: 512px) {
+    .TableContainer {
+        max-width: 72vw;
+    }
+}

@@ -1,78 +1,89 @@
-set export
-
+set export := true
 
 help:
-    just -l
+    @just -l
+
+build target:
+    @echo 'Building {{target}}…'
+    @just "build_{{target}}"
+
+build_all:
+    pnpm --filter "./packages/*/" build
 
 format target:
     @echo 'Formatting {{target}}…'
-    just "format_{{target}}"
+    @just "format_{{target}}"
 
 format_all:
     #!/usr/bin/env bash
-    set -eo pipefail
 
-    node_modules/.bin/prettier -w ${FILES:-.}
+    echo ${FILES:-.} | xargs -n1 | grep -v -E $(find . -type l | grep -vw node_modules | cut -f2- -d/  | xargs | tr ' ' '|') | xargs pnpm exec prettier -w
 
 format_php:
+    @pnpm --filter "./packages/*-php/" format:php
+
+git_hooks:
     #!/usr/bin/env bash
-    set -eo pipefail
+    echo "Available git hooks:"
+    @just --summary | xargs -d' ' -I% echo '- %' | grep 'git_hook_'
 
-    vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php ${FILES:-app/ tests/ tools/ vhs/}
-
-install_composer:
+git_hook_pre_commit:
     #!/usr/bin/env bash
-    set -euo pipefail
 
-    if [ ! -f ./tools/composer.phar ]; then
-        TMPFILE=$(mktemp)
+    set -e
 
-        EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
-        php -r "copy('https://getcomposer.org/installer', '${TMPFILE}');"
-        ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', '${TMPFILE}');")"
+    FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
-        if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
-            echo >&2 'ERROR: Invalid installer checksum'
-            rm "${TMPFILE}"
-            exit 1
+    if [ "${FILES}" != "" ]; then
+        PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
+        STORYBOOK_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/.+\.stories\.tsx' | xargs)
+        VALIDATOR_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/src/lib/validators/(common|records).ts' | xargs)
+        WEBHOOKER_FILES=$(echo "${FILES}" | grep 'packages/webhooker/' | xargs)
+
+        if [ "${PHP_FILES}" != "" ]; then
+            FILES=$(echo "${PHP_FILES}" | xargs) pnpm exec just format php
+            pnpm exec just test php
         fi
 
-        php "${TMPFILE}" --install-dir ./tools --quiet
-        rm "${TMPFILE}"
-    else
-        echo "composer has already been set up!"
+        if [ "${STORYBOOK_FILES}" != "" ]; then
+            pnpm --filter @vhs/nomos-frontend-react fix:storybook:titles
+        fi
+
+        if [ "${VALIDATOR_FILES}" != "" ]; then
+            pnpm --filter @vhs/nomos-frontend-react generate:validator:implementations
+        fi
+
+        if [ "${WEBHOOKER_FILES}" != "" ]; then
+            pnpm --filter="@vhs/webhooker" test
+        fi
+
+        FILES=$(echo "${FILES}" | xargs) pnpm exec just format all
+
+        git update-index --again
+
+        exit 0
     fi
 
-    ./tools/composer.sh install
-
-install_angular_ui_bootstrap:
+git_hook_pre_push:
     #!/usr/bin/env bash
-    set -euo pipefail
 
-    mkdir -p web/components/custom/angular-ui/ \
-    && cd web/components/custom/angular-ui/ \
-    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.js \
-    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.min.js
+    set -e
 
-install_webcomponents: install_angular_ui_bootstrap
+    if git show-ref "$(git branch --show-current)" | awk '{ print $2 }' | xargs | sed 's/ /../g' | xargs git diff --numstat | grep packages/frontend-react > /dev/null; then
+        pnpm --filter @vhs/nomos-frontend-react build
+    fi
 
-make_webcomponents_directories:
-    mkdir -p web/components/bower
-    mkdir -p web/components/custom
+    exit 0
 
-run_bower:
-    echo "Running bower"
-    ./tools/bower.sh install
+install target:
+    @echo 'Installing {{target}}…'
+    @just "install_{{target}}"
 
-run_composer:
-    echo "Running composer"
-    ./tools/composer.sh install
+prepare: setup_husky
 
 setup target:
     @echo 'Setting up {{target}}…'
-    just "setup_{{target}}"
-
-setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower
+    @just "setup_{{target}}"
 
 setup_husky:
     #!/usr/bin/env bash
@@ -80,32 +91,20 @@ setup_husky:
 
     if [ ! -d .husky/_/ ]; then
         node_modules/.bin/husky
+    elif [ "$(grep 'hooksPath = .husky/_' .git/config)" = "" ] ; then
+        node_modules/.bin/husky
     else
         echo "husky has already been set up!"
     fi
 
-setup_vendor: install_composer run_composer
-
-setup_webhooker:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    cd webhooker/ && npm install
-
 test target:
     @echo 'Testing {{target}}…'
-    just "test_{{target}}"
+    @just "test_{{target}}"
+
+test_all:
+    @echo "Testing all packages..."
+    @pnpm --filter "./packages/*/" test:php
 
 test_php:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    vendor/bin/phpunit ${FILES:-app/ tests/ tools/ vhs/}
-
-test_webhooker:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    if [ "${FILES}" != "" ] ; then
-        cd webhooker && npm run test
-    fi
+    @echo "Testing all php packages..."
+    @pnpm --filter "./packages/*-php/" test:php

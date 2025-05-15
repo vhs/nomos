@@ -1,0 +1,1845 @@
+============================================================
+========== app/app.php
+============================================================
+-if (DEBUG) {
++if (defined('DEBUG')) {
+-$serverLog = new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/server.log');
++$serverLog = new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/server.log');
++\vhs\web\HttpContext::Server()->register(new \vhs\web\modules\HttpJsonServiceHandlerModule('v2'));
++\vhs\gateways\Engine::getInstance()->setLogger($serverLog);
+============================================================
+========== app/contracts/IAuthService1.php
+============================================================
++use app\domain\AppClient;
+============================================================
+========== app/domain/EmailTemplate.php
+============================================================
++use app\dto\GeneratedEmailResults;
+-        $ret = [];
++        $ret = new GeneratedEmailResults();
+-        $ret['subject'] = $engine->render($template->subject, $context);
+-        $ret['txt'] = $engine->render($template->body, $context);
+-        $ret['html'] = $engine->render($template->html, $context);
++        $ret->subject = $engine->render($template->subject, $context);
++        $ret->txt = $engine->render($template->body, $context);
++        $ret->html = $engine->render($template->html, $context);
+============================================================
+========== app/domain/Event.php
+============================================================
+-            Where::_And(Where::Equal(Event::Schema()->Columns()->domain, $domain), Where::Equal(Event::Schema()->Columns()->event, $event))
++            Where::_And(
++                Where::Equal(Event::Schema()->Columns()->domain, $domain),
++                Where::Equal(Event::Schema()->Columns()->event, $event)
++            )
+============================================================
+========== app/domain/Key.php
+============================================================
+-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'api'), Where::Equal(KeySchema::Columns()->key, $key)));
++        return self::where(
++            Where::_And(
++                Where::Equal(KeySchema::Columns()->type, 'api'),
++                Where::Equal(KeySchema::Columns()->key, $key)
++            )
++        );
+-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'pin'), Where::Equal(KeySchema::Columns()->key, $pin)));
++        return self::where(
++            Where::_And(
++                Where::Equal(KeySchema::Columns()->type, 'pin'),
++                Where::Equal(KeySchema::Columns()->key, $pin)
++            )
++        );
+-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, 'rfid'), Where::Equal(KeySchema::Columns()->key, $rfid)));
++        return self::where(
++            Where::_And(
++                Where::Equal(KeySchema::Columns()->type, 'rfid'),
++                Where::Equal(KeySchema::Columns()->key, $rfid)
++            )
++        );
+-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $service), Where::Equal(KeySchema::Columns()->key, $key)));
++        return self::where(
++            Where::_And(
++                Where::Equal(KeySchema::Columns()->type, $service),
++                Where::Equal(KeySchema::Columns()->key, $key)
++            )
++        );
+-        return self::where(Where::_And(Where::Equal(KeySchema::Columns()->type, $type), Where::Equal(KeySchema::Columns()->key, $key)));
++        return self::where(
++            Where::_And(
++                Where::Equal(KeySchema::Columns()->type, $type),
++                Where::Equal(KeySchema::Columns()->key, $key)
++            )
++        );
+-        return self::where(Where::_And(Where::Null(KeySchema::Columns()->userid), Where::Equal(KeySchema::Columns()->type, 'api')));
++        return self::where(
++            Where::_And(
++                Where::Null(KeySchema::Columns()->userid),
++                Where::Equal(KeySchema::Columns()->type, 'api')
++            )
++        );
+-        return self::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'api'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
++        return self::where(
++            Where::_And(
++                Where::Equal(Key::Schema()->Columns()->type, 'api'),
++                Where::Equal(Key::Schema()->Columns()->userid, $userid)
++            )
++        );
+============================================================
+========== app/domain/Membership.php
+============================================================
+-            Where::_And(Where::LesserEqual(MembershipSchema::Columns()->price, $price), Where::Equal(MembershipSchema::Columns()->active, true)),
++            Where::_And(
++                Where::LesserEqual(MembershipSchema::Columns()->price, $price),
++                Where::Equal(MembershipSchema::Columns()->active, true)
++            ),
+============================================================
+========== app/domain/Payment.php
+============================================================
+-            Query::select(PaymentSchema::Table(), PaymentSchema::Columns(), Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id))
++            Query::select(
++                PaymentSchema::Table(),
++                PaymentSchema::Columns(),
++                Where::Equal(PaymentSchema::Columns()->txn_id, $txn_id)
++            )
+============================================================
+========== app/domain/Privilege.php
+============================================================
+-    public static function findByCodes(...$codes) {
++    public static function findByCodes(string ...$codes) {
+-    private static function checkCodeAccess(...$codes) {
++    private static function checkCodeAccess(string ...$codes) {
+============================================================
+========== app/domain/SystemPreference.php
+============================================================
+-    public static function findByKey($key, callable $accessCheck = null) {
++    public static function findByKey($key, ?callable $accessCheck = null) {
+============================================================
+========== app/domain/User.php
+============================================================
++use app\dto\UserActiveEnum;
+-        if ($this->active != 'y') {
++        if ($this->active != UserActiveEnum::ACTIVE->value) {
+-        if ($this->active != 'y') {
++        if ($this->active != UserActiveEnum::ACTIVE->value) {
+-        $this->validateEmail($results);
+============================================================
+========== app/domain/WebHook.php
+============================================================
+-            Where::_And(Where::Equal(WebHook::Schema()->Columns()->domain, $domain), Where::Equal(WebHook::Schema()->Columns()->event, $event))
++            Where::_And(
++                Where::Equal(WebHook::Schema()->Columns()->domain, $domain),
++                Where::Equal(WebHook::Schema()->Columns()->event, $event)
++            )
+============================================================
+========== app/exceptions/InvalidInputException.php
+============================================================
+-class InvalidInputException extends \Exception {
+-    public function __construct($message = 'Invalid input') {
+-        parent::__construct($message);
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class InvalidInputException extends HttpException {
++    public function __construct($message = 'Invalid input', $code = HttpStatusCodes::Client_Error_Bad_Request) {
++        parent::__construct($message, $code);
+============================================================
+========== app/exceptions/InvalidPasswordHashException.php
+============================================================
+-class InvalidPasswordHashException extends \Exception {
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class InvalidPasswordHashException extends HttpException {
+-        parent::__construct($message);
++        parent::__construct($message, HttpStatusCodes::Client_Error_Unauthorized);
+============================================================
+========== app/exceptions/MemberCardException.php
+============================================================
+-class MemberCardException extends \Exception {
+-    public function __construct($message = 'Unexpected membercard issue') {
+-        parent::__construct($message);
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class MemberCardException extends HttpException {
++    public function __construct($message = 'Unexpected membercard issue', $code = HttpStatusCodes::Client_Error_Im_a_teapot) {
++        parent::__construct($message, $code);
+============================================================
+========== app/exceptions/UserAlreadyExistsException.php
+============================================================
+-class UserAlreadyExistsException extends \Exception {
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class UserAlreadyExistsException extends HttpException {
+-        parent::__construct($message);
++        parent::__construct($message, HttpStatusCodes::Client_Error_Failed_Dependency);
+============================================================
+========== app/gateways/PaymentGatewayException.php
+============================================================
+-class PaymentGatewayException extends \Exception {
+-}
++class PaymentGatewayException extends \Exception {}
+============================================================
+========== app/gateways/PaypalGateway.php
+============================================================
+-        curl_setopt($ch, CURLOPT_POST, 1);
+-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
++        curl_setopt($ch, CURLOPT_POST, true);
++        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
++        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
++        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
++        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+============================================================
+========== app/gateways/StripeGateway.php
+============================================================
++use vhs\web\enums\HttpStatusCodes;
+-        \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
++        Stripe::setApiKey(STRIPE_API_KEY);
++            http_response_code(HttpStatusCodes::Client_Error_Bad_Request->value);
+-            http_response_code(400);
+-            exit();
+-        } catch (\UnexpectedValueException $e) {
+-            throw new PaymentGatewayException('Error: Unknown Stripe Event Error ' . $payload);
+-            http_response_code(400);
+-            exit();
+-        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+-            throw new PaymentGatewayException('Error: Unknown Stripe Event Error ' . $payload);
+-            http_response_code(400);
+-            exit();
+-        } finally {
++        } catch (\UnexpectedValueException $e) {
++            http_response_code(HttpStatusCodes::Client_Error_Bad_Request->value);
++            return new PaymentGatewayException('Error: Unknown Stripe Event Error ' . $payload);
++        } catch (\Stripe\Exception\SignatureVerificationException $e) {
++            http_response_code(HttpStatusCodes::Client_Error_Bad_Request->value);
++            return new PaymentGatewayException('Error: Unknown Stripe Event Error ' . $payload);
+============================================================
+========== app/include.php
+============================================================
+-$sqlLog = DEBUG ? new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/sql.log') : new \vhs\loggers\SilentLogger();
++$sqlLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/sql.log') : new \vhs\loggers\SilentLogger();
+-$rabbitLog = DEBUG ? new \vhs\loggers\FileLogger(dirname(__FILE__) . '/../logs/rabbit.log') : new \vhs\loggers\SilentLogger();
++$rabbitLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/rabbit.log') : new \vhs\loggers\SilentLogger();
+-    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VHOST)
++    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(RABBITMQ_HOST, (int) RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VHOST)
+-$serviceLog = DEBUG ? new \vhs\loggers\FileLogger(dirname(__FILE__) . '/service.log') : new \vhs\loggers\SilentLogger();
++$serviceLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/service.log') : new \vhs\loggers\SilentLogger();
+-\vhs\services\ServiceRegistry::register($serviceLog, 'web', 'app\\endpoints\\web', ROOT_NAMESPACE_PATH);
++\vhs\services\ServiceRegistry::register($serviceLog, 'v2', 'app\\endpoints\\v2', ROOT_NAMESPACE_PATH);
++\vhs\services\ServiceRegistry::register($serviceLog, 'web', 'app\\endpoints\\web', ROOT_NAMESPACE_PATH);
+============================================================
+========== app/modules/HttpPaymentGatewayHandler.php
+============================================================
+-    public function handle(HttpServer $server) {
++    public function handle(HttpServer $server): void {
+============================================================
+========== app/modules/HttpPaymentGatewayHandlerModule.php
+============================================================
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== app/monitors/DomainEventMonitor.php
+============================================================
+-    public function Init(Logger &$logger = null) {
++    public function Init(?Logger &$logger = null) {
+============================================================
+========== app/monitors/PaymentMonitor.php
+============================================================
+-use app\domain\User;
+-use Aws\CloudFront\Exception\Exception;
+-    public function Init(Logger &$logger = null) {
++    public function Init(?Logger &$logger = null) {
+============================================================
+========== app/monitors/PaypalIpnMonitor.php
+============================================================
+-    public function Init(Logger &$logger = null) {
++    public function Init(?Logger &$logger = null) {
+============================================================
+========== app/monitors/StripeEventMonitor.php
+============================================================
+-                    $item_amount = !is_null($line_item->price->unit_amount / 100) ? $line_item->price->unit_amount / 100 : $item_amount;
++                    $item_amount = !is_null($line_item->price->unit_amount) ? $line_item->price->unit_amount / 100 : $item_amount;
+-    public function Init(Logger &$logger = null) {
++    public function Init(?Logger &$logger = null) {
+============================================================
+========== app/processors/PaymentProcessor.php
+============================================================
++use app\adapters\v2\EmailAdapter2;
++use app\dto\UserActiveEnum;
+-use app\services\EmailService;
+-    private $emailService;
+-    public function __construct(Logger &$logger = null) {
++    public function __construct(?Logger &$logger = null) {
+-        $this->emailService = new EmailService();
+-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+-                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->lname,
++            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
++                'subject' => '[Nomos] Unknown user made a random donation - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
+-                    $payment->fname .
++                    $payment->payer_fname .
+-                    $payment->lname .
++                    $payment->payer_lname .
+-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
++            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_donation_random', [
+-            $this->emailService->EmailUser($user, 'donation_random', [
++            EmailAdapter2::getInstance()->EmailUser($user, 'donation_random', [
+-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
++            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_newuser', [
+-                if ($user->active == 'n') {
++                if ($user->active == UserActiveEnum::INACTIVE->value) {
+-            if ($user->active != 'y') {
+-                $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+-                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->lname,
++            if ($user->active != UserActiveEnum::ACTIVE->value) {
++                EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
++                    'subject' => "[Nomos] User made payment but isn't active - " . $payment->payer_fname . ' ' . $payment->payer_lname,
+-                        $payment->fname .
++                        $payment->payer_fname .
+-                        $payment->lname .
++                        $payment->payer_lname .
+-        $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
++        EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_payment', [
+-        $this->emailService->EmailUser($user, 'payment', [
++        EmailAdapter2::getInstance()->EmailUser($user, 'payment', [
+-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_error', [
+-                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->lname,
++            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_error', [
++                'subject' => '[Nomos] Unknown user purchased Membership Card - ' . $payment->payer_fname . ' ' . $payment->payer_lname,
+-                    $payment->fname .
++                    $payment->payer_fname .
+-                    $payment->lname .
++                    $payment->payer_lname .
+-            $this->emailService->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
++            EmailAdapter2::getInstance()->Email(NOMOS_FROM_EMAIL, 'admin_membercard_purchased', [
+-            $this->emailService->EmailUser($user, 'membercard_purchased', [
++            EmailAdapter2::getInstance()->EmailUser($user, 'membercard_purchased', [
+============================================================
+========== app/schema/AccessTokenSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->appclientid, AppClientSchema::Table(), AppClientSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->appclientid,
++                AppClientSchema::Table(),
++                AppClientSchema::Columns()->id
++            )
+============================================================
+========== app/schema/AppClientSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            )
+============================================================
+========== app/schema/EventPrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->eventid, EventSchema::Table(), EventSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->eventid,
++                EventSchema::Table(),
++                EventSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/KeyPrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->keyid, KeySchema::Table(), KeySchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->keyid,
++                KeySchema::Table(),
++                KeySchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/KeySchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            )
+============================================================
+========== app/schema/MembershipPrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->membershipid, MembershipSchema::Table(), MembershipSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->membershipid,
++                MembershipSchema::Table(),
++                MembershipSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/PasswordResetRequestSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            )
+============================================================
+========== app/schema/PaymentSchema.php
+============================================================
+-use app\schema\MembershipSchema;
+-use app\schema\UserSchema;
+-            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->user_id, UserSchema::Table(), UserSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->membership_id,
++                MembershipSchema::Table(),
++                MembershipSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->user_id,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            )
+============================================================
+========== app/schema/RefreshTokenSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->appclientid, AppClientSchema::Table(), AppClientSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->appclientid,
++                AppClientSchema::Table(),
++                AppClientSchema::Columns()->id
++            )
+============================================================
+========== app/schema/SystemPreferencePrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->systempreferenceid, SystemPreferenceSchema::Table(), SystemPreferenceSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->systempreferenceid,
++                SystemPreferenceSchema::Table(),
++                SystemPreferenceSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/UserPrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/UserSchema.php
+============================================================
++use app\dto\UserActiveEnum;
+-        $table->addColumn('active', Type::Enum('n', 'y', 't', 'b'));
++        $table->addColumn(
++            'active',
++            Type::Enum(UserActiveEnum::INACTIVE->value, UserActiveEnum::ACTIVE->value, UserActiveEnum::PENDING->value, UserActiveEnum::BANNED->value)
++        );
+-            Constraint::ForeignKey($table->columns->membership_id, MembershipSchema::Table(), MembershipSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->membership_id,
++                MembershipSchema::Table(),
++                MembershipSchema::Columns()->id
++            )
+============================================================
+========== app/schema/WebHookPrivilegeSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->webhookid, WebHookSchema::Table(), WebHookSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->privilegeid, PrivilegeSchema::Table(), PrivilegeSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->webhookid,
++                WebHookSchema::Table(),
++                WebHookSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->privilegeid,
++                PrivilegeSchema::Table(),
++                PrivilegeSchema::Columns()->id
++            )
+============================================================
+========== app/schema/WebHookSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->userid, UserSchema::Table(), UserSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->eventid, EventSchema::Table(), EventSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->userid,
++                UserSchema::Table(),
++                UserSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->eventid,
++                EventSchema::Table(),
++                EventSchema::Columns()->id
++            )
+============================================================
+========== app/security/Authenticate.php
+============================================================
++use app\dto\UserActiveEnum;
++use app\exceptions\InvalidAccessTokenCredentialsException;
++use app\exceptions\InvalidKeyCredentialsException;
+-            throw new InvalidCredentials(message: '"Invalid access token"');
++            throw new InvalidAccessTokenCredentialsException();
+-            throw new InvalidCredentials('"Invalid access token"');
++            throw new InvalidAccessTokenCredentialsException();
+-                array_map(function ($privilege) {
+-                    return $privilege->code;
+-                }, $user->privileges->all())
++                array_map(
++                    function ($privilege) {
++                        return $privilege->code;
++                    },
++                    $user->privileges->all()
++                )
+-        if (isset($_SERVER) && array_key_exists('REMOTE_ADDR', $_SERVER)) {
++        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+-    private static function isUserValid($user) {
++    private static function isUserValid(User $user) {
+-            case 'n': //not active
++            case UserActiveEnum::INACTIVE->value: //not active
+-                break;
+-            case 'y': //yes they are active
++            case UserActiveEnum::ACTIVE->value: //yes they are active
+-                break;
+-            case 't': //pending email verification
++            case UserActiveEnum::PENDING->value: //pending email verification
+-                break;
+-            case 'b': //banned
++            case UserActiveEnum::BANNED->value: //banned
+-                break;
++            default:
++                return false;
+-        return false;
+-            throw new InvalidCredentials('"Invalid key"');
++            throw new InvalidKeyCredentialsException();
+-                throw new InvalidCredentials('"Invalid key"');
++                throw new InvalidKeyCredentialsException();
+-                        array_map(function ($privilege) {
+-                            return $privilege->code;
+-                        }, $user->privileges->all())
++                        array_map(
++                            function ($privilege) {
++                                return $privilege->code;
++                            },
++                            $user->privileges->all()
++                        )
+-                throw new InvalidCredentials('"Invalid key"');
++                throw new InvalidKeyCredentialsException();
+-        CurrentUser::setPrincipal(new TokenPrincipal($identity, $privileges, $grants, $name));
++        CurrentUser::setPrincipal(new TokenPrincipal(id: $identity, permissions: $privileges, grants: $grants, name: $name));
+============================================================
+========== app/security/ColumnPrivilegedAccess.php
+============================================================
+-    private $privileges;
++    private $privileges = [];
+-    public function serialize(): mixed {
++    public function serialize(): string {
++        return json_encode($this->__serialize());
++    }
++    public function __serialize(): array {
+-    public function __serialize() {
+-        return $this->serialize();
+-    }
+============================================================
+========== app/security/PasswordUtil.php
+============================================================
+-        gettype($testVal) === 'string' && $testVal !== '';
++        return gettype($testVal) === 'string' && $testVal !== '';
+============================================================
+========== app/security/PrivilegedAccess.php
+============================================================
+-    public function __construct(Column $ownerColumn = null) {
++    public function __construct(?Column $ownerColumn = null) {
+-    public static function GenerateAccess($key, Table $table, Column $ownerColumn = null) {
++    public static function GenerateAccess($key, Table $table, ?Column $ownerColumn = null) {
+-        return CurrentUser::hasAnyPermissions($privileges);
++        return CurrentUser::hasAnyPermissions(...$privileges);
+-    public function serialize(): mixed {
+-        return [
+-            'type' => 'ownership',
+-            'ownership' => [
+-                'table' => $this->ownerColumn->table->name,
+-                'name' => $this->ownerColumn->name,
+-                'type' => $this->ownerColumn->type
+-            ],
+-            'checks' => $this->checks
+-        ];
++    public function serialize(): string {
++        return json_encode($this->__serialize());
+-    public function __serialize() {
+-        return $this->serialize();
++    public function __serialize(): array {
++        return [
++            'type' => 'ownership',
++            'ownership' => [
++                'table' => $this->ownerColumn->table->name,
++                'name' => $this->ownerColumn->name,
++                'type' => $this->ownerColumn->type
++            ],
++            'checks' => $this->checks
++        ];
+============================================================
+========== app/security/TablePrivilegedAccess.php
+============================================================
+-    public function serialize(): mixed {
++    public function serialize(): string {
++        return json_encode($this->__serialize());
++    }
++    public function __serialize(): array {
+-    public function __serialize() {
+-        return $this->serialize();
+-    }
+============================================================
+========== app/security/credentials/TokenCredentials.php
+============================================================
+-    private $token;
++    private string $token;
+============================================================
+========== app/security/oauth/modules/GithubOAuthHandler.php
+============================================================
+-        if ($_GET['action'] == 'link' && !is_null($userDetails)) {
++        if ($_GET['action'] == 'link' && $userDetails !== null) {
+============================================================
+========== app/security/oauth/modules/OAuthHandlerModule.php
+============================================================
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== app/security/oauth/providers/slack/Slack.php
+============================================================
+-use app\security\oauth\providers\slack\SlackProviderException;
+-    public function getBaseAccessTokenUrl(array $params): string {
++    public function getBaseAccessTokenUrl(mixed $params): string {
+-            return SlackProviderException::fromResponse($response, $data['error']);
++            SlackProviderException::fromResponse($response, $data['error']);
+============================================================
+========== app/security/oauth/providers/slack/SlackProviderException.php
+============================================================
+-class SlackProviderException extends IdentityProviderException {
++final class SlackProviderException extends IdentityProviderException {
+============================================================
+========== app/security/oauth/providers/slack/SlackUser.php
+============================================================
+-        $this->response['user_id'];
++        return $this->response['user_id'];
+============================================================
+========== app/services/ApiKeyService.php
+============================================================
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+-        foreach ($privs as $priv) {
+-            $key->privileges->add($priv);
++        if (!is_null($privs)) {
++            foreach ($privs as $priv) {
++                $key->privileges->add($priv);
++            }
+============================================================
+========== app/services/AuthService.php
+============================================================
++use vhs\domain\Domain;
++    private static function parseValidAccount(&$key, &$user, &$retval): bool {
++        if ($user->valid) {
++            $retval['valid'] = true;
++            $retval['userId'] = $user->id;
++            $retval['username'] = $user->username;
++            $retval['type'] = $user->membership->code;
++            $retval['privileges'] = $key->getAbsolutePrivileges();
++            return true;
++        } else {
++            $retval['username'] = $user->username;
++            $retval['message'] = $user->getInvalidReason();
++        }
++        return false;
++    }
+-        if ($user->valid) {
+-            $retval['valid'] = true;
+-            $retval['userId'] = $user->id;
+-            $retval['username'] = $user->username;
+-            $retval['type'] = $user->membership->code;
+-            $retval['privileges'] = $key->getAbsolutePrivileges();
+-            $logAccess(true, $user->id);
++        if ($user == null || !$user instanceof User) {
++            $logAccess(false);
+-        } else {
+-            $retval['username'] = $user->username;
+-            $retval['message'] = $user->getInvalidReason();
+-        $logAccess(false, $user->id);
++        $isValid = self::parseValidAccount($key, $user, $retval);
++        $logAccess($isValid, $user->id);
+-        if ($user->valid) {
+-            $retval['valid'] = true;
+-            $retval['userId'] = $user->id;
+-            $retval['username'] = $user->username;
+-            $retval['type'] = $user->membership->code;
+-            $retval['privileges'] = $key->getAbsolutePrivileges();
+-            $logAccess(true, $user->id);
++        if ($user == null || !$user instanceof User) {
++            $logAccess(false);
+-        } else {
+-            $retval['username'] = $user->username;
+-            $retval['message'] = $user->getInvalidReason();
+-        $logAccess(false, $user->id);
++        $isValid = self::parseValidAccount($key, $user, $retval);
++        $logAccess($isValid, $user->id);
+-        if ($user->valid) {
+-            $retval['valid'] = true;
+-            $retval['userId'] = $user->id;
+-            $retval['username'] = $user->username;
+-            $retval['type'] = $user->membership->code;
+-            $retval['privileges'] = $key->getAbsolutePrivileges();
+-            $logAccess(true, $user->id);
++        if ($user == null || !$user instanceof User) {
++            $logAccess(false);
+-        } else {
+-            $retval['username'] = $user->username;
+-            $retval['message'] = $user->getInvalidReason();
+-        $logAccess(false, $user->id);
++        $isValid = self::parseValidAccount($key, $user, $retval);
++        $logAccess($isValid, $user->id);
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+-        $expiry = new \DateTime($expires);
++        $expiry = new DateTime($expires);
+-        $expiry = new \DateTime($expires);
++        $expiry = new DateTime($expires);
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+============================================================
+========== app/services/EmailService.php
+============================================================
++use vhs\services\Service;
+-class EmailService implements IEmailService1 {
++class EmailService extends Service implements IEmailService1 {
+-            $subject = $generated['subject'];
++            $subject = $generated->subject;
+-                        'Data' => $generated['txt']
++                        'Data' => $generated->txt
+-                        'Data' => $generated['html']
++                        'Data' => $generated->html
+============================================================
+========== app/services/EventService.php
+============================================================
+-use Aws\CloudFront\Exception\Exception;
+-use vhs\domain\Domain;
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+============================================================
+========== app/services/KeyService.php
+============================================================
+-                        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid));
++                        $nextpinid = Database::scalar(
++                            Query::Select(SettingsSchema::Table(), SettingsSchema::Columns()->nextpinid)
++                        );
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = [];
+-            array_push($privArray, $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+============================================================
+========== app/services/MemberCardService.php
+============================================================
++use vhs\domain\Domain;
++use vhs\services\Service;
+-class MemberCardService implements IMemberCardService1 {
++class MemberCardService extends Service implements IMemberCardService1 {
+-                Where::Equal(Payment::Schema()->Columns()->item_number, 'vhs_card_2015'), //TODO eventually put these into card campaigns or something
++                Where::Equal(Payment::Schema()->Columns()->item_number, 'vhs_card_2015'),
+-                    Query::Select(GenuineCard::Schema()->Table(), new Columns(GenuineCard::Schema()->Columns()->paymentid))
++                    Query::Select(
++                        GenuineCard::Schema()->Table(),
++                        new Columns(GenuineCard::Schema()->Columns()->paymentid)
++                    )
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+============================================================
+========== app/services/MembershipService.php
+============================================================
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
+-        return [];
++        throw new HttpException('Sorry, no dice!', HttpStatusCodes::Server_Error_Not_Implemented);
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+-        foreach ($privs as $priv) {
+-            $membership->privileges->add($priv);
++        if (!empty($privs)) {
++            foreach ($privs as $priv) {
++                $membership->privileges->add($priv);
++            }
+============================================================
+========== app/services/PaymentService.php
+============================================================
+-use Aws\CloudFront\Exception\Exception;
++use vhs\domain\Domain;
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+============================================================
+========== app/services/PinService.php
+============================================================
+-            $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
++            $nextpinid = Database::scalar(
++                Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid))
++            );
+-        $nextpinid = Database::scalar(Query::Select(SettingsSchema::Table(), new Columns(SettingsSchema::Columns()->nextpinid)));
++        $nextpinid = Database::scalar(
++            Query::Select(
++                SettingsSchema::Table(),
++                new Columns(SettingsSchema::Columns()->nextpinid)
++            )
++        );
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+-        $keys = Key::where(Where::_And(Where::Equal(Key::Schema()->Columns()->type, 'pin'), Where::Equal(Key::Schema()->Columns()->userid, $userid)));
++        $keys = Key::where(
++            Where::_And(
++                Where::Equal(Key::Schema()->Columns()->type, 'pin'),
++                Where::Equal(Key::Schema()->Columns()->userid, $userid)
++            )
++        );
+============================================================
+========== app/services/PreferenceService.php
+============================================================
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+============================================================
+========== app/services/PrivilegeService.php
+============================================================
+-use app\exceptions\MemberCardException;
+-use vhs\security\exceptions\UnauthorizedException;
+============================================================
+========== app/services/UserService.php
+============================================================
++use app\dto\UserActiveEnum;
+-        $user->active = 't';
++        $user->active = UserActiveEnum::PENDING->value;
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+-        $user->active = 't';
++        $user->active = UserActiveEnum::PENDING->value;
+-        curl_setopt($ch, CURLOPT_POST, 1);
+-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
++        curl_setopt($ch, CURLOPT_POST, true);
++        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
++        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
++        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
++        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+============================================================
+========== app/services/WebHookService.php
+============================================================
+-use app\exceptions\MemberCardException;
++use vhs\domain\Domain;
+-        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions($codes))) {
++        if (!CurrentUser::hasAllPermissions('administrator') && (count($codes) == 0 || !CurrentUser::hasAllPermissions(...$codes))) {
+-        $privArray = $privileges;
+-        if (!is_array($privArray)) {
+-            $privArray = explode(',', $privileges);
+-        }
++        $privArray = is_string($privileges) ? explode(',', $privileges) : $privileges;
+-        if (is_string($filters)) {
+-            $filters = json_decode($filters);
+-        }
++        Domain::coerceFilters($filters);
+============================================================
+========== tests/ConstantsTest.php
+============================================================
+-use app\constants\DateTime;
++use app\constants\Formats;
+-    public function test_DateTime_DATE_TIME_MIDNIGHT() {
+-        $this->assertEquals('Y-m-d 00:00:00', DateTime::DATE_TIME_MIDNIGHT);
++    public function test_DateTime_DATE_TIME_MIDNIGHT(): void {
++        $this->assertEquals('Y-m-d 00:00:00', Formats::DATE_TIME_ISO_SHORT_MIDNIGHT);
+-    public function test_DateTime_DATE_TIME_SIMPLE() {
+-        $this->assertEquals('Y-m-d H:i:s', DateTime::DATE_TIME_SIMPLE);
++    public function test_DateTime_DATE_TIME_SIMPLE(): void {
++        $this->assertEquals('Y-m-d H:i:s', Formats::DATE_TIME_ISO_SHORT_FULL);
+-    public function test_Errors_E_INVALID_PASSWORD_HASH() {
++    public function test_Errors_E_INVALID_PASSWORD_HASH(): void {
+-    public function test_StringLiterals_AuthAccessDenied() {
++    public function test_StringLiterals_AuthAccessDenied(): void {
+-    public function test_StringLiterals_AuthAccessGranted() {
++    public function test_StringLiterals_AuthAccessGranted(): void {
+-    public function test_StringLiterals_HTTP_PREFIX() {
++    public function test_StringLiterals_HTTP_PREFIX(): void {
+-    public function test_StringLiterals_HTTPS_PREFIX() {
++    public function test_StringLiterals_HTTPS_PREFIX(): void {
+============================================================
+========== tests/DomainTest.php
+============================================================
+-use vhs\database\constraints\Constraint;
+-use vhs\database\Table;
+-use vhs\database\types\Type;
++use tests\domain\ExampleDomain;
++use tests\schema\ExampleSchema;
+-use vhs\domain\Domain;
+-use vhs\domain\Schema;
+-use vhs\domain\validations\ValidationFailure;
+-use vhs\domain\validations\ValidationResults;
+-class ExampleSchema extends Schema {
++class DomainTest extends TestCase {
+-    public static function init() {
+-        $table = new Table('example', null);
+-        $table->addColumn('id', Type::Int());
+-        $table->addColumn('testA', Type::String(true));
+-        $table->addColumn('testB', Type::String(true));
+-        $table->addColumn('testC', Type::String(true));
+-        $table->setConstraints(Constraint::PrimaryKey($table->columns->id));
+-        return $table;
+-    }
+-}
+-class ExampleDomain extends Domain {
+-        ExampleDomain::Schema(ExampleSchema::Type());
+-    }
+-    public function get_magic() {
+-        return 'magic field';
+-    }
+-    public function get_testC() {
+-        return $this->internal_testC . 'fail';
+-    }
+-    public function set_magic($value) {
+-        $this->testC = $value . 'magic';
+-    }
+-    public function set_testC($value) {
+-        $this->internal_testC = $value . 'pass';
+-    }
+-    public function validate(ValidationResults &$results) {
+-        if ($this->testA != 'pass') {
+-            $results->add(new ValidationFailure('testA is not equal to pass'));
+-        }
+-    }
+-}
+-class DomainTest extends TestCase {
+-    private static $mySqlEngine;
+-    public function stuff() {
++    public function stuff(): void {
+-    public function test_childRelationship() {
++    public function test_childRelationship(): void {
+-    public function test_InMemoryDomainTest() {
++    public function test_InMemoryDomainTest(): void {
+-    public function test_parentRelationship() {
++    public function test_parentRelationship(): void {
+-        $knight = \tests\domain\Knight::where(Where::Equal(\tests\domain\Knight::Schema()->Columns()->name, 'Black Knight'));
++        $knight = \tests\domain\Knight::where(
++            Where::Equal(\tests\domain\Knight::Schema()->Columns()->name, 'Black Knight')
++        );
+-    public function test_satelliteRelationship() {
++    public function test_satelliteRelationship(): void {
+-    protected function setUp(): void {
+-    }
++    protected function setUp(): void {}
+-    protected function tearDown(): void {
+-    }
++    protected function tearDown(): void {}
+============================================================
+========== tests/EmailTemplateDomainTest.php
+============================================================
+-    private $ids = [];
+-    public function test_Service() {
++    public function test_Service(): void {
+-        $rows = $service->ListTemplates(1, 1, 'id', 'id', '');
++        $rows = array_map(fn($row): array => get_object_vars($row), array: json_decode(json_encode($service->ListTemplates(1, 1, 'id', 'id', ''))));
+-        $rows = $service->ListTemplates(1, 1, 'id', 'id', '');
++        $rows = array_map(fn($row): array => get_object_vars($row), json_decode(json_encode($service->ListTemplates(1, 1, 'id', 'id', ''))));
+-    public function test_Template() {
++    public function test_Template(): void {
+-        $this->assertEquals('the value for a some other value asdf', $generated['subject']);
+-        $this->assertEquals('the value for a some other value qwer', $generated['txt']);
+-        $this->assertEquals('<b>the value for a</b> some other value zxcv', $generated['html']);
++        $this->assertEquals('the value for a some other value asdf', $generated->subject);
++        $this->assertEquals('the value for a some other value qwer', $generated->txt);
++        $this->assertEquals('<b>the value for a</b> some other value zxcv', $generated->html);
+============================================================
+========== tests/KeyDomainTest.php
+============================================================
++use app\dto\UserActiveEnum;
+-    public function test_bullshitPhp() {
++    public function test_bullshitPhp(): void {
+-    public function test_Privileges() {
++    public function test_Privileges(): void {
+-        $user->active = 'y';
++        $user->active = UserActiveEnum::ACTIVE->value;
+============================================================
+========== tests/LimitTest.php
+============================================================
+-use vhs\database\Table;
+-use vhs\database\types\Type;
+-use vhs\domain\Schema;
+-    public function test_EmptyLimit() {
++    public function test_EmptyLimit(): void {
+-    public function test_EmptyOffset() {
++    public function test_EmptyOffset(): void {
+-    public static function tearDownAfterClass(): void {
+-    }
++    public static function tearDownAfterClass(): void {}
+-    public function tearDown(): void {
+-    }
++    public function tearDown(): void {}
+============================================================
+========== tests/ServiceTest.php
+============================================================
++use tests\security\PermPrincipal;
+-use vhs\services\ServiceHandler;
+-class PermPrincipal implements \vhs\security\IPrincipal {
+-    private $perms;
+-    public function __construct(...$perms) {
+-        if (is_null($perms)) {
+-            $perms = [];
+-        }
+-        $this->perms = $perms;
+-    }
+-    public function canGrantAllPermissions(...$permission) {
+-    }
+-    public function canGrantAnyPermissions(...$permission) {
+-    }
+-    public function getIdentity() {
+-        return null;
+-    }
+-    public function hasAllPermissions(...$permission) {
+-        return count(array_diff($permission, $this->perms)) == 0;
+-    }
+-    public function hasAnyPermissions(...$permission) {
+-        return count(array_intersect($permission, $this->perms)) > 0;
+-    }
+-    public function isAnon() {
+-        return false;
+-    }
+-    public function __toString() {
+-        return 'perm';
+-    }
+-}
+-        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', dirname(__FILE__) . '/..');
+-        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', dirname(__FILE__) . '/..');
+-    }
+-    public static function tearDownAfterClass(): void {
+-    }
+-    protected function setUp(): void {
+-    }
++        ServiceRegistry::register($logger, 'web', 'tests\\endpoints\\web', \vhs\BasePath::getBasePath(false));
++        ServiceRegistry::register($logger, 'native', 'tests\\endpoints\\native', \vhs\BasePath::getBasePath(false));
++    }
++    public static function tearDownAfterClass(): void {}
++    protected function setUp(): void {}
+============================================================
+========== tests/WhereTest.php
+============================================================
+-    public function test_And() {
++    public function test_And(): void {
+-    public function test_AndOr() {
++    public function test_AndOr(): void {
+-    public function test_Equal() {
++    public function test_Equal(): void {
+-    public function test_Greater() {
++    public function test_Greater(): void {
+-    public function test_GreaterEqual() {
++    public function test_GreaterEqual(): void {
+-    public function test_In() {
++    public function test_In(): void {
+-    public function test_Lesser() {
++    public function test_Lesser(): void {
+-    public function test_LesserEqual() {
++    public function test_LesserEqual(): void {
+-    public function test_NotEqual() {
++    public function test_NotEqual(): void {
+-    public function test_NotIn() {
++    public function test_NotIn(): void {
+-    public function test_NotNull() {
++    public function test_NotNull(): void {
+-    public function test_Null() {
++    public function test_Null(): void {
+-    public function test_Or() {
++    public function test_Or(): void {
+-    public static function tearDownAfterClass(): void {
+-    }
++    public static function tearDownAfterClass(): void {}
+-    public function tearDown(): void {
+-    }
++    public function tearDown(): void {}
+============================================================
+========== tests/autoload.php
+============================================================
+-\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', dirname(__FILE__) . '/..'));
+-\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', dirname(__FILE__) . '/..'));
++define('DEBUG', false);
++\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('tests', \vhs\BasePath::getBasePath(false)));
++\vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', \vhs\BasePath::getBasePath(false)));
+============================================================
+========== tests/contracts/ITestService1.php
+============================================================
+-    public function NoDocMethod();
++    public function NoDocMethod(): string;
+============================================================
+========== tests/schema/KnightSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->swordid,
++                SwordSchema::Table(),
++                SwordSchema::Columns()->id
++            )
+============================================================
+========== tests/schema/RingSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->enchantmentid, EnchantmentSchema::Table(), EnchantmentSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->knightid, KnightSchema::Table(), KnightSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->enchantmentid,
++                EnchantmentSchema::Table(),
++                EnchantmentSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->knightid,
++                KnightSchema::Table(),
++                KnightSchema::Columns()->id
++            )
+============================================================
+========== tests/schema/SwordEnchantmentsSchema.php
+============================================================
+-            Constraint::ForeignKey($table->columns->swordid, SwordSchema::Table(), SwordSchema::Columns()->id),
+-            Constraint::ForeignKey($table->columns->enchantmentid, EnchantmentSchema::Table(), EnchantmentSchema::Columns()->id)
++            Constraint::ForeignKey(
++                $table->columns->swordid,
++                SwordSchema::Table(),
++                SwordSchema::Columns()->id
++            ),
++            Constraint::ForeignKey(
++                $table->columns->enchantmentid,
++                EnchantmentSchema::Table(),
++                EnchantmentSchema::Columns()->id
++            )
+============================================================
+========== tests/services/TestService.php
+============================================================
+-    public function NoDocMethod() {
++    public function NoDocMethod(): string {
+============================================================
+========== vhs/Cloneable.php
+============================================================
+-    public function __clone() {
++    public function __clone(): void {
+============================================================
+========== vhs/Singleton.php
+============================================================
+-    protected function __construct() {
+-    }
++    protected function __construct() {}
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== vhs/SplClassLoader.php
+============================================================
+-    protected function __construct() {
+-    }
++    protected function __construct() {}
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== vhs/database/Column.php
+============================================================
+-    public function __clone() {
++    public function __clone(): void {
+-    public function __serialize() {
+-        return $this->serialize();
++    public function __serialize(): array {
++        return [$this->serialize()];
+============================================================
+========== vhs/database/Database.php
+============================================================
+-use vhs\database\queries\Query;
+============================================================
+========== vhs/database/Element.php
+============================================================
+-    protected function __updateTable(Table &$table) {
+-    }
++    protected function __updateTable(Table &$table) {}
+============================================================
+========== vhs/database/IConverter.php
+============================================================
+-interface IConverter {
+-}
++interface IConverter {}
+============================================================
+========== vhs/database/IDataInterface.php
+============================================================
+-use vhs\database\queries\Query;
+============================================================
+========== vhs/database/IGenerator.php
+============================================================
+-interface IGenerator {
+-}
++interface IGenerator {}
+============================================================
+========== vhs/database/ITableGenerator.php
+============================================================
+-    public function generateTable(Table $ascending);
++    public function generateTable(Table $table);
+============================================================
+========== vhs/database/Table.php
+============================================================
+-    public function __clone() {
++    public function __clone(): void {
+============================================================
+========== vhs/database/access/IAccessGenerator.php
+============================================================
+-interface IAccessGenerator {
+-}
++interface IAccessGenerator {}
+============================================================
+========== vhs/database/constraints/ForeignKey.php
+============================================================
+-    public function __clone() {
++    public function __clone(): void {
+============================================================
+========== vhs/database/engines/memory/InMemoryEngine.php
+============================================================
+-use vhs\database\Column;
+-use vhs\database\Columns;
+-use vhs\database\orders\OrderBy;
+-use vhs\database\queries\Query;
+-use vhs\database\Table;
+-use vhs\database\wheres\Where;
+-        if (isset($orderBy) || isset($limit)) {
+-            throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
+-        }
+-        if (isset($orderBy) || isset($limit)) {
+-            throw new \Exception('TODO implement OrderBy and limit for InMemoryEngine');
+-        }
+============================================================
+========== vhs/database/engines/memory/InMemoryGenerator.php
+============================================================
+-    public function generateBool(TypeBool $type, $value = null) {
++    public function generateBool(TypeBool $type, mixed $value = null) {
+-    public function generateDate(TypeDate $type, $value = null) {
++    public function generateDate(TypeDate $type, mixed $value = null) {
+-    public function generateDateTime(TypeDateTime $type, $value = null) {
++    public function generateDateTime(TypeDateTime $type, mixed $value = null) {
+-    public function generateEnum(TypeEnum $type, $value = null) {
++    public function generateEnum(TypeEnum $type, mixed $value = null) {
+-    public function generateFloat(TypeFloat $type, $value = null) {
++    public function generateFloat(TypeFloat $type, mixed $value = null) {
+-    public function generateInt(TypeInt $type, $value = null) {
++    public function generateInt(TypeInt $type, mixed $value = null) {
+-    public function generateTable(Table $ascending) {
++    public function generateTable(Table $table) {
+-    public function generateText(TypeText $type, $value = null) {
++    public function generateText(TypeText $type, mixed $value = null) {
+============================================================
+========== vhs/database/engines/mysql/MySqlConverter.php
+============================================================
+-        if (is_null($value)) {
++        if (is_null($value) || empty($value)) {
+============================================================
+========== vhs/database/engines/mysql/MySqlEngine.php
+============================================================
+-use vhs\database\Columns;
+-use vhs\database\limits\Limit;
+-use vhs\database\offsets\Offset;
+-use vhs\database\orders\OrderBy;
+-use vhs\database\queries\Query;
+-use vhs\database\Table;
+-use vhs\database\types\Type;
+-use vhs\database\wheres\Where;
+============================================================
+========== vhs/database/engines/mysql/MySqlGenerator.php
+============================================================
+-use vhs\database\queries\Query;
+============================================================
+========== vhs/database/exceptions/DatabaseConnectionException.php
+============================================================
+-class DatabaseConnectionException extends DatabaseException {
+-}
++class DatabaseConnectionException extends DatabaseException {}
+============================================================
+========== vhs/database/exceptions/DatabaseException.php
+============================================================
+-class DatabaseException extends \Exception {
+-}
++class DatabaseException extends \Exception {}
+============================================================
+========== vhs/database/exceptions/InvalidSchemaException.php
+============================================================
+-class InvalidSchemaException extends \Exception {
+-}
++class InvalidSchemaException extends \Exception {}
+============================================================
+========== vhs/database/joins/Join.php
+============================================================
+-    public function __clone() {
++    public function __clone(): void {
+============================================================
+========== vhs/database/offsets/Offset.php
+============================================================
+-use vhs\database\IGenerator;
+-    public function generate(IGenerator $generator, $value = null) {
++    public function generate($generator, $value = null) {
+-    private function generateOffset(IOffsetGenerator $generator) {
++    private function generateOffset($generator) {
+============================================================
+========== vhs/database/queries/Query.php
+============================================================
+-use vhs\database\joins\JoinCross;
+-use vhs\database\joins\JoinInner;
+-    public $joins;
++    public array|null $joins = null;
+-    public function __construct(Table $table, Where $where = null) {
++    public function __construct(Table $table, ?Where $where = null) {
+-    public static function Count(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
++    public static function Count(Table $table, ?Where $where = null, ?OrderBy $orderBy = null, ?Limit $limit = null, ?Offset $offset = null) {
+-    public static function Delete(Table $table, Where $where = null) {
++    public static function Delete(Table $table, ?Where $where = null) {
+-        Columns $columns = null,
+-        Where $where = null,
+-        OrderBy $orderBy = null,
+-        Limit $limit = null,
+-        Offset $offset = null
++        ?Columns $columns = null,
++        ?Where $where = null,
++        ?OrderBy $orderBy = null,
++        ?Limit $limit = null,
++        ?Offset $offset = null
+============================================================
+========== vhs/database/queries/QueryCount.php
+============================================================
++use vhs\database\IGenerator;
+-    public function __construct(Table $table, Where $where = null, OrderBy $orderBy = null, Limit $limit = null, Offset $offset = null) {
++    public function __construct(Table $table, ?Where $where = null, ?OrderBy $orderBy = null, ?Limit $limit = null, ?Offset $offset = null) {
+-    public function generateQuery(IQueryGenerator $generator) {
++    public function generateQuery(IGenerator $generator) {
+============================================================
+========== vhs/database/queries/QueryDelete.php
+============================================================
+-use vhs\database\Table;
+-use vhs\database\wheres\Where;
+============================================================
+========== vhs/database/queries/QueryInsert.php
+============================================================
+-use vhs\database\wheres\Where;
+-    public function __construct(Table $table, Columns $columns, array $values) {
++    public function __construct(Table $table, Columns $columns, $values = null) {
+============================================================
+========== vhs/database/queries/QuerySelect.php
+============================================================
++use vhs\database\Column;
+-        Columns $columns = null,
+-        Where $where = null,
+-        OrderBy $orderBy = null,
+-        Limit $limit = null,
+-        Offset $offset = null
++        mixed $columns = null,
++        ?Where $where = null,
++        ?OrderBy $orderBy = null,
++        ?Limit $limit = null,
++        ?Offset $offset = null
+============================================================
+========== vhs/database/queries/QueryUpdate.php
+============================================================
+-    public function __construct(Table $table, Columns $columns, Where $where = null, array $values) {
++    public function __construct(Table $table, Columns $columns, ?Where $where = null, $values = null) {
+============================================================
+========== vhs/database/types/TypeEnum.php
+============================================================
+-    public $values;
++    public array $values;
+-    public function __construct(...$values) {
+-        if (is_null($values) || count($values) <= 0) {
++    public function __construct(string ...$values) {
++        if (gettype($values) !== 'array' || empty($values)) {
+-        $this->values = $values;
++        $this->values = array_values($values);
+============================================================
+========== vhs/database/wheres/Where.php
+============================================================
+-use vhs\database\queries\Query;
+-    public static function _And(Where ...$where) {
++    public static function _And(Where|null ...$where) {
+============================================================
+========== vhs/database/wheres/WhereAnd.php
+============================================================
+-    public function __construct(Where ...$where) {
++    public function __construct(Where|null ...$where) {
+============================================================
+========== vhs/domain/Domain.php
+============================================================
+-use vhs\database\orders\OrderByAscending;
+-interface IDomain {
+-}
+-    private $__collections;
++    private array $__collections;
+-    public static function count($filters, array $allowed_columns = null) {
++    public static function coerceFilters(&$filters) {
++        if (is_string($filters)) {
++            $filters = json_decode($filters);
++        }
++    }
++    public static function count($filters, ?array $allowed_columns = null) {
++        Domain::coerceFilters($filters);
+-    public static function doCount(Where $where = null) {
+-        $class = get_called_class();
++    public static function doCount(?Where $where = null) {
+-    public static function page($page, $size, $columns, $order, $filters, array $allowed_columns = null) {
++    public static function page($page, $size, $columns, $order, $filters, ?array $allowed_columns = null) {
++        Domain::coerceFilters($filters);
+-        if ($allowed_columns != null && !empty($allowed_columns)) {
++        if (is_array($allowed_columns) && !empty($allowed_columns)) {
+-    public static function Schema(Schema $schema = null) {
++    public static function Schema(?Schema $schema = null) {
+-    public static function where(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
++    public static function where(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
+-    protected static function hydrateMany(Where $where = null, OrderBy $orderBy = null, $limit = null, $offset = null) {
++    protected static function hydrateMany(?Where $where = null, ?OrderBy $orderBy = null, $limit = null, $offset = null) {
+-    protected static function Relationship($as, $domain, Schema $joinTable = null) {
++    protected static function Relationship($as, $domain, ?Schema $joinTable = null) {
+-    private static function constructFilterWhere($filters, array $allowed_columns = null) {
++    private static function constructFilterWhere($filters, ?array $allowed_columns = null) {
+-    public function serialize() {
++    public function serialize(): string {
+-    public function unserialize($data) {
++    public function unserialize($data): void {
+-        return serialize($this->getInternalData());
++        return $this->getInternalData();
+-        return json_encode($data);
++        $result = json_encode($data);
++        if (!is_string($result)) {
++            throw new \Exception('Failed to convert to string');
++        }
++        return $result;
+============================================================
+========== vhs/domain/Schema.php
+============================================================
+-use vhs\database\Table;
+-interface ISchema {
++abstract class Schema implements ISchema {
+-    public static function init();
+-}
+-abstract class Schema implements ISchema {
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== vhs/domain/collections/ChildDomainCollection.php
+============================================================
+-use vhs\database\constraints\PrimaryKey;
+============================================================
+========== vhs/domain/collections/SatelliteDomainCollection.php
+============================================================
+-use vhs\database\constraints\ForeignKey;
+============================================================
+========== vhs/domain/exceptions/DomainException.php
+============================================================
+-class DomainException extends \Exception {
+-}
++class DomainException extends \Exception {}
+============================================================
+========== vhs/domain/exceptions/InvalidColumnDefinitionException.php
+============================================================
+-class InvalidColumnDefinitionException extends DomainException {
+-}
++class InvalidColumnDefinitionException extends DomainException {}
+============================================================
+========== vhs/loggers/StringLogger.php
+============================================================
+-    public $history;
++    public array $history;
+============================================================
+========== vhs/messaging/MessageQueue.php
+============================================================
+-use vhs\messaging\Engine;
+-        $mq->invokeEngine(function () use ($mq, $channel, $queue, $callback) {
++        $mq->invokeEngine(function () use ($mq, $channel, $queue, $callback): string {
+-            return $mq->engine->ensure($channel, $queue);
++            $mq->engine->ensure($channel, $queue);
+-            return $mq->engine->publish($channel, $queue, $message);
++            $mq->engine->publish($channel, $queue, $message);
+============================================================
+========== vhs/messaging/engines/RabbitMQ/RabbitMQEngine.php
+============================================================
+-use vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo;
+-        return $ch->basic_consume($channel . '.' . $queue, function ($msg) use ($callback) {
++        return $ch->basic_consume($channel . '.' . $queue, \uniqid(), false, false, false, false, function ($msg) use ($callback) {
+-        return $ch->basic_publish(new AMQPMessage($message), '', $channel . '.' . $queue);
++        $ch->basic_publish(new AMQPMessage($message), '', $channel . '.' . $queue);
+============================================================
+========== vhs/messaging/exceptions/MessageQueueException.php
+============================================================
+-class MessageQueueException extends \Exception {
+-}
++class MessageQueueException extends \Exception {}
+============================================================
+========== vhs/migration/Backup.php
+============================================================
+-    public function __construct($server, $user, $password, $database, Logger $logger = null) {
++    public function __construct($server, $user, $password, $database, ?Logger $logger = null) {
+-        $fileName = !is_null($fileName) ? $fileName : 'db-backup-' . time() . '.sql';
++        $fileName = !is_null($fileName) ? $fileName : sprintf('db-backup-%s.sql', time());
+-        $command[] = "-u '" . $this->user . "'";
+-        $command[] = '-p' . $this->password;
++        $command[] = sprintf("-u '%s'", $this->user);
++        $command[] = sprintf("-p '%s'", $this->password);
+-            $command[] = '--host ' . $this->server;
++            $command[] = '--host';
++            $command[] = $this->server;
++            $command[] = '--skip-ssl-verify-server-cert';
+-        $command[] = "'" . $this->database . "'";
++        $command[] = sprintf("'%s'", $this->database);
+-        $command[] = "'" . $backupPath . $fileName . "'";
++        $command[] = sprintf("'%s%s'", $backupPath, $fileName);
+-        if (!$return) {
+-            return true;
+-        } else {
+-            return false;
+-        }
++        return !$return;
+-            if (!$result) {
++            if (!$create_result) {
+-                break;
+============================================================
+========== vhs/migration/Migrator.php
+============================================================
++    private array $cmd_opts = [];
+-    public function __construct($server, $user, $password, $database, Logger $logger = null) {
++    public function __construct($server, $user, $password, $database, ?Logger $logger = null) {
++        if (getenv('MIGRATOR_SKIP_SSL', true) !== false) {
++            array_push($this->cmd_opts, '--skip-ssl');
++        }
+-            $command = 'mysql -u' . DB_USER . ' -p' . DB_PASS . ' ' . '-h ' . DB_SERVER . ' -D ' . DB_DATABASE . " < {$script_path}";
++            $command = sprintf(
++                "mysql -u %s -p %s -h %s -D %s %s < %s\n",
++                DB_USER,
++                DB_PASS,
++                DB_SERVER,
++                DB_DATABASE,
++                implode(' ', $this->cmd_opts),
++                $script_path
++            );
+============================================================
+========== vhs/monitors/Monitor.php
+============================================================
+-    abstract public function Init(Logger &$logger = null);
++    abstract public function Init(?Logger &$logger = null);
+============================================================
+========== vhs/security/CurrentUser.php
+============================================================
+-use vhs\Singleton;
++    public $currentPrincipal;
+-    private $currentPrincipal;
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== vhs/security/ICredentials.php
+============================================================
+-interface ICredentials {
+-}
++interface ICredentials {}
+============================================================
+========== vhs/security/SystemPrincipal.php
+============================================================
+-use vhs\security\IPrincipal;
+-    public function __construct() {
+-    }
++    public function __construct() {}
+============================================================
+========== vhs/security/exceptions/InvalidCredentials.php
+============================================================
+-class InvalidCredentials extends \Exception {
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class InvalidCredentials extends HttpException {
++    public function __construct($message = 'Access denied', $code = HttpStatusCodes::Client_Error_Unauthorized) {
++        parent::__construct($message, $code);
++    }
+============================================================
+========== vhs/security/exceptions/UnauthorizedException.php
+============================================================
+-class UnauthorizedException extends \Exception {
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class UnauthorizedException extends HttpException {
+-        parent::__construct($message);
++        parent::__construct($message, HttpStatusCodes::Client_Error_Forbidden);
+============================================================
+========== vhs/services/IContract.php
+============================================================
+-interface IContract {
+-}
++interface IContract {}
+============================================================
+========== vhs/services/Service.php
+============================================================
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
+-    public function __construct(ServiceContext $context = null) {
++    public function __construct(?ServiceContext $context = null) {
++    protected function throwNotFound() {
++        $className = get_called_class();
++        throw new HttpException(sprintf('%s not found', $className), HttpStatusCodes::Client_Error_Not_Found);
++    }
+============================================================
+========== vhs/services/ServiceClient.php
+============================================================
+-        $uri = '/services/' . $namespace . '/' . $service . '.svc';
++        $uri = "/services/$namespace/$service.svc";
+============================================================
+========== vhs/services/ServiceHandler.php
+============================================================
++use vhs\web\enums\HttpStatusCodes;
++        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('handling: %s with prefixpath %s', $uri, $this->uriPrefixPath));
+-                    throw new InvalidRequestException('Invalid service request');
++                    $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('did not find match for: %s', $uri));
++                    throw new InvalidRequestException('Invalid service request', HttpStatusCodes::Client_Error_Misdirected_Request);
++        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('$endpoints => %s', json_encode($endpoints)));
+-            throw new InvalidRequestException('Invalid service request');
++            throw new InvalidRequestException('Invalid endpoint request', HttpStatusCodes::Client_Error_Im_a_teapot);
+-        $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
+-        return $endpoint;
++        return $this->endpointNamespace . '\\' . $regs['endpoint'];
+============================================================
+========== vhs/services/endpoints/Endpoint.php
+============================================================
+-use vhs\Logger;
+-    private function __clone() {
+-    }
++    public function __clone(): void {}
+============================================================
+========== vhs/services/exceptions/InvalidContractException.php
+============================================================
+-class InvalidContractException extends \Exception {
+-}
++class InvalidContractException extends \Exception {}
+============================================================
+========== vhs/services/exceptions/InvalidRequestException.php
+============================================================
+-class InvalidRequestException extends \Exception {
++use vhs\exceptions\HttpException;
++use vhs\web\enums\HttpStatusCodes;
++class InvalidRequestException extends HttpException {
++    public function __construct(
++        $message = 'Invalid Request Exception',
++        HttpStatusCodes $code = HttpStatusCodes::Client_Error_Method_Not_Allowed,
++        $previous = null
++    ) {
++        parent::__construct($message, $code, $previous);
++    }
+============================================================
+========== vhs/web/HttpContext.php
+============================================================
+-    private static $server;
++    private static $server = null;
+============================================================
+========== vhs/web/HttpRequest.php
+============================================================
+-    public function __construct() {
+-    }
++    public function __construct() {}
+============================================================
+========== vhs/web/HttpServer.php
+============================================================
++use vhs\services\exceptions\InvalidRequestException;
++use vhs\web\enums\HttpStatusCodes;
++    public $logger;
+-    private $logger;
+-    public function __construct(HttpServerInfoModule $infoModule = null, Logger &$logger = null) {
++    public function __construct(?HttpServerInfoModule $infoModule = null, ?Logger &$logger = null) {
+-        $this->http_response_code = 200;
++        $this->http_response_code = HttpStatusCodes::Success_Ok->value;
++        $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'trying end');
++            $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'already ended - bailing');
++        $this->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
++            $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('trying module: %s', get_class($module)));
++        if (!$this->endset && is_null($exception)) {
++            $exception = new InvalidRequestException('No valid service endpoint found', HttpStatusCodes::Server_Error_Service_Unavailable);
++        }
+-    public function header($string, $replace = true, $http_response_code = null) {
++    public function header($string, $replace = true, $http_response_code = 0) {
+-        array_push($this->headerBuffer, function () use ($self, $string, $replace, $http_response_code) {
++        array_push($this->headerBuffer, function () use ($string, $replace, $http_response_code) {
+-        array_push($this->headerBuffer, function () use ($self) {
++        array_push($this->headerBuffer, function (): never {
+============================================================
+========== vhs/web/modules/HttpBasicAuthModule.php
+============================================================
+-use vhs\web\HttpBasicCredentials;
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+============================================================
+========== vhs/web/modules/HttpBearerTokenAuthModule.php
+============================================================
+-use vhs\security\UserPassCredentials;
+-use vhs\web\HttpBasicCredentials;
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+-    public function handleException(HttpServer $server, \Exception $ex) {
+-    }
++    public function handleException(HttpServer $server, \Exception $ex) {}
+============================================================
+========== vhs/web/modules/HttpExceptionHandlerModule.php
+============================================================
+-    private $logger;
++    private $logger = null;
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+-    public function handle(HttpServer $server) {
+-    }
++    public function handle(HttpServer $server) {}
++        $server->code($ex->getCode() !== 0 ? $ex->getCode() : 500);
+============================================================
+========== vhs/web/modules/HttpJsonServiceHandlerModule.php
+============================================================
++use vhs\web\enums\HttpStatusCodes;
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+-        switch ($server->request->method) {
+-            case 'HEAD':
+-                $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
+-                break;
+-            case 'GET':
+-                if (isset($_GET['json'])) {
+-                    $input = $_GET['json'];
+-                } else {
+-                    $input = json_encode($_GET);
+-                }
+-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
+-                break;
+-            case 'POST':
+-                $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
+-                break;
+-            default:
+-                throw new InvalidRequestException();
+-                break;
++        try {
++            switch ($server->request->method) {
++                case 'HEAD':
++                    $server->output(ServiceRegistry::get($this->registryKey)->discover($uri));
++                    $server->end();
++                    break;
++                case 'GET':
++                    if (isset($_GET['json'])) {
++                        $input = $_GET['json'];
++                    } else {
++                        $input = json_encode($_GET);
++                    }
++                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, $input));
++                    break;
++                case 'POST':
++                    $server->output(ServiceRegistry::get($this->registryKey)->handle($uri, file_get_contents('php://input')));
++                    $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
++                    break;
++                default:
++                    throw new InvalidRequestException();
++            }
++            $server->logger->debug(__FILE__, __LINE__, __METHOD__, 'setting end');
++            $server->end();
++        } catch (\Throwable $exception) {
++            $server->logger->debug(
++                __FILE__,
++                __LINE__,
++                __METHOD__,
++                sprintf('caught exception: %s(%s)', $exception->getMessage(), $exception->getCode())
++            );
++            if ($exception->getCode() !== HttpStatusCodes::Client_Error_Misdirected_Request->value) {
++                throw $exception;
++            }
+-    public function handleException(HttpServer $server, \Exception $ex) {
+-    }
++    public function handleException(HttpServer $server, \Exception $ex) {}
+============================================================
+========== vhs/web/modules/HttpRequestHandlerModule.php
+============================================================
+-    public function __construct() {
+-    }
++    public function __construct() {}
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+-    public function handleException(HttpServer $server, \Exception $ex) {
+-    }
++    public function handleException(HttpServer $server, \Exception $ex) {}
+============================================================
+========== vhs/web/modules/HttpServerInfoModule.php
+============================================================
+-    public function endResponse(HttpServer $server) {
+-    }
++    public function endResponse(HttpServer $server) {}
+-    public function handleException(HttpServer $server, \Exception $ex) {
+-    }
++    public function handleException(HttpServer $server, \Exception $ex) {}

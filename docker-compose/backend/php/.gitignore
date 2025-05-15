@@ -1,0 +1,13 @@
+*
+!.gitignore
+
+!base.yml
+!build.yml
+!files-local-logs.yml
+!files-local-nomos-env.yml
+!files-local-php-sessions.yml
+!files-local.yml
+!network-backend.yml
+!network-bridge.yml
+!network-proxy.yml
+!watchtower-disable.yml

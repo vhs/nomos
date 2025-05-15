@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+WEBHOOKER=$(dirname "$(realpath "$0")")
+
+cd "${WEBHOOKER}" || exit 255
+
+npm run console

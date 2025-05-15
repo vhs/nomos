@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 29/12/2014
+ * Time: 11:22 AM.
+ */
+
+namespace vhs\services;
+
+use vhs\Logger;
+use vhs\services\endpoints\Endpoint;
+use vhs\services\exceptions\InvalidRequestException;
+use vhs\SplClassLoader;
+use vhs\SplClassLoaderItem;
+use vhs\web\enums\HttpStatusCodes;
+
+/**
+ * ServiceHandler.
+ *
+ * @typescript
+ */
+class ServiceHandler {
+    /** @var string */
+    private $endpointNamespace;
+    /** @var Logger */
+    private $logger;
+    /** @var string */
+    private $rootNamespacePath;
+    /** @var string|null */
+    private $uriPrefixPath;
+
+    /**
+     * constructor.
+     *
+     * @param \vhs\Logger &$logger
+     * @param string      $endpointNamespace
+     * @param string|null $rootNamespacePath
+     * @param string|null $uriPrefixPath
+     */
+    public function __construct(Logger &$logger, $endpointNamespace, $rootNamespacePath = null, $uriPrefixPath = null) {
+        $this->logger = &$logger;
+        $this->endpointNamespace = $endpointNamespace;
+        $this->rootNamespacePath = is_null($rootNamespacePath) ? dirname(__FILE__) : $rootNamespacePath;
+        $this->uriPrefixPath = $uriPrefixPath;
+
+        SplClassLoader::getInstance()->add(new SplClassLoaderItem($this->endpointNamespace, $this->rootNamespacePath, '.svc.php'));
+    }
+
+    /**
+     * discover.
+     *
+     * @param string $uri
+     * @param bool   $isNative
+     *
+     * @return mixed
+     */
+    public function discover($uri, $isNative = false) {
+        /** @var Endpoint $endpoint */
+        $endpoint = $this->getEndpoint($uri);
+
+        $out = $endpoint::getInstance()->discover();
+
+        if ($isNative) {
+            return $endpoint::getInstance()->deserializeOutput($out);
+        } else {
+            return $out;
+        }
+    }
+
+    /**
+     * Get all endpoints.
+     *
+     * @return string[]
+     */
+    public function getAllEndpoints() {
+        $files = scandir($this->rootNamespacePath . '/' . str_replace('\\', '/', $this->endpointNamespace));
+
+        $endpoints = [];
+
+        foreach ($files as $file) {
+            if (preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                /** @var class-string $endpoint */
+                $endpoint = $this->endpointNamespace . '\\' . $matches['endpoint'];
+                array_push($endpoints, $endpoint::getInstance());
+            }
+        }
+
+        return $endpoints;
+    }
+
+    /**
+     * handle.
+     *
+     * @param string $uri
+     * @param mixed  $data
+     * @param bool   $isNative
+     *
+     * @throws \vhs\services\exceptions\InvalidRequestException
+     *
+     * @return mixed
+     */
+    public function handle($uri, $data = null, $isNative = false) {
+        /** @var Endpoint[] $endpoints */
+        $endpoints = [];
+
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('handling: %s with prefixpath %s', $uri, $this->uriPrefixPath));
+
+        if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc/(?P<method>.*)%im', $uri, $regs)) {
+            if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
+                if (preg_match('%.*/' . $this->uriPrefixPath . 'help%im', $uri, $regs)) {
+                    $files = scandir($this->rootNamespacePath . '/' . str_replace('\\', '/', $this->endpointNamespace));
+
+                    foreach ($files as $file) {
+                        if (preg_match('%(?P<endpoint>.*)\.svc.php%im', $file, $matches)) {
+                            array_push($endpoints, $matches['endpoint']);
+                        }
+                    }
+                } else {
+                    $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('did not find match for: %s', $uri));
+
+                    throw new InvalidRequestException('Invalid service request', HttpStatusCodes::Client_Error_Misdirected_Request);
+                }
+            }
+        }
+
+        $this->logger->debug(__FILE__, __LINE__, __METHOD__, sprintf('$endpoints => %s', json_encode($endpoints)));
+
+        if (count($endpoints) > 0) {
+            $discovery = [];
+
+            foreach ($endpoints as $class) {
+                /** @var class-string $endpoint */
+                $endpoint = $this->endpointNamespace . '\\' . $class;
+
+                $discovery[$class . '.svc'] = $endpoint::getInstance()->deserializeOutput($endpoint::getInstance()->discover());
+            }
+
+            /*TODO this is a hack. Each endpoint in a namespace could have a totally different
+             * type of serializer and here we're effectively assuming that returning json encoded
+             * data is ok. This is probably fine in all cases but not ideal. The caller doesn't know that
+             * help was requested and that the return type is going to be the result of a service discovery
+             */
+            return json_encode($discovery);
+        } else {
+            /** @var class-string $endpoint */
+            $endpoint = $this->endpointNamespace . '\\' . $regs['endpoint'];
+
+            if (array_key_exists('method', $regs)) {
+                $args = $data;
+                if ($isNative) {
+                    $args = $endpoint::getInstance()->serializeInput($data);
+                }
+
+                $endpoint::getInstance()->logger = &$this->logger;
+
+                $method = $regs['method'];
+                $out = $endpoint::getInstance()->handleRequest($method, $args);
+            } else {
+                $out = $endpoint::getInstance()->discover();
+            }
+
+            if ($isNative) {
+                return $endpoint::getInstance()->deserializeOutput($out);
+            } else {
+                return $out;
+            }
+        }
+    }
+
+    /**
+     * getEndpoint.
+     *
+     * @param string $uri
+     *
+     * @throws \vhs\services\exceptions\InvalidRequestException
+     *
+     * @return string
+     */
+    private function getEndpoint($uri) {
+        if (!preg_match('%.*/' . $this->uriPrefixPath . '(?P<endpoint>.*)\.svc%im', $uri, $regs)) {
+            throw new InvalidRequestException('Invalid endpoint request', HttpStatusCodes::Client_Error_Im_a_teapot);
+        }
+
+        return $this->endpointNamespace . '\\' . $regs['endpoint'];
+    }
+}

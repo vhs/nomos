@@ -1,0 +1,12 @@
+services:
+    frontend-react:
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.docker.network=proxy'
+            - 'traefik.http.services.svc-nomos-devtest-new.loadbalancer.server.port=80'
+            - 'traefik.http.services.svc-nomos-devtest-new.loadbalancer.sticky.cookie=true'
+            - 'traefik.http.routers.nomos-devtest-new.rule=Host(`membership-new.test.vanhack.ca`) || Host(`membership-new.devtest.vanhack.ca`)'
+            - 'traefik.http.routers.nomos-devdevtest-newtest.tls=true'
+            - 'traefik.http.routers.nomos-devtest-new.tls.certresolver=lets-encrypt'
+            - 'traefik.http.routers.nomos-devtest-new.entryPoints=websecure'
+            - 'traefik.http.routers.nomos-devtest-new.service=svc-nomos-devtest-new'

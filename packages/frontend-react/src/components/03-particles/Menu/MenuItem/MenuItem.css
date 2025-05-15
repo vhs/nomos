@@ -1,0 +1,25 @@
+.menu {
+    &.item > * > a {
+        @apply text-nowrap text-regular-link;
+    }
+
+    &.item.active {
+        @apply border-b border-gray-500/25 bg-[#eee] font-bold text-black;
+    }
+
+    &.item:hover {
+        @apply bg-gray-400;
+    }
+
+    .admin > &.item > * > a {
+        @apply text-red-600;
+    }
+
+    &.item.regular-link > * > a {
+        @apply text-nowrap text-regular-link;
+    }
+
+    &.item.user-back-link > * > a {
+        @apply text-nowrap text-purple-800;
+    }
+}

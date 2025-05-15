@@ -1,0 +1,3 @@
+.MarginLink {
+    @apply mt-2 border-t-2 border-gray-600/25 pt-2;
+}
