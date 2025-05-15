@@ -20,7 +20,7 @@ jobs:
         strategy:
             matrix:
                 package: [backend-php]
-                node-version: ['22', 'lts']
+                node-version: ['22']
 
         runs-on: ubuntu-latest
 
