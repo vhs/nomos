@@ -3,7 +3,7 @@
  */
 
 const bunyan = require('bunyan')
-const program = require('commander')
+const { program } = require('commander')
 
 const { settings: config } = require('./config.js')
 
