@@ -5,17 +5,17 @@ services:
             mysql:
                 condition: service_started
     mysql:
-        image: mysql:8.0
+        image: mariadb:11.4
         environment:
-            - MYSQL_USER=${NOMOS_DB_USER}
-            - MYSQL_PASSWORD=${NOMOS_DB_PASSWORD}
-            - MYSQL_DATABASE=${NOMOS_DB_DATABASE}
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MARIADB_USER=${NOMOS_DB_USER}
+            - MARIADB_PASSWORD=${NOMOS_DB_PASSWORD}
+            - MARIADB_DATABASE=${NOMOS_DB_DATABASE}
+            - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             - ${PWD}/data/mysql:/var/lib/mysql
         # Workaround this bug in the mysql image: https://github.com/docker-library/mysql/issues/579
-        ulimits:
-            nproc: 65535
-            nofile:
-                soft: 20000
-                hard: 40000
+ #       ulimits:
+ #           nproc: 65535
+ #           nofile:
+ #               soft: 20000
+ #               hard: 40000
