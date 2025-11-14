@@ -43,8 +43,11 @@ define('STRIPE_API_KEY', NOMOS_STRIPE_API_KEY);
 define('STRIPE_WEBHOOK_SECRET', NOMOS_STRIPE_WEBHOOK_SECRET);
 define('STRIPE_PRODUCTS', json_decode(NOMOS_STRIPE_PRODUCTS, true));
 
+define('SLACK_INVITE_TOKEN', NOMOS_SLACK_INVITE_TOKEN);
+define('SLACK_URL', NOMOS_SLACK_URL);
+
 /**
  * Show MySql Errors.
- * Not recomended for live site. true/false
+ * Not recomended for live site. true/false.
  */
 define('DEBUG', false);
