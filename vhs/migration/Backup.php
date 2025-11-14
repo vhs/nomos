@@ -41,6 +41,8 @@ class Backup {
         $command[] = 'mysqldump';
         $command[] = "-u '" . $this->user . "'";
         $command[] = '-p' . $this->password;
+        $command[] = '--ssl=0';
+        $command[] = '--no-tablespaces'; // workaround for breaking change introduced in minor mysql version - see https://dba.stackexchange.com/questions/271981/access-denied-you-need-at-least-one-of-the-process-privileges-for-this-ope
         if ($do_host == true) {
             $command[] = '--host ' . $this->server;
         }

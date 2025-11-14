@@ -105,7 +105,7 @@ class Migrator {
 
             $script_path = $migrationsPath . '/' . $version . '/';
 
-            $command = 'mysql -u' . DB_USER . ' -p' . DB_PASS . ' ' . '-h ' . DB_SERVER . ' -D ' . DB_DATABASE . " < {$script_path}";
+            $command = 'mysql -u' . DB_USER . ' -p' . DB_PASS . ' ' . '-h ' . DB_SERVER . ' -D ' . DB_DATABASE . " --ssl=0 < {$script_path}";
 
             foreach ($scripts as $script) {
                 $this->logger->log('Executing: ' . $script);
