@@ -396,7 +396,7 @@ class UserService extends Service implements IUserService1 {
         $error = $json_data['error'];
 
         if ($error == 'already_invited' || $error == 'already_in_team') {
-            return 'Success! You were already invited.<br>\nVisit <a href="https://' . SLACK_URL . '">' . SLACK_URL . '</a>';
+            return 'Success! You were already invited.<br>Visit <a href="https://' . SLACK_URL . '">' . SLACK_URL . '</a>';
         }
 
         $error = $ErrorMap[$error] ?? $error;
