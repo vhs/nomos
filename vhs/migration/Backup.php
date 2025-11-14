@@ -41,6 +41,8 @@ class Backup {
         $command[] = 'mysqldump';
         $command[] = "-u '" . $this->user . "'";
         $command[] = '-p' . $this->password;
+        $command[] = '--ssl=0';
+        $command[] = '--no-tablespaces';
         if ($do_host == true) {
             $command[] = '--host ' . $this->server;
         }
