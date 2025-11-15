@@ -20,11 +20,11 @@ const UserProfileCard: FC<UserProfileCardProps> = () => {
         const gravatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=64&d=identicon`
 
         return (
-            <div className='inline-flex'>
-                <div className='inline-flex'>
+            <div className='inline-flex m-2'>
+                <div className='inline-flex mr-2'>
                     <img alt='gravatar' src={gravatarUrl} className='max-h-12 max-w-11' />
                 </div>
-                <div className='inline-flex flex-col text-center'>
+                <div className='inline-flex flex-col text-center mr-2'>
                     <div className='text mx-auto text-ellipsis'>
                         <Link to='/profile'>@{currentUser.username}</Link>
                     </div>
