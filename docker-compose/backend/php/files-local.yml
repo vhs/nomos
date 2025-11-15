@@ -1,0 +1,7 @@
+services:
+    backend-php:
+        volumes:
+            - ${PWD}/packages/backend-php/app:/var/www/html/app
+            - ${PWD}/migrations:/var/www/html/migrations
+            - ${PWD}/packages/backend-php/vhs:/var/www/html/vhs
+            - ${PWD}/logs:/var/www/html/logs

@@ -1,0 +1,10 @@
+*
+!.gitignore
+
+!external-mysqld.yml
+!external-network-lithium.yml
+!external-network-mysql.yml
+!external-variable.yml
+!local-network-bridge.yml
+!local-network-mysql.yml
+!local.yml

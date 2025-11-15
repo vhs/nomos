@@ -1,0 +1,360 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+// Do not change manually.
+
+import { backendCall } from '@/lib/backend'
+import type { Filter } from '@/lib/db/utils/query-filters'
+
+import type { BackendResult, ServiceResponseError, ServiceResponseSuccess } from '@/types/api'
+import type { IUserService2 } from '@/types/providers/IUserService2'
+import type { User, Users } from '@/types/validators/records'
+
+export default class UserService2 implements IUserService2 {
+    /**
+     * @permission administrator|grants
+     *
+     * @param {Filter|null} filters
+     *
+     * @returns {number}
+     */
+    async CountUsers(filters: Filter | null): BackendResult<number> {
+        return await backendCall('/services/v2/UserService2.svc/CountUsers', { filters })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {string} username
+     * @param {string} password
+     * @param {string} email
+     * @param {string} fname
+     * @param {string} lname
+     * @param {number} membershipid
+     *
+     * @returns {User}
+     */
+    async Create(
+        username: string,
+        password: string,
+        email: string,
+        fname: string,
+        lname: string,
+        membershipid: number
+    ): BackendResult<User> {
+        return await backendCall('/services/v2/UserService2.svc/Create', {
+            username,
+            password,
+            email,
+            fname,
+            lname,
+            membershipid
+        })
+    }
+
+    /**
+     * @permission user|administrator
+     *
+     * @param {number} userid
+     *
+     * @returns {boolean}
+     */
+    async GetStanding(userid: number): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/GetStanding', { userid })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @returns {unknown} [array{title: 'Active'; code: 'y'},array{title: 'Pending'; code: 't'},array{title: 'Inactive'; code: 'n'},array{title: 'Banned'; code: 'b'}]
+     */
+    async GetStatuses(): BackendResult<unknown> {
+        return await backendCall('/services/v2/UserService2.svc/GetStatuses', {})
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} userid
+     *
+     * @returns {User|null}
+     */
+    async GetUser(userid: number): BackendResult<User | null> {
+        return await backendCall('/services/v2/UserService2.svc/GetUser', { userid })
+    }
+
+    /**
+     * Get the privileges that are grantable to the specified user by the user calling this service method.
+     *
+     * @permission grants
+     *
+     * @param {number} userid
+     *
+     * @returns {Record<string,string>|string[]}
+     */
+    async GetUserGrantablePrivileges(userid: number): BackendResult<Record<string, string> | string[]> {
+        return await backendCall('/services/v2/UserService2.svc/GetUserGrantablePrivileges', { userid })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @returns {Users}
+     */
+    async GetUsers(): BackendResult<Users> {
+        return await backendCall('/services/v2/UserService2.svc/GetUsers', {})
+    }
+
+    /**
+     * @permission grants
+     *
+     * @param {number} userid
+     * @param {string} privilege
+     *
+     * @returns {boolean}
+     */
+    async GrantPrivilege(userid: number, privilege: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/GrantPrivilege', { userid, privilege })
+    }
+
+    /**
+     * @permission administrator|grants
+     *
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
+     *
+     * @returns {Users}
+     */
+    async ListUsers(
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ): BackendResult<Users> {
+        return await backendCall('/services/v2/UserService2.svc/ListUsers', { page, size, columns, order, filters })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number}          userid
+     * @param {string|string[]} privileges
+     *
+     * @returns {boolean}
+     */
+    async PutUserPrivileges(userid: number, privileges: string | string[]): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/PutUserPrivileges', { userid, privileges })
+    }
+
+    /**
+     * @permission anonymous
+     *
+     * @param {string} username
+     * @param {string} password
+     * @param {string} email
+     * @param {string} fname
+     * @param {string} lname
+     *
+     * @returns {User}
+     */
+    async Register(
+        username: string,
+        password: string,
+        email: string,
+        fname: string,
+        lname: string
+    ): BackendResult<User> {
+        return await backendCall('/services/v2/UserService2.svc/Register', { username, password, email, fname, lname })
+    }
+
+    /**
+     * @permission anonymous
+     *
+     * @param {string} email
+     *
+     * @returns {ServiceResponseError|ServiceResponseSuccess}
+     */
+    async RequestPasswordReset(email: string): BackendResult<ServiceResponseError | ServiceResponseSuccess> {
+        return await backendCall('/services/v2/UserService2.svc/RequestPasswordReset', { email })
+    }
+
+    /**
+     * @permission user
+     *
+     * @param {string} email
+     *
+     * @returns {boolean|string|null}
+     */
+    async RequestSlackInvite(email: string): BackendResult<boolean | string | null> {
+        return await backendCall('/services/v2/UserService2.svc/RequestSlackInvite', { email })
+    }
+
+    /**
+     * @permission anonymous
+     *
+     * @param {string} token
+     * @param {string} password
+     *
+     * @returns {ServiceResponseError|ServiceResponseSuccess}
+     */
+    async ResetPassword(token: string, password: string): BackendResult<ServiceResponseError | ServiceResponseSuccess> {
+        return await backendCall('/services/v2/UserService2.svc/ResetPassword', { token, password })
+    }
+
+    /**
+     * @permission grants
+     *
+     * @param {number} userid
+     * @param {string} privilege
+     *
+     * @returns {boolean}
+     */
+    async RevokePrivilege(userid: number, privilege: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/RevokePrivilege', { userid, privilege })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number}         userid
+     * @param {boolean|string} cash
+     *
+     * @returns {boolean}
+     */
+    async UpdateCash(userid: number, cash: boolean | string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateCash', { userid, cash })
+    }
+
+    /**
+     * @permission administrator|full-profile
+     *
+     * @param {number} userid
+     * @param {string} email
+     *
+     * @returns {boolean}
+     */
+    async UpdateEmail(userid: number, email: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateEmail', { userid, email })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} userid
+     * @param {string} date
+     *
+     * @returns {boolean}
+     */
+    async UpdateExpiry(userid: number, date: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateExpiry', { userid, date })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} userid
+     * @param {number} membershipid
+     *
+     * @returns {boolean}
+     */
+    async UpdateMembership(userid: number, membershipid: number): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateMembership', { userid, membershipid })
+    }
+
+    /**
+     * @permission administrator|full-profile
+     *
+     * @param {number} userid
+     * @param {string} fname
+     * @param {string} lname
+     *
+     * @returns {boolean}
+     */
+    async UpdateName(userid: number, fname: string, lname: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateName', { userid, fname, lname })
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}  userid
+     * @param {boolean} subscribe
+     *
+     * @returns {boolean}
+     */
+    async UpdateNewsletter(userid: number, subscribe: boolean): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateNewsletter', { userid, subscribe })
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} userid
+     * @param {string} password
+     *
+     * @returns {boolean}
+     */
+    async UpdatePassword(userid: number, password: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdatePassword', { userid, password })
+    }
+
+    /**
+     * @permission administrator|full-profile
+     *
+     * @param {number} userid
+     * @param {string} email
+     *
+     * @returns {boolean}
+     */
+    async UpdatePaymentEmail(userid: number, email: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdatePaymentEmail', { userid, email })
+    }
+
+    /**
+     * @permission administrator
+     *
+     * @param {number} userid
+     * @param {string} status
+     *
+     * @returns {boolean}
+     */
+    async UpdateStatus(userid: number, status: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateStatus', { userid, status })
+    }
+
+    /**
+     * @permission administrator|full-profile
+     *
+     * @param {number} userid
+     * @param {string} email
+     *
+     * @returns {boolean}
+     */
+    async UpdateStripeEmail(userid: number, email: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateStripeEmail', { userid, email })
+    }
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} userid
+     * @param {string} username
+     *
+     * @returns {boolean}
+     */
+    async UpdateUsername(userid: number, username: string): BackendResult<boolean> {
+        return await backendCall('/services/v2/UserService2.svc/UpdateUsername', { userid, username })
+    }
+
+    private static _instance: UserService2
+
+    public static getInstance(): UserService2 {
+        if (UserService2._instance == null) {
+            UserService2._instance = new UserService2()
+        }
+
+        return UserService2._instance
+    }
+}

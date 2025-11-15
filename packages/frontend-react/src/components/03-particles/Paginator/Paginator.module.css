@@ -1,0 +1,23 @@
+.Container {
+    @apply h-9 w-fit rounded-md border-2 border-gray-400/50 text-lg;
+}
+
+.Common {
+    @apply h-8 w-8;
+}
+
+.Icon {
+    @apply m-auto h-7 w-7;
+}
+
+.Default {
+    @apply hover:bg-gray-300;
+}
+
+.Active {
+    @apply -mt-1.5 h-11 bg-blue-600 text-white;
+}
+
+.Disabled {
+    @apply cursor-not-allowed italic text-gray-700/25;
+}

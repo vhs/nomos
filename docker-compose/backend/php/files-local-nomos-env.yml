@@ -1,0 +1,4 @@
+services:
+    backend-php:
+        env_file:
+            - ${PWD}/docker/nomos.env

@@ -1,0 +1,7 @@
+*
+!.gitignore
+
+!network-backend-internal.yml
+!network-proxy-internal.yml
+!network-proxy-external.yml
+!watchtower-disable.yml

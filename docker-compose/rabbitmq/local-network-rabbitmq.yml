@@ -1,0 +1,16 @@
+services:
+    rabbitmq:
+        networks:
+            - rabbitmq
+
+    webhooker:
+        networks:
+            - rabbitmq
+
+    backend-php:
+        networks:
+            - rabbitmq
+
+networks:
+    rabbitmq:
+        external: true

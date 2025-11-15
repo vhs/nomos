@@ -1,0 +1,8 @@
+services:
+    backend-php:
+        networks:
+            - mysql
+
+networks:
+    mysql:
+        external: true

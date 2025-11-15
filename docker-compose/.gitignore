@@ -1,0 +1,13 @@
+*
+!.gitignore
+
+!backend/
+!common/
+!frontend/
+!mysql/
+!rabbitmq/
+!webhooker/
+
+!Dockerfile
+
+!override.sample.yml

@@ -1,4 +1,0 @@
-services:
-    nomos-backend:
-        external_links:
-            - mysqld:mysqld

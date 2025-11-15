@@ -1,8 +1,0 @@
-services:
-    nomos-webhooker:
-        networks:
-            - proxy
-
-networks:
-    proxy:
-        external: true

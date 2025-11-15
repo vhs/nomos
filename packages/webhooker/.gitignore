@@ -1,0 +1,16 @@
+*
+!.gitignore
+!README.md
+!config.docker.js
+!config.js.template.js
+!domains.js
+!events.js
+!nomos.js
+!package.json
+!test/domains.js
+!test/webhooks.js
+!webhooker.console
+!webhooker.js
+!webhooker.sbin
+!webhooker.service
+!webhooks.js

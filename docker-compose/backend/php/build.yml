@@ -1,0 +1,6 @@
+services:
+    backend-php:
+        build:
+            context: ${PWD}
+            dockerfile: docker-compose/Dockerfile
+            target: backend-php

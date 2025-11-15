@@ -1,0 +1,4 @@
+services:
+    backend-php:
+        external_links:
+            - mysqld:mysqld

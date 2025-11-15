@@ -1,6 +1,0 @@
-services:
-    nomos-frontend:
-        network_mode: bridge
-
-    nomos-backend:
-        network_mode: bridge

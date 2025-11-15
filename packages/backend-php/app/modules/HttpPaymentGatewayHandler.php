@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 8/17/2015
+ * Time: 4:16 PM.
+ */
+
+namespace app\modules;
+
+use app\gateways\IPaymentGateway;
+use vhs\web\HttpRequestHandler;
+use vhs\web\HttpServer;
+
+/** @typescript */
+class HttpPaymentGatewayHandler extends HttpRequestHandler {
+    /** @var IPaymentGateway */
+    private $gateway;
+
+    public function __construct(IPaymentGateway $gateway) {
+        $this->gateway = $gateway;
+    }
+
+    /**
+     * handle.
+     *
+     * @param \vhs\web\HttpServer $server
+     *
+     * @return void
+     */
+    public function handle(HttpServer $server): void {
+        $server->clear();
+        $server->code(200);
+
+        if (preg_match('/application\/json/', $_SERVER['CONTENT_TYPE'])) {
+            $server->output($this->gateway->Process(file_get_contents('php://input')));
+        } else {
+            $server->output($this->gateway->Process($_REQUEST));
+        }
+
+        $server->end();
+    }
+}

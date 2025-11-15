@@ -1,0 +1,3 @@
+services:
+    webhooker:
+        network_mode: bridge
