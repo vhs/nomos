@@ -3,12 +3,16 @@
         @apply text-nowrap text-regular-link;
     }
 
+    &.item {
+        @apply border-y border-[#e7e7e7];
+    }
+
     &.item.active {
-        @apply border-b border-gray-500/25 bg-[#eee] font-bold text-black;
+        @apply bg-[#eee] font-bold text-black;
     }
 
     &.item:hover {
-        @apply bg-gray-400;
+        @apply bg-[#eee]
     }
 
     .admin > &.item > * > a {
