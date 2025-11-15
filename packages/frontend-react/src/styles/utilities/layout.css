@@ -15,11 +15,13 @@
 
     .sidemenu {
         /* @apply fixed left-0 top-20 w-40 rounded-r-lg; */
-        @apply rounded-r-lg border;
+        /* @apply rounded-r-lg border; */
+        @apply min-w-[200px];
     }
 
     .dynamic-menu {
-        @apply hidden pr-2 pt-2 md:flex;
+        @apply hidden md:flex ;
+        @apply border border-gray-300;
     }
 
     .dynamic-content {

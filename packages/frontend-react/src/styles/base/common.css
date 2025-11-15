@@ -10,7 +10,7 @@
 
 @layer base {
     BODY {
-        @apply mt-16 text-sm sm:text-base;
+        @apply mt-14 text-sm sm:text-base;
         /* scrollbar-gutter: stable both-edges; */
     }
 
