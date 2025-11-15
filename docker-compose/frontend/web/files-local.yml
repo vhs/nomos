@@ -2,4 +2,4 @@ services:
     frontend-web:
         volumes:
             - ${PWD}/packages/frontend-web/web:/var/www/html
-            - ${PWD}/conf/nginx-vhost-docker-compose.conf:/etc/nginx/conf.d/default.conf
+            #- ${PWD}/conf/nginx-vhost-docker-compose.conf:/etc/nginx/conf.d/default.conf
