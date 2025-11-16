@@ -8,7 +8,7 @@ import Col from '@/components/01-atoms/Col/Col'
 import Row from '@/components/01-atoms/Row/Row'
 
 const ApiKeysHelpPage: FC<ApiKeysHelpPageProps> = () => (
-    <div data-testid='ApiKeysHelpPage'>
+    <div data-testid='ApiKeysHelpPage' className='m-2'>
         <Row>
             <Col>
                 <h4>Help</h4>

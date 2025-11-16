@@ -18,7 +18,7 @@ const ApiKeysListPage: FC<ApiKeysListPageProps> = () => {
     const { availableKeys, availablePrivileges, scope } = useApiKeysPageContext()
 
     const loading = useMemo(
-        () => [availablePrivileges, availableKeys].some((inp) => !Array.isArray(inp) || inp.length === 0),
+        () => [availablePrivileges, availableKeys].some((inp) => !Array.isArray(inp)),
         [availablePrivileges, availableKeys]
     )
 
