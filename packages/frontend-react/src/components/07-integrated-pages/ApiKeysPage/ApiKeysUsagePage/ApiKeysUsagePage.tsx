@@ -7,7 +7,7 @@ import Row from '@/components/01-atoms/Row/Row'
 
 const ApiKeysUsagePage: FC<ApiKeysUsagePageProps> = () => {
     return (
-        <div data-testid='ApiKeysUsagePage'>
+        <div data-testid='ApiKeysUsagePage' className='m-2'>
             <Row>
                 <Col>
                     <h4>Usage</h4>

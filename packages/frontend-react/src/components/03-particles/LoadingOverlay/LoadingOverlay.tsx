@@ -8,7 +8,7 @@ const LoadingOverlay: FC<LoadingOverlayProps> = ({ show }) => {
     show = show ?? true
 
     return show ? (
-        <div className='bottom-0 left-0 right-0 top-0 z-above-and-beyond bg-black/10'>
+        <div className='absolute bottom-0 left-0 right-0 top-0 z-above-and-beyond bg-black/10'>
             <div className='relative inset-1/2 h-[100px] w-[100px] -translate-x-[50px] -translate-y-[50px] opacity-100'>
                 <Loading />
             </div>
