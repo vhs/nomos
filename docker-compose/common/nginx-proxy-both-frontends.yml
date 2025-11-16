@@ -1,5 +1,10 @@
 services:
   proxy:
+    depends_on:
+      frontend-web:
+        condition: service_started
+      frontend-react:
+        condition: service_started
     image: nginx:latest
     restart: always
     ports:
