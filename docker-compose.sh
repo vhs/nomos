@@ -8,7 +8,11 @@ if docker compose > /dev/null 2>&1; then
     COMPOSE_CMD="docker compose"
 fi
 
+# compiles a list of all the docker compose yml files mentioned in docker-compose.conf
 COMPOSE_FILE=$(grep -E -v '^(#|;|$)' docker-compose.conf | xargs | tr ' ' ':')
+
+# saves the above list into COMPOSE_FILE, which is used by docker:
+# https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/#how-to-merge-multiple-compose-files
 export COMPOSE_FILE
 
 # --env-file is passed in here to make the variables inside available for
