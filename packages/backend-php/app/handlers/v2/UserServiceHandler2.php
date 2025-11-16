@@ -365,30 +365,61 @@ class UserServiceHandler2 extends Service implements IUserService2 {
      * @return bool|string|null
      */
     public function RequestSlackInvite($email): bool|string|null {
-        $ch = curl_init('http://slack-invite:3000/invite');
+        $url = 'https://' . SLACK_URL . '/api/users.admin.invite';
+
+        $body = [
+            'email' => $email,
+            'token' => SLACK_INVITE_TOKEN,
+            'set_active' => true
+        ];
+
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'email=' . $email);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Connection: Close']);
 
         $error = null;
+        $response = curl_exec($ch);
 
-        if (!($response = curl_exec($ch))) {
+        if (!$response) {
             $error = 'Error: Got ' . curl_error($ch) . " when request slack invite for email: '" . $email . "'";
         }
 
         curl_close($ch);
 
-        if (!($error === null)) {
-            // $this->context->log($error); NOSONAR
+        if (!is_null($error)) {
+            // $this->context->log($error);
             return $error;
         }
 
-        return $response;
+        $json_data = json_decode($response, true);
+        // body looks like:
+        //   {"ok":true}
+        //       or
+        //   {"ok":false,"error":"already_invited"}
+
+        if ($json_data['ok']) {
+            return 'Invite sent';
+        }
+
+        $ErrorMap = [
+            'invalid_email' => 'The email you entered is an invalid email.',
+            'invalid_auth' => 'Something has gone wrong. Please contact a system administrator.'
+        ];
+
+        $error = $json_data['error'];
+
+        if ($error == 'already_invited' || $error == 'already_in_team') {
+            return 'Success! You were already invited. Visit ' . SLACK_URL;
+        }
+
+        $error = $ErrorMap[$error] ?? $error;
+
+        return $error;
     }
 
     /**

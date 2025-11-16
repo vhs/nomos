@@ -70,13 +70,12 @@ class PreferenceServiceHandler2 extends Service implements IPreferenceService2 {
      */
     public function GetSystemPreference($id): SystemPreference {
         /** @var SystemPreference|null */
-        $systemPreference = SystemPreference::find($id);
-
-        if (is_null($systemPreference)) {
+        $systemPreference = SystemPreference::findByKey($id);
+        if (is_null($systemPreference) || count($systemPreference) <= 0) {
             throw new DomainException(sprintf('SystemPreference with id [%s] not found!', $id));
         }
 
-        return $systemPreference;
+        return $systemPreference[0];
     }
 
     /**
