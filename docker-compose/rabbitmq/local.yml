@@ -4,7 +4,7 @@ services:
         container_name: rabbitmq
         restart: always
         env_file:
-            - ${PWD}/docker/nomos.env
+            - ${PWD}/docker-compose/nomos.env
         environment:
             - RABBITMQ_DEFAULT_USER=${NOMOS_RABBITMQ_USER}
             - RABBITMQ_DEFAULT_PASS=${NOMOS_RABBITMQ_PASSWORD}

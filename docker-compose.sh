@@ -21,4 +21,4 @@ export COMPOSE_FILE
 # container.
 
 # shellcheck disable=SC2086
-/usr/bin/env ${COMPOSE_CMD} --env-file "${SCRIPT_DIR}/docker/nomos.env" "$@"
+/usr/bin/env ${COMPOSE_CMD} --env-file "${SCRIPT_DIR}/docker-compose/nomos.env" "$@"
