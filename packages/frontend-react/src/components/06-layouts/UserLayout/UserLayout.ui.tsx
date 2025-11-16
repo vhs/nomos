@@ -3,6 +3,7 @@ import type PrincipalUserObject from '@/lib/db/models/PrincipalUser'
 import type { MenuItems } from '@/types/ui'
 
 export const UserMenuItems: MenuItems = [
+    { path: '/home', icon: 'house', name: 'Home' },
     { path: '/dashboard', icon: 'tachometer-alt', name: 'Dashboard' },
     { path: '/profile', icon: 'user', name: 'User Profile' },
     { path: '/purchase', icon: 'user', name: 'Purchase' },
