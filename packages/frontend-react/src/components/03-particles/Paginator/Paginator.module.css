@@ -1,9 +1,9 @@
 .Container {
-    @apply h-9 w-fit rounded-md border-2 border-gray-400/50 text-lg;
+    @apply w-fit rounded-md border-2 border-gray-400/50 text-lg;
 }
 
 .Common {
-    @apply h-8 w-8;
+    @apply w-8;
 }
 
 .Icon {
@@ -15,7 +15,7 @@
 }
 
 .Active {
-    @apply -mt-1.5 h-11 bg-blue-600 text-white;
+    @apply h-11 bg-blue-600 text-white;
 }
 
 .Disabled {

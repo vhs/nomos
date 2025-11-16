@@ -49,7 +49,7 @@ const ApiKeysListPage: FC<ApiKeysListPageProps> = () => {
                 <Row>
                     <Col>
                         <div>
-                            <table>
+                            <table className='w-full'>
                                 <thead>
                                     <TablePageRow>
                                         <th className='text-center'>API Key</th>
