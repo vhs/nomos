@@ -3,7 +3,7 @@ services:
     backend-php:
         depends_on:
             mysql:
-                condition: service_started
+                condition: service_healthy
     mysql:
         image: mariadb:11.4
         environment:
@@ -13,9 +13,9 @@ services:
             - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             - ${PWD}/data/mysql:/var/lib/mysql
-        # Workaround this bug in the mysql image: https://github.com/docker-library/mysql/issues/579
- #       ulimits:
- #           nproc: 65535
- #           nofile:
- #               soft: 20000
- #               hard: 40000
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            start_period: 10s
+            interval: 10s
+            timeout: 5s
+            retries: 3
