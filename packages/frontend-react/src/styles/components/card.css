@@ -1,6 +1,6 @@
 @layer components {
     .card {
-        @apply mb-5 rounded-lg border border-gray-300 bg-white shadow-lg;
+        @apply mb-5 mt-2 rounded-lg border border-gray-300 bg-white;
 
         & > .element:first-child {
             @apply rounded-t-lg;
@@ -15,7 +15,7 @@
         }
 
         & > .header {
-            @apply bg-header px-3 py-4 shadow-lg;
+            @apply bg-header px-3 py-4;
 
             &.element:nth-last-child(2) {
                 @apply border-b-0;
