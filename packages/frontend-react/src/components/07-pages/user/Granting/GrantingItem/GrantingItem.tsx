@@ -29,18 +29,17 @@ const GrantingItem: FC<GrantingItemProps> = ({ user, grantablePrivileges }) => {
 
     const activeUserPrivileges = useMemo(() => {
         const basePrivileges = convertPrivilegesArrayToBooleanRecord(grantablePrivileges, false)
-
         if (userGrantablePrivileges != null) {
-            if (isStrings(userGrantablePrivileges) && !isStringStringRecord(userGrantablePrivileges))
+            if (isStrings(userGrantablePrivileges) && !isStringStringRecord(userGrantablePrivileges)) {
                 Object.values(userGrantablePrivileges).forEach((code) => {
                     basePrivileges[code as string] = true
                 })
-            else if (isStringStringRecord(userGrantablePrivileges))
+            } else if (isStringStringRecord(userGrantablePrivileges)) {
                 Object.values(userGrantablePrivileges).forEach((code) => {
-                    basePrivileges[code] = false
+                    basePrivileges[code] = true
                 })
+            }
         }
-
         return basePrivileges
     }, [grantablePrivileges, userGrantablePrivileges])
 
