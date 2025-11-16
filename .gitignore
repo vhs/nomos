@@ -19,7 +19,6 @@ packages/frontend-react/public/assets/
 packages/frontend-react/public/config.json
 packages/frontend-react/src/lib/ui/fontawesome/generated.ts
 packages/frontend-react/src/types/fontawesome/generated.ts
-packages/frontend-react/src/routeTree.gen.ts
 
 packages/frontend-web/web/components/
 
