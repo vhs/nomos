@@ -1,7 +1,6 @@
 conf/config.ini.php
 docker-compose/nomos.env
 tools/composer.phar
-web/components/
 nomos.d.ts
 logs/
 data/
