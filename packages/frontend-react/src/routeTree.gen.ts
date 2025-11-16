@@ -23,6 +23,7 @@ import { Route as UserPurchaseImport } from './routes/_user/purchase'
 import { Route as UserProfileImport } from './routes/_user/profile'
 import { Route as UserMembershipImport } from './routes/_user/membership'
 import { Route as UserLogoutImport } from './routes/_user/logout'
+import { Route as UserHomeImport } from './routes/_user/home'
 import { Route as UserGrantsImport } from './routes/_user/grants'
 import { Route as UserGetinvolvedImport } from './routes/_user/getinvolved'
 import { Route as UserDooraccessImport } from './routes/_user/dooraccess'
@@ -143,6 +144,12 @@ const UserMembershipRoute = UserMembershipImport.update({
 const UserLogoutRoute = UserLogoutImport.update({
   id: '/logout',
   path: '/logout',
+  getParentRoute: () => UserRoute,
+} as any)
+
+const UserHomeRoute = UserHomeImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => UserRoute,
 } as any)
 
@@ -574,6 +581,13 @@ declare module '@tanstack/react-router' {
       path: '/grants'
       fullPath: '/grants'
       preLoaderRoute: typeof UserGrantsImport
+      parentRoute: typeof UserImport
+    }
+    '/_user/home': {
+      id: '/_user/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof UserHomeImport
       parentRoute: typeof UserImport
     }
     '/_user/logout': {
@@ -1099,6 +1113,7 @@ interface UserRouteChildren {
   UserDooraccessRoute: typeof UserDooraccessRoute
   UserGetinvolvedRoute: typeof UserGetinvolvedRoute
   UserGrantsRoute: typeof UserGrantsRoute
+  UserHomeRoute: typeof UserHomeRoute
   UserLogoutRoute: typeof UserLogoutRoute
   UserMembershipRoute: typeof UserMembershipRoute
   UserProfileRoute: typeof UserProfileRoute
@@ -1118,6 +1133,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserDooraccessRoute: UserDooraccessRoute,
   UserGetinvolvedRoute: UserGetinvolvedRoute,
   UserGrantsRoute: UserGrantsRoute,
+  UserHomeRoute: UserHomeRoute,
   UserLogoutRoute: UserLogoutRoute,
   UserMembershipRoute: UserMembershipRoute,
   UserProfileRoute: UserProfileRoute,
@@ -1148,6 +1164,7 @@ export interface FileRoutesByFullPath {
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
   '/grants': typeof UserGrantsRoute
+  '/home': typeof UserHomeRoute
   '/logout': typeof UserLogoutRoute
   '/membership': typeof UserMembershipRoute
   '/profile': typeof UserProfileRoute
@@ -1212,6 +1229,7 @@ export interface FileRoutesByTo {
   '/dooraccess': typeof UserDooraccessRoute
   '/getinvolved': typeof UserGetinvolvedRoute
   '/grants': typeof UserGrantsRoute
+  '/home': typeof UserHomeRoute
   '/logout': typeof UserLogoutRoute
   '/membership': typeof UserMembershipRoute
   '/profile': typeof UserProfileRoute
@@ -1279,6 +1297,7 @@ export interface FileRoutesById {
   '/_user/dooraccess': typeof UserDooraccessRoute
   '/_user/getinvolved': typeof UserGetinvolvedRoute
   '/_user/grants': typeof UserGrantsRoute
+  '/_user/home': typeof UserHomeRoute
   '/_user/logout': typeof UserLogoutRoute
   '/_user/membership': typeof UserMembershipRoute
   '/_user/profile': typeof UserProfileRoute
@@ -1345,6 +1364,7 @@ export interface FileRouteTypes {
     | '/dooraccess'
     | '/getinvolved'
     | '/grants'
+    | '/home'
     | '/logout'
     | '/membership'
     | '/profile'
@@ -1408,6 +1428,7 @@ export interface FileRouteTypes {
     | '/dooraccess'
     | '/getinvolved'
     | '/grants'
+    | '/home'
     | '/logout'
     | '/membership'
     | '/profile'
@@ -1473,6 +1494,7 @@ export interface FileRouteTypes {
     | '/_user/dooraccess'
     | '/_user/getinvolved'
     | '/_user/grants'
+    | '/_user/home'
     | '/_user/logout'
     | '/_user/membership'
     | '/_user/profile'
@@ -1602,6 +1624,7 @@ export const routeTree = rootRoute
         "/_user/dooraccess",
         "/_user/getinvolved",
         "/_user/grants",
+        "/_user/home",
         "/_user/logout",
         "/_user/membership",
         "/_user/profile",
@@ -1668,6 +1691,10 @@ export const routeTree = rootRoute
     },
     "/_user/grants": {
       "filePath": "_user/grants.tsx",
+      "parent": "/_user"
+    },
+    "/_user/home": {
+      "filePath": "_user/home.tsx",
       "parent": "/_user"
     },
     "/_user/logout": {

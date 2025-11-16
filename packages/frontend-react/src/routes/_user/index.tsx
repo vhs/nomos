@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_user/')({
         if (context.auth?.isAuthenticated ?? false) {
             redirect({
                 throw: true,
-                to: '/dashboard'
+                to: '/home'
             })
         }
     }
