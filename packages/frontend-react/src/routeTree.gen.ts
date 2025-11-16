@@ -14,10 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as UserImport } from './routes/_user'
 import { Route as PublicImport } from './routes/_public'
 import { Route as AdminImport } from './routes/_admin'
-import { Route as TestIndexImport } from './routes/test.index'
 import { Route as UserIndexImport } from './routes/_user/index'
-import { Route as TestSplatImport } from './routes/test.$'
-import { Route as Fafo1HtmlImport } from './routes/fafo1.html'
 import { Route as UserWebhooksImport } from './routes/_user/webhooks'
 import { Route as UserVhsopenImport } from './routes/_user/vhsopen'
 import { Route as UserTransactionsImport } from './routes/_user/transactions'
@@ -34,7 +31,6 @@ import { Route as UserAccesslogsImport } from './routes/_user/accesslogs'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicRecoveryImport } from './routes/_public/recovery'
 import { Route as PublicLoginImport } from './routes/_public/login'
-import { Route as PublicFafoImport } from './routes/_public/fafo'
 import { Route as AdminOauthImport } from './routes/_admin/oauth'
 import { Route as AdminLogsImport } from './routes/_admin/logs'
 import { Route as AdminEventsImport } from './routes/_admin/events'
@@ -96,28 +92,10 @@ const AdminRoute = AdminImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const TestIndexRoute = TestIndexImport.update({
-  id: '/test/',
-  path: '/test/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const UserIndexRoute = UserIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => UserRoute,
-} as any)
-
-const TestSplatRoute = TestSplatImport.update({
-  id: '/test/$',
-  path: '/test/$',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const Fafo1HtmlRoute = Fafo1HtmlImport.update({
-  id: '/fafo1/html',
-  path: '/fafo1/html',
-  getParentRoute: () => rootRoute,
 } as any)
 
 const UserWebhooksRoute = UserWebhooksImport.update({
@@ -213,12 +191,6 @@ const PublicRecoveryRoute = PublicRecoveryImport.update({
 const PublicLoginRoute = PublicLoginImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => PublicRoute,
-} as any)
-
-const PublicFafoRoute = PublicFafoImport.update({
-  id: '/fafo',
-  path: '/fafo',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -548,13 +520,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOauthImport
       parentRoute: typeof AdminImport
     }
-    '/_public/fafo': {
-      id: '/_public/fafo'
-      path: '/fafo'
-      fullPath: '/fafo'
-      preLoaderRoute: typeof PublicFafoImport
-      parentRoute: typeof PublicImport
-    }
     '/_public/login': {
       id: '/_public/login'
       path: '/login'
@@ -667,33 +632,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserWebhooksImport
       parentRoute: typeof UserImport
     }
-    '/fafo1/html': {
-      id: '/fafo1/html'
-      path: '/fafo1/html'
-      fullPath: '/fafo1/html'
-      preLoaderRoute: typeof Fafo1HtmlImport
-      parentRoute: typeof rootRoute
-    }
-    '/test/$': {
-      id: '/test/$'
-      path: '/test/$'
-      fullPath: '/test/$'
-      preLoaderRoute: typeof TestSplatImport
-      parentRoute: typeof rootRoute
-    }
     '/_user/': {
       id: '/_user/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof UserIndexImport
       parentRoute: typeof UserImport
-    }
-    '/test/': {
-      id: '/test/'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestIndexImport
-      parentRoute: typeof rootRoute
     }
     '/_admin/admin/accesslogs': {
       id: '/_admin/admin/accesslogs'
@@ -1135,14 +1079,12 @@ const PublicRecoveryRouteWithChildren = PublicRecoveryRoute._addFileChildren(
 )
 
 interface PublicRouteChildren {
-  PublicFafoRoute: typeof PublicFafoRoute
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRecoveryRoute: typeof PublicRecoveryRouteWithChildren
   PublicRegisterRoute: typeof PublicRegisterRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicFafoRoute: PublicFafoRoute,
   PublicLoginRoute: PublicLoginRoute,
   PublicRecoveryRoute: PublicRecoveryRouteWithChildren,
   PublicRegisterRoute: PublicRegisterRoute,
@@ -1198,7 +1140,6 @@ export interface FileRoutesByFullPath {
   '/events': typeof AdminEventsRoute
   '/logs': typeof AdminLogsRoute
   '/oauth': typeof AdminOauthRoute
-  '/fafo': typeof PublicFafoRoute
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
@@ -1215,10 +1156,7 @@ export interface FileRoutesByFullPath {
   '/transactions': typeof UserTransactionsRoute
   '/vhsopen': typeof UserVhsopenRoute
   '/webhooks': typeof UserWebhooksRoute
-  '/fafo1/html': typeof Fafo1HtmlRoute
-  '/test/$': typeof TestSplatRoute
   '/': typeof UserIndexRoute
-  '/test': typeof TestIndexRoute
   '/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/admin/apikeys': typeof AdminAdminApikeysRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1266,7 +1204,6 @@ export interface FileRoutesByTo {
   '/events': typeof AdminEventsRoute
   '/logs': typeof AdminLogsRoute
   '/oauth': typeof AdminOauthRoute
-  '/fafo': typeof PublicFafoRoute
   '/login': typeof PublicLoginRoute
   '/recovery': typeof PublicRecoveryRouteWithChildren
   '/register': typeof PublicRegisterRoute
@@ -1283,10 +1220,7 @@ export interface FileRoutesByTo {
   '/transactions': typeof UserTransactionsRoute
   '/vhsopen': typeof UserVhsopenRoute
   '/webhooks': typeof UserWebhooksRoute
-  '/fafo1/html': typeof Fafo1HtmlRoute
-  '/test/$': typeof TestSplatRoute
   '/': typeof UserIndexRoute
-  '/test': typeof TestIndexRoute
   '/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/admin/apikeys': typeof AdminAdminApikeysRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1337,7 +1271,6 @@ export interface FileRoutesById {
   '/_admin/events': typeof AdminEventsRoute
   '/_admin/logs': typeof AdminLogsRoute
   '/_admin/oauth': typeof AdminOauthRoute
-  '/_public/fafo': typeof PublicFafoRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/recovery': typeof PublicRecoveryRouteWithChildren
   '/_public/register': typeof PublicRegisterRoute
@@ -1354,10 +1287,7 @@ export interface FileRoutesById {
   '/_user/transactions': typeof UserTransactionsRoute
   '/_user/vhsopen': typeof UserVhsopenRoute
   '/_user/webhooks': typeof UserWebhooksRoute
-  '/fafo1/html': typeof Fafo1HtmlRoute
-  '/test/$': typeof TestSplatRoute
   '/_user/': typeof UserIndexRoute
-  '/test/': typeof TestIndexRoute
   '/_admin/admin/accesslogs': typeof AdminAdminAccesslogsRoute
   '/_admin/admin/apikeys': typeof AdminAdminApikeysRoute
   '/_admin/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -1407,7 +1337,6 @@ export interface FileRouteTypes {
     | '/events'
     | '/logs'
     | '/oauth'
-    | '/fafo'
     | '/login'
     | '/recovery'
     | '/register'
@@ -1424,10 +1353,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/vhsopen'
     | '/webhooks'
-    | '/fafo1/html'
-    | '/test/$'
     | '/'
-    | '/test'
     | '/admin/accesslogs'
     | '/admin/apikeys'
     | '/admin/dashboard'
@@ -1474,7 +1400,6 @@ export interface FileRouteTypes {
     | '/events'
     | '/logs'
     | '/oauth'
-    | '/fafo'
     | '/login'
     | '/recovery'
     | '/register'
@@ -1491,10 +1416,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/vhsopen'
     | '/webhooks'
-    | '/fafo1/html'
-    | '/test/$'
     | '/'
-    | '/test'
     | '/admin/accesslogs'
     | '/admin/apikeys'
     | '/admin/dashboard'
@@ -1543,7 +1465,6 @@ export interface FileRouteTypes {
     | '/_admin/events'
     | '/_admin/logs'
     | '/_admin/oauth'
-    | '/_public/fafo'
     | '/_public/login'
     | '/_public/recovery'
     | '/_public/register'
@@ -1560,10 +1481,7 @@ export interface FileRouteTypes {
     | '/_user/transactions'
     | '/_user/vhsopen'
     | '/_user/webhooks'
-    | '/fafo1/html'
-    | '/test/$'
     | '/_user/'
-    | '/test/'
     | '/_admin/admin/accesslogs'
     | '/_admin/admin/apikeys'
     | '/_admin/admin/dashboard'
@@ -1609,18 +1527,12 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
-  Fafo1HtmlRoute: typeof Fafo1HtmlRoute
-  TestSplatRoute: typeof TestSplatRoute
-  TestIndexRoute: typeof TestIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   UserRoute: UserRouteWithChildren,
-  Fafo1HtmlRoute: Fafo1HtmlRoute,
-  TestSplatRoute: TestSplatRoute,
-  TestIndexRoute: TestIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -1635,10 +1547,7 @@ export const routeTree = rootRoute
       "children": [
         "/_admin",
         "/_public",
-        "/_user",
-        "/fafo1/html",
-        "/test/$",
-        "/test/"
+        "/_user"
       ]
     },
     "/_admin": {
@@ -1680,7 +1589,6 @@ export const routeTree = rootRoute
     "/_public": {
       "filePath": "_public.tsx",
       "children": [
-        "/_public/fafo",
         "/_public/login",
         "/_public/recovery",
         "/_public/register"
@@ -1726,10 +1634,6 @@ export const routeTree = rootRoute
     "/_admin/oauth": {
       "filePath": "_admin/oauth.tsx",
       "parent": "/_admin"
-    },
-    "/_public/fafo": {
-      "filePath": "_public/fafo.tsx",
-      "parent": "/_public"
     },
     "/_public/login": {
       "filePath": "_public/login.tsx",
@@ -1798,18 +1702,9 @@ export const routeTree = rootRoute
       "filePath": "_user/webhooks.tsx",
       "parent": "/_user"
     },
-    "/fafo1/html": {
-      "filePath": "fafo1.html.tsx"
-    },
-    "/test/$": {
-      "filePath": "test.$.tsx"
-    },
     "/_user/": {
       "filePath": "_user/index.tsx",
       "parent": "/_user"
-    },
-    "/test/": {
-      "filePath": "test.index.tsx"
     },
     "/_admin/admin/accesslogs": {
       "filePath": "_admin/admin.accesslogs.tsx",
