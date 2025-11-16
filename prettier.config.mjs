@@ -62,7 +62,7 @@ const config = {
             }
         },
         {
-            files: ['docker/nomos.env.template'],
+            files: ['docker-compose/nomos.env.template'],
             options: {
                 parser: 'sh'
             }

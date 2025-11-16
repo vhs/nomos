@@ -31,4 +31,4 @@ fi
 curl -s "${frontend_base_uri}/ApiKeyService1.svc/PutApiKeyPrivileges?keyid=${key_id}&privileges=webhook" \
     > /dev/null || echo "Failed to add API key privilege" >&2
 
-echo -e "Add the following to docker/nomos.env:\n\nNOMOS_RABBITMQ_NOMOS_TOKEN=${key_value}" >&2
+echo -e "Add the following to docker-compose/nomos.env:\n\nNOMOS_RABBITMQ_NOMOS_TOKEN=${key_value}" >&2

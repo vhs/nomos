@@ -34,7 +34,7 @@ On Mac/Windows, you probably want [Docker Desktop](https://docs.docker.com/get-d
     - You can also use `docker-compose.template.conf` or `docker-compose.sample.conf` as a starting place.
     - Edit your new `docker-compose.conf` to customize what services are enabled
 - Create a docker.env file
-    - copy `docker/nomos.env.template` to `docker/nomos.env`.
+    - copy `docker-compose/nomos.env.template` to `docker-compose/nomos.env`.
 - run `npm install` in the root directory
 - Run `./docker-compose.sh` as a 1:1 wrapper for docker-compose, or generate a
   local `docker-compose.yml` file for direct usage with `docker-compose` with
@@ -49,7 +49,7 @@ Start the service with `./docker-compose.sh up`. This should bring everything up
 but the webhook service will still be failing, which is expected.
 
 To get the webhook service working, run `tools/make-webhook-key.sh` in another terminal, which will provide the correct value of `NOMOS_RABBITMQ_NOMOS_TOKEN`. Then, edit that into
-`docker/nomos.env`.
+`docker-compose/nomos.env`.
 
 Once you have done this, press Ctrl-C in the terminal with `./docker-compose.sh up`,
 then run `./docker-compose.sh up` again.

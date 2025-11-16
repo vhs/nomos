@@ -4,4 +4,4 @@ services:
             context: ${PWD}
             dockerfile: docker-compose/Dockerfile
             target: webhooker
-        env_file: ${PWD}/docker/nomos.env
+        env_file: ${PWD}/docker-compose/nomos.env
