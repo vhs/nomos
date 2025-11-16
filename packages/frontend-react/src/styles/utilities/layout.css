@@ -25,7 +25,7 @@
     }
 
     .dynamic-content {
-        @apply w-available;
+        @apply w-full;
     }
 
     .basis-dynamic-content {
