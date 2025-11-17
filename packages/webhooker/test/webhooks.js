@@ -10,7 +10,7 @@ const defaults = function () {
                     callback({})
                 },
                 getAllHooks: function (callback) {
-                    callback({})
+                    callback([])
                 }
             },
             log: {

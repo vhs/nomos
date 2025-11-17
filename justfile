@@ -103,8 +103,9 @@ test target:
 
 test_all:
     @echo "Testing all packages..."
-    @pnpm --filter "./packages/*/" test:php
+    @pnpm --filter "./packages/*/" test
 
 test_php:
     @echo "Testing all php packages..."
     @pnpm --filter "./packages/*-php/" test:php
+
