@@ -1,8 +1,7 @@
 {
     "author": "",
     "dependencies": {
-        "just-install": "^2.0.2",
-        "wireit": "^0.14.12"
+        "just-install": "^2.0.2"
     },
     "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "devDependencies": {
@@ -34,14 +33,9 @@
     "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
     "private": true,
     "scripts": {
-        "prepare": "wireit"
+        "prepare": "just prepare"
     },
     "version": "1.0.0",
-    "wireit": {
-        "prepare": {
-            "command": "just prepare"
-        }
-    },
     "pnpm": {
         "onlyBuiltDependencies": [
             "dtrace-provider",
