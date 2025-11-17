@@ -1,8 +1,0 @@
-services:
-    webhooker:
-        networks:
-            - proxy
-
-networks:
-    proxy:
-        external: true

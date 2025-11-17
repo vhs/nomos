@@ -1,4 +1,0 @@
-services:
-    frontend-react:
-        ports:
-            - 80:80

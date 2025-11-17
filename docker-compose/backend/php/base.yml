@@ -1,6 +1,0 @@
-services:
-    backend-php:
-        image: vanhack/nomos-backend-php
-        restart: always
-        volumes:
-            - ${PWD}/data/backup:/var/www/html/backup
