@@ -2,8 +2,7 @@
     "author": "",
     "dependencies": {
         "@types/lodash": "^4.17.13",
-        "just-install": "^2.0.2",
-        "wireit": "^0.14.12"
+        "just-install": "^2.0.2"
     },
     "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "devDependencies": {
@@ -22,25 +21,11 @@
     "name": "@vhs/nomos-frontend-web",
     "private": true,
     "scripts": {
-        "build": "wireit",
-        "prepare": "wireit"
+        "build": "just setup webcomponents",
+        "prepare": "npm run build",
+        "prepare:webcomponents": "npm run build"
     },
     "version": "1.0.0",
-    "wireit": {
-        "build": {
-            "dependencies": [
-                "prepare"
-            ]
-        },
-        "prepare": {
-            "dependencies": [
-                "prepare:webcomponents"
-            ]
-        },
-        "prepare:webcomponents": {
-            "command": "just setup webcomponents"
-        }
-    },
     "files": [
         "conf/**",
         "web/**"

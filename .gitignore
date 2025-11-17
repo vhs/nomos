@@ -7,7 +7,6 @@ data/
 
 .php-cs-fixer.cache
 .phpunit.result.cache
-.wireit/
 
 docker-compose.conf
 node_modules/
@@ -19,6 +18,7 @@ packages/frontend-react/public/assets/
 packages/frontend-react/public/config.json
 packages/frontend-react/src/lib/ui/fontawesome/generated.ts
 packages/frontend-react/src/types/fontawesome/generated.ts
+packages/frontend-react/.wireit/
 
 packages/frontend-web/web/components/
 

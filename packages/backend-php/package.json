@@ -1,8 +1,7 @@
 {
     "author": "",
     "dependencies": {
-        "just-install": "^2.0.2",
-        "wireit": "^0.14.12"
+        "just-install": "^2.0.2"
     },
     "description": "NOMOS Our Membership Operations Software. In greek mythology, Nomos is the personified spirit of law.",
     "devDependencies": {
@@ -26,33 +25,13 @@
     "name": "@vhs/nomos-backend-php",
     "private": true,
     "scripts": {
-        "format:php": "wireit",
-        "prepare": "wireit",
-        "test": "wireit",
-        "test:php": "wireit"
+        "format:php": "just format php",
+        "prepare": "npm run prepare:vendor",
+        "prepare:vendor": "just setup vendor",
+        "test": "npm run test:php",
+        "test:php": "just test php"
     },
     "version": "1.0.0",
-    "wireit": {
-        "format:php": {
-            "command": "just format php"
-        },
-        "prepare": {
-            "dependencies": [
-                "prepare:vendor"
-            ]
-        },
-        "prepare:vendor": {
-            "command": "just setup vendor"
-        },
-        "test": {
-            "dependencies": [
-                "test:php"
-            ]
-        },
-        "test:php": {
-            "command": "just test php"
-        }
-    },
     "files": [
         "app/**/*.php",
         "conf/**/*",
