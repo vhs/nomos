@@ -38,6 +38,7 @@ All other development dependencies (just, bower, composer, husky, php-cs-fixer, 
     - `pnpm start:backend` will run only the php backend
     - `pnpm start:frontend-web` will run the legacy Angular frontend
     - `pnpm start:frontend-react` will run the newer React frontend
+    - `pnpm build` will re-build the docker images and then run all packages
 
 The username is `vhs` and the password is `password`.
 
@@ -50,18 +51,6 @@ By default, frontend-react is mounted at `/` and frontend-web is mounted at `/v1
 If you make changes to `packages/backend-php` or `packages/frontend-web` you'll need to re-start the docker container for them to take effect.
 
 If you make changes to `packages/frontend-react` you'll need to `cd packages/frontend-react && pnpm run build` for changes to take effect.
-
-## Webhooks
-
-`docker-compose.yml` does not start rabbitmq or `packages/webhooker`. These services are slated for removal.
-
-To get the webhook service working:
-
-1. edit the `docker-compose.yml` to start rabbitmq and webhooker (see git history for old yml files)
-2. run `tools/make-webhook-key.sh` in another terminal, which will provide the correct value of `NOMOS_RABBITMQ_NOMOS_TOKEN`. Then, edit that into
-   `docker-compose/nomos.env`.
-3. Once you have done this, press Ctrl-C in the terminal with `./docker-compose.sh up`,
-   then run `./docker-compose.sh up` again.
 
 ## old info:
 

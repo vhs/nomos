@@ -24,5 +24,3 @@ packages/frontend-web/web/components/
 
 packages/backend-php/conf/mysql-password-mode.cnf
 packages/backend-php/tools/composer.phar
-
-packages/webhooker/config.js

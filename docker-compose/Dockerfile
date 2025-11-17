@@ -54,21 +54,11 @@ WORKDIR /build
 
 COPY --from=build --link /build/packages/frontend-web/ /app/frontend-web/
 
-FROM build AS build-webhooker
-
-WORKDIR /build
-
-RUN --mount=type=cache,id=nomos-pnpm,target=/pnpm/store,uid=1000,gid=1000 pnpm deploy --filter="@vhs/webhooker" --prod /app/webhooker/
-
 FROM alpine:3 AS backend-php-base
 
 RUN apk --no-cache add just mariadb-client php83-bcmath php83-common php83-curl php83-dom php83-iconv php83-mbstring php83-mysqli php83-mysqlnd php83-openssl php83-phar php83-session php83-simplexml php83-sockets php83-zip php83 python3 wget php83-fpm
 
 RUN sed -i 's/^listen/;listen/g' /etc/php83/php-fpm.d/www.conf
-
-FROM base AS webhooker-base
-
-RUN apk --no-cache add bash
 
 FROM backend-php-base AS backend-php
 
@@ -117,17 +107,3 @@ FROM nginx:stable-alpine AS frontend-web
 COPY --from=build-frontend-web --link /app/frontend-web/conf/nginx-vhost-docker-compose.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-frontend-web --link /app/frontend-web/web/ /var/www/html/
-
-FROM webhooker-base AS webhooker
-
-USER 1000:1000
-
-WORKDIR /app
-
-RUN mkdir -p /app/logs /app/webhooker && chown 1000:1000 /app/logs /app/webhooker
-
-WORKDIR /app/webhooker
-
-COPY --from=build-webhooker --link /app/webhooker/ /app/webhooker/
-
-CMD ["/app/webhooker/webhooker.sbin"]

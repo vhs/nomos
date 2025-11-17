@@ -26,7 +26,7 @@ const config = {
             }
         },
         {
-            files: ['*.sh', 'packages/webhooker/webhooker.console', 'packages/webhooker/webhooker.sbin', '.npmrc'],
+            files: ['*.sh', '.npmrc'],
             options: {
                 parser: 'sh'
             }
@@ -74,7 +74,7 @@ const config = {
             }
         },
         {
-            files: ['conf/nginx-*.conf'],
+            files: ['conf/nginx.conf'],
             options: {
                 parser: 'nginx'
             }

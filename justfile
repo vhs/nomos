@@ -38,7 +38,6 @@ git_hook_pre_commit:
         PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
         STORYBOOK_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/.+\.stories\.tsx' | xargs)
         VALIDATOR_FILES=$(echo "${FILES}" | grep -E 'packages/frontend-react/src/lib/validators/(common|records).ts' | xargs)
-        WEBHOOKER_FILES=$(echo "${FILES}" | grep 'packages/webhooker/' | xargs)
 
         if [ "${PHP_FILES}" != "" ]; then
             FILES=$(echo "${PHP_FILES}" | xargs) pnpm exec just format php
@@ -51,10 +50,6 @@ git_hook_pre_commit:
 
         if [ "${VALIDATOR_FILES}" != "" ]; then
             pnpm --filter @vhs/nomos-frontend-react generate:validator:implementations
-        fi
-
-        if [ "${WEBHOOKER_FILES}" != "" ]; then
-            pnpm --filter="@vhs/webhooker" test
         fi
 
         FILES=$(echo "${FILES}" | xargs) pnpm exec just format all
