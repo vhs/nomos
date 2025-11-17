@@ -37,11 +37,16 @@ jobs:
                   node-version: ${{matrix.node-version}}
                   cache: 'pnpm'
 
-            - name: Check shell scripts
-              uses: bewuethr/shellcheck-action@v2
-
             - name: Install dependencies
               run: pnpm install
 
             - name: Test ${{matrix.package}}
               run: pnpm --filter "./packages/${{matrix.package}}/" test
+
+    shellcheck:
+        name: Shellcheck
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Run ShellCheck
+              uses: ludeeus/action-shellcheck@master
