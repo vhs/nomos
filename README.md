@@ -4,15 +4,7 @@ _In greek mythology, Nomos is the personified spirit of law._
 
 This system in a way acts as the rule set for how things are governed, via membership levels and privileges.
 
-## Development
-
-See here for complete setup, API, and philosophy:
-https://github.com/vhs/nomos/wiki
-
-For the old development guide, see:
-https://github.com/vhs/nomos/wiki/Contributing
-
-### Requirements
+## Requirements
 
 For development, you'll need the following components/dependencies:
 
@@ -23,7 +15,7 @@ For development, you'll need the following components/dependencies:
 
 All other development dependencies (just, bower, composer, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `pnpm install` after checkout.
 
-### Development setup guide
+## Development setup guide
 
 1. Install the requirements:
 
@@ -69,7 +61,7 @@ If you make changes to `packages/backend-php` or `packages/frontend-web` you'll 
 
 If you make changes to `packages/frontend-react` you'll need to `cd packages/frontend-react && pnpm run build` for changes to take effect.
 
-# Webhooks
+## Webhooks
 
 `docker-compose.yml` does not start rabbitmq or `packages/webhooker`. These services are slated for removal.
 
@@ -80,3 +72,7 @@ To get the webhook service working:
    `docker-compose/nomos.env`.
 3. Once you have done this, press Ctrl-C in the terminal with `./docker-compose.sh up`,
    then run `./docker-compose.sh up` again.
+
+## old info:
+
+Info in the wiki is out of date, but if you're going deep it might be worth taking a look: https://github.com/vhs/nomos/wiki
