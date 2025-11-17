@@ -5,7 +5,7 @@
 const bunyan = require('bunyan')
 const { Command } = require('commander')
 
-const { settings: config } = require('./config.js')
+const { settings: config } = require('../config.js')
 
 const program = new Command()
 

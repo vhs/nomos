@@ -38,11 +38,11 @@
         "url": "git://github.com/vhs/nomos.git"
     },
     "scripts": {
-        "console": "node webhooker.js --console | ./node_modules/bunyan/bin/bunyan",
-        "help": "node webhooker.js --help",
+        "console": "node src/webhooker.js --console | ./node_modules/bunyan/bin/bunyan",
+        "help": "node src/webhooker.js --help",
         "prepare": "cp config.docker.js config.js",
-        "start": "node webhooker.js",
-        "test": "mocha ./test"
+        "start": "node src/webhooker.js",
+        "test": "mocha src/*.test.js"
     },
     "version": "1.0.0"
 }
