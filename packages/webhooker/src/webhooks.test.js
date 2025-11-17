@@ -1,6 +1,6 @@
 const should = require('chai').should()
 
-const webhooksInitializer = require('../webhooks.js')
+const webhooksInitializer = require('./webhooks.js')
 
 const defaults = function () {
     return new (function () {

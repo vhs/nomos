@@ -1,6 +1,6 @@
 const should = require('chai').should()
 
-const domainsInitializer = require('../domains.js')
+const domainsInitializer = require('./domains.js')
 
 const defaults = function () {
     return new (function () {
