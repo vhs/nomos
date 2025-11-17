@@ -4,6 +4,14 @@ _In greek mythology, Nomos is the personified spirit of law._
 
 This system in a way acts as the rule set for how things are governed, via membership levels and privileges.
 
+## Status / branches
+
+- Nomos is deployed to https://membership.vanhack.ca, but not this version.
+- The current deploy of nomos is `tags/last-known-good-early-2025`
+- some other tags of note:
+    - `tags/simplify-docker` is before dynamic docker-compose stuff was removed.
+    - `tags/before-webhook-removal` is before the webhooker and rabbitmq services were removed
+
 ## Requirements
 
 For development, you'll need the following components/dependencies:
