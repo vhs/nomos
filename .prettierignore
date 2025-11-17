@@ -2,8 +2,6 @@
 composer.lock
 data/
 diff-report.txt
-docker-compose.dev.conf
-docker-compose.sample.conf
 icons.psd
 justfile
 migrations/1/
@@ -55,6 +53,5 @@ packages/frontend-web/web/gateways/paypal/PayPal.png
 packages/frontend-web/web/setup/img
 packages/frontend-web/web/setup/license.html
 packages/frontend-web/web/setup/style.css
-packages/webhooker/webhooker.service
 pnpm-lock.yaml
 vendor/
