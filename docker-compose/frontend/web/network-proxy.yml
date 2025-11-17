@@ -1,4 +1,0 @@
-services:
-    frontend-web:
-        networks:
-            - proxy

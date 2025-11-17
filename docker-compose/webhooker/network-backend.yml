@@ -1,4 +1,0 @@
-services:
-    webhooker:
-        networks:
-            - backend

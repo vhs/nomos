@@ -1,4 +1,0 @@
-services:
-    frontend-react:
-        networks:
-            - backend

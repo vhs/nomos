@@ -1,9 +1,0 @@
-services:
-    webhooker:
-        image: vanhack/webhooker
-        container_name: webhooker
-        restart: always
-
-    backend-php:
-        depends_on:
-            - webhooker

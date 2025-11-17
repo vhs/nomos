@@ -1,4 +1,0 @@
-services:
-    backend-php:
-        volumes:
-            - ${PWD}/data/sessions:/sessions

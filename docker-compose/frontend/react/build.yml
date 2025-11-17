@@ -1,6 +1,0 @@
-services:
-    frontend-react:
-        build:
-            context: ${PWD}
-            dockerfile: docker-compose/Dockerfile
-            target: frontend-react

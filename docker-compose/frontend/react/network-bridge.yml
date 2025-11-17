@@ -1,3 +1,0 @@
-services:
-    frontend-react:
-        network_mode: bridge
