@@ -27,20 +27,6 @@ $mySqlEngine->setLogger($sqlLog);
 
 \vhs\database\Database::setEngine($mySqlEngine);
 
-// @phpstan-ignore ternary.alwaysFalse
-$rabbitLog = DEBUG ? new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/logs/rabbit.log') : new \vhs\loggers\SilentLogger();
-
-\vhs\messaging\MessageQueue::setLogger($rabbitLog);
-\vhs\messaging\MessageQueue::setRethrow(true);
-
-$rabbitMQ = new \vhs\messaging\engines\RabbitMQ\RabbitMQEngine(
-    new \vhs\messaging\engines\RabbitMQ\RabbitMQConnectionInfo(RABBITMQ_HOST, (int) RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_VHOST)
-);
-
-$rabbitMQ->setLogger($rabbitLog);
-
-\vhs\messaging\MessageQueue::setEngine($rabbitMQ);
-
 \vhs\SplClassLoader::getInstance()->add(new \vhs\SplClassLoaderItem('app', ROOT_NAMESPACE_PATH));
 
 // @phpstan-ignore ternary.alwaysFalse

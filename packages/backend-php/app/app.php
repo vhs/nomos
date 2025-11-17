@@ -37,7 +37,6 @@ $serverLog = new \vhs\loggers\FileLogger(\vhs\BasePath::getBasePath(false) . '/l
 \app\monitors\PaypalIpnMonitor::getInstance()->Init($serverLog);
 \app\monitors\StripeEventMonitor::getInstance()->Init($serverLog);
 \app\monitors\PaymentMonitor::getInstance()->Init($serverLog);
-\app\monitors\DomainEventMonitor::getInstance()->Init($serverLog);
 
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GithubOAuthHandler());
 \app\security\oauth\modules\OAuthHandlerModule::register(new \app\security\oauth\modules\GoogleOAuthHandler());

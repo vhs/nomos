@@ -28,7 +28,7 @@
         "prepare": "just prepare",
         "build": "sudo docker compose --env-file=docker-compose/nomos.env up --build",
         "start": "sudo docker compose --env-file=docker-compose/nomos.env up",
-        "start:db": "sudo docker compose --env-file=docker-compose/nomos.env up mysql",
+        "start:db": "sudo docker compose --env-file=docker-compose/nomos.env up db-mariadb",
         "start:backend": "sudo docker compose --env-file=docker-compose/nomos.env up backend-php",
         "start:frontend-web": "sudo docker compose --env-file=docker-compose/nomos.env up frontend-web",
         "start:frontend-react": "sudo docker compose --env-file=docker-compose/nomos.env up frontend-react"
