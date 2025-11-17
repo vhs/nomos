@@ -3,5 +3,5 @@ export const DefaultLoadingProps = {
     width: 5,
     radius: 5,
     margin: 10,
-    color: '#35a435'
+    color: '#337ab7'
 }
