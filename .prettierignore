@@ -58,4 +58,3 @@ packages/frontend-web/web/setup/style.css
 packages/webhooker/webhooker.service
 pnpm-lock.yaml
 vendor/
-*.md
