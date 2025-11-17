@@ -18,36 +18,26 @@ All other development dependencies (just, bower, composer, husky, php-cs-fixer, 
 ## Development setup guide
 
 1. Install the requirements:
-
-- [docker and docker-compose](https://docs.docker.com/engine/install/)
-- [nodejs](https://nodejs.org/en/download) (v20 or newer)
-- [pnpm](https://pnpm.io) - a package manager like npm, that handles repos with multiple packages, like this one
+  - [docker and docker-compose](https://docs.docker.com/engine/install/)
+  - [nodejs](https://nodejs.org/en/download) (v20 or newer)
+  - [pnpm](https://pnpm.io) - a package manager like npm, that handles repos with multiple packages, like this one
     - `sudo npm install --global corepack@latest`
     - `corepack enable pnpm`
-- php 8.2 (`apt-get install php8.2`)
-- php extensions (`apt-get install php-xml php-curl php-bcmath php-zip php-mbstring`)
-
+  - php 8.2 (`apt-get install php8.2`)
+  - php extensions (`apt-get install php-xml php-curl php-bcmath php-zip php-mbstring`)
 2. Create a docker.env file
-
-- copy `docker-compose/nomos.env.template` to `docker-compose/nomos.env`.
-
+  - copy `docker-compose/nomos.env.template` to `docker-compose/nomos.env`.
 3. Grant write permissions to the logs directory:
-
-- `chmod a+w logs`
-- This is needed is because the back-end PHP code runs as a non-root user
-  inside the container.
-
+  - `chmod a+w logs`
+  - This is needed is because the back-end PHP code runs as a non-root user inside the container.
 3. install dependencies
-
-- run `pnpm install` in the root directory
-
+  - run `pnpm install` in the root directory
 4. run docker
-
-- `pnpm start` will run all packages
-- `pnpm start:db` will run only the database server
-- `pnpm start:backend` will run only the php backend
-- `pnpm start:frontend-web` will run the legacy Angular frontend
-- `pnpm start:frontend-react` will run the newer React frontend
+  - `pnpm start` will run all packages
+  - `pnpm start:db` will run only the database server
+  - `pnpm start:backend` will run only the php backend
+  - `pnpm start:frontend-web` will run the legacy Angular frontend
+  - `pnpm start:frontend-react` will run the newer React frontend
 
 The username is `vhs` and the password is `password`.
 

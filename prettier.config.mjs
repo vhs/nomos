@@ -84,12 +84,6 @@ const config = {
             options: {
                 parser: 'yaml'
             }
-        },
-        {
-            files: ['docker-compose.conf', 'docker-compose.*.conf'],
-            options: {
-                parser: 'sh'
-            }
         }
     ]
 }
