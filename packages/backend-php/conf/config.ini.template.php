@@ -29,13 +29,6 @@ define('OAUTH_SLACK_TEAM', '');
 define('OAUTH_GOOGLE_CLIENT', '');
 define('OAUTH_GOOGLE_SECRET', '');
 
-// RabbitMQ settings
-define('RABBITMQ_HOST', 'localhost');
-define('RABBITMQ_PORT', '5672');
-define('RABBITMQ_USER', 'nomos');
-define('RABBITMQ_PASSWORD', 'password');
-define('RABBITMQ_VHOST', 'nomos');
-
 // Stripe settings
 define('STRIPE_API_KEY', '');
 define('STRIPE_WEBHOOK_SECRET', '');
