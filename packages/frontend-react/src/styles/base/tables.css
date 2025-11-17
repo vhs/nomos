@@ -1,0 +1,62 @@
+@layer base {
+    TR.data-row {
+        @apply odd:bg-white even:bg-slate-200;
+
+        &.data-fields-default > TD {
+            @apply max-w-[10vw];
+        }
+
+        &.data-fields-1 > TD {
+            @apply max-w-[unset];
+        }
+
+        &.data-fields-2 > TD {
+            @apply max-w-[38vw];
+        }
+
+        &.data-fields-3 > TD {
+            @apply max-w-[25vw];
+        }
+
+        &.data-fields-4 > TD {
+            @apply max-w-[19vw];
+        }
+
+        &.data-fields-5 > TD {
+            @apply max-w-[20vw];
+        }
+
+        &.data-fields-6 > TD {
+            @apply max-w-[13vw];
+        }
+
+        &.data-fields-7 > TD {
+            @apply max-w-[11vw];
+        }
+
+        &.data-fields-8 > TD {
+            @apply max-w-[10vw];
+        }
+
+        &.data-fields-9 > TD {
+            @apply max-w-[9vw];
+        }
+
+        &.data-fields-10 > TD {
+            @apply max-w-[8vw];
+        }
+
+        &.data-fields-11 > TD {
+            @apply max-w-[7vw];
+        }
+
+        &.data-fields-12 > TD {
+            @apply max-w-[7vw];
+        }
+
+        & > TD.data-field-reset {
+            @apply overflow-hidden overflow-ellipsis;
+            @apply xl:max-w-[unset];
+        }
+    }
+}

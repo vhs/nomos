@@ -1,0 +1,9 @@
+@layer components {
+    .popover {
+        @apply w-full;
+    }
+
+    .popover-content {
+        @apply w-full overflow-hidden text-ellipsis;
+    }
+}

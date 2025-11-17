@@ -1,4 +1,0 @@
-services:
-    nomos-rabbitmq:
-        ports:
-            - 15672:15672

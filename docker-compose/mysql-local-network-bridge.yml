@@ -1,3 +1,0 @@
-services:
-    nomos-mysql:
-        network_mode: bridge

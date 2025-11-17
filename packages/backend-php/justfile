@@ -1,0 +1,73 @@
+set export := true
+
+help:
+    @just -l
+
+format target:
+    @echo 'Formatting {{target}}…'
+    @just "format_{{target}}"
+
+format_all:
+    #!/usr/bin/env bash
+    set -eo pipefail
+
+    echo ${FILES:-.} | xargs -n1 | grep -v -E $(find . -type l | grep -vw node_modules | cut -f2- -d/  | xargs | tr ' ' '|') | xargs pnpm exec prettier -w
+
+format_php:
+    #!/usr/bin/env bash
+    set -eo pipefail
+
+    echo "${FILES:-app/ tests/ tools/ vhs/}" | sed 's:packages/backend-php/::g' | xargs vendor/bin/php-cs-fixer fix --config=./.php-cs-fixer.php
+
+install target:
+    @echo 'Installing {{target}}…'
+    @just "install_{{target}}"
+
+install_composer:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    if [ ! -f ./tools/composer.phar ]; then
+        TMPFILE=$(mktemp)
+
+        EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+        php -r "copy('https://getcomposer.org/installer', '${TMPFILE}');"
+        ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', '${TMPFILE}');")"
+
+        if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+            echo >&2 'ERROR: Invalid installer checksum'
+            rm "${TMPFILE}"
+            exit 1
+        fi
+
+        php "${TMPFILE}" --install-dir ./tools --quiet
+        rm "${TMPFILE}"
+    else
+        echo "composer has already been set up!"
+    fi
+
+    ./tools/composer.sh install ${COMPOSER_INSTALL_OPT:-}
+
+run_composer:
+    echo "Running composer"
+    ./tools/composer.sh install
+
+setup target:
+    @echo 'Setting up {{target}}…'
+    @just "setup_{{target}}"
+
+setup_vendor: install_composer run_composer
+
+test target:
+    @echo 'Testing {{target}}…'
+    @just "test_{{target}}"
+
+test_php:
+    #!/usr/bin/env bash
+    set -eo pipefail
+
+    vendor/bin/phpunit ${FILES:-app/ tests/ tools/ vhs/}
+
+update target:
+    @echo 'Updating {{target}}…'
+    @just "update_{{target}}"

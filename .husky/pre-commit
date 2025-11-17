@@ -1,23 +1,5 @@
 #!/usr/bin/env sh
 
-FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+cd "$(dirname "$(realpath "$0")")/../" || exit 255
 
-if [ "${FILES}" != "" ]; then
-    PHP_FILES=$(echo "${FILES}" | grep '\.php' | xargs)
-    WEBHOOKER_FILES=$(echo "${FILES}" | grep 'webhooker/' | xargs)
-
-    if [ "${PHP_FILES}" != "" ]; then
-        FILES=$(echo "${PHP_FILES}" | xargs) npm exec just format php
-        npm exec just test php
-    fi
-
-    if [ "${WEBHOOKER_FILES}" != "" ]; then
-        npm exec just test webhooker
-    fi
-
-    FILES=$(echo "${FILES}" | xargs) npm exec just format all
-
-    git update-index --again
-
-    exit 0
-fi
+pnpm exec just git_hook_pre_commit

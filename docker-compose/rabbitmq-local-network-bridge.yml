@@ -1,6 +1,0 @@
-services:
-    nomos-rabbitmq:
-        network_mode: bridge
-
-    nomos-webhooker:
-        network_mode: bridge

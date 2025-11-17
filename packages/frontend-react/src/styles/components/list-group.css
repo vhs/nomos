@@ -1,0 +1,17 @@
+@layer components {
+    .list-group {
+        @apply rounded-lg border border-gray-400/50;
+
+        .list-group-item {
+            @apply block min-w-full rounded-l-none rounded-r-none border-b border-b-gray-400/50 p-2;
+
+            &:first-child {
+                @apply rounded-t-lg border-t;
+            }
+
+            &:last-child {
+                @apply rounded-b-lg border-b;
+            }
+        }
+    }
+}
