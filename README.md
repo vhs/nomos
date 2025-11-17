@@ -18,20 +18,22 @@ For development, you'll need the following components/dependencies:
 
 - Docker and Docker Compose
 - NodeJS and PNPM
-- PHP 8.2, and extensions (php-xml, php-curl, php-bcmath, php-zip, php-mbstring)
+- PHP 8.2, and extensions (`php-xml`, `php-curl`, `php-bcmath`, `php-zip`, `php-mbstring`)
 - jq (`apt install jq`)
 
-All other development dependencies (bower, composer, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `npm install` after checkout.
+All other development dependencies (just, bower, composer, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `pnpm install` after checkout.
 
 ### Development setup guide
 
 1. Install the requirements:
 
 - [docker and docker-compose](https://docs.docker.com/engine/install/)
-- nodejs (v20 or newer)
-- pnpm (a package manager like npm, that handles repos with multiple packages, like this one)
+- [nodejs](https://nodejs.org/en/download) (v20 or newer)
+- [pnpm](https://pnpm.io) - a package manager like npm, that handles repos with multiple packages, like this one
+    - `sudo npm install --global corepack@latest`
+    - `corepack enable pnpm`
 - php 8.2 (`apt-get install php8.2`)
-- php extensions (`apt-get install php-xml php-curl php-bcmath php-zip`)
+- php extensions (`apt-get install php-xml php-curl php-bcmath php-zip php-mbstring`)
 
 2. Create a docker.env file
 
@@ -56,6 +58,16 @@ All other development dependencies (bower, composer, husky, php-cs-fixer, phpuni
 - `pnpm start:frontend-react` will run the newer React frontend
 
 The username is `vhs` and the password is `password`.
+
+## dev cycle
+
+With the docker containers running, you should be able to view nomos at http://127.0.0.1/
+
+By default, frontend-react is mounted at `/` and frontend-web is mounted at `/v1/`
+
+If you make changes to `packages/backend-php` or `packages/frontend-web` you'll need to re-start the docker container for them to take effect.
+
+If you make changes to `packages/frontend-react` you'll need to `cd packages/frontend-react && pnpm run build` for changes to take effect.
 
 # Webhooks
 
