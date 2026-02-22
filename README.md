@@ -18,7 +18,7 @@ For development, you'll need the following components/dependencies:
 
 - Docker and Docker Compose
 - NodeJS and PNPM
-- PHP 8.2, and some extensions (`php-xml`, `php-curl`, `php-bcmath`, `php-zip`, `php-mbstring`)
+- PHP 8.3, and some extensions (`php-xml`, `php-curl`,php-dom, `php-bcmath`, `php-zip`, `php-mbstring`)
 - jq (`apt install jq`)
 
 All other development dependencies (just, bower, composer, husky, php-cs-fixer, phpunit, prettier, etc.) will automatically be installed upon running `pnpm install` after checkout.
