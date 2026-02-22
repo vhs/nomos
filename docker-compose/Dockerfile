@@ -18,6 +18,9 @@ FROM base AS build-base
 
 RUN apk --no-cache add just mariadb-client php83-bcmath php83-common php83-curl php83-dom php83-iconv php83-mbstring php83-mysqli php83-mysqlnd php83-openssl php83-phar php83-session php83-simplexml php83-sockets php83-zip php83 python3 wget alpine-sdk bash git php83-tokenizer php83-xml php83-xmlwriter
 
+# Commands expect a "php" binary, but alpine packages are versioned. Create a symlink to satisfy this expectation.
+RUN ln -s /usr/bin/php83 /usr/bin/php
+
 FROM build-base AS build
 
 ENV COMPOSER_INSTALL_OPT=--no-dev
