@@ -61,6 +61,8 @@ FROM alpine:3 AS backend-php-base
 
 RUN apk --no-cache add just mariadb-client php83-bcmath php83-common php83-curl php83-dom php83-iconv php83-mbstring php83-mysqli php83-mysqlnd php83-openssl php83-phar php83-session php83-simplexml php83-sockets php83-zip php83 python3 wget php83-fpm
 
+RUN ln -s /usr/bin/php83 /usr/bin/php
+
 RUN sed -i 's/^listen/;listen/g' /etc/php83/php-fpm.d/www.conf
 
 FROM backend-php-base AS backend-php
