@@ -2,7 +2,7 @@
 name: nomos
 services:
     backend-php:
-        image: vanhack/nomos-backend-php
+        #image: vanhack/nomos-backend-php
         build:
             context: ${PWD}
             dockerfile: docker-compose/Dockerfile
@@ -24,7 +24,7 @@ services:
             - ${PWD}/logs:/var/www/html/logs
 
     frontend-react:
-        image: vanhack/nomos-frontend-react
+        #image: vanhack/nomos-frontend-react
         build:
             context: ${PWD}
             dockerfile: docker-compose/Dockerfile
@@ -41,7 +41,7 @@ services:
             - ${PWD}/packages/frontend-react/dist:/var/www/html
 
     frontend-web:
-        image: vanhack/nomos-frontend-web
+        #image: vanhack/nomos-frontend-web
         build:
             context: ${PWD}/
             dockerfile: docker-compose/Dockerfile
@@ -66,6 +66,7 @@ services:
             - MARIADB_PASSWORD=${NOMOS_DB_PASSWORD}
             - MARIADB_DATABASE=${NOMOS_DB_DATABASE}
             - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MARIADB_AUTO_UPGRADE=1
         networks:
             - database
         volumes:
@@ -75,7 +76,7 @@ services:
             start_period: 10s
             interval: 10s
             timeout: 5s
-            retries: 3
+            retries: 10
 
     proxy:
         image: nginx:latest
