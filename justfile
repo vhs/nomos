@@ -43,7 +43,7 @@ install_composer:
         echo "composer has already been set up!"
     fi
 
-    ./tools/composer.sh install
+    ./tools/composer.sh install "${COMPOSER_INSTALL_OPT:-""}"
 
 install_angular_ui_bootstrap:
     #!/usr/bin/env bash
