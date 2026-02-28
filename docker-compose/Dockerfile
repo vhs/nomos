@@ -12,7 +12,31 @@ COPY --chown=circleci:circleci ./ ./
 
 RUN npm ci && cd webhooker && npm ci
 
-FROM php:${PHP_VERSION}-fpm AS backend
+RUN npm install -g npm@latest && npm install -g corepack@latest
+
+FROM base AS build-base
+
+RUN apk --no-cache add alpine-sdk bash git just mariadb-client php83 php83-bcmath php83-common php83-curl php83-dom php83-mbstring php83-mysqli php83-mysqlnd php83-openssl php83-phar php83-simplexml php83-tokenizer php83-xml php83-xmlwriter php83-zip python3 wget
+
+FROM build-base AS build
+
+ENV COMPOSER_INSTALL_OPT=--no-dev
+ENV CI=true
+
+RUN mkdir /app/ /build/ && chown node:node /build/ /app/
+
+USER node:node
+
+COPY --from=source --chown=node:node /build/ /build/
+
+WORKDIR /build/
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store,uid=1000,gid=1000 pnpm install --frozen-lockfile
+RUN pnpm deploy --filter="@vhs/webhooker" --prod /app/webhooker/
+
+FROM alpine:3 AS backend-base
+
+RUN apk --no-cache add just mariadb-client php83 php83-bcmath php83-common php83-fpm php83-mysqli php83-mysqlnd php83-openssl php83-zip python3 wget
 
 VOLUME ["/sessions"]
 
