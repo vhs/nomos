@@ -378,7 +378,7 @@ class UserService extends Service implements IUserService1 {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-        
+
         $error = null;
         $response = curl_exec($ch);
 

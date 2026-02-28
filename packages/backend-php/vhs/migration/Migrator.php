@@ -170,7 +170,7 @@ class Migrator {
             $script_path = $migrationsPath . '/' . $version . '/';
 
             $command = sprintf(
-                "mysql -u %s -p%s -h %s -D %s %s --ssl=0 < %s",
+                'mysql -u %s -p%s -h %s -D %s %s --ssl=0 < %s',
                 DB_USER,
                 DB_PASS,
                 DB_SERVER,
