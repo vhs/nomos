@@ -1,8 +1,6 @@
 ARG PHP_VERSION=8.3
 
-FROM cimg/php:${PHP_VERSION}-node AS build
-
-USER 1001:1002
+FROM scratch AS source
 
 WORKDIR /build
 
