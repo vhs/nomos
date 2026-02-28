@@ -1,0 +1,5 @@
+@layer components {
+    .chart-container {
+        @apply min-h-[25vmin];
+    }
+}

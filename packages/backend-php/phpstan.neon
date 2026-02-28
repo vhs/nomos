@@ -1,0 +1,23 @@
+parameters:
+    level: 6
+    paths:
+        - app/
+        - tests/
+        - tools/
+        - vhs/
+
+    bootstrapFiles:
+        - conf/config.ini.php
+        - app/include.php
+
+    scanFiles:
+        - conf/config.ini.php
+        - app/include.php
+        - vhs/vhs.php
+
+    treatPhpDocTypesAsCertain: false
+
+    excludePaths:
+        - app/utils/converters/PHP2TS.php
+        - '**/.vscode-server/'
+        - vendor/

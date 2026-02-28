@@ -1,0 +1,21 @@
+web/assets
+web/cache
+web/gateways/moneybookers/MoneyBookers.png
+web/gateways/moneybookers/MoneyBookers_big.png
+web/gateways/paypal/PayPal.png
+web/gateways/paypal/PayPal_big.png
+web/setup/img
+web/setup/license.html
+web/setup/style.css
+web/theme
+web/uploads
+web/components/
+web/badges/cert_cnc_mill_lathe.svg
+web/badges/cert_laser.svg
+web/badges/door_access.svg
+web/badges/key_holder.svg
+web/badges/key_holder_inactive.svg
+web/badges/newsletter.svg
+web/components/bower/datatables/media/images/Sorting icons.psd
+web/components/bower/datatables/media/images/Sorting
+/web/
