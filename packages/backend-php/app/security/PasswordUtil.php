@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 13/01/2015
+ * Time: 5:36 PM.
+ */
+
+namespace app\security;
+
+if (!defined('PASSWORD_BCRYPT')) {
+    define('PASSWORD_BCRYPT', 1);
+}
+
+if (!defined('PASSWORD_DEFAULT')) {
+    define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
+}
+
+/** @typescript */
+class PasswordUtil {
+    /**
+     * check.
+     *
+     * @param string $password
+     * @param string $hash
+     *
+     * @return bool
+     */
+    public static function check($password, $hash) {
+        return password_verify(sha1($password), $hash);
+        // return self::password_verify(sha1($password), $hash);
+    }
+
+    /**
+     * check if a variable is a valid string.
+     *
+     * @param mixed $testVal
+     *
+     * @return bool
+     */
+    public static function checkValidString($testVal) {
+        return gettype($testVal) === 'string' && $testVal !== '';
+    }
+
+    /**
+     * generate.
+     *
+     * @return string
+     */
+    public static function generate() {
+        return self::hash(self::generateRandomString());
+    }
+
+    /**
+     * hash.
+     *
+     * @param mixed $password
+     *
+     * @return string
+     */
+    public static function hash($password) {
+        return password_hash(sha1($password), PASSWORD_BCRYPT);
+    }
+
+    /**
+     * generateRandomString.
+     *
+     * @param int $length
+     *
+     * @return string
+     */
+    private static function generateRandomString($length = 16) {
+        $randStr = str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', $length));
+
+        return substr($randStr, 0, $length);
+    }
+}

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$(realpath "$0")")/../" || exit 255
+
+pnpm exec just git_hook_pre_push

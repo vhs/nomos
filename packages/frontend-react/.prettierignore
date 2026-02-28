@@ -1,0 +1,5 @@
+pnpm-lock.yaml
+src/routeTree.gen.ts
+*.svg
+public/assets/
+src/types/nomos.d.ts

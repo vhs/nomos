@@ -1,0 +1,6 @@
+@layer utilities {
+    .data-field {
+        @apply text-wrap text-center xl:text-nowrap;
+        @apply xl:max-w-[unset];
+    }
+}

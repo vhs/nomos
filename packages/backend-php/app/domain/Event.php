@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Thomas
+ * Date: 3/7/2016
+ * Time: 10:49 AM.
+ */
+
+namespace app\domain;
+
+use app\schema\EventPrivilegeSchema;
+use app\schema\EventSchema;
+use vhs\database\wheres\Where;
+use vhs\domain\Domain;
+use vhs\domain\validations\ValidationResults;
+
+/**
+ * @property int    $id
+ * @property string $name
+ * @property string $domain
+ * @property string $event
+ * @property string $description
+ * @property bool   $enabled
+ * @property object $privileges
+ *
+ * @extends Domain<Event>
+ *
+ *  @typescript
+ */
+class Event extends Domain {
+    /**
+     * Define.
+     *
+     * @return void
+     */
+    public static function Define(): void {
+        Event::Schema(EventSchema::Type());
+
+        Event::Relationship('privileges', Privilege::Type(), EventPrivilegeSchema::Type());
+    }
+
+    /**
+     * exists.
+     *
+     * @param mixed $domain
+     * @param mixed $event
+     *
+     * @return bool
+     */
+    public static function exists($domain, $event) {
+        $events = Event::where(
+            Where::_And(
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Event::Schema()->Columns()->domain, $domain),
+                // TODO implement proper typing
+                // @phpstan-ignore property.notFound
+                Where::Equal(Event::Schema()->Columns()->event, $event)
+            )
+        );
+
+        return count($events) > 0;
+    }
+
+    /**
+     * validate.
+     *
+     * @param \vhs\domain\validations\ValidationResults $results
+     *
+     * @return void
+     */
+    public function validate(ValidationResults &$results) {
+        // TODO: Implement validate() method.
+    }
+}

@@ -1,0 +1,45 @@
+@layer utilities {
+    .find-me {
+        @apply bg-red-500/25;
+
+        &.highlight {
+            @apply max-w-full overflow-x-scroll border-2 border-black/100;
+        }
+
+        &.red {
+            @apply bg-red-500/25;
+        }
+
+        &.pink {
+            @apply bg-pink-500/25;
+        }
+
+        &.blue {
+            @apply bg-blue-500/25;
+        }
+
+        &.green {
+            @apply bg-green-500/25;
+        }
+
+        &.purple {
+            @apply bg-purple-500/25;
+        }
+
+        &.lime {
+            @apply bg-lime-500/25;
+        }
+
+        &.slate {
+            @apply bg-slate-500/25;
+        }
+
+        &.orange {
+            @apply bg-orange-500/25;
+        }
+
+        &.yellow {
+            @apply bg-yellow-500/25;
+        }
+    }
+}

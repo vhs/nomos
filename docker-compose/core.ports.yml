@@ -1,4 +1,0 @@
-services:
-    nomos-frontend:
-        ports:
-            - 80:80

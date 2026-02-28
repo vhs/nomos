@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-WEBHOOKER=$(dirname $(realpath $0))
-
-cd $WEBHOOKER
-
-npm start
