@@ -1,5 +1,4 @@
-set export
-
+set export := true
 
 help:
     @just -l
