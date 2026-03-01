@@ -64,7 +64,7 @@ const StandingCard: FC<StandingCardProps> = ({ standing }) => {
                 {text}
             </Card.Body>
             <Card.Footer className={footerStyle}>
-                <a href='http://vanhack.ca/wp/membership/'>http://vanhack.ca/wp/membership/</a>
+                <a href='http://vanhack.ca/membership/'>http://vanhack.ca/membership/</a>
             </Card.Footer>
         </Card>
     )
