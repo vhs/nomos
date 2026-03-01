@@ -39,11 +39,6 @@ const DoorAccess: FC<DoorAccessProps> = () => {
             <BasePage title='Door Access!'>
                 <Row>
                     <Col>
-                        <StandingCard standing={standing} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
                         <Conditional condition={!currentUser.hasPrivilege('vetted')}>
                             <h3>Non-keyholders</h3>
                             <p>If you&apos;re not yet a keyholder:</p>
@@ -179,6 +174,11 @@ const DoorAccess: FC<DoorAccessProps> = () => {
                         <p>
                             <i>The Membership Coordinator(s)</i>
                         </p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <StandingCard standing={standing} />
                     </Col>
                 </Row>
             </BasePage>
