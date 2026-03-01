@@ -37,6 +37,8 @@ const Home: FC<HomeProps> = () => {
             </Row>
         )
 
+    const showDoorCode = !!(standing && currentUser.valid && currentUser.hasPrivilege('vetted'))
+
     return (
         <div data-testid='UserHome'>
             <BasePage title='Hello, beautiful human!'>
@@ -45,29 +47,29 @@ const Home: FC<HomeProps> = () => {
                     <Card.Body>
                         <Row>
                             <Col>
-                                <Conditional
-                                    condition={
-                                        currentUser.valid && currentUser.hasPrivilege('vetted') && innerdoor != null
-                                    }
-                                >
-                                    <p>
-                                        Your front door access code is: <strong>{innerdoor?.value}</strong>.
-                                    </p>
-                                    <h3>LOCK UP WHEN YOU LEAVE!!!!</h3>
-                                    <p>
-                                        <Link to='/dooraccess'>Lockup instructions</Link>
-                                    </p>
+                                <Conditional condition={showDoorCode}>
+                                    <div>
+                                        <p>
+                                            Your front door access code is: <strong>{innerdoor?.value}</strong>.
+                                        </p>
+                                        <h3>LOCK UP WHEN YOU LEAVE!!!!</h3>
+                                        <p>
+                                            <Link to='/dooraccess'>Lockup instructions</Link>
+                                        </p>
+                                    </div>
                                 </Conditional>
-                                <Conditional condition={!currentUser.hasPrivilege('vetted')}>
-                                    <p>
-                                        You are not currently a keyholder member. When you are, your door access code
-                                        will show up here.
-                                    </p>
-                                    <p>
-                                        <a href='https://talk.vanhack.ca/t/how-to-apply-for-key-holder-status/5360'>
-                                            How to apply for keyholder status.
-                                        </a>
-                                    </p>
+                                <Conditional condition={!showDoorCode}>
+                                    <div>
+                                        <p>
+                                            You are not currently a keyholder member. When you are, your door access
+                                            code will show up here.
+                                        </p>
+                                        <p>
+                                            <a href='https://talk.vanhack.ca/t/how-to-apply-for-key-holder-status/5360'>
+                                                How to apply for keyholder status.
+                                            </a>
+                                        </p>
+                                    </div>
                                 </Conditional>
                             </Col>
                         </Row>

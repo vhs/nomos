@@ -8,12 +8,16 @@ import Col from '@/components/01-atoms/Col/Col'
 import Conditional from '@/components/01-atoms/Conditional/Conditional'
 import Row from '@/components/01-atoms/Row/Row'
 import BasePage from '@/components/04-composites/BasePage/BasePage'
+import StandingCard from '@/components/07-pages/user/Profile/StandingCard'
 
+import useGetStanding from '@/lib/hooks/providers/UserService2/useGetStanding'
 import useGetSystemPreference from '@/lib/hooks/providers/PreferenceService2/useGetSystemPreference'
 import useAuth from '@/lib/hooks/useAuth'
 
 const DoorAccess: FC<DoorAccessProps> = () => {
     const { currentUser } = useAuth()
+
+    const standing = useGetStanding(currentUser?.id)
 
     const { data: innerdoor, isLoading } = useGetSystemPreference(
         currentUser?.id != null && currentUser?.hasPrivilege('vetted') ? `innerdoor` : undefined
@@ -33,6 +37,11 @@ const DoorAccess: FC<DoorAccessProps> = () => {
     return (
         <div data-testid='DoorAccess'>
             <BasePage title='Door Access!'>
+                <Row>
+                    <Col>
+                        <StandingCard standing={standing} />
+                    </Col>
+                </Row>
                 <Row>
                     <Col>
                         <Conditional condition={!currentUser.hasPrivilege('vetted')}>
@@ -60,92 +69,75 @@ const DoorAccess: FC<DoorAccessProps> = () => {
                                 </ul>
                             </p>
                         </Conditional>
-
-                        <h3>Booking System</h3>
-
-                        <p>
-                            While initially introduce over the COVID-19 pandemic, select tools and areas use the booking
-                            system.
-                        </p>
-
-                        <p>
-                            <a href='https://booking.vanhack.ca/index.php/appointments'>
-                                https://booking.vanhack.ca/index.php/appointments
-                            </a>
-                        </p>
-
                         <Conditional
                             condition={currentUser.valid && currentUser.hasPrivilege('vetted') && innerdoor != null}
                         >
                             <h3>Keyholders</h3>
 
-                            <p>
-                                Our RFID access system is happening, but will take a bit longer to get installed and
-                                tested.
-                            </p>
-
                             <h4>When entering</h4>
 
                             <p>
-                                Access is via the front door on Venables street. The lock is the same as at Cook so just
-                                pretend you are in the hallway. The new code is <strong>{innerdoor?.value}</strong>.
+                                Access is via the front door on Venables street. The current code is{' '}
+                                <strong>{innerdoor?.value}</strong>.
                             </p>
-                            <p>
-                                The &apos;is VHS open bot&apos; is now located on the semi-round table in the front of
-                                the main area if you would like to open the space to non keyholders.
-                            </p>
-                            <br />
                             <p>
                                 <b>To open</b>, punch in the current door access number:{' '}
                                 <strong>{innerdoor?.value}</strong>
                             </p>
                             <p>The lock is now unlocked and you can turn the thumbturn clockwise to unlock the door.</p>
                             <br />
+
+                            <h4>Opening the space for non-keyholders:</h4>
                             <p>
-                                <b>NOTE:</b> Due to issues with the lock, when locking the door after you enter,
-                                you&apos;ll need to close it, then open it and then close the lock again. This will make
-                                sure that the front door lock will actually be in a locked position.
+                                The &apos;is VHS open bot&apos; is now located on the semi-round table in the front of
+                                the main area if you would like to open the space to non keyholders.
                             </p>
 
                             <h4>When leaving</h4>
 
                             <p>
-                                <b>Ensure all doors are locked:</b> this means:
-                                <ul>
-                                    <li>the front door,</li>
-                                    <li>the side door (locked with a deadbolt),</li>
+                                <ol>
                                     <li>
-                                        the rear sliding doors which are locked with bars into holes in the concrete and
-                                        a cross bolt between the two doors
+                                        <strong>Ensure all doors are locked</strong>, this means:
+                                        <ol type='a'>
+                                            <li>the front door,</li>
+                                            <li>the side door (locked with a deadbolt),</li>
+                                            <li>
+                                                the rear sliding doors which are locked with bars into holes in the
+                                                concrete and a cross bolt between the two doors
+                                            </li>
+                                        </ol>
                                     </li>
-                                </ul>
+                                    <li>
+                                        <strong>Turn down the heat</strong>, setting it to 15 works. (panel beside the
+                                        furnace room)
+                                    </li>
+                                    <li>
+                                        <strong>Turn off the lights</strong>
+                                        <ol type='a'>
+                                            <li>there are two switches beside the sliding doors in the woodshop</li>
+                                            <li>one switch by the base of the side door stairs</li>
+                                            <li>and a series of switches in the upstairs rooms.</li>
+                                        </ol>
+                                    </li>
+                                    <li>
+                                        <strong>Lock the front door behind you!</strong>
+                                        <ol type='a'>
+                                            <li>
+                                                To lock, press the centre button labeled &apos;Schlage&apos;, and turn
+                                                the thumbturn to lock the deadbolt
+                                            </li>
+                                            <li>Make sure you give the door a try, to be sure its locked.</li>
+                                        </ol>
+                                    </li>
+                                </ol>
                             </p>
 
                             <p>
                                 Failure to do so may result in mass theft of stuff from the hackerspace and general
                                 sadness followed by the collapse of the society.
                             </p>
-                            <p>
-                                <b>Turn down the heat</b>, setting it to 15 works. (panel beside the furnace room)
-                            </p>
-                            <p>
-                                <b>Turn off the lights</b>, there are two switches beside the sliding doors in the
-                                woodshop, and you have to throw two breakers on the east workshop panel, the a switch by
-                                the base of the side door stairs, and a series of switches in the upstairs rooms.
-                            </p>
-                            <p>
-                                <b>Lock the front door behind you.</b> To lock, press the centre button labeled
-                                &apos;Schlage&apos; to engage the knob that turns the deadbolt or use your code and you
-                                are good to go. Then give the door a try to make sure its locked.
-                            </p>
 
-                            <h4>Exit</h4>
-
-                            <p>
-                                To lock the inner door after you have left, press the Schlage button on the top, then
-                                rotate the thumbturn (counter-clockwise) away from the hinges.
-                            </p>
-                            <p>Please test the door to confirmed that it is closed and locked properly.&nbsp;</p>
                             <p>
                                 For more info on opening and locking the space, see:
                                 <ul>
@@ -167,6 +159,19 @@ const DoorAccess: FC<DoorAccessProps> = () => {
                                 </ul>
                             </p>
                         </Conditional>
+
+                        <h3>Booking System</h3>
+
+                        <p>
+                            While initially introduce over the COVID-19 pandemic, select tools and areas use the booking
+                            system.
+                        </p>
+
+                        <p>
+                            <a href='https://booking.vanhack.ca/index.php/appointments'>
+                                https://booking.vanhack.ca/index.php/appointments
+                            </a>
+                        </p>
 
                         <p>
                             <b>Thanks!</b>
