@@ -32,16 +32,21 @@ services:
         depends_on:
             backend-php:
                 condition: service_started
-        links:
-            - backend-php:backend-php
         networks:
+            - proxy-nomos
             - backend
         restart: always
         volumes:
             - ${PWD}/packages/frontend-react/dist:/var/www/html
+        environment:
+            - VIRTUAL_HOST=beast.local
+            - VIRTUAL_PORT=80
+            - VIRTUAL_PATH=/
 
     frontend-web:
         #image: vanhack/nomos-frontend-web
+        ports:
+            - '8001:80'
         build:
             context: ${PWD}/
             dockerfile: docker-compose/Dockerfile
@@ -52,10 +57,16 @@ services:
         links:
             - backend-php:backend-php
         networks:
+            - proxy-nomos
             - backend
         restart: always
         volumes:
             - ${PWD}/packages/frontend-web/web:/var/www/html
+        environment:
+            - VIRTUAL_HOST=beast.local
+            - VIRTUAL_PORT=80
+            - VIRTUAL_PATH=/v1/
+            - VIRTUAL_DEST=/
 
     db-mariadb:
         image: mariadb:11.4
@@ -78,21 +89,23 @@ services:
             timeout: 5s
             retries: 10
 
-    proxy:
-        image: nginx:latest
+    nginx-proxy:
+        image: nginxproxy/nginx-proxy
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        networks:
+            proxy-nomos: null
+        restart: always
         depends_on:
             frontend-web:
                 condition: service_started
             frontend-react:
                 condition: service_started
-        networks:
-            backend: null
-        ports:
-            - '80:80'
-        restart: always
-        volumes:
-            - ${PWD}/conf/nginx.conf:/etc/nginx/conf.d/default.conf
 
 networks:
     backend:
     database:
+    proxy-nomos:
