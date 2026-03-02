@@ -74,12 +74,6 @@ const config = {
             }
         },
         {
-            files: ['conf/nginx.conf'],
-            options: {
-                parser: 'nginx'
-            }
-        },
-        {
             files: ['*.neon'],
             options: {
                 parser: 'yaml'
