@@ -19,9 +19,6 @@ const TopBar: FC = () => {
                         <img className='h-12' src='/images/logo.svg' alt='VHS logo' />
                     </Link>
                 </div>
-                <div className='ml-2'>
-                    <a href='/v1/'>[old site]</a>
-                </div>
                 <Conditional condition={isAuthenticated}>
                     <div>
                         <UserProfileCard />
