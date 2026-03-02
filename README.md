@@ -54,7 +54,7 @@ The username is `vhs` and the password is `password`.
 
 With the docker containers running, you should be able to view nomos at http://127.0.0.1/
 
-By default, frontend-react is mounted at `/` and frontend-web is mounted at `/v1/`
+By default, frontend-react is mounted at `/` and frontend-web is mounted at `/v1/`, but in prod they're on separate subdomains.
 
 If you make changes to `packages/backend-php` or `packages/frontend-web` you'll need to re-start the docker container for them to take effect.
 
