@@ -1,18 +1,12 @@
-FROM ubuntu:xenial
+FROM ghcr.io/mpyw/php-eol-cve-2026-109618-109619:7.4-fpm
+
+RUN docker-php-ext-install bcmath
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         git \
         nginx \
-        php7.0 \
-        php7.0-bcmath \
-        php7.0-cli \
-        php7.0-curl \
-        php7.0-dom \
-        php7.0-fpm \
-        php7.0-mbstring \
-        php7.0-mysqlnd \
     && apt-get clean && rm -r /var/lib/apt/lists/*
 
 COPY ["composer.json", "/www/"]
