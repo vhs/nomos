@@ -1,0 +1,109 @@
+# this docker-compose file deprecates the old docker-compose.sh and all the yml files in the docker-compose directory
+name: nomos
+services:
+    backend-php:
+        #image: vanhack/nomos-backend-php
+        build:
+            context: ${PWD}
+            dockerfile: docker-compose/Dockerfile
+            target: backend-php
+        depends_on:
+            database:
+                condition: service_healthy
+        networks:
+            - backend
+            - database
+        restart: always
+        env_file:
+            - ${PWD}/docker-compose/nomos.env
+        volumes:
+            - ${PWD}/data/backup:/var/www/html/backup
+            - ${PWD}/packages/backend-php/app:/var/www/html/app
+            - ${PWD}/migrations:/var/www/html/migrations
+            - ${PWD}/packages/backend-php/vhs:/var/www/html/vhs
+            - ${PWD}/logs:/var/www/html/logs
+
+    frontend-react:
+        #image: vanhack/nomos-frontend-react
+        build:
+            context: ${PWD}
+            dockerfile: docker-compose/Dockerfile
+            target: frontend-react
+        depends_on:
+            backend-php:
+                condition: service_started
+        networks:
+            - proxy-nomos
+            - backend
+        restart: always
+        volumes:
+            - ${PWD}/packages/frontend-react/dist:/var/www/html
+        environment:
+            - VIRTUAL_HOST=${NOMOS_HOSTNAME}
+            - VIRTUAL_PORT=80
+            - VIRTUAL_PATH=/
+
+    frontend-web:
+        #image: vanhack/nomos-frontend-web
+        ports:
+            - '8001:80'
+        build:
+            context: ${PWD}/
+            dockerfile: docker-compose/Dockerfile
+            target: frontend-web
+        depends_on:
+            backend-php:
+                condition: service_started
+        links:
+            - backend-php:backend-php
+        networks:
+            - proxy-nomos
+            - backend
+        restart: always
+        volumes:
+            - ${PWD}/packages/frontend-web/web:/var/www/html
+        environment:
+            - VIRTUAL_HOST=${NOMOS_HOSTNAME}
+            - VIRTUAL_PORT=80
+            - VIRTUAL_PATH=/v1/
+            - VIRTUAL_DEST=/
+
+    database:
+        image: mariadb:11.4
+        environment:
+            - MARIADB_USER=${NOMOS_DB_USER}
+            - MARIADB_PASSWORD=${NOMOS_DB_PASSWORD}
+            - MARIADB_DATABASE=${NOMOS_DB_DATABASE}
+            - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MARIADB_AUTO_UPGRADE=1
+        networks:
+            - database
+        volumes:
+            - ${PWD}/data/mysql:/var/lib/mysql
+        healthcheck:
+            test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+            start_period: 10s
+            interval: 10s
+            timeout: 5s
+            retries: 10
+
+    nginx-proxy:
+        image: nginxproxy/nginx-proxy
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        networks:
+            proxy-nomos: null
+        restart: always
+        depends_on:
+            frontend-web:
+                condition: service_started
+            frontend-react:
+                condition: service_started
+
+networks:
+    backend:
+    database:
+    proxy-nomos:

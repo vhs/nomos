@@ -19,10 +19,8 @@ jobs:
     build:
         strategy:
             matrix:
-                component: [backend, frontend, webhooker]
-
+                component: [backend-php, frontend-react, frontend-web]
         runs-on: ubuntu-latest
-
         env:
             DOCKERHUB_TEMPLATE: ${{ vars.DOCKERHUB_TEMPLATE_PREFIX }}-${{ matrix.component }}
 

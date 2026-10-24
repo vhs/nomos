@@ -1,0 +1,33 @@
+set export := true
+
+help:
+    just -l
+
+install target:
+    @echo 'Installing {{target}}…'
+    just "install_{{target}}"
+
+install_angular_ui_bootstrap:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    mkdir -p web/components/custom/angular-ui/ \
+    && cd web/components/custom/angular-ui/ \
+    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.js \
+    && wget https://raw.githubusercontent.com/angular-ui/bootstrap/refs/heads/gh-pages/ui-bootstrap-tpls-0.12.0.min.js
+
+install_webcomponents: install_angular_ui_bootstrap
+
+make_webcomponents_directories:
+    mkdir -p web/components/bower
+    mkdir -p web/components/custom
+
+run_bower:
+    echo "Running bower"
+    ./tools/bower.sh install
+
+setup target:
+    @echo 'Setting up {{target}}…'
+    just "setup_{{target}}"
+
+setup_webcomponents: make_webcomponents_directories install_webcomponents run_bower

@@ -1,4 +1,0 @@
-services:
-    nomos-webhooker:
-        volumes:
-            - ../logs:/app/logs

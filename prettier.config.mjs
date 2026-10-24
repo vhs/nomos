@@ -6,7 +6,16 @@ delete basePrettierConfig['tailwindFunctions']
 const config = {
     ...basePrettierConfig,
     printWidth: 150,
-    plugins: ['@prettier/plugin-php', 'prettier-plugin-sh', 'prettier-plugin-sql', '@prettier/plugin-xml'],
+    plugins: [
+        ...basePrettierConfig.plugins,
+        'prettier-plugin-ini',
+        'prettier-plugin-nginx',
+        '@prettier/plugin-php',
+        'prettier-plugin-sh',
+        'prettier-plugin-sql',
+        'prettier-plugin-tailwindcss',
+        '@prettier/plugin-xml'
+    ],
     overrides: [
         {
             files: ['*.php'],
@@ -17,7 +26,7 @@ const config = {
             }
         },
         {
-            files: ['*.sh'],
+            files: ['*.sh', '.npmrc'],
             options: {
                 parser: 'sh'
             }
@@ -50,6 +59,24 @@ const config = {
             files: ['Dockerfile.*'],
             options: {
                 parser: 'sh'
+            }
+        },
+        {
+            files: ['docker-compose/nomos.env.template'],
+            options: {
+                parser: 'sh'
+            }
+        },
+        {
+            files: ['conf/php/*.ini', 'conf/php-fpm/*.conf', '.editorconfig'],
+            options: {
+                parser: 'ini'
+            }
+        },
+        {
+            files: ['*.neon'],
+            options: {
+                parser: 'yaml'
             }
         }
     ]

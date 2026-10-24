@@ -1,0 +1,177 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+// Do not change manually.
+
+import type { Filter } from '@/lib/db/utils/query-filters'
+
+import type { BackendResult } from '@/types/api'
+import type { WebHook, WebHooks } from '@/types/validators/records'
+
+export interface IWebHookService2 {
+    /**
+     * @permission administrator|webhook
+     *
+     * @param {Filter|null} filters
+     *
+     * @returns {number}
+     */
+    CountHooks: (filters: Filter | null) => BackendResult<number>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}      userid
+     * @param {Filter|null} filters
+     *
+     * @returns {number}
+     */
+    CountUserHooks: (userid: number, filters: Filter | null) => BackendResult<number>
+
+    /**
+     * @permission user
+     *
+     * @param {string}  name
+     * @param {string}  description
+     * @param {boolean} enabled
+     * @param {string}  url
+     * @param {string}  translation
+     * @param {string}  headers
+     * @param {string}  method
+     * @param {number}  eventid
+     *
+     * @throws {UnauthorizedException}
+     *
+     * @returns {WebHook}
+     */
+    CreateHook: (
+        name: string,
+        description: string,
+        enabled: boolean,
+        url: string,
+        translation: string,
+        headers: string,
+        method: string,
+        eventid: number
+    ) => BackendResult<WebHook>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number} id
+     *
+     * @returns {void}
+     */
+    DeleteHook: (id: number) => BackendResult<void>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}  id
+     * @param {boolean} enabled
+     *
+     * @returns {boolean}
+     */
+    EnableHook: (id: number, enabled: boolean) => BackendResult<boolean>
+
+    /**
+     * @permission webhook|administrator
+     *
+     * @returns {WebHooks}
+     */
+    GetAllHooks: () => BackendResult<WebHooks>
+
+    /**
+     * @permission user|administrator
+     *
+     * @param {number} id
+     *
+     * @returns {WebHook|null}
+     */
+    GetHook: (id: number) => BackendResult<WebHook | null>
+
+    /**
+     * @permission webhook|administrator
+     *
+     * @param {string} domain
+     * @param {string} event
+     *
+     * @returns {WebHooks}
+     */
+    GetHooks: (domain: string, event: string) => BackendResult<WebHooks>
+
+    /**
+     * @permission administrator|webhook
+     *
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
+     *
+     * @returns {WebHooks}
+     */
+    ListHooks: (
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<WebHooks>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}      userid
+     * @param {number}      page
+     * @param {number}      size
+     * @param {string}      columns
+     * @param {string}      order
+     * @param {Filter|null} filters
+     *
+     * @returns {WebHooks}
+     */
+    ListUserHooks: (
+        userid: number,
+        page: number,
+        size: number,
+        columns: string,
+        order: string,
+        filters: Filter | null
+    ) => BackendResult<WebHooks>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}          id
+     * @param {string|string[]} privileges
+     *
+     * @returns {boolean}
+     */
+    PutHookPrivileges: (id: number, privileges: string | string[]) => BackendResult<boolean>
+
+    /**
+     * @permission administrator|user
+     *
+     * @param {number}  id
+     * @param {string}  name
+     * @param {string}  description
+     * @param {boolean} enabled
+     * @param {string}  url
+     * @param {string}  translation
+     * @param {string}  headers
+     * @param {string}  method
+     * @param {number}  eventid
+     *
+     * @returns {boolean}
+     */
+    UpdateHook: (
+        id: number,
+        name: string,
+        description: string,
+        enabled: boolean,
+        url: string,
+        translation: string,
+        headers: string,
+        method: string,
+        eventid: number
+    ) => BackendResult<boolean>
+}

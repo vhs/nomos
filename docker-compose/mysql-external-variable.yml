@@ -1,4 +1,0 @@
-services:
-    nomos-backend:
-        external_links:
-            - ${EXTERNAL_MYSQL_HOST}:nomos-mysql
